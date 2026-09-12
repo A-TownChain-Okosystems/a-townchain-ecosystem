@@ -46,6 +46,14 @@ ATC Genesis Engine provides the canonical game engine implementation for the A-T
 
 Davon hängen ab: `genesis-chronicles` (L6 GameFi) sowie die Integration im Monorepo `a-townchain-os` (L7).
 
+**Produktstrategie (GEN-PROD-001, SPEC-DRAFT):** ATC Genesis Engine ist die *general-purpose*
+Game-Development-Plattform des Ökosystems — kein „Genesis-Chronicles-Engine-Fork". Die vier
+Architekturregeln (Engine Independence, Game Independence, Feature Promotion, Flagship Pressure)
+sind in [`docs/specs/GEN-PROD-001-PRODUCT-STRATEGY.md`](docs/specs/GEN-PROD-001-PRODUCT-STRATEGY.md)
+spezifiziert. Genesis Chronicles ist das Premium-Flagship-/Reference-Game auf dieser Engine.
+
+> Genesis Engine — Create Anything. · Genesis Chronicles — Experience What's Possible.
+
 ## Status
 
 **Status:** `development` — Basis für den Rebuild; Gate-Kriterien laut LAUFFAEHIGKEITS_ROADMAP (a-townchain-os-docs/docs/roadmap/).
