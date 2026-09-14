@@ -21,102 +21,123 @@ governance:
 
 [![ATC-COMPLIANCE](https://img.shields.io/badge/ATC-COMPLIANCE-v1.0-green)](./AGENTS.md)
 
-> Modulare KI-native Game-Engine (ECS, Creatures, World) des A-TownChain-Ökosystems (Layer L6).
+> Modulare, KI-native Game-Engine für ECS, Kreaturen-Logik und Weltensimulation im A-TownChain-Ökosystem.
 
-**Project:** genesis-engine
-**Organization:** A-TownChain-Okosystems
-**Status:** `development`
-**Version:** `0.1.0`
+**Project:** `genesis-engine`  
+**Organization:** `A-TownChain-Okosystems`  
+**Status:** `development`  
+**Version:** `0.1.0`  
 **License:** `Apache-2.0 — A-TownChain-Okosystems`
 
 ## Overview
 
-Genesis Engine ist die zentralisierte Game-Engine des A-TownChain-Ökosystems (Layer L6 in der 23-Repo-Bauhierarchie gemaess AD-026). Sie bietet ein hochmodulares Framework bestehend aus Core Engine, Entity Component System (ECS), Kreaturen-Logik und Weltensimulation (atc-genesis-engine, atc-genesis-ecs, atc-genesis-creatures, atc-genesis-world).
+Genesis Engine ist die **general-purpose Game-Development-Plattform** des A-TownChain-Ökosystems. Sie stellt die generischen Engine-Funktionen bereit, während `genesis-chronicles` als Premium-Flagship-/Reference-Game auf dieser Engine aufsetzt.
 
-Vault-Restauration (07.09.2026, AD-020/026/027): Inhalt aus dem Wiki-Vault (docs/archive/monorepo-full/) restauriert — vor der Repo-Leerung byte-identisch gesichert.
+Die Engine ist in vier Kernmodule gegliedert:
+
+- `atc-genesis-engine` — Core Engine Loop und Lifecycle
+- `atc-genesis-ecs` — Entity Component System
+- `atc-genesis-creatures` — KI- und Kreaturenverhalten
+- `atc-genesis-world` — Welt-, Terrain- und Umgebungssimulation
+
+Die Engine befindet sich im Rebuild und ist **nicht als Production-Ready oder als finaler Releasezustand zu verstehen**.
+
+Die Produktstrategie ist in [`GEN-PROD-001`](docs/specs/GEN-PROD-001-PRODUCT-STRATEGY.md) beschrieben. Die dort definierten Grenzen verhindern, dass generische Engine-Funktionen dauerhaft an ein einzelnes Spiel gekoppelt werden.
 
 ## Purpose
 
-ATC Genesis Engine provides the canonical game engine implementation for the A-TownChain ecosystem. It is responsible for:
+Genesis Engine ist für die generische Laufzeit- und Simulationsinfrastruktur der Genesis-Spielplattform verantwortlich:
 
-- Ausführung und Bereitstellung der Spiel- und Simulations-Logik auf Layer L6.
-- Bereitstellung der vier Kernmodule: `atc-genesis-engine`, `atc-genesis-ecs`, `atc-genesis-creatures` und `atc-genesis-world`.
-- Anbindung an das ATCLang / ATVM / ShivaCore Ökosystem und spätere Verknüpfung mit GameFi-Anwendungen (z. B. `genesis-chronicles`).
-- Erfüllung des Meilensteins M7 („Spiel läuft: Engine-Loop/ECS stabil") in der Lauffähigkeits-Roadmap (AD-027).
+- Engine-Loop und Lifecycle-Management
+- ECS-basierte Simulation
+- KI- und Kreaturenverhalten
+- prozedurale Welt- und Umgebungssimulation
+- Vorbereitung auf Multiplayer- und verifizierbare State-Integrationen
+- Bereitstellung wiederverwendbarer Features für darauf aufbauende Spiele
 
-Davon hängen ab: `genesis-chronicles` (L6 GameFi) sowie die Integration im Monorepo `a-townchain-os` (L7).
-
-**Produktstrategie (GEN-PROD-001, SPEC-DRAFT):** ATC Genesis Engine ist die *general-purpose*
-Game-Development-Plattform des Ökosystems — kein „Genesis-Chronicles-Engine-Fork". Die vier
-Architekturregeln (Engine Independence, Game Independence, Feature Promotion, Flagship Pressure)
-sind in [`docs/specs/GEN-PROD-001-PRODUCT-STRATEGY.md`](docs/specs/GEN-PROD-001-PRODUCT-STRATEGY.md)
-spezifiziert. Genesis Chronicles ist das Premium-Flagship-/Reference-Game auf dieser Engine.
-
-> Genesis Engine — Create Anything. · Genesis Chronicles — Experience What's Possible.
+`genesis-chronicles` ist ein Consumer der Engine. Spielspezifische Logik gehört in das jeweilige Spiel-Repository; generische Features werden nur über den vorgesehenen Feature-Promotion-Prozess in die Engine übernommen.
 
 ## Status
 
-**Status:** `development` — Basis für den Rebuild; Gate-Kriterien laut LAUFFAEHIGKEITS_ROADMAP (a-townchain-os-docs/docs/roadmap/).
+**Status:** `development` — Rebuild-Basis. Die dokumentierten Meilensteine und Gate-Kriterien sind in den kanonischen Status-/Roadmap-Dokumenten festgelegt.
 
-ATC Compliance: R2 — auditiert am 2026-09-07 (atc-repo-audit; R-Level aus `.atc/repository.yaml`).
+Der Repository-Status darf nicht mit den Governance-Zuständen `APPROVED`, `AUDITED` oder `PRODUCTION_READY` gleichgesetzt werden. Eine dokumentierte Architekturentscheidung oder ein bestandenes Audit stellt für sich allein keinen Production-Release dar.
 
 ## Architecture
 
 ### Components
 
-- `atc-genesis-engine` — Core-Engine-Loop, Lifecycle-Management, Pipeline & Subsystem-Orchestrierung.
+- `atc-genesis-engine` — Core-Engine-Loop, Lifecycle-Management, Pipeline und Subsystem-Orchestrierung.
 - `atc-genesis-ecs` — High-Performance Entity Component System.
 - `atc-genesis-creatures` — KI- und Kreaturen-Verhaltensmodellierung.
-- `atc-genesis-world` — Prozedurale Weltgenerierung, Terrain & Umgebungssimulation.
+- `atc-genesis-world` — prozedurale Weltgenerierung, Terrain und Umgebungssimulation.
 
 ### Data Flow
 
-Input Events / Engine Tick → `atc-genesis-ecs` (System-Ausführung) → `atc-genesis-creatures` (Verhaltens-Update) → `atc-genesis-world` (Umwelt-Simulation) → Output State / Rendering.
+```text
+Input Events / Engine Tick
+        ↓
+atc-genesis-ecs
+        ↓
+atc-genesis-creatures
+        ↓
+atc-genesis-world
+        ↓
+Output State / Rendering
+```
 
-### Dependencies
+### Ecosystem Boundary
 
-| Component | Purpose | Required |
-|---|---|---|
-| atc-genesis-engine | Core Engine Loop | Yes |
-| atc-genesis-ecs | Entity Component System | Yes |
-| atc-genesis-creatures | Creature Behavior | Yes |
-| atc-genesis-world | World & Environment Simulation | Yes |
+```text
+ATCLang / ATC-VM / A-TownChain
+              │
+              │ Chain- und On-Chain-Funktionen
+              ▼
+       Genesis Integration
+              │
+              ▼
+       Genesis Engine
+              │
+              ▼
+     Genesis Chronicles / Games
+```
+
+Die Engine ist keine Blockchain, kein Kernel und kein Ersatz für ATC-VM oder ShivaCore. Chain-seitige Zustandsübergänge und Contracts bleiben an der dafür vorgesehenen Chain-/VM-Grenze.
 
 ## Features
 
 - Modulare Rust-basierte Engine-Architektur
 - High-Performance ECS Framework
 - KI-native Kreatureneigenschaften und Verhaltensbäume
-- Prozedurales Terraingenerierungs- und Weltensystem
-- Vorbereitung für Multiplayer und ZKP-State-Integrationsprüfungen
+- Prozedurales Terrain- und Weltensystem
+- Vorbereitung für Multiplayer und verifizierbare State-Integrationen
+- Engine-/Game-Trennung über die Produktstrategie
 
 ## Repository Structure
 
 ```text
 /
-├── docs/       # Dokumentation & Repository-Standards
-└── modules/    # Engine-Module (atc-genesis-engine, atc-genesis-ecs, atc-genesis-creatures, atc-genesis-world)
+├── docs/       # Dokumentation, Spezifikationen und Repository-Standards
+└── modules/    # Engine-Module
+    ├── atc-genesis-engine
+    ├── atc-genesis-ecs
+    ├── atc-genesis-creatures
+    └── atc-genesis-world
 ```
 
 ## Requirements
 
 - Rust >= 1.75 / Cargo
-- Python >= 3.11 (für Tooling & Sync-Skripte)
+- Python >= 3.11 für Tooling und Sync-Skripte
 - Git >= 2.30
 
 ## Installation
-
-### Setup
 
 ```bash
 git clone https://github.com/A-TownChain-Okosystems/genesis-engine.git
 cd genesis-engine
 cargo build --workspace
 ```
-
-## Configuration
-
-Die Modulkonfiguration erfolgt über `Cargo.toml` in den jeweiligen Modulverzeichnissen unter `modules/` sowie über Umgebungsvariablen für das Monorepo-Workspace-Syncing.
 
 ## Usage
 
@@ -126,78 +147,86 @@ cargo run --package atc-genesis-engine
 
 ## Development
 
-Entwicklung erfolgt nach den ATC Governance-Standards (ATC-STD-000 §7 Naming, ATC-STD-201, ATC-STD-202). Commits müssen dem Conventional Commit Standard folgen.
+Entwicklung erfolgt nach den geltenden A-TownChain-Governance- und Repository-Standards. Commits müssen dem Conventional-Commit-Modell entsprechen.
+
+Vor größeren Änderungen sind mindestens `STATUS.md`, `ARCHITECTURE.md`, `ROADMAP.md` und die relevanten Governance-Dokumente zu prüfen.
 
 ## Testing
-
-Die Test-Suite wird über Cargo ausgeführt:
 
 ```bash
 cargo test --workspace
 ```
 
-Expected result: PASS (alle Modultests erfolgreich).
+Testergebnisse sind als Evidence zu behandeln. Ein erfolgreicher lokaler Testlauf bedeutet nicht automatisch `AUDITED` oder `PRODUCTION_READY`.
 
 ## Security
 
-Security issues must not be disclosed publicly through GitHub Issues. Report security vulnerabilities through the official ATC security reporting process (ATC-STD-203, `SECURITY.md`). S-Klasse S1, Criticality: low.
+Security Issues dürfen nicht öffentlich über GitHub Issues gemeldet werden. Sicherheitslücken sind über den offiziellen Security-Reporting-Prozess in `SECURITY.md` zu melden.
+
+**Security class:** S1  
+**Criticality:** low
 
 ## Documentation
 
-- `docs/REPOSITORY_STANDARD.md` — Spezifischer Repository-Standard
-- `ARCHITECTURE.md` — Technische Architekturübersicht
-- `STATUS.md` — Aktueller Projektstatus
+- `docs/REPOSITORY_STANDARD.md` — Repository-Standard
+- `docs/specs/GEN-PROD-001-PRODUCT-STRATEGY.md` — Produktstrategie
+- `ARCHITECTURE.md` — technische Architektur
+- `STATUS.md` — aktueller Projektstatus
 - `ROADMAP.md` — Entwicklungs-Roadmap
-- Central Docs Hub: `a-townchain-os-docs`
+- `a-townchain-os-docs` — zentrale Ökosystem-Dokumentation
 
 ## Governance
 
-This repository is governed according to the A-TownChain Enterprise Governance Framework (ATC-STD-000 v1.3.0, ATC-ENT-001..015). Architekturentscheidungen sind zentral im `DECISIONS_REGISTER` (AD-Nummern) dokumentiert.
+Das Repository folgt dem A-TownChain-Governance-Modell. Architektur- und Governance-Entscheidungen müssen über die vorgesehenen Entscheidungs- und Review-Prozesse erfolgen.
+
+Canonical Standard-IDs werden ausschließlich über die Standards Registry und den dafür definierten Governance-Prozess vergeben. Die aktuelle Taxonomie verwendet Family-scoped IDs der Form `ATC-STD-Fxx-yyy`; bestehende Legacy-IDs bleiben historisch erhalten und werden nicht stillschweigend umnummeriert.
 
 ## Standards & Compliance
 
-This repository follows applicable A-TownChain standards:
-
-| Standard | Version | Compliance |
+| Standard | Version | Verwendung |
 |---|---:|---|
-| ATC-STD-000 | 1.3.0 | ✅ |
-| ATC-STD-README-001 | 1.0.0 | ✅ |
-| ATC-STD-MD-001 | 1.0.0 | ✅ |
-| ATC-STD-201 | 1.0.1 | ✅ |
-| ATC-STD-202 | 1.2.0 | ✅ |
-| ATC-STD-203 | 1.0.1 | ✅ |
+| ATC-STD-000 | 1.3.0 | Governance Root |
+| ATC-STD-README-001 | 1.0.0 | README-Struktur und Metadaten |
+| ATC-STD-MD-001 | 1.0.0 | Markdown-Konformität |
+| ATC-STD-201 | 1.0.1 | Repository Governance |
+| ATC-STD-202 | 1.2.0 | Repository/Entwicklungsanforderungen |
+| ATC-STD-203 | 1.0.1 | Security und Release Gates |
+
+Die Tabelle dokumentiert die relevanten Standards; sie ist keine pauschale Behauptung, dass jeder Standardzustand dieses Entwicklungs-Repositories bereits `PRODUCTION_READY` ist.
 
 ## Roadmap
 
-Siehe kanonische Roadmap-Quellen:
+Siehe die kanonischen Quellen:
 
-- `ROADMAP.md` (Repo-Wurzel, enthält u. a. die 9 VISION-Eskalationsstufen #1-#9)
-- `LAUFFAEHIGKEITS_ROADMAP.md` in `a-townchain-os-docs`
+- `ROADMAP.md`
+- `STATUS.md`
+- zentrale Roadmap in `a-townchain-os-docs`
 - GitHub Issues & Projects
 
 ## Contributing
 
-Beiträge erfolgen ausschließlich über den ATC-Governance-Prozess. Details siehe `CONTRIBUTING.md` und `ATC-STD-000`.
+Beiträge erfolgen über den definierten ATC-Governance-Prozess. Vor einem Merge müssen die für die Änderung relevanten Tests und Validatoren erfolgreich ausgeführt werden.
 
 ## License
 
-Apache-2.0 — A-TownChain-Okosystems (Michael Wroblewski / ShivaCore). Details siehe `LICENSE`.
+Apache-2.0 — A-TownChain-Okosystems. Details siehe [`LICENSE`](LICENSE).
 
 ## Maintainers
 
-**Organization:** A-TownChain-Okosystems
+**Organization:** A-TownChain-Okosystems  
 **Maintainers:** ShivaCoreDev, aurora-superagent
 
 ## Repository Metadata
 
-Maschinenlesbar: siehe HTML-Metadaten-Block im Header (ATC-STD-README-001 §14). Registry-ID: ATC-REPO-GAME-001.
+Maschinenlesbar: siehe HTML-Metadaten-Block im Header gemäß ATC-STD-README-001 §14.  
+**Registry-ID:** `ATC-REPO-GAME-001`
 
 ## AI Agent Instructions
 
-Für KI-Agenten, die an diesem Repository arbeiten:
-1. **Standards:** Beachte ATC-STD-000, ATC-STD-README-001, ATC-STD-MD-001, ATC-STD-201, ATC-STD-202, ATC-STD-203.
-2. **Workflow:** 
-   - Prüfe `STATUS.md` und `AGENT_MANIFEST.md` auf aktuellen Zustand.
-   - Lies `ARCHITECTURE.md` und `ROADMAP.md` vor großen Refactorings.
-   - Verwende Conventional Commits für alle Änderungen.
-   - Stelle sicher, dass nach Änderungen `cargo test --workspace` und die Validators (`check_readme.py`, `check_md.py`) PASS melden.
+Für KI-Agenten:
+
+1. Lies `STATUS.md`, `AGENT_MANIFEST.md`, `ARCHITECTURE.md` und `ROADMAP.md` vor größeren Änderungen.
+2. Beachte die geltenden ATC-Standards und Repository-Governance.
+3. Verwende Conventional Commits.
+4. Führe nach Änderungen mindestens `cargo test --workspace` und die relevanten README-/Markdown-Validatoren aus.
+5. Trenne deklarierte Zustände, Testergebnisse und Governance-Evidence strikt voneinander.
