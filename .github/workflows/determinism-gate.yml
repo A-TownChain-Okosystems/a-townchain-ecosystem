@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install test dependencies
-        run: python3 -m pip install -r requirements.txt
+      - name: Install package and test runner
+        run: python3 -m pip install -e . pytest
       - name: Run ATC determinism gate
         run: python3 tools/determinism_check.py --lang python --test-cmd "python3 -m pytest -q"
