@@ -6,7 +6,7 @@ schema_version: "1.0.0"
 repository: genesis-engine
 generated: "2026-09-10"
 generated_by: "SCR-0080 Enforcement-Welle (Aurora, Owner-P0-Definition 10.09. 12:21)"
-bound_commit: 2200cd0cd3c4eea252cea88e28fc11532aeec070
+bound_commit: ea0041045990f501802eb47cabd4ef22ce5e4f61
 maturity_class: C          # A=substanziell B=Rebuild/Produkt C=Plattform/Anwendung
 r_level: null
 implementation:
@@ -29,8 +29,8 @@ canonical_role:                  # SCR-0080 P0-02: Single-Owner-per-Capability
   canonical: true
 test_run:
   workflow: ATC Test Suite
-  run_id: 34722489511
-  commit: 2200cd0cd3c4eea252cea88e28fc11532aeec070
-  timestamp: 2026-09-12T22:20:56.926076+00:00
+  run_id: 34892798061
+  commit: ea0041045990f501802eb47cabd4ef22ce5e4f61
+  timestamp: 2026-09-14T20:25:24.386955+00:00
   result: PASS
   runner: github-actions
