@@ -1,70 +1,136 @@
 # ATC Aurora AI
 
-> KI-Dienste und Agenten-Infrastruktur des A-TownChain-Ökosystems (Rust Core, Python AI-Layer, DefenderGPT, MinerWatcherGPT).
+> AI services, agent infrastructure and AI integration layer of the A-TownChain ecosystem.
 
-**Project:** aurora-ai
-**Organization:** A-TownChain-Okosystems
-**Status:** `development`
-**Version:** `0.1.0`
-**License:** `Apache-2.0` (SPDX, Org-weite Einheitslizenz per AD-F-046)
-
-| ATC COMPLIANCE | ![Status](https://img.shields.io/badge/ATC--201%2F202%2F203-R3_COMPLIANT-00c853) R3 · Repository Governance (ATC-STD-201/202/203) |
-|---|---|
+**Project:** `aurora-ai`  
+**Organization:** `A-TownChain-Okosystems`  
+**Status:** `development`  
+**Version:** `0.1.0`  
+**License:** `Apache-2.0` (see `LICENSE`)
 
 ## Overview
 
-Aurora AI stellt die zentrale KI-Infrastruktur und KI-Dienste (Layer L2, Domain ai) des A-TownChain-Ökosystems bereit. Das System verbindet eine hochperformante Rust-Core-Engine (Scheduler, Model Manager, IPC, Memory Management) mit einer flexiblen Python-AI-Schicht (Agenten, DefenderGPT, MinerWatcherGPT, KAI-Integration).
+Aurora AI is the AI layer of the ecosystem. It provides AI services, agent infrastructure, model/runtime integration, memory/context services and interfaces used by GlobusOS and other ecosystem components.
 
-Aurora AI ermöglicht autonome Agentensteuerung, Echtzeit-Bedrohungserkennung und dezentrale KI-Inferenz innerhalb der A-TownChain-Architektur.
+Aurora AI is **not part of the ShivaCore TCB**. The security boundary remains:
+
+```text
+ShivaCore
+(kernel / TCB / capabilities)
+      │
+      ▼
+GlobusOS
+(operating-system userspace)
+      │
+      ▼
+Aurora AI
+(AI services / agents / inference / UX)
+```
+
+Aurora may consume authorized OS and system events, but AI decisions do not automatically override deterministic chain, kernel, security or governance authority.
 
 ## Purpose
 
-ATC Aurora AI provides the canonical implementation of AI services and agent infrastructure within the A-TownChain ecosystem. It is responsible for:
+Aurora AI provides:
 
-- Bereitstellung autonomer AI-Services (DefenderGPT für Security-Monitoring, MinerWatcherGPT für Telemetrie/Anomalie-Erkennung).
-- Ausführung von Agenten-Workflows über das Rust-Core-Framework (`atc-aurora-core`, `atc-aurora-agents`, `atc-aurora-runtime`).
-- Verwaltung von persistentem Agenten-Speicher (`atc-aurora-memory`) und Vektor-Kontexten.
-- Anbindung der AI Studio Entwicklungsumgebung (`atc-aistudio`) zur Agenten-Erstellung und -Simulation.
-
-Davon hängen ab: `a-townchain-os`, `atc-security-shield`, Kernel-Event-Bridge und Ökosystem-Management-Tools.
+- AI services and agent execution infrastructure.
+- Rust-based core/runtime components where performance and isolation are required.
+- Python-based AI services and model integration where applicable.
+- Agent memory and context management.
+- AI Studio and related development tooling.
+- Security/telemetry-oriented AI components where explicitly implemented.
 
 ## Status
 
-**Status:** `development` — Rebuild-Status v0.1.0 (AD-020/AD-021/AD-027). Meilenstein M3 (KI läuft: Agent-Task Ende-zu-Ende via Kernel-Event-Bridge mit Capability-Token) ist aktiv.
+`development` means the repository is under active development. Individual milestones, audits or successful tests do not imply that the complete platform is `PRODUCTION_READY`.
+
+This README makes no Mainnet or production claim.
 
 ## Architecture
 
-### Components
+Current repository components include:
 
-- `modules/atc-aurora-core`: Rust Core Engine (Model Manager, Scheduler, HAL, IPC, Security).
-- `modules/atc-aurora-agents`: Agent-Framework und Rollenverwaltung.
-- `modules/atc-aurora-memory`: Vektorspeicher, Kontextverwaltung und Speicherbereinigung.
-- `modules/atc-aurora-runtime`: Laufzeitumgebung und Kernel-Event-Bridge.
-- `modules/atc-aurora-ai`: Python-AI-Services (DefenderGPT, MinerWatcherGPT, KAI-Orchestrierung).
-- `modules/atc-aistudio`: AI Studio UI und Visualisierungs-Tools.
+- `modules/atc-aurora-core` — Rust core engine.
+- `modules/atc-aurora-agents` — agent framework and role management.
+- `modules/atc-aurora-memory` — memory/context services.
+- `modules/atc-aurora-runtime` — runtime and integration services.
+- `modules/atc-aurora-ai` — Python AI services.
+- `modules/atc-aistudio` — AI development/UI tooling.
 
-### Data Flow
+Typical integration flow:
 
 ```text
-Kernel Event Bridge / IPC -> Rust Core Scheduler -> Agent Runtime -> Python AI Layer (DefenderGPT/MinerWatcherGPT) -> Memory Layer
+Authorized OS / IPC events
+        ↓
+Aurora Core / Runtime
+        ↓
+Agent execution
+        ↓
+AI services / model inference
+        ↓
+Memory / context
 ```
 
-### Dependencies
+The exact authority of each interface is determined by the applicable system and security specifications.
 
-| Component | Purpose | Required |
-|---|---|---|
-| Rust Engine (`atc-aurora-core`) | Performantes Scheduling & Inter-Process Communication | Yes |
-| Python AI Stack (`atc-aurora-ai`) | DefenderGPT, MinerWatcherGPT & KAI Services | Yes |
-| Agent Memory (`atc-aurora-memory`) | Kontext- und Vektorspeicher | Yes |
-| Kernel Event Bridge | Synchronisation mit a-townchain-os | Yes |
+## Requirements
 
-## Features
+- Rust toolchain for Rust modules.
+- Python 3.10+ for Python AI modules.
+- Node.js where required by `atc-aistudio`.
+- Cargo and pip.
 
-- **DefenderGPT:** Autonome Bedrohungserkennung und Security-Audit-Überwachung.
-- **MinerWatcherGPT:** Telemetrie-Analyse und Leistungsoptimierung für Miner/Knoten.
-- **Dual-Engine-Architektur:** Rust-Performance-Core kombiniert mit Python-AI-Flexibilität.
-- **Kernel-Event-Bridge:** Ende-zu-Ende-Eventverarbeitung mit Capability-Tokens (M3).
-- **AI Studio:** Integrierte Suite zur Modellierung und Entwicklung von AI-Assets.
+Exact module requirements are authoritative in the corresponding manifests.
+
+## Installation
+
+```bash
+git clone https://github.com/A-TownChain-Okosystems/aurora-ai.git
+cd aurora-ai
+```
+
+Build and installation commands are component-specific; use the module README/manifests for the selected service.
+
+## Testing
+
+Run tests for the relevant modules, for example:
+
+```bash
+cd modules/atc-aurora-core && cargo test
+```
+
+```bash
+cd modules/atc-aurora-ai && pytest
+```
+
+A passing test suite establishes evidence for the executed tests only. It does not by itself establish audit or production readiness.
+
+## Security
+
+Security-sensitive vulnerabilities must not be disclosed through public GitHub Issues. Follow `SECURITY.md` and the approved ATC security-disclosure process.
+
+Aurora AI must not be treated as an implicit trust anchor or kernel authority.
+
+## Governance
+
+Development follows `ATC-STD-000` and applicable repository/security standards.
+
+Canonical standard identifiers use the family-scoped form:
+
+```text
+ATC-STD-F{family}-{sequence}
+```
+
+Legacy IDs remain preserved during migration. No standard ID may be silently renumbered, reused, or autonomously allocated outside the canonical registry/governance process.
+
+## Compliance terminology
+
+- **APPROVED** — formally approved by governance.
+- **IMPLEMENTED** — implementation exists.
+- **AUDITED** — relevant audit has been completed and recorded.
+- **PRODUCTION_READY** — all required release gates have passed.
+
+These states must not be inferred from one another.
 
 ## Repository Structure
 
@@ -82,120 +148,13 @@ Kernel Event Bridge / IPC -> Rust Core Scheduler -> Agent Runtime -> Python AI L
     └── atc-aurora-runtime/
 ```
 
-## Requirements
-
-- **Rust:** 1.75+ (für `atc-aurora-core`, `atc-aurora-agents`, `atc-aurora-memory`, `atc-aurora-runtime`)
-- **Python:** 3.10+ (für `atc-aurora-ai`)
-- **Node.js:** 18+ (für `atc-aistudio`)
-- **Cargo & Pip:** Aktuelle Versionen
-
-## Installation
-
-```bash
-# Repository klonen
-git clone https://github.com/A-TownChain-Okosystems/aurora-ai.git
-cd aurora-ai
-
-# Rust-Komponenten bauen
-cd modules/atc-aurora-core && cargo build --release && cd ../..
-
-# Python-AI-Services installieren
-cd modules/atc-aurora-ai && pip install -r requirements.txt && cd ../..
-```
-
-## Configuration
-
-Die Konfiguration erfolgt über Umgebungsvariablen und `.atc/repository.yaml`:
-
-```bash
-export AURORA_LOG_LEVEL=info
-export AURORA_CORE_IPC_PATH=/tmp/aurora-ipc.sock
-```
-
-## Usage
-
-```bash
-# Starten der AI-Services
-python3 modules/atc-aurora-ai/src/main.py
-
-# Ausführen von DefenderGPT Monitoring
-python3 modules/atc-aurora-ai/agents/defender_gpt.py
-```
-
-## Development
-
-Entwicklungs-Guidelines und Workflows folgen den A-TownChain-Standards (ATC-STD-000, ATC-STD-201):
-
-```bash
-# Entwicklungs-Setup für Rust-Module
-cd modules/atc-aurora-core && cargo check
-```
-
-## Testing
-
-Testergebnisse und Suites werden je Modul ausgeführt:
-
-```bash
-# Rust-Tests ausführen
-cd modules/atc-aurora-core && cargo test
-
-# Python-Tests ausführen
-cd modules/atc-aurora-ai && pytest
-
-# Erwartetes Ergebnis: PASS (0 Errors)
-```
-
-## Security
-
-Sicherheitsrelevante Schwachstellen dürfen **NICHT** öffentlich über GitHub Issues gemeldet werden. Bitte beachten Sie den offiziellen ATC-Security-Reporting-Prozess in `SECURITY.md` sowie ATC-STD-203.
-
-- **Sicherheitsklasse:** S2
-- **Emergency-Prozess:** ATC-STD-000 §32
-
 ## Documentation
 
-Weiterführende Dokumentation befindet sich im `docs/`-Verzeichnis sowie in den einzelnen Modulen:
-
-- `docs/REPOSITORY_STANDARD.md`
-- `ARCHITECTURE.md`
-- `AGENTS.md`
-
-## Governance
-
-Änderungen an Architektur, Schnittstellen und Governance unterliegen dem A-TownChain Enterprise Governance Framework (ATC-STD-201/202). Review- und Approval-Pflicht für sicherheitskritische Änderungen.
-
-## Standards & Compliance
-
-| Standard | Version | Compliance |
-|---|---:|---|
-| ATC-STD-000 | 1.3.0 | ✅ |
-| ATC-STD-201 | 1.0.1 | ✅ |
-| ATC-STD-202 | 1.2.0 | ✅ |
-| ATC-STD-203 | 1.0.1 | ✅ |
-| ATC-STD-README-001 | 1.0.0 | ✅ |
-| ATC-STD-MD-001 | 1.0.0 | ✅ |
-
-## Roadmap
-
-Kanonische Roadmap-Quellen:
-
-- [ROADMAP.md](ROADMAP.md) (Repository-Wurzel)
-- A-TownChain Master Roadmap (`a-townchain-os-docs`)
-- GitHub Issues & Projects
-
-## Contributing
-
-Beiträge sind willkommen. Bitte lesen Sie vorab [CONTRIBUTING.md](CONTRIBUTING.md) und beachten Sie [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+Use `docs/`, module documentation, `AGENTS.md`, `ARCHITECTURE.md`, `STATUS.md`, and `ROADMAP.md` where present for detailed project information.
 
 ## License
 
-Apache-2.0 — Copyright Michael Wroblewski / A-TownChain-Okosystems (siehe [LICENSE](LICENSE)). Lizenz-Divergenz README-vs.-LICENSE behoben gem. Owner-Entscheidung F-046 (SCR-0036).
-
-## Maintainers
-
-**Organization:** A-TownChain-Okosystems  
-**Owner:** Michael Wroblewski  
-**Maintainer:** ATC-AI-ARCH-001 (Aurora #1)
+Apache License 2.0. See `LICENSE`.
 
 ## Repository Metadata
 
@@ -214,6 +173,5 @@ ownership:
 technology:
   primary_language: Rust/Python
 governance:
-  security_class: S2
   criticality: HIGH
 -->
