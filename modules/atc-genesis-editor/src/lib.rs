@@ -17,7 +17,7 @@ impl SceneDocument {
     pub fn deserialize(text:&str)->Result<Self,String>{let mut doc=Self::default();for line in text.lines(){if line=="GENESIS_SCENE 1"||line.is_empty(){continue;}let p:Vec<&str>=line.split('|').collect();if p.len()!=14||p[0]!="NODE"{return Err("invalid scene row".into());}let id=p[1].parse::<u64>().map_err(|_|"invalid entity id")?;let parent=match p[2].parse::<u64>().map_err(|_|"invalid parent")?{0=>None,v=>Some(EntityId(v))};let tr=[parse(p[4])?,parse(p[5])?,parse(p[6])?];let rot=[parse(p[7])?,parse(p[8])?,parse(p[9])?,parse(p[10])?];let scale=[parse(p[11])?,parse(p[12])?,parse(p[13])?];doc.nodes.push(SceneNode{id:EntityId(id),parent,name:unescape(p[3]),transform:Transform{translation:tr,rotation_xyzw:rot,scale}});}Ok(doc)}
 }
 fn parse(s:&str)->Result<f32,String>{s.parse().map_err(|_|format!("invalid float: {s}"))}
-fn escape(s:&str)->String{s.replace('\\','\\\\').replace('|','\\p').replace('\n','\\n')}
+fn escape(s:&str)->String{s.replace("\\","\\\\").replace("|","\\p").replace("\n","\\n")}
 fn unescape(s:&str)->String{s.replace("\\n","\n").replace("\\p","|").replace("\\\\","\\")}
 #[cfg(test)]
 mod tests{use super::*;#[test]fn scene_roundtrip(){let mut d=SceneDocument::default();d.create_node(EntityId(2),"Root|A",None);let r=SceneDocument::deserialize(&d.serialize()).unwrap();assert_eq!(r.nodes()[0].name,"Root|A");assert_eq!(r.nodes()[0].id,EntityId(2));}}
