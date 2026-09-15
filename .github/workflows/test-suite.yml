@@ -15,14 +15,16 @@ jobs:
         with:
           toolchain: stable
           components: rustfmt, clippy
-      - name: cargo fmt (workspace normalization)
-        run: cargo fmt --all
+      - name: cargo fmt check
+        run: cargo fmt --all -- --check
       - name: cargo check
         run: cargo check --workspace --all-targets
       - name: cargo test
         run: cargo test --workspace --all-targets
       - name: cargo clippy
         run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: cargo doc
+        run: cargo doc --workspace --no-deps
 
   npm-tests:
     runs-on: ubuntu-latest
@@ -58,8 +60,7 @@ jobs:
               echo "SKIP $d: keine Tests vorhanden"; continue
             fi
             echo "=== pytest in $d"
-            (cd "$d" && pip install -q -r requirements.txt pytest && python -m pytest -q --no-header) \
-              || { echo "pytest FAILED in $d"; FAIL=1; }
+            (cd "$d" && pip install -q -r requirements.txt pytest && python -m pytest -q --no-header) || { echo "pytest FAILED in $d"; FAIL=1; }
           done < <(find . -name requirements.txt -not -path "*/archive/*")
           exit $FAIL
   evidence:
@@ -68,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Evidence-Bindung (SCR-0086 idempotentes test_run-Update je Lauf + hartes Push-Gate)
+      - name: Evidence-Bindung
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -76,18 +77,14 @@ jobs:
           import os, datetime, re
           sha = os.environ["GITHUB_SHA"]
           rid = os.environ["GITHUB_RUN_ID"]
-          wf  = os.environ.get("GITHUB_WORKFLOW", "ATC Test Suite")
-          ts  = datetime.datetime.now(datetime.timezone.utc).isoformat()
+          wf = os.environ.get("GITHUB_WORKFLOW", "ATC Test Suite")
+          ts = datetime.datetime.now(datetime.timezone.utc).isoformat()
           p = ".atc/evidence/evidence.yaml"
+          if not os.path.exists(p):
+              raise SystemExit(f"missing evidence file: {p}")
           t = open(p, encoding="utf-8").read()
           t = re.sub(r"bound_commit: [^\n]*", "bound_commit: " + sha, t)
-          block = ("test_run:\n"
-                   "  workflow: " + wf + "\n"
-                   "  run_id: " + rid + "\n"
-                   "  commit: " + sha + "\n"
-                   "  timestamp: " + ts + "\n"
-                   "  result: PASS\n"
-                   "  runner: github-actions\n")
+          block = ("test_run:\n" "  workflow: " + wf + "\n" "  run_id: " + rid + "\n" "  commit: " + sha + "\n" "  timestamp: " + ts + "\n" "  result: PASS\n" "  runner: github-actions\n")
           if re.search(r"(?m)^test_run:\n(?:  [^\n]*\n)+", t):
               t = re.sub(r"(?m)^test_run:\n(?:  [^\n]*\n)+", block, t)
           else:
@@ -97,5 +94,5 @@ jobs:
           git config user.name "Aurora-Bot"
           git config user.email "aurora@base44.ai"
           git add .atc/evidence/evidence.yaml
-          git commit -m "chore(evidence): bound_commit + test_run aktualisiert (SCR-0086) [skip ci]" || echo "nichts zu committen"
+          git commit -m "chore(evidence): update test_run [skip ci]" || echo "nichts zu committen"
           git push
