@@ -11,13 +11,15 @@ Engine ist deterministisch: keine Wanduhr, kein Zufall — Block-Timestamp
 und Chain-ID kommen ausschliesslich aus dem HostContext (Kap. Determinismus,
 ATC-STD-100 L4).
 """
+
 from __future__ import annotations
+
 import hashlib
 import json
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
-from atclang.abi import ABICodec, ABIError, method_selector
+from atclang.abi import ABICodec, method_selector
 
 
 class ContractDeployError(Exception):
@@ -31,8 +33,9 @@ class ContractCallError(Exception):
 @dataclass
 class ContractStorage:
     """Persistenter Contract-State — deterministisch, key-sortiert serialisierbar."""
+
     contract_id: str
-    _data: Dict[str, Any] = field(default_factory=dict)
+    _data: dict[str, Any] = field(default_factory=dict)
 
     def get(self, key: str, default: Any = None) -> Any:
         return self._data.get(key, default)
@@ -48,26 +51,27 @@ class ContractStorage:
         payload = json.dumps(self._data, sort_keys=True, separators=(",", ":")).encode()
         return "0x" + hashlib.sha3_256(payload).hexdigest()
 
-    def snapshot(self) -> Dict[str, Any]:
+    def snapshot(self) -> dict[str, Any]:
         return json.loads(json.dumps(self._data, sort_keys=True))
 
-    def restore(self, data: Dict[str, Any]) -> None:
+    def restore(self, data: dict[str, Any]) -> None:
         self._data = dict(data)
 
 
 @dataclass
 class ContractInstance:
     """Ein konkreter deployed Contract."""
+
     address: str
     contract_id: str
     name: str
-    standards: List[str]
-    methods: Dict[str, str]            # kanonische Signatur -> Selektor
-    method_params: Dict[str, List[str]]  # Selektor -> Param-Namen
+    standards: list[str]
+    methods: dict[str, str]  # kanonische Signatur -> Selektor
+    method_params: dict[str, list[str]]  # Selektor -> Param-Namen
     storage: ContractStorage
     created_block: int
 
-    def abi(self) -> List[str]:
+    def abi(self) -> list[str]:
         return sorted(self.methods.keys())
 
 
@@ -80,17 +84,23 @@ class ContractEngine:
     Registry-/Storage-Fundament (Modell-Stufe, VM-Anbindung via Runner).
     """
 
-    def __init__(self, chain_id: int = 658467, codec: Optional[ABICodec] = None):
+    def __init__(self, chain_id: int = 658467, codec: ABICodec | None = None):
         self.chain_id = chain_id
         self.codec = codec or ABICodec()
-        self.contracts: Dict[str, ContractInstance] = {}
-        self._addresses: Dict[str, str] = {}
+        self.contracts: dict[str, ContractInstance] = {}
+        self._addresses: dict[str, str] = {}
         self._deploy_nonce = 0
-        self.events: List[Dict[str, Any]] = []
+        self.events: list[dict[str, Any]] = []
 
     # ---- deploy ----
-    def deploy(self, name: str, functions: Dict[str, List[str]], standards: Optional[List[str]] = None,
-               block_number: int = 0, artifact_id: Optional[str] = None) -> ContractInstance:
+    def deploy(
+        self,
+        name: str,
+        functions: dict[str, list[str]],
+        standards: list[str] | None = None,
+        block_number: int = 0,
+        artifact_id: str | None = None,
+    ) -> ContractInstance:
         """Contract registrieren; Adresse = sha3-256(artifact|name|nonce)[12:32]."""
         if name in self.contracts:
             raise ContractDeployError(f"Contract {name!r} bereits deployed")
@@ -100,20 +110,38 @@ class ContractEngine:
         raw = f"{cid}|{name}|{self._deploy_nonce}".encode()
         addr = "0x" + hashlib.sha3_256(raw).digest()[12:].hex()
         inst = ContractInstance(
-            address=addr, contract_id=cid, name=name,
-            standards=list(standards or []), methods=methods,
+            address=addr,
+            contract_id=cid,
+            name=name,
+            standards=list(standards or []),
+            methods=methods,
             method_params=method_params,
-            storage=ContractStorage(contract_id=cid), created_block=block_number,
+            storage=ContractStorage(contract_id=cid),
+            created_block=block_number,
         )
         self.contracts[name] = inst
         self._addresses[addr] = name
         self._deploy_nonce += 1
-        self.events.append({"type": "Deployed", "contract": name, "address": addr, "block": block_number})
+        self.events.append(
+            {
+                "type": "Deployed",
+                "contract": name,
+                "address": addr,
+                "block": block_number,
+            }
+        )
         return inst
 
     # ---- call ----
-    def call(self, contract: str, selector: str, args: Optional[Dict[str, Any]] = None,
-             caller: str = "0x" + "00" * 20, value: int = 0, block_number: int = 0) -> Dict[str, Any]:
+    def call(
+        self,
+        contract: str,
+        selector: str,
+        args: dict[str, Any] | None = None,
+        caller: str = "0x" + "00" * 20,
+        value: int = 0,
+        block_number: int = 0,
+    ) -> dict[str, Any]:
         """Methodenaufruf mit ABI-Dispatch: setzt Caller/Kontext ins Storage-Fundament."""
         inst = self._require(contract)
         if selector not in inst.methods.values():
@@ -129,23 +157,43 @@ class ContractEngine:
         inst.storage.set("msg.value", value)
         inst.storage.set("msg.block", block_number)
         inst.storage.set("msg.chain_id", self.chain_id)
-        result = {"ok": True, "fn": fn, "contract": contract, "selector": selector,
-                  "state_root": inst.storage.root_hash()}
-        self.events.append({"type": "Call", "contract": contract, "fn": fn,
-                            "caller": caller, "block": block_number})
+        result = {
+            "ok": True,
+            "fn": fn,
+            "contract": contract,
+            "selector": selector,
+            "state_root": inst.storage.root_hash(),
+        }
+        self.events.append(
+            {
+                "type": "Call",
+                "contract": contract,
+                "fn": fn,
+                "caller": caller,
+                "block": block_number,
+            }
+        )
         return result
 
     def transfer(self, contract: str, state_key: str, frm: str, to: str, amount: int) -> bool:
         """Kanonischer ATC-8300-Transfer auf Map-State (Modellebene)."""
         inst = self._require(contract)
-        balances: Dict[str, int] = inst.storage.get(state_key, {})
+        balances: dict[str, int] = inst.storage.get(state_key, {})
         if balances.get(frm, 0) < amount:
             raise ContractCallError(f"require fehlgeschlagen: Balance {frm} < {amount}")
         balances[frm] = balances.get(frm, 0) - amount
         balances[to] = balances.get(to, 0) + amount
         inst.storage.set(state_key, balances)
-        self.events.append({"type": "Event", "name": "Transfer", "contract": contract,
-                            "from": frm, "to": to, "amount": amount})
+        self.events.append(
+            {
+                "type": "Event",
+                "name": "Transfer",
+                "contract": contract,
+                "from": frm,
+                "to": to,
+                "amount": amount,
+            }
+        )
         return True
 
     def balance_of(self, contract: str, state_key: str, holder: str) -> int:
@@ -165,7 +213,7 @@ class ContractEngine:
         return "0x" + hashlib.sha3_256(name.encode()).hexdigest()
 
     @staticmethod
-    def _split_sig(sig: str) -> Tuple[str, List[str]]:
+    def _split_sig(sig: str) -> tuple[str, list[str]]:
         fn, _, rest = sig.partition("(")
         inner = rest.rstrip(")").strip()
         return fn, [p.strip() for p in inner.split(",")] if inner else []

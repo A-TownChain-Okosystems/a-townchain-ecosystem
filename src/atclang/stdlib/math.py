@@ -4,6 +4,7 @@ ATCLang Stdlib — ATC::Math
 Safe integer arithmetic for smart contracts.
 Issue: #48 | Wiki: Kap. 36
 """
+
 import math as _math
 from typing import Union
 
@@ -15,6 +16,7 @@ class ATCMath:
     ATC::Math — Safe arithmetic for ATCLang contracts.
     All operations check for overflow and division-by-zero.
     """
+
     MAX_U64 = (1 << 64) - 1
     MAX_U32 = (1 << 32) - 1
 
@@ -52,7 +54,7 @@ class ATCMath:
 
     @staticmethod
     def pow(base: int, exp: int) -> int:
-        result = base ** exp
+        result = base**exp
         if result > ATCMath.MAX_U64:
             raise OverflowError(f"pow overflow: {base}^{exp}")
         return result
@@ -61,15 +63,15 @@ class ATCMath:
     def sqrt(x: int) -> int:
         if x < 0:
             raise ValueError("sqrt of negative")
-        return int(_math.isqrt(x))
+        return _math.isqrt(x)
 
     @staticmethod
     def min(a: int, b: int) -> int:
-        return a if a < b else b
+        return min(b, a)
 
     @staticmethod
     def max(a: int, b: int) -> int:
-        return a if a > b else b
+        return max(b, a)
 
     @staticmethod
     def clamp(value: int, lo: int, hi: int) -> int:
@@ -83,6 +85,7 @@ class ATCMath:
     @staticmethod
     def is_power_of_two(n: int) -> bool:
         return n > 0 and (n & (n - 1)) == 0
+
     # ── Safe Aliases (ATC-94 Spec) ──────────────
 
     @staticmethod
@@ -135,4 +138,3 @@ class ATCMath:
         if a == 0 or b == 0:
             return 0
         return abs(a * b) // ATCMath.gcd(a, b)
-

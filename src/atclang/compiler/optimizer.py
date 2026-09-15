@@ -46,62 +46,53 @@ Optimization Levels:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any
 
 from atclang.frontend.parser.ast_nodes import (
-    ASTNode,
-    Program,
-
-    IntLiteral,
-    FloatLiteral,
-    StringLiteral,
-    BoolLiteral,
-    NullLiteral,
-
-    Identifier,
-    BinaryOp,
-    UnaryOp,
     Assignment,
-    IndexAccess,
-    DotAccess,
-    NamespaceAccess,
-    FunctionCall,
-    TernaryExpr,
+    ASTNode,
+    BinaryOp,
+    BoolLiteral,
+    BreakStatement,
     CastExpr,
-    TupleExpr,
+    ClassDef,
+    ContinueStatement,
+    ContractDef,
+    DotAccess,
+    EmitStatement,
+    EnumDef,
+    ExprStatement,
+    ForStatement,
+    FunctionCall,
+    FunctionDef,
+    Identifier,
+    IfStatement,
+    ImportStatement,
+    IndexAccess,
+    IntLiteral,
+    LetStatement,
     ListLiteral,
     MapLiteral,
-    StructLiteral,
-
-    LetStatement,
-    ReturnStatement,
-    EmitStatement,
+    Program,
     RequireStatement,
-    IfStatement,
-    ForStatement,
-    WhileStatement,
-    BreakStatement,
-    ContinueStatement,
-    ExprStatement,
-
-    FunctionDef,
-    ContractDef,
-    WalletDef,
-    ImportStatement,
-    EnumDef,
-    StructDef,
-    ClassDef,
-    StorageBlock,
-    TypeAliasDef,
+    ReturnStatement,
     StateField,
+    StorageBlock,
+    StructDef,
+    StructLiteral,
+    TernaryExpr,
+    TupleExpr,
+    TypeAliasDef,
+    UnaryOp,
+    WalletDef,
+    WhileStatement,
 )
-
-from atclang.vm.atcvm import Instruction, OP
-
+from atclang.vm.atcvm import Instruction
 
 # ============================================================================
 # CONFIGURATION
 # ============================================================================
+
 
 @dataclass(frozen=True)
 class OptimizerConfig:
@@ -123,7 +114,7 @@ class OptimizerConfig:
     jump_threading: bool = True
     peephole: bool = True
 
-    def normalized(self) -> "OptimizerConfig":
+    def normalized(self) -> OptimizerConfig:
         level = max(0, min(3, self.level))
 
         if level == 0:
@@ -174,6 +165,7 @@ class OptimizerConfig:
 # STATISTICS
 # ============================================================================
 
+
 @dataclass
 class OptimizationStats:
     constants_folded: int = 0
@@ -184,7 +176,7 @@ class OptimizationStats:
     jumps_threaded: int = 0
     peephole_optimizations: int = 0
 
-    def as_dict(self) -> Dict[str, int]:
+    def as_dict(self) -> dict[str, int]:
         return {
             "constants_folded": self.constants_folded,
             "constants_propagated": self.constants_propagated,
@@ -222,6 +214,7 @@ class ConstantInfo:
 # OPTIMIZER
 # ============================================================================
 
+
 class ATCOptimizer:
     """
     ATCLang AST + bytecode optimizer.
@@ -244,7 +237,7 @@ class ATCOptimizer:
     def __init__(
         self,
         level: int = 1,
-        config: Optional[OptimizerConfig] = None,
+        config: OptimizerConfig | None = None,
     ):
         if config is None:
             config = OptimizerConfig(level=level)
@@ -267,7 +260,7 @@ class ATCOptimizer:
         if self.level == 0:
             return program
 
-        constants: Dict[str, ConstantInfo] = {}
+        constants: dict[str, ConstantInfo] = {}
 
         program.statements = self._opt_block(
             program.statements,
@@ -279,8 +272,8 @@ class ATCOptimizer:
 
     def optimize_bytecode(
         self,
-        instructions: List[Instruction],
-    ) -> List[Instruction]:
+        instructions: list[Instruction],
+    ) -> list[Instruction]:
         """
         Optimize one bytecode instruction stream.
 
@@ -303,7 +296,7 @@ class ATCOptimizer:
 
         return result
 
-    def get_stats(self) -> Dict[str, int]:
+    def get_stats(self) -> dict[str, int]:
         return self.stats.as_dict()
 
     def reset_stats(self) -> None:
@@ -315,13 +308,13 @@ class ATCOptimizer:
 
     def _opt_block(
         self,
-        block: List[ASTNode],
-        constants: Dict[str, ConstantInfo],
+        block: list[ASTNode],
+        constants: dict[str, ConstantInfo],
         *,
         top_level: bool = False,
-    ) -> List[ASTNode]:
+    ) -> list[ASTNode]:
 
-        result: List[ASTNode] = []
+        result: list[ASTNode] = []
 
         local_constants = dict(constants)
 
@@ -365,15 +358,14 @@ class ATCOptimizer:
     def _opt_stmt(
         self,
         node: ASTNode,
-        constants: Dict[str, ConstantInfo],
-    ) -> Optional[ASTNode]:
+        constants: dict[str, ConstantInfo],
+    ) -> ASTNode | None:
 
         # --------------------------------------------------------------------
         # LET
         # --------------------------------------------------------------------
 
         if isinstance(node, LetStatement):
-
             if node.value is not None:
                 node.value = self._opt_expr(
                     node.value,
@@ -398,7 +390,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, ReturnStatement):
-
             if node.value is not None:
                 node.value = self._opt_expr(
                     node.value,
@@ -412,7 +403,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, Assignment):
-
             node.value = self._opt_expr(
                 node.value,
                 constants,
@@ -430,7 +420,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, ExprStatement):
-
             node.expr = self._opt_expr(
                 node.expr,
                 constants,
@@ -443,7 +432,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, RequireStatement):
-
             node.condition = self._opt_expr(
                 node.condition,
                 constants,
@@ -462,11 +450,7 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, EmitStatement):
-
-            node.args = [
-                self._opt_expr(arg, constants)
-                for arg in node.args
-            ]
+            node.args = [self._opt_expr(arg, constants) for arg in node.args]
 
             return node
 
@@ -475,7 +459,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, IfStatement):
-
             node.condition = self._opt_expr(
                 node.condition,
                 constants,
@@ -513,7 +496,6 @@ class ATCOptimizer:
             optimized_elifs = []
 
             for condition_node, body in node.elif_blocks:
-
                 condition_node = self._opt_expr(
                     condition_node,
                     constants,
@@ -524,9 +506,7 @@ class ATCOptimizer:
                     dict(constants),
                 )
 
-                optimized_elifs.append(
-                    (condition_node, body)
-                )
+                optimized_elifs.append((condition_node, body))
 
             node.elif_blocks = optimized_elifs
 
@@ -543,7 +523,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, WhileStatement):
-
             node.condition = self._opt_expr(
                 node.condition,
                 constants,
@@ -570,7 +549,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, ForStatement):
-
             node.iterable = self._opt_expr(
                 node.iterable,
                 constants,
@@ -592,9 +570,8 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, FunctionDef):
-
             # Function scopes must never inherit caller-local constants.
-            function_constants: Dict[str, ConstantInfo] = {}
+            function_constants: dict[str, ConstantInfo] = {}
 
             for parameter in node.params:
                 function_constants.pop(
@@ -614,7 +591,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, ContractDef):
-
             for function in node.functions:
                 self._opt_stmt(
                     function,
@@ -659,9 +635,9 @@ class ATCOptimizer:
 
     def _opt_expr(
         self,
-        node: Optional[ASTNode],
-        constants: Dict[str, ConstantInfo],
-    ) -> Optional[ASTNode]:
+        node: ASTNode | None,
+        constants: dict[str, ConstantInfo],
+    ) -> ASTNode | None:
 
         if node is None:
             return None
@@ -671,11 +647,7 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, Identifier):
-
-            if (
-                self.config.constant_propagation
-                and node.name in constants
-            ):
+            if self.config.constant_propagation and node.name in constants:
                 info = constants[node.name]
 
                 self.stats.constants_propagated += 1
@@ -693,7 +665,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, BinaryOp):
-
             node.left = self._opt_expr(
                 node.left,
                 constants,
@@ -755,20 +726,15 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, UnaryOp):
-
             node.operand = self._opt_expr(
                 node.operand,
                 constants,
             )
 
             if self.config.constant_folding:
-
-                value = self._literal_value(
-                    node.operand
-                )
+                value = self._literal_value(node.operand)
 
                 if value is not _UNKNOWN:
-
                     try:
                         if node.op == "-":
                             self.stats.constants_folded += 1
@@ -804,7 +770,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, FunctionCall):
-
             node.args = [
                 self._opt_expr(
                     arg,
@@ -822,7 +787,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, Assignment):
-
             node.value = self._opt_expr(
                 node.value,
                 constants,
@@ -840,7 +804,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, IndexAccess):
-
             node.target = self._opt_expr(
                 node.target,
                 constants,
@@ -858,7 +821,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, DotAccess):
-
             node.target = self._opt_expr(
                 node.target,
                 constants,
@@ -871,7 +833,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, TernaryExpr):
-
             node.cond = self._opt_expr(
                 node.cond,
                 constants,
@@ -911,12 +872,7 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, CastExpr):
-
-            value = (
-                node.value
-                if hasattr(node, "value")
-                else node.operand
-            )
+            value = node.value if hasattr(node, "value") else node.operand
 
             value = self._opt_expr(
                 value,
@@ -935,7 +891,6 @@ class ATCOptimizer:
         # --------------------------------------------------------------------
 
         if isinstance(node, ListLiteral):
-
             node.elements = [
                 self._opt_expr(
                     element,
@@ -947,7 +902,6 @@ class ATCOptimizer:
             return node
 
         if isinstance(node, TupleExpr):
-
             node.elements = [
                 self._opt_expr(
                     element,
@@ -959,11 +913,9 @@ class ATCOptimizer:
             return node
 
         if isinstance(node, MapLiteral):
-
             optimized_pairs = []
 
             for pair in node.pairs:
-
                 if isinstance(pair, tuple):
                     key, value = pair[:2]
 
@@ -993,7 +945,6 @@ class ATCOptimizer:
             return node
 
         if isinstance(node, StructLiteral):
-
             node.fields = [
                 (
                     name,
@@ -1012,8 +963,8 @@ class ATCOptimizer:
 
     def _evaluate_constant(
         self,
-        node: Optional[ASTNode],
-        constants: Dict[str, ConstantInfo],
+        node: ASTNode | None,
+        constants: dict[str, ConstantInfo],
     ) -> Any:
 
         if node is None:
@@ -1026,14 +977,9 @@ class ATCOptimizer:
 
         if isinstance(node, Identifier):
             info = constants.get(node.name)
-            return (
-                info.value
-                if info is not None
-                else _UNKNOWN
-            )
+            return info.value if info is not None else _UNKNOWN
 
         if isinstance(node, UnaryOp):
-
             operand = self._evaluate_constant(
                 node.operand,
                 constants,
@@ -1058,7 +1004,6 @@ class ATCOptimizer:
             return _UNKNOWN
 
         if isinstance(node, BinaryOp):
-
             left = self._evaluate_constant(
                 node.left,
                 constants,
@@ -1096,7 +1041,6 @@ class ATCOptimizer:
     ) -> Any:
 
         try:
-
             if op == "+":
                 return left + right
             if op == "-":
@@ -1120,7 +1064,7 @@ class ATCOptimizer:
                 return left % right
 
             if op == "**":
-                return left ** right
+                return left**right
 
             if op == "==":
                 return left == right
@@ -1180,7 +1124,7 @@ class ATCOptimizer:
         left: ASTNode,
         op: str,
         right: ASTNode,
-    ) -> Optional[ASTNode]:
+    ) -> ASTNode | None:
 
         lv = self._literal_value(left)
         rv = self._literal_value(right)

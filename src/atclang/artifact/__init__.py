@@ -1,4 +1,5 @@
 """ATCLang Artifact — deterministische kompilierte Artefakte (.atca)."""
-from .artifact import CompiledArtifact, ArtifactError
 
-__all__ = ["CompiledArtifact", "ArtifactError"]
+from .artifact import ArtifactError, CompiledArtifact
+
+__all__ = ["ArtifactError", "CompiledArtifact"]

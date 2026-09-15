@@ -7,11 +7,13 @@ Zwei Manifeste mit gleichem Namen MUSSSEN verschiedene Versionen haben;
 Version-Bereiche folgen SemVer-Pruefung (kein Loose-Pinning: ^1.2.3 erlaubt,
 * verboten — Reproduzierbarkeit, ATC-STD-041).
 """
+
 from __future__ import annotations
+
 import re
-import semver
 from dataclasses import dataclass, field
-from typing import Dict, Optional
+
+import semver
 
 _ENTRY_RE = re.compile(r"^[\w/]+\.atc$")
 _RANGE_RE = re.compile(r"^(\^|~)?\d+\.\d+\.\d+$")
@@ -28,8 +30,8 @@ class PackageManifest:
     license: str
     entry: str
     profile: str = "consensus"
-    dependencies: Dict[str, str] = field(default_factory=dict)
-    artifacts: Dict[str, str] = field(default_factory=dict)   # version -> artifact_id
+    dependencies: dict[str, str] = field(default_factory=dict)
+    artifacts: dict[str, str] = field(default_factory=dict)  # version -> artifact_id
 
     def validate(self) -> None:
         if not re.match(r"^[a-z][a-z0-9-_]*$", self.name):

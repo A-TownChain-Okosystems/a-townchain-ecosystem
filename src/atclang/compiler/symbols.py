@@ -60,14 +60,14 @@ Symbol-Indizes sind innerhalb eines Scopes monoton und deterministisch.
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, Iterable, Iterator, Optional
-
 
 # ═══════════════════════════════════════════════════════════════════════
 # SYMBOL KIND
 # ═══════════════════════════════════════════════════════════════════════
+
 
 class SymbolKind(str, Enum):
     """
@@ -100,6 +100,7 @@ class SymbolKind(str, Enum):
 # ═══════════════════════════════════════════════════════════════════════
 # SYMBOL
 # ═══════════════════════════════════════════════════════════════════════
+
 
 @dataclass(slots=True)
 class Symbol:
@@ -145,7 +146,7 @@ class Symbol:
     exported: bool = False
 
     scope_id: int = 0
-    metadata: Dict[str, object] = field(default_factory=dict)
+    metadata: dict[str, object] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         if isinstance(self.kind, str):
@@ -194,6 +195,7 @@ class Symbol:
 # SYMBOL ERRORS
 # ═══════════════════════════════════════════════════════════════════════
 
+
 class SymbolError(Exception):
     """Basisfehler der Symbolverwaltung."""
 
@@ -213,6 +215,7 @@ class InvalidSymbolNameError(SymbolError):
 # ═══════════════════════════════════════════════════════════════════════
 # SCOPE
 # ═══════════════════════════════════════════════════════════════════════
+
 
 class Scope:
     """
@@ -242,7 +245,7 @@ class Scope:
 
     def __init__(
         self,
-        parent: Optional["Scope"] = None,
+        parent: Scope | None = None,
         *,
         name: str = "",
         kind: str = "block",
@@ -253,7 +256,7 @@ class Scope:
 
         self.scope_id = self._allocate_scope_id()
 
-        self.symbols: Dict[str, Symbol] = {}
+        self.symbols: dict[str, Symbol] = {}
         self._next_index = 0
 
     # ─────────────────────────────────────────────────────────────────
@@ -268,7 +271,7 @@ class Scope:
         *,
         mutable: bool = True,
         exported: bool = False,
-        metadata: Optional[Dict[str, object]] = None,
+        metadata: dict[str, object] | None = None,
         allow_replace: bool = False,
     ) -> Symbol:
         """
@@ -402,13 +405,13 @@ class Scope:
     # Resolution
     # ─────────────────────────────────────────────────────────────────
 
-    def resolve_local(self, name: str) -> Optional[Symbol]:
+    def resolve_local(self, name: str) -> Symbol | None:
         """
         Sucht ausschließlich im aktuellen Scope.
         """
         return self.symbols.get(name)
 
-    def resolve(self, name: str) -> Optional[Symbol]:
+    def resolve(self, name: str) -> Symbol | None:
         """
         Lexikalische Symbolauflösung.
 
@@ -443,8 +446,7 @@ class Scope:
 
         if symbol is None:
             raise SymbolNotFoundError(
-                f"Symbol '{name}' konnte nicht aufgelöst werden "
-                f"in Scope '{self.display_name}'."
+                f"Symbol '{name}' konnte nicht aufgelöst werden in Scope '{self.display_name}'."
             )
 
         return symbol
@@ -458,20 +460,20 @@ class Scope:
         *,
         name: str = "",
         kind: str = "block",
-    ) -> "Scope":
+    ) -> Scope:
         return Scope(
             parent=self,
             name=name,
             kind=kind,
         )
 
-    def function_scope(self, name: str) -> "Scope":
+    def function_scope(self, name: str) -> Scope:
         return self.child(
             name=name,
             kind="function",
         )
 
-    def contract_scope(self, name: str) -> "Scope":
+    def contract_scope(self, name: str) -> Scope:
         return self.child(
             name=name,
             kind="contract",
@@ -517,14 +519,14 @@ class Scope:
     def iter_local(self) -> Iterator[Symbol]:
         return iter(self.symbols.values())
 
-    def all_visible(self) -> Dict[str, Symbol]:
+    def all_visible(self) -> dict[str, Symbol]:
         """
         Liefert alle aktuell sichtbaren Symbole.
 
         Lokale Definitionen überschreiben Parent-Definitionen.
         """
 
-        result: Dict[str, Symbol] = {}
+        result: dict[str, Symbol] = {}
 
         if self.parent is not None:
             result.update(self.parent.all_visible())
@@ -545,14 +547,10 @@ class Scope:
     @staticmethod
     def _validate_name(name: str) -> None:
         if not isinstance(name, str):
-            raise InvalidSymbolNameError(
-                "Symbolname muss ein String sein."
-            )
+            raise InvalidSymbolNameError("Symbolname muss ein String sein.")
 
         if not name:
-            raise InvalidSymbolNameError(
-                "Symbolname darf nicht leer sein."
-            )
+            raise InvalidSymbolNameError("Symbolname darf nicht leer sein.")
 
     def __repr__(self) -> str:
         return (
@@ -568,6 +566,7 @@ class Scope:
 # ═══════════════════════════════════════════════════════════════════════
 # SYMBOL TABLE
 # ═══════════════════════════════════════════════════════════════════════
+
 
 class SymbolTable:
     """
@@ -587,9 +586,9 @@ class SymbolTable:
 
     def __init__(
         self,
-        parent: Optional["SymbolTable"] = None,
+        parent: SymbolTable | None = None,
         *,
-        scope: Optional[Scope] = None,
+        scope: Scope | None = None,
         name: str = "",
         kind: str = "block",
     ) -> None:
@@ -608,11 +607,11 @@ class SymbolTable:
             )
 
     @property
-    def symbols(self) -> Dict[str, Symbol]:
+    def symbols(self) -> dict[str, Symbol]:
         return self.scope.symbols
 
     @property
-    def parent(self) -> Optional["SymbolTable"]:
+    def parent(self) -> SymbolTable | None:
         if self.scope.parent is None:
             return None
 
@@ -636,26 +635,26 @@ class SymbolTable:
             **kwargs,
         )
 
-    def resolve(self, name: str) -> Optional[Symbol]:
+    def resolve(self, name: str) -> Symbol | None:
         return self.scope.resolve(name)
 
-    def resolve_local(self, name: str) -> Optional[Symbol]:
+    def resolve_local(self, name: str) -> Symbol | None:
         return self.scope.resolve_local(name)
 
     def require(self, name: str) -> Symbol:
         return self.scope.require(name)
 
-    def child(self) -> "SymbolTable":
+    def child(self) -> SymbolTable:
         return SymbolTable(
             scope=self.scope.child(),
         )
 
-    def function_scope(self, name: str) -> "SymbolTable":
+    def function_scope(self, name: str) -> SymbolTable:
         return SymbolTable(
             scope=self.scope.function_scope(name),
         )
 
-    def contract_scope(self, name: str) -> "SymbolTable":
+    def contract_scope(self, name: str) -> SymbolTable:
         return SymbolTable(
             scope=self.scope.contract_scope(name),
         )
@@ -679,6 +678,7 @@ class SymbolTable:
 # ═══════════════════════════════════════════════════════════════════════
 # BUILTIN SYMBOL REGISTRATION
 # ═══════════════════════════════════════════════════════════════════════
+
 
 def create_global_scope() -> Scope:
     """
@@ -738,14 +738,14 @@ def register_builtin(
 # ═══════════════════════════════════════════════════════════════════════
 
 __all__ = [
-    "SymbolKind",
-    "Symbol",
-    "Scope",
-    "SymbolTable",
-    "SymbolError",
     "DuplicateSymbolError",
-    "SymbolNotFoundError",
     "InvalidSymbolNameError",
+    "Scope",
+    "Symbol",
+    "SymbolError",
+    "SymbolKind",
+    "SymbolNotFoundError",
+    "SymbolTable",
     "create_global_scope",
     "register_builtin",
 ]

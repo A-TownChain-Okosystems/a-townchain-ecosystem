@@ -3,15 +3,15 @@
 ATCLang Stdlib — ATC::Chain
 Blockchain state access for ATCLang contracts.
 """
+
 import time
-import hashlib
-from typing import Optional, Dict, Any
+from typing import Any
 
 
 class ATCChain:
     """ATC::Chain — access current chain state from contracts."""
 
-    def __init__(self, state: Dict[str, Any] = None):
+    def __init__(self, state: dict[str, Any] = None):
         self._state = state or {}
 
     @property

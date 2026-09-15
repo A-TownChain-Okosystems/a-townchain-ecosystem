@@ -4,12 +4,15 @@ SCR-0084 — Differential-Harness: Python-Referenz -> kanonisches AST-JSON.
 Generiert crates/atc-core/differential/expected/*.json aus dem Reference-
 Parser (frontend). Das Rust-Canonical-Core-Testsuite vergleicht bytgleich.
 """
-import json, os, sys
+
+import json
+import os
+import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "src"))
-from atclang.frontend.lexer.lexer import ATCLexer
-from atclang.frontend.parser.parser import ATCParser
+from atclang.frontend.lexer.lexer import ATCLexer  # noqa: E402 (sys.path-Setup erforderlich)
+from atclang.frontend.parser.parser import ATCParser  # noqa: E402 (sys.path-Setup erforderlich)
 
 CORPUS = os.path.join(ROOT, "crates", "atc-core", "differential", "corpus")
 EXPECTED = os.path.join(ROOT, "crates", "atc-core", "differential", "expected")
@@ -24,9 +27,18 @@ def node_to_obj(n):
     if cn == "UnaryOp":
         return {"kind": "UnaryOp", "op": n.op, "operand": node_to_obj(n.operand)}
     if cn == "BinaryOp":
-        return {"kind": "BinaryOp", "op": n.op, "left": node_to_obj(n.left), "right": node_to_obj(n.right)}
+        return {
+            "kind": "BinaryOp",
+            "op": n.op,
+            "left": node_to_obj(n.left),
+            "right": node_to_obj(n.right),
+        }
     if cn == "FunctionCall":
-        return {"kind": "FunctionCall", "args": [node_to_obj(a) for a in n.args], "target": node_to_obj(n.target)}
+        return {
+            "kind": "FunctionCall",
+            "args": [node_to_obj(a) for a in n.args],
+            "target": node_to_obj(n.target),
+        }
     if cn == "TypeAnnotation":
         return {"kind": "TypeAnnotation", "name": n.name, "params": []}
     if cn == "LetStatement":
@@ -40,9 +52,16 @@ def node_to_obj(n):
     if cn == "Program":
         return {"kind": "Program", "statements": [node_to_obj(s) for s in n.statements]}
     if cn == "ReturnStatement":
-        return {"kind": "ReturnStatement", "value": None if n.value is None else node_to_obj(n.value)}
+        return {
+            "kind": "ReturnStatement",
+            "value": None if n.value is None else node_to_obj(n.value),
+        }
     if cn == "Parameter":
-        return {"kind": "Parameter", "name": n.name, "type_hint": node_to_obj(n.type_hint)}
+        return {
+            "kind": "Parameter",
+            "name": n.name,
+            "type_hint": node_to_obj(n.type_hint),
+        }
     if cn == "FunctionDef":
         return {
             "body": [node_to_obj(s) for s in n.body],
@@ -67,7 +86,9 @@ def dump(corpus_dir, expected_dir):
         src = open(os.path.join(corpus_dir, f), encoding="utf-8").read()
         tokens = ATCLexer(src).tokenize()
         prog = ATCParser(tokens).parse_program()
-        out = json.dumps(node_to_obj(prog), sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+        out = json.dumps(
+            node_to_obj(prog), sort_keys=True, separators=(",", ":"), ensure_ascii=False
+        )
         stem = f[:-4]
         open(os.path.join(expected_dir, stem + ".json"), "w", encoding="utf-8").write(out + "\n")
         print(f"{f}: OK ({len(out)} Zeichen)")

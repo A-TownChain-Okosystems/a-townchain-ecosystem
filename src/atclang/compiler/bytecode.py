@@ -98,18 +98,13 @@ KEIN finales normatives Bytecode-ABI.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 import json
 import math
 import struct
+from collections.abc import Iterable, Sequence
+from dataclasses import dataclass, field
 from typing import (
     Any,
-    Dict,
-    Iterable,
-    List,
-    Optional,
-    Sequence,
-    Tuple,
 )
 
 from .constants import (
@@ -120,7 +115,6 @@ from .constants import (
     infer_constant_type,
 )
 
-
 # ══════════════════════════════════════════════════════════════════════════════
 # VERSION
 # ══════════════════════════════════════════════════════════════════════════════
@@ -130,7 +124,7 @@ ATCLANG_VERSION = "0.3.1"
 BYTECODE_VERSION_MAJOR = 1
 BYTECODE_VERSION_MINOR = 0
 
-BYTECODE_VERSION: Tuple[int, int] = (
+BYTECODE_VERSION: tuple[int, int] = (
     BYTECODE_VERSION_MAJOR,
     BYTECODE_VERSION_MINOR,
 )
@@ -201,8 +195,8 @@ def _require_exact_int(
     value: Any,
     *,
     name: str,
-    minimum: Optional[int] = None,
-    maximum: Optional[int] = None,
+    minimum: int | None = None,
+    maximum: int | None = None,
 ) -> None:
     """
     Validate an exact Python int.
@@ -211,44 +205,31 @@ def _require_exact_int(
     """
 
     if type(value) is not int:
-        raise BytecodeValidationError(
-            f"{name} must be an integer."
-        )
+        raise BytecodeValidationError(f"{name} must be an integer.")
 
     if minimum is not None and value < minimum:
-        raise BytecodeValidationError(
-            f"{name} must be >= {minimum}."
-        )
+        raise BytecodeValidationError(f"{name} must be >= {minimum}.")
 
     if maximum is not None and value > maximum:
-        raise BytecodeValidationError(
-            f"{name} must be <= {maximum}."
-        )
+        raise BytecodeValidationError(f"{name} must be <= {maximum}.")
 
 
 def _validate_identifier(
     value: Any,
     *,
     name: str,
-    maximum_length: Optional[int] = None,
+    maximum_length: int | None = None,
 ) -> None:
     """Validate a compiler identifier-like string."""
 
     if type(value) is not str:
-        raise BytecodeValidationError(
-            f"{name} must be a string."
-        )
+        raise BytecodeValidationError(f"{name} must be a string.")
 
     if not value:
-        raise BytecodeValidationError(
-            f"{name} must not be empty."
-        )
+        raise BytecodeValidationError(f"{name} must not be empty.")
 
     if maximum_length is not None and len(value) > maximum_length:
-        raise BytecodeValidationError(
-            f"{name} exceeds maximum length "
-            f"{maximum_length}."
-        )
+        raise BytecodeValidationError(f"{name} exceeds maximum length {maximum_length}.")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -276,7 +257,7 @@ class Instruction:
     """
 
     op: Any
-    args: List[Any] = field(default_factory=list)
+    args: list[Any] = field(default_factory=list)
     line: int = UNKNOWN_SOURCE_LINE
     column: int = UNKNOWN_SOURCE_COLUMN
 
@@ -287,9 +268,7 @@ class Instruction:
             try:
                 self.args = list(self.args)
             except TypeError as exc:
-                raise BytecodeValidationError(
-                    "Instruction args must be iterable."
-                ) from exc
+                raise BytecodeValidationError("Instruction args must be iterable.") from exc
 
         _require_exact_int(
             self.line,
@@ -303,7 +282,7 @@ class Instruction:
             minimum=0,
         )
 
-    def copy(self) -> "Instruction":
+    def copy(self) -> Instruction:
         return Instruction(
             op=self.op,
             args=list(self.args),
@@ -326,7 +305,7 @@ class Instruction:
 
         return str(self.op)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "op": self.opcode_name,
             "args": _json_safe(self.args),
@@ -336,15 +315,9 @@ class Instruction:
 
     def __str__(self) -> str:
         if self.args:
-            arguments = " ".join(
-                repr(argument)
-                for argument in self.args
-            )
+            arguments = " ".join(repr(argument) for argument in self.args)
 
-            return (
-                f"{self.opcode_name:<12} "
-                f"{arguments}"
-            )
+            return f"{self.opcode_name:<12} {arguments}"
 
         return self.opcode_name
 
@@ -366,8 +339,8 @@ class FunctionBytecode:
     """
 
     name: str
-    instructions: List[Instruction] = field(default_factory=list)
-    parameters: List[str] = field(default_factory=list)
+    instructions: list[Instruction] = field(default_factory=list)
+    parameters: list[str] = field(default_factory=list)
     exports: bool = False
 
     def __post_init__(self) -> None:
@@ -381,33 +354,19 @@ class FunctionBytecode:
         )
 
         if not isinstance(self.instructions, list):
-            raise BytecodeValidationError(
-                f"Function '{self.name}' instructions "
-                "must be a list."
-            )
+            raise BytecodeValidationError(f"Function '{self.name}' instructions must be a list.")
 
         if len(self.instructions) > MAX_INSTRUCTIONS:
-            raise BytecodeValidationError(
-                f"Function '{self.name}' contains too many "
-                "instructions."
-            )
+            raise BytecodeValidationError(f"Function '{self.name}' contains too many instructions.")
 
         if not isinstance(self.parameters, list):
-            raise BytecodeValidationError(
-                f"Function '{self.name}' parameters "
-                "must be a list."
-            )
+            raise BytecodeValidationError(f"Function '{self.name}' parameters must be a list.")
 
         if len(self.parameters) > MAX_PARAMETERS:
-            raise BytecodeValidationError(
-                f"Function '{self.name}' has too many "
-                "parameters."
-            )
+            raise BytecodeValidationError(f"Function '{self.name}' has too many parameters.")
 
         if type(self.exports) is not bool:
-            raise BytecodeValidationError(
-                f"Function '{self.name}' exports must be bool."
-            )
+            raise BytecodeValidationError(f"Function '{self.name}' exports must be bool.")
 
         seen = set()
 
@@ -420,8 +379,7 @@ class FunctionBytecode:
 
             if parameter in seen:
                 raise BytecodeValidationError(
-                    f"Duplicate parameter '{parameter}' "
-                    f"in function '{self.name}'."
+                    f"Duplicate parameter '{parameter}' in function '{self.name}'."
                 )
 
             seen.add(parameter)
@@ -432,19 +390,15 @@ class FunctionBytecode:
                 Instruction,
             ):
                 raise BytecodeValidationError(
-                    f"Function '{self.name}' contains "
-                    "an invalid instruction."
+                    f"Function '{self.name}' contains an invalid instruction."
                 )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "name": self.name,
             "parameters": list(self.parameters),
             "exports": self.exports,
-            "instructions": [
-                instruction.to_dict()
-                for instruction in self.instructions
-            ],
+            "instructions": [instruction.to_dict() for instruction in self.instructions],
         }
 
 
@@ -482,14 +436,14 @@ class SourceMapEntry:
             minimum=0,
         )
 
-    def to_tuple(self) -> Tuple[int, int, int]:
+    def to_tuple(self) -> tuple[int, int, int]:
         return (
             self.instruction,
             self.line,
             self.column,
         )
 
-    def to_dict(self) -> Dict[str, int]:
+    def to_dict(self) -> dict[str, int]:
         return {
             "instruction": self.instruction,
             "line": self.line,
@@ -507,7 +461,7 @@ class SourceMap:
     """
 
     version: int = SOURCE_MAP_VERSION
-    entries: List[SourceMapEntry] = field(default_factory=list)
+    entries: list[SourceMapEntry] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         _require_exact_int(
@@ -523,7 +477,7 @@ class SourceMap:
     def validate(
         self,
         *,
-        instruction_count: Optional[int] = None,
+        instruction_count: int | None = None,
     ) -> None:
         previous_instruction = -1
 
@@ -532,23 +486,13 @@ class SourceMap:
                 entry,
                 SourceMapEntry,
             ):
-                raise BytecodeValidationError(
-                    "SourceMap contains an invalid entry."
-                )
+                raise BytecodeValidationError("SourceMap contains an invalid entry.")
 
             if entry.instruction < previous_instruction:
-                raise BytecodeValidationError(
-                    "Source-map entries must be sorted."
-                )
+                raise BytecodeValidationError("Source-map entries must be sorted.")
 
-            if (
-                instruction_count is not None
-                and entry.instruction >= instruction_count
-            ):
-                raise BytecodeValidationError(
-                    "Source-map instruction index is "
-                    "out of range."
-                )
+            if instruction_count is not None and entry.instruction >= instruction_count:
+                raise BytecodeValidationError("Source-map instruction index is out of range.")
 
             previous_instruction = entry.instruction
 
@@ -581,8 +525,7 @@ class SourceMap:
 
             if instruction < previous.instruction:
                 raise BytecodeValidationError(
-                    "Source-map instruction indices "
-                    "must be monotonically increasing."
+                    "Source-map instruction indices must be monotonically increasing."
                 )
 
         self.entries.append(
@@ -596,14 +539,14 @@ class SourceMap:
     def lookup(
         self,
         instruction: int,
-    ) -> Optional[SourceMapEntry]:
+    ) -> SourceMapEntry | None:
         _require_exact_int(
             instruction,
             name="instruction",
             minimum=0,
         )
 
-        result: Optional[SourceMapEntry] = None
+        result: SourceMapEntry | None = None
 
         for entry in self.entries:
             if entry.instruction > instruction:
@@ -613,50 +556,38 @@ class SourceMap:
 
         return result
 
-    def to_list(self) -> List[Tuple[int, int, int]]:
-        return [
-            entry.to_tuple()
-            for entry in self.entries
-        ]
+    def to_list(self) -> list[tuple[int, int, int]]:
+        return [entry.to_tuple() for entry in self.entries]
 
     @classmethod
     def from_list(
         cls,
         entries: Iterable[Sequence[int]],
         version: int = SOURCE_MAP_VERSION,
-    ) -> "SourceMap":
+    ) -> SourceMap:
         source_map = cls(
             version=version,
             entries=[],
         )
 
         for raw_entry in entries:
-            if (
-                not isinstance(
-                    raw_entry,
-                    Sequence,
-                )
-                or isinstance(
-                    raw_entry,
-                    (str, bytes),
-                )
+            if not isinstance(
+                raw_entry,
+                Sequence,
+            ) or isinstance(
+                raw_entry,
+                (str, bytes),
             ):
-                raise BytecodeFormatError(
-                    "Invalid source-map entry."
-                )
+                raise BytecodeFormatError("Invalid source-map entry.")
 
             if len(raw_entry) != SOURCE_MAP_ENTRY_SIZE:
-                raise BytecodeFormatError(
-                    "Invalid source-map entry size."
-                )
+                raise BytecodeFormatError("Invalid source-map entry size.")
 
-            values: List[int] = []
+            values: list[int] = []
 
             for value in raw_entry:
                 if type(value) is not int:
-                    raise BytecodeFormatError(
-                        "Source-map values must be integers."
-                    )
+                    raise BytecodeFormatError("Source-map values must be integers.")
 
                 values.append(value)
 
@@ -693,47 +624,29 @@ class CompiledModule:
 
     name: str
 
-    instructions: List[Instruction] = field(
-        default_factory=list
-    )
+    instructions: list[Instruction] = field(default_factory=list)
 
-    constants: ConstantPool | List[Any] = field(
-        default_factory=ConstantPool
-    )
+    constants: ConstantPool | list[Any] = field(default_factory=ConstantPool)
 
-    functions: Dict[
+    functions: dict[
         str,
-        List[Instruction],
-    ] = field(
-        default_factory=dict
-    )
+        list[Instruction],
+    ] = field(default_factory=dict)
 
-    exports: List[str] = field(
-        default_factory=list
-    )
+    exports: list[str] = field(default_factory=list)
 
-    function_params: Dict[
+    function_params: dict[
         str,
-        List[str],
-    ] = field(
-        default_factory=dict
-    )
+        list[str],
+    ] = field(default_factory=dict)
 
-    source_map: List[
-        Tuple[int, int, int]
-    ] = field(
-        default_factory=list
-    )
+    source_map: list[tuple[int, int, int]] = field(default_factory=list)
 
-    bytecode_version: Tuple[int, int] = (
-        BYTECODE_VERSION
-    )
+    bytecode_version: tuple[int, int] = BYTECODE_VERSION
 
     compiler_version: str = ATCLANG_VERSION
 
-    source_map_version: int = (
-        SOURCE_MAP_VERSION
-    )
+    source_map_version: int = SOURCE_MAP_VERSION
 
     language_version: str = "0.3.1"
 
@@ -758,10 +671,7 @@ class CompiledModule:
             self.constants,
             list,
         ):
-            raise BytecodeValidationError(
-                "constants must be a ConstantPool "
-                "or a list."
-            )
+            raise BytecodeValidationError("constants must be a ConstantPool or a list.")
 
         pool = ConstantPool(
             max_size=MAX_CONSTANTS,
@@ -815,13 +725,13 @@ class CompiledModule:
     def get_function(
         self,
         name: str,
-    ) -> Optional[List[Instruction]]:
+    ) -> list[Instruction] | None:
         return self.functions.get(name)
 
     def get_function_parameters(
         self,
         name: str,
-    ) -> List[str]:
+    ) -> list[str]:
         return list(
             self.function_params.get(
                 name,
@@ -836,15 +746,13 @@ class CompiledModule:
     def source_location(
         self,
         instruction: int,
-    ) -> Optional[SourceMapEntry]:
+    ) -> SourceMapEntry | None:
         source_map = SourceMap.from_list(
             self.source_map,
             version=self.source_map_version,
         )
 
-        return source_map.lookup(
-            instruction
-        )
+        return source_map.lookup(instruction)
 
     # ──────────────────────────────────────────────────────────────────────
     # VALIDATION
@@ -864,10 +772,7 @@ class CompiledModule:
             )
             or len(self.bytecode_version) != 2
         ):
-            raise BytecodeValidationError(
-                "bytecode_version must be a "
-                "(major, minor) tuple."
-            )
+            raise BytecodeValidationError("bytecode_version must be a (major, minor) tuple.")
 
         major, minor = self.bytecode_version
 
@@ -918,56 +823,40 @@ class CompiledModule:
             self.instructions,
             list,
         ):
-            raise BytecodeValidationError(
-                "Module instructions must be a list."
-            )
+            raise BytecodeValidationError("Module instructions must be a list.")
 
         if len(self.instructions) > MAX_INSTRUCTIONS:
-            raise BytecodeValidationError(
-                "Module contains too many instructions."
-            )
+            raise BytecodeValidationError("Module contains too many instructions.")
 
         for instruction in self.instructions:
             if not isinstance(
                 instruction,
                 Instruction,
             ):
-                raise BytecodeValidationError(
-                    "Module contains an invalid instruction."
-                )
+                raise BytecodeValidationError("Module contains an invalid instruction.")
 
         pool = self.constant_pool
 
         if pool.size > MAX_CONSTANTS:
-            raise BytecodeValidationError(
-                "Module contains too many constants."
-            )
+            raise BytecodeValidationError("Module contains too many constants.")
 
         if not isinstance(
             self.functions,
             dict,
         ):
-            raise BytecodeValidationError(
-                "Module functions must be a dictionary."
-            )
+            raise BytecodeValidationError("Module functions must be a dictionary.")
 
         if len(self.functions) > MAX_FUNCTIONS:
-            raise BytecodeValidationError(
-                "Module contains too many functions."
-            )
+            raise BytecodeValidationError("Module contains too many functions.")
 
         if not isinstance(
             self.exports,
             list,
         ):
-            raise BytecodeValidationError(
-                "Module exports must be a list."
-            )
+            raise BytecodeValidationError("Module exports must be a list.")
 
         if len(self.exports) > MAX_EXPORTS:
-            raise BytecodeValidationError(
-                "Module contains too many exports."
-            )
+            raise BytecodeValidationError("Module contains too many exports.")
 
         function_names = set()
 
@@ -979,9 +868,7 @@ class CompiledModule:
             )
 
             if function_name in function_names:
-                raise BytecodeValidationError(
-                    f"Duplicate function '{function_name}'."
-                )
+                raise BytecodeValidationError(f"Duplicate function '{function_name}'.")
 
             function_names.add(function_name)
 
@@ -990,14 +877,12 @@ class CompiledModule:
                 list,
             ):
                 raise BytecodeValidationError(
-                    f"Function '{function_name}' "
-                    "instructions must be a list."
+                    f"Function '{function_name}' instructions must be a list."
                 )
 
             if len(instructions) > MAX_INSTRUCTIONS:
                 raise BytecodeValidationError(
-                    f"Function '{function_name}' contains "
-                    "too many instructions."
+                    f"Function '{function_name}' contains too many instructions."
                 )
 
             for instruction in instructions:
@@ -1006,8 +891,7 @@ class CompiledModule:
                     Instruction,
                 ):
                     raise BytecodeValidationError(
-                        f"Function '{function_name}' contains "
-                        "an invalid instruction."
+                        f"Function '{function_name}' contains an invalid instruction."
                     )
 
         seen_exports = set()
@@ -1020,31 +904,23 @@ class CompiledModule:
             )
 
             if export in seen_exports:
-                raise BytecodeValidationError(
-                    f"Duplicate export '{export}'."
-                )
+                raise BytecodeValidationError(f"Duplicate export '{export}'.")
 
             seen_exports.add(export)
 
             if export not in function_names:
-                raise BytecodeValidationError(
-                    f"Export '{export}' does not reference "
-                    "a function."
-                )
+                raise BytecodeValidationError(f"Export '{export}' does not reference a function.")
 
         if not isinstance(
             self.function_params,
             dict,
         ):
-            raise BytecodeValidationError(
-                "function_params must be a dictionary."
-            )
+            raise BytecodeValidationError("function_params must be a dictionary.")
 
         for function_name, params in self.function_params.items():
             if function_name not in function_names:
                 raise BytecodeValidationError(
-                    "Function parameter metadata references "
-                    f"unknown function '{function_name}'."
+                    f"Function parameter metadata references unknown function '{function_name}'."
                 )
 
             if not isinstance(
@@ -1052,14 +928,12 @@ class CompiledModule:
                 list,
             ):
                 raise BytecodeValidationError(
-                    f"Parameters of function "
-                    f"'{function_name}' must be a list."
+                    f"Parameters of function '{function_name}' must be a list."
                 )
 
             if len(params) > MAX_PARAMETERS:
                 raise BytecodeValidationError(
-                    f"Function '{function_name}' has too "
-                    "many parameters."
+                    f"Function '{function_name}' has too many parameters."
                 )
 
             seen_params = set()
@@ -1073,8 +947,7 @@ class CompiledModule:
 
                 if parameter in seen_params:
                     raise BytecodeValidationError(
-                        f"Duplicate parameter '{parameter}' "
-                        f"in function '{function_name}'."
+                        f"Duplicate parameter '{parameter}' in function '{function_name}'."
                     )
 
                 seen_params.add(parameter)
@@ -1085,9 +958,7 @@ class CompiledModule:
         )
 
         source_map.validate(
-            instruction_count=len(
-                self.instructions
-            ),
+            instruction_count=len(self.instructions),
         )
 
     # ──────────────────────────────────────────────────────────────────────
@@ -1112,7 +983,7 @@ class CompiledModule:
     # SERIALIZATION
     # ──────────────────────────────────────────────────────────────────────
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """
         Deterministische JSON-kompatible Darstellung.
 
@@ -1125,56 +996,36 @@ class CompiledModule:
 
         return {
             "magic": BYTECODE_MAGIC.decode("ascii"),
-            "bytecode_version": list(
-                self.bytecode_version
-            ),
+            "bytecode_version": list(self.bytecode_version),
             "compiler_version": self.compiler_version,
             "language_version": self.language_version,
-            "source_map_version": (
-                self.source_map_version
-            ),
+            "source_map_version": (self.source_map_version),
             "module": self.name,
             "entry_point": self.entry_point,
             "constants": self.constant_pool.to_dict(),
-            "instructions": [
-                instruction.to_dict()
-                for instruction in self.instructions
-            ],
+            "instructions": [instruction.to_dict() for instruction in self.instructions],
             "functions": {
-                name: [
-                    instruction.to_dict()
-                    for instruction in instructions
-                ]
-                for name, instructions
-                in self.functions.items()
+                name: [instruction.to_dict() for instruction in instructions]
+                for name, instructions in self.functions.items()
             },
             "exports": list(self.exports),
             "function_params": {
-                name: list(params)
-                for name, params
-                in self.function_params.items()
+                name: list(params) for name, params in self.function_params.items()
             },
-            "source_map": [
-                list(entry)
-                for entry in self.source_map
-            ],
+            "source_map": [list(entry) for entry in self.source_map],
         }
 
     def to_json(
         self,
         *,
-        indent: Optional[int] = 2,
+        indent: int | None = 2,
     ) -> str:
         return json.dumps(
             self.to_dict(),
             indent=indent,
             ensure_ascii=False,
             sort_keys=False,
-            separators=(
-                None
-                if indent is not None
-                else (",", ":")
-            ),
+            separators=(None if indent is not None else (",", ":")),
         )
 
     # ──────────────────────────────────────────────────────────────────────
@@ -1205,7 +1056,7 @@ class BytecodeBuilder:
     """
 
     def __init__(self) -> None:
-        self.instructions: List[Instruction] = []
+        self.instructions: list[Instruction] = []
         self.source_map = SourceMap()
 
     def emit(
@@ -1216,9 +1067,7 @@ class BytecodeBuilder:
         column: int = UNKNOWN_SOURCE_COLUMN,
     ) -> int:
         if len(self.instructions) >= MAX_INSTRUCTIONS:
-            raise BytecodeValidationError(
-                "Maximum instruction count exceeded."
-            )
+            raise BytecodeValidationError("Maximum instruction count exceeded.")
 
         index = len(self.instructions)
 
@@ -1229,9 +1078,7 @@ class BytecodeBuilder:
             column=column,
         )
 
-        self.instructions.append(
-            instruction
-        )
+        self.instructions.append(instruction)
 
         if line or column:
             self.source_map.add(
@@ -1254,20 +1101,15 @@ class BytecodeBuilder:
         )
 
         if index >= len(self.instructions):
-            raise BytecodeValidationError(
-                f"Invalid instruction patch index: {index}"
-            )
+            raise BytecodeValidationError(f"Invalid instruction patch index: {index}")
 
         self.instructions[index].args = list(args)
 
     def current_position(self) -> int:
         return len(self.instructions)
 
-    def build(self) -> List[Instruction]:
-        return [
-            instruction.copy()
-            for instruction in self.instructions
-        ]
+    def build(self) -> list[Instruction]:
+        return [instruction.copy() for instruction in self.instructions]
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1286,13 +1128,9 @@ def disassemble(
 
     module.validate()
 
-    lines: List[str] = [
+    lines: list[str] = [
         f"=== ATC Bytecode: {module.name} ===",
-        (
-            f"Version: "
-            f"{module.bytecode_version[0]}."
-            f"{module.bytecode_version[1]}"
-        ),
+        (f"Version: {module.bytecode_version[0]}.{module.bytecode_version[1]}"),
         (
             f"Compiler: {module.compiler_version} | "
             f"Instrs: {len(module.instructions)} | "
@@ -1307,41 +1145,25 @@ def disassemble(
 
     if module.constant_pool.size:
         for constant in module.constant_pool:
-            lines.append(
-                _format_constant(
-                    constant
-                )
-            )
+            lines.append(_format_constant(constant))
     else:
-        lines.append(
-            "  <none>"
-        )
+        lines.append("  <none>")
 
     lines.append("")
     lines.append("[MAIN]")
 
-    for index, instruction in enumerate(
-        module.instructions
-    ):
+    for index, instruction in enumerate(module.instructions):
         lines.append(
             _format_instruction(
                 index,
                 instruction,
-                source_map=(
-                    module.source_map
-                    if include_source_map
-                    else None
-                ),
+                source_map=(module.source_map if include_source_map else None),
             )
         )
 
-    for function_name, instructions in (
-        module.functions.items()
-    ):
+    for function_name, instructions in module.functions.items():
         lines.append("")
-        lines.append(
-            f"[FN: {function_name}]"
-        )
+        lines.append(f"[FN: {function_name}]")
 
         params = module.function_params.get(
             function_name,
@@ -1349,14 +1171,9 @@ def disassemble(
         )
 
         if params:
-            lines.append(
-                "  ; params: "
-                + ", ".join(params)
-            )
+            lines.append("  ; params: " + ", ".join(params))
 
-        for index, instruction in enumerate(
-            instructions
-        ):
+        for index, instruction in enumerate(instructions):
             lines.append(
                 _format_instruction(
                     index,
@@ -1372,37 +1189,23 @@ def _format_constant(
     constant: Constant,
 ) -> str:
     if constant.type is ConstantType.BYTES:
-        value = (
-            "0x"
-            + constant.value.hex()
-        )
+        value = "0x" + constant.value.hex()
     else:
-        value = repr(
-            constant.value
-        )
+        value = repr(constant.value)
 
-    return (
-        f"  [{constant.index:04d}] "
-        f"{constant.type.value:<7} "
-        f"{value}"
-    )
+    return f"  [{constant.index:04d}] {constant.type.value:<7} {value}"
 
 
 def _format_instruction(
     index: int,
     instruction: Instruction,
     *,
-    source_map: Optional[
-        List[Tuple[int, int, int]]
-    ] = None,
+    source_map: list[tuple[int, int, int]] | None = None,
 ) -> str:
     args = ""
 
     if instruction.args:
-        args = " ".join(
-            repr(argument)
-            for argument in instruction.args
-        )
+        args = " ".join(repr(argument) for argument in instruction.args)
 
     source = ""
 
@@ -1415,26 +1218,15 @@ def _format_instruction(
         if location is not None:
             _, line, column = location
 
-            source = (
-                f"  ; "
-                f"{line}:{column}"
-            )
+            source = f"  ; {line}:{column}"
 
-    return (
-        f"  {index:04d}  "
-        f"{instruction.opcode_name:<12} "
-        f"{args}{source}"
-    )
+    return f"  {index:04d}  {instruction.opcode_name:<12} {args}{source}"
 
 
 def _lookup_source_map(
-    source_map: List[
-        Tuple[int, int, int]
-    ],
+    source_map: list[tuple[int, int, int]],
     instruction: int,
-) -> Optional[
-    Tuple[int, int, int]
-]:
+) -> tuple[int, int, int] | None:
     result = None
 
     for entry in source_map:
@@ -1457,7 +1249,7 @@ def _lookup_source_map(
 def serialize_json(
     module: CompiledModule,
     *,
-    indent: Optional[int] = 2,
+    indent: int | None = 2,
 ) -> bytes:
     """
     Serialize module into UTF-8 JSON.
@@ -1467,16 +1259,14 @@ def serialize_json(
 
     module.validate()
 
-    return module.to_json(
-        indent=indent
-    ).encode("utf-8")
+    return module.to_json(indent=indent).encode("utf-8")
 
 
 def write_json(
     module: CompiledModule,
     path: str,
     *,
-    indent: Optional[int] = 2,
+    indent: int | None = 2,
 ) -> None:
     data = serialize_json(
         module,
@@ -1530,9 +1320,7 @@ def encode_container(
     )
 
     if len(payload) > 0xFFFFFFFF:
-        raise BytecodeFormatError(
-            "ATCB payload exceeds container length limit."
-        )
+        raise BytecodeFormatError("ATCB payload exceeds container length limit.")
 
     major, minor = module.bytecode_version
 
@@ -1555,7 +1343,7 @@ def encode_container(
 
 def decode_container(
     data: bytes,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Decode the outer ATCB container.
 
@@ -1566,23 +1354,17 @@ def decode_container(
     """
 
     if type(data) is not bytes:
-        raise BytecodeFormatError(
-            "ATCB container must be bytes."
-        )
+        raise BytecodeFormatError("ATCB container must be bytes.")
 
     minimum_size = 10
 
     if len(data) < minimum_size:
-        raise BytecodeFormatError(
-            "ATCB payload is too small."
-        )
+        raise BytecodeFormatError("ATCB payload is too small.")
 
     magic = data[:4]
 
     if magic != BYTECODE_MAGIC:
-        raise BytecodeFormatError(
-            f"Invalid ATCB magic: {magic!r}"
-        )
+        raise BytecodeFormatError(f"Invalid ATCB magic: {magic!r}")
 
     major = data[4]
     minor = data[5]
@@ -1591,10 +1373,7 @@ def decode_container(
         major,
         minor,
     ) != BYTECODE_VERSION:
-        raise BytecodeFormatError(
-            "Unsupported ATCB version: "
-            f"{major}.{minor}"
-        )
+        raise BytecodeFormatError(f"Unsupported ATCB version: {major}.{minor}")
 
     payload_length = struct.unpack(
         ">I",
@@ -1604,36 +1383,24 @@ def decode_container(
     payload = data[10:]
 
     if len(payload) != payload_length:
-        raise BytecodeFormatError(
-            "ATCB payload length mismatch."
-        )
+        raise BytecodeFormatError("ATCB payload length mismatch.")
 
     try:
-        decoded = json.loads(
-            payload.decode("utf-8")
-        )
+        decoded = json.loads(payload.decode("utf-8"))
     except (
         UnicodeDecodeError,
         json.JSONDecodeError,
     ) as exc:
-        raise BytecodeFormatError(
-            "Invalid ATCB JSON payload."
-        ) from exc
+        raise BytecodeFormatError("Invalid ATCB JSON payload.") from exc
 
     if not isinstance(
         decoded,
         dict,
     ):
-        raise BytecodeFormatError(
-            "ATCB root payload must be an object."
-        )
+        raise BytecodeFormatError("ATCB root payload must be an object.")
 
-    if decoded.get("magic") != BYTECODE_MAGIC.decode(
-        "ascii"
-    ):
-        raise BytecodeFormatError(
-            "ATCB metadata magic mismatch."
-        )
+    if decoded.get("magic") != BYTECODE_MAGIC.decode("ascii"):
+        raise BytecodeFormatError("ATCB metadata magic mismatch.")
 
     return decoded
 
@@ -1642,9 +1409,7 @@ def write_container(
     module: CompiledModule,
     path: str,
 ) -> None:
-    data = encode_container(
-        module
-    )
+    data = encode_container(module)
 
     with open(
         path,
@@ -1655,14 +1420,12 @@ def write_container(
 
 def read_container(
     path: str,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     with open(
         path,
         "rb",
     ) as handle:
-        return decode_container(
-            handle.read()
-        )
+        return decode_container(handle.read())
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1671,7 +1434,7 @@ def read_container(
 
 
 def add_constant(
-    constants: ConstantPool | List[Any],
+    constants: ConstantPool | list[Any],
     value: Any,
 ) -> int:
     """
@@ -1698,31 +1461,21 @@ def add_constant(
         constants,
         list,
     ):
-        raise BytecodeValidationError(
-            "constants must be a ConstantPool or list."
-        )
+        raise BytecodeValidationError("constants must be a ConstantPool or list.")
 
     if len(constants) >= MAX_CONSTANTS:
-        raise BytecodeValidationError(
-            "Maximum constant-pool size exceeded."
-        )
+        raise BytecodeValidationError("Maximum constant-pool size exceeded.")
 
-    constant_type = infer_constant_type(
-        value
-    )
+    constant_type = infer_constant_type(value)
 
     key = (
         constant_type,
         value,
     )
 
-    for index, existing in enumerate(
-        constants
-    ):
+    for index, existing in enumerate(constants):
         try:
-            existing_type = infer_constant_type(
-                existing
-            )
+            existing_type = infer_constant_type(existing)
 
             if (
                 existing_type,
@@ -1765,9 +1518,7 @@ def _json_safe(
 
     if type(value) is float:
         if not math.isfinite(value):
-            raise BytecodeFormatError(
-                "Non-finite float cannot be encoded as JSON."
-            )
+            raise BytecodeFormatError("Non-finite float cannot be encoded as JSON.")
 
         return value
 
@@ -1787,37 +1538,26 @@ def _json_safe(
         return {
             "index": value.index,
             "type": value.type.value,
-            "value": _json_safe(
-                value.value
-            ),
+            "value": _json_safe(value.value),
         }
 
     if isinstance(
         value,
         tuple,
     ):
-        return [
-            _json_safe(item)
-            for item in value
-        ]
+        return [_json_safe(item) for item in value]
 
     if isinstance(
         value,
         list,
     ):
-        return [
-            _json_safe(item)
-            for item in value
-        ]
+        return [_json_safe(item) for item in value]
 
     if isinstance(
         value,
         dict,
     ):
-        return {
-            str(key): _json_safe(item)
-            for key, item in value.items()
-        }
+        return {str(key): _json_safe(item) for key, item in value.items()}
 
     return {
         "__type__": "repr",
@@ -1837,7 +1577,6 @@ __all__ = [
     "BYTECODE_VERSION_MINOR",
     "BYTECODE_VERSION",
     "BYTECODE_MAGIC",
-
     # Limits
     "BytecodeLimits",
     "MAX_CONSTANTS",
@@ -1846,27 +1585,21 @@ __all__ = [
     "MAX_EXPORTS",
     "MAX_PARAMETERS",
     "MAX_MODULE_NAME_LENGTH",
-
     # Errors
     "BytecodeError",
     "BytecodeValidationError",
     "BytecodeFormatError",
-
     # Core structures
     "Instruction",
     "FunctionBytecode",
     "CompiledModule",
-
     # Source maps
     "SourceMapEntry",
     "SourceMap",
-
     # Builder
     "BytecodeBuilder",
-
     # Disassembly
     "disassemble",
-
     # Serialization
     "serialize_json",
     "write_json",
@@ -1874,7 +1607,6 @@ __all__ = [
     "decode_container",
     "write_container",
     "read_container",
-
     # Compatibility constant helper
     "add_constant",
 ]

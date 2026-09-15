@@ -60,18 +60,14 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import (
     Any,
-    Dict,
-    List,
-    Optional,
-    Tuple,
 )
 
-from atclang.vm.atcvm import Instruction, OP
-
+from atclang.vm.atcvm import OP, Instruction
 
 # ═════════════════════════════════════════════════════════════
 # DIAGNOSTICS
 # ═════════════════════════════════════════════════════════════
+
 
 @dataclass(slots=True)
 class CompilerDiagnostic:
@@ -110,6 +106,7 @@ class CompilerDiagnostic:
 # ═════════════════════════════════════════════════════════════
 # SYMBOL
 # ═════════════════════════════════════════════════════════════
+
 
 @dataclass(slots=True)
 class Symbol:
@@ -158,10 +155,10 @@ class SymbolTable:
 
     def __init__(
         self,
-        parent: Optional["SymbolTable"] = None,
+        parent: SymbolTable | None = None,
     ) -> None:
         self.parent = parent
-        self.symbols: Dict[str, Symbol] = {}
+        self.symbols: dict[str, Symbol] = {}
         self._next_index = 0
 
     # ──────────────────────────────────────────────────────
@@ -187,9 +184,7 @@ class SymbolTable:
         """
 
         if name in self.symbols:
-            raise ValueError(
-                f"Symbol bereits definiert: '{name}'"
-            )
+            raise ValueError(f"Symbol bereits definiert: '{name}'")
 
         symbol = Symbol(
             name=name,
@@ -213,14 +208,14 @@ class SymbolTable:
     def resolve_local(
         self,
         name: str,
-    ) -> Optional[Symbol]:
+    ) -> Symbol | None:
         """Nur aktuellen Scope durchsuchen."""
         return self.symbols.get(name)
 
     def resolve(
         self,
         name: str,
-    ) -> Optional[Symbol]:
+    ) -> Symbol | None:
         """
         Lexical Lookup.
 
@@ -247,7 +242,7 @@ class SymbolTable:
     # Scope
     # ──────────────────────────────────────────────────────
 
-    def child(self) -> "SymbolTable":
+    def child(self) -> SymbolTable:
         """Erzeugt einen verschachtelten Scope."""
         return SymbolTable(parent=self)
 
@@ -267,6 +262,7 @@ class SymbolTable:
 # CONTROL FLOW
 # ═════════════════════════════════════════════════════════════
 
+
 @dataclass(slots=True)
 class LoopContext:
     """
@@ -281,8 +277,8 @@ class LoopContext:
 
     start_ip: int
     continue_ip: int
-    break_jumps: List[int] = field(default_factory=list)
-    continue_jumps: List[int] = field(default_factory=list)
+    break_jumps: list[int] = field(default_factory=list)
+    continue_jumps: list[int] = field(default_factory=list)
 
 
 @dataclass(slots=True)
@@ -291,15 +287,13 @@ class FunctionContext:
 
     name: str
     start_ip: int = 0
-    params: List[str] = field(default_factory=list)
+    params: list[str] = field(default_factory=list)
 
     # eigener Instruction Stream
-    instructions: List[Instruction] = field(default_factory=list)
+    instructions: list[Instruction] = field(default_factory=list)
 
     # eigener Source Map
-    source_map: List[Tuple[int, int, int]] = field(
-        default_factory=list
-    )
+    source_map: list[tuple[int, int, int]] = field(default_factory=list)
 
 
 @dataclass(slots=True)
@@ -307,18 +301,15 @@ class ContractContext:
     """Compilation-Kontext eines Contracts."""
 
     name: str
-    state_fields: Dict[str, Symbol] = field(
-        default_factory=dict
-    )
+    state_fields: dict[str, Symbol] = field(default_factory=dict)
 
-    functions: List[str] = field(
-        default_factory=list
-    )
+    functions: list[str] = field(default_factory=list)
 
 
 # ═════════════════════════════════════════════════════════════
 # COMPILATION CONTEXT
 # ═════════════════════════════════════════════════════════════
+
 
 class CompilationContext:
     """
@@ -356,34 +347,26 @@ class CompilationContext:
         # Bytecode
         # ────────────────────────────────────────────────
 
-        self.instructions: List[Instruction] = []
+        self.instructions: list[Instruction] = []
 
         # Constant Pool
-        self.constants: List[Any] = []
+        self.constants: list[Any] = []
 
         # ────────────────────────────────────────────────
         # Functions
         # ────────────────────────────────────────────────
 
-        self.functions: Dict[
-            str,
-            List[Instruction]
-        ] = {}
+        self.functions: dict[str, list[Instruction]] = {}
 
-        self.function_params: Dict[
-            str,
-            List[str]
-        ] = {}
+        self.function_params: dict[str, list[str]] = {}
 
         # ────────────────────────────────────────────────
         # Module metadata
         # ────────────────────────────────────────────────
 
-        self.exports: List[str] = []
+        self.exports: list[str] = []
 
-        self.source_map: List[
-            Tuple[int, int, int]
-        ] = []
+        self.source_map: list[tuple[int, int, int]] = []
 
         # ────────────────────────────────────────────────
         # Symbol scopes
@@ -396,15 +379,15 @@ class CompilationContext:
         # Control Flow
         # ────────────────────────────────────────────────
 
-        self.loop_stack: List[LoopContext] = []
+        self.loop_stack: list[LoopContext] = []
 
         # ────────────────────────────────────────────────
         # Function / Contract
         # ────────────────────────────────────────────────
 
-        self.function_stack: List[FunctionContext] = []
+        self.function_stack: list[FunctionContext] = []
 
-        self.contract_stack: List[ContractContext] = []
+        self.contract_stack: list[ContractContext] = []
 
         # ────────────────────────────────────────────────
         # Labels
@@ -422,9 +405,7 @@ class CompilationContext:
         # Diagnostics
         # ────────────────────────────────────────────────
 
-        self.diagnostics: List[
-            CompilerDiagnostic
-        ] = []
+        self.diagnostics: list[CompilerDiagnostic] = []
 
     # ═════════════════════════════════════════════════════
     # INSTRUCTIONS
@@ -453,9 +434,7 @@ class CompilationContext:
 
         self.instructions.append(instruction)
 
-        self.source_map.append(
-            (index, line, col)
-        )
+        self.source_map.append((index, line, col))
 
         return index
 
@@ -471,9 +450,7 @@ class CompilationContext:
         """Patcht Instruction-Argumente."""
 
         if index < 0 or index >= len(self.instructions):
-            raise IndexError(
-                f"Invalid instruction index: {index}"
-            )
+            raise IndexError(f"Invalid instruction index: {index}")
 
         self.instructions[index].args = list(args)
 
@@ -491,9 +468,7 @@ class CompilationContext:
         Identische Werte werden dedupliziert.
         """
 
-        for index, existing in enumerate(
-            self.constants
-        ):
+        for index, existing in enumerate(self.constants):
             try:
                 if existing == value:
                     return index
@@ -538,7 +513,7 @@ class CompilationContext:
     def resolve_symbol(
         self,
         name: str,
-    ) -> Optional[Symbol]:
+    ) -> Symbol | None:
 
         return self.scope.resolve(name)
 
@@ -550,9 +525,7 @@ class CompilationContext:
         symbol = self.resolve_symbol(name)
 
         if symbol is None:
-            raise KeyError(
-                f"Undefined symbol: '{name}'"
-            )
+            raise KeyError(f"Undefined symbol: '{name}'")
 
         return symbol
 
@@ -575,9 +548,7 @@ class CompilationContext:
         """
 
         if self.scope.parent is None:
-            raise RuntimeError(
-                "Cannot pop global scope"
-            )
+            raise RuntimeError("Cannot pop global scope")
 
         old_scope = self.scope
         self.scope = self.scope.parent
@@ -591,7 +562,7 @@ class CompilationContext:
     def push_loop(
         self,
         start_ip: int,
-        continue_ip: Optional[int] = None,
+        continue_ip: int | None = None,
     ) -> LoopContext:
 
         if continue_ip is None:
@@ -608,16 +579,14 @@ class CompilationContext:
 
     def pop_loop(self) -> LoopContext:
         if not self.loop_stack:
-            raise RuntimeError(
-                "No active loop"
-            )
+            raise RuntimeError("No active loop")
 
         return self.loop_stack.pop()
 
     @property
     def current_loop(
         self,
-    ) -> Optional[LoopContext]:
+    ) -> LoopContext | None:
 
         if not self.loop_stack:
             return None
@@ -632,13 +601,9 @@ class CompilationContext:
         loop = self.current_loop
 
         if loop is None:
-            raise RuntimeError(
-                "'break' outside loop"
-            )
+            raise RuntimeError("'break' outside loop")
 
-        loop.break_jumps.append(
-            instruction_index
-        )
+        loop.break_jumps.append(instruction_index)
 
     def add_continue_jump(
         self,
@@ -648,13 +613,9 @@ class CompilationContext:
         loop = self.current_loop
 
         if loop is None:
-            raise RuntimeError(
-                "'continue' outside loop"
-            )
+            raise RuntimeError("'continue' outside loop")
 
-        loop.continue_jumps.append(
-            instruction_index
-        )
+        loop.continue_jumps.append(instruction_index)
 
     # ═════════════════════════════════════════════════════
     # FUNCTION MANAGEMENT
@@ -663,7 +624,7 @@ class CompilationContext:
     def enter_function(
         self,
         name: str,
-        params: Optional[List[str]] = None,
+        params: list[str] | None = None,
     ) -> FunctionContext:
 
         function = FunctionContext(
@@ -681,16 +642,14 @@ class CompilationContext:
     ) -> FunctionContext:
 
         if not self.function_stack:
-            raise RuntimeError(
-                "No active function"
-            )
+            raise RuntimeError("No active function")
 
         return self.function_stack.pop()
 
     @property
     def current_function(
         self,
-    ) -> Optional[FunctionContext]:
+    ) -> FunctionContext | None:
 
         if not self.function_stack:
             return None
@@ -706,13 +665,9 @@ class CompilationContext:
         name: str,
     ) -> ContractContext:
 
-        contract = ContractContext(
-            name=name
-        )
+        contract = ContractContext(name=name)
 
-        self.contract_stack.append(
-            contract
-        )
+        self.contract_stack.append(contract)
 
         return contract
 
@@ -721,16 +676,14 @@ class CompilationContext:
     ) -> ContractContext:
 
         if not self.contract_stack:
-            raise RuntimeError(
-                "No active contract"
-            )
+            raise RuntimeError("No active contract")
 
         return self.contract_stack.pop()
 
     @property
     def current_contract(
         self,
-    ) -> Optional[ContractContext]:
+    ) -> ContractContext | None:
 
         if not self.contract_stack:
             return None
@@ -792,9 +745,7 @@ class CompilationContext:
             code=code,
         )
 
-        self.diagnostics.append(
-            diagnostic
-        )
+        self.diagnostics.append(diagnostic)
 
     def warning(
         self,
@@ -813,22 +764,14 @@ class CompilationContext:
             code=code,
         )
 
-        self.diagnostics.append(
-            diagnostic
-        )
+        self.diagnostics.append(diagnostic)
 
     @property
     def has_errors(self) -> bool:
-        return any(
-            d.severity == "error"
-            for d in self.diagnostics
-        )
+        return any(d.severity == "error" for d in self.diagnostics)
 
     def diagnostics_text(self) -> str:
-        return "\n".join(
-            diagnostic.format()
-            for diagnostic in self.diagnostics
-        )
+        return "\n".join(diagnostic.format() for diagnostic in self.diagnostics)
 
     # ═════════════════════════════════════════════════════
     # STATE RESET
@@ -865,7 +808,7 @@ class CompilationContext:
     # SNAPSHOT
     # ═════════════════════════════════════════════════════
 
-    def snapshot(self) -> Dict[str, Any]:
+    def snapshot(self) -> dict[str, Any]:
         """
         Lightweight Compiler-State Snapshot.
 
@@ -874,41 +817,25 @@ class CompilationContext:
 
         return {
             "module": self.module_name,
-            "instruction_count": len(
-                self.instructions
-            ),
-            "constant_count": len(
-                self.constants
-            ),
-            "function_count": len(
-                self.functions
-            ),
-            "export_count": len(
-                self.exports
-            ),
+            "instruction_count": len(self.instructions),
+            "constant_count": len(self.constants),
+            "function_count": len(self.functions),
+            "export_count": len(self.exports),
             "scope_depth": self.scope.depth(),
-            "loop_depth": len(
-                self.loop_stack
-            ),
-            "function_depth": len(
-                self.function_stack
-            ),
-            "contract_depth": len(
-                self.contract_stack
-            ),
-            "diagnostic_count": len(
-                self.diagnostics
-            ),
+            "loop_depth": len(self.loop_stack),
+            "function_depth": len(self.function_stack),
+            "contract_depth": len(self.contract_stack),
+            "diagnostic_count": len(self.diagnostics),
             "has_errors": self.has_errors,
         }
 
 
 __all__ = [
+    "CompilationContext",
     "CompilerDiagnostic",
+    "ContractContext",
+    "FunctionContext",
+    "LoopContext",
     "Symbol",
     "SymbolTable",
-    "LoopContext",
-    "FunctionContext",
-    "ContractContext",
-    "CompilationContext",
 ]

@@ -6,119 +6,133 @@ Version: 0.1.0-alpha
 """
 
 from dataclasses import dataclass, field
-from typing import List, Optional, Any
+from typing import Any
 
 
 # ── Basis-Knoten ─────────────────────────────────────────
 class ASTNode:
     line: int = 0
-    col:  int = 0
+    col: int = 0
 
 
 # ── Ausdrücke (Expressions) ──────────────────────────────
 @dataclass
 class IntLiteral(ASTNode):
     value: int
-    line:  int = 0
-    col:   int = 0
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class FloatLiteral(ASTNode):
     value: float
-    line:  int = 0
-    col:   int = 0
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class StringLiteral(ASTNode):
     value: str
-    line:  int = 0
-    col:   int = 0
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class BoolLiteral(ASTNode):
     value: bool
-    line:  int = 0
-    col:   int = 0
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class ListLiteral(ASTNode):
-    elements: List[ASTNode] = field(default_factory=list)
-    line:     int = 0
-    col:      int = 0
+    elements: list[ASTNode] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class MapLiteral(ASTNode):
-    pairs:    List[tuple] = field(default_factory=list)
-    line:     int = 0
-    col:      int = 0
+    pairs: list[tuple] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class NullLiteral(ASTNode):
-    line:  int = 0
-    col:   int = 0
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class Identifier(ASTNode):
     name: str
     line: int = 0
-    col:  int = 0
+    col: int = 0
+
 
 @dataclass
 class BinaryOp(ASTNode):
-    left:  Any
-    op:    str
+    left: Any
+    op: str
     right: Any
-    line:  int = 0
-    col:   int = 0
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class UnaryOp(ASTNode):
-    op:      str
+    op: str
     operand: Any
-    line:    int = 0
-    col:     int = 0
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class Assignment(ASTNode):
     target: Any
-    value:  Any
-    line:   int = 0
-    col:    int = 0
+    value: Any
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class IndexAccess(ASTNode):
     target: Any
-    index:  Any
-    line:   int = 0
-    col:    int = 0
+    index: Any
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class DotAccess(ASTNode):
     target: Any
     field_name: str
-    line:   int = 0
-    col:    int = 0
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class NamespaceAccess(ASTNode):
-    parts: List[str]
-    line:  int = 0
-    col:   int = 0
+    parts: list[str]
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class FunctionCall(ASTNode):
     target: Any
-    args:   List[Any] = field(default_factory=list)
-    line:   int = 0
-    col:    int = 0
+    args: list[Any] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class TypeAnnotation(ASTNode):
-    name:   str
-    params: List[Any] = field(default_factory=list)
-    line:   int = 0
-    col:    int = 0
-
+    name: str
+    params: list[Any] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
 
 
 @dataclass
@@ -132,158 +146,178 @@ class StructLiteral(ASTNode):
 # ── Statements ───────────────────────────────────────────
 @dataclass
 class LetStatement(ASTNode):
-    name:      str
+    name: str
     type_hint: Any
-    value:     Any
-    is_const:  bool = False
-    line:      int = 0
-    col:       int = 0
+    value: Any
+    is_const: bool = False
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class ReturnStatement(ASTNode):
     value: Any = None
-    line:  int = 0
-    col:   int = 0
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class EmitStatement(ASTNode):
     event: str
-    args:  List[Any] = field(default_factory=list)
-    line:  int = 0
-    col:   int = 0
+    args: list[Any] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class RequireStatement(ASTNode):
     condition: Any
-    message:   Any = None
-    line:      int = 0
-    col:       int = 0
+    message: Any = None
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class IfStatement(ASTNode):
-    condition:   Any
-    then_block:  List[Any]
-    elif_blocks: List[Any] = field(default_factory=list)
-    else_block:  Any = None
-    line:        int = 0
-    col:         int = 0
+    condition: Any
+    then_block: list[Any]
+    elif_blocks: list[Any] = field(default_factory=list)
+    else_block: Any = None
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class ForStatement(ASTNode):
-    var:      str
+    var: str
     iterable: Any
-    body:     List[Any] = field(default_factory=list)
-    line:     int = 0
-    col:      int = 0
+    body: list[Any] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class WhileStatement(ASTNode):
     condition: Any
-    body:      List[Any] = field(default_factory=list)
-    line:      int = 0
-    col:       int = 0
+    body: list[Any] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class BreakStatement(ASTNode):
     line: int = 0
-    col:  int = 0
+    col: int = 0
+
 
 @dataclass
 class ContinueStatement(ASTNode):
     line: int = 0
-    col:  int = 0
+    col: int = 0
+
 
 @dataclass
 class ExprStatement(ASTNode):
     expr: Any
     line: int = 0
-    col:  int = 0
+    col: int = 0
 
 
 # ── Top-Level Definitionen ───────────────────────────────
 @dataclass
 class Parameter(ASTNode):
-    name:      str
+    name: str
     type_hint: Any
-    line:      int = 0
-    col:       int = 0
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class FunctionDef(ASTNode):
-    name:        str
-    params:      List[Any]
+    name: str
+    params: list[Any]
     return_type: Any
-    body:        List[Any]
-    is_pub:      bool = False
-    decorators:  List[str] = field(default_factory=list)
-    line:        int = 0
-    col:         int = 0
+    body: list[Any]
+    is_pub: bool = False
+    decorators: list[str] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class StateField(ASTNode):
-    name:      str
+    name: str
     type_hint: Any
-    value:     Any = None
-    line:      int = 0
-    col:       int = 0
+    value: Any = None
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class EventDef(ASTNode):
-    name:   str
-    params: List[Any] = field(default_factory=list)
-    line:   int = 0
-    col:    int = 0
+    name: str
+    params: list[Any] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class ErrorDef(ASTNode):
     name: str
     line: int = 0
-    col:  int = 0
+    col: int = 0
+
 
 @dataclass
 class ContractDef(ASTNode):
-    name:      str
-    standards: List[str]
-    states:    List[Any]
-    events:    List[Any]
-    errors:    List[Any]
-    functions: List[Any]
-    line:      int = 0
-    col:       int = 0
+    name: str
+    standards: list[str]
+    states: list[Any]
+    events: list[Any]
+    errors: list[Any]
+    functions: list[Any]
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class WalletDef(ASTNode):
-    name:  str
+    name: str
     value: Any
-    line:  int = 0
-    col:   int = 0
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class ImportStatement(ASTNode):
-    path:  List[str]
+    path: list[str]
     alias: Any = None
-    line:  int = 0
-    col:   int = 0
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class StructDef(ASTNode):
-    name:   str
-    fields: List[Any] = field(default_factory=list)
-    line:   int = 0
-    col:    int = 0
+    name: str
+    fields: list[Any] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class EnumDef(ASTNode):
-    name:     str
-    variants: List[str] = field(default_factory=list)
-    line:     int = 0
-    col:      int = 0
+    name: str
+    variants: list[str] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class Program(ASTNode):
-    statements: List[Any] = field(default_factory=list)
-    line:       int = 0
-    col:        int = 0
+    statements: list[Any] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
+
 
 class MatchStatement(ASTNode):
     def __init__(self, subject, arms, line=0, col=0):
@@ -298,16 +332,20 @@ class MatchStatement(ASTNode):
     def children(self):
         return [self.subject] + [stmt for _, body in self.arms for stmt in body]
 
+
 class SliceExpr(ASTNode):
     def __init__(self, start, end, line=0, col=0):
         self.start = start
         self.end = end
         self.line = line
         self.col = col
+
     def __repr__(self):
-        return f'SliceExpr({self.start}:{self.end})'
+        return f"SliceExpr({self.start}:{self.end})"
+
     def children(self):
         return [x for x in [self.start, self.end] if x is not None]
+
 
 class RangeExpr(ASTNode):
     def __init__(self, start, end, step=None, line=0, col=0):
@@ -316,21 +354,27 @@ class RangeExpr(ASTNode):
         self.step = step
         self.line = line
         self.col = col
+
     def __repr__(self):
-        return f'RangeExpr({self.start}..{self.end})'
+        return f"RangeExpr({self.start}..{self.end})"
+
     def children(self):
         return [self.start, self.end] + ([self.step] if self.step else [])
+
 
 class LambdaExpr(ASTNode):
     def __init__(self, params, body, line=0, col=0):
         self.params = params  # List[str]
-        self.body = body      # ASTNode (Ausdruck)
+        self.body = body  # ASTNode (Ausdruck)
         self.line = line
         self.col = col
+
     def __repr__(self):
-        return f'LambdaExpr({self.params})'
+        return f"LambdaExpr({self.params})"
+
     def children(self):
         return [self.body]
+
 
 class CastExpr(ASTNode):
     def __init__(self, expr, target_type, line=0, col=0):
@@ -338,10 +382,13 @@ class CastExpr(ASTNode):
         self.target_type = target_type
         self.line = line
         self.col = col
+
     def __repr__(self):
-        return f'CastExpr(-> {self.target_type})'
+        return f"CastExpr(-> {self.target_type})"
+
     def children(self):
         return [self.expr]
+
 
 class TernaryExpr(ASTNode):
     def __init__(self, cond, then_expr, else_expr, line=0, col=0):
@@ -350,43 +397,54 @@ class TernaryExpr(ASTNode):
         self.else_expr = else_expr
         self.line = line
         self.col = col
+
     def __repr__(self):
-        return 'TernaryExpr()'
+        return "TernaryExpr()"
+
     def children(self):
         return [self.cond, self.then_expr, self.else_expr]
+
 
 class TupleExpr(ASTNode):
     def __init__(self, elements, line=0, col=0):
         self.elements = elements
         self.line = line
         self.col = col
+
     def __repr__(self):
-        return f'TupleExpr({len(self.elements)})'
+        return f"TupleExpr({len(self.elements)})"
+
     def children(self):
         return self.elements
+
 
 @dataclass
 class ClassDef(ASTNode):
     """class X implements Y { ... } — wird wie ContractDef behandelt."""
-    name:      str
+
+    name: str
     implements: str = ""
-    fields:    List[Any] = field(default_factory=list)
-    functions: List[Any] = field(default_factory=list)
-    line:      int = 0
-    col:       int = 0
+    fields: list[Any] = field(default_factory=list)
+    functions: list[Any] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class StorageBlock(ASTNode):
     """storage { field: Type, ... } — Storage-Deklaration."""
-    fields: List[Any] = field(default_factory=list)
-    line:   int = 0
-    col:    int = 0
+
+    fields: list[Any] = field(default_factory=list)
+    line: int = 0
+    col: int = 0
+
 
 @dataclass
 class TypeAliasDef(ASTNode):
     """type Set<T> = Any — Type-Alias."""
-    name:       str
-    type_params: List[str] = field(default_factory=list)
-    target:     Any = None
-    line:       int = 0
-    col:        int = 0
+
+    name: str
+    type_params: list[str] = field(default_factory=list)
+    target: Any = None
+    line: int = 0
+    col: int = 0

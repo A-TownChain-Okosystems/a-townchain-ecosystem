@@ -15,11 +15,12 @@ API:
     TypeChecker().check(ast)           -> None | raise CompileError (strict)
     analyze_source(source)             -> List[SemanticDiagnostic]
 """
+
 from __future__ import annotations
 
 import dataclasses as _dc
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from atclang.compiler.errors import (
     BreakOutsideLoopError,
@@ -54,7 +55,6 @@ from atclang.frontend.parser.ast_nodes import (
     ListLiteral,
     MapLiteral,
     NullLiteral,
-    Program,
     ReturnStatement,
     StringLiteral,
     StructDef,
@@ -69,20 +69,20 @@ NUMERIC = ("int", "float")
 KNOWN_PRIMS = ("int", "float", "string", "bool", "list", "map", T_VOID)
 
 # Built-in-Signaturen (specs/language/SPEC.md 5.3, 13 Funktionen)
-BUILTIN_SIGNATURES: Dict[str, Dict[str, Any]] = {
-    "print":  {"params": ["any"],         "result": T_VOID},
-    "len":    {"params": ["any"],         "result": "int"},
-    "range":  {"params": ["int"],         "result": "list"},
-    "sha256": {"params": ["any"],         "result": "string"},
-    "int":    {"params": ["any"],         "result": "int"},
-    "float":  {"params": ["any"],         "result": "float"},
-    "str":    {"params": ["any"],         "result": "string"},
-    "bool":   {"params": ["any"],         "result": "bool"},
-    "abs":    {"params": ["int"],         "result": "int"},
-    "min":    {"params": ["int", "int"],  "result": "int"},
-    "max":    {"params": ["int", "int"],  "result": "int"},
-    "push":   {"params": ["list", "any"], "result": T_VOID},
-    "pop":    {"params": ["list"],        "result": "any"},
+BUILTIN_SIGNATURES: dict[str, dict[str, Any]] = {
+    "print": {"params": ["any"], "result": T_VOID},
+    "len": {"params": ["any"], "result": "int"},
+    "range": {"params": ["int"], "result": "list"},
+    "sha256": {"params": ["any"], "result": "string"},
+    "int": {"params": ["any"], "result": "int"},
+    "float": {"params": ["any"], "result": "float"},
+    "str": {"params": ["any"], "result": "string"},
+    "bool": {"params": ["any"], "result": "bool"},
+    "abs": {"params": ["int"], "result": "int"},
+    "min": {"params": ["int", "int"], "result": "int"},
+    "max": {"params": ["int", "int"], "result": "int"},
+    "push": {"params": ["list", "any"], "result": T_VOID},
+    "pop": {"params": ["list"], "result": "any"},
 }
 
 _ERROR_CLASSES = {
@@ -100,6 +100,7 @@ _ERROR_CLASSES = {
 @dataclass
 class SemanticDiagnostic:
     """Eine semantische Verletzung (Regel-ID gemaess specs/semantics/SPEC.md)."""
+
     rule: str
     error_class: str
     message: str
@@ -109,18 +110,23 @@ class SemanticDiagnostic:
     actual: str = ""
 
     def __str__(self) -> str:
-        return "[%s] %s (Zeile %s): %s" % (self.rule, self.error_class, self.line, self.message)
+        return "[%s] %s (Zeile %s): %s" % (
+            self.rule,
+            self.error_class,
+            self.line,
+            self.message,
+        )
 
 
 class TypeChecker:
     """G2 — unabhaengige semantische Analyse (AST rein, Diagnosen raus)."""
 
     def __init__(self) -> None:
-        self.diagnostics: List[SemanticDiagnostic] = []
-        self._scopes: List[Dict[str, str]] = [{}]
-        self._functions: Dict[str, Dict[str, Any]] = {}
+        self.diagnostics: list[SemanticDiagnostic] = []
+        self._scopes: list[dict[str, str]] = [{}]
+        self._functions: dict[str, dict[str, Any]] = {}
         self._loop_depth = 0
-        self._fn_returns: List[str] = []
+        self._fn_returns: list[str] = []
 
     # Scope-API
     def _define(self, name, typ, rule, err, node):
@@ -143,18 +149,27 @@ class TypeChecker:
         self._scopes.pop()
 
     def _diag(self, rule, err, msg, node, expected="", actual=""):
-        self.diagnostics.append(SemanticDiagnostic(
-            rule, err, msg, getattr(node, "line", 0), getattr(node, "col", 0),
-            expected, actual))
+        self.diagnostics.append(
+            SemanticDiagnostic(
+                rule,
+                err,
+                msg,
+                getattr(node, "line", 0),
+                getattr(node, "col", 0),
+                expected,
+                actual,
+            )
+        )
 
     # API
     def check_and_report(self, program):
         self._check_program(program)
         return self.diagnostics
 
-    def analyze_source(self, source: str) -> List[SemanticDiagnostic]:
+    def analyze_source(self, source: str) -> list[SemanticDiagnostic]:
         """Komfort-Entry: Quelle direkt analysieren (parse + check_and_report)."""
         from atclang.frontend.parser.parser import parse
+
         return self.check_and_report(parse(source))
 
     def check(self, program):
@@ -187,16 +202,26 @@ class TypeChecker:
             "params": list(fn.params),
             "ret": self._type_name(fn.return_type),
         }
-        self._define(fn.name, self._type_name(fn.return_type) or T_ANY,
-                     "SEM-001", "DuplicateSymbolError", fn)
+        self._define(
+            fn.name,
+            self._type_name(fn.return_type) or T_ANY,
+            "SEM-001",
+            "DuplicateSymbolError",
+            fn,
+        )
 
     # Anweisungen
     def _check_stmt(self, node):
         if isinstance(node, FunctionDef):
             self._push()
             for p in node.params:
-                self._define(p.name, self._type_name(p.type_hint),
-                             "SEM-010", "DuplicateParameterError", p)
+                self._define(
+                    p.name,
+                    self._type_name(p.type_hint),
+                    "SEM-010",
+                    "DuplicateParameterError",
+                    p,
+                )
             ret = self._type_name(node.return_type) or T_VOID
             self._fn_returns.append(ret)
             for st in node.body:
@@ -207,41 +232,81 @@ class TypeChecker:
         elif isinstance(node, LetStatement):
             vtyp = self._check_expr(node.value) if node.value is not None else T_ANY
             hint = self._type_name(node.type_hint)
-            if (hint in KNOWN_PRIMS and hint != T_VOID
-                    and vtyp in KNOWN_PRIMS and vtyp != T_VOID):
+            if hint in KNOWN_PRIMS and hint != T_VOID and vtyp in KNOWN_PRIMS and vtyp != T_VOID:
                 if not self._assignable(hint, vtyp):
-                    self._diag("SEM-006", "TypeMismatchError",
-                               "let '%s' als '%s', Initialisierung ist '%s'" % (node.name, hint, vtyp), node,
-                               expected=hint, actual=vtyp)
-            self._define(node.name, hint or vtyp or T_ANY, "SEM-001", "DuplicateSymbolError", node)
+                    self._diag(
+                        "SEM-006",
+                        "TypeMismatchError",
+                        "let '%s' als '%s', Initialisierung ist '%s'" % (node.name, hint, vtyp),
+                        node,
+                        expected=hint,
+                        actual=vtyp,
+                    )
+            self._define(
+                node.name,
+                hint or vtyp or T_ANY,
+                "SEM-001",
+                "DuplicateSymbolError",
+                node,
+            )
 
         elif isinstance(node, ReturnStatement):
             if not self._fn_returns:
-                self._diag("SEM-005", "InvalidReturnError", "return ausserhalb einer Funktion", node)
+                self._diag(
+                    "SEM-005",
+                    "InvalidReturnError",
+                    "return ausserhalb einer Funktion",
+                    node,
+                )
             else:
                 ret = self._fn_returns[-1]
                 vtyp = self._check_expr(node.value) if node.value is not None else T_VOID
                 if ret in KNOWN_PRIMS and vtyp in KNOWN_PRIMS:
                     if ret == T_VOID and vtyp != T_VOID:
-                        self._diag("SEM-007", "TypeMismatchError",
-                                   "Funktion ohne Rueckgabetyp, aber return mit Wert", node,
-                                   expected=T_VOID, actual=vtyp)
+                        self._diag(
+                            "SEM-007",
+                            "TypeMismatchError",
+                            "Funktion ohne Rueckgabetyp, aber return mit Wert",
+                            node,
+                            expected=T_VOID,
+                            actual=vtyp,
+                        )
                     elif ret != T_VOID and vtyp == T_VOID:
-                        self._diag("SEM-007", "TypeMismatchError",
-                                   "Funktion erwartet '%s', return ohne Wert" % ret, node,
-                                   expected=ret, actual=T_VOID)
+                        self._diag(
+                            "SEM-007",
+                            "TypeMismatchError",
+                            "Funktion erwartet '%s', return ohne Wert" % ret,
+                            node,
+                            expected=ret,
+                            actual=T_VOID,
+                        )
                     elif not self._assignable(ret, vtyp):
-                        self._diag("SEM-007", "TypeMismatchError",
-                                   "Rueckgabetyp '%s', Wert ist '%s'" % (ret, vtyp), node,
-                                   expected=ret, actual=vtyp)
+                        self._diag(
+                            "SEM-007",
+                            "TypeMismatchError",
+                            "Rueckgabetyp '%s', Wert ist '%s'" % (ret, vtyp),
+                            node,
+                            expected=ret,
+                            actual=vtyp,
+                        )
 
         elif isinstance(node, BreakStatement):
             if self._loop_depth == 0:
-                self._diag("SEM-003", "BreakOutsideLoopError", "break ausserhalb einer Loop", node)
+                self._diag(
+                    "SEM-003",
+                    "BreakOutsideLoopError",
+                    "break ausserhalb einer Loop",
+                    node,
+                )
 
         elif isinstance(node, ContinueStatement):
             if self._loop_depth == 0:
-                self._diag("SEM-004", "ContinueOutsideLoopError", "continue ausserhalb einer Loop", node)
+                self._diag(
+                    "SEM-004",
+                    "ContinueOutsideLoopError",
+                    "continue ausserhalb einer Loop",
+                    node,
+                )
 
         elif isinstance(node, WhileStatement):
             self._cond_check(node.condition, node)
@@ -265,21 +330,26 @@ class TypeChecker:
         elif isinstance(node, IfStatement):
             self._cond_check(node.condition, node)
             self._push()
-            for st in (node.then_block or []):
+            for st in node.then_block or []:
                 self._check_stmt(st)
             self._pop()
-            for block in (getattr(node, "elif_blocks", None) or []):
+            for block in getattr(node, "elif_blocks", None) or []:
                 self._walk_maybe_block(block)
             if getattr(node, "else_block", None):
                 self._walk_maybe_block(node.else_block)
 
         elif isinstance(node, ContractDef):
             self._push()
-            for s in (node.states or []):
+            for s in node.states or []:
                 name = getattr(s, "name", None)
                 if name:
-                    self._define(name, self._type_name(getattr(s, "type_hint", None)),
-                                 "SEM-001", "DuplicateSymbolError", s)
+                    self._define(
+                        name,
+                        self._type_name(getattr(s, "type_hint", None)),
+                        "SEM-001",
+                        "DuplicateSymbolError",
+                        s,
+                    )
                 init = getattr(s, "value", None)
                 if init is not None:
                     self._check_expr(init)
@@ -291,8 +361,12 @@ class TypeChecker:
             seen = set()
             for f in fns:
                 if f.name in seen:
-                    self._diag("SEM-001", "DuplicateSymbolError",
-                               "Doppelte Funktion '%s' im Contract" % f.name, f)
+                    self._diag(
+                        "SEM-001",
+                        "DuplicateSymbolError",
+                        "Doppelte Funktion '%s' im Contract" % f.name,
+                        f,
+                    )
                 seen.add(f.name)
             for f in fns:
                 self._check_stmt(f)
@@ -352,15 +426,23 @@ class TypeChecker:
             return "null"
         if isinstance(node, (ListLiteral, MapLiteral, StructLiteral)):
             self._walk_generic(node)
-            return "list" if isinstance(node, ListLiteral) else ("map" if isinstance(node, MapLiteral) else T_ANY)
+            return (
+                "list"
+                if isinstance(node, ListLiteral)
+                else ("map" if isinstance(node, MapLiteral) else T_ANY)
+            )
 
         if isinstance(node, Identifier):
             found = self._lookup(node.name)
             if found is None:
                 if node.name in self._functions:
                     return self._functions[node.name]["ret"] or T_ANY
-                self._diag("SEM-002", "UndefinedSymbolError",
-                           "Unbekanntes Symbol '%s'" % node.name, node)
+                self._diag(
+                    "SEM-002",
+                    "UndefinedSymbolError",
+                    "Unbekanntes Symbol '%s'" % node.name,
+                    node,
+                )
                 return T_ANY
             return found or T_ANY
 
@@ -369,10 +451,23 @@ class TypeChecker:
             rt = self._check_expr(node.right)
             op = node.op
             if op in ("==", "!=", "<", ">", "<=", ">="):
-                if (lt in KNOWN_PRIMS and rt in KNOWN_PRIMS and lt != T_VOID and rt != T_VOID
-                        and lt != rt and not self._assignable(lt, rt) and not self._assignable(rt, lt)):
-                    self._diag("SEM-011", "TypeMismatchError",
-                               "Vergleich '%s' mit '%s'" % (lt, rt), node, expected=lt, actual=rt)
+                if (
+                    lt in KNOWN_PRIMS
+                    and rt in KNOWN_PRIMS
+                    and lt != T_VOID
+                    and rt != T_VOID
+                    and lt != rt
+                    and not self._assignable(lt, rt)
+                    and not self._assignable(rt, lt)
+                ):
+                    self._diag(
+                        "SEM-011",
+                        "TypeMismatchError",
+                        "Vergleich '%s' mit '%s'" % (lt, rt),
+                        node,
+                        expected=lt,
+                        actual=rt,
+                    )
                 return "bool"
             if op in ("and", "or"):
                 return "bool"
@@ -383,20 +478,37 @@ class TypeChecker:
                     return "list"
                 if lt in NUMERIC and rt in NUMERIC:
                     return "float" if "float" in (lt, rt) else "int"
-                if (lt in KNOWN_PRIMS and rt in KNOWN_PRIMS and lt != T_VOID and rt != T_VOID
-                        and not (lt == "string" and rt == "string")
-                        and not (lt == "list" and rt == "list")
-                        and not (lt in NUMERIC and rt in NUMERIC)):
-                    self._diag("SEM-011", "TypeMismatchError",
-                               "'+' zwischen '%s' und '%s'" % (lt, rt), node, expected=lt, actual=rt)
+                if (
+                    lt in KNOWN_PRIMS
+                    and rt in KNOWN_PRIMS
+                    and lt != T_VOID
+                    and rt != T_VOID
+                    and not (lt == "string" and rt == "string")
+                    and not (lt == "list" and rt == "list")
+                    and not (lt in NUMERIC and rt in NUMERIC)
+                ):
+                    self._diag(
+                        "SEM-011",
+                        "TypeMismatchError",
+                        "'+' zwischen '%s' und '%s'" % (lt, rt),
+                        node,
+                        expected=lt,
+                        actual=rt,
+                    )
                 return T_ANY
             if op in ("-", "*", "/", "%"):
                 if lt in NUMERIC and rt in NUMERIC:
                     return "float" if "float" in (lt, rt) else "int"
                 bad = ("string", "bool", "list", "map", "null")
                 if lt in bad or rt in bad:
-                    self._diag("SEM-011", "TypeMismatchError",
-                               "'%s' zwischen '%s' und '%s'" % (op, lt, rt), node, expected=lt, actual=rt)
+                    self._diag(
+                        "SEM-011",
+                        "TypeMismatchError",
+                        "'%s' zwischen '%s' und '%s'" % (op, lt, rt),
+                        node,
+                        expected=lt,
+                        actual=rt,
+                    )
                 return T_ANY
             return T_ANY
 
@@ -416,17 +528,32 @@ class TypeChecker:
                 if name in BUILTIN_SIGNATURES:
                     sig = BUILTIN_SIGNATURES[name]
                     if len(args) != len(sig["params"]):
-                        self._diag("SEM-008", "InvalidCallError",
-                                   "Built-in '%s' erwartet %d Argument(e), erhalten %d"
-                                   % (name, len(sig["params"]), len(args)), node)
+                        self._diag(
+                            "SEM-008",
+                            "InvalidCallError",
+                            "Built-in '%s' erwartet %d Argument(e), erhalten %d"
+                            % (name, len(sig["params"]), len(args)),
+                            node,
+                        )
                     for i, (arg, want) in enumerate(zip(args, sig["params"])):
                         at = self._check_expr(arg)
-                        if (want in KNOWN_PRIMS and at in KNOWN_PRIMS
-                                and at != T_VOID and want != T_VOID and at != want
-                                and not self._assignable(want, at)):
-                            self._diag("SEM-009", "TypeMismatchError",
-                                       "Built-in '%s': Argument %d ist '%s', erwartet '%s'"
-                                       % (name, i + 1, at, want), node, expected=want, actual=at)
+                        if (
+                            want in KNOWN_PRIMS
+                            and at in KNOWN_PRIMS
+                            and at != T_VOID
+                            and want != T_VOID
+                            and at != want
+                            and not self._assignable(want, at)
+                        ):
+                            self._diag(
+                                "SEM-009",
+                                "TypeMismatchError",
+                                "Built-in '%s': Argument %d ist '%s', erwartet '%s'"
+                                % (name, i + 1, at, want),
+                                node,
+                                expected=want,
+                                actual=at,
+                            )
                     return sig["result"]
                 if name in self._functions:
                     for arg in args:
@@ -451,8 +578,14 @@ class TypeChecker:
     def _cond_check(self, cond, node):
         t = self._check_expr(cond)
         if t in ("string", "list", "map", "null"):
-            self._diag("SEM-012", "TypeMismatchError",
-                       "Bedingung ist '%s', erwartet bool" % t, node, expected="bool", actual=t)
+            self._diag(
+                "SEM-012",
+                "TypeMismatchError",
+                "Bedingung ist '%s', erwartet bool" % t,
+                node,
+                expected="bool",
+                actual=t,
+            )
 
     def _type_name(self, hint):
         if hint is None:
@@ -472,4 +605,5 @@ class TypeChecker:
 def analyze_source(source):
     """Komfort-Entry: Quelle direkt analysieren (parse + check_and_report)."""
     from atclang.frontend.parser.parser import parse
+
     return TypeChecker().check_and_report(parse(source))

@@ -45,8 +45,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
-
+from typing import Any
 
 # ═══════════════════════════════════════════════════════════════════════
 # ERROR SEVERITY
@@ -82,14 +81,10 @@ class SourceLocation:
 
     def __post_init__(self) -> None:
         if self.line < 0:
-            raise ValueError(
-                "SourceLocation.line darf nicht negativ sein"
-            )
+            raise ValueError("SourceLocation.line darf nicht negativ sein")
 
         if self.column < 0:
-            raise ValueError(
-                "SourceLocation.column darf nicht negativ sein"
-            )
+            raise ValueError("SourceLocation.column darf nicht negativ sein")
 
     @property
     def is_known(self) -> bool:
@@ -125,10 +120,10 @@ class SourceSpan:
     """
 
     start: SourceLocation
-    end: Optional[SourceLocation] = None
+    end: SourceLocation | None = None
 
     @classmethod
-    def from_node(cls, node: Any) -> "SourceSpan":
+    def from_node(cls, node: Any) -> SourceSpan:
         """
         Erstellt einen SourceSpan aus einem AST-Node.
 
@@ -145,9 +140,7 @@ class SourceSpan:
         if node is None:
             return cls(SourceLocation())
 
-        line = int(
-            getattr(node, "line", 0) or 0
-        )
+        line = int(getattr(node, "line", 0) or 0)
 
         column = getattr(
             node,
@@ -192,11 +185,7 @@ class SourceSpan:
             return cls(start=start)
 
         end = SourceLocation(
-            line=int(
-                end_line
-                if end_line is not None
-                else line
-            ),
+            line=int(end_line if end_line is not None else line),
             column=int(end_column or 0),
         )
 
@@ -262,10 +251,10 @@ class CompilerDiagnostic:
 
     severity: ErrorSeverity = ErrorSeverity.ERROR
 
-    span: Optional[SourceSpan] = None
+    span: SourceSpan | None = None
 
-    hint: Optional[str] = None
-    note: Optional[str] = None
+    hint: str | None = None
+    note: str | None = None
 
     def format(self) -> str:
         """Erzeugt eine deterministische Textdarstellung."""
@@ -278,12 +267,7 @@ class CompilerDiagnostic:
             if formatted:
                 location = f" @ {formatted}"
 
-        result = (
-            f"[{self.code}] "
-            f"{self.severity.value}"
-            f"{location}: "
-            f"{self.message}"
-        )
+        result = f"[{self.code}] {self.severity.value}{location}: {self.message}"
 
         if self.hint:
             result += f"\n  hint: {self.hint}"
@@ -438,11 +422,11 @@ class CompileError(Exception):
         self,
         message: str,
         *,
-        code: Optional[str] = None,
+        code: str | None = None,
         node: Any = None,
-        span: Optional[SourceSpan] = None,
-        hint: Optional[str] = None,
-        note: Optional[str] = None,
+        span: SourceSpan | None = None,
+        hint: str | None = None,
+        note: str | None = None,
     ) -> None:
 
         self.message = message
@@ -469,9 +453,7 @@ class CompileError(Exception):
             note=self.note,
         )
 
-        super().__init__(
-            self.diagnostic.format()
-        )
+        super().__init__(self.diagnostic.format())
 
     def format(self) -> str:
         return self.diagnostic.format()
@@ -518,7 +500,7 @@ class UndefinedSymbolError(CompileNameError):
         name: str,
         *,
         node: Any = None,
-        hint: Optional[str] = None,
+        hint: str | None = None,
     ) -> None:
 
         self.name = name
@@ -578,17 +560,14 @@ class TypeMismatchError(CompileTypeError):
         actual: str,
         *,
         node: Any = None,
-        hint: Optional[str] = None,
+        hint: str | None = None,
     ) -> None:
 
         self.expected = expected
         self.actual = actual
 
         super().__init__(
-            (
-                f"Type mismatch: expected "
-                f"'{expected}', got '{actual}'"
-            ),
+            (f"Type mismatch: expected '{expected}', got '{actual}'"),
             node=node,
             hint=hint,
         )
@@ -689,10 +668,7 @@ class ArgumentCountError(CompileFunctionError):
         self.actual = actual
 
         super().__init__(
-            (
-                f"Function '{function_name}' expects "
-                f"{expected} argument(s), got {actual}"
-            ),
+            (f"Function '{function_name}' expects {expected} argument(s), got {actual}"),
             node=node,
         )
 
@@ -847,7 +823,7 @@ class CompileInternalError(CompileError):
 
 def location_from_node(
     node: Any,
-) -> Optional[SourceSpan]:
+) -> SourceSpan | None:
     """
     Konvertiert einen AST-Node sicher in einen SourceSpan.
     """
@@ -863,9 +839,9 @@ def raise_compile_error(
     *,
     code: str = CompileErrorCode.GENERAL,
     node: Any = None,
-    span: Optional[SourceSpan] = None,
-    hint: Optional[str] = None,
-    note: Optional[str] = None,
+    span: SourceSpan | None = None,
+    hint: str | None = None,
+    note: str | None = None,
 ) -> None:
     """
     Convenience-Helper zum Werfen eines CompileError.
@@ -889,30 +865,23 @@ def raise_compile_error(
 __all__ = [
     # Severity
     "ErrorSeverity",
-
     # Source
     "SourceLocation",
     "SourceSpan",
-
     # Diagnostics
     "CompilerDiagnostic",
-
     # Codes
     "CompileErrorCode",
-
     # Base
     "CompileError",
-
     # Syntax / AST
     "CompileSyntaxError",
     "InvalidASTError",
-
     # Symbols / Scope
     "CompileNameError",
     "UndefinedSymbolError",
     "DuplicateSymbolError",
     "InvalidScopeError",
-
     # Types
     "CompileTypeError",
     "TypeMismatchError",
@@ -920,21 +889,18 @@ __all__ = [
     "InvalidOperationError",
     "UnknownTypeError",
     "InvalidGenericError",
-
     # Control Flow
     "CompileControlFlowError",
     "BreakOutsideLoopError",
     "ContinueOutsideLoopError",
     "InvalidReturnError",
     "UnreachableCodeError",
-
     # Functions
     "CompileFunctionError",
     "InvalidCallError",
     "ArgumentCountError",
     "DuplicateParameterError",
     "InvalidFunctionError",
-
     # Contracts
     "CompileContractError",
     "InvalidContractError",
@@ -942,26 +908,21 @@ __all__ = [
     "InvalidEventError",
     "InvalidErrorDefinitionError",
     "InvalidStorageError",
-
     # Bytecode
     "CompileBytecodeError",
     "InvalidOpcodeError",
     "InvalidOperandError",
     "InvalidJumpError",
     "InvalidBytecodeError",
-
     # Constant Pool
     "ConstantPoolError",
     "ConstantPoolOverflowError",
     "InvalidConstantError",
-
     # Optimizer
     "OptimizationError",
     "InvalidOptimizationError",
-
     # Internal
     "CompileInternalError",
-
     # Helpers
     "location_from_node",
     "raise_compile_error",

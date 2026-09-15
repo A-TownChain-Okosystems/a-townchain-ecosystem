@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Regression: Namespace-Calls mit Keyword-Member (Issue: silent wrong semantics).
 
 Vor dem Fix (12.09.2026) zerfiel `ATCoin::transfer(a, b, c)` in Statement-
@@ -10,7 +9,10 @@ sind aber reservierte Woerter und wurden abgewiesen.
 
 ATC-Ref: ATC-92 (Language Spec) — Namespace-Zugriff `X::member`.
 """
-import sys, os
+
+import os
+import sys
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from atclang.frontend.parser.parser import parse
@@ -56,11 +58,7 @@ def test_namespace_call_in_let_initializer():
 
 def test_atc_std_namespace_still_intact():
     st = _first_stmt(
-        "contract C {\n"
-        "    fn f() {\n"
-        "        let h = ATC::Hash::sha256(\"x\")\n"
-        "    }\n"
-        "}\n"
+        'contract C {\n    fn f() {\n        let h = ATC::Hash::sha256("x")\n    }\n}\n'
     )
     assert type(st).__name__ == "LetStatement"
     call = st.value
@@ -71,11 +69,7 @@ def test_atc_std_namespace_still_intact():
 def test_chained_member_after_keyword_method():
     """ATC::Net::P2P::connect — Member nach Keyword-Kette (connect ist Keyword)."""
     st = _first_stmt(
-        "contract C {\n"
-        "    fn f() -> bool {\n"
-        "        return ATC::Net::P2P::connect(1)\n"
-        "    }\n"
-        "}\n"
+        "contract C {\n    fn f() -> bool {\n        return ATC::Net::P2P::connect(1)\n    }\n}\n"
     )
     ret = st
     assert type(ret).__name__ == "ReturnStatement"

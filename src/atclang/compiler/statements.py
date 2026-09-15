@@ -29,14 +29,13 @@ Control-flow mechanics are delegated to ``control_flow.py``.
 Function and contract compilation remain in their respective modules.
 """
 
-
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
 from atclang.frontend.parser.ast_nodes import (
-    ASTNode,
     Assignment,
+    ASTNode,
     BreakStatement,
     ContinueStatement,
     EmitStatement,
@@ -49,10 +48,9 @@ from atclang.frontend.parser.ast_nodes import (
     RequireStatement,
     ReturnStatement,
     StateField,
-    WhileStatement,
     WalletDef,
+    WhileStatement,
 )
-
 from atclang.vm.atcvm import OP
 
 from .errors import CompileError
@@ -131,9 +129,7 @@ class StatementCompiler:
             self.compile_enum(node, scope)
 
         else:
-            raise CompileError(
-                f"Unsupported statement type: {type(node).__name__}"
-            )
+            raise CompileError(f"Unsupported statement type: {type(node).__name__}")
 
     # ------------------------------------------------------------------
     # Declarations
@@ -343,9 +339,7 @@ class StatementCompiler:
 
     def compile_break(self, node: BreakStatement) -> None:
         if not self.ctx.control_flow.in_loop:
-            raise CompileError(
-                f"break outside loop @ line {getattr(node, 'line', 0)}"
-            )
+            raise CompileError(f"break outside loop @ line {getattr(node, 'line', 0)}")
 
         self.ctx.control_flow.emit_break(node)
 
@@ -356,9 +350,7 @@ class StatementCompiler:
         node: ContinueStatement,
     ) -> None:
         if not self.ctx.control_flow.in_loop:
-            raise CompileError(
-                f"continue outside loop @ line {getattr(node, 'line', 0)}"
-            )
+            raise CompileError(f"continue outside loop @ line {getattr(node, 'line', 0)}")
 
         self.ctx.control_flow.emit_continue(node)
 
@@ -504,10 +496,7 @@ class StatementCompiler:
                 node=node,
             )
 
-        enum_values = {
-            variant: index
-            for index, variant in enumerate(variants)
-        }
+        enum_values = {variant: index for index, variant in enumerate(variants)}
 
         self.ctx.emit(
             OP.PUSH,
