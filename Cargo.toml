@@ -16,6 +16,8 @@ members = [
   "modules/atc-genesis-cli",
   "modules/atc-genesis-editor",
   "modules/atc-genesis-input",
+  "modules/atc-genesis-world",
+  "modules/atc-genesis-gameplay",
 ]
 
 [workspace.package]
