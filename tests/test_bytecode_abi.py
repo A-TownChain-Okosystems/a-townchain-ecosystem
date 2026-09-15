@@ -45,19 +45,18 @@ from atclang.compiler.bytecode import (
     CompiledModule,
     Instruction,
 )
-
 from atclang.compiler.bytecode_abi import (
     ABI_MAGIC,
     ABI_VERSION,
     ABI_VERSION_MAJOR,
     ABI_VERSION_MINOR,
-    ABIConstantType,
-    ABISection,
     HEADER_FLAGS_NONE,
     HEADER_SIZE,
+    SECTION_HEADER_SIZE,
+    ABIConstantType,
+    ABISection,
     OperandType,
     SectionType,
-    SECTION_HEADER_SIZE,
     abi_info,
     decode_bytes,
     decode_f64,
@@ -65,10 +64,10 @@ from atclang.compiler.bytecode_abi import (
     decode_i64,
     decode_sections,
     decode_string,
+    decode_u8,
     decode_u16,
     decode_u32,
     decode_u64,
-    decode_u8,
     encode_bytes,
     encode_constant,
     encode_f64,
@@ -80,15 +79,14 @@ from atclang.compiler.bytecode_abi import (
     encode_module,
     encode_operand,
     encode_string,
+    encode_u8,
     encode_u16,
     encode_u32,
     encode_u64,
-    encode_u8,
+    read_abi,
     validate_binary,
     write_abi,
-    read_abi,
 )
-
 
 # ============================================================================
 # HELPERS
@@ -273,7 +271,7 @@ def test_truncated_header_is_rejected() -> None:
     [
         (0, b"\x00"),
         (1, b"\x01"),
-        (0xFF, b"\xFF"),
+        (0xFF, b"\xff"),
     ],
 )
 def test_u8_encoding(value: int, expected: bytes) -> None:
@@ -286,7 +284,7 @@ def test_u8_encoding(value: int, expected: bytes) -> None:
         (0, b"\x00\x00"),
         (1, b"\x00\x01"),
         (0x1234, b"\x12\x34"),
-        (0xFFFF, b"\xFF\xFF"),
+        (0xFFFF, b"\xff\xff"),
     ],
 )
 def test_u16_big_endian(value: int, expected: bytes) -> None:
@@ -299,7 +297,7 @@ def test_u16_big_endian(value: int, expected: bytes) -> None:
         (0, b"\x00\x00\x00\x00"),
         (1, b"\x00\x00\x00\x01"),
         (0x12345678, b"\x12\x34\x56\x78"),
-        (0xFFFFFFFF, b"\xFF\xFF\xFF\xFF"),
+        (0xFFFFFFFF, b"\xff\xff\xff\xff"),
     ],
 )
 def test_u32_big_endian(value: int, expected: bytes) -> None:
@@ -322,7 +320,7 @@ def test_u64_big_endian(value: int, expected: bytes) -> None:
 
 
 def test_i64_negative_value_is_big_endian() -> None:
-    assert encode_i64(-1) == b"\xFF" * 8
+    assert encode_i64(-1) == b"\xff" * 8
 
 
 def test_u8_roundtrip() -> None:
@@ -465,7 +463,7 @@ def test_bytes_encoding_contains_u32_length() -> None:
 
 
 def test_bytes_roundtrip() -> None:
-    payload = b"\x00\x01\x02\xFF"
+    payload = b"\x00\x01\x02\xff"
 
     encoded = encode_bytes(payload)
 
@@ -497,7 +495,7 @@ def test_string_roundtrip() -> None:
 
 
 def test_invalid_utf8_is_rejected() -> None:
-    encoded = encode_u32(2) + b"\xFF\xFF"
+    encoded = encode_u32(2) + b"\xff\xff"
 
     with pytest.raises(BytecodeFormatError):
         decode_string(encoded)
@@ -535,10 +533,7 @@ def test_null_constant_encoding() -> None:
 
     encoded = encode_constant(constant)
 
-    assert encoded == (
-        b"\x00\x00\x00\x00"
-        b"\x01"
-    )
+    assert encoded == (b"\x00\x00\x00\x00\x01")
 
 
 def test_bool_constant_encoding() -> None:
@@ -552,11 +547,7 @@ def test_bool_constant_encoding() -> None:
 
     encoded = encode_constant(constant)
 
-    assert encoded == (
-        b"\x00\x00\x00\x03"
-        b"\x02"
-        b"\x01"
-    )
+    assert encoded == (b"\x00\x00\x00\x03\x02\x01")
 
 
 def test_integer_constant_encoding() -> None:
@@ -631,20 +622,13 @@ def test_bytes_constant_encoding() -> None:
 def test_null_operand_encoding() -> None:
     encoded = encode_operand(None)
 
-    assert encoded == (
-        b"\x07"
-        b"\x00\x00\x00\x00"
-    )
+    assert encoded == (b"\x07\x00\x00\x00\x00")
 
 
 def test_bool_operand_encoding() -> None:
     encoded = encode_operand(True)
 
-    assert encoded == (
-        b"\x06"
-        b"\x00\x00\x00\x01"
-        b"\x01"
-    )
+    assert encoded == (b"\x06\x00\x00\x00\x01\x01")
 
 
 def test_integer_operand_encoding() -> None:
@@ -667,9 +651,7 @@ def test_string_operand_encoding() -> None:
     encoded = encode_operand("abc")
 
     assert encoded[:1] == bytes([OperandType.STRING])
-    assert encoded[1:5] == encode_u32(
-        len(encode_string("abc"))
-    )
+    assert encoded[1:5] == encode_u32(len(encode_string("abc")))
     assert encoded[5:] == encode_string("abc")
 
 
@@ -677,9 +659,7 @@ def test_bytes_operand_encoding() -> None:
     encoded = encode_operand(b"abc")
 
     assert encoded[:1] == bytes([OperandType.BYTES])
-    assert encoded[1:5] == encode_u32(
-        len(encode_bytes(b"abc"))
-    )
+    assert encoded[1:5] == encode_u32(len(encode_bytes(b"abc")))
     assert encoded[5:] == encode_bytes(b"abc")
 
 
@@ -740,9 +720,7 @@ def test_instruction_stream_is_deterministic() -> None:
         Instruction(op=2, args=[42]),
     ]
 
-    assert encode_instruction_stream(instructions) == (
-        encode_instruction_stream(instructions)
-    )
+    assert encode_instruction_stream(instructions) == (encode_instruction_stream(instructions))
 
 
 # ============================================================================
@@ -779,9 +757,7 @@ def test_module_contains_exactly_six_sections() -> None:
 def test_module_section_order_is_normative() -> None:
     module = make_module()
 
-    sections = decode_sections(
-        encode_module(module)
-    )
+    sections = decode_sections(encode_module(module))
 
     assert [section.type for section in sections] == [
         SectionType.METADATA,
@@ -808,17 +784,11 @@ def test_invalid_section_order_is_rejected() -> None:
         )[0]
     )
 
-    second_id = encoded[
-        second_offset:
-        second_offset + 4
-    ]
+    second_id = encoded[second_offset : second_offset + 4]
 
     encoded[20:24] = second_id
 
-    encoded[
-        second_offset:
-        second_offset + 4
-    ] = first_id
+    encoded[second_offset : second_offset + 4] = first_id
 
     with pytest.raises(BytecodeFormatError):
         decode_sections(bytes(encoded))
@@ -933,14 +903,9 @@ def test_validate_binary_accepts_valid_module() -> None:
 def test_decode_sections_accepts_valid_module() -> None:
     module = make_module()
 
-    sections = decode_sections(
-        encode_module(module)
-    )
+    sections = decode_sections(encode_module(module))
 
-    assert all(
-        isinstance(section.payload, bytes)
-        for section in sections
-    )
+    assert all(isinstance(section.payload, bytes) for section in sections)
 
 
 # ============================================================================
@@ -1006,9 +971,7 @@ def test_write_and_read_abi(tmp_path) -> None:
 
     assert path.exists()
 
-    data = read_abi(
-        str(path)
-    )
+    data = read_abi(str(path))
 
     assert data == encode_module(module)
 

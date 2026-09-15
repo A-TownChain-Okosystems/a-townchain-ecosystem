@@ -32,24 +32,23 @@ Those responsibilities belong to their respective compiler modules.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from atclang.frontend.parser.ast_nodes import (
     ASTNode,
     FunctionDef,
     Parameter,
 )
-
-from atclang.vm.atcvm import Instruction, OP
+from atclang.vm.atcvm import OP, Instruction
 
 if TYPE_CHECKING:
     from .context import CompilerContext
-    from .symbols import SymbolTable
 
 
 # ═════════════════════════════════════════════════════════════
 # FUNCTION METADATA
 # ═════════════════════════════════════════════════════════════
+
 
 @dataclass
 class CompiledFunction:
@@ -61,12 +60,12 @@ class CompiledFunction:
     """
 
     name: str
-    instructions: List[Instruction] = field(default_factory=list)
+    instructions: list[Instruction] = field(default_factory=list)
 
-    parameters: List[str] = field(default_factory=list)
-    parameter_types: Dict[str, str] = field(default_factory=dict)
+    parameters: list[str] = field(default_factory=list)
+    parameter_types: dict[str, str] = field(default_factory=dict)
 
-    return_type: Optional[str] = None
+    return_type: str | None = None
 
     is_public: bool = False
     is_async: bool = False
@@ -83,6 +82,7 @@ class CompiledFunction:
 # FUNCTION COMPILER
 # ═════════════════════════════════════════════════════════════
 
+
 class FunctionCompiler:
     """
     Compiles ATCLang FunctionDef nodes.
@@ -92,7 +92,7 @@ class FunctionCompiler:
     compiler modules.
     """
 
-    def __init__(self, context: "CompilerContext"):
+    def __init__(self, context: CompilerContext):
         self.context = context
 
     # ─────────────────────────────────────────────────────────
@@ -103,7 +103,7 @@ class FunctionCompiler:
         self,
         function: FunctionDef,
         *,
-        qualified_name: Optional[str] = None,
+        qualified_name: str | None = None,
     ) -> CompiledFunction:
         """
         Compile a FunctionDef into an isolated instruction stream.
@@ -136,10 +136,7 @@ class FunctionCompiler:
             result = CompiledFunction(
                 name=name,
                 instructions=instructions,
-                parameters=[
-                    self._parameter_name(param)
-                    for param in function.params
-                ],
+                parameters=[self._parameter_name(param) for param in function.params],
                 parameter_types={
                     self._parameter_name(param): self._parameter_type(param)
                     for param in function.params
@@ -159,15 +156,15 @@ class FunctionCompiler:
 
     def compile_many(
         self,
-        functions: List[FunctionDef],
+        functions: list[FunctionDef],
         *,
-        namespace: Optional[str] = None,
-    ) -> Dict[str, CompiledFunction]:
+        namespace: str | None = None,
+    ) -> dict[str, CompiledFunction]:
         """
         Compile multiple functions deterministically.
         """
 
-        compiled: Dict[str, CompiledFunction] = {}
+        compiled: dict[str, CompiledFunction] = {}
 
         for function in functions:
             local_name = self._function_name(function)
@@ -406,9 +403,7 @@ class FunctionCompiler:
         name = getattr(function, "name", None)
 
         if not name:
-            raise FunctionCompileError(
-                "FunctionDef has no function name"
-            )
+            raise FunctionCompileError("FunctionDef has no function name")
 
         return name
 
@@ -436,7 +431,7 @@ class FunctionCompiler:
         return str(type_hint)
 
     @staticmethod
-    def _return_type(function: FunctionDef) -> Optional[str]:
+    def _return_type(function: FunctionDef) -> str | None:
         """
         Support the currently known ATCLang AST variants.
         """
@@ -470,16 +465,12 @@ class FunctionCompiler:
 
     @staticmethod
     def _is_async(function: FunctionDef) -> bool:
-        return bool(
-            getattr(function, "is_async", False)
-            or getattr(function, "async_", False)
-        )
+        return bool(getattr(function, "is_async", False) or getattr(function, "async_", False))
 
     @staticmethod
     def _is_generator(function: FunctionDef) -> bool:
         return bool(
-            getattr(function, "is_generator", False)
-            or getattr(function, "generator", False)
+            getattr(function, "is_generator", False) or getattr(function, "generator", False)
         )
 
     # ═════════════════════════════════════════════════════════
@@ -570,7 +561,7 @@ class FunctionCompiler:
     def _error(
         self,
         message: str,
-        node: Optional[ASTNode] = None,
+        node: ASTNode | None = None,
     ) -> None:
         """
         Delegate compiler errors to the centralized error module.
@@ -602,6 +593,7 @@ class FunctionCompiler:
 # ERROR
 # ═════════════════════════════════════════════════════════════
 
+
 class FunctionCompileError(Exception):
     """
     Function-level compiler error.
@@ -625,20 +617,19 @@ class FunctionCompileError(Exception):
         if line:
             location = f" @ {line}:{column}"
 
-        super().__init__(
-            f"[ATCLang FunctionCompiler]{location}: {message}"
-        )
+        super().__init__(f"[ATCLang FunctionCompiler]{location}: {message}")
 
 
 # ═════════════════════════════════════════════════════════════
 # CONVENIENCE API
 # ═════════════════════════════════════════════════════════════
 
+
 def compile_function(
-    context: "CompilerContext",
+    context: CompilerContext,
     function: FunctionDef,
     *,
-    qualified_name: Optional[str] = None,
+    qualified_name: str | None = None,
 ) -> CompiledFunction:
     """
     Convenience wrapper around FunctionCompiler.
@@ -653,11 +644,11 @@ def compile_function(
 
 
 def compile_functions(
-    context: "CompilerContext",
-    functions: List[FunctionDef],
+    context: CompilerContext,
+    functions: list[FunctionDef],
     *,
-    namespace: Optional[str] = None,
-) -> Dict[str, CompiledFunction]:
+    namespace: str | None = None,
+) -> dict[str, CompiledFunction]:
     """
     Convenience wrapper for compiling multiple functions.
     """
@@ -672,8 +663,8 @@ def compile_functions(
 
 __all__ = [
     "CompiledFunction",
-    "FunctionCompiler",
     "FunctionCompileError",
+    "FunctionCompiler",
     "compile_function",
     "compile_functions",
 ]

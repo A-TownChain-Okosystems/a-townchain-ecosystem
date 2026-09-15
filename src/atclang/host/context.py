@@ -7,18 +7,21 @@ HostContext, der vom Knoten (Node) deterministisch aus Block-Headern gebaut
 wird — zwei ehrliche Nodes MUSSSEN denselben Context fuer denselben Block
 liefern (Konsens-Voraussetzung).
 """
+
 from __future__ import annotations
+
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 @dataclass
 class HostPolicy:
     """Ausfuehrungs-Politik: was der Host erlaubt."""
-    allow_wall_clock: bool = False        # Konsens: False — nur block_timestamp
+
+    allow_wall_clock: bool = False  # Konsens: False — nur block_timestamp
     allow_os_access: bool = False
-    allow_random: bool = False           # Zufall nur via vm-seed, nie host
+    allow_random: bool = False  # Zufall nur via vm-seed, nie host
     max_gas: int = 30_000_000
     max_call_depth: int = 64
 
@@ -26,24 +29,35 @@ class HostPolicy:
 @dataclass
 class HostContext:
     """Deterministischer Ausfuehrungskontext eines Blocks."""
+
     chain_id: int = 658467
     block_number: int = 0
-    block_timestamp: int = 0              # vom Block-Header, nicht time.time()
+    block_timestamp: int = 0  # vom Block-Header, nicht time.time()
     block_hash: str = "0x" + "00" * 32
     prev_block_hash: str = "0x" + "00" * 32
-    vm_seed: int = 0                       # deterministische Seed-Quelle
+    vm_seed: int = 0  # deterministische Seed-Quelle
     gas_limit: int = 30_000_000
     policy: HostPolicy = field(default_factory=HostPolicy)
-    _events: List[Dict[str, Any]] = field(default_factory=list)
-    _logs: List[str] = field(default_factory=list)
+    _events: list[dict[str, Any]] = field(default_factory=list)
+    _logs: list[str] = field(default_factory=list)
 
     @classmethod
-    def for_block(cls, chain_id: int, block_number: int, block_timestamp: int,
-                  block_hash: str, policy: Optional[HostPolicy] = None) -> "HostContext":
+    def for_block(
+        cls,
+        chain_id: int,
+        block_number: int,
+        block_timestamp: int,
+        block_hash: str,
+        policy: HostPolicy | None = None,
+    ) -> HostContext:
         """Kanonischer Konstruktor: Node baut Context aus Block-Header."""
-        return cls(chain_id=chain_id, block_number=block_number,
-                   block_timestamp=block_timestamp, block_hash=block_hash,
-                   policy=policy or HostPolicy())
+        return cls(
+            chain_id=chain_id,
+            block_number=block_number,
+            block_timestamp=block_timestamp,
+            block_hash=block_hash,
+            policy=policy or HostPolicy(),
+        )
 
     def now(self) -> int:
         """Zeitquelle fuer Contracts — Konsens-Pflicht: block_timestamp."""
@@ -60,7 +74,7 @@ class HostContext:
             self._logs.append(message)
 
     @property
-    def events(self) -> List[Dict[str, Any]]:
+    def events(self) -> list[dict[str, Any]]:
         return list(self._events)
 
     def gas_consume(self, amount: int, used: int) -> int:

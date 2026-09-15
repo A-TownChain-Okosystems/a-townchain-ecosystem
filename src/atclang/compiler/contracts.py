@@ -30,22 +30,17 @@ Diese Datei arbeitet auf dem bereits erzeugten AST.
 
 from __future__ import annotations
 
-from typing import Any, Optional
-
 from atclang.frontend.parser.ast_nodes import (
     ASTNode,
     ContractDef,
-    StateField,
     FunctionDef,
-    MapLiteral,
+    StateField,
 )
-
 from atclang.vm.atcvm import OP
 
 from .context import CompilerContext
 from .errors import CompileError
 from .functions import compile_function
-
 
 # ══════════════════════════════════════════════════════════════
 # CONTRACT COMPILER
@@ -134,15 +129,13 @@ class ContractCompiler:
 
             if not state_name:
                 self._error(
-                    f"Contract '{contract_name}' enthält ein "
-                    "State-Feld ohne Namen.",
+                    f"Contract '{contract_name}' enthält ein State-Feld ohne Namen.",
                     state,
                 )
 
             if state_name in seen_states:
                 self._error(
-                    f"Doppeltes State-Feld: "
-                    f"'{contract_name}.{state_name}'",
+                    f"Doppeltes State-Feld: '{contract_name}.{state_name}'",
                     state,
                 )
 
@@ -155,15 +148,13 @@ class ContractCompiler:
 
             if not fn_name:
                 self._error(
-                    f"Contract '{contract_name}' enthält "
-                    "eine Funktion ohne Namen.",
+                    f"Contract '{contract_name}' enthält eine Funktion ohne Namen.",
                     fn,
                 )
 
             if fn_name in seen_functions:
                 self._error(
-                    f"Doppelte Contract-Funktion: "
-                    f"'{contract_name}.{fn_name}'",
+                    f"Doppelte Contract-Funktion: '{contract_name}.{fn_name}'",
                     fn,
                 )
 
@@ -219,7 +210,7 @@ class ContractCompiler:
         State-Symbole erhalten den fully-qualified Namen.
         """
 
-        contract_name = contract.name
+        # contract_name hier unbenutzt (F841) — Funktion nutzt contract direkt
 
         for state in getattr(contract, "states", []) or []:
             self._register_state(contract, state)
@@ -328,8 +319,7 @@ class ContractCompiler:
 
         # Parameter-Metadaten.
         self.ctx.function_params[qualified_name] = [
-            getattr(parameter, "name", "")
-            for parameter in getattr(function, "params", []) or []
+            getattr(parameter, "name", "") for parameter in getattr(function, "params", []) or []
         ]
 
         # Contract functions are callable through their
@@ -372,14 +362,10 @@ class ContractCompiler:
             "functions": [
                 {
                     "name": function.name,
-                    "public": bool(
-                        getattr(function, "is_pub", False)
-                    ),
+                    "public": bool(getattr(function, "is_pub", False)),
                     "params": [
                         getattr(parameter, "name", "")
-                        for parameter in (
-                            getattr(function, "params", []) or []
-                        )
+                        for parameter in (getattr(function, "params", []) or [])
                     ],
                 }
                 for function in getattr(contract, "functions", []) or []
@@ -438,7 +424,7 @@ class ContractCompiler:
     @staticmethod
     def _state_initializer(
         state: StateField,
-    ) -> Optional[ASTNode]:
+    ) -> ASTNode | None:
         """
         Unterstützt unterschiedliche AST-Feldnamen für
         State-Initialisierung.
@@ -479,19 +465,15 @@ class ContractCompiler:
     @staticmethod
     def _error(
         message: str,
-        node: Optional[ASTNode] = None,
+        node: ASTNode | None = None,
     ) -> None:
 
         line = getattr(node, "line", None) if node else None
 
         if line is not None:
-            raise CompileError(
-                f"[ATCCompiler] @ Zeile {line}: {message}"
-            )
+            raise CompileError(f"[ATCCompiler] @ Zeile {line}: {message}")
 
-        raise CompileError(
-            f"[ATCCompiler]: {message}"
-        )
+        raise CompileError(f"[ATCCompiler]: {message}")
 
 
 # ══════════════════════════════════════════════════════════════

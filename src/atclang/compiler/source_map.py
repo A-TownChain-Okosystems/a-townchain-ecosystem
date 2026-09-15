@@ -47,8 +47,8 @@ Ziele
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Dict, Iterable, List, Optional, Tuple
 
 from .errors import (
     CompilerDiagnostic,
@@ -56,7 +56,6 @@ from .errors import (
     SourceLocation,
     SourceSpan,
 )
-
 
 # ═══════════════════════════════════════════════════════════════════════
 # SOURCE MAP ENTRY
@@ -90,14 +89,10 @@ class SourceMapEntry:
 
     def __post_init__(self) -> None:
         if self.bytecode_start < 0:
-            raise ValueError(
-                "bytecode_start darf nicht negativ sein"
-            )
+            raise ValueError("bytecode_start darf nicht negativ sein")
 
         if self.bytecode_end < self.bytecode_start:
-            raise ValueError(
-                "bytecode_end darf nicht kleiner als bytecode_start sein"
-            )
+            raise ValueError("bytecode_end darf nicht kleiner als bytecode_start sein")
 
     @property
     def length(self) -> int:
@@ -108,11 +103,7 @@ class SourceMapEntry:
     def contains_bytecode(self, offset: int) -> bool:
         """Prüft, ob ein Bytecode-Offset im Mapping liegt."""
 
-        return (
-            self.bytecode_start
-            <= offset
-            < self.bytecode_end
-        )
+        return self.bytecode_start <= offset < self.bytecode_end
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -134,7 +125,7 @@ class SourceMap:
     """
 
     def __init__(self) -> None:
-        self._entries: List[SourceMapEntry] = []
+        self._entries: list[SourceMapEntry] = []
 
     # ────────────────────────────────────────────────────────────────
     # INSERT
@@ -182,7 +173,7 @@ class SourceMap:
     def lookup(
         self,
         bytecode_offset: int,
-    ) -> Optional[SourceMapEntry]:
+    ) -> SourceMapEntry | None:
         """
         Liefert den Source-Map-Eintrag für einen Bytecode-Offset.
 
@@ -202,7 +193,7 @@ class SourceMap:
     def lookup_span(
         self,
         bytecode_offset: int,
-    ) -> Optional[SourceSpan]:
+    ) -> SourceSpan | None:
         """
         Liefert direkt den SourceSpan eines Bytecode-Offsets.
         """
@@ -217,7 +208,7 @@ class SourceMap:
     def lookup_location(
         self,
         bytecode_offset: int,
-    ) -> Optional[SourceLocation]:
+    ) -> SourceLocation | None:
         """
         Liefert die Startposition des zugehörigen Source-Bereichs.
         """
@@ -237,7 +228,7 @@ class SourceMap:
         self,
         line: int,
         column: int = 0,
-    ) -> List[SourceMapEntry]:
+    ) -> list[SourceMapEntry]:
         """
         Liefert alle Bytecode-Einträge, die zu einer Source-Position
         gehören.
@@ -249,7 +240,7 @@ class SourceMap:
         if line < 0 or column < 0:
             return []
 
-        result: List[SourceMapEntry] = []
+        result: list[SourceMapEntry] = []
 
         for entry in self._entries:
             span = entry.span
@@ -277,7 +268,7 @@ class SourceMap:
     def lookup_line(
         self,
         line: int,
-    ) -> List[SourceMapEntry]:
+    ) -> list[SourceMapEntry]:
         """
         Liefert alle Mappings für eine Source-Zeile.
         """
@@ -311,20 +302,12 @@ class SourceMap:
 
         # Startposition.
         if line == start.line:
-            if (
-                column > 0
-                and start.column > 0
-                and column < start.column
-            ):
+            if column > 0 and start.column > 0 and column < start.column:
                 return False
 
         # Endposition.
         if end is not None and line == end.line:
-            if (
-                column > 0
-                and end.column > 0
-                and column > end.column
-            ):
+            if column > 0 and end.column > 0 and column > end.column:
                 return False
 
         return True
@@ -352,7 +335,7 @@ class SourceMap:
             ),
         )
 
-        merged: List[SourceMapEntry] = []
+        merged: list[SourceMapEntry] = []
 
         for entry in entries:
             if not merged:
@@ -361,11 +344,7 @@ class SourceMap:
 
             previous = merged[-1]
 
-            if (
-                previous.bytecode_end
-                == entry.bytecode_start
-                and previous.span == entry.span
-            ):
+            if previous.bytecode_end == entry.bytecode_start and previous.span == entry.span:
                 merged[-1] = SourceMapEntry(
                     bytecode_start=previous.bytecode_start,
                     bytecode_end=entry.bytecode_end,
@@ -382,7 +361,7 @@ class SourceMap:
 
     def remap_offsets(
         self,
-        old_to_new: Dict[int, int],
+        old_to_new: dict[int, int],
     ) -> None:
         """
         Aktualisiert Bytecode-Offsets nach einer Transformation.
@@ -395,7 +374,7 @@ class SourceMap:
         werden verworfen.
         """
 
-        new_entries: List[SourceMapEntry] = []
+        new_entries: list[SourceMapEntry] = []
 
         for entry in self._entries:
             if entry.bytecode_start not in old_to_new:
@@ -413,8 +392,7 @@ class SourceMap:
             else:
                 new_end = new_start
 
-            if new_end < new_start:
-                new_end = new_start
+            new_end = max(new_end, new_start)
 
             new_entries.append(
                 SourceMapEntry(
@@ -432,7 +410,7 @@ class SourceMap:
     # ═══════════════════════════════════════════════════════════════
 
     @property
-    def entries(self) -> Tuple[SourceMapEntry, ...]:
+    def entries(self) -> tuple[SourceMapEntry, ...]:
         """
         Read-only Sicht auf die Source-Map-Einträge.
 
@@ -469,10 +447,10 @@ class SourceMap:
         code: str,
         message: str,
         *,
-        bytecode_offset: Optional[int] = None,
+        bytecode_offset: int | None = None,
         severity: ErrorSeverity = ErrorSeverity.ERROR,
-        hint: Optional[str] = None,
-        note: Optional[str] = None,
+        hint: str | None = None,
+        note: str | None = None,
     ) -> CompilerDiagnostic:
         """
         Erstellt eine CompilerDiagnostic mit Source-Mapping.
@@ -481,7 +459,7 @@ class SourceMap:
         der zugehörige SourceSpan verwendet.
         """
 
-        span: Optional[SourceSpan] = None
+        span: SourceSpan | None = None
 
         if bytecode_offset is not None:
             span = self.lookup_span(bytecode_offset)
@@ -499,12 +477,12 @@ class SourceMap:
     # SERIALIZATION
     # ═══════════════════════════════════════════════════════════════
 
-    def to_dict(self) -> List[dict]:
+    def to_dict(self) -> list[dict]:
         """
         Serialisiert die Source Map in eine JSON-kompatible Struktur.
         """
 
-        result: List[dict] = []
+        result: list[dict] = []
 
         for entry in self.entries:
             start = entry.span.start
@@ -533,7 +511,7 @@ class SourceMap:
     def from_dict(
         cls,
         data: Iterable[dict],
-    ) -> "SourceMap":
+    ) -> SourceMap:
         """
         Erstellt eine SourceMap aus einer JSON-kompatiblen Struktur.
         """
@@ -550,7 +528,7 @@ class SourceMap:
 
             end_data = item.get("end")
 
-            end: Optional[SourceLocation] = None
+            end: SourceLocation | None = None
 
             if end_data is not None:
                 end = SourceLocation(
@@ -666,9 +644,9 @@ class SourceMapBuilder:
 
 
 __all__ = [
-    "SourceMapEntry",
     "SourceMap",
     "SourceMapBuilder",
+    "SourceMapEntry",
 ]
 
 

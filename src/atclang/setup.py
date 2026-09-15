@@ -1,7 +1,7 @@
 # setup.py — atclang
 # Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems.
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
     name="atclang",

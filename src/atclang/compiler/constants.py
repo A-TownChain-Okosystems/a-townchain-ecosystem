@@ -91,17 +91,17 @@ Bereich.
 
 from __future__ import annotations
 
+import math
+from collections.abc import Iterable, Iterator
 from dataclasses import dataclass
 from enum import Enum
-import math
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
+from typing import Any
 
 from .errors import (
     CompileErrorCode,
     ConstantPoolError,
     ConstantPoolOverflowError,
 )
-
 
 # ═══════════════════════════════════════════════════════════════════════
 # VERSION
@@ -191,8 +191,8 @@ def _require_exact_int(
     value: Any,
     *,
     name: str,
-    minimum: Optional[int] = None,
-    maximum: Optional[int] = None,
+    minimum: int | None = None,
+    maximum: int | None = None,
 ) -> None:
     """
     Validiert einen echten Python-int.
@@ -201,19 +201,13 @@ def _require_exact_int(
     """
 
     if type(value) is not int:
-        raise ValueError(
-            f"{name} muss ein int sein"
-        )
+        raise ValueError(f"{name} muss ein int sein")
 
     if minimum is not None and value < minimum:
-        raise ValueError(
-            f"{name} muss >= {minimum} sein"
-        )
+        raise ValueError(f"{name} muss >= {minimum} sein")
 
     if maximum is not None and value > maximum:
-        raise ValueError(
-            f"{name} darf maximal {maximum} sein"
-        )
+        raise ValueError(f"{name} darf maximal {maximum} sein")
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -253,16 +247,12 @@ def _payload_size(
         return 8
 
     if constant_type is ConstantType.STRING:
-        return len(
-            value.encode("utf-8")
-        )
+        return len(value.encode("utf-8"))
 
     if constant_type is ConstantType.BYTES:
         return len(value)
 
-    raise _constant_error(
-        f"Unsupported constant type: {constant_type!r}"
-    )
+    raise _constant_error(f"Unsupported constant type: {constant_type!r}")
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -285,9 +275,7 @@ def _validate_constant_value(
         constant_type,
         ConstantType,
     ):
-        raise _constant_error(
-            f"Unsupported constant type: {constant_type!r}"
-        )
+        raise _constant_error(f"Unsupported constant type: {constant_type!r}")
 
     # ───────────────────────────────────────────────────────────────
     # NULL
@@ -295,9 +283,7 @@ def _validate_constant_value(
 
     if constant_type is ConstantType.NULL:
         if value is not None:
-            raise _constant_error(
-                "NULL constant must contain None"
-            )
+            raise _constant_error("NULL constant must contain None")
         return
 
     # ───────────────────────────────────────────────────────────────
@@ -306,9 +292,7 @@ def _validate_constant_value(
 
     if constant_type is ConstantType.BOOL:
         if type(value) is not bool:
-            raise _constant_error(
-                "BOOL constant must contain a bool"
-            )
+            raise _constant_error("BOOL constant must contain a bool")
         return
 
     # ───────────────────────────────────────────────────────────────
@@ -317,9 +301,7 @@ def _validate_constant_value(
 
     if constant_type is ConstantType.INT:
         if type(value) is not int:
-            raise _constant_error(
-                "INT constant must contain an int"
-            )
+            raise _constant_error("INT constant must contain an int")
         return
 
     # ───────────────────────────────────────────────────────────────
@@ -328,14 +310,10 @@ def _validate_constant_value(
 
     if constant_type is ConstantType.FLOAT:
         if type(value) is not float:
-            raise _constant_error(
-                "FLOAT constant must contain a float"
-            )
+            raise _constant_error("FLOAT constant must contain a float")
 
         if not math.isfinite(value):
-            raise _constant_error(
-                "FLOAT constant must be finite"
-            )
+            raise _constant_error("FLOAT constant must be finite")
 
         return
 
@@ -345,21 +323,13 @@ def _validate_constant_value(
 
     if constant_type is ConstantType.STRING:
         if type(value) is not str:
-            raise _constant_error(
-                "STRING constant must contain a str"
-            )
+            raise _constant_error("STRING constant must contain a str")
 
-        encoded_size = len(
-            value.encode("utf-8")
-        )
+        encoded_size = len(value.encode("utf-8"))
 
-        if (
-            encoded_size
-            > ConstantPoolLimits.MAX_STRING_BYTES
-        ):
+        if encoded_size > ConstantPoolLimits.MAX_STRING_BYTES:
             raise _constant_error(
-                "STRING constant exceeds maximum size: "
-                f"{ConstantPoolLimits.MAX_STRING_BYTES} bytes"
+                f"STRING constant exceeds maximum size: {ConstantPoolLimits.MAX_STRING_BYTES} bytes"
             )
 
         return
@@ -370,24 +340,16 @@ def _validate_constant_value(
 
     if constant_type is ConstantType.BYTES:
         if type(value) is not bytes:
-            raise _constant_error(
-                "BYTES constant must contain bytes"
-            )
+            raise _constant_error("BYTES constant must contain bytes")
 
-        if (
-            len(value)
-            > ConstantPoolLimits.MAX_BYTES_SIZE
-        ):
+        if len(value) > ConstantPoolLimits.MAX_BYTES_SIZE:
             raise _constant_error(
-                "BYTES constant exceeds maximum size: "
-                f"{ConstantPoolLimits.MAX_BYTES_SIZE} bytes"
+                f"BYTES constant exceeds maximum size: {ConstantPoolLimits.MAX_BYTES_SIZE} bytes"
             )
 
         return
 
-    raise _constant_error(
-        f"Unsupported constant type: {constant_type!r}"
-    )
+    raise _constant_error(f"Unsupported constant type: {constant_type!r}")
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -399,17 +361,17 @@ def infer_constant_type(
     value: Any,
 ) -> ConstantType:
     """
-    Ermittelt den kanonischen ConstantType eines Python-Wertes.
+        Ermittelt den kanonischen ConstantType eines Python-Wertes.
 
-    Die Prüfung erfolgt bewusst mit type(...), damit:
+        Die Prüfung erfolgt bewusst mit type(...), damit:
 
-        True
+            True
 
-nicht als:
+    nicht als:
 
-        1
+            1
 
-interpretiert wird.
+    interpretiert wird.
     """
 
     if value is None:
@@ -423,9 +385,7 @@ interpretiert wird.
 
     if type(value) is float:
         if not math.isfinite(value):
-            raise _constant_error(
-                "FLOAT constant must be finite"
-            )
+            raise _constant_error("FLOAT constant must be finite")
 
         return ConstantType.FLOAT
 
@@ -435,10 +395,7 @@ interpretiert wird.
     if type(value) is bytes:
         return ConstantType.BYTES
 
-    raise _constant_error(
-        "Unsupported constant value type: "
-        f"{type(value).__name__}"
-    )
+    raise _constant_error(f"Unsupported constant value type: {type(value).__name__}")
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -449,29 +406,29 @@ interpretiert wird.
 def _constant_key(
     constant_type: ConstantType,
     value: Any,
-) -> Tuple[ConstantType, Any]:
+) -> tuple[ConstantType, Any]:
     """
-    Erzeugt einen stabilen Deduplication-Key.
+        Erzeugt einen stabilen Deduplication-Key.
 
-    Der ConstantType ist immer Bestandteil des Keys.
+        Der ConstantType ist immer Bestandteil des Keys.
 
-    Dadurch sind:
+        Dadurch sind:
 
-        bool(True)
+            bool(True)
 
-und:
+    und:
 
-        int(1)
+            int(1)
 
-unterschiedliche Konstanten.
+    unterschiedliche Konstanten.
 
-    Float Policy
-    ------------
+        Float Policy
+        ------------
 
-    - NaN ist nicht erlaubt.
-    - +/-Infinity ist nicht erlaubt.
-    - -0.0 und +0.0 werden als dieselbe mathematische Konstante
-      behandelt.
+        - NaN ist nicht erlaubt.
+        - +/-Infinity ist nicht erlaubt.
+        - -0.0 und +0.0 werden als dieselbe mathematische Konstante
+          behandelt.
     """
 
     if constant_type is ConstantType.BYTES:
@@ -516,9 +473,7 @@ class Constant:
             self.index,
             name="Constant.index",
             minimum=0,
-            maximum=(
-                ConstantPoolLimits.MAX_ENTRIES - 1
-            ),
+            maximum=(ConstantPoolLimits.MAX_ENTRIES - 1),
         )
 
         _validate_constant_value(
@@ -548,58 +503,41 @@ class Constant:
     def from_dict(
         cls,
         data: dict,
-    ) -> "Constant":
+    ) -> Constant:
         """
         Rekonstruiert eine Constant aus einer serialisierten Struktur.
         """
 
         if not isinstance(data, dict):
-            raise _constant_error(
-                "Constant entry must be a dictionary"
-            )
+            raise _constant_error("Constant entry must be a dictionary")
 
         try:
             raw_index = data["index"]
             raw_type = data["type"]
         except KeyError as exc:
-            raise _constant_error(
-                "Serialized constant entry is missing "
-                "required fields"
-            ) from exc
+            raise _constant_error("Serialized constant entry is missing required fields") from exc
 
         if type(raw_index) is not int:
-            raise _constant_error(
-                "Serialized constant index must be an integer"
-            )
+            raise _constant_error("Serialized constant index must be an integer")
 
         try:
-            constant_type = ConstantType(
-                raw_type
-            )
+            constant_type = ConstantType(raw_type)
         except (
             TypeError,
             ValueError,
         ) as exc:
-            raise _constant_error(
-                "Invalid serialized constant type: "
-                f"{raw_type!r}"
-            ) from exc
+            raise _constant_error(f"Invalid serialized constant type: {raw_type!r}") from exc
 
         value = data.get("value")
 
         if constant_type is ConstantType.BYTES:
             if type(value) is not str:
-                raise _constant_error(
-                    "Serialized bytes constant must be "
-                    "a hexadecimal string"
-                )
+                raise _constant_error("Serialized bytes constant must be a hexadecimal string")
 
             try:
                 value = bytes.fromhex(value)
             except ValueError as exc:
-                raise _constant_error(
-                    "Invalid hexadecimal bytes constant"
-                ) from exc
+                raise _constant_error("Invalid hexadecimal bytes constant") from exc
 
         return cls(
             index=raw_index,
@@ -635,17 +573,13 @@ class ConstantPool:
     Lookup-Operationen bleiben auch im Frozen-State erlaubt.
     """
 
-    DEFAULT_MAX_SIZE = (
-        ConstantPoolLimits.MAX_ENTRIES
-    )
+    DEFAULT_MAX_SIZE = ConstantPoolLimits.MAX_ENTRIES
 
     def __init__(
         self,
         *,
         max_size: int = DEFAULT_MAX_SIZE,
-        max_total_payload_bytes: int = (
-            ConstantPoolLimits.MAX_TOTAL_PAYLOAD_BYTES
-        ),
+        max_total_payload_bytes: int = (ConstantPoolLimits.MAX_TOTAL_PAYLOAD_BYTES),
     ) -> None:
         _require_exact_int(
             max_size,
@@ -658,21 +592,17 @@ class ConstantPool:
             max_total_payload_bytes,
             name="max_total_payload_bytes",
             minimum=1,
-            maximum=(
-                ConstantPoolLimits.MAX_TOTAL_PAYLOAD_BYTES
-            ),
+            maximum=(ConstantPoolLimits.MAX_TOTAL_PAYLOAD_BYTES),
         )
 
         self.max_size = max_size
 
-        self.max_total_payload_bytes = (
-            max_total_payload_bytes
-        )
+        self.max_total_payload_bytes = max_total_payload_bytes
 
-        self._constants: List[Constant] = []
+        self._constants: list[Constant] = []
 
-        self._index: Dict[
-            Tuple[ConstantType, Any],
+        self._index: dict[
+            tuple[ConstantType, Any],
             int,
         ] = {}
 
@@ -720,7 +650,7 @@ class ConstantPool:
         self,
         value: Any,
         *,
-        constant_type: Optional[ConstantType] = None,
+        constant_type: ConstantType | None = None,
     ) -> int:
         """
         Fügt eine Konstante hinzu und gibt ihren Index zurück.
@@ -733,9 +663,7 @@ class ConstantPool:
         """
 
         if constant_type is None:
-            constant_type = infer_constant_type(
-                value
-            )
+            constant_type = infer_constant_type(value)
 
         _validate_constant_value(
             constant_type,
@@ -756,8 +684,7 @@ class ConstantPool:
 
         if len(self._constants) >= self.max_size:
             raise ConstantPoolOverflowError(
-                "Constant pool overflow: "
-                f"maximum size is {self.max_size}"
+                f"Constant pool overflow: maximum size is {self.max_size}"
             )
 
         payload_size = _payload_size(
@@ -765,15 +692,9 @@ class ConstantPool:
             value,
         )
 
-        new_payload_size = (
-            self._total_payload_bytes
-            + payload_size
-        )
+        new_payload_size = self._total_payload_bytes + payload_size
 
-        if (
-            new_payload_size
-            > self.max_total_payload_bytes
-        ):
+        if new_payload_size > self.max_total_payload_bytes:
             raise ConstantPoolOverflowError(
                 "Constant pool payload overflow: "
                 f"maximum payload is "
@@ -788,15 +709,11 @@ class ConstantPool:
             value=value,
         )
 
-        self._constants.append(
-            constant
-        )
+        self._constants.append(constant)
 
         self._index[key] = index
 
-        self._total_payload_bytes = (
-            new_payload_size
-        )
+        self._total_payload_bytes = new_payload_size
 
         return index
 
@@ -892,17 +809,10 @@ class ConstantPool:
         """
 
         if type(index) is not int:
-            raise _constant_error(
-                "Constant index must be an integer"
-            )
+            raise _constant_error("Constant index must be an integer")
 
-        if (
-            index < 0
-            or index >= len(self._constants)
-        ):
-            raise _constant_error(
-                f"Invalid constant index: {index}"
-            )
+        if index < 0 or index >= len(self._constants):
+            raise _constant_error(f"Invalid constant index: {index}")
 
         return self._constants[index]
 
@@ -910,8 +820,8 @@ class ConstantPool:
         self,
         value: Any,
         *,
-        constant_type: Optional[ConstantType] = None,
-    ) -> Optional[int]:
+        constant_type: ConstantType | None = None,
+    ) -> int | None:
         """
         Sucht eine Konstante, ohne sie hinzuzufügen.
 
@@ -925,9 +835,7 @@ class ConstantPool:
         """
 
         if constant_type is None:
-            constant_type = infer_constant_type(
-                value
-            )
+            constant_type = infer_constant_type(value)
 
         _validate_constant_value(
             constant_type,
@@ -945,7 +853,7 @@ class ConstantPool:
         self,
         value: Any,
         *,
-        constant_type: Optional[ConstantType] = None,
+        constant_type: ConstantType | None = None,
     ) -> bool:
         """
         Prüft, ob eine Konstante vorhanden ist.
@@ -988,7 +896,7 @@ class ConstantPool:
         return self._total_payload_bytes
 
     @property
-    def constants(self) -> Tuple[Constant, ...]:
+    def constants(self) -> tuple[Constant, ...]:
         """
         Read-only Sicht auf alle Constant Entries.
         """
@@ -1017,7 +925,7 @@ class ConstantPool:
     # SERIALIZATION
     # ═══════════════════════════════════════════════════════════════
 
-    def to_dict(self) -> List[dict]:
+    def to_dict(self) -> list[dict]:
         """
         Serialisiert den vollständigen Constant Pool.
 
@@ -1025,10 +933,7 @@ class ConstantPool:
         Constant-Pool-Indexierung.
         """
 
-        return [
-            constant.to_dict()
-            for constant in self._constants
-        ]
+        return [constant.to_dict() for constant in self._constants]
 
     @classmethod
     def from_dict(
@@ -1036,10 +941,8 @@ class ConstantPool:
         data: Iterable[dict],
         *,
         max_size: int = DEFAULT_MAX_SIZE,
-        max_total_payload_bytes: int = (
-            ConstantPoolLimits.MAX_TOTAL_PAYLOAD_BYTES
-        ),
-    ) -> "ConstantPool":
+        max_total_payload_bytes: int = (ConstantPoolLimits.MAX_TOTAL_PAYLOAD_BYTES),
+    ) -> ConstantPool:
         """
         Rekonstruiert einen Constant Pool.
 
@@ -1060,30 +963,21 @@ class ConstantPool:
             (str, bytes, dict),
         ):
             raise _constant_error(
-                "Serialized constant pool must be an "
-                "iterable of constant dictionaries"
+                "Serialized constant pool must be an iterable of constant dictionaries"
             )
 
         pool = cls(
             max_size=max_size,
-            max_total_payload_bytes=(
-                max_total_payload_bytes
-            ),
+            max_total_payload_bytes=(max_total_payload_bytes),
         )
 
         try:
             iterator = iter(data)
         except TypeError as exc:
-            raise _constant_error(
-                "Serialized constant pool is not iterable"
-            ) from exc
+            raise _constant_error("Serialized constant pool is not iterable") from exc
 
-        for expected_index, item in enumerate(
-            iterator
-        ):
-            constant = Constant.from_dict(
-                item
-            )
+        for expected_index, item in enumerate(iterator):
+            constant = Constant.from_dict(item)
 
             if constant.index != expected_index:
                 raise _constant_error(
@@ -1098,9 +992,7 @@ class ConstantPool:
             )
 
             if actual_index != expected_index:
-                raise _constant_error(
-                    "Constant pool contains duplicate entries"
-                )
+                raise _constant_error("Constant pool contains duplicate entries")
 
         return pool
 
@@ -1108,7 +1000,7 @@ class ConstantPool:
     # COPY
     # ═══════════════════════════════════════════════════════════════
 
-    def copy(self) -> "ConstantPool":
+    def copy(self) -> ConstantPool:
         """
         Erstellt eine unabhängige Kopie des Constant Pools.
 
@@ -1117,9 +1009,7 @@ class ConstantPool:
 
         result = ConstantPool(
             max_size=self.max_size,
-            max_total_payload_bytes=(
-                self.max_total_payload_bytes
-            ),
+            max_total_payload_bytes=(self.max_total_payload_bytes),
         )
 
         for constant in self._constants:
@@ -1169,15 +1059,11 @@ class ConstantPoolBuilder:
         self,
         *,
         max_size: int = ConstantPool.DEFAULT_MAX_SIZE,
-        max_total_payload_bytes: int = (
-            ConstantPoolLimits.MAX_TOTAL_PAYLOAD_BYTES
-        ),
+        max_total_payload_bytes: int = (ConstantPoolLimits.MAX_TOTAL_PAYLOAD_BYTES),
     ) -> None:
         self.pool = ConstantPool(
             max_size=max_size,
-            max_total_payload_bytes=(
-                max_total_payload_bytes
-            ),
+            max_total_payload_bytes=(max_total_payload_bytes),
         )
 
     def literal(
@@ -1268,11 +1154,11 @@ class ConstantPoolBuilder:
 
 
 __all__ = [
-    "ConstantType",
     "Constant",
-    "ConstantPoolLimits",
     "ConstantPool",
     "ConstantPoolBuilder",
+    "ConstantPoolLimits",
+    "ConstantType",
     "infer_constant_type",
 ]
 

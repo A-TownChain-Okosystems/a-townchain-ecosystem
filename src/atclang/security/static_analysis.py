@@ -10,11 +10,12 @@ Pruefregeln (Findings mit Schweregrad, Gate-Semantik nach ATC-GOV-001 Kap. 11):
 - SEC-005 (MEDIUM):  Unbegrenzte Schleifen ohne Gas-/Limit-Bindung.
 Gate-Politik: BLOCKER => FAIL, HIGH => FAIL im consensus-Profil, sonst WARN.
 """
+
 from __future__ import annotations
+
 import re
 from dataclasses import dataclass
 from enum import Enum
-from typing import List, Optional
 
 
 class Severity(str, Enum):
@@ -36,28 +37,47 @@ class SecurityGate:
     """Quellcode-Gate: analyse(source, profile) -> (findings, passed)."""
 
     FORBIDDEN_HOST_CALLS = re.compile(
-        r"\b(time\.time\s*\(|datetime\.now\s*\(|os\.system\s*\(|os\.popen\s*\(|subprocess\.)")
+        r"\b(time\.time\s*\(|datetime\.now\s*\(|os\.system\s*\(|os\.popen\s*\(|subprocess\.)"
+    )
     RANDOM_CALLS = re.compile(r"\brandom\.(?!seed)")
     EMIT_RE = re.compile(r"\bemit\s+(\w+)\s*\(")
     REQUIRE_RE = re.compile(r"\brequire\s*\(")
     UNSAFE_RE = re.compile(r"\bfn\s+(unsafe_\w+)")
     LOOP_RE = re.compile(r"\b(while|loop)\s*\(")
 
-    def analyse(self, source: str, profile: str = "consensus") -> List[Finding]:
-        findings: List[Finding] = []
+    def analyse(self, source: str, profile: str = "consensus") -> list[Finding]:
+        findings: list[Finding] = []
         for lineno, line in enumerate(source.splitlines(), start=1):
             if profile == "consensus":
                 if self.FORBIDDEN_HOST_CALLS.search(line):
-                    findings.append(Finding("SEC-001", Severity.BLOCKER, lineno,
-                                            "Host-Aufruf verboten im Consensus-Profil (Determinismus)"))
+                    findings.append(
+                        Finding(
+                            "SEC-001",
+                            Severity.BLOCKER,
+                            lineno,
+                            "Host-Aufruf verboten im Consensus-Profil (Determinismus)",
+                        )
+                    )
                 if self.RANDOM_CALLS.search(line):
-                    findings.append(Finding("SEC-002", Severity.BLOCKER, lineno,
-                                            "random.* verboten — Zufall nur via vm_seed"))
+                    findings.append(
+                        Finding(
+                            "SEC-002",
+                            Severity.BLOCKER,
+                            lineno,
+                            "random.* verboten — Zufall nur via vm_seed",
+                        )
+                    )
             if self.UNSAFE_RE.search(line):
                 fn = self.UNSAFE_RE.search(line).group(1)
                 if not self._function_has_require(source, fn):
-                    findings.append(Finding("SEC-004", Severity.MEDIUM, lineno,
-                                            f"{fn} ohne require-Guard"))
+                    findings.append(
+                        Finding(
+                            "SEC-004",
+                            Severity.MEDIUM,
+                            lineno,
+                            f"{fn} ohne require-Guard",
+                        )
+                    )
         return findings
 
     def check(self, source: str, profile: str = "consensus") -> bool:
@@ -74,7 +94,7 @@ class SecurityGate:
         m = re.search(rf"fn\s+{fn}\s*\(.*?\)\s*(->\s*\w+\s*)?\{{", source)
         if not m:
             return False
-        body = source[m.end():]
+        body = source[m.end() :]
         depth, end = 1, len(body)
         for i, ch in enumerate(body):
             if ch == "{":

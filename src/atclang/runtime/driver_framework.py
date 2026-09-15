@@ -9,7 +9,6 @@ Entspricht modules/kernel/drivers/driver_framework.atc
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Any, Tuple
 from enum import IntEnum
 
 
@@ -134,10 +133,10 @@ class DriverRegistry:
     """Python Runtime für den ATCLang Driver Framework Contract."""
 
     def __init__(self):
-        self.drivers: Dict[int, DriverInfo] = {}
-        self.devices: Dict[int, DeviceInfo] = {}
-        self.open_handles: Dict[int, OpenHandle] = {}
-        self.irq_routes: Dict[int, IRQRoute] = {}
+        self.drivers: dict[int, DriverInfo] = {}
+        self.devices: dict[int, DeviceInfo] = {}
+        self.open_handles: dict[int, OpenHandle] = {}
+        self.irq_routes: dict[int, IRQRoute] = {}
         self.next_driver_id = 1
         self.next_device_id = 1
         self.next_handle_id = 1
@@ -149,18 +148,30 @@ class DriverRegistry:
     #  DRIVER MANAGEMENT
     # ═══════════════════════════════════════════════════════════
 
-    def register_driver(self, name, version, device_class, supported_vendors,
-                        init_fn, cleanup_fn, gas_per_io=10):
+    def register_driver(
+        self,
+        name,
+        version,
+        device_class,
+        supported_vendors,
+        init_fn,
+        cleanup_fn,
+        gas_per_io=10,
+    ):
         """Treiber registrieren → driver_id"""
         did = self.next_driver_id
         self.next_driver_id += 1
         driver = DriverInfo(
-            driver_id=did, name=name, version=version,
+            driver_id=did,
+            name=name,
+            version=version,
             device_class=DeviceClass(device_class),
             supported_vendors=list(supported_vendors),
             state=DriverState.LOADED,
-            init_fn=init_fn, cleanup_fn=cleanup_fn,
-            load_count=1, gas_per_io=gas_per_io,
+            init_fn=init_fn,
+            cleanup_fn=cleanup_fn,
+            load_count=1,
+            gas_per_io=gas_per_io,
         )
         self.drivers[did] = driver
         self.events.append(("DriverRegistered", did, name))
@@ -209,25 +220,46 @@ class DriverRegistry:
         return self.drivers.get(driver_id)
 
     def list_drivers_by_class(self, device_class):
-        return [did for did, d in self.drivers.items()
-                if d.device_class == DeviceClass(device_class) and d.state == DriverState.ACTIVE]
+        return [
+            did
+            for did, d in self.drivers.items()
+            if d.device_class == DeviceClass(device_class) and d.state == DriverState.ACTIVE
+        ]
 
     # ═══════════════════════════════════════════════════════════
     #  DEVICE MANAGEMENT
     # ═══════════════════════════════════════════════════════════
 
-    def enumerate_device(self, device_class, bus, vendor_id, product_id,
-                         bus_address=0, irq_line=0xFF, mmio_base=0, mmio_size=0,
-                         port_base=0, name="", description=""):
+    def enumerate_device(
+        self,
+        device_class,
+        bus,
+        vendor_id,
+        product_id,
+        bus_address=0,
+        irq_line=0xFF,
+        mmio_base=0,
+        mmio_size=0,
+        port_base=0,
+        name="",
+        description="",
+    ):
         """Gerät enumerieren → device_id"""
         did = self.next_device_id
         self.next_device_id += 1
         device = DeviceInfo(
-            device_id=did, device_class=DeviceClass(device_class),
-            bus=BusType(bus), vendor_id=vendor_id, product_id=product_id,
-            bus_address=bus_address, irq_line=irq_line,
-            mmio_base=mmio_base, mmio_size=mmio_size,
-            port_base=port_base, name=name, description=description,
+            device_id=did,
+            device_class=DeviceClass(device_class),
+            bus=BusType(bus),
+            vendor_id=vendor_id,
+            product_id=product_id,
+            bus_address=bus_address,
+            irq_line=irq_line,
+            mmio_base=mmio_base,
+            mmio_size=mmio_size,
+            port_base=port_base,
+            name=name,
+            description=description,
         )
         self.devices[did] = device
         self.events.append(("DeviceEnumerated", did, name))
@@ -266,12 +298,12 @@ class DriverRegistry:
         return self.devices.get(device_id)
 
     def list_devices_by_class(self, device_class):
-        return [did for did, d in self.devices.items()
-                if d.device_class == DeviceClass(device_class)]
+        return [
+            did for did, d in self.devices.items() if d.device_class == DeviceClass(device_class)
+        ]
 
     def list_devices_by_bus(self, bus_type):
-        return [did for did, d in self.devices.items()
-                if d.bus == BusType(bus_type)]
+        return [did for did, d in self.devices.items() if d.bus == BusType(bus_type)]
 
     # ═══════════════════════════════════════════════════════════
     #  I/O INTERFACE
@@ -295,9 +327,13 @@ class DriverRegistry:
         hid = self.next_handle_id
         self.next_handle_id += 1
         handle = OpenHandle(
-            handle_id=hid, device_id=device_id, driver_id=device.driver_id,
-            flags=flags, owner_pid=owner_pid,
-            is_blocking=(flags & 0x04) == 0, ref_count=1,
+            handle_id=hid,
+            device_id=device_id,
+            driver_id=device.driver_id,
+            flags=flags,
+            owner_pid=owner_pid,
+            is_blocking=(flags & 0x04) == 0,
+            ref_count=1,
         )
         self.open_handles[hid] = handle
         self.total_io_ops += 1
@@ -393,8 +429,12 @@ class DriverRegistry:
         if irq_line >= 255:
             raise ValueError("invalid IRQ line")
         route = IRQRoute(
-            irq_line=irq_line, device_id=device_id, driver_id=driver_id,
-            handler_fn=handler_fn, priority=priority, enabled=True,
+            irq_line=irq_line,
+            device_id=device_id,
+            driver_id=driver_id,
+            handler_fn=handler_fn,
+            priority=priority,
+            enabled=True,
         )
         self.irq_routes[irq_line] = route
         return True

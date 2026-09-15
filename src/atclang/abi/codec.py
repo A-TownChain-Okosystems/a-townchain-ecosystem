@@ -9,9 +9,12 @@ Wire-Format (big-endian, deterministisch, 32-Byte-Ausrichtung wie ATC-8300):
 - Vec<T>/Map: Längen-Head + Elemente (rekursiv kanonisch)
 - Selektor: sha3-256(canonical_signature)[0:4] — 4 Bytes, hex-präfixiert "0x"
 """
+
 from __future__ import annotations
+
 import hashlib
-from typing import Any, List, Sequence, Tuple
+from collections.abc import Sequence
+from typing import Any
 
 _U = {"UInt8": 1, "UInt16": 2, "UInt32": 4, "UInt64": 8, "UInt128": 16, "UInt256": 32}
 
@@ -70,45 +73,45 @@ class ABICodec:
         """Call-Payload = Selektor || kanonisch verkettete Argumente."""
         if len(values) != len(abi_types):
             raise ABIError("Argument-/Typenanzahl stimmt nicht ueberein")
-        sel = bytes.fromhex(selector[2:] if selector.startswith("0x") else selector)
+        sel = bytes.fromhex(selector.removeprefix("0x"))
         if len(sel) != 4:
             raise ABIError("Selektor muss 4 Bytes sein")
         return sel + b"".join(self.encode(v, t) for v, t in zip(values, abi_types))
 
     # ---- decode ----
-    def decode(self, data: bytes, abi_type: str, offset: int = 0) -> Tuple[Any, int]:
+    def decode(self, data: bytes, abi_type: str, offset: int = 0) -> tuple[Any, int]:
         if abi_type in _U:
             width = _U[abi_type]
-            return int.from_bytes(data[offset:offset + 32][32 - width:], "big"), offset + 32
+            return int.from_bytes(data[offset : offset + 32][32 - width :], "big"), offset + 32
         if abi_type == "Int256":
-            raw = data[offset:offset + 32]
+            raw = data[offset : offset + 32]
             val = int.from_bytes(raw, "big", signed=True)
             return val, offset + 32
         if abi_type == "Bool":
-            return int.from_bytes(data[offset:offset + 32], "big") == 1, offset + 32
+            return int.from_bytes(data[offset : offset + 32], "big") == 1, offset + 32
         if abi_type == "Address":
-            raw = data[offset:offset + 32]
+            raw = data[offset : offset + 32]
             return "0x" + raw[12:].hex(), offset + 32
         if abi_type in ("Bytes32",):
-            return bytes(data[offset:offset + 32]), offset + 32
+            return bytes(data[offset : offset + 32]), offset + 32
         if abi_type in ("Bytes64",):
-            return bytes(data[offset:offset + 64]), offset + 64
+            return bytes(data[offset : offset + 64]), offset + 64
         if abi_type == "String":
-            ln = int.from_bytes(data[offset:offset + 32], "big")
-            body = data[offset + 32:offset + 32 + ln]
+            ln = int.from_bytes(data[offset : offset + 32], "big")
+            body = data[offset + 32 : offset + 32 + ln]
             return body.decode("utf-8"), offset + 32 + ln
         if abi_type.startswith("Vec["):
             inner = abi_type[4:-1]
-            ln = int.from_bytes(data[offset:offset + 32], "big")
+            ln = int.from_bytes(data[offset : offset + 32], "big")
             off = offset + 32
-            out: List[Any] = []
+            out: list[Any] = []
             for _ in range(ln):
                 v, off = self.decode(data, inner, off)
                 out.append(v)
             return out, off
         if abi_type.startswith("Map["):
             _, vtype = self._split_map(abi_type)
-            ln = int.from_bytes(data[offset:offset + 32], "big")
+            ln = int.from_bytes(data[offset : offset + 32], "big")
             off = offset + 32
             out = {}
             for _ in range(ln):
@@ -124,7 +127,7 @@ class ABICodec:
         return n.to_bytes(32, "big")
 
     @staticmethod
-    def _split_map(t: str) -> Tuple[str, str]:
+    def _split_map(t: str) -> tuple[str, str]:
         inner = t[4:-1]
         parts = inner.split(",", 1)
         return parts[0].strip(), parts[1].strip()
@@ -134,7 +137,7 @@ class ABICodec:
         if v < 0:
             raise ABIError("Unsigned-Typ mit negativem Wert")
         raw = v.to_bytes(32, "big")
-        if raw[:32 - width] != b"\x00" * (32 - width):
+        if raw[: 32 - width] != b"\x00" * (32 - width):
             raise ABIError(f"Wert {v} ueberschreitet {width}-Byte-Breite")
         return raw
 
@@ -145,7 +148,7 @@ class ABICodec:
     @staticmethod
     def _enc_address(a: Any) -> bytes:
         if isinstance(a, str):
-            a = a[2:] if a.startswith("0x") else a
+            a = a.removeprefix("0x")
             a = bytes.fromhex(a)
         a = bytes(a)
         if len(a) != 20:

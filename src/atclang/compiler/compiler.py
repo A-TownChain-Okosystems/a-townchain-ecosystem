@@ -50,15 +50,14 @@ ATC-92 | ATCLang Compiler
 Version: 0.3.0
 """
 
-
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Sequence, Tuple
+from typing import Any
 
 from atclang.frontend.parser.ast_nodes import (
-    ASTNode,
     Assignment,
+    ASTNode,
     BinaryOp,
     BoolLiteral,
     BreakStatement,
@@ -67,6 +66,7 @@ from atclang.frontend.parser.ast_nodes import (
     ContinueStatement,
     ContractDef,
     DotAccess,
+    EmitStatement,
     EnumDef,
     ExprStatement,
     FloatLiteral,
@@ -83,7 +83,6 @@ from atclang.frontend.parser.ast_nodes import (
     MapLiteral,
     NamespaceAccess,
     NullLiteral,
-    Parameter,
     Program,
     RequireStatement,
     ReturnStatement,
@@ -98,11 +97,8 @@ from atclang.frontend.parser.ast_nodes import (
     UnaryOp,
     WalletDef,
     WhileStatement,
-    EmitStatement,
 )
-
-from atclang.vm.atcvm import Instruction, OP
-
+from atclang.vm.atcvm import OP, Instruction
 
 # ============================================================================
 # BYTECODE FORMAT
@@ -111,14 +107,13 @@ from atclang.vm.atcvm import Instruction, OP
 ATCB_MAGIC = b"ATCB"
 ATCB_VERSION_MAJOR = 1
 ATCB_VERSION_MINOR = 0
-ATCB_VERSION = bytes(
-    [ATCB_VERSION_MAJOR, ATCB_VERSION_MINOR]
-)
+ATCB_VERSION = bytes([ATCB_VERSION_MAJOR, ATCB_VERSION_MINOR])
 
 
 # ============================================================================
 # ERRORS
 # ============================================================================
+
 
 class CompileError(Exception):
     """Raised when AST compilation fails."""
@@ -127,8 +122,8 @@ class CompileError(Exception):
         self,
         message: str,
         *,
-        line: Optional[int] = None,
-        col: Optional[int] = None,
+        line: int | None = None,
+        col: int | None = None,
     ) -> None:
         self.message = message
         self.line = line
@@ -148,6 +143,7 @@ class CompileError(Exception):
 # SOURCE MAP
 # ============================================================================
 
+
 @dataclass(frozen=True)
 class SourceLocation:
     """Maps bytecode instruction to source location."""
@@ -160,6 +156,7 @@ class SourceLocation:
 # ============================================================================
 # SYMBOL SYSTEM
 # ============================================================================
+
 
 @dataclass
 class Symbol:
@@ -189,10 +186,10 @@ class SymbolTable:
 
     def __init__(
         self,
-        parent: Optional["SymbolTable"] = None,
+        parent: SymbolTable | None = None,
     ) -> None:
         self.parent = parent
-        self.symbols: Dict[str, Symbol] = {}
+        self.symbols: dict[str, Symbol] = {}
         self._next_index = 0
 
     def define(
@@ -202,9 +199,7 @@ class SymbolTable:
         typ: str = "",
     ) -> Symbol:
         if name in self.symbols:
-            raise CompileError(
-                f"Symbol '{name}' already defined"
-            )
+            raise CompileError(f"Symbol '{name}' already defined")
 
         symbol = Symbol(
             name=name,
@@ -234,7 +229,7 @@ class SymbolTable:
     def resolve(
         self,
         name: str,
-    ) -> Optional[Symbol]:
+    ) -> Symbol | None:
         symbol = self.symbols.get(name)
 
         if symbol is not None:
@@ -245,7 +240,7 @@ class SymbolTable:
 
         return None
 
-    def child(self) -> "SymbolTable":
+    def child(self) -> SymbolTable:
         return SymbolTable(parent=self)
 
     def contains_local(self, name: str) -> bool:
@@ -255,6 +250,7 @@ class SymbolTable:
 # ============================================================================
 # COMPILED MODULE
 # ============================================================================
+
 
 @dataclass
 class CompiledModule:
@@ -266,21 +262,17 @@ class CompiledModule:
 
     name: str
 
-    instructions: List[Instruction]
+    instructions: list[Instruction]
 
-    constants: List[Any]
+    constants: list[Any]
 
-    functions: Dict[str, List[Instruction]]
+    functions: dict[str, list[Instruction]]
 
-    exports: List[str] = field(default_factory=list)
+    exports: list[str] = field(default_factory=list)
 
-    function_params: Dict[str, List[str]] = field(
-        default_factory=dict
-    )
+    function_params: dict[str, list[str]] = field(default_factory=dict)
 
-    source_map: List[Tuple[int, int, int]] = field(
-        default_factory=list
-    )
+    source_map: list[tuple[int, int, int]] = field(default_factory=list)
 
     version: bytes = ATCB_VERSION
 
@@ -298,6 +290,7 @@ class CompiledModule:
 # COMPILER
 # ============================================================================
 
+
 class ATCCompiler:
     """
     ATCLang AST -> ATC bytecode compiler.
@@ -314,22 +307,22 @@ class ATCCompiler:
         self.module_name = module_name
 
         # Current instruction stream.
-        self.instructions: List[Instruction] = []
+        self.instructions: list[Instruction] = []
 
         # Module constant pool.
-        self.constants: List[Any] = []
+        self.constants: list[Any] = []
 
         # Compiled functions.
-        self.functions: Dict[str, List[Instruction]] = {}
+        self.functions: dict[str, list[Instruction]] = {}
 
         # Function parameter metadata.
-        self.function_params: Dict[str, List[str]] = {}
+        self.function_params: dict[str, list[str]] = {}
 
         # Public exports.
-        self.exports: List[str] = []
+        self.exports: list[str] = []
 
         # instruction -> (line, col)
-        self.source_map: List[Tuple[int, int, int]] = []
+        self.source_map: list[tuple[int, int, int]] = []
 
         # Global symbol table.
         self.globals = SymbolTable()
@@ -341,11 +334,11 @@ class ATCCompiler:
         #
         # Every active loop owns one break target list.
         # Every active loop owns one continue target.
-        self._break_stack: List[List[int]] = []
-        self._continue_stack: List[int] = []
+        self._break_stack: list[list[int]] = []
+        self._continue_stack: list[int] = []
 
         # Compilation state.
-        self._current_function: Optional[str] = None
+        self._current_function: str | None = None
 
     # ------------------------------------------------------------------
     # Diagnostics
@@ -354,7 +347,7 @@ class ATCCompiler:
     def error(
         self,
         message: str,
-        node: Optional[ASTNode] = None,
+        node: ASTNode | None = None,
     ) -> None:
         line = getattr(node, "line", None)
         col = getattr(node, "col", None)
@@ -384,13 +377,9 @@ class ATCCompiler:
 
         index = len(self.instructions)
 
-        self.instructions.append(
-            Instruction(op, list(args))
-        )
+        self.instructions.append(Instruction(op, list(args)))
 
-        self.source_map.append(
-            (index, line, col)
-        )
+        self.source_map.append((index, line, col))
 
         return index
 
@@ -401,17 +390,10 @@ class ATCCompiler:
     ) -> None:
         """Patch a previously emitted instruction."""
 
-        if not (
-            0 <= instruction_index
-            < len(self.instructions)
-        ):
-            raise CompileError(
-                f"Invalid patch index: {instruction_index}"
-            )
+        if not (0 <= instruction_index < len(self.instructions)):
+            raise CompileError(f"Invalid patch index: {instruction_index}")
 
-        self.instructions[
-            instruction_index
-        ].args = list(args)
+        self.instructions[instruction_index].args = list(args)
 
     def current_pos(self) -> int:
         return len(self.instructions)
@@ -510,7 +492,7 @@ class ATCCompiler:
         # --------------------------------------------------------------
 
         if isinstance(node, Identifier):
-            symbol = scope.resolve(node.name)
+            _symbol = scope.resolve(node.name)  # noqa: F841
 
             # LOAD currently addresses names.
             # Symbol indices remain compiler metadata and can later
@@ -553,19 +535,16 @@ class ATCCompiler:
                 "/": OP.DIV,
                 "%": OP.MOD,
                 "**": OP.POW,
-
                 "==": OP.EQ,
                 "!=": OP.NEQ,
                 "<": OP.LT,
                 ">": OP.GT,
                 "<=": OP.LTE,
                 ">=": OP.GTE,
-
                 "&&": OP.AND,
                 "and": OP.AND,
                 "||": OP.OR,
                 "or": OP.OR,
-
                 "&": OP.BITAND,
                 "|": OP.BITOR,
                 "^": OP.BITXOR,
@@ -703,10 +682,7 @@ class ATCCompiler:
                 key = None
                 value = None
 
-                if (
-                    isinstance(pair, tuple)
-                    and len(pair) >= 2
-                ):
+                if isinstance(pair, tuple) and len(pair) >= 2:
                     key, value = pair[0], pair[1]
 
                 elif isinstance(pair, dict):
@@ -760,11 +736,7 @@ class ATCCompiler:
         # --------------------------------------------------------------
 
         if isinstance(node, CastExpr):
-            value = (
-                node.value
-                if hasattr(node, "value")
-                else node.operand
-            )
+            value = node.value if hasattr(node, "value") else node.operand
 
             target_type = getattr(
                 node,
@@ -783,8 +755,7 @@ class ATCCompiler:
             return
 
         self.error(
-            f"Unknown expression type: "
-            f"{type(node).__name__}",
+            f"Unknown expression type: {type(node).__name__}",
             node,
         )
 
@@ -1129,12 +1100,9 @@ class ATCCompiler:
 
             message = ""
 
-            if (
-                node.message is not None
-                and isinstance(
-                    node.message,
-                    StringLiteral,
-                )
+            if node.message is not None and isinstance(
+                node.message,
+                StringLiteral,
             ):
                 message = node.message.value
 
@@ -1197,9 +1165,7 @@ class ATCCompiler:
                 col=getattr(node, "col", 0),
             )
 
-            self._break_stack[-1].append(
-                jump_index
-            )
+            self._break_stack[-1].append(jump_index)
             return
 
         # --------------------------------------------------------------
@@ -1259,8 +1225,7 @@ class ATCCompiler:
             return
 
         self.error(
-            f"Unknown statement type: "
-            f"{type(node).__name__}",
+            f"Unknown statement type: {type(node).__name__}",
             node,
         )
 
@@ -1281,7 +1246,7 @@ class ATCCompiler:
             else {}
         """
 
-        end_jumps: List[int] = []
+        end_jumps: list[int] = []
 
         # --------------------------------------------------------------
         # if
@@ -1463,13 +1428,9 @@ class ATCCompiler:
         into an indexed iteration loop.
         """
 
-        iterator_name = self.new_temp(
-            f"__iter_{node.var}"
-        )
+        iterator_name = self.new_temp(f"__iter_{node.var}")
 
-        index_name = self.new_temp(
-            f"__index_{node.var}"
-        )
+        index_name = self.new_temp(f"__index_{node.var}")
 
         # iterable
         self.compile_expr(
@@ -1529,9 +1490,7 @@ class ATCCompiler:
         )
 
         self._break_stack.append([])
-        self._continue_stack.append(
-            loop_start
-        )
+        self._continue_stack.append(loop_start)
 
         # x = iterable[index]
         self.emit(
@@ -1573,9 +1532,7 @@ class ATCCompiler:
         continue_target = self.current_pos()
 
         # Patch continue jumps to increment block.
-        for instruction_index in self._collect_continue_jumps(
-            loop_start
-        ):
+        for instruction_index in self._collect_continue_jumps(loop_start):
             self.patch(
                 instruction_index,
                 continue_target,
@@ -1624,7 +1581,7 @@ class ATCCompiler:
     def _collect_continue_jumps(
         self,
         loop_start: int,
-    ) -> List[int]:
+    ) -> list[int]:
         """
         Compatibility helper.
 
@@ -1669,7 +1626,7 @@ class ATCCompiler:
     def compile_function(
         self,
         fn: FunctionDef,
-    ) -> List[Instruction]:
+    ) -> list[Instruction]:
         """
         Compile function into an independent instruction stream.
         """
@@ -1711,10 +1668,7 @@ class ATCCompiler:
             )
 
         # Implicit return None.
-        if (
-            not self.instructions
-            or self.instructions[-1].op != OP.RETURN
-        ):
+        if not self.instructions or self.instructions[-1].op != OP.RETURN:
             self.emit(
                 OP.PUSH,
                 None,
@@ -1782,9 +1736,7 @@ class ATCCompiler:
                     line=getattr(state, "line", 0),
                 )
 
-            state_name = (
-                f"{contract.name}.{state.name}"
-            )
+            state_name = f"{contract.name}.{state.name}"
 
             self.emit(
                 OP.STORE,
@@ -1803,29 +1755,16 @@ class ATCCompiler:
         # --------------------------------------------------------------
 
         for fn in contract.functions:
-            qualified_name = (
-                f"{contract.name}.{fn.name}"
-            )
+            qualified_name = f"{contract.name}.{fn.name}"
 
-            fn_instructions = self.compile_function(
-                fn
-            )
+            fn_instructions = self.compile_function(fn)
 
-            self.functions[
-                qualified_name
-            ] = fn_instructions
+            self.functions[qualified_name] = fn_instructions
 
-            self.function_params[
-                qualified_name
-            ] = [
-                parameter.name
-                for parameter in fn.params
-            ]
+            self.function_params[qualified_name] = [parameter.name for parameter in fn.params]
 
             if getattr(fn, "is_pub", False):
-                self.exports.append(
-                    qualified_name
-                )
+                self.exports.append(qualified_name)
 
     # ==================================================================
     # PROGRAM COMPILATION
@@ -1844,9 +1783,7 @@ class ATCCompiler:
         statements = program.statements
 
         for index, node in enumerate(statements):
-            is_last = (
-                index == len(statements) - 1
-            )
+            is_last = index == len(statements) - 1
 
             # ----------------------------------------------------------
             # Contract
@@ -1861,29 +1798,18 @@ class ATCCompiler:
             # ----------------------------------------------------------
 
             if isinstance(node, FunctionDef):
-                fn_instructions = (
-                    self.compile_function(node)
-                )
+                fn_instructions = self.compile_function(node)
 
-                self.functions[
-                    node.name
-                ] = fn_instructions
+                self.functions[node.name] = fn_instructions
 
-                self.function_params[
-                    node.name
-                ] = [
-                    parameter.name
-                    for parameter in node.params
-                ]
+                self.function_params[node.name] = [parameter.name for parameter in node.params]
 
                 if getattr(
                     node,
                     "is_pub",
                     False,
                 ):
-                    self.exports.append(
-                        node.name
-                    )
+                    self.exports.append(node.name)
 
                 continue
 
@@ -1946,11 +1872,7 @@ class ATCCompiler:
             # ----------------------------------------------------------
 
             if isinstance(node, EnumDef):
-                variants = {
-                    variant: index
-                    for index, variant
-                    in enumerate(node.variants)
-                }
+                variants = {variant: index for index, variant in enumerate(node.variants)}
 
                 for variant, value in variants.items():
                     self.emit(
@@ -2016,12 +1938,9 @@ class ATCCompiler:
             # Final expression
             # ----------------------------------------------------------
 
-            if (
-                is_last
-                and isinstance(
-                    node,
-                    ExprStatement,
-                )
+            if is_last and isinstance(
+                node,
+                ExprStatement,
             ):
                 self.compile_expr(
                     node.expr,
@@ -2049,13 +1968,9 @@ class ATCCompiler:
         # Program termination
         # --------------------------------------------------------------
 
-        if (
-            not self.instructions
-            or self.instructions[-1].op
-            not in (
-                OP.RETURN,
-                OP.HALT,
-            )
+        if not self.instructions or self.instructions[-1].op not in (
+            OP.RETURN,
+            OP.HALT,
         ):
             self.emit(OP.HALT)
 
@@ -2074,6 +1989,7 @@ class ATCCompiler:
 # ============================================================================
 # PUBLIC API
 # ============================================================================
+
 
 def compile_source(
     source: str,
@@ -2114,6 +2030,7 @@ def compile_source(
 # DISASSEMBLER
 # ============================================================================
 
+
 def disassemble(
     module: CompiledModule,
 ) -> str:
@@ -2121,17 +2038,11 @@ def disassemble(
     Human-readable ATC bytecode disassembly.
     """
 
-    lines: List[str] = []
+    lines: list[str] = []
 
-    lines.append(
-        f"=== ATC Bytecode: {module.name} ==="
-    )
+    lines.append(f"=== ATC Bytecode: {module.name} ===")
 
-    lines.append(
-        "Version: "
-        f"{module.version[0]}."
-        f"{module.version[1]}"
-    )
+    lines.append(f"Version: {module.version[0]}.{module.version[1]}")
 
     lines.append(
         "Instrs: "
@@ -2149,12 +2060,8 @@ def disassemble(
         lines.append("")
         lines.append("[CONSTANTS]")
 
-        for index, value in enumerate(
-            module.constants
-        ):
-            lines.append(
-                f"  {index:04d}  {value!r}"
-            )
+        for index, value in enumerate(module.constants):
+            lines.append(f"  {index:04d}  {value!r}")
 
     # --------------------------------------------------------------
     # Main
@@ -2163,55 +2070,27 @@ def disassemble(
     lines.append("")
     lines.append("[MAIN]")
 
-    for index, instruction in enumerate(
-        module.instructions
-    ):
-        args = (
-            " ".join(
-                repr(argument)
-                for argument
-                in instruction.args
-            )
-            if instruction.args
-            else ""
-        )
+    for index, instruction in enumerate(module.instructions):
+        args = " ".join(repr(argument) for argument in instruction.args) if instruction.args else ""
 
-        lines.append(
-            f"  {index:04d}  "
-            f"{instruction.op.name:<14} "
-            f"{args}"
-        )
+        lines.append(f"  {index:04d}  {instruction.op.name:<14} {args}")
 
     # --------------------------------------------------------------
     # Functions
     # --------------------------------------------------------------
 
-    for function_name, instructions in (
-        module.functions.items()
-    ):
+    for function_name, instructions in module.functions.items():
         lines.append("")
-        lines.append(
-            f"[FN: {function_name}]"
-        )
+        lines.append(f"[FN: {function_name}]")
 
-        for index, instruction in enumerate(
-            instructions
-        ):
+        for index, instruction in enumerate(instructions):
             args = (
-                " ".join(
-                    repr(argument)
-                    for argument
-                    in instruction.args
-                )
+                " ".join(repr(argument) for argument in instruction.args)
                 if instruction.args
                 else ""
             )
 
-            lines.append(
-                f"  {index:04d}  "
-                f"{instruction.op.name:<14} "
-                f"{args}"
-            )
+            lines.append(f"  {index:04d}  {instruction.op.name:<14} {args}")
 
     return "\n".join(lines)
 
@@ -2225,12 +2104,12 @@ __all__ = [
     "ATCB_VERSION",
     "ATCB_VERSION_MAJOR",
     "ATCB_VERSION_MINOR",
+    "ATCCompiler",
     "CompileError",
     "CompiledModule",
     "SourceLocation",
     "Symbol",
     "SymbolTable",
-    "ATCCompiler",
     "compile_source",
     "disassemble",
 ]

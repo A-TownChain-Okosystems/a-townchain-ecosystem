@@ -78,19 +78,13 @@ Nicht erlaubt:
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from enum import IntEnum
 import math
 import struct
+from collections.abc import Iterable, Mapping, Sequence
+from dataclasses import dataclass
+from enum import IntEnum
 from typing import (
     Any,
-    Dict,
-    Iterable,
-    List,
-    Mapping,
-    Optional,
-    Sequence,
-    Tuple,
 )
 
 from .bytecode import (
@@ -107,7 +101,6 @@ from .constants import (
     ConstantPool,
 )
 
-
 # ══════════════════════════════════════════════════════════════════════════════
 # ABI VERSION
 # ══════════════════════════════════════════════════════════════════════════════
@@ -117,7 +110,7 @@ ABI_NAME = "ATCLang Bytecode ABI"
 ABI_VERSION_MAJOR = 1
 ABI_VERSION_MINOR = 0
 
-ABI_VERSION: Tuple[int, int] = (
+ABI_VERSION: tuple[int, int] = (
     ABI_VERSION_MAJOR,
     ABI_VERSION_MINOR,
 )
@@ -153,9 +146,7 @@ HEADER_SIZE = 20
 HEADER_FLAGS_NONE = 0
 HEADER_RESERVED = 0
 
-_HEADER_STRUCT = struct.Struct(
-    ">4sBBBBIII"
-)
+_HEADER_STRUCT = struct.Struct(">4sBBBBIII")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -178,12 +169,10 @@ class SectionType(IntEnum):
 
 SECTION_HEADER_SIZE = 8
 
-_SECTION_HEADER_STRUCT = struct.Struct(
-    ">II"
-)
+_SECTION_HEADER_STRUCT = struct.Struct(">II")
 
 
-CANONICAL_SECTION_ORDER: Tuple[SectionType, ...] = (
+CANONICAL_SECTION_ORDER: tuple[SectionType, ...] = (
     SectionType.METADATA,
     SectionType.CONSTANTS,
     SectionType.MAIN_CODE,
@@ -297,19 +286,13 @@ class ABISection:
             self.type,
             SectionType,
         ):
-            raise BytecodeValidationError(
-                "ABISection.type must be SectionType."
-            )
+            raise BytecodeValidationError("ABISection.type must be SectionType.")
 
         if type(self.payload) is not bytes:
-            raise BytecodeValidationError(
-                "ABISection.payload must be bytes."
-            )
+            raise BytecodeValidationError("ABISection.payload must be bytes.")
 
         if len(self.payload) > MAX_U32:
-            raise BytecodeValidationError(
-                "ABI section payload exceeds u32."
-            )
+            raise BytecodeValidationError("ABI section payload exceeds u32.")
 
     def encode(self) -> bytes:
         return (
@@ -330,26 +313,20 @@ def _require_exact_int(
     value: Any,
     *,
     name: str,
-    minimum: Optional[int] = None,
-    maximum: Optional[int] = None,
+    minimum: int | None = None,
+    maximum: int | None = None,
 ) -> None:
     if isinstance(value, bool) or not isinstance(value, int):
-        raise BytecodeValidationError(
-            f"{name} must be an integer."
-        )
+        raise BytecodeValidationError(f"{name} must be an integer.")
 
     # IntEnum-Members (z.B. SectionType) sind gueltige Integer-Werte
     value = int(value)
 
     if minimum is not None and value < minimum:
-        raise BytecodeValidationError(
-            f"{name} must be >= {minimum}."
-        )
+        raise BytecodeValidationError(f"{name} must be >= {minimum}.")
 
     if maximum is not None and value > maximum:
-        raise BytecodeValidationError(
-            f"{name} must be <= {maximum}."
-        )
+        raise BytecodeValidationError(f"{name} must be <= {maximum}.")
 
 
 def _require_string(
@@ -357,9 +334,7 @@ def _require_string(
     name: str,
 ) -> None:
     if type(value) is not str:
-        raise BytecodeValidationError(
-            f"{name} must be a string."
-        )
+        raise BytecodeValidationError(f"{name} must be a string.")
 
 
 def _require_bytes(
@@ -367,9 +342,7 @@ def _require_bytes(
     name: str,
 ) -> None:
     if type(value) is not bytes:
-        raise BytecodeValidationError(
-            f"{name} must be bytes."
-        )
+        raise BytecodeValidationError(f"{name} must be bytes.")
 
 
 def _require_available(
@@ -378,41 +351,27 @@ def _require_available(
     length: int,
 ) -> None:
     if type(data) is not bytes:
-        raise BytecodeFormatError(
-            "ABI input must be bytes."
-        )
+        raise BytecodeFormatError("ABI input must be bytes.")
 
     if type(offset) is not int:
-        raise BytecodeFormatError(
-            "Decode offset must be an integer."
-        )
+        raise BytecodeFormatError("Decode offset must be an integer.")
 
     if type(length) is not int:
-        raise BytecodeFormatError(
-            "Decode length must be an integer."
-        )
+        raise BytecodeFormatError("Decode length must be an integer.")
 
     if offset < 0:
-        raise BytecodeFormatError(
-            "Negative decode offset."
-        )
+        raise BytecodeFormatError("Negative decode offset.")
 
     if length < 0:
-        raise BytecodeFormatError(
-            "Negative decode length."
-        )
+        raise BytecodeFormatError("Negative decode length.")
 
     end = offset + length
 
     if end < offset:
-        raise BytecodeFormatError(
-            "Decode offset overflow."
-        )
+        raise BytecodeFormatError("Decode offset overflow.")
 
     if end > len(data):
-        raise BytecodeFormatError(
-            "Unexpected end of ATCB payload."
-        )
+        raise BytecodeFormatError("Unexpected end of ATCB payload.")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -437,7 +396,7 @@ def encode_u8(value: int) -> bytes:
 def decode_u8(
     data: bytes,
     offset: int = 0,
-) -> Tuple[int, int]:
+) -> tuple[int, int]:
     _require_available(
         data,
         offset,
@@ -467,7 +426,7 @@ def encode_u16(value: int) -> bytes:
 def decode_u16(
     data: bytes,
     offset: int = 0,
-) -> Tuple[int, int]:
+) -> tuple[int, int]:
     _require_available(
         data,
         offset,
@@ -477,7 +436,7 @@ def decode_u16(
     return (
         struct.unpack(
             ">H",
-            data[offset:offset + 2],
+            data[offset : offset + 2],
         )[0],
         offset + 2,
     )
@@ -500,7 +459,7 @@ def encode_u32(value: int) -> bytes:
 def decode_u32(
     data: bytes,
     offset: int = 0,
-) -> Tuple[int, int]:
+) -> tuple[int, int]:
     _require_available(
         data,
         offset,
@@ -510,7 +469,7 @@ def decode_u32(
     return (
         struct.unpack(
             ">I",
-            data[offset:offset + 4],
+            data[offset : offset + 4],
         )[0],
         offset + 4,
     )
@@ -533,7 +492,7 @@ def encode_u64(value: int) -> bytes:
 def decode_u64(
     data: bytes,
     offset: int = 0,
-) -> Tuple[int, int]:
+) -> tuple[int, int]:
     _require_available(
         data,
         offset,
@@ -543,7 +502,7 @@ def decode_u64(
     return (
         struct.unpack(
             ">Q",
-            data[offset:offset + 8],
+            data[offset : offset + 8],
         )[0],
         offset + 8,
     )
@@ -566,7 +525,7 @@ def encode_i64(value: int) -> bytes:
 def decode_i64(
     data: bytes,
     offset: int = 0,
-) -> Tuple[int, int]:
+) -> tuple[int, int]:
     _require_available(
         data,
         offset,
@@ -576,7 +535,7 @@ def decode_i64(
     return (
         struct.unpack(
             ">q",
-            data[offset:offset + 8],
+            data[offset : offset + 8],
         )[0],
         offset + 8,
     )
@@ -589,14 +548,10 @@ def decode_i64(
 
 def encode_f64(value: float) -> bytes:
     if type(value) is not float:
-        raise BytecodeValidationError(
-            "f64 value must be an exact float."
-        )
+        raise BytecodeValidationError("f64 value must be an exact float.")
 
     if not math.isfinite(value):
-        raise BytecodeValidationError(
-            "Non-finite floating-point values are forbidden."
-        )
+        raise BytecodeValidationError("Non-finite floating-point values are forbidden.")
 
     return struct.pack(
         ">d",
@@ -607,7 +562,7 @@ def encode_f64(value: float) -> bytes:
 def decode_f64(
     data: bytes,
     offset: int = 0,
-) -> Tuple[float, int]:
+) -> tuple[float, int]:
     _require_available(
         data,
         offset,
@@ -616,13 +571,11 @@ def decode_f64(
 
     value = struct.unpack(
         ">d",
-        data[offset:offset + 8],
+        data[offset : offset + 8],
     )[0]
 
     if not math.isfinite(value):
-        raise BytecodeFormatError(
-            "Non-finite f64 value in ATCB."
-        )
+        raise BytecodeFormatError("Non-finite f64 value in ATCB.")
 
     return (
         value,
@@ -642,20 +595,15 @@ def encode_bytes(value: bytes) -> bytes:
     )
 
     if len(value) > MAX_U32:
-        raise BytecodeValidationError(
-            "Byte sequence exceeds u32 length."
-        )
+        raise BytecodeValidationError("Byte sequence exceeds u32 length.")
 
-    return (
-        encode_u32(len(value))
-        + value
-    )
+    return encode_u32(len(value)) + value
 
 
 def decode_bytes(
     data: bytes,
     offset: int = 0,
-) -> Tuple[bytes, int]:
+) -> tuple[bytes, int]:
     length, offset = decode_u32(
         data,
         offset,
@@ -687,19 +635,15 @@ def encode_string(value: str) -> bytes:
             errors="strict",
         )
     except UnicodeEncodeError as exc:
-        raise BytecodeValidationError(
-            "String cannot be encoded as UTF-8."
-        ) from exc
+        raise BytecodeValidationError("String cannot be encoded as UTF-8.") from exc
 
-    return encode_bytes(
-        encoded
-    )
+    return encode_bytes(encoded)
 
 
 def decode_string(
     data: bytes,
     offset: int = 0,
-) -> Tuple[str, int]:
+) -> tuple[str, int]:
     raw, offset = decode_bytes(
         data,
         offset,
@@ -711,9 +655,7 @@ def decode_string(
             errors="strict",
         )
     except UnicodeDecodeError as exc:
-        raise BytecodeFormatError(
-            "Invalid UTF-8 string in ATCB."
-        ) from exc
+        raise BytecodeFormatError("Invalid UTF-8 string in ATCB.") from exc
 
     return (
         value,
@@ -755,9 +697,7 @@ def _constant_type(
     try:
         return mapping[normalized]
     except KeyError as exc:
-        raise BytecodeValidationError(
-            f"Unsupported constant type: {value_type!r}"
-        ) from exc
+        raise BytecodeValidationError(f"Unsupported constant type: {value_type!r}") from exc
 
 
 def _encode_constant_payload(
@@ -766,45 +706,29 @@ def _encode_constant_payload(
 ) -> bytes:
     if constant_type is ABIConstantType.NULL:
         if value is not None:
-            raise BytecodeValidationError(
-                "NULL constant requires None."
-            )
+            raise BytecodeValidationError("NULL constant requires None.")
 
         return b""
 
     if constant_type is ABIConstantType.BOOL:
         if type(value) is not bool:
-            raise BytecodeValidationError(
-                "BOOL constant requires bool."
-            )
+            raise BytecodeValidationError("BOOL constant requires bool.")
 
-        return encode_u8(
-            1 if value else 0
-        )
+        return encode_u8(1 if value else 0)
 
     if constant_type is ABIConstantType.INT:
-        return encode_i64(
-            value
-        )
+        return encode_i64(value)
 
     if constant_type is ABIConstantType.FLOAT:
-        return encode_f64(
-            value
-        )
+        return encode_f64(value)
 
     if constant_type is ABIConstantType.STRING:
-        return encode_string(
-            value
-        )
+        return encode_string(value)
 
     if constant_type is ABIConstantType.BYTES:
-        return encode_bytes(
-            value
-        )
+        return encode_bytes(value)
 
-    raise BytecodeValidationError(
-        f"Unsupported constant type: {constant_type!r}"
-    )
+    raise BytecodeValidationError(f"Unsupported constant type: {constant_type!r}")
 
 
 def encode_constant(
@@ -822,9 +746,7 @@ def encode_constant(
         constant,
         Constant,
     ):
-        raise BytecodeValidationError(
-            "Expected Constant."
-        )
+        raise BytecodeValidationError("Expected Constant.")
 
     _require_exact_int(
         constant.index,
@@ -833,24 +755,14 @@ def encode_constant(
         maximum=MAX_U32,
     )
 
-    constant_type = _constant_type(
-        constant
-    )
+    constant_type = _constant_type(constant)
 
     payload = _encode_constant_payload(
         constant_type,
         constant.value,
     )
 
-    return (
-        encode_u32(
-            constant.index
-        )
-        + encode_u8(
-            int(constant_type)
-        )
-        + payload
-    )
+    return encode_u32(constant.index) + encode_u8(int(constant_type)) + payload
 
 
 def encode_constant_pool(
@@ -867,27 +779,19 @@ def encode_constant_pool(
         pool,
         ConstantPool,
     ):
-        raise BytecodeValidationError(
-            "Expected ConstantPool."
-        )
+        raise BytecodeValidationError("Expected ConstantPool.")
 
     constants = list(pool)
 
     if len(constants) > MAX_U32:
-        raise BytecodeValidationError(
-            "Constant pool exceeds u32 count."
-        )
+        raise BytecodeValidationError("Constant pool exceeds u32 count.")
 
     output = bytearray()
 
-    output += encode_u32(
-        len(constants)
-    )
+    output += encode_u32(len(constants))
 
     for constant in constants:
-        output += encode_constant(
-            constant
-        )
+        output += encode_constant(constant)
 
     return bytes(output)
 
@@ -924,10 +828,7 @@ def _infer_operand_type(
     if type(value) is bytes:
         return OperandType.BYTES
 
-    raise BytecodeValidationError(
-        "Unsupported instruction operand type: "
-        f"{type(value).__name__}"
-    )
+    raise BytecodeValidationError(f"Unsupported instruction operand type: {type(value).__name__}")
 
 
 def _encode_operand_payload(
@@ -936,71 +837,47 @@ def _encode_operand_payload(
 ) -> bytes:
     if operand_type is OperandType.NULL:
         if value is not None:
-            raise BytecodeValidationError(
-                "NULL operand requires None."
-            )
+            raise BytecodeValidationError("NULL operand requires None.")
 
         return b""
 
     if operand_type is OperandType.BOOL:
         if type(value) is not bool:
-            raise BytecodeValidationError(
-                "BOOL operand requires bool."
-            )
+            raise BytecodeValidationError("BOOL operand requires bool.")
 
-        return encode_u8(
-            1 if value else 0
-        )
+        return encode_u8(1 if value else 0)
 
     if operand_type is OperandType.INT:
-        return encode_i64(
-            value
-        )
+        return encode_i64(value)
 
     if operand_type is OperandType.UINT:
-        return encode_u64(
-            value
-        )
+        return encode_u64(value)
 
     if operand_type is OperandType.FLOAT:
-        return encode_f64(
-            value
-        )
+        return encode_f64(value)
 
     if operand_type is OperandType.STRING:
-        return encode_string(
-            value
-        )
+        return encode_string(value)
 
     if operand_type is OperandType.BYTES:
-        return encode_bytes(
-            value
-        )
+        return encode_bytes(value)
 
     if operand_type is OperandType.CONSTANT_INDEX:
         if not isinstance(
             value,
             Constant,
         ):
-            raise BytecodeValidationError(
-                "CONSTANT_INDEX requires Constant."
-            )
+            raise BytecodeValidationError("CONSTANT_INDEX requires Constant.")
 
-        return encode_u32(
-            value.index
-        )
+        return encode_u32(value.index)
 
-    raise BytecodeValidationError(
-        f"Unsupported operand type: {operand_type!r}"
-    )
+    raise BytecodeValidationError(f"Unsupported operand type: {operand_type!r}")
 
 
 def encode_operand(
     value: Any,
 ) -> bytes:
-    operand_type = _infer_operand_type(
-        value
-    )
+    operand_type = _infer_operand_type(value)
 
     payload = _encode_operand_payload(
         operand_type,
@@ -1008,19 +885,9 @@ def encode_operand(
     )
 
     if len(payload) > MAX_U32:
-        raise BytecodeValidationError(
-            "Operand payload exceeds u32."
-        )
+        raise BytecodeValidationError("Operand payload exceeds u32.")
 
-    return (
-        encode_u8(
-            int(operand_type)
-        )
-        + encode_u32(
-            len(payload)
-        )
-        + payload
-    )
+    return encode_u8(int(operand_type)) + encode_u32(len(payload)) + payload
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1041,9 +908,7 @@ def opcode_value(op: Any) -> int:
     elif type(op) is int:
         value = op
     else:
-        raise BytecodeValidationError(
-            "Opcode must be IntEnum or exact int."
-        )
+        raise BytecodeValidationError("Opcode must be IntEnum or exact int.")
 
     _require_exact_int(
         value,
@@ -1075,37 +940,23 @@ def encode_instruction(
         instruction,
         Instruction,
     ):
-        raise BytecodeValidationError(
-            "Expected Instruction."
-        )
+        raise BytecodeValidationError("Expected Instruction.")
 
-    opcode = opcode_value(
-        instruction.op
-    )
+    opcode = opcode_value(instruction.op)
 
-    operand_count = len(
-        instruction.args
-    )
+    operand_count = len(instruction.args)
 
     if operand_count > MAX_OPERANDS:
-        raise BytecodeValidationError(
-            "Instruction has too many operands."
-        )
+        raise BytecodeValidationError("Instruction has too many operands.")
 
     output = bytearray()
 
-    output += encode_u8(
-        opcode
-    )
+    output += encode_u8(opcode)
 
-    output += encode_u8(
-        operand_count
-    )
+    output += encode_u8(operand_count)
 
     for argument in instruction.args:
-        output += encode_operand(
-            argument
-        )
+        output += encode_operand(argument)
 
     return bytes(output)
 
@@ -1124,24 +975,16 @@ def encode_instruction_stream(
     """
 
     if len(instructions) > MAX_U32:
-        raise BytecodeValidationError(
-            "Instruction count exceeds u32."
-        )
+        raise BytecodeValidationError("Instruction count exceeds u32.")
 
     output = bytearray()
 
-    output += encode_u32(
-        len(instructions)
-    )
+    output += encode_u32(len(instructions))
 
     for instruction in instructions:
-        encoded = encode_instruction(
-            instruction
-        )
+        encoded = encode_instruction(instruction)
 
-        output += encode_u32(
-            len(encoded)
-        )
+        output += encode_u32(len(encoded))
 
         output += encoded
 
@@ -1171,35 +1014,21 @@ def encode_function(
 
     output = bytearray()
 
-    output += encode_string(
-        function.name
-    )
+    output += encode_string(function.name)
 
     if len(function.parameters) > MAX_U32:
-        raise BytecodeValidationError(
-            "Parameter count exceeds u32."
-        )
+        raise BytecodeValidationError("Parameter count exceeds u32.")
 
-    output += encode_u32(
-        len(function.parameters)
-    )
+    output += encode_u32(len(function.parameters))
 
     for parameter in function.parameters:
-        output += encode_string(
-            parameter
-        )
+        output += encode_string(parameter)
 
-    output += encode_u8(
-        1 if function.exports else 0
-    )
+    output += encode_u8(1 if function.exports else 0)
 
-    instruction_stream = encode_instruction_stream(
-        function.instructions
-    )
+    instruction_stream = encode_instruction_stream(function.instructions)
 
-    output += encode_u32(
-        len(instruction_stream)
-    )
+    output += encode_u32(len(instruction_stream))
 
     output += instruction_stream
 
@@ -1212,26 +1041,18 @@ def encode_functions(
     exports: Sequence[str],
 ) -> bytes:
     if len(functions) > MAX_U32:
-        raise BytecodeValidationError(
-            "Function count exceeds u32."
-        )
+        raise BytecodeValidationError("Function count exceeds u32.")
 
     output = bytearray()
 
-    output += encode_u32(
-        len(functions)
-    )
+    output += encode_u32(len(functions))
 
-    export_set = set(
-        exports
-    )
+    export_set = set(exports)
 
     for name, instructions in functions.items():
         function = FunctionBytecode(
             name=name,
-            instructions=list(
-                instructions
-            ),
+            instructions=list(instructions),
             parameters=list(
                 function_params.get(
                     name,
@@ -1241,9 +1062,7 @@ def encode_functions(
             exports=name in export_set,
         )
 
-        output += encode_function(
-            function
-        )
+        output += encode_function(function)
 
     return bytes(output)
 
@@ -1257,20 +1076,14 @@ def encode_exports(
     exports: Sequence[str],
 ) -> bytes:
     if len(exports) > MAX_U32:
-        raise BytecodeValidationError(
-            "Export count exceeds u32."
-        )
+        raise BytecodeValidationError("Export count exceeds u32.")
 
     output = bytearray()
 
-    output += encode_u32(
-        len(exports)
-    )
+    output += encode_u32(len(exports))
 
     for export in exports:
-        encode_name = encode_string(
-            export
-        )
+        encode_name = encode_string(export)
 
         output += encode_name
 
@@ -1300,32 +1113,22 @@ def encode_source_map(
     Entries must be monotonically sorted by instruction index.
     """
 
-    entries = list(
-        source_map
-    )
+    entries = list(source_map)
 
     if len(entries) > MAX_U32:
-        raise BytecodeValidationError(
-            "Source-map entry count exceeds u32."
-        )
+        raise BytecodeValidationError("Source-map entry count exceeds u32.")
 
     output = bytearray()
 
-    output += encode_u32(
-        1
-    )
+    output += encode_u32(1)
 
-    output += encode_u32(
-        len(entries)
-    )
+    output += encode_u32(len(entries))
 
     previous_instruction = -1
 
     for entry in entries:
         if len(entry) != 3:
-            raise BytecodeValidationError(
-                "Invalid source-map entry."
-            )
+            raise BytecodeValidationError("Invalid source-map entry.")
 
         instruction, line, column = entry
 
@@ -1351,21 +1154,13 @@ def encode_source_map(
         )
 
         if instruction < previous_instruction:
-            raise BytecodeValidationError(
-                "Source-map entries must be sorted."
-            )
+            raise BytecodeValidationError("Source-map entries must be sorted.")
 
-        output += encode_u32(
-            instruction
-        )
+        output += encode_u32(instruction)
 
-        output += encode_u32(
-            line
-        )
+        output += encode_u32(line)
 
-        output += encode_u32(
-            column
-        )
+        output += encode_u32(column)
 
         previous_instruction = instruction
 
@@ -1391,21 +1186,13 @@ def encode_metadata(
 
     output = bytearray()
 
-    output += encode_string(
-        metadata.module_name
-    )
+    output += encode_string(metadata.module_name)
 
-    output += encode_string(
-        metadata.language_version
-    )
+    output += encode_string(metadata.language_version)
 
-    output += encode_string(
-        metadata.compiler_version
-    )
+    output += encode_string(metadata.compiler_version)
 
-    output += encode_string(
-        metadata.entry_point
-    )
+    output += encode_string(metadata.entry_point)
 
     return bytes(output)
 
@@ -1417,7 +1204,7 @@ def encode_metadata(
 
 def build_sections(
     module: CompiledModule,
-) -> List[ABISection]:
+) -> list[ABISection]:
     module.validate()
 
     return [
@@ -1427,15 +1214,11 @@ def build_sections(
         ),
         ABISection(
             SectionType.CONSTANTS,
-            encode_constant_pool(
-                module.constant_pool
-            ),
+            encode_constant_pool(module.constant_pool),
         ),
         ABISection(
             SectionType.MAIN_CODE,
-            encode_instruction_stream(
-                module.instructions
-            ),
+            encode_instruction_stream(module.instructions),
         ),
         ABISection(
             SectionType.FUNCTIONS,
@@ -1447,15 +1230,11 @@ def build_sections(
         ),
         ABISection(
             SectionType.EXPORTS,
-            encode_exports(
-                module.exports
-            ),
+            encode_exports(module.exports),
         ),
         ABISection(
             SectionType.SOURCE_MAP,
-            encode_source_map(
-                module.source_map
-            ),
+            encode_source_map(module.source_map),
         ),
     ]
 
@@ -1511,47 +1290,28 @@ def encode_module(
     module.validate()
 
     if module.bytecode_version != BYTECODE_VERSION:
-        raise BytecodeValidationError(
-            "Module bytecode version does not match ABI."
-        )
+        raise BytecodeValidationError("Module bytecode version does not match ABI.")
 
-    sections = build_sections(
-        module
-    )
+    sections = build_sections(module)
 
-    actual_order = tuple(
-        section.type
-        for section in sections
-    )
+    actual_order = tuple(section.type for section in sections)
 
     if actual_order != CANONICAL_SECTION_ORDER:
-        raise BytecodeValidationError(
-            "Internal ABI section order violation."
-        )
+        raise BytecodeValidationError("Internal ABI section order violation.")
 
-    encoded_sections = b"".join(
-        section.encode()
-        for section in sections
-    )
+    encoded_sections = b"".join(section.encode() for section in sections)
 
-    payload_length = len(
-        encoded_sections
-    )
+    payload_length = len(encoded_sections)
 
     if payload_length > MAX_U32:
-        raise BytecodeFormatError(
-            "ATCB payload exceeds u32."
-        )
+        raise BytecodeFormatError("ATCB payload exceeds u32.")
 
     header = _encode_header(
         section_count=len(sections),
         payload_length=payload_length,
     )
 
-    return (
-        header
-        + encoded_sections
-    )
+    return header + encoded_sections
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1561,16 +1321,12 @@ def encode_module(
 
 def decode_header(
     data: bytes,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     if type(data) is not bytes:
-        raise BytecodeFormatError(
-            "ATCB input must be bytes."
-        )
+        raise BytecodeFormatError("ATCB input must be bytes.")
 
     if len(data) < HEADER_SIZE:
-        raise BytecodeFormatError(
-            "ATCB data is smaller than ABI header."
-        )
+        raise BytecodeFormatError("ATCB data is smaller than ABI header.")
 
     (
         magic,
@@ -1581,47 +1337,32 @@ def decode_header(
         section_count,
         payload_length,
         checksum,
-    ) = _HEADER_STRUCT.unpack(
-        data[:HEADER_SIZE]
-    )
+    ) = _HEADER_STRUCT.unpack(data[:HEADER_SIZE])
 
     if magic != ABI_MAGIC:
-        raise BytecodeFormatError(
-            f"Invalid ATCB magic: {magic!r}"
-        )
+        raise BytecodeFormatError(f"Invalid ATCB magic: {magic!r}")
 
     # Major mismatch is always incompatible.
     if major != ABI_VERSION_MAJOR:
-        raise BytecodeFormatError(
-            f"Unsupported ATCB ABI major version: {major}"
-        )
+        raise BytecodeFormatError(f"Unsupported ATCB ABI major version: {major}")
 
     # A decoder may read an older minor version.
     if minor > ABI_VERSION_MINOR:
         raise BytecodeFormatError(
-            "ATCB ABI minor version is newer than "
-            f"supported version: {major}.{minor}"
+            f"ATCB ABI minor version is newer than supported version: {major}.{minor}"
         )
 
     if flags != HEADER_FLAGS_NONE:
-        raise BytecodeFormatError(
-            f"Unsupported ATCB flags: {flags:#x}"
-        )
+        raise BytecodeFormatError(f"Unsupported ATCB flags: {flags:#x}")
 
     if reserved != HEADER_RESERVED:
-        raise BytecodeFormatError(
-            "ATCB reserved header byte must be zero."
-        )
+        raise BytecodeFormatError("ATCB reserved header byte must be zero.")
 
     # ABI 1.0 checksum semantics are explicitly zero.
     if checksum != 0:
-        raise BytecodeFormatError(
-            "ATCB ABI 1.0 checksum field must be zero."
-        )
+        raise BytecodeFormatError("ATCB ABI 1.0 checksum field must be zero.")
 
-    actual_payload_length = (
-        len(data) - HEADER_SIZE
-    )
+    actual_payload_length = len(data) - HEADER_SIZE
 
     if payload_length != actual_payload_length:
         raise BytecodeFormatError(
@@ -1651,26 +1392,19 @@ def decode_header(
 
 def decode_sections(
     data: bytes,
-) -> List[ABISection]:
-    header = decode_header(
-        data
-    )
+) -> list[ABISection]:
+    header = decode_header(data)
 
-    section_count = header[
-        "section_count"
-    ]
+    section_count = header["section_count"]
 
-    if section_count != len(
-        CANONICAL_SECTION_ORDER
-    ):
+    if section_count != len(CANONICAL_SECTION_ORDER):
         raise BytecodeFormatError(
-            "ATCB ABI 1.x requires exactly "
-            f"{len(CANONICAL_SECTION_ORDER)} sections."
+            f"ATCB ABI 1.x requires exactly {len(CANONICAL_SECTION_ORDER)} sections."
         )
 
     offset = HEADER_SIZE
 
-    sections: List[ABISection] = []
+    sections: list[ABISection] = []
 
     for expected_type in CANONICAL_SECTION_ORDER:
         _require_available(
@@ -1682,24 +1416,14 @@ def decode_sections(
         (
             section_id,
             length,
-        ) = _SECTION_HEADER_STRUCT.unpack(
-            data[
-                offset:
-                offset + SECTION_HEADER_SIZE
-            ]
-        )
+        ) = _SECTION_HEADER_STRUCT.unpack(data[offset : offset + SECTION_HEADER_SIZE])
 
         offset += SECTION_HEADER_SIZE
 
         try:
-            section_type = SectionType(
-                section_id
-            )
+            section_type = SectionType(section_id)
         except ValueError as exc:
-            raise BytecodeFormatError(
-                f"Unknown ATCB section type: "
-                f"{section_id:#x}"
-            ) from exc
+            raise BytecodeFormatError(f"Unknown ATCB section type: {section_id:#x}") from exc
 
         if section_type != expected_type:
             raise BytecodeFormatError(
@@ -1716,9 +1440,7 @@ def decode_sections(
 
         end = offset + length
 
-        payload = data[
-            offset:end
-        ]
+        payload = data[offset:end]
 
         offset = end
 
@@ -1730,9 +1452,7 @@ def decode_sections(
         )
 
     if offset != len(data):
-        raise BytecodeFormatError(
-            "Trailing bytes after ATCB sections."
-        )
+        raise BytecodeFormatError("Trailing bytes after ATCB sections.")
 
     return sections
 
@@ -1762,31 +1482,17 @@ def validate_binary(
     * absence of trailing bytes
     """
 
-    sections = decode_sections(
-        data
-    )
+    sections = decode_sections(data)
 
-    if len(sections) != len(
-        CANONICAL_SECTION_ORDER
-    ):
-        raise BytecodeFormatError(
-            "Invalid ATCB section count."
-        )
+    if len(sections) != len(CANONICAL_SECTION_ORDER):
+        raise BytecodeFormatError("Invalid ATCB section count.")
 
-    for index, section in enumerate(
-        sections
-    ):
-        if section.type != CANONICAL_SECTION_ORDER[
-            index
-        ]:
-            raise BytecodeFormatError(
-                "Invalid canonical section order."
-            )
+    for index, section in enumerate(sections):
+        if section.type != CANONICAL_SECTION_ORDER[index]:
+            raise BytecodeFormatError("Invalid canonical section order.")
 
         if type(section.payload) is not bytes:
-            raise BytecodeFormatError(
-                "Section payload must be bytes."
-            )
+            raise BytecodeFormatError("Section payload must be bytes.")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1799,30 +1505,22 @@ def write_abi(
     path: str,
 ) -> None:
     if type(path) is not str:
-        raise BytecodeValidationError(
-            "ABI path must be a string."
-        )
+        raise BytecodeValidationError("ABI path must be a string.")
 
-    data = encode_module(
-        module
-    )
+    data = encode_module(module)
 
     with open(
         path,
         "wb",
     ) as handle:
-        handle.write(
-            data
-        )
+        handle.write(data)
 
 
 def read_abi(
     path: str,
 ) -> bytes:
     if type(path) is not str:
-        raise BytecodeValidationError(
-            "ABI path must be a string."
-        )
+        raise BytecodeValidationError("ABI path must be a string.")
 
     with open(
         path,
@@ -1830,9 +1528,7 @@ def read_abi(
     ) as handle:
         data = handle.read()
 
-    validate_binary(
-        data
-    )
+    validate_binary(data)
 
     return data
 
@@ -1842,7 +1538,7 @@ def read_abi(
 # ══════════════════════════════════════════════════════════════════════════════
 
 
-def abi_info() -> Dict[str, Any]:
+def abi_info() -> dict[str, Any]:
     """
     Return machine-readable normative ABI information.
     """
@@ -1853,30 +1549,16 @@ def abi_info() -> Dict[str, Any]:
             ABI_VERSION_MAJOR,
             ABI_VERSION_MINOR,
         ],
-        "magic": ABI_MAGIC.decode(
-            "ascii"
-        ),
+        "magic": ABI_MAGIC.decode("ascii"),
         "endianness": "big",
         "header_size": HEADER_SIZE,
         "section_header_size": SECTION_HEADER_SIZE,
         "header_flags": HEADER_FLAGS_NONE,
         "header_reserved": HEADER_RESERVED,
-        "sections": {
-            section.name: int(section)
-            for section in SectionType
-        },
-        "section_order": [
-            section.name
-            for section in CANONICAL_SECTION_ORDER
-        ],
-        "constant_types": {
-            constant.name: int(constant)
-            for constant in ABIConstantType
-        },
-        "operand_types": {
-            operand.name: int(operand)
-            for operand in OperandType
-        },
+        "sections": {section.name: int(section) for section in SectionType},
+        "section_order": [section.name for section in CANONICAL_SECTION_ORDER],
+        "constant_types": {constant.name: int(constant) for constant in ABIConstantType},
+        "operand_types": {operand.name: int(operand) for operand in OperandType},
         "limits": {
             "max_u8": MAX_U8,
             "max_u16": MAX_U16,
@@ -1900,7 +1582,6 @@ __all__ = [
     "ABI_VERSION_MAJOR",
     "ABI_VERSION_MINOR",
     "ABI_VERSION",
-
     # Limits
     "MAX_U8",
     "MAX_U16",
@@ -1908,46 +1589,36 @@ __all__ = [
     "MAX_U64",
     "MIN_I64",
     "MAX_I64",
-
     # Header
     "HEADER_SIZE",
     "HEADER_FLAGS_NONE",
     "HEADER_RESERVED",
-
     # Sections
     "SectionType",
     "SECTION_HEADER_SIZE",
     "CANONICAL_SECTION_ORDER",
     "ABISection",
-
     # Metadata
     "ABIMetadata",
-
     # Constants
     "ABIConstantType",
     "encode_constant",
     "encode_constant_pool",
-
     # Operands
     "OperandType",
     "OPERAND_HEADER_SIZE",
     "encode_operand",
-
     # Instructions
     "opcode_value",
     "encode_instruction",
     "encode_instruction_stream",
-
     # Functions
     "encode_function",
     "encode_functions",
-
     # Exports
     "encode_exports",
-
     # Source map
     "encode_source_map",
-
     # Primitive encoding
     "encode_u8",
     "decode_u8",
@@ -1965,21 +1636,17 @@ __all__ = [
     "decode_string",
     "encode_bytes",
     "decode_bytes",
-
     # Module ABI
     "build_sections",
     "encode_metadata",
     "encode_module",
-
     # Validation
     "decode_header",
     "decode_sections",
     "validate_binary",
-
     # File I/O
     "write_abi",
     "read_abi",
-
     # Information
     "abi_info",
 ]

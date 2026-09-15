@@ -47,31 +47,30 @@ ATCLang Compiler Pipeline
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 from atclang.frontend.parser.ast_nodes import (
-    ASTNode,
-    IntLiteral,
-    FloatLiteral,
-    StringLiteral,
-    BoolLiteral,
-    NullLiteral,
-    Identifier,
-    NamespaceAccess,
-    BinaryOp,
-    UnaryOp,
-    IndexAccess,
-    DotAccess,
-    FunctionCall,
     Assignment,
+    ASTNode,
+    BinaryOp,
+    BoolLiteral,
+    CastExpr,
+    DotAccess,
+    FloatLiteral,
+    FunctionCall,
+    Identifier,
+    IndexAccess,
+    IntLiteral,
     ListLiteral,
     MapLiteral,
+    NamespaceAccess,
+    NullLiteral,
+    StringLiteral,
     StructLiteral,
     TernaryExpr,
-    CastExpr,
     TupleExpr,
+    UnaryOp,
 )
-
 from atclang.vm.atcvm import OP
 
 from .context import CompilerContext
@@ -332,7 +331,7 @@ class ExpressionCompiler:
             node=node,
         )
 
-    def _binary_opcode(self, operator: str) -> Optional[OP]:
+    def _binary_opcode(self, operator: str) -> OP | None:
         """
         ATCLang operator → ATC VM opcode.
         """
@@ -345,7 +344,6 @@ class ExpressionCompiler:
             "/": OP.DIV,
             "%": OP.MOD,
             "**": OP.POW,
-
             # Comparison
             "==": OP.EQ,
             "!=": OP.NEQ,
@@ -353,13 +351,11 @@ class ExpressionCompiler:
             ">": OP.GT,
             "<=": OP.LTE,
             ">=": OP.GTE,
-
             # Logical
             "&&": OP.AND,
             "and": OP.AND,
             "||": OP.OR,
             "or": OP.OR,
-
             # Bitwise
             "&": OP.BITAND,
             "|": OP.BITOR,
@@ -517,9 +513,7 @@ class ExpressionCompiler:
                     node,
                 )
 
-            function_name = "::".join(
-                str(part) for part in parts
-            )
+            function_name = "::".join(str(part) for part in parts)
 
             self.ctx.emit(
                 OP.CALL_EXT,
@@ -638,8 +632,7 @@ class ExpressionCompiler:
             return
 
         self.error(
-            f"Invalid assignment target: "
-            f"{type(target).__name__}",
+            f"Invalid assignment target: {type(target).__name__}",
             node,
         )
 
@@ -736,10 +729,7 @@ class ExpressionCompiler:
                 scope=scope,
             )
 
-        struct_name = (
-            getattr(node, "struct_name", None)
-            or "struct"
-        )
+        struct_name = getattr(node, "struct_name", None) or "struct"
 
         self.ctx.emit(
             OP.NEW_OBJ,
@@ -919,7 +909,7 @@ class ExpressionCompiler:
     def error(
         self,
         message: str,
-        node: Optional[ASTNode] = None,
+        node: ASTNode | None = None,
     ) -> None:
         """
         Raise a compiler error with source location.
@@ -939,24 +929,17 @@ class ExpressionCompiler:
 
         if line is not None:
             if col is not None:
-                message = (
-                    f"{message} "
-                    f"(line {line}, column {col})"
-                )
+                message = f"{message} (line {line}, column {col})"
             else:
-                message = (
-                    f"{message} "
-                    f"(line {line})"
-                )
+                message = f"{message} (line {line})"
 
-        raise CompileError(
-            f"[ATCCompiler] {message}"
-        )
+        raise CompileError(f"[ATCCompiler] {message}")
 
 
 # ==================================================================
 # COMPATIBILITY FUNCTION
 # ==================================================================
+
 
 def compile_expression(
     context: CompilerContext,

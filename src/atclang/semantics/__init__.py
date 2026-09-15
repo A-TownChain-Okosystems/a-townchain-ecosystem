@@ -4,6 +4,7 @@
 Normativ: specs/semantics/SPEC.md. Vertrauensgrenze: Der TypeChecker
 validiert nur — er erzeugt keinen Code und mutiert nichts (AD-022).
 """
+
 from atclang.semantics.type_checker import (
     BUILTIN_SIGNATURES,
     SemanticDiagnostic,

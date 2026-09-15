@@ -10,17 +10,19 @@ Regeln: node = {kind, …felder}; Kinder unter 'body'/'args'; kanonische
 Serialisierung (sortierte Keys) macht IR-Hashes vergleichbar — gleicher
 AST MUSS gleiche IR-Hashes ergeben.
 """
+
 from __future__ import annotations
+
 import hashlib
 import json
-from typing import Any, Dict
+from typing import Any
 
 
 class IRValidationError(Exception):
     pass
 
 
-def to_json_ir(ast: Any) -> Dict[str, Any]:
+def to_json_ir(ast: Any) -> dict[str, Any]:
     """ASTNode-Objekt (dataclass-Baum) -> IR-Dict."""
     return _convert(ast)
 
@@ -28,7 +30,7 @@ def to_json_ir(ast: Any) -> Dict[str, Any]:
 def _convert(node: Any) -> Any:
     if hasattr(node, "__dict__"):
         kind = type(node).__name__
-        out: Dict[str, Any] = {"kind": kind}
+        out: dict[str, Any] = {"kind": kind}
         for key, val in vars(node).items():
             if key.startswith("_") or callable(val):
                 continue
@@ -54,8 +56,9 @@ def validate_ir(ir: Any) -> None:
             raise IRValidationError(f"Funktion im IR-Knoten: {key}")
 
 
-def ir_hash(ir: Dict[str, Any]) -> str:
+def ir_hash(ir: dict[str, Any]) -> str:
     """Kanonischer IR-Hash (Vergleichbarkeit, Differential-Gates)."""
-    return "0x" + hashlib.sha256(
-        json.dumps(ir, sort_keys=True, separators=(",", ":")).encode()
-    ).hexdigest()
+    return (
+        "0x"
+        + hashlib.sha256(json.dumps(ir, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    )

@@ -1,17 +1,18 @@
 # Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems.
 # All Rights Reserved.
 """Gate G2 — Semantik-Tests (specs/semantics/SPEC.md, Regeln SEM-001…SEM-012)."""
+
 import glob
 import os
 
 import pytest
 
-from atclang.frontend.parser.parser import parse
-from atclang.semantics import TypeChecker, analyze_source
 from atclang.compiler.errors import (
     BreakOutsideLoopError,
     TypeMismatchError,
 )
+from atclang.frontend.parser.parser import parse
+from atclang.semantics import TypeChecker, analyze_source
 
 
 def wrap(body: str) -> str:
@@ -29,6 +30,7 @@ def rules(ds):
 
 # ── Referenz-Korpus ─────────────────────────────────────────────────────
 
+
 def test_examples_clean():
     """Alle parsbaren Beispiel-Programme muessen semantisch CLEAN sein."""
     base = os.path.join(os.path.dirname(__file__), "..", "examples")
@@ -45,6 +47,7 @@ def test_examples_clean():
 
 
 # ── Valide Programme ─────────────────────────────────────────────────────
+
 
 def test_valid_program_clean():
     src = """contract TC {
@@ -81,6 +84,7 @@ def test_int_float_promotion_ok():
 
 # ── SEM-001 Doppelte Definition ────────────────────────────────────────
 
+
 def test_sem001_duplicate_let():
     ds = diags(wrap("let x: int = 1\n let x: int = 2"))
     assert rules(ds) == ["SEM-001"]
@@ -93,12 +97,14 @@ def test_sem001_duplicate_contract_fn():
 
 # ── SEM-002 Unbekanntes Symbol ──────────────────────────────────────────
 
+
 def test_sem002_undefined_symbol():
     ds = diags(wrap("print(x)"))
     assert rules(ds) == ["SEM-002"]
 
 
 # ── SEM-003/004 break/continue ausserhalb ─────────────────────────────
+
 
 def test_sem003_break_outside_loop():
     assert "SEM-003" in rules(diags(wrap("break")))
@@ -110,14 +116,16 @@ def test_sem004_continue_outside_loop():
 
 # ── SEM-005 return ausserhalb ──────────────────────────────────────────
 
+
 def test_sem005_return_outside_function():
     assert "SEM-005" in rules(diags("return 1"))
 
 
 # ── SEM-006/007 Typ-Mismatch ───────────────────────────────────────────
 
+
 def test_sem006_let_type_mismatch():
-    ds = diags(wrap("let x: int = \"s\""))
+    ds = diags(wrap('let x: int = "s"'))
     assert "SEM-006" in rules(ds)
 
 
@@ -126,21 +134,23 @@ def test_sem006_int_not_assignable_to_int_from_float():
 
 
 def test_sem007_return_type_mismatch():
-    src = "contract C {\n    fn f() -> int { return \"s\" }\n}"
+    src = 'contract C {\n    fn f() -> int { return "s" }\n}'
     assert "SEM-007" in rules(diags(src))
 
 
 # ── SEM-008/009 Built-ins ──────────────────────────────────────────────
+
 
 def test_sem008_builtin_arity():
     assert "SEM-008" in rules(diags(wrap("len(1, 2)")))
 
 
 def test_sem009_builtin_param_type():
-    assert "SEM-009" in rules(diags(wrap("range(\"x\")")))
+    assert "SEM-009" in rules(diags(wrap('range("x")')))
 
 
 # ── SEM-010 Doppelter Parameter ────────────────────────────────────────
+
 
 def test_sem010_duplicate_parameter():
     src = "contract C {\n    fn f(a: int, a: int) { }\n}"
@@ -149,15 +159,17 @@ def test_sem010_duplicate_parameter():
 
 # ── SEM-011/012 Ausdruecke und Bedingungen ─────────────────────────────
 
+
 def test_sem011_string_plus_int():
-    assert "SEM-011" in rules(diags(wrap("let x = \"s\" + 1")))
+    assert "SEM-011" in rules(diags(wrap('let x = "s" + 1')))
 
 
 def test_sem012_condition_must_be_boolable():
-    assert "SEM-012" in rules(diags(wrap("if \"hello\" { }")))
+    assert "SEM-012" in rules(diags(wrap('if "hello" { }')))
 
 
 # ── Strict-Modus ────────────────────────────────────────────────────────
+
 
 def test_strict_mode_raises():
     with pytest.raises(BreakOutsideLoopError):
@@ -166,4 +178,4 @@ def test_strict_mode_raises():
 
 def test_strict_type_mismatch_raises():
     with pytest.raises(TypeMismatchError):
-        TypeChecker().check(parse(wrap("let x: int = \"s\"")))
+        TypeChecker().check(parse(wrap('let x: int = "s"')))

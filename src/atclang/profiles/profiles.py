@@ -7,9 +7,10 @@
 Profil ist Teil des Artefakts (ATCA) — ein consensus-Artefakt ist nur mit
 consensus-Profil kompilierbar und validierbar (Fail-Closed).
 """
+
 from __future__ import annotations
+
 from dataclasses import dataclass
-from typing import Dict, Optional
 
 
 @dataclass
@@ -22,10 +23,10 @@ class ExecutionProfile:
     allow_os: bool
 
 
-PROFILES: Dict[str, ExecutionProfile] = {
+PROFILES: dict[str, ExecutionProfile] = {
     "consensus": ExecutionProfile("consensus", True, 30_000_000, True, False, False),
     "off_chain": ExecutionProfile("off_chain", False, 30_000_000, False, True, False),
-    "debug":     ExecutionProfile("debug", False, 100_000_000, False, True, True),
+    "debug": ExecutionProfile("debug", False, 100_000_000, False, True, True),
 }
 
 

@@ -31,19 +31,20 @@ Designziele:
 
 from __future__ import annotations
 
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
-from typing import Any, Callable, List, Optional, Sequence, Tuple
+from typing import Any
 
 from atclang.vm.atcvm import OP, Instruction
 
 try:
     from atclang.frontend.parser.ast_nodes import (
         ASTNode,
-        IfStatement,
-        WhileStatement,
-        ForStatement,
         BreakStatement,
         ContinueStatement,
+        ForStatement,
+        IfStatement,
+        WhileStatement,
     )
 except ImportError:  # pragma: no cover
     ASTNode = Any
@@ -91,11 +92,11 @@ class LoopContext:
 
     loop_start: int
 
-    break_target: Optional[int] = None
-    continue_target: Optional[int] = None
+    break_target: int | None = None
+    continue_target: int | None = None
 
-    break_jumps: List[int] = None
-    continue_jumps: List[int] = None
+    break_jumps: list[int] = None
+    continue_jumps: list[int] = None
 
     def __post_init__(self) -> None:
         if self.break_jumps is None:
@@ -111,14 +112,15 @@ class IfContext:
     Temporärer Kontext einer if/elif/else-Kette.
     """
 
-    end_jumps: List[int]
+    end_jumps: list[int]
 
-    condition_jump: Optional[int] = None
+    condition_jump: int | None = None
 
 
 # ══════════════════════════════════════════════════════════
 # CONTROL FLOW COMPILER
 # ══════════════════════════════════════════════════════════
+
 
 class ControlFlowCompiler:
     """
@@ -143,29 +145,29 @@ class ControlFlowCompiler:
     def __init__(
         self,
         compiler: Any,
-        compile_expr: Optional[ExpressionCompiler] = None,
-        compile_stmt: Optional[StatementCompiler] = None,
+        compile_expr: ExpressionCompiler | None = None,
+        compile_stmt: StatementCompiler | None = None,
     ) -> None:
         self.compiler = compiler
 
         self.compile_expr = compile_expr
         self.compile_stmt = compile_stmt
 
-        self._loops: List[LoopContext] = []
+        self._loops: list[LoopContext] = []
 
     # ══════════════════════════════════════════════════════
     # BASIC HELPERS
     # ══════════════════════════════════════════════════════
 
     @property
-    def instructions(self) -> List[Instruction]:
+    def instructions(self) -> list[Instruction]:
         return self.compiler.instructions
 
     def emit(
         self,
         op: OP,
         *args: Any,
-        node: Optional[Any] = None,
+        node: Any | None = None,
     ) -> int:
         """
         Delegiert Instruction-Emission an den Hauptcompiler.
@@ -185,9 +187,7 @@ class ControlFlowCompiler:
         """Patcht ein Jump-Target."""
 
         if index < 0 or index >= len(self.instructions):
-            raise ControlFlowError(
-                f"Invalid jump patch index: {index}"
-            )
+            raise ControlFlowError(f"Invalid jump patch index: {index}")
 
         self.compiler.patch(index, *args)
 
@@ -215,14 +215,10 @@ class ControlFlowCompiler:
 
     def _require_callbacks(self) -> None:
         if self.compile_expr is None:
-            raise ControlFlowError(
-                "Expression compiler callback is not configured"
-            )
+            raise ControlFlowError("Expression compiler callback is not configured")
 
         if self.compile_stmt is None:
-            raise ControlFlowError(
-                "Statement compiler callback is not configured"
-            )
+            raise ControlFlowError("Statement compiler callback is not configured")
 
     # ══════════════════════════════════════════════════════
     # SCOPE
@@ -309,7 +305,7 @@ class ControlFlowCompiler:
 
         self._require_callbacks()
 
-        end_jumps: List[int] = []
+        end_jumps: list[int] = []
 
         # ────────────────────────────────────────────────
         # IF
@@ -318,9 +314,7 @@ class ControlFlowCompiler:
         condition = getattr(node, "condition", None)
 
         if condition is None:
-            raise ControlFlowError(
-                "IfStatement has no condition"
-            )
+            raise ControlFlowError("IfStatement has no condition")
 
         self.compile_expr(condition, scope)
 
@@ -344,9 +338,7 @@ class ControlFlowCompiler:
 
         else_block = getattr(node, "else_block", None)
 
-        has_alternative = bool(
-            elif_blocks or else_block
-        )
+        has_alternative = bool(elif_blocks or else_block)
 
         if has_alternative:
             jump_end = self.emit(
@@ -371,7 +363,6 @@ class ControlFlowCompiler:
         # ────────────────────────────────────────────────
 
         for elif_condition, elif_body in elif_blocks:
-
             self.compile_expr(
                 elif_condition,
                 scope,
@@ -472,9 +463,7 @@ class ControlFlowCompiler:
             condition = getattr(node, "condition", None)
 
             if condition is None:
-                raise ControlFlowError(
-                    "WhileStatement has no condition"
-                )
+                raise ControlFlowError("WhileStatement has no condition")
 
             self.compile_expr(
                 condition,
@@ -561,16 +550,12 @@ class ControlFlowCompiler:
         iterable = getattr(node, "iterable", None)
 
         if iterable is None:
-            raise ControlFlowError(
-                "ForStatement has no iterable"
-            )
+            raise ControlFlowError("ForStatement has no iterable")
 
         variable = getattr(node, "var", None)
 
         if not variable:
-            raise ControlFlowError(
-                "ForStatement has no loop variable"
-            )
+            raise ControlFlowError("ForStatement has no loop variable")
 
         # ────────────────────────────────────────────────
         # Unique temporaries
@@ -582,11 +567,7 @@ class ControlFlowCompiler:
             0,
         )
 
-        setattr(
-            self.compiler,
-            "_for_counter",
-            counter + 1,
-        )
+        self.compiler._for_counter = counter + 1
 
         iterator_name = f"__atc_iter_{counter}"
         index_name = f"__atc_index_{counter}"
@@ -787,9 +768,7 @@ class ControlFlowCompiler:
         """
 
         if not self._loops:
-            raise ControlFlowError(
-                "break außerhalb einer Schleife"
-            )
+            raise ControlFlowError("break außerhalb einer Schleife")
 
         jump = self.emit(
             OP.JUMP,
@@ -797,9 +776,7 @@ class ControlFlowCompiler:
             node=node,
         )
 
-        self._loops[-1].break_jumps.append(
-            jump
-        )
+        self._loops[-1].break_jumps.append(jump)
 
     # ══════════════════════════════════════════════════════
     # CONTINUE
@@ -820,9 +797,7 @@ class ControlFlowCompiler:
         """
 
         if not self._loops:
-            raise ControlFlowError(
-                "continue außerhalb einer Schleife"
-            )
+            raise ControlFlowError("continue außerhalb einer Schleife")
 
         context = self._loops[-1]
 
@@ -833,9 +808,7 @@ class ControlFlowCompiler:
                 node=node,
             )
 
-            context.continue_jumps.append(
-                jump
-            )
+            context.continue_jumps.append(jump)
 
         else:
             self.emit(
@@ -855,9 +828,7 @@ class ControlFlowCompiler:
         """Patcht alle break/continue-Jumps eines Loops."""
 
         if context.break_target is None:
-            raise ControlFlowError(
-                "Loop break target was not resolved"
-            )
+            raise ControlFlowError("Loop break target was not resolved")
 
         for jump in context.break_jumps:
             self.patch(
@@ -866,9 +837,7 @@ class ControlFlowCompiler:
             )
 
         if context.continue_target is None:
-            raise ControlFlowError(
-                "Loop continue target was not resolved"
-            )
+            raise ControlFlowError("Loop continue target was not resolved")
 
         for jump in context.continue_jumps:
             self.patch(
@@ -946,7 +915,7 @@ class ControlFlowCompiler:
 
         return bool(self._loops)
 
-    def current_loop(self) -> Optional[LoopContext]:
+    def current_loop(self) -> LoopContext | None:
         """Gibt den innersten Loop-Kontext zurück."""
 
         if not self._loops:
@@ -956,8 +925,8 @@ class ControlFlowCompiler:
 
 
 __all__ = [
-    "ControlFlowError",
-    "LoopContext",
-    "IfContext",
     "ControlFlowCompiler",
+    "ControlFlowError",
+    "IfContext",
+    "LoopContext",
 ]

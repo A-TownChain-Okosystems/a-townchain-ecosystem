@@ -23,41 +23,48 @@ Architektur:
     └─────────────────────────────────────────────────────┘
 """
 
-import os
-import sys
-import time
-import json
 import hashlib
+import os
+import time
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Any, Tuple, Callable
+from typing import Any
 
-from atclang.frontend.parser.parser import parse
+from atclang.compiler.compiler import CompiledModule, compile_source
 from atclang.frontend.parser.ast_nodes import (
-    Program, ContractDef, FunctionDef, EventDef, ErrorDef,
-    StructDef, EnumDef, ImportStatement, LetStatement,
-    ClassDef, StorageBlock, TypeAliasDef,
+    ClassDef,
+    ContractDef,
+    EnumDef,
+    ImportStatement,
+    Program,
+    StructDef,
 )
-from atclang.compiler.compiler import compile_source, ATCCompiler, CompiledModule
+from atclang.frontend.parser.parser import parse
 from atclang.vm.atcvm import (
-    ATCVM, ATCFunction, Instruction, OP, ATCVMError,
-    RequireError, GasError, ATCObject, STDLIB_DISPATCH,
+    ATCVM,
+    STDLIB_DISPATCH,
+    ATCFunction,
+    ATCObject,
+    ATCVMError,
+    GasError,
+    RequireError,
 )
-
 
 # ════════════════════════════════════════════════════════════════
 #  CONTRACT STATE — Persistenter Contract-Zustand
 # ════════════════════════════════════════════════════════════════
 
+
 @dataclass
 class ContractState:
     """Laufzeit-Zustand eines ATCLang Contracts."""
+
     name: str
-    fields: Dict[str, Any] = field(default_factory=dict)
-    functions: Dict[str, ATCFunction] = field(default_factory=dict)
-    events: List[dict] = field(default_factory=list)
-    enums: Dict[str, Dict[str, int]] = field(default_factory=dict)
-    structs: Dict[str, type] = field(default_factory=dict)
-    imports: List[str] = field(default_factory=list)
+    fields: dict[str, Any] = field(default_factory=dict)
+    functions: dict[str, ATCFunction] = field(default_factory=dict)
+    events: list[dict] = field(default_factory=list)
+    enums: dict[str, dict[str, int]] = field(default_factory=dict)
+    structs: dict[str, type] = field(default_factory=dict)
+    imports: list[str] = field(default_factory=list)
     source_path: str = ""
     gas_used: int = 0
     call_count: int = 0
@@ -68,48 +75,51 @@ class ContractState:
 #  MODULE DESCRIPTOR — Geladenes .atc Modul
 # ════════════════════════════════════════════════════════════════
 
+
 @dataclass
 class ATCModule:
     """Ein geladenes ATCLang-Modul."""
+
     name: str
     path: str
     source: str
     ast: Program
     compiled: CompiledModule
-    contracts: Dict[str, ContractState] = field(default_factory=dict)
-    globals: Dict[str, Any] = field(default_factory=dict)
+    contracts: dict[str, ContractState] = field(default_factory=dict)
+    globals: dict[str, Any] = field(default_factory=dict)
     loaded_at: float = field(default_factory=time.time)
     source_hash: str = ""
 
     def summary(self) -> str:
         n_fns = sum(len(c.functions) for c in self.contracts.values())
         n_contracts = len(self.contracts)
-        return (f"Module '{self.name}' | {n_contracts} contracts | "
-                f"{n_fns} functions | {len(self.compiled.instructions)} instrs")
+        return (
+            f"Module '{self.name}' | {n_contracts} contracts | "
+            f"{n_fns} functions | {len(self.compiled.instructions)} instrs"
+        )
 
 
 # ════════════════════════════════════════════════════════════════
 #  ERRORS
 # ════════════════════════════════════════════════════════════════
 
+
 class KernelRuntimeError(Exception):
     """Runtime-Fehler im ATCLang Kernel."""
-    pass
 
 
 class ContractCallError(KernelRuntimeError):
     """Fehler bei Contract-Aufruf."""
-    pass
 
 
 class ModuleLoadError(KernelRuntimeError):
     """Fehler beim Laden eines .atc Moduls."""
-    pass
 
 
 # ════════════════════════════════════════════════════════════════
 #  KERNEL RUNTIME — Zentrale Runtime-Instanz
 # ════════════════════════════════════════════════════════════════
+
 
 class KernelRuntime:
     """
@@ -125,11 +135,11 @@ class KernelRuntime:
 
     def __init__(self, gas_limit: int = 50_000_000):
         self.vm = ATCVM(gas_limit=gas_limit)
-        self.modules: Dict[str, ATCModule] = {}
-        self.contracts: Dict[str, ContractState] = {}
-        self.module_cache: Dict[str, str] = {}  # path → name
-        self.event_bus: List[dict] = []
-        self.call_log: List[dict] = []
+        self.modules: dict[str, ATCModule] = {}
+        self.contracts: dict[str, ContractState] = {}
+        self.module_cache: dict[str, str] = {}  # path → name
+        self.event_bus: list[dict] = []
+        self.call_log: list[dict] = []
         self._syscalls_registered = 0
         self._boot_time = time.time()
 
@@ -145,7 +155,7 @@ class KernelRuntime:
         if not os.path.exists(path):
             raise ModuleLoadError(f"File not found: {path}")
 
-        source = open(path, 'r', encoding='utf-8').read()
+        source = open(path, "r", encoding="utf-8").read()
         return self.load_source(source, module_name or self._derive_name(path), path)
 
     def load_source(self, source: str, module_name: str, path: str = "<inline>") -> ATCModule:
@@ -208,12 +218,12 @@ class KernelRuntime:
         self.module_cache[path] = module_name
         return module
 
-    def load_directory(self, dir_path: str, pattern: str = "*.atc") -> List[ATCModule]:
+    def load_directory(self, dir_path: str, pattern: str = "*.atc") -> list[ATCModule]:
         """Lädt alle .atc Dateien aus einem Verzeichnis."""
         loaded = []
         for root, dirs, files in os.walk(dir_path):
             for f in sorted(files):
-                if f.endswith('.atc') and not f.startswith('.'):
+                if f.endswith(".atc") and not f.startswith("."):
                     path = os.path.join(root, f)
                     name = self._derive_name(path)
                     try:
@@ -232,13 +242,15 @@ class KernelRuntime:
         Ruft eine Contract-Funktion auf.
         fn_path Format: "ContractName.function_name"
         """
-        if '.' not in fn_path:
+        if "." not in fn_path:
             return self._call_global(fn_path, list(args))
 
-        contract_name, fn_name = fn_path.split('.', 1)
+        contract_name, fn_name = fn_path.split(".", 1)
         contract = self.contracts.get(contract_name)
         if not contract:
-            raise ContractCallError(f"Contract '{contract_name}' not loaded. Available: {list(self.contracts.keys())}")
+            raise ContractCallError(
+                f"Contract '{contract_name}' not loaded. Available: {list(self.contracts.keys())}"
+            )
 
         fn = contract.functions.get(fn_path)
         if not fn:
@@ -254,6 +266,7 @@ class KernelRuntime:
 
         # Set up frame with params
         from atclang.vm.atcvm import CallFrame
+
         frame = CallFrame(func_name=fn_path)
         param_names = [f"arg{i}" for i in range(len(args))]
         for pname, pval in zip(param_names, args):
@@ -274,13 +287,15 @@ class KernelRuntime:
         gas_consumed = self.vm.gas_used - start_gas
         contract.gas_used += gas_consumed
 
-        self.call_log.append({
-            "fn": fn_path,
-            "args": list(args),
-            "result": result,
-            "gas": gas_consumed,
-            "ts": int(time.time() * 1000),
-        })
+        self.call_log.append(
+            {
+                "fn": fn_path,
+                "args": list(args),
+                "result": result,
+                "gas": gas_consumed,
+                "ts": int(time.time() * 1000),
+            }
+        )
 
         return result
 
@@ -292,7 +307,7 @@ class KernelRuntime:
     #  CONTRACT STATE ACCESS
     # ═══════════════════════════════════════════════════════════
 
-    def get_contract_state(self, contract_name: str) -> Optional[ContractState]:
+    def get_contract_state(self, contract_name: str) -> ContractState | None:
         return self.contracts.get(contract_name)
 
     def get_state(self, contract_name: str, field_name: str) -> Any:
@@ -306,7 +321,7 @@ class KernelRuntime:
         if c:
             c.fields[field_name] = value
 
-    def get_events(self, contract_name: str = None) -> List[dict]:
+    def get_events(self, contract_name: str = None) -> list[dict]:
         if contract_name:
             c = self.contracts.get(contract_name)
             return c.events if c else []
@@ -327,7 +342,7 @@ class KernelRuntime:
         struct_name = node.name
         field_names = []
         for f in node.fields:
-            if hasattr(f, 'name'):
+            if hasattr(f, "name"):
                 field_names.append(f.name)
             elif isinstance(f, tuple):
                 field_names.append(f[0])
@@ -352,7 +367,7 @@ class KernelRuntime:
         # Extract state fields
         for state in node.states:
             contract.fields[state.name] = self._default_value(
-                state.type_hint.name if hasattr(state.type_hint, 'name') else state.type_hint
+                state.type_hint.name if hasattr(state.type_hint, "name") else state.type_hint
             )
 
         # Register functions
@@ -374,7 +389,7 @@ class KernelRuntime:
         # Extract fields
         for fname, ftype in node.fields:
             contract.fields[fname] = self._default_value(
-                ftype.name if hasattr(ftype, 'name') else ftype
+                ftype.name if hasattr(ftype, "name") else ftype
             )
 
         # Register functions
@@ -394,21 +409,24 @@ class KernelRuntime:
         if init_fn:
             try:
                 from atclang.vm.atcvm import CallFrame
+
                 frame = CallFrame(func_name=f"{contract.name}.init")
                 self.vm.execute(init_fn.instructions, frame)
                 contract.initialized = True
             except Exception as e:
-                self.call_log.append({
-                    "fn": f"{contract.name}.init",
-                    "error": str(e),
-                    "ts": int(time.time() * 1000),
-                })
+                self.call_log.append(
+                    {
+                        "fn": f"{contract.name}.init",
+                        "error": str(e),
+                        "ts": int(time.time() * 1000),
+                    }
+                )
 
     def _setup_call_context(self, contract: ContractState):
         """Setzt den VM-Kontext für einen Contract-Aufruf."""
         for fname, fval in contract.fields.items():
             self.vm.globals[fname] = fval
-        self.vm.globals['msg_sender'] = self.vm.globals.get('caller', 'ATC' + '0' * 32)
+        self.vm.globals["msg_sender"] = self.vm.globals.get("caller", "ATC" + "0" * 32)
 
     # ═══════════════════════════════════════════════════════════
     #  KERNEL STDLIB EXTENSIONS
@@ -432,26 +450,26 @@ class KernelRuntime:
         STDLIB_DISPATCH.update(kernel_dispatch)
         self._syscalls_registered = len(kernel_dispatch)
 
-    def _kernel_spawn(self, args: List[Any]) -> int:
-        name = str(args[0]) if args else "unnamed"
+    def _kernel_spawn(self, args: list[Any]) -> int:
+        _name = str(args[0]) if args else "unnamed"  # noqa: F841
         return len(self.call_log) + 100
 
-    def _kernel_kill(self, args: List[Any]) -> bool:
+    def _kernel_kill(self, args: list[Any]) -> bool:
         return True
 
     def _kernel_stats(self) -> dict:
         return self.stats()
 
-    def _kernel_alloc(self, args: List[Any]) -> int:
+    def _kernel_alloc(self, args: list[Any]) -> int:
         return int(args[0]) if args else 0
 
-    def _kernel_chan_send(self, args: List[Any]) -> bool:
+    def _kernel_chan_send(self, args: list[Any]) -> bool:
         return True
 
-    def _kernel_chan_recv(self, args: List[Any]) -> Any:
+    def _kernel_chan_recv(self, args: list[Any]) -> Any:
         return None
 
-    def _kernel_ai_route(self, args: List[Any]) -> str:
+    def _kernel_ai_route(self, args: list[Any]) -> str:
         task = str(args[0]) if args else "text"
         routing = {
             "reasoning": "mistral-7b",
@@ -461,20 +479,23 @@ class KernelRuntime:
         }
         return routing.get(task, "gemma-2-2b")
 
-    def _kernel_ai_infer(self, args: List[Any]) -> tuple:
+    def _kernel_ai_infer(self, args: list[Any]) -> tuple:
         task = str(args[0]) if args else "text"
-        model = self._kernel_ai_route([task])
+        _model = self._kernel_ai_route([task])  # noqa: F841
         return ("queued", 2048)
 
     # ═══════════════════════════════════════════════════════════
     #  GLOBAL FUNCTION CALLS
     # ═══════════════════════════════════════════════════════════
 
-    def _call_global(self, fn_name: str, args: List[Any]) -> Any:
+    def _call_global(self, fn_name: str, args: list[Any]) -> Any:
         fn = self.vm.functions.get(fn_name)
         if not fn:
-            raise ContractCallError(f"Global function '{fn_name}' not found. Available: {list(self.vm.functions.keys())[:20]}")
+            raise ContractCallError(
+                f"Global function '{fn_name}' not found. Available: {list(self.vm.functions.keys())[:20]}"
+            )
         from atclang.vm.atcvm import CallFrame
+
         frame = CallFrame(func_name=fn_name)
         param_names = [f"arg{i}" for i in range(len(args))]
         for pname, pval in zip(param_names, args):
@@ -486,25 +507,41 @@ class KernelRuntime:
     # ═══════════════════════════════════════════════════════════
 
     def _derive_name(self, path: str) -> str:
-        base = os.path.basename(path).replace('.atc', '')
-        parts = base.split('_')
-        return ''.join(p.capitalize() for p in parts) if len(parts) > 1 else base
+        base = os.path.basename(path).replace(".atc", "")
+        parts = base.split("_")
+        return "".join(p.capitalize() for p in parts) if len(parts) > 1 else base
 
     def _default_value(self, type_hint: Any) -> Any:
         if type_hint is None:
             return None
-        type_str = str(type_hint.name if hasattr(type_hint, 'name') else type_hint)
+        type_str = str(type_hint.name if hasattr(type_hint, "name") else type_hint)
         defaults = {
-            'Int': 0, 'UInt32': 0, 'UInt64': 0, 'UInt128': 0, 'UInt256': 0,
-            'u8': 0, 'u16': 0, 'u32': 0, 'u64': 0, 'u128': 0,
-            'i8': 0, 'i16': 0, 'i32': 0, 'i64': 0,
-            'Float32': 0.0, 'f32': 0.0, 'f64': 0.0,
-            'String': '', 'Bool': False, 'bool': False,
-            'Address': 'ATC' + '0' * 32, 'Hash': '0' * 64,
+            "Int": 0,
+            "UInt32": 0,
+            "UInt64": 0,
+            "UInt128": 0,
+            "UInt256": 0,
+            "u8": 0,
+            "u16": 0,
+            "u32": 0,
+            "u64": 0,
+            "u128": 0,
+            "i8": 0,
+            "i16": 0,
+            "i32": 0,
+            "i64": 0,
+            "Float32": 0.0,
+            "f32": 0.0,
+            "f64": 0.0,
+            "String": "",
+            "Bool": False,
+            "bool": False,
+            "Address": "ATC" + "0" * 32,
+            "Hash": "0" * 64,
         }
-        if 'Map' in type_str:
+        if "Map" in type_str:
             return {}
-        if 'List' in type_str:
+        if "List" in type_str:
             return []
         return defaults.get(type_str, None)
 
@@ -567,7 +604,7 @@ class KernelRuntime:
             "kernel_syscalls": self._syscalls_registered,
         }
 
-    def list_modules(self) -> List[dict]:
+    def list_modules(self) -> list[dict]:
         return [
             {
                 "name": mod.name,
@@ -581,7 +618,7 @@ class KernelRuntime:
             for mod in self.modules.values()
         ]
 
-    def list_contracts(self) -> List[dict]:
+    def list_contracts(self) -> list[dict]:
         return [
             {
                 "name": c.name,
@@ -597,6 +634,7 @@ class KernelRuntime:
     def disassemble(self, module_name: str = None) -> str:
         if module_name and module_name in self.modules:
             from atclang.compiler.compiler import disassemble
+
             return disassemble(self.modules[module_name].compiled)
         return f"Module '{module_name}' not found. Available: {list(self.modules.keys())}"
 
@@ -614,6 +652,7 @@ class KernelRuntime:
 #  CONVENIENCE FUNCTIONS
 # ════════════════════════════════════════════════════════════════
 
+
 def create_runtime(gas_limit: int = 50_000_000) -> KernelRuntime:
     """Erstellt eine neue Kernel Runtime."""
     return KernelRuntime(gas_limit=gas_limit)
@@ -621,5 +660,5 @@ def create_runtime(gas_limit: int = 50_000_000) -> KernelRuntime:
 
 def compile_atc(path: str) -> CompiledModule:
     """Kompiliert eine .atc Datei ohne sie auszuführen."""
-    source = open(path, 'r', encoding='utf-8').read()
+    source = open(path, "r", encoding="utf-8").read()
     return compile_source(source)

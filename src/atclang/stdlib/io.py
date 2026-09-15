@@ -4,8 +4,8 @@ ATCLang Stdlib — ATC::IO
 Input/Output für ATCLang. Context-isoliert.
 ATC-94 | Sprint 2.5
 """
+
 import os
-from typing import Any, Optional
 
 
 class ATCIO:
@@ -34,17 +34,17 @@ class ATCIO:
     def file_write(path: str, data: str) -> bool:
         """Write file. Gas: 50. Node context only."""
         try:
-            with open(path, 'w') as f:
+            with open(path, "w") as f:
                 f.write(str(data))
             return True
         except Exception:
             return False
 
     @staticmethod
-    def file_read(path: str) -> Optional[str]:
+    def file_read(path: str) -> str | None:
         """Read file. Gas: 50. Node context only."""
         try:
-            with open(path, 'r') as f:
+            with open(path, "r") as f:
                 return f.read()
         except Exception:
             return None
@@ -58,7 +58,7 @@ class ATCIO:
     def file_append(path: str, data: str) -> bool:
         """Append to file. Gas: 50"""
         try:
-            with open(path, 'a') as f:
+            with open(path, "a") as f:
                 f.write(str(data))
             return True
         except Exception:
@@ -101,7 +101,7 @@ class ATCIO:
         return False
 
     @staticmethod
-    def net_recv(port: int) -> Optional[str]:
+    def net_recv(port: int) -> str | None:
         """Receive network packet. Gas: 50. Node context only."""
         # Stub — real implementation in ATCLang Network module
         return None
