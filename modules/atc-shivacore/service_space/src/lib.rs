@@ -22,3 +22,4 @@ pub mod did;
 pub mod remote_caps;
 pub mod knowledge_graph;
 pub mod security_audit;
+pub mod identity_key_service;
