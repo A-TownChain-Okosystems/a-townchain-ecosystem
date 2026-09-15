@@ -7,8 +7,8 @@ impl Aabb {
     pub fn intersects(&self, other: &Self) -> bool { (0..3).all(|i| self.min[i] <= other.max[i] && self.max[i] >= other.min[i]) }
     pub fn ray_intersection(&self, origin: [f32; 3], direction: [f32; 3], max_distance: f32) -> Option<f32> {
         if max_distance < 0.0 { return None; }
-        let mut near = 0.0;
-        let mut far = max_distance;
+        let mut near: f32 = 0.0;
+        let mut far: f32 = max_distance;
         for i in 0..3 {
             if direction[i].abs() < f32::EPSILON {
                 if origin[i] < self.min[i] || origin[i] > self.max[i] { return None; }
@@ -28,14 +28,11 @@ impl Aabb {
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Collider { pub entity: EntityId, pub bounds: Aabb }
-
 #[derive(Default)]
 pub struct CollisionWorld { colliders: Vec<Collider> }
 impl CollisionWorld {
     pub fn add(&mut self, collider: Collider) { self.colliders.push(collider); }
     pub fn query_aabb(&self, bounds: Aabb) -> Vec<EntityId> { self.colliders.iter().filter(|c| c.bounds.intersects(&bounds)).map(|c| c.entity).collect() }
-    pub fn raycast(&self, origin: [f32; 3], direction: [f32; 3], max_distance: f32) -> Option<EntityId> {
-        self.colliders.iter().filter_map(|c| c.bounds.ray_intersection(origin, direction, max_distance).map(|t| (t, c.entity))).min_by(|a,b| a.0.partial_cmp(&b.0).unwrap_or(std::cmp::Ordering::Equal)).map(|(_, id)| id)
-    }
+    pub fn raycast(&self, origin: [f32; 3], direction: [f32; 3], max_distance: f32) -> Option<EntityId> { self.colliders.iter().filter_map(|c| c.bounds.ray_intersection(origin, direction, max_distance).map(|t| (t, c.entity))).min_by(|a,b| a.0.partial_cmp(&b.0).unwrap_or(std::cmp::Ordering::Equal)).map(|(_, id)| id) }
     pub fn clear(&mut self) { self.colliders.clear(); }
 }
