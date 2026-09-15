@@ -1,10 +1,14 @@
-use atc_genesis_platform::{EntityId, FrameId, Renderer, Transform, AssetId};
+use atc_genesis_platform::{AssetId, EntityId, FrameId, Renderer, Transform};
 pub mod animation;
 pub mod backend;
+pub mod batching;
 pub mod ecs;
+pub mod render_item;
 pub mod resources;
 pub use animation::SkinnedPose;
 pub use backend::{BackendRenderer, CommandBufferBackend, GraphicsBackend, NullBackend, RenderBackend, RenderCapabilities};
+pub use batching::{build_batches, RenderBatch, RenderItem};
+pub use render_item::{collect_entity, collect_render_items};
 pub use resources::{MaterialHandle, MeshHandle, MeshMaterialBinding, RenderResourceBindings, TextureHandle};
 
 #[derive(Clone, Copy, Debug, PartialEq)]
