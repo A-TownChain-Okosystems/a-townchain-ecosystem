@@ -29,7 +29,11 @@ PATTERNS = {
     ],
 }
 EXT = {"rust": ".rs", "python": ".py"}
-SKIP_DIRS = {"target", "node_modules", ".git", ".github", "tests", "docs", "examples", "tools/determinism_check.py"}
+SKIP_DIRS = {"target", "node_modules", ".git", ".github", "tests", "docs", "examples"}
+
+# Eigene Datei ausschliessen: Der Checker enthaelt die Pattern als String-Literale
+# und wuerde sich sonst selbst flaggen (Altfehler, main rot seit Gate-Enable f6c4dfb).
+SKIP_FILES = {"tools/determinism_check.py"}
 
 def scan_sources(root, lang):
     findings = []
@@ -38,6 +42,9 @@ def scan_sources(root, lang):
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
         for fn in filenames:
             if not fn.endswith(ext):
+                continue
+            rel = os.path.relpath(os.path.join(dirpath, fn), root).replace(os.sep, "/")
+            if rel in SKIP_FILES:
                 continue
             path = os.path.join(dirpath, fn)
             try:
