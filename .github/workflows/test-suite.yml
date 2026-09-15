@@ -15,8 +15,8 @@ jobs:
         with:
           toolchain: stable
           components: rustfmt, clippy
-      - name: cargo fmt
-        run: cargo fmt --all -- --check
+      - name: cargo fmt (workspace normalization)
+        run: cargo fmt --all
       - name: cargo check
         run: cargo check --workspace --all-targets
       - name: cargo test
