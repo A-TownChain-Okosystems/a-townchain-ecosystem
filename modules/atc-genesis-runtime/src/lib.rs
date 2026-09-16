@@ -1,3 +1,5 @@
+pub mod lifecycle;
+
 use atc_genesis_animation::{AnimationClip, AnimationClipId, AnimationPlayer, BoneId};
 use atc_genesis_ecs::{World, WorldEcsBridge};
 use atc_genesis_gameplay::{GameplayRuntime, MovementConfig};
