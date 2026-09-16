@@ -11,25 +11,25 @@ This document records the current engineering findings identified during the 202
 
 ## Finding Registry
 
-| ID | Area | Finding | Class | Category | Priority |
-|---|---|---|---|---|---|
-| GEN-001 | Workspace | Canonical role of `atc-genesis-engine` versus `runtime` requires explicit resolution | Build / Architecture | Workspace Integrity | P0 |
-| GEN-002 | Architecture | README architecture is behind the current multi-module workspace | Documentation | Architecture Drift | P0 |
-| GEN-003 | Audit | Engineering audit baseline references an older CI state | Governance | Audit Integrity | P0 |
-| GEN-004 | Core | Canonical Engine Core and lifecycle require an explicit contract | Architecture | Core Contract | P0 |
-| GEN-005 | ECS | ECS requires additional general-purpose capabilities | Architecture | ECS Completeness | P1 |
-| GEN-006 | Transform | Transform mathematics requires broader numerical validation | Correctness | Numerical Stability | P1 |
-| GEN-007 | Assets | Asset abstraction requires a complete production asset pipeline | Architecture | Asset Pipeline | P1 |
-| GEN-008 | Physics | Physics contract requires a complete backend implementation | Implementation | Physics | P1 |
-| GEN-009 | Renderer | Renderer contract requires a production rendering stack | Implementation | Rendering | P1 |
-| GEN-010 | Runtime | Deterministic engine tick and lifecycle require formalization | Architecture | Runtime | P1 |
-| GEN-011 | Determinism | Determinism must be enforced across all simulation subsystems | Correctness | Determinism | P1 |
-| GEN-012 | AI | External/asynchronous AI requires a validated command boundary | Architecture | AI Isolation | P2 |
-| GEN-013 | Network | Replication, synchronization and rollback require further implementation | Implementation | Networking | P2 |
-| GEN-014 | Editor | Production editor capabilities require further implementation | Tooling | Editor | P2 |
-| GEN-015 | SDK | Stable API/plugin/ABI boundaries require formal definition | Architecture | SDK | P2 |
-| GEN-016 | Build | Reproducible build and packaging pipeline requires further implementation | Build | Build System | P2 |
-| GEN-017 | CI | Engine-specific conformance gates require expansion | CI | Conformance | P2 |
+| ID | Area | Finding | Class | Category | Priority | Status |
+|---|---|---|---|---|---|---|
+| GEN-001 | Workspace | Canonical role of `atc-genesis-engine` versus `runtime` requires explicit resolution | Build / Architecture | Workspace Integrity | P0 | VERIFIED |
+| GEN-002 | Architecture | README architecture is behind the current multi-module workspace | Documentation | Architecture Drift | P0 | VERIFIED |
+| GEN-003 | Audit | Engineering audit baseline references an older CI state | Governance | Audit Integrity | P0 | VERIFIED |
+| GEN-004 | Core | Canonical Engine Core and lifecycle require an explicit contract | Architecture | Core Contract | P0 | IN_PROGRESS |
+| GEN-005 | ECS | ECS requires additional general-purpose capabilities | Architecture | ECS Completeness | P1 | IN_PROGRESS |
+| GEN-006 | Transform | Transform mathematics requires broader numerical validation | Correctness | Numerical Stability | P1 | OPEN |
+| GEN-007 | Assets | Asset abstraction requires a complete production asset pipeline | Architecture | Asset Pipeline | P1 | OPEN |
+| GEN-008 | Physics | Physics contract requires a complete backend implementation | Implementation | Physics | P1 | OPEN |
+| GEN-009 | Renderer | Renderer contract requires a production rendering stack | Implementation | Rendering | P1 | OPEN |
+| GEN-010 | Runtime | Deterministic engine tick and lifecycle require formalization | Architecture | Runtime | P1 | OPEN |
+| GEN-011 | Determinism | Determinism must be enforced across all simulation subsystems | Correctness | Determinism | P1 | OPEN |
+| GEN-012 | AI | External/asynchronous AI requires a validated command boundary | Architecture | AI Isolation | P2 | OPEN |
+| GEN-013 | Network | Replication, synchronization and rollback require further implementation | Implementation | Networking | P2 | OPEN |
+| GEN-014 | Editor | Production editor capabilities require further implementation | Tooling | Editor | P2 | OPEN |
+| GEN-015 | SDK | Stable API/plugin/ABI boundaries require formal definition | Architecture | SDK | P2 | OPEN |
+| GEN-016 | Build | Reproducible build and packaging pipeline requires further implementation | Build | Build System | P2 | OPEN |
+| GEN-017 | CI | Engine-specific conformance gates require expansion | CI | Conformance | P2 | OPEN |
 
 ## GEN-001 — Workspace Integrity
 
@@ -110,20 +110,30 @@ The implementation must distinguish simulation tick, frame, render frame and net
 **Priority:** P1  
 **Tags:** `ecs`, `components`, `systems`
 
-The current ECS foundation requires expansion toward a general-purpose engine ECS.
+The ECS foundation has now been expanded with typed component storage, deterministic entity iteration, generic resources, deterministic dependency-aware system scheduling and a deterministic two-component query primitive. The finding remains open because lifecycle hooks, change detection and optional parallel execution are not yet implemented and the implementation still requires CI verification.
 
-### Required capabilities
+### Implemented in this remediation step
 
 - typed component storage
-- component insertion/removal
-- queries
-- resources
-- system registration
-- deterministic system ordering
-- dependency-aware scheduling
+- component insertion/removal/replacement
+- typed component access and mutation
+- deterministic entity/component iteration
+- generic resource storage and access
+- deterministic `SystemSchedule`
+- explicit system dependencies via `before` / `after`
+- missing-dependency validation
+- dependency-cycle detection
+- deterministic topological ordering by `SystemId`
+- deterministic two-component query
+- regression tests for resources, queries and scheduling
+
+### Remaining capabilities
+
 - lifecycle hooks
-- change detection
+- component change detection
 - optional parallel execution
+- broader query composition and execution API
+- CI verification on the updated implementation
 
 ## GEN-006 — Transform Numerical Validation
 
