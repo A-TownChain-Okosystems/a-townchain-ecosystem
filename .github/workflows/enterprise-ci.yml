@@ -37,16 +37,16 @@ jobs:
         run: cargo fmt --all -- --check
 
       - name: Check gate
-        run: cargo check --workspace --all-targets --locked
+        run: cargo check --workspace --all-targets
 
       - name: Test gate
-        run: cargo test --workspace --all-targets --locked
+        run: cargo test --workspace --all-targets
 
       - name: Clippy gate
-        run: cargo clippy --workspace --all-targets --locked -- -D warnings
+        run: cargo clippy --workspace --all-targets -- -D warnings
 
       - name: Documentation gate
-        run: cargo doc --workspace --no-deps --locked
+        run: cargo doc --workspace --no-deps
 
   security:
     name: Dependency security gate
@@ -58,6 +58,9 @@ jobs:
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
+
+      - name: Generate dependency lockfile
+        run: cargo generate-lockfile
 
       - name: Install cargo-audit
         run: cargo install cargo-audit --locked
