@@ -6,7 +6,7 @@ schema_version: "1.0.0"
 repository: atc-shivacore
 generated: "2026-09-10"
 generated_by: "SCR-0080 Enforcement-Welle (Aurora, Owner-P0-Definition 10.09. 12:21)"
-bound_commit: 9a3170ba23c97aae77d7080dbc41df55e3247022
+bound_commit: 8b95a702ba061f4ae22090c0630588ab3fc62e9c
 maturity_class: A          # A=substanziell B=Rebuild/Produkt C=Plattform/Anwendung
 r_level: null
 implementation:
@@ -29,8 +29,8 @@ canonical_role:                  # SCR-0080 P0-02: Single-Owner-per-Capability
   canonical: true
 test_run:
   workflow: ATC Test Suite
-  run_id: 34995906695
-  commit: 9a3170ba23c97aae77d7080dbc41df55e3247022
-  timestamp: 2026-09-15T16:35:30.660220+00:00
+  run_id: 35082765206
+  commit: 8b95a702ba061f4ae22090c0630588ab3fc62e9c
+  timestamp: 2026-09-16T10:02:50.531178+00:00
   result: PASS
   runner: github-actions
