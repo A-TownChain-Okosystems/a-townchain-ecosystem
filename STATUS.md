@@ -1,11 +1,11 @@
 ---
 document_id: ATC-DOC-SHIVACORE-STATUS-001
 title: Repository Status - atc-shivacore
-version: 2.1.0
+version: 2.2.0
 status: active
 standard: ATC-STD-MD-001
 created: 2026-09-08
-updated: 2026-09-15
+updated: 2026-09-16
 ---
 
 # Status — atc-shivacore
@@ -16,31 +16,47 @@ updated: 2026-09-15
 |---|---|
 | Repository | atc-shivacore |
 | Version | 0.1.0 |
-| Lifecycle | development |
+| Lifecycle | development / migrated |
 | Kernel model | capability-based Rust/no_std microkernel |
 | Reuse target | OS-neutral kernel contract |
-| Primary declared targets | x86_64; aarch64 contract target |
-| Build evidence | Must be taken from current CI run |
-| Boot evidence | BIOS/UEFI image-builder exists; current target must be CI-verified |
+| Canonical source | `A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/` |
+| Kernel CI owner | `A-TownChain-Okosystems/globus-os` |
+| Build evidence | Must be taken from the current GlobusOS CI run |
+| Boot evidence | Must be taken from the current GlobusOS CI run |
 | Production status | NOT_READY |
 | Security class | S4 / S-Klasse |
 | Documentation | ATC-STD-README-001 / ATC-STD-MD-001 |
 
-## Current cross-check
+## Source-of-truth boundary
 
-The active source tree was re-checked on 2026-09-15 against the repository implementation and organization architecture.
+The reusable ShivaCore kernel implementation has been migrated into the GlobusOS repository so that the kernel is built, tested, linted and integrated by the same CI pipeline as the operating system.
 
-A real implementation blocker remains in `modules/atc-shivacore/kernel/src/lkm.rs`: `DependencyGraph::dependencies()` is still an `unimplemented!()` placeholder because the backing storage is a `BTreeSet` and cannot be returned as `&[String]`. `get_dependencies()` already provides the deterministic owned-vector form. This blocker is tracked as implementation work and must not be represented as production-ready functionality.
+The canonical implementation path is:
 
-The archived copy under `a-townchain-os-docs/docs/archive/` is historical reference material and is not treated as active kernel source.
+`globus-os/modules/atc-shivacore/kernel/`
+
+The separate `atc-shivacore` repository is no longer the active kernel source tree. Historical copies under `a-townchain-os-docs/docs/archive/` are reference material only and must not be treated as implementation sources.
+
+## Current implementation blocker
+
+A P1 blocker remains in the canonical GlobusOS source: `modules/atc-shivacore/kernel/src/lkm.rs` contains a placeholder `DependencyGraph::dependencies()` whose declared `&[String]` return type cannot be backed directly by the graph's `BTreeSet<String>`. The existing `get_dependencies()` method provides the deterministic owned-vector representation.
+
+This blocker is tracked in GlobusOS issue #18 with classification:
+
+- Class: P1 implementation blocker
+- Category: correctness / completeness
+- Family: kernel / loadable-kernel-modules / dependency-resolution
+- Tags: P1, stub, kernel, lkm, correctness, completeness, api
+
+It must not be represented as production-ready functionality until the API is replaced with a lifetime-safe implementation and verified by GlobusOS CI.
 
 ## Evidence policy
 
-Historical test counts and past audit scores are not permanent state. The current commit's CI is authoritative for build/test claims.
+Historical test counts and past audit scores are not permanent state. Current GlobusOS CI is authoritative for build/test/lint claims for the canonical kernel source.
 
 ## Reuse readiness
 
-The reusable kernel contract is documented in:
+The reusable kernel contract remains documented in:
 
 - `docs/specs/SHIVA-KERNEL-REUSE-001.md`
 - `docs/specs/SHIVA-HAL-001.md`
