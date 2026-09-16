@@ -10,3 +10,5 @@ atc-genesis-physics = { path = "../atc-genesis-physics" }
 atc-genesis-platform = { path = "../atc-genesis-platform" }
 atc-genesis-renderer = { path = "../atc-genesis-renderer" }
 atc-genesis-world = { path = "../atc-genesis-world" }
+atc-genesis-gameplay = { path = "../atc-genesis-gameplay" }
+atc-genesis-input = { path = "../atc-genesis-input" }
