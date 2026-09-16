@@ -1,13 +1,19 @@
 # Genesis Engine — Enterprise Engineering Baseline
 
 **Status:** Development / Enterprise hardening in progress  
-**Scope:** Workspace, runtime, networking, security, CI/CD and release engineering
+**Scope:** Workspace, runtime, networking, ECS integration, security, CI/CD and release engineering
 
 ## Integration audit
 
-The runtime depends directly on `atc-genesis-ecs` through a local Cargo path dependency. The repository tree contains `modules/atc-genesis-ecs`, but the root workspace member list did not previously register that crate. This was a workspace consistency defect: the dependency existed physically and in `modules/atc-genesis-runtime/Cargo.toml`, while the root workspace omitted it.
+The runtime depends directly on `atc-genesis-ecs` through a local Cargo path dependency, and the root workspace now explicitly registers `modules/atc-genesis-ecs`. This keeps ECS in the same workspace graph as world, physics, gameplay, input, animation, audio, networking, renderer and runtime.
 
-The root `Cargo.toml` now explicitly includes `modules/atc-genesis-ecs`. This makes ECS part of the same workspace graph as runtime, physics, gameplay, input, animation, audio, networking and the other engine modules.
+The runtime tick connects animation → gameplay → world/ECS bridge → world/physics bridge → physics → ECS → audio → renderer → network tick. Network receive connects packet validation → entity validation → existing ECS entity → transform application.
+
+## ECS hierarchy hardening
+
+The ECS hierarchy rejects missing parents, self-parenting and cycles before a parent link is committed. World-transform resolution also rejects unknown entities instead of returning a fabricated transform.
+
+Loaded world chunks are mirrored into deterministic reserved ECS IDs and stale chunk entities are removed when chunks are no longer loaded. The bridge uses a set for active-chunk membership and sorts returned results by chunk ID, avoiding order-dependent synchronization behavior.
 
 ## Runtime network trust boundary
 
@@ -29,6 +35,8 @@ Invalid quaternion vector magnitudes are rejected using deterministic integer-on
 | SEC-003 | Invalid quaternion vector magnitude could cross the network trust boundary | High | Resolved in source | Integer norm validation and fail-closed rejection |
 | CONS-001 | Stale `rotation_millirad` references remained after wire-format correction | High | Resolved in source | References removed and repository search performed |
 | CONS-002 | `atc-genesis-ecs` was a runtime path dependency but absent from root workspace members | High | Resolved in source | ECS explicitly added to `[workspace].members` |
+| ECS-001 | Hierarchy/world-transform path could be called for an unknown entity; cycle traversal guard was based on total transforms | Medium | Resolved in source | Unknown entities return `None`; cycle traversal bounded by hierarchy edges; regression added |
+| ECS-002 | Chunk bridge used linear active-chunk membership checks | Low | Resolved in source | Active chunk IDs now use a set; deterministic output ordering retained |
 | REL-001 | No committed `Cargo.lock` | High | Open | Generate, review and commit before reproducible release claims |
 | SEC-001 | No verified cryptographic peer authentication/encryption | High | Open | Production transport security required |
 | NET-002 | No verified UDP/QUIC production transport | High | Open | Production transport implementation and integration evidence required |
@@ -37,7 +45,15 @@ Invalid quaternion vector magnitudes are rejected using deterministic integer-on
 
 ## Verification status
 
-Source-level verification for this audit confirms the ECS directory exists, runtime declares the ECS path dependency, and the root workspace now explicitly registers ECS. The runtime source connects ECS with world, physics, gameplay, animation, renderer and network paths.
+Source-level verification for this audit confirms:
+
+- ECS is explicitly registered in the workspace.
+- Runtime has a direct ECS dependency.
+- ECS hierarchy rejects self-parenting, missing parents and cycles.
+- Unknown entities do not resolve to fabricated world transforms.
+- World chunks are mirrored deterministically and stale chunk entities are removed.
+- Network validation rejects malformed/invalid replication state before ECS mutation.
+- Repository search previously found no stale `rotation_millirad` reference.
 
 A successful local `cargo check`, `cargo test`, `cargo fmt`, `cargo clippy` or `cargo doc` run is **not** claimed. Full CI remains the authoritative verification layer.
 
