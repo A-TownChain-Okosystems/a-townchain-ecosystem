@@ -148,3 +148,7 @@ Apache-2.0. Siehe [`LICENSE`](LICENSE).
 ## AI Agent Instructions
 
 Vor Änderungen mindestens `AGENTS.md`, `AGENT_MANIFEST.md`, `ARCHITECTURE.md`, `STATUS.md` und `ROADMAP.md` prüfen. Änderungen am TCB, Capability-Modell, Bootpfad oder Sicherheitsgrenzen benötigen besonders sorgfältige Tests und Governance-Evidence.
+
+## ShivaCore relocation
+
+The canonical ShivaCore kernel source was moved to `A-TownChain-Okosystems/globus-os/modules/atc-shivacore` so the kernel is built and verified by the GlobusOS CI pipeline. This repository retains the surrounding ShivaCore tooling and governance material.
