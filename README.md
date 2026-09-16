@@ -21,7 +21,7 @@ governance:
 
 [![ATC-COMPLIANCE](https://img.shields.io/badge/ATC-COMPLIANCE-v1.0-green)](./AGENTS.md)
 
-> Modulare, KI-native Game-Engine für ECS, Kreaturen-Logik und Weltensimulation im A-TownChain-Ökosystem.
+> General-purpose, modulare Game-Engine für ECS, Weltensimulation, Rendering, Physik, Audio, Animation, Networking, AI und Editor-Workflows.
 
 **Project:** `genesis-engine`  
 **Organization:** `A-TownChain-Okosystems`  
@@ -31,59 +31,93 @@ governance:
 
 ## Overview
 
-Genesis Engine ist die **general-purpose Game-Development-Plattform** des A-TownChain-Ökosystems. Sie stellt die generischen Engine-Funktionen bereit, während `genesis-chronicles` als Premium-Flagship-/Reference-Game auf dieser Engine aufsetzt.
+Genesis Engine ist die **general-purpose Game-Development-Plattform** des A-TownChain-Ökosystems. Die Engine stellt wiederverwendbare Runtime-, Simulations-, Tooling- und SDK-Funktionen bereit. `genesis-chronicles` ist ein unabhängiger Consumer/Flagship-Titel und keine technische Voraussetzung für die Engine.
 
-Die Engine ist in vier Kernmodule gegliedert:
+Die kanonische Cargo-Workspace-Struktur besteht aus den folgenden Modulen:
 
-- `atc-genesis-engine` — Core Engine Loop und Lifecycle
-- `atc-genesis-ecs` — Entity Component System
-- `atc-genesis-creatures` — KI- und Kreaturenverhalten
-- `atc-genesis-world` — Welt-, Terrain- und Umgebungssimulation
+| Modul | Verantwortung |
+|---|---|
+| `atc-genesis-animation` | Animation und Animationslaufzeit |
+| `atc-genesis-assets` | Asset-Verträge, Ressourcen und Content-Pipeline-Basis |
+| `atc-genesis-audio` | Audio-Runtime und Audio-Abstraktionen |
+| `atc-genesis-ecs` | Entity Component System und World/ECS-Bridge |
+| `atc-genesis-physics` | Physik-Abstraktion und Simulation |
+| `atc-genesis-platform` | Gemeinsame Primitive und Backend-Interfaces |
+| `atc-genesis-renderer` | Rendering-Abstraktion |
+| `atc-genesis-ui` | UI-Abstraktionen |
+| `atc-genesis-sdk` | Öffentliche Engine-/SDK-Schnittstellen |
+| `atc-genesis-ai` | AI-Integration |
+| `atc-genesis-network` | Networking und Replikation |
+| `atc-genesis-build` | Build- und Packaging-Funktionen |
+| `atc-genesis-tools` | Entwickler- und Engine-Tools |
+| `atc-genesis-cli` | Kommandozeilenwerkzeuge |
+| `atc-genesis-editor` | Editor-Funktionen |
+| `atc-genesis-input` | Input-Abstraktionen |
+| `atc-genesis-world` | Welt- und Chunk-Simulation |
+| `atc-genesis-gameplay` | Generische Gameplay-Systeme |
+| `atc-genesis-runtime` | Runtime-Orchestrierung und Subsystem-Lifecycle |
 
-Die Engine befindet sich im Rebuild und ist **nicht als Production-Ready oder als finaler Releasezustand zu verstehen**.
+Der **kanonische Runtime-Kern** ist damit `atc-genesis-runtime`. Ein Cargo-Paket `atc-genesis-engine` ist aktuell **kein Workspace-Mitglied**. Historische Dateien unter `modules/atc-genesis-engine/` dürfen nicht mit dem aktuellen Rust-Workspace verwechselt werden und müssen bei der weiteren Migration separat behandelt werden.
 
-Die Produktstrategie ist in [`GEN-PROD-001`](docs/specs/GEN-PROD-001-PRODUCT-STRATEGY.md) beschrieben. Die dort definierten Grenzen verhindern, dass generische Engine-Funktionen dauerhaft an ein einzelnes Spiel gekoppelt werden.
+Die Engine befindet sich im Rebuild und ist **nicht als Production-Ready oder finaler Releasezustand** zu verstehen.
 
 ## Purpose
 
 Genesis Engine ist für die generische Laufzeit- und Simulationsinfrastruktur der Genesis-Spielplattform verantwortlich:
 
-- Engine-Loop und Lifecycle-Management
+- Engine-Lifecycle und Runtime-Orchestrierung
 - ECS-basierte Simulation
-- KI- und Kreaturenverhalten
-- prozedurale Welt- und Umgebungssimulation
-- Vorbereitung auf Multiplayer- und verifizierbare State-Integrationen
-- Bereitstellung wiederverwendbarer Features für darauf aufbauende Spiele
+- Welt-, Chunk- und Streaming-Infrastruktur
+- Gameplay-Systeme
+- Rendering, Physik, Audio und Animation
+- Input und UI
+- AI- und Networking-Integration
+- Editor- und Entwicklerwerkzeuge
+- SDK- und Build-/Packaging-Infrastruktur
 
-`genesis-chronicles` ist ein Consumer der Engine. Spielspezifische Logik gehört in das jeweilige Spiel-Repository; generische Features werden nur über den vorgesehenen Feature-Promotion-Prozess in die Engine übernommen.
-
-## Status
-
-**Status:** `development` — Rebuild-Basis. Die dokumentierten Meilensteine und Gate-Kriterien sind in den kanonischen Status-/Roadmap-Dokumenten festgelegt.
-
-Der Repository-Status darf nicht mit den Governance-Zuständen `APPROVED`, `AUDITED` oder `PRODUCTION_READY` gleichgesetzt werden. Eine dokumentierte Architekturentscheidung oder ein bestandenes Audit stellt für sich allein keinen Production-Release dar.
+Spielspezifische Logik gehört in das jeweilige Spiel-Repository. Generische Features werden nur über den vorgesehenen Feature-Promotion-Prozess in die Engine übernommen.
 
 ## Architecture
 
-### Components
-
-- `atc-genesis-engine` — Core-Engine-Loop, Lifecycle-Management, Pipeline und Subsystem-Orchestrierung.
-- `atc-genesis-ecs` — High-Performance Entity Component System.
-- `atc-genesis-creatures` — KI- und Kreaturen-Verhaltensmodellierung.
-- `atc-genesis-world` — prozedurale Weltgenerierung, Terrain und Umgebungssimulation.
-
-### Data Flow
+### Dependency direction
 
 ```text
-Input Events / Engine Tick
-        ↓
-atc-genesis-ecs
-        ↓
-atc-genesis-creatures
-        ↓
-atc-genesis-world
-        ↓
-Output State / Rendering
+Platform primitives
+       ↓
+ ECS / World / Input / Assets
+       ↓
+Physics / Animation / Audio / Gameplay
+       ↓
+AI / Network / Renderer / UI
+       ↓
+     Runtime
+       ↓
+ Editor / Tools / CLI / Build / SDK
+```
+
+Die tatsächlichen Cargo-Abhängigkeiten sind maßgeblich; diese Darstellung ist ein Architekturmodell und ersetzt keine `Cargo.toml`-Definition.
+
+### Runtime data flow
+
+```text
+Input
+  ↓
+Fixed Simulation Tick
+  ├── ECS
+  ├── Gameplay
+  ├── Physics
+  ├── Animation
+  ├── AI
+  └── World / Streaming
+  ↓
+Authoritative State
+  ├── Network replication
+  ├── Audio
+  └── Render preparation
+          ↓
+       Renderer
+          ↓
+       Present
 ```
 
 ### Ecosystem Boundary
@@ -102,33 +136,41 @@ ATCLang / ATC-VM / A-TownChain
      Genesis Chronicles / Games
 ```
 
-Die Engine ist keine Blockchain, kein Kernel und kein Ersatz für ATC-VM oder ShivaCore. Chain-seitige Zustandsübergänge und Contracts bleiben an der dafür vorgesehenen Chain-/VM-Grenze.
+Die Engine ist keine Blockchain, kein Kernel und kein Ersatz für ATC-VM oder ShivaCore. Chain-seitige Zustandsübergänge und Contracts bleiben an der vorgesehenen Chain-/VM-Grenze.
 
-## Features
+## Determinism
 
-- Modulare Rust-basierte Engine-Architektur
-- High-Performance ECS Framework
-- KI-native Kreatureneigenschaften und Verhaltensbäume
-- Prozedurales Terrain- und Weltensystem
-- Vorbereitung für Multiplayer und verifizierbare State-Integrationen
-- Engine-/Game-Trennung über die Produktstrategie
+Deterministische Simulation ist ein explizites Engine-Ziel. Für deterministische Pfade müssen insbesondere folgende Bereiche kontrolliert werden:
 
-## Repository Structure
+- ECS-Iteration und Systemreihenfolge
+- RNG und Seeds
+- Gameplay-State
+- Physik
+- Welt-/Chunk-Streaming
+- Netzwerk-Ticks
+- Serialisierung
+- Replay-/State-Verification
+
+Ungeordnete Datenstrukturen dürfen auf einem deterministischen Simulationspfad nicht unkontrolliert die Ausführungsreihenfolge bestimmen.
+
+## AI Boundary
+
+Externe oder asynchrone AI darf den deterministischen Simulationszustand nicht direkt verändern. Der Zielpfad ist:
 
 ```text
-/
-├── docs/       # Dokumentation, Spezifikationen und Repository-Standards
-└── modules/    # Engine-Module
-    ├── atc-genesis-engine
-    ├── atc-genesis-ecs
-    ├── atc-genesis-creatures
-    └── atc-genesis-world
+AI Inference
+    ↓
+Validated Command
+    ↓
+Deterministic Simulation
+    ↓
+State Change
 ```
 
 ## Requirements
 
 - Rust >= 1.75 / Cargo
-- Python >= 3.11 für Tooling und Sync-Skripte
+- Python >= 3.11 für vorhandenes Tooling und historische Sync-Skripte
 - Git >= 2.30
 
 ## Installation
@@ -139,25 +181,25 @@ cd genesis-engine
 cargo build --workspace
 ```
 
-## Usage
+## Testing
 
 ```bash
-cargo run --package atc-genesis-engine
+cargo fmt --all -- --check
+cargo check --workspace --all-targets
+cargo test --workspace --all-targets
+cargo clippy --workspace --all-targets -- -D warnings
+cargo doc --workspace --no-deps
 ```
+
+Security-/Dependency-Prüfungen und Engine-spezifische Gates laufen zusätzlich über GitHub Actions.
+
+Testergebnisse sind Evidence. Ein erfolgreicher Testlauf bedeutet nicht automatisch `AUDITED` oder `PRODUCTION_READY`.
 
 ## Development
 
 Entwicklung erfolgt nach den geltenden A-TownChain-Governance- und Repository-Standards. Commits müssen dem Conventional-Commit-Modell entsprechen.
 
-Vor größeren Änderungen sind mindestens `STATUS.md`, `ARCHITECTURE.md`, `ROADMAP.md` und die relevanten Governance-Dokumente zu prüfen.
-
-## Testing
-
-```bash
-cargo test --workspace
-```
-
-Testergebnisse sind als Evidence zu behandeln. Ein erfolgreicher lokaler Testlauf bedeutet nicht automatisch `AUDITED` oder `PRODUCTION_READY`.
+Vor größeren Änderungen sind mindestens `STATUS.md`, `AGENT_MANIFEST.md`, `ARCHITECTURE.md`, `ROADMAP.md` und die relevanten Governance-Dokumente zu prüfen.
 
 ## Security
 
@@ -166,13 +208,34 @@ Security Issues dürfen nicht öffentlich über GitHub Issues gemeldet werden. S
 **Security class:** S1  
 **Criticality:** low
 
+## Audit
+
+Der laufende Engineering-Audit wird in folgenden Dateien dokumentiert:
+
+- `docs/ENGINEERING_AUDIT.md` — Audit-Baseline und Evidenzstatus
+- `docs/ENGINEERING_AUDIT_FINDINGS.md` — Finding Registry und Remediation-Status
+
+Definition of Done für Findings:
+
+```text
+Finding
+  → Root Cause
+  → Fix
+  → Regression Test
+  → CI Verification
+  → Audit Evidence
+  → CLOSED
+```
+
 ## Documentation
 
-- `docs/REPOSITORY_STANDARD.md` — Repository-Standard
-- `docs/specs/GEN-PROD-001-PRODUCT-STRATEGY.md` — Produktstrategie
 - `ARCHITECTURE.md` — technische Architektur
 - `STATUS.md` — aktueller Projektstatus
 - `ROADMAP.md` — Entwicklungs-Roadmap
+- `docs/ENGINEERING_AUDIT.md` — Audit-Baseline
+- `docs/ENGINEERING_AUDIT_FINDINGS.md` — Findings
+- `docs/specs/GEN-PROD-001-PRODUCT-STRATEGY.md` — Produktstrategie
+- `docs/REPOSITORY_STANDARD.md` — Repository-Standard
 - `a-townchain-os-docs` — zentrale Ökosystem-Dokumentation
 
 ## Governance
@@ -192,11 +255,11 @@ Canonical Standard-IDs werden ausschließlich über die Standards Registry und d
 | ATC-STD-202 | 1.2.0 | Repository/Entwicklungsanforderungen |
 | ATC-STD-203 | 1.0.1 | Security und Release Gates |
 
-Die Tabelle dokumentiert die relevanten Standards; sie ist keine pauschale Behauptung, dass jeder Standardzustand dieses Entwicklungs-Repositories bereits `PRODUCTION_READY` ist.
+Die Tabelle dokumentiert relevante Standards; sie ist keine pauschale Behauptung, dass dieses Entwicklungs-Repository bereits `PRODUCTION_READY` ist.
 
 ## Roadmap
 
-Siehe die kanonischen Quellen:
+Siehe:
 
 - `ROADMAP.md`
 - `STATUS.md`
@@ -228,5 +291,6 @@ Für KI-Agenten:
 1. Lies `STATUS.md`, `AGENT_MANIFEST.md`, `ARCHITECTURE.md` und `ROADMAP.md` vor größeren Änderungen.
 2. Beachte die geltenden ATC-Standards und Repository-Governance.
 3. Verwende Conventional Commits.
-4. Führe nach Änderungen mindestens `cargo test --workspace` und die relevanten README-/Markdown-Validatoren aus.
+4. Führe nach Änderungen mindestens `cargo fmt --all -- --check`, `cargo check --workspace --all-targets`, `cargo test --workspace --all-targets` und `cargo clippy --workspace --all-targets -- -D warnings` aus.
 5. Trenne deklarierte Zustände, Testergebnisse und Governance-Evidence strikt voneinander.
+6. Verändere keine Chain-/VM-Grenzen, um Engine-Funktionalität zu implementieren.
