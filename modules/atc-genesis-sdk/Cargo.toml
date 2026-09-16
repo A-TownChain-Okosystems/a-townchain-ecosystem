@@ -6,3 +6,4 @@ license.workspace = true
 
 [dependencies]
 atc-genesis-platform = { path = "../atc-genesis-platform" }
+atc-genesis-ecs = { path = "../atc-genesis-ecs" }
