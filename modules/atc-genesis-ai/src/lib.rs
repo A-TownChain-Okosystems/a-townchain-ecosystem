@@ -104,7 +104,7 @@ impl GridNav {
     }
 
     pub fn neighbors(&self, x: u32, y: u32) -> Vec<(u32, u32)> {
-        let mut n = Vec::new();
+        let mut n = Vec::with_capacity(4);
         if x > 0 && self.walkable(x - 1, y) {
             n.push((x - 1, y));
         }
@@ -118,6 +118,50 @@ impl GridNav {
             n.push((x, y + 1));
         }
         n
+    }
+
+    pub fn shortest_path(
+        &self,
+        start: (u32, u32),
+        goal: (u32, u32),
+    ) -> Option<Vec<(u32, u32)>> {
+        if !self.walkable(start.0, start.1) || !self.walkable(goal.0, goal.1) {
+            return None;
+        }
+        if start == goal {
+            return Some(vec![start]);
+        }
+
+        let mut queue = std::collections::VecDeque::new();
+        let mut visited = vec![false; (self.width * self.height) as usize];
+        let mut parent: Vec<Option<(u32, u32)>> = vec![None; visited.len()];
+        let index = |p: (u32, u32)| (p.1 * self.width + p.0) as usize;
+
+        queue.push_back(start);
+        visited[index(start)] = true;
+
+        while let Some(current) = queue.pop_front() {
+            for next in self.neighbors(current.0, current.1) {
+                let next_index = index(next);
+                if visited[next_index] {
+                    continue;
+                }
+                visited[next_index] = true;
+                parent[next_index] = Some(current);
+                if next == goal {
+                    let mut path = vec![goal];
+                    let mut cursor = goal;
+                    while cursor != start {
+                        cursor = parent[index(cursor)]?;
+                        path.push(cursor);
+                    }
+                    path.reverse();
+                    return Some(path);
+                }
+                queue.push_back(next);
+            }
+        }
+        None
     }
 }
 
@@ -138,5 +182,26 @@ mod tests {
         n.set_blocked(1, 1, true);
         assert!(!n.walkable(1, 1));
         assert!(!n.neighbors(1, 0).contains(&(1, 1)));
+    }
+
+    #[test]
+    fn pathfinding_is_deterministic_and_avoids_blockers() {
+        let mut n = GridNav::new(4, 3);
+        n.set_blocked(1, 0, true);
+        n.set_blocked(1, 1, true);
+        let path = n.shortest_path((0, 0), (3, 0)).expect("path should exist");
+        assert_eq!(path.first(), Some(&(0, 0)));
+        assert_eq!(path.last(), Some(&(3, 0)));
+        assert!(!path.contains(&(1, 0)));
+        assert!(!path.contains(&(1, 1)));
+        assert_eq!(path, n.shortest_path((0, 0), (3, 0)).unwrap());
+    }
+
+    #[test]
+    fn unreachable_goal_returns_none() {
+        let mut n = GridNav::new(3, 3);
+        n.set_blocked(1, 0, true);
+        n.set_blocked(0, 1, true);
+        assert_eq!(n.shortest_path((0, 0), (2, 2)), None);
     }
 }
