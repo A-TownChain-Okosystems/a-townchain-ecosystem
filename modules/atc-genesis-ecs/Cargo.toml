@@ -6,3 +6,4 @@ license = "Apache-2.0"
 
 [dependencies]
 atc-genesis-platform = { path = "../atc-genesis-platform" }
+atc-genesis-world = { path = "../atc-genesis-world" }
