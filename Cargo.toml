@@ -4,6 +4,7 @@ members = [
   "modules/atc-genesis-animation",
   "modules/atc-genesis-assets",
   "modules/atc-genesis-audio",
+  "modules/atc-genesis-ecs",
   "modules/atc-genesis-physics",
   "modules/atc-genesis-platform",
   "modules/atc-genesis-renderer",
