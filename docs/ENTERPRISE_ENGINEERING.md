@@ -3,116 +3,62 @@
 **Status:** Development / Enterprise hardening in progress  
 **Scope:** Workspace, runtime, networking, security, CI/CD and release engineering
 
-## 1. Zielbild
+## Runtime network trust boundary
 
-Genesis Engine soll nicht nur funktionierenden Code liefern, sondern reproduzierbare, überprüfbare und wartbare Software-Artefakte. Der Enterprise-Baseline-Ansatz trennt Code Correctness, Supply-Chain-Security, Ownership/Governance und Runtime Assurance.
-
-Der Repository-Status bleibt `development`. Ein grüner CI-Lauf allein ist kein `PRODUCTION_READY`-Nachweis.
-
-## 2. CI Quality Gates
-
-`.github/workflows/enterprise-ci.yml` definiert:
-
-- `cargo fmt --all -- --check`
-- `cargo check --workspace --all-targets`
-- `cargo test --workspace --all-targets`
-- `cargo clippy --workspace --all-targets -- -D warnings`
-- `cargo doc --workspace --no-deps`
-- `cargo audit`
-- GitHub Dependency Review für Pull Requests
-
-Jobs besitzen Timeouts und minimale GitHub-Token-Rechte. Workflow-Ausführungen werden über Concurrency dedupliziert.
-
-## 3. Dependency Governance
-
-`.github/dependabot.yml` überwacht Cargo- und GitHub-Actions-Abhängigkeiten.
-
-Ein versionierter `Cargo.lock` bleibt ein Ziel der Release-Härtung. Der aktuelle Security-Job erzeugt für den Audit-Lauf einen Lockfile; das ist noch kein Ersatz für einen versionierten Release-Lockfile.
-
-## 4. Ownership
-
-`.github/CODEOWNERS` definiert einen Repository-weiten Ownership-Boundary. Besonders geschützt sind CI, Security, Cargo-Metadaten, Runtime und Network.
-
-## 5. Network Security Model
-
-Der Netzwerkstack verwendet eine feste Binärrepräsentation aus Header und State. Die Security-Schicht prüft:
-
-- maximale Paketgröße
-- exakte Paketlänge
-- Entity-Konsistenz zwischen Header und State
-- Tick-Konsistenz
-- monotone Sequenznummer
-- monotone Tick-Reihenfolge
-- Session-Zugehörigkeit über `PacketGuard`
-- Peer-Kontext
-
-`PacketGuard` ist jetzt vor dem ECS-Apply-Pfad explizit nutzbar. Der Runtime-Einstieg `receive_secure_network_packet` akzeptiert nur Pakete, die durch den Guard validiert wurden.
-
-Der Runtime-Pfad wendet einen akzeptierten State nur auf eine bereits existierende ECS-Entity an. Unbekannte Entities werden nicht implizit aus Netzwerkdaten erzeugt.
-
-## 6. Runtime Trust Boundary
+The secure runtime path is intentionally explicit. A packet is not trusted merely because it decoded successfully.
 
 ```text
 Transport
    ↓
-Packet size boundary
+Maximum packet-size boundary
    ↓
-Packet decoding
+Binary decoding
    ↓
-Session / peer / sequence validation
+Session validation
    ↓
-ReplicatedState
+Peer / sequence / tick validation
    ↓
-Entity existence policy
+Expected-entity ownership validation
+   ↓
+Existing ECS entity validation
    ↓
 ECS state application
-   ↓
-Simulation / rendering
 ```
 
-Ein Netzwerkpaket darf niemals direkt eine beliebige ECS-Entity erzeugen oder Governance-/Chain-Zustand überschreiben.
+`PacketGuard` enforces packet size, session identity, packet structure, entity/tick consistency, replay protection and monotonic tick ordering. The runtime additionally exposes `receive_secure_network_packet_for_entity`, which requires the caller to specify the entity expected for that trust boundary. A mismatch is rejected before ECS mutation.
 
-## 7. Determinism
+Unknown ECS entities are never implicitly created from replication traffic.
 
-Positionen werden als Millimeterwerte übertragen. Netzwerksequenzen und Simulationsticks sind explizit und monoton. Snapshot- und Prediction-Strukturen unterstützen deterministische Replikation.
+## CI quality gates
 
-Weitere geplante Härtung:
+`.github/workflows/enterprise-ci.yml` defines formatting, compilation, tests, Clippy, documentation, RustSec and Pull Request dependency-review gates. CI uses least-privilege permissions, timeouts and concurrency cancellation.
 
-- feste Timestep-Ausführung
-- Cross-platform Determinism Tests
-- definierte Floating-Point-Grenzen
-- vollständiges Snapshot/Rollback
-- reproduzierbare Release-Builds
+## Dependency governance
 
-## 8. Security Non-Goals des aktuellen Stands
+`.github/dependabot.yml` monitors Cargo and GitHub Actions dependencies. A committed `Cargo.lock` remains a release-hardening requirement; the current security job generates a lockfile only for its audit run.
 
-Noch nicht als implementiert/verifiziert gelten:
+## Determinism
 
-- kryptographische Peer-Authentisierung
-- verschlüsselte Transportverbindung
-- echte UDP/QUIC-Implementierung
-- Rate Limiting
-- Bandwidth Budgets
-- Connection Lifecycle Management
-- Key Rotation
-- DoS-Schutz auf Transportebene
+Network positions use integer millimetres. Sequence numbers and simulation ticks are explicit and monotonic. Snapshot and prediction structures provide deterministic replication primitives.
 
-## 9. Release Readiness
+The current rotation wire field retains the historical `rotation_millirad` name, although the runtime stores scaled quaternion x/y/z components. This naming mismatch is tracked as a protocol-cleanup item and must be resolved before declaring the network wire protocol stable.
 
-Ein Release gilt erst nach expliziter Evidence als verifiziert. Mindest-Evidence:
+## Security not yet production-verified
 
-1. CI Quality Gates bestanden.
-2. Security/Dependency Gates bestanden.
-3. reproduzierbarer Build nachgewiesen.
-4. relevante Integrationstests bestanden.
-5. Security Review abgeschlossen.
-6. Release-Artefakte und Checksums erzeugt.
-7. Governance- und Lizenzprüfung abgeschlossen.
+The following are not claimed as implemented or verified:
 
-`development`, `verified`, `release-candidate` und `production-ready` sind getrennte Zustände.
+- cryptographic peer authentication
+- encrypted transport
+- production UDP/QUIC transport
+- rate limiting and bandwidth budgets
+- connection lifecycle management
+- key rotation
+- transport-level DoS protection
+- committed release lockfile
+- SBOM and artifact signing/attestation
 
-## 10. Evidence Principle
+## Release evidence
+
+Production promotion requires actual CI/security/integration evidence, reproducible build evidence, release checksums, governance review and explicit release authorization.
 
 > No Evidence, No Trust.
-
-Dokumentation beschreibt Absicht und Architektur. CI-Ergebnisse, Testreports, Security-Scans und Release-Artefakte belegen den tatsächlichen Zustand.
