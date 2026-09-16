@@ -29,6 +29,7 @@ pub struct GenesisRuntime<R, A = atc_genesis_audio::NullAudioRuntime, N = atc_ge
 struct AnimationBinding {
     player: AnimationPlayer,
     clip: AnimationClipId,
+    last_root_translation: [f32; 3],
 }
 
 impl<R> GenesisRuntime<R> {
@@ -51,18 +52,18 @@ impl<R, A, N> GenesisRuntime<R, A, N> {
     pub fn queue_movement(&mut self, entity: EntityId, config: MovementConfig) { self.gameplay.sample_movement(&self.input, entity, config); }
     pub fn update_gameplay(&mut self, dt: f32) -> usize { self.gameplay.apply(&mut self.ecs, dt) }
 
-    /// Register an animation clip in the deterministic runtime registry.
     pub fn register_animation_clip(&mut self, clip: AnimationClip) -> Option<AnimationClip> { self.clips.insert(clip.id, clip) }
 
-    /// Bind an entity to a registered clip and reset its local animation clock.
     pub fn play_animation(&mut self, entity: EntityId, clip: AnimationClipId, looping: bool, speed: f32) -> bool {
-        if !self.ecs.transform(entity).is_some() || !self.clips.contains_key(&clip) { return false; }
-        self.animations.insert(entity, AnimationBinding { player: AnimationPlayer { clip: Some(clip), time_seconds: 0.0, speed, looping }, clip });
+        if self.ecs.transform(entity).is_none() || !self.clips.contains_key(&clip) { return false; }
+        self.animations.insert(entity, AnimationBinding { player: AnimationPlayer { clip: Some(clip), time_seconds: 0.0, speed, looping }, clip, last_root_translation: [0.0; 3] });
         true
     }
 
     pub fn stop_animation(&mut self, entity: EntityId) -> bool { self.animations.remove(&entity).is_some() }
 
+    /// Advances animation clocks and applies root-motion deltas without accumulating
+    /// the same sampled pose repeatedly across frames.
     pub fn update_animations(&mut self, dt: f32) -> usize {
         let ids: Vec<EntityId> = self.animations.keys().copied().collect();
         let mut updated = 0;
@@ -70,16 +71,25 @@ impl<R, A, N> GenesisRuntime<R, A, N> {
             let Some(binding) = self.animations.get_mut(&entity) else { continue; };
             let Some(clip) = self.clips.get(&binding.clip) else { continue; };
             binding.player.update(dt, clip.duration_seconds);
-            let root = clip.sample(binding.player.time_seconds).into_iter().find(|(bone, _)| *bone == BoneId(0));
+            let root = binding.player.sample(clip).into_iter().find(|(bone, _)| *bone == BoneId(0));
             let Some((_, pose)) = root else { continue; };
-            let Some(current) = self.ecs.transform(entity).copied() else { continue; };
-            let animated = Transform { translation: [current.translation[0] + pose.translation[0], current.translation[1] + pose.translation[1], current.translation[2] + pose.translation[2]], rotation_xyzw: pose.rotation_xyzw, scale: pose.scale };
-            if self.ecs.set_transform(entity, animated) { updated += 1; }
+            let delta = [
+                pose.translation[0] - binding.last_root_translation[0],
+                pose.translation[1] - binding.last_root_translation[1],
+                pose.translation[2] - binding.last_root_translation[2],
+            ];
+            binding.last_root_translation = pose.translation;
+            let Some(mut current) = self.ecs.transform(entity).copied() else { continue; };
+            current.translation[0] += delta[0];
+            current.translation[1] += delta[1];
+            current.translation[2] += delta[2];
+            current.rotation_xyzw = pose.rotation_xyzw;
+            current.scale = pose.scale;
+            if self.ecs.set_transform(entity, current) { updated += 1; }
         }
         updated
     }
 
-    /// Publish a deterministic network snapshot using millimetre quantization.
     pub fn publish_entity(&mut self, entity: EntityId) -> Result<u64, String>
     where N: ReplicationTransport {
         let transform = self.ecs.transform(entity).ok_or_else(|| format!("entity {} does not exist", entity.0))?;
@@ -89,7 +99,6 @@ impl<R, A, N> GenesisRuntime<R, A, N> {
 }
 
 impl<R: Renderer, A: AudioRuntime, N: ReplicationTransport> GenesisRuntime<R, A, N> {
-    /// Execute one deterministic runtime tick.
     pub fn tick(&mut self, dt: f32) -> u32 {
         self.update_animations(dt);
         self.update_gameplay(dt);
@@ -146,14 +155,15 @@ mod tests {
     }
 
     #[test]
-    fn animation_root_motion_is_applied_before_gameplay() {
+    fn animation_root_motion_does_not_accumulate_sampled_pose() {
         let mut runtime = GenesisRuntime::new(NullRenderer::default(), PhysicsConfig { gravity: [0.0; 3], ..Default::default() });
         let entity = runtime.spawn(Transform::default());
-        let clip = AnimationClip { id: AnimationClipId(1), duration_seconds: 1.0, tracks: vec![AnimationTrack { bone: BoneId(0), keys: vec![Keyframe { time_seconds: 0.0, value: PoseTransform::default() }, Keyframe { time_seconds: 1.0, value: PoseTransform { translation: [2.0, 0.0, 0.0], ..Default::default() } }] }] };
-        runtime.register_animation_clip(clip);
+        runtime.register_animation_clip(AnimationClip { id: AnimationClipId(1), duration_seconds: 1.0, tracks: vec![AnimationTrack { bone: BoneId(0), keys: vec![Keyframe { time_seconds: 0.0, value: PoseTransform::default() }, Keyframe { time_seconds: 1.0, value: PoseTransform { translation: [2.0, 0.0, 0.0], ..Default::default() } }] }] });
         assert!(runtime.play_animation(entity, AnimationClipId(1), false, 1.0));
-        assert_eq!(runtime.tick(0.5), 0);
+        runtime.update_animations(0.5);
         assert_eq!(runtime.ecs.transform(entity).unwrap().translation[0], 1.0);
+        runtime.update_animations(0.5);
+        assert_eq!(runtime.ecs.transform(entity).unwrap().translation[0], 2.0);
     }
 
     #[test]
