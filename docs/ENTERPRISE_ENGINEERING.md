@@ -17,9 +17,11 @@ Loaded world chunks are mirrored into deterministic reserved ECS IDs and stale c
 
 ## Runtime network trust boundary
 
-Transport → packet-size boundary → binary decoding → wire-format validation → session validation → peer/sequence/tick validation → expected-entity ownership validation → existing ECS entity validation → ECS state application.
+Transport → packet-size boundary → binary decoding → wire-format validation → session validation → expected-entity authorization → peer/sequence/tick validation → existing ECS entity validation → ECS state application.
 
-`PacketGuard` enforces packet size, session identity, packet structure, entity/tick consistency, replay protection, monotonic tick ordering, and replicated quaternion bounds. Unknown ECS entities are never implicitly created from replication traffic.
+`PacketGuard` enforces packet size, session identity, packet structure, entity/tick consistency, replay protection, monotonic tick ordering, and replicated quaternion bounds. The entity-scoped validation path now performs ownership validation before committing peer sequence/tick state. Therefore an unauthorized packet cannot consume a valid sequence number and create a replay-state side effect.
+
+Unknown ECS entities are never implicitly created from replication traffic.
 
 ## Replication and security hardening
 
@@ -33,6 +35,7 @@ Invalid quaternion vector magnitudes are rejected using deterministic integer-on
 |---|---|---|---|---|
 | NET-001 | Replication rotation units were inconsistent | High | Resolved in source | Unified on `rotation_xyz_microunits` |
 | SEC-003 | Invalid quaternion vector magnitude could cross the network trust boundary | High | Resolved in source | Integer norm validation and fail-closed rejection |
+| SEC-004 | Entity authorization occurred after peer sequence state was committed | High | Resolved in source | Entity-scoped validation now authorizes before sequence/tick commit; regression added |
 | CONS-001 | Stale `rotation_millirad` references remained after wire-format correction | High | Resolved in source | References removed and repository search performed |
 | CONS-002 | `atc-genesis-ecs` was a runtime path dependency but absent from root workspace members | High | Resolved in source | ECS explicitly added to `[workspace].members` |
 | ECS-001 | Hierarchy/world-transform path could be called for an unknown entity; cycle traversal guard was based on total transforms | Medium | Resolved in source | Unknown entities return `None`; cycle traversal bounded by hierarchy edges; regression added |
@@ -52,6 +55,8 @@ Source-level verification for this audit confirms:
 - ECS hierarchy rejects self-parenting, missing parents and cycles.
 - Unknown entities do not resolve to fabricated world transforms.
 - World chunks are mirrored deterministically and stale chunk entities are removed.
+- Entity-scoped network validation performs ownership authorization before peer sequence/tick state is committed.
+- Unauthorized entity regression coverage verifies that sequence state remains unchanged.
 - Network validation rejects malformed/invalid replication state before ECS mutation.
 - Repository search previously found no stale `rotation_millirad` reference.
 
