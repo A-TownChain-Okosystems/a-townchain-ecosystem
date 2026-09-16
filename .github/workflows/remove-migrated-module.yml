@@ -1,0 +1,38 @@
+name: Remove migrated ShivaCore module
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/remove-migrated-module.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  remove:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Verify migration target exists
+        run: |
+          git ls-remote https://github.com/A-TownChain-Okosystems/globus-os.git refs/heads/main | grep -q .
+
+      - name: Remove migrated module
+        run: |
+          test -d modules/atc-shivacore
+          rm -rf modules/atc-shivacore
+          printf '\n## ShivaCore relocation\n\nThe canonical ShivaCore kernel source was moved to `A-TownChain-Okosystems/globus-os/modules/atc-shivacore` so the kernel is built and verified by the GlobusOS CI pipeline. This repository retains the surrounding ShivaCore tooling and governance material.\n' >> README.md
+          rm .github/workflows/remove-migrated-module.yml
+
+      - name: Commit relocation
+        run: |
+          git config user.name 'Aurora-Bot'
+          git config user.email 'aurora@base44.ai'
+          git add -A
+          git commit -m 'refactor: relocate ShivaCore module into GlobusOS'
+          git push origin HEAD:main
