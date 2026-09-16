@@ -12,3 +12,4 @@ atc-genesis-renderer = { path = "../atc-genesis-renderer" }
 atc-genesis-world = { path = "../atc-genesis-world" }
 atc-genesis-gameplay = { path = "../atc-genesis-gameplay" }
 atc-genesis-input = { path = "../atc-genesis-input" }
+atc-genesis-audio = { path = "../atc-genesis-audio" }
