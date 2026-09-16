@@ -1,4 +1,5 @@
 use atc_genesis_platform::{EntityId, FrameId, Renderer, Transform};
+use atc_genesis_world::{ChunkState, WorldChunkId, WorldStreamer};
 use std::collections::HashMap;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -57,10 +58,80 @@ impl<R: Renderer> TransformRenderPipeline<R> {
     pub fn render(&mut self, frame: FrameId) { self.renderer.begin_frame(frame); for (id, transform) in self.world.query_world_transforms() { self.renderer.submit(id, transform); } self.renderer.end_frame(); }
 }
 
+/// Deterministically mirrors loaded world chunks into ECS entities.
+pub struct WorldEcsBridge {
+    chunk_entities: HashMap<WorldChunkId, EntityId>,
+}
+
+impl Default for WorldEcsBridge {
+    fn default() -> Self { Self { chunk_entities: HashMap::new() } }
+}
+
+impl WorldEcsBridge {
+    pub fn new() -> Self { Self::default() }
+
+    pub fn entity_for_chunk(&self, chunk: WorldChunkId) -> Option<EntityId> {
+        self.chunk_entities.get(&chunk).copied()
+    }
+
+    /// Synchronize ECS membership with the world's loaded chunks.
+    /// Loaded chunks become entities at the center of their bounds.
+    pub fn sync(&mut self, world: &WorldStreamer, ecs: &mut World) -> Vec<(WorldChunkId, EntityId)> {
+        let mut loaded = Vec::new();
+        for chunk in world.chunks() {
+            if chunk.state != ChunkState::Loaded { continue; }
+            let entity = *self.chunk_entities.entry(chunk.id).or_insert_with(|| EntityId(u64::MAX - chunk.id.0));
+            let center = [
+                (chunk.bounds.min[0] + chunk.bounds.max[0]) * 0.5,
+                (chunk.bounds.min[1] + chunk.bounds.max[1]) * 0.5,
+                (chunk.bounds.min[2] + chunk.bounds.max[2]) * 0.5,
+            ];
+            let transform = Transform { translation: center, ..Default::default() };
+            if !ecs.set_transform(entity, transform) && !ecs.insert(entity, transform) { continue; }
+            loaded.push((chunk.id, entity));
+        }
+
+        let active: Vec<WorldChunkId> = world.chunks().iter().filter(|c| c.state == ChunkState::Loaded).map(|c| c.id).collect();
+        let stale: Vec<WorldChunkId> = self.chunk_entities.keys().copied().filter(|id| !active.contains(id)).collect();
+        for chunk in stale {
+            if let Some(entity) = self.chunk_entities.remove(&chunk) { ecs.despawn(entity); }
+        }
+        loaded.sort_by_key(|(chunk, _)| chunk.0);
+        loaded
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use atc_genesis_platform::AssetId;
+    use atc_genesis_world::{WorldBounds, WorldChunk};
+
     #[test] fn hierarchy_resolves() { let mut w=World::new(); let p=w.spawn(Transform{translation:[2.0,0.0,0.0],..Default::default()}); let c=w.spawn(Transform{translation:[1.0,0.0,0.0],..Default::default()}); assert!(w.set_parent(c,Some(p))); assert_eq!(w.world_transform(c).unwrap().translation[0],3.0); }
     #[test] fn cycle_is_rejected() { let mut w=World::new(); let a=w.spawn(Transform::default()); let b=w.spawn(Transform::default()); assert!(w.set_parent(b,Some(a))); assert!(!w.set_parent(a,Some(b))); }
     #[test] fn imported_id_is_preserved() { let mut w=World::new(); assert!(w.insert(EntityId(42),Transform::default())); assert_eq!(w.transform(EntityId(42)),Some(&Transform::default())); }
+
+    #[test]
+    fn loaded_chunk_is_mirrored_into_ecs() {
+        let mut streamer = WorldStreamer::default();
+        streamer.add_chunk(WorldChunk { id: WorldChunkId(7), asset: AssetId(7), bounds: WorldBounds { min: [0.0; 3], max: [10.0; 3] }, state: ChunkState::Loaded }).unwrap();
+        let mut ecs = World::new();
+        let mut bridge = WorldEcsBridge::new();
+        let result = bridge.sync(&streamer, &mut ecs);
+        assert_eq!(result.len(), 1);
+        let entity = result[0].1;
+        assert_eq!(ecs.transform(entity).unwrap().translation, [5.0; 3]);
+        assert_eq!(bridge.entity_for_chunk(WorldChunkId(7)), Some(entity));
+    }
+
+    #[test]
+    fn loaded_chunk_entity_is_stable() {
+        let mut streamer = WorldStreamer::default();
+        streamer.add_chunk(WorldChunk { id: WorldChunkId(7), asset: AssetId(7), bounds: WorldBounds { min: [0.0; 3], max: [10.0; 3] }, state: ChunkState::Loaded }).unwrap();
+        let mut ecs = World::new();
+        let mut bridge = WorldEcsBridge::new();
+        let first = bridge.sync(&streamer, &mut ecs)[0].1;
+        let second = bridge.sync(&streamer, &mut ecs)[0].1;
+        assert_eq!(first, second);
+    }
 }
