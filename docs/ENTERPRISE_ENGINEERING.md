@@ -5,18 +5,13 @@
 
 ## 1. Zielbild
 
-Genesis Engine soll nicht nur funktionierenden Code liefern, sondern reproduzierbare, überprüfbare und wartbare Software-Artefakte. Der Enterprise-Baseline-Ansatz trennt dabei vier Ebenen:
-
-1. **Code correctness** — Formatierung, Compilation, Tests und Clippy.
-2. **Supply-chain security** — Dependency Review und RustSec-Auditing.
-3. **Ownership & governance** — CODEOWNERS und geschützte Security-/Runtime-Bereiche.
-4. **Runtime assurance** — deterministische Netzwerk-, ECS- und Simulationspfade.
+Genesis Engine soll nicht nur funktionierenden Code liefern, sondern reproduzierbare, überprüfbare und wartbare Software-Artefakte. Der Enterprise-Baseline-Ansatz trennt Code Correctness, Supply-Chain-Security, Ownership/Governance und Runtime Assurance.
 
 Der Repository-Status bleibt `development`. Ein grüner CI-Lauf allein ist kein `PRODUCTION_READY`-Nachweis.
 
 ## 2. CI Quality Gates
 
-`.github/workflows/enterprise-ci.yml` definiert folgende Gates:
+`.github/workflows/enterprise-ci.yml` definiert:
 
 - `cargo fmt --all -- --check`
 - `cargo check --workspace --all-targets`
@@ -26,29 +21,23 @@ Der Repository-Status bleibt `development`. Ein grüner CI-Lauf allein ist kein 
 - `cargo audit`
 - GitHub Dependency Review für Pull Requests
 
-Jobs besitzen Timeouts und minimale GitHub-Token-Rechte. Workflow-Ausführungen werden pro Branch/Workflow über Concurrency dedupliziert.
+Jobs besitzen Timeouts und minimale GitHub-Token-Rechte. Workflow-Ausführungen werden über Concurrency dedupliziert.
 
 ## 3. Dependency Governance
 
-`.github/dependabot.yml` überwacht Cargo- und GitHub-Actions-Abhängigkeiten. Security-relevante Dependency-Änderungen sollen als Review-pflichtige Änderungen behandelt werden.
+`.github/dependabot.yml` überwacht Cargo- und GitHub-Actions-Abhängigkeiten.
 
-Ein versionierter `Cargo.lock` ist für reproduzierbare Releases weiterhin ein Ziel der Release-Härtung. Bis dahin erzeugt der Security-Job den Lockfile reproduzierbar für den Audit-Lauf.
+Ein versionierter `Cargo.lock` bleibt ein Ziel der Release-Härtung. Der aktuelle Security-Job erzeugt für den Audit-Lauf einen Lockfile; das ist noch kein Ersatz für einen versionierten Release-Lockfile.
 
 ## 4. Ownership
 
-`.github/CODEOWNERS` definiert einen Repository-weiten Ownership-Boundary. Besonders geschützt sind:
-
-- `.github/`
-- `SECURITY.md`
-- `Cargo.toml`
-- `Cargo.lock`, sobald versioniert
-- `modules/atc-genesis-runtime/`
-- `modules/atc-genesis-network/`
+`.github/CODEOWNERS` definiert einen Repository-weiten Ownership-Boundary. Besonders geschützt sind CI, Security, Cargo-Metadaten, Runtime und Network.
 
 ## 5. Network Security Model
 
-Der Netzwerkstack besitzt eine feste Binärrepräsentation aus Header und State. Pakete werden auf folgende Eigenschaften geprüft:
+Der Netzwerkstack verwendet eine feste Binärrepräsentation aus Header und State. Die Security-Schicht prüft:
 
+- maximale Paketgröße
 - exakte Paketlänge
 - Entity-Konsistenz zwischen Header und State
 - Tick-Konsistenz
@@ -57,46 +46,47 @@ Der Netzwerkstack besitzt eine feste Binärrepräsentation aus Header und State.
 - Session-Zugehörigkeit über `PacketGuard`
 - Peer-Kontext
 
+`PacketGuard` ist jetzt vor dem ECS-Apply-Pfad explizit nutzbar. Der Runtime-Einstieg `receive_secure_network_packet` akzeptiert nur Pakete, die durch den Guard validiert wurden.
+
 Der Runtime-Pfad wendet einen akzeptierten State nur auf eine bereits existierende ECS-Entity an. Unbekannte Entities werden nicht implizit aus Netzwerkdaten erzeugt.
 
 ## 6. Runtime Trust Boundary
 
-Die Verarbeitung ist bewusst in Stufen geteilt:
-
 ```text
 Transport
    ↓
+Packet size boundary
+   ↓
 Packet decoding
    ↓
-PacketGuard / ordering validation
+Session / peer / sequence validation
    ↓
 ReplicatedState
    ↓
-Entity existence / ownership policy
+Entity existence policy
    ↓
 ECS state application
    ↓
 Simulation / rendering
 ```
 
-Ein Paket darf niemals direkt eine beliebige ECS-Entity erzeugen oder Governance-/Chain-Zustand überschreiben.
+Ein Netzwerkpaket darf niemals direkt eine beliebige ECS-Entity erzeugen oder Governance-/Chain-Zustand überschreiben.
 
 ## 7. Determinism
 
-Für reproduzierbare Simulation werden Integer-basierte Netzwerkwerte verwendet. Positionen werden in Millimetern übertragen. Netzwerksequenzen und Simulationsticks sind explizit und monoton.
+Positionen werden als Millimeterwerte übertragen. Netzwerksequenzen und Simulationsticks sind explizit und monoton. Snapshot- und Prediction-Strukturen unterstützen deterministische Replikation.
 
-Weitere Enterprise-Härtung umfasst:
+Weitere geplante Härtung:
 
 - feste Timestep-Ausführung
-- deterministische Sortierung
-- Snapshot-Buffers
-- Prediction-/Rollback-Infrastruktur
 - Cross-platform Determinism Tests
 - definierte Floating-Point-Grenzen
+- vollständiges Snapshot/Rollback
+- reproduzierbare Release-Builds
 
 ## 8. Security Non-Goals des aktuellen Stands
 
-Der aktuelle Netzwerktransport ist noch keine vollständige Production-Network-Security-Lösung. Es fehlen insbesondere:
+Noch nicht als implementiert/verifiziert gelten:
 
 - kryptographische Peer-Authentisierung
 - verschlüsselte Transportverbindung
@@ -106,8 +96,6 @@ Der aktuelle Netzwerktransport ist noch keine vollständige Production-Network-S
 - Connection Lifecycle Management
 - Key Rotation
 - DoS-Schutz auf Transportebene
-
-Diese Punkte dürfen nicht als implementiert betrachtet werden.
 
 ## 9. Release Readiness
 
