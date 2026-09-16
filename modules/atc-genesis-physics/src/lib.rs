@@ -1,5 +1,6 @@
 use atc_genesis_ecs::World;
 use atc_genesis_platform::{EntityId, PhysicsWorld};
+use atc_genesis_world::{ChunkState, WorldChunkId, WorldStreamer};
 mod collision;
 pub use collision::{Aabb, Collider, CollisionWorld};
 
@@ -56,7 +57,6 @@ impl PhysicsSimulation {
     }
 
     pub fn add_body(&mut self, body: RigidBody) { self.bodies.push(body); }
-
     pub fn remove_body(&mut self, entity: EntityId) -> bool {
         if let Some(i) = self.bodies.iter().position(|b| b.entity == entity) {
             self.bodies.remove(i);
@@ -64,7 +64,6 @@ impl PhysicsSimulation {
             true
         } else { false }
     }
-
     pub fn bodies(&self) -> &[RigidBody] { &self.bodies }
     pub fn body(&self, entity: EntityId) -> Option<&RigidBody> { self.bodies.iter().find(|b| b.entity == entity) }
     pub fn body_mut(&mut self, entity: EntityId) -> Option<&mut RigidBody> { self.bodies.iter_mut().find(|b| b.entity == entity) }
@@ -72,17 +71,14 @@ impl PhysicsSimulation {
     fn resolve_collisions(body: &mut RigidBody, collisions: &CollisionWorld, iterations: u32) {
         for _ in 0..iterations {
             let Some((_entity, normal, penetration)) = collisions.resolve_point(body.position) else { break };
-            body.position[0] += normal[0] * (penetration + 1e-5);
-            body.position[1] += normal[1] * (penetration + 1e-5);
-            body.position[2] += normal[2] * (penetration + 1e-5);
+            let correction = penetration + 1e-5;
+            for i in 0..3 { body.position[i] += normal[i] * correction; }
             let inward_velocity = body.velocity[0] * normal[0]
                 + body.velocity[1] * normal[1]
                 + body.velocity[2] * normal[2];
             if inward_velocity < 0.0 {
                 let impulse = (1.0 + body.restitution.clamp(0.0, 1.0)) * inward_velocity;
-                body.velocity[0] -= normal[0] * impulse;
-                body.velocity[1] -= normal[1] * impulse;
-                body.velocity[2] -= normal[2] * impulse;
+                for i in 0..3 { body.velocity[i] -= normal[i] * impulse; }
             }
         }
     }
@@ -128,8 +124,41 @@ impl PhysicsSimulation {
     }
 
     pub fn add_collider(&mut self, collider: Collider) { self.collisions.add(collider); }
+    pub fn remove_collider(&mut self, entity: EntityId) -> bool { self.collisions.remove(entity) }
     pub fn query(&self, bounds: Aabb) -> Vec<EntityId> { self.collisions.query_aabb(bounds) }
     pub fn interpolation_alpha(&self) -> f32 { (self.accumulator / self.config.fixed_dt).clamp(0.0, 1.0) }
+}
+
+/// Mirrors loaded world chunks into the physics collision world.
+/// Chunk entities use the same deterministic reserved ID scheme as the ECS bridge.
+#[derive(Default)]
+pub struct WorldPhysicsBridge {
+    chunk_entities: std::collections::HashMap<WorldChunkId, EntityId>,
+}
+
+impl WorldPhysicsBridge {
+    pub fn new() -> Self { Self::default() }
+    pub fn entity_for_chunk(&self, chunk: WorldChunkId) -> Option<EntityId> { self.chunk_entities.get(&chunk).copied() }
+
+    pub fn sync(&mut self, world: &WorldStreamer, physics: &mut PhysicsSimulation) -> Vec<(WorldChunkId, EntityId)> {
+        let mut loaded = Vec::new();
+        for chunk in world.chunks() {
+            if chunk.state != ChunkState::Loaded { continue; }
+            let entity = *self.chunk_entities.entry(chunk.id).or_insert_with(|| EntityId(u64::MAX - chunk.id.0));
+            let bounds = Aabb { min: chunk.bounds.min, max: chunk.bounds.max };
+            physics.remove_collider(entity);
+            physics.add_collider(Collider { entity, bounds });
+            loaded.push((chunk.id, entity));
+        }
+        let active: std::collections::HashSet<WorldChunkId> = world.chunks().iter()
+            .filter(|c| c.state == ChunkState::Loaded).map(|c| c.id).collect();
+        let stale: Vec<WorldChunkId> = self.chunk_entities.keys().copied().filter(|id| !active.contains(id)).collect();
+        for chunk in stale {
+            if let Some(entity) = self.chunk_entities.remove(&chunk) { physics.remove_collider(entity); }
+        }
+        loaded.sort_by_key(|(chunk, _)| chunk.0);
+        loaded
+    }
 }
 
 impl PhysicsWorld for PhysicsSimulation {
@@ -179,5 +208,20 @@ mod tests {
         s.add_body(RigidBody::dynamic(id, [2.0, 3.0, 4.0], 1.0));
         assert_eq!(s.sync_to_world(&mut w), 1);
         assert_eq!(w.transform(id).unwrap().translation, [2.0, 3.0, 4.0]);
+    }
+
+    #[test]
+    fn loaded_chunks_create_deterministic_colliders() {
+        let mut streamer = WorldStreamer::default();
+        streamer.add_chunk(atc_genesis_world::WorldChunk {
+            id: WorldChunkId(7), asset: atc_genesis_platform::AssetId(7),
+            bounds: atc_genesis_world::WorldBounds { min: [0.0; 3], max: [10.0; 3] }, state: ChunkState::Loaded,
+        }).unwrap();
+        let mut physics = PhysicsSimulation::new(PhysicsConfig::default());
+        let mut bridge = WorldPhysicsBridge::new();
+        let result = bridge.sync(&streamer, &mut physics);
+        assert_eq!(result, vec![(WorldChunkId(7), EntityId(u64::MAX - 7))]);
+        assert_eq!(physics.query(Aabb { min: [1.0; 3], max: [2.0; 3] }), vec![EntityId(u64::MAX - 7)]);
+        assert_eq!(bridge.entity_for_chunk(WorldChunkId(7)), Some(EntityId(u64::MAX - 7)));
     }
 }
