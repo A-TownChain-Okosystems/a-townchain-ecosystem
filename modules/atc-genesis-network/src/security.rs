@@ -1,5 +1,7 @@
 use crate::{NetworkEntity, ReplicatedState, ReplicationHeader, Tick};
 
+pub const MAX_REPLICATION_PACKET_BYTES: usize = ReplicationHeader::BYTES + ReplicatedState::BYTES;
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct PeerId(pub u64);
 
@@ -10,7 +12,7 @@ pub struct SessionId(pub u64);
 pub struct PeerSequence { pub peer: PeerId, pub last_sequence: u64, pub last_tick: Tick }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum PacketRejectReason { Malformed, SessionMismatch, Replay, StaleTick, EntityMismatch }
+pub enum PacketRejectReason { Malformed, Oversized, SessionMismatch, Replay, StaleTick, EntityMismatch }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct ValidatedPacket { pub peer: PeerId, pub session: SessionId, pub header: ReplicationHeader, pub state: ReplicatedState }
@@ -27,9 +29,9 @@ impl PacketGuard {
     pub fn last_tick(&self) -> Tick { self.sequence.last_tick }
 
     pub fn validate(&mut self, session: SessionId, bytes: &[u8]) -> Result<ValidatedPacket, PacketRejectReason> {
+        if bytes.len() > MAX_REPLICATION_PACKET_BYTES { return Err(PacketRejectReason::Oversized); }
         if session != self.session { return Err(PacketRejectReason::SessionMismatch); }
-        let expected = ReplicationHeader::BYTES + ReplicatedState::BYTES;
-        if bytes.len() != expected { return Err(PacketRejectReason::Malformed); }
+        if bytes.len() != MAX_REPLICATION_PACKET_BYTES { return Err(PacketRejectReason::Malformed); }
         let header = ReplicationHeader::decode(&bytes[..ReplicationHeader::BYTES]).ok_or(PacketRejectReason::Malformed)?;
         let state = ReplicatedState::decode(&bytes[ReplicationHeader::BYTES..]).ok_or(PacketRejectReason::Malformed)?;
         if header.entity != state.entity { return Err(PacketRejectReason::EntityMismatch); }
@@ -56,4 +58,5 @@ mod tests {
     #[test] fn rejects_wrong_session() { let mut g=PacketGuard::new(PeerId(7),SessionId(11)); assert_eq!(g.validate(SessionId(12),&packet()),Err(PacketRejectReason::SessionMismatch)); }
     #[test] fn rejects_replay() { let mut g=PacketGuard::new(PeerId(7),SessionId(11)); assert!(g.validate(SessionId(11),&packet()).is_ok()); assert_eq!(g.validate(SessionId(11),&packet()),Err(PacketRejectReason::Replay)); }
     #[test] fn rejects_stale_tick() { let mut g=PacketGuard::new(PeerId(7),SessionId(11)); assert!(g.validate(SessionId(11),&packet()).is_ok()); let h=ReplicationHeader{tick:Tick(3),sequence:2,entity:NetworkEntity(9)}; let s=ReplicatedState{entity:NetworkEntity(9),tick:Tick(3),position_mm:[0;3],rotation_millirad:[0;3]}; let mut b=Vec::new(); b.extend_from_slice(&h.encode()); b.extend_from_slice(&s.encode()); assert_eq!(g.validate(SessionId(11),&b),Err(PacketRejectReason::StaleTick)); }
+    #[test] fn rejects_oversized_packet() { let mut g=PacketGuard::new(PeerId(7),SessionId(11)); let mut b=packet(); b.push(0); assert_eq!(g.validate(SessionId(11),&b),Err(PacketRejectReason::Oversized)); }
 }
