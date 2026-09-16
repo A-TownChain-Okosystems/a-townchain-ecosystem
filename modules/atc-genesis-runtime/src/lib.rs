@@ -3,6 +3,7 @@ use atc_genesis_ecs::{World, WorldEcsBridge};
 use atc_genesis_gameplay::{GameplayRuntime, MovementConfig};
 use atc_genesis_input::{InputEvent, InputState};
 use atc_genesis_network::{NetworkEntity, ReplicatedState, ReplicationTransport, Replicator, Tick};
+use atc_genesis_network::security::{PacketGuard, PacketRejectReason, SessionId};
 use atc_genesis_physics::{PhysicsConfig, PhysicsSimulation, WorldPhysicsBridge};
 use atc_genesis_platform::{AudioRuntime, EntityId, FrameId, Renderer, Transform};
 use atc_genesis_world::{WorldChunk, WorldChunkId, WorldStreamer};
@@ -54,16 +55,22 @@ impl<R,A,N> GenesisRuntime<R,A,N> {
         let current=self.ecs.transform(entity).copied().ok_or(NetworkApplyError::UnknownEntity(entity))?;
         let mut transform=current;
         transform.translation=dequantize_mm(state.position_mm);
-        let rotation=dequantize_rotation(state.rotation_millirad,current.rotation_xyzw);
-        transform.rotation_xyzw=rotation;
+        transform.rotation_xyzw=dequantize_rotation(state.rotation_millirad,current.rotation_xyzw);
         self.ecs.set_transform(entity,transform);
         Ok(())
     }
 
-    /// Receives a packet through the replicator, validates ordering, then applies it.
+    /// Receives an ordinary replication packet using the replicator's local ordering checks.
     pub fn receive_network_packet(&mut self,bytes:&[u8])->Result<(),NetworkReceiveError>where N:ReplicationTransport{
         let state=self.network.accept_packet(bytes).ok_or(NetworkReceiveError::Rejected)?;
         self.apply_network_state(state).map_err(NetworkReceiveError::Apply)
+    }
+
+    /// Receives a packet only after peer/session validation by an explicit security guard.
+    /// The caller owns the guard so connection lifecycle and peer identity remain outside ECS state.
+    pub fn receive_secure_network_packet(&mut self,guard:&mut PacketGuard,session:SessionId,bytes:&[u8])->Result<(),SecureNetworkReceiveError>{
+        let validated=guard.validate(session,bytes).map_err(SecureNetworkReceiveError::Rejected)?;
+        self.apply_network_state(validated.state).map_err(SecureNetworkReceiveError::Apply)
     }
 }
 
@@ -71,6 +78,8 @@ impl<R,A,N> GenesisRuntime<R,A,N> {
 pub enum NetworkApplyError{UnknownEntity(EntityId)}
 #[derive(Debug,PartialEq,Eq)]
 pub enum NetworkReceiveError{Rejected,Apply(NetworkApplyError)}
+#[derive(Debug,PartialEq,Eq)]
+pub enum SecureNetworkReceiveError{Rejected(PacketRejectReason),Apply(NetworkApplyError)}
 
 impl<R:Renderer,A:AudioRuntime,N:ReplicationTransport> GenesisRuntime<R,A,N>{pub fn tick(&mut self,dt:f32)->u32{self.update_animations(dt);self.update_gameplay(dt);self.ecs_bridge.sync(&self.world,&mut self.ecs);self.physics_bridge.sync(&self.world,&mut self.physics);let steps=self.physics.advance(dt);self.physics.sync_to_world(&mut self.ecs);self.audio.update(dt.max(0.0));let frame=FrameId(self.frame);self.renderer.begin_frame(frame);for(entity,transform)in self.ecs.query_world_transforms(){self.renderer.submit(entity,transform)}self.renderer.end_frame();self.network_tick=Tick(self.network_tick.0.saturating_add(1));self.frame=self.frame.saturating_add(1);steps}}
 
@@ -79,9 +88,10 @@ fn dequantize_mm(v:[i32;3])->[f32;3]{v.map(|x|x as f32*0.001)}
 fn quantize_rotation(v:[f32;4])->[i32;3]{[v[0],v[1],v[2]].map(|x|(x.clamp(-2.147,2.147)*1_000_000.0).round()as i32)}
 fn dequantize_rotation(v:[i32;3],fallback:[f32;4])->[f32;4]{let mut q=[v[0]as f32/1_000_000.0,v[1]as f32/1_000_000.0,v[2]as f32/1_000_000.0,fallback[3]];let w2=1.0-q[0]*q[0]-q[1]*q[1]-q[2]*q[2];q[3]=if w2>=0.0{w2.sqrt()}else{fallback[3]};q}
 
-#[cfg(test)]mod tests{use super::*;use atc_genesis_audio::NullAudioRuntime;use atc_genesis_input::{InputEvent,Key};use atc_genesis_platform::EntityId;use atc_genesis_renderer::NullRenderer;
+#[cfg(test)]mod tests{use super::*;use atc_genesis_audio::NullAudioRuntime;use atc_genesis_input::{InputEvent,Key};use atc_genesis_network::security::{PacketGuard,PeerId};use atc_genesis_platform::EntityId;use atc_genesis_renderer::NullRenderer;
 #[test]fn network_state_is_applied_to_existing_entity(){let mut r=GenesisRuntime::new(NullRenderer::default(),PhysicsConfig{gravity:[0.0;3],..Default::default()});let e=r.spawn(Transform::default());let s=ReplicatedState{entity:NetworkEntity(e.0),tick:Tick(1),position_mm:[1500,-2000,3500],rotation_millirad:[0,0,0]};assert!(r.apply_network_state(s).is_ok());assert_eq!(r.ecs.transform(e).unwrap().translation,[1.5,-2.0,3.5]);}
 #[test]fn unknown_network_entity_is_rejected(){let mut r=GenesisRuntime::new(NullRenderer::default(),PhysicsConfig::default());let e=EntityId(77);let s=ReplicatedState{entity:NetworkEntity(e.0),tick:Tick(1),position_mm:[0;3],rotation_millirad:[0;3]};assert_eq!(r.apply_network_state(s),Err(NetworkApplyError::UnknownEntity(e)));}
 #[test]fn receive_rejects_replay(){let mut r=GenesisRuntime::new(NullRenderer::default(),PhysicsConfig{gravity:[0.0;3],..Default::default()});let e=r.spawn(Transform::default());let s=ReplicatedState{entity:NetworkEntity(e.0),tick:Tick(1),position_mm:[1000,0,0],rotation_millirad:[0;3]};r.network.publish(&s).unwrap();let p=r.network.transport.drain().pop().unwrap();assert!(r.receive_network_packet(&p).is_ok());assert_eq!(r.receive_network_packet(&p),Err(NetworkReceiveError::Rejected));}
+#[test]fn secure_receive_enforces_session_and_replay(){let mut r=GenesisRuntime::new(NullRenderer::default(),PhysicsConfig{gravity:[0.0;3],..Default::default()});let e=r.spawn(Transform::default());let s=ReplicatedState{entity:NetworkEntity(e.0),tick:Tick(2),position_mm:[2000,0,0],rotation_millirad:[0;3]};r.network.publish(&s).unwrap();let p=r.network.transport.drain().pop().unwrap();let mut guard=PacketGuard::new(PeerId(5),SessionId(9));assert_eq!(r.receive_secure_network_packet(&mut guard,SessionId(8),&p),Err(SecureNetworkReceiveError::Rejected(PacketRejectReason::SessionMismatch)));assert!(r.receive_secure_network_packet(&mut guard,SessionId(9),&p).is_ok());assert_eq!(r.receive_secure_network_packet(&mut guard,SessionId(9),&p),Err(SecureNetworkReceiveError::Rejected(PacketRejectReason::Replay)));}
 #[test]fn gameplay_pipeline_remains_active(){let mut r=GenesisRuntime::new(NullRenderer::default(),PhysicsConfig{gravity:[0.0;3],..Default::default()});let e=r.spawn(Transform::default());r.input_event(InputEvent::KeyPressed(Key::Right));r.queue_movement(e,MovementConfig{speed:2.0,..Default::default()});assert_eq!(r.tick(0.5),0);assert_eq!(r.ecs.transform(e).unwrap().translation[0],1.0);}
 #[test]fn explicit_audio_constructor_still_works(){let r=GenesisRuntime::with_audio_and_network(NullRenderer::default(),NullAudioRuntime::default(),Replicator::new(atc_genesis_network::LoopbackTransport::default()),PhysicsConfig::default());assert_eq!(r.frame(),0);}}
