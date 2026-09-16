@@ -69,6 +69,15 @@ pub trait GameSystem {
     fn update(&mut self, dt_seconds: f32);
 }
 
+/// Asset-backed world streaming capability.
+///
+/// Implementations must make availability checks deterministic. The world
+/// streamer uses this contract to prevent a chunk from entering `Loading`
+/// when its backing asset is unavailable.
+pub trait WorldAssetResolver {
+    fn contains_asset(&self, id: AssetId) -> bool;
+}
+
 #[derive(Default)]
 pub struct PlatformServices<R, P, A> {
     pub renderer: Option<R>,
