@@ -13,7 +13,7 @@ This document records the implementation/evidence boundary for the later product
 
 ## Known active blocker at audit preparation time
 
-`modules/atc-shivacore/kernel/src/lkm.rs` contains `DependencyGraph::dependencies()` with an `unimplemented!()` placeholder. The graph stores dependencies in `BTreeSet<String>`, while the current API promises `&[String]`; these representations are not directly compatible. The later implementation must choose an API that preserves deterministic ordering without returning a reference to temporary storage, update all callers/tests, and remove the placeholder.
+`modules/atc-shivacore/kernel/src/lkm.rs` contains `DependencyGraph::dependencies()` with an `unimplemented!()` placeholder. The graph stores dependencies in `BTreeSet<String>`, while the current API promises `&[String]`; these representations are not directly compatible. The required remediation is tracked in **Issue #19** and must choose an API that preserves deterministic ordering without returning a reference to temporary storage, update all callers/tests, and remove the placeholder.
 
 ## Audit checklist
 
