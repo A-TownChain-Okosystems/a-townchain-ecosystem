@@ -3,83 +3,45 @@
 **Status:** Development / Enterprise hardening in progress  
 **Scope:** Workspace, runtime, networking, security, CI/CD and release engineering
 
+## Integration audit
+
+The runtime depends directly on `atc-genesis-ecs` through a local Cargo path dependency. The repository tree contains `modules/atc-genesis-ecs`, but the root workspace member list did not previously register that crate. This was a workspace consistency defect: the dependency existed physically and in `modules/atc-genesis-runtime/Cargo.toml`, while the root workspace omitted it.
+
+The root `Cargo.toml` now explicitly includes `modules/atc-genesis-ecs`. This makes ECS part of the same workspace graph as runtime, physics, gameplay, input, animation, audio, networking and the other engine modules.
+
 ## Runtime network trust boundary
 
-The secure runtime path is intentionally explicit. A packet is not trusted merely because it decoded successfully.
+Transport → packet-size boundary → binary decoding → wire-format validation → session validation → peer/sequence/tick validation → expected-entity ownership validation → existing ECS entity validation → ECS state application.
 
-```text
-Transport
-   ↓
-Maximum packet-size boundary
-   ↓
-Binary decoding
-   ↓
-Wire-format validation
-   ↓
-Session validation
-   ↓
-Peer / sequence / tick validation
-   ↓
-Expected-entity ownership validation
-   ↓
-Existing ECS entity validation
-   ↓
-ECS state application
-```
+`PacketGuard` enforces packet size, session identity, packet structure, entity/tick consistency, replay protection, monotonic tick ordering, and replicated quaternion bounds. Unknown ECS entities are never implicitly created from replication traffic.
 
-`PacketGuard` enforces packet size, session identity, packet structure, entity/tick consistency, replay protection, monotonic tick ordering, and replicated quaternion bounds. The runtime additionally exposes `receive_secure_network_packet_for_entity`, which requires the caller to specify the entity expected for that trust boundary. A mismatch is rejected before ECS mutation.
+## Replication and security hardening
 
-Unknown ECS entities are never implicitly created from replication traffic.
+The former `rotation_millirad` field was inconsistent with the actual quaternion x/y/z micro-unit representation. It is now `rotation_xyz_microunits`, with a consistent `1e-6` interpretation. The packet byte layout remains 64 bytes.
 
-## Replication wire-format correction
-
-An audit found a protocol naming/unit mismatch: the replication field was named `rotation_millirad`, but the runtime actually serializes quaternion x/y/z components at a scale of 1,000,000. The interpolation path also treated those values as milliradians.
-
-This was corrected by renaming the field to `rotation_xyz_microunits` and applying the same `1e-6` scale during interpolation and runtime dequantization. Regression coverage exercises the corrected rotation interpolation scale. No remaining `rotation_millirad` references are present in the repository.
-
-This is a wire-format semantic correction, not a byte-layout change: the field remains three signed 32-bit integers at the same offsets, so the packet remains 64 bytes including the 24-byte header.
-
-## Security hardening: invalid quaternion rejection
-
-A follow-up audit identified that a network peer could provide x/y/z quaternion components whose squared magnitude exceeded 1.0. The previous runtime path could then fall back to the local `w` component instead of rejecting the malformed state. That allowed an invalid rotation to cross the network trust boundary and could produce a non-unit quaternion in ECS state.
-
-The correction is fail-closed:
-
-- `ReplicatedState::has_valid_rotation()` performs deterministic integer-only norm validation against the 1,000,000 micro-unit scale.
-- `Replicator::decode_packet()` rejects invalid rotations before accepting a packet.
-- `PacketGuard::validate()` rejects invalid rotations before advancing peer sequence/tick state.
-- `GenesisRuntime::apply_network_state()` rejects invalid rotations before ECS mutation.
-- Local publication rejects non-finite position or rotation components and normalizes valid quaternions before quantization.
-- Regression tests cover invalid wire rotations, invalid interpolation input, invalid secure packets, non-finite local transforms, normalization, and no-mutation-on-rejection behavior.
+Invalid quaternion vector magnitudes are rejected using deterministic integer-only validation before network acceptance or ECS mutation. Local publication rejects non-finite transforms and normalizes valid quaternions before quantization. Regression coverage exercises malformed rotations, interpolation rejection, secure-packet rejection, non-finite transforms and no-mutation-on-rejection behavior.
 
 ## Error register
 
 | ID | Finding | Severity | State | Resolution |
 |---|---|---|---|---|
-| NET-001 | `rotation_millirad` did not describe the actual quaternion wire units; interpolation used the wrong scale | High | Resolved in source | Renamed to `rotation_xyz_microunits`; interpolation/dequantization aligned to `1e-6`; regression test added |
-| SEC-003 | Replication accepted quaternion vector components outside the valid unit-quaternion domain and could fall back to an existing `w` component | High | Resolved in source | Added deterministic integer norm validation, fail-closed packet/runtime rejection, normalized publication and regression coverage |
-| CONS-001 | Security packet tests still referenced the removed `rotation_millirad` field after the wire-format correction | High | Resolved in source | Updated `security.rs` tests and validation to use `rotation_xyz_microunits`; repository search confirms no stale field reference |
-| REL-001 | No committed `Cargo.lock` | High | Open | Must be generated, reviewed and committed before reproducible release claims |
-| SEC-001 | No verified cryptographic peer authentication/encryption | High | Open | Requires production transport/security implementation and evidence |
-| NET-002 | No verified production UDP/QUIC transport | High | Open | Requires implementation and integration evidence |
-| SEC-002 | No verified rate limiting/bandwidth/DoS controls | High | Open | Requires explicit resource-governance implementation and tests |
-| REL-002 | No verified SBOM/signing/attestation | Medium | Open | Requires release supply-chain pipeline |
+| NET-001 | Replication rotation units were inconsistent | High | Resolved in source | Unified on `rotation_xyz_microunits` |
+| SEC-003 | Invalid quaternion vector magnitude could cross the network trust boundary | High | Resolved in source | Integer norm validation and fail-closed rejection |
+| CONS-001 | Stale `rotation_millirad` references remained after wire-format correction | High | Resolved in source | References removed and repository search performed |
+| CONS-002 | `atc-genesis-ecs` was a runtime path dependency but absent from root workspace members | High | Resolved in source | ECS explicitly added to `[workspace].members` |
+| REL-001 | No committed `Cargo.lock` | High | Open | Generate, review and commit before reproducible release claims |
+| SEC-001 | No verified cryptographic peer authentication/encryption | High | Open | Production transport security required |
+| NET-002 | No verified UDP/QUIC production transport | High | Open | Production transport implementation and integration evidence required |
+| SEC-002 | No verified rate limiting/bandwidth/DoS controls | High | Open | Resource governance and abuse tests required |
+| REL-002 | No verified SBOM/signing/attestation | Medium | Open | Release supply-chain pipeline required |
 
-## CI quality gates
+## Verification status
 
-`.github/workflows/enterprise-ci.yml` defines formatting, compilation, tests, Clippy, documentation, RustSec and Pull Request dependency-review gates. CI uses least-privilege permissions, timeouts and concurrency cancellation.
+Source-level verification for this audit confirms the ECS directory exists, runtime declares the ECS path dependency, and the root workspace now explicitly registers ECS. The runtime source connects ECS with world, physics, gameplay, animation, renderer and network paths.
 
-## Dependency governance
+A successful local `cargo check`, `cargo test`, `cargo fmt`, `cargo clippy` or `cargo doc` run is **not** claimed. Full CI remains the authoritative verification layer.
 
-`.github/dependabot.yml` monitors Cargo and GitHub Actions dependencies. A committed `Cargo.lock` remains a release-hardening requirement; the current security job generates a lockfile only for its audit run.
-
-## Determinism
-
-Network positions use integer millimetres. Quaternion x/y/z components use deterministic integer micro-units. Sequence numbers and simulation ticks are explicit and monotonic. Snapshot and prediction structures provide deterministic replication primitives. Quaternion trust-boundary validation is integer-only to avoid platform-dependent floating-point acceptance decisions.
-
-## Security not yet production-verified
-
-The following are not claimed as implemented or verified:
+## Remaining production security gaps
 
 - cryptographic peer authentication
 - encrypted transport
@@ -90,13 +52,5 @@ The following are not claimed as implemented or verified:
 - transport-level DoS protection
 - committed release lockfile
 - SBOM and artifact signing/attestation
-
-## Verification policy
-
-A source-level correction is not treated as fully verified until the workspace quality gates run against the updated commit. The repository must not claim production readiness from source inspection alone. Current source-level verification includes repository searches and regression tests added with the fixes; full workspace CI remains the authoritative verification step.
-
-## Release evidence
-
-Production promotion requires actual CI/security/integration evidence, reproducible build evidence, release checksums, governance review and explicit release authorization.
 
 > No Evidence, No Trust.
