@@ -1,0 +1,43 @@
+name: ATC Test Suite
+on:
+  push: {branches: [main]}
+  pull_request:
+jobs:
+  atclang-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: ATCLang ruff + pytest (SCR-0078, scoped)
+        working-directory: components/atclang
+        run: |
+          pip install -q ruff pytest
+          ruff check .
+          python3 -m pytest tests -q --no-header
+  a-townchain-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: a-townchain ruff (kern-scoped)
+        working-directory: components/a-townchain
+        run: |
+          pip install -q ruff
+          ruff check tools specs
+  rust-integrity:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {dir: components/atc-shivacore, name: shivacore}
+          - {dir: components/aurora-ai, name: aurora-ai}
+          - {dir: components/genesis-engine, name: genesis-engine}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: cargo check ${{ matrix.name }}
+        working-directory: ${{ matrix.dir }}
+        run: cargo check --workspace --all-targets

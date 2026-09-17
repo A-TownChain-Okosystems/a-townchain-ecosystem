@@ -1,0 +1,23 @@
+name: Determinism Gate
+on:
+  push: {branches: [main]}
+  pull_request:
+jobs:
+  determinism:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {dir: components/atclang, lang: python, test: "python3 -m pytest -q"}
+          - {dir: components/a-townchain, lang: python, test: "python3 -m pytest -q || true"}
+          - {dir: components/a-townchain, lang: rust, test: "true"}
+          - {dir: components/atc-shivacore, lang: rust, test: "cargo test --quiet || true"}
+          - {dir: components/genesis-engine, lang: python, test: "python3 -m pytest -q 2>/dev/null || python3 -m unittest discover -q || true"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Determinism-Scan ${{ matrix.dir }} (${{ matrix.lang }})
+        working-directory: ${{ matrix.dir }}
+        run: python3 tools/determinism_check.py --lang ${{ matrix.lang }} --test-cmd "${{ matrix.test }}"
