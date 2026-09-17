@@ -1,0 +1,41 @@
+# MIGRATION_MANIFEST — a-townchain-ecosystem
+# Ecosystem-Ueberfuehrung (SCR-0127): 5 Komponenten-Repos als components/<name>
+# per git subtree OHNE --squash (volle Historie), am 2026-09-17.
+# Die Quell-Repos bleiben kanonische SSOTs ihrer Domaene; der Umbrella ist die
+# System-of-Systems-Integrationsebene. Sync via `git subtree pull`.
+umbrella: a-townchain-ecosystem
+created: "2026-09-17"
+systems:
+  atclang: "ATCLang-Programmiersprache"
+  atc-vm: "ATC-VM (kanonisch in a-townchain/components/vm)"
+  atc-algorithm: "Konsens-Algorithmus (kanonisch in a-townchain/components/algorithm)"
+  shivacore: "ShivaCore-Kernel (atc-shivacore)"
+  a-townchain: "A-TownChain L1-Monorepo (13 Blockchain-Komponenten inkl. vm, algorithm, node, sdk, wallet, ...)"
+  aurora-ai: "Aurora AI"
+  genesis-engine: "Genesis Engine (inkl. Franchise Factory nach PR #13)"
+imports:
+  - component: components/atclang
+    source_repo: atclang
+    source_commit: bca9eab2be5ead066b8d69112194cb963b1f60f9
+    commits_imported: 232
+    method: git-subtree-full-history
+  - component: components/a-townchain
+    source_repo: a-townchain
+    source_commit: cd997419d70d17979ef43ac0b5b86fd943f07b4d
+    commits_imported: 980
+    method: git-subtree-full-history
+  - component: components/atc-shivacore
+    source_repo: atc-shivacore
+    source_commit: 55a48a12e821ff87ac731e0b790a877e662f62ea
+    commits_imported: 292
+    method: git-subtree-full-history
+  - component: components/aurora-ai
+    source_repo: aurora-ai
+    source_commit: 62f183bbb8b5e97980463ee169bffa42231b8146
+    commits_imported: 72
+    method: git-subtree-full-history
+  - component: components/genesis-engine
+    source_repo: genesis-engine
+    source_commit: 6dddef10206bed500cb4d4e13dfa9fa305dbf76a
+    commits_imported: 282
+    method: git-subtree-full-history
