@@ -9,10 +9,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.11"}
-      - name: ATCLang ruff + pytest (SCR-0078, scoped)
+      - name: ATCLang ruff + pytest (identisch zum Quell-Repo; vererbt SCR-0124-Rot)
         working-directory: components/atclang
         run: |
-          pip install -q ruff pytest
+          python3 -m pip install -e . pytest ruff
           ruff check .
           python3 -m pytest tests -q --no-header
   a-townchain-python:
@@ -24,20 +24,56 @@ jobs:
       - name: a-townchain ruff (kern-scoped)
         working-directory: components/a-townchain
         run: |
-          pip install -q ruff
+          python3 -m pip install -q ruff
           ruff check tools specs
-  rust-integrity:
+  shivacore-tests:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - {dir: components/atc-shivacore, name: shivacore}
-          - {dir: components/aurora-ai, name: aurora-ai}
-          - {dir: components/genesis-engine, name: genesis-engine}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+      - name: shivacore cargo test ueber alle Manifeste (SCR-0078, F-093)
+        working-directory: components/atc-shivacore
+        run: |
+          set +e
+          FAIL=0
+          while IFS= read -r f; do
+            d="$(dirname "$f")"
+            if [ "$d" = "./modules/atc-shivacore/boot" ]; then
+              echo "SKIP $d: Bootloader nur Cross-Compile (SCR-0078)"
+              continue
+            fi
+            echo "=== cargo test in $d"
+            if ! (cd "$d" && cargo +nightly test --quiet); then
+              echo "cargo test FAILED in $d"; FAIL=1
+            fi
+          done < <(find . -name Cargo.toml -not -path "*/archive/*" -not -path "*/node_modules/*")
+          exit $FAIL
+  aurora-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: "20"}
+      - name: aurora-ai npm test/build ueber alle Manifeste
+        working-directory: components/aurora-ai
+        run: |
+          set +e
+          FAIL=0
+          while IFS= read -r f; do
+            d="$(dirname "$f")"
+            echo "=== npm in $d"
+            (cd "$d" && npm install --no-audit --no-fund --silent)
+            (cd "$d" && npm test --if-present --silent) || { echo "npm test FAILED in $d"; FAIL=1; }
+            (cd "$d" && npm run build --if-present --silent) || { echo "npm build FAILED in $d"; FAIL=1; }
+          done < <(find . -name package.json -not -path "*/archive/*" -not -path "*/node_modules/*" -not -path "*/.*/")
+          exit $FAIL
+  genesis-engine-check:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - name: cargo check ${{ matrix.name }}
-        working-directory: ${{ matrix.dir }}
-        run: cargo check --workspace --all-targets
+      - name: genesis-engine fmt + check (rot bis PR #13 gemerged, dokumentiert)
+        working-directory: components/genesis-engine
+        run: |
+          cargo fmt --all -- --check
+          cargo check --workspace --all-targets

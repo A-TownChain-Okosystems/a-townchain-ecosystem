@@ -1,0 +1,22 @@
+# ATC Evidence SSOT — SCR-0127 (Ecosystem-Umbrella)
+# Statusleiter: SPECIFIED -> IMPLEMENTED -> TESTED -> VERIFIED -> AUDITED -> RELEASED
+# CLAIMED != PASS · DOCUMENTED != IMPLEMENTED · IMPLEMENTED != VERIFIED
+schema_version: "1.0.0"
+repository: a-townchain-ecosystem
+generated: "2026-09-17"
+generated_by: "SCR-0127 Ecosystem-Ueberfuehrung (agent: base44-superagent)"
+bound_commit: 28c0a2b189f52d113b5464394495c67b0619504a
+maturity_class: C
+r_level: R2
+implementation:
+  status: partial
+  summary: "System-of-Systems-Dach: 5 Komponenten-Importe per git subtree (volle Historie); Komponenten-Gates aggregiert"
+audit:
+  status: not_audited
+  note: "Erster Governance-Audit laeuft auf main nach Registry-Merge (SCR-0127)"
+components:
+  atclang: {import: full-history, gate_state: inherited-red-scr-0124}
+  a-townchain: {import: full-history, gate_state: green}
+  atc-shivacore: {import: full-history, gate_state: inherited-red-scr-0124}
+  aurora-ai: {import: full-history, gate_state: green}
+  genesis-engine: {import: full-history, gate_state: inherited-red-pr-13-pending}

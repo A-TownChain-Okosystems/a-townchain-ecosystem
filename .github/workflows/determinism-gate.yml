@@ -3,21 +3,47 @@ on:
   push: {branches: [main]}
   pull_request:
 jobs:
-  determinism:
+  atclang-python:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - {dir: components/atclang, lang: python, test: "python3 -m pytest -q"}
-          - {dir: components/a-townchain, lang: python, test: "python3 -m pytest -q || true"}
-          - {dir: components/a-townchain, lang: rust, test: "true"}
-          - {dir: components/atc-shivacore, lang: rust, test: "cargo test --quiet || true"}
-          - {dir: components/genesis-engine, lang: python, test: "python3 -m pytest -q 2>/dev/null || python3 -m unittest discover -q || true"}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.11"}
-      - name: Determinism-Scan ${{ matrix.dir }} (${{ matrix.lang }})
-        working-directory: ${{ matrix.dir }}
-        run: python3 tools/determinism_check.py --lang ${{ matrix.lang }} --test-cmd "${{ matrix.test }}"
+      - name: Determinism atclang (identisch zum Quell-Repo; vererbt SCR-0124-Rot)
+        working-directory: components/atclang
+        run: |
+          python3 -m pip install -e . pytest
+          python3 tools/determinism_check.py --lang python --test-cmd "python3 -m pytest -q"
+  a-townchain-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Determinism a-townchain (python)
+        working-directory: components/a-townchain
+        run: python3 tools/determinism_check.py --lang python --test-cmd "python3 -m pytest -q"
+  a-townchain-rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Determinism a-townchain (rust, statischer Scan)
+        working-directory: components/a-townchain
+        run: python3 tools/determinism_check.py --lang rust --test-cmd "true"
+  shivacore-rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Determinism shivacore (identisch zum Quell-Repo; vererbt SCR-0124-Rot)
+        working-directory: components/atc-shivacore
+        run: python3 tools/determinism_check.py --lang rust --test-cmd "cargo test --quiet"
+  genesis-engine-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Determinism genesis-engine (vererbt bis PR #13 gemerged)
+        working-directory: components/genesis-engine
+        run: python3 tools/determinism_check.py --lang python --test-cmd "python3 -m pytest -q 2>/dev/null || python3 -m unittest discover -q"
