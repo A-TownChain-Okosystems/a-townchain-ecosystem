@@ -49,10 +49,11 @@ git clone https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem.git
 
 ## Testing
 
-`ATC Test Suite` (atclang ruff+pytest, a-townchain ruff, cargo check für
-Rust-Komponenten) und `Determinism Gate` laufen pro Komponente mit deren
-eigenen Tools und Allowlists. `Repository Governance` auditiert das Dach
-gegen die Org-Registry.
+`ATC Test Suite` und `Determinism Gate` laufen pro Komponente mit deren
+eigenen Tools und Allowlists (atclang seit 2026-09-17 Rust-only:
+fmt/clippy/cargo test im Manifest-Pfad crates/atc-core; a-townchain ruff
+kern-scoped; Rust-Komponenten statisch). `Repository Governance` auditiert
+das Dach gegen die Org-Registry.
 
 ## Development
 

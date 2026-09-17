@@ -3,17 +3,14 @@ on:
   push: {branches: [main]}
   pull_request:
 jobs:
-  atclang-python:
+  atclang-rust:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: {python-version: "3.11"}
-      - name: Determinism atclang (identisch zum Quell-Repo; vererbt SCR-0124-Rot)
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Determinism atclang (Rust-only seit 2026-09-17, identisch zum Quell-Repo)
         working-directory: components/atclang
-        run: |
-          python3 -m pip install -e . pytest
-          python3 tools/determinism_check.py --lang python --test-cmd "python3 -m pytest -q"
+        run: python3 tools/determinism_check.py --lang rust --test-cmd "cargo test --manifest-path crates/atc-core/Cargo.toml --quiet"
   a-townchain-python:
     runs-on: ubuntu-latest
     steps:

@@ -7,14 +7,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: {python-version: "3.11"}
-      - name: ATCLang ruff + pytest (identisch zum Quell-Repo; vererbt SCR-0124-Rot)
+      - uses: dtolnay/rust-toolchain@stable
+        with: {components: "rustfmt, clippy"}
+      - name: ATCLang fmt + clippy + cargo test (Rust-only, identisch zum Quell-Repo)
         working-directory: components/atclang
         run: |
-          python3 -m pip install -e . pytest ruff
-          ruff check .
-          python3 -m pytest tests -q --no-header
+          cargo fmt --manifest-path crates/atc-core/Cargo.toml -- --check
+          cargo clippy --manifest-path crates/atc-core/Cargo.toml --all-targets -- -D warnings
+          cargo test --manifest-path crates/atc-core/Cargo.toml --quiet
   a-townchain-python:
     runs-on: ubuntu-latest
     steps:
