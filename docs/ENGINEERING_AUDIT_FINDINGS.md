@@ -108,31 +108,36 @@ The implementation must distinguish simulation tick, frame, render frame and net
 ## GEN-005 — ECS Completeness
 
 **Priority:** P1  
-**Tags:** `ecs`, `components`, `systems`
+**Tags:** `ecs`, `components`, `systems`, `queries`, `access-contract`
 
-The ECS foundation has now been expanded with typed component storage, deterministic entity iteration, generic resources, deterministic dependency-aware system scheduling and a deterministic two-component query primitive. The finding remains open because lifecycle hooks, change detection and optional parallel execution are not yet implemented and the implementation still requires CI verification.
+The ECS foundation now contains typed component storage, deterministic entity iteration, generic resources, lifecycle hooks/events, component change tracking, dependency-aware system scheduling and explicit system access contracts. The finding remains open until the implementation is verified by CI and the remaining ECS execution model is hardened.
 
-### Implemented in this remediation step
+### Implemented in the current remediation
 
 - typed component storage
 - component insertion/removal/replacement
 - typed component access and mutation
 - deterministic entity/component iteration
 - generic resource storage and access
+- lifecycle hooks and ordered lifecycle events
+- component `added` / `changed` tracking
 - deterministic `SystemSchedule`
 - explicit system dependencies via `before` / `after`
 - missing-dependency validation
 - dependency-cycle detection
 - deterministic topological ordering by `SystemId`
-- deterministic two-component query
-- regression tests for resources, queries and scheduling
+- deterministic `query1`, `query2` and `query3`
+- predicate-based `query_with`
+- `SystemAccess` read/write contracts for components and resources
+- conflict detection between system access contracts
+- deterministic `parallel_batches` planning that only co-batches dependency-independent, non-conflicting systems
+- regression tests for queries, lifecycle, change tracking, scheduling and access conflicts
 
 ### Remaining capabilities
 
-- lifecycle hooks
-- component change detection
-- optional parallel execution
-- broader query composition and execution API
+- execute non-conflicting batches concurrently behind a controlled runtime feature
+- expand query composition to mutable queries and reusable filter types without violating Rust aliasing guarantees
+- define explicit system command/deferred-mutation semantics for safe parallel execution
 - CI verification on the updated implementation
 
 ## GEN-006 — Transform Numerical Validation
