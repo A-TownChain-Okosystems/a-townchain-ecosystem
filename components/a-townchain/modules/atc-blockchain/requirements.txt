@@ -1,0 +1,14 @@
+# A-TownChain Blockchain Core
+# Copyright (c) Michael Wroblewski. All Rights Reserved.
+
+# Core
+pycryptodome>=3.23.0
+requests>=2.34.2
+pyyaml>=6.0.3
+
+# Consensus & P2P
+cryptography>=50.0.1
+
+# Testing
+pytest>=9.1.1
+pytest-asyncio>=1.4.0
