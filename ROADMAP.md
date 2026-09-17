@@ -16,7 +16,7 @@ standard: ATC-STD-MD-001
 - [x] Baseline v1.0 architecture
 - [x] G1 Language Specification
 - [x] G2 Semantics gate
-- [x] Python reference implementation consolidated under `src/atclang/`
+- [x] Python reference implementation documented (`docs/reference/python/`) and removed — Rust-only (2026-09-17)
 - [x] Rust canonical core started in `crates/atc-core/`
 
 ## Phase 2 — Canonical Rust compiler/VM
@@ -50,3 +50,5 @@ standard: ATC-STD-MD-001
 - File inventory must be regenerated and validated against the Git tree.
 
 No milestone is considered complete from documentation alone; implementation, tests and evidence must converge before a gate is closed.
+- [x] `atc` CLI-Binary (compile/check, Frontend-Gate) und cargo-audit-Gate — 2026-09-17
+- [x] AST->Bytecode-Lowering + deterministische Stack-Maschine (`atc run`) — 2026-09-17
