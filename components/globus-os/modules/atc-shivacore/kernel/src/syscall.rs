@@ -1,4 +1,4 @@
-// Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
+// Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems.
 //! Stable ShivaCore syscall boundary.
 //!
 //! Process identity comes from the scheduler. Capability state is installed by
@@ -28,15 +28,6 @@ pub struct SyscallResponse {
 impl SyscallResponse {
     const fn ok(value: u64) -> Self { Self { error: None, value } }
     const fn err(error: AbiError) -> Self { Self { error: Some(error), value: 0 } }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum DispatchError {
-    Abi(AbiError),
-}
-
-impl From<AbiError> for DispatchError {
-    fn from(error: AbiError) -> Self { Self::Abi(error) }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -71,7 +62,10 @@ impl SyscallDispatcher {
         };
 
         match syscall {
-            Syscall::Yield => SyscallResponse::ok(0),
+            Syscall::Yield => {
+                let preempt = crate::execution::take_preemption_request();
+                SyscallResponse::ok(preempt as u64)
+            }
             Syscall::IpcSend => {
                 if !self.check_capability(pid, request.capability, capabilities, ResourceType::IpcChannel, request.arg0, Rights::WRITE) {
                     return SyscallResponse::err(AbiError::PermissionDenied);
@@ -138,17 +132,12 @@ impl SyscallDispatcher {
 static SYSCALL_CAPABILITIES: Mutex<Option<CapabilityTable>> = Mutex::new(None);
 static SYSCALL_DISPATCHER: Mutex<SyscallDispatcher> = Mutex::new(SyscallDispatcher::new());
 
-/// Installs the kernel ProcessManager's capability state for the syscall path.
-///
-/// This is intentionally a one-way boot handoff: userspace cannot replace it.
 pub fn install_capability_state(capabilities: CapabilityTable) {
     let mut slot = SYSCALL_CAPABILITIES.lock();
     assert!(slot.is_none(), "ShivaCore: syscall capability state already installed");
     *slot = Some(capabilities);
 }
 
-/// Dispatches a userspace request using scheduler-owned process identity and
-/// the ProcessManager capability state.
 pub fn dispatch_current(request: SyscallRequest) -> SyscallResponse {
     let Some(pid) = crate::execution::current_pid() else {
         return SyscallResponse::err(AbiError::PermissionDenied);
@@ -178,6 +167,14 @@ mod tests {
             arg1: 0,
             payload_len: 0,
         }
+    }
+
+    #[test]
+    fn yield_is_safe_without_current_process() {
+        let mut d = SyscallDispatcher::new();
+        let response = d.dispatch(pid(1), request(Syscall::Yield), &CapabilityTable::new());
+        assert_eq!(response.error, None);
+        assert_eq!(response.value, 0);
     }
 
     #[test]
