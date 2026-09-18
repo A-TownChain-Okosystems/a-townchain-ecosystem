@@ -76,6 +76,10 @@ impl TabManager {
     pub fn len(&self) -> usize {
         self.tabs.len()
     }
+
+    pub fn is_empty(&self) -> bool {
+        self.tabs.is_empty()
+    }
 }
 
 #[cfg(test)]
