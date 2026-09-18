@@ -10,8 +10,9 @@ pub use ark_bn254::Bn254;
 use ark_groth16::{prepare_verifying_key, Groth16, Proof, ProvingKey, VerifyingKey};
 use ark_r1cs_std::alloc::AllocVar;
 use ark_r1cs_std::fields::fp::FpVar;
-use ark_relations::r1cs::{ConstraintSynthesizer, ConstraintSystemRef, SynthesisError};
+use ark_relations::gr1cs::{ConstraintSynthesizer, ConstraintSystemRef, SynthesisError};
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
+use ark_snark::SNARK;
 use ark_std::rand::{CryptoRng, RngCore};
 use zkp_core::{ProofEnvelope, ProofError, ProofSystem};
 
@@ -93,7 +94,7 @@ pub fn verify_square(
     }
 
     let pvk = prepare_verifying_key(vk);
-    Groth16::<Bn254>::verify(&pvk, &[y], &proof)
+    Groth16::<Bn254>::verify_proof(&pvk, &proof, &[y])
         .map_err(|_| ProofError::VerificationFailed)
 }
 

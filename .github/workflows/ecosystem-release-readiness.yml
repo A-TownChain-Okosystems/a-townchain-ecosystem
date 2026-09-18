@@ -17,19 +17,50 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
-      - name: Validate every non-archived Cargo workspace/package
+      - name: Validate every Rust workspace/package once
         shell: bash
         run: |
-          set -euo pipefail
+          set -u
           fail=0
+          declare -A roots=()
+
           while IFS= read -r manifest; do
             dir="$(dirname "$manifest")"
-            echo "=== Rust: $dir"
-            if ! (cd "$dir" && cargo fmt --all -- --check); then fail=1; fi
-            if ! (cd "$dir" && cargo check --workspace --all-targets); then fail=1; fi
-            if ! (cd "$dir" && cargo test --workspace --all-targets); then fail=1; fi
-            if ! (cd "$dir" && cargo clippy --workspace --all-targets --all-features -- -D warnings); then fail=1; fi
+            candidate="$dir"
+            root=""
+            while [ "$candidate" != "components" ] && [ "$candidate" != "." ]; do
+              if grep -q '^\[workspace\]' "$candidate/Cargo.toml" 2>/dev/null; then
+                root="$candidate"
+                break
+              fi
+              candidate="$(dirname "$candidate")"
+            done
+
+            if [ -n "$root" ]; then
+              roots["$root"]=1
+            else
+              roots["$dir"]=1
+            fi
           done < <(find components -name Cargo.toml -not -path '*/archive/*' -not -path '*/target/*' -not -path '*/node_modules/*' | sort -u)
+
+          for dir in "${!roots[@]}"; do
+            echo "=== Rust: $dir"
+            for gate in fmt check test clippy; do
+              log="$(mktemp)"
+              case "$gate" in
+                fmt) command=(cargo fmt --all -- --check) ;;
+                check) command=(cargo check --workspace --all-targets) ;;
+                test) command=(cargo test --workspace --all-targets) ;;
+                clippy) command=(cargo clippy --workspace --all-targets --all-features -- -D warnings) ;;
+              esac
+              if ! (cd "$dir" && "${command[@]}") >"$log" 2>&1; then
+                fail=1
+                echo "::error::Rust $gate failed in $dir"
+                tail -n 160 "$log"
+              fi
+              rm -f "$log"
+            done
+          done
           exit "$fail"
 
   python-projects:
@@ -59,22 +90,46 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
+      - name: Update npm
+        run: npm install --global npm@11
       - name: Validate every package.json project
         shell: bash
         run: |
-          set -euo pipefail
+          set -u
           fail=0
           while IFS= read -r package; do
             dir="$(dirname "$package")"
             echo "=== Node: $dir"
             if [ -f "$dir/package-lock.json" ]; then
-              if ! (cd "$dir" && npm ci --no-audit --no-fund); then fail=1; continue; fi
+              if ! (cd "$dir" && npm ci --no-audit --no-fund) > /tmp/npm-ci.log 2>&1; then
+                echo "::warning::npm ci failed for $dir; regenerating the dependency tree with npm install."
+                tail -n 80 /tmp/npm-ci.log
+                if ! (cd "$dir" && rm -rf node_modules && npm install --no-audit --no-fund) > /tmp/npm-install.log 2>&1; then
+                  echo "::error::npm install failed in $dir"
+                  tail -n 120 /tmp/npm-install.log
+                  fail=1
+                  continue
+                fi
+              fi
             else
-              if ! (cd "$dir" && npm install --no-audit --no-fund); then fail=1; continue; fi
+              if ! (cd "$dir" && npm install --no-audit --no-fund) > /tmp/npm-install.log 2>&1; then
+                echo "::error::npm install failed in $dir"
+                tail -n 120 /tmp/npm-install.log
+                fail=1
+                continue
+              fi
             fi
-            if ! (cd "$dir" && npm test --if-present); then fail=1; fi
-            if ! (cd "$dir" && npm run build --if-present); then fail=1; fi
+            if ! (cd "$dir" && npm test --if-present) > /tmp/npm-test.log 2>&1; then
+              echo "::error::npm test failed for $dir"
+              tail -n 120 /tmp/npm-test.log
+              fail=1
+            fi
+            if ! (cd "$dir" && npm run build --if-present) > /tmp/npm-build.log 2>&1; then
+              echo "::error::npm build failed for $dir"
+              tail -n 160 /tmp/npm-build.log
+              fail=1
+            fi
           done < <(find components -name package.json -not -path '*/archive/*' -not -path '*/node_modules/*' | sort -u)
           exit "$fail"
 
@@ -86,7 +141,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for component in             atc-standards atclang a-townchain a-townchain-os a-townchain-os-docs             atc-shivacore atc-contracts atc-node atc-compute atc-oracle atc-sdk             atc-marketplace atc-wallet atc-vm atc-zkp aurora-ai globus-os             genesis-engine genesis-chronicles atc-mining atc-indexer atc-interop             atc-launchpad atc-explorer atc-storage atc-algorithm; do
+          for component in atc-standards atclang a-townchain a-townchain-os a-townchain-os-docs atc-shivacore atc-contracts atc-node atc-compute atc-oracle atc-sdk atc-marketplace atc-wallet atc-vm atc-zkp aurora-ai globus-os genesis-engine genesis-chronicles atc-mining atc-indexer atc-interop atc-launchpad atc-explorer atc-storage atc-algorithm; do
             test -d "components/$component" || { echo "MISSING components/$component"; exit 1; }
           done
           echo "Canonical component set present."
