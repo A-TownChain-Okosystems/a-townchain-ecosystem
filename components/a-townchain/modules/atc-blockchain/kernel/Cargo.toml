@@ -7,3 +7,4 @@ license = "Apache-2.0"
 name = "atc_blockchain"
 path = "src/blockchain.rs"
 [dependencies]
+sha2 = "0.10"
