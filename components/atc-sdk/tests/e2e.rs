@@ -1,7 +1,7 @@
 use atc_blockchain::Node;
 use atc_indexer::MemoryIndexer;
 use atc_sdk::TransactionBuilder;
-use ed25519_dalek::SigningKey;
+use ed25519_dalek::{Signer,SigningKey};
 use std::sync::Arc;
 #[test]
 fn sdk_node_mempool_consensus_vm_state_storage_indexer(){
