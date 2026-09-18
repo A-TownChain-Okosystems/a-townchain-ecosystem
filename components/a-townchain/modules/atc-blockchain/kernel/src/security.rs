@@ -1,2 +1,5 @@
-//! Deterministic hashing primitives.
-pub fn simple_hash(data:&[u8])->[u8;32]{let mut s=[0x243f6a88u64,0x85a308d3u64,0x13198a2eu64,0x03707344u64];for(i,b)in data.iter().enumerate(){let j=i&3;s[j]^=(*b as u64).wrapping_add(i as u64);s[j]=s[j].wrapping_mul(0x9e3779b185ebca87).rotate_left(13);s[(j+1)&3]^=s[j].rotate_right(17);}let mut o=[0u8;32];for i in 0..4{o[i*8..i*8+8].copy_from_slice(&s[i].to_be_bytes());}o}
+//! Cryptographic hashing primitives.
+use sha2::{Digest,Sha256};
+pub fn simple_hash(data:&[u8])->[u8;32]{let mut h=Sha256::new();h.update(data);h.finalize().into()}
+pub fn hash_pair(left:[u8;32],right:[u8;32])->[u8;32]{let mut b=[0u8;64];b[..32].copy_from_slice(&left);b[32..].copy_from_slice(&right);simple_hash(&b)}
+#[cfg(test)]mod tests{use super::*;#[test]fn deterministic(){assert_eq!(simple_hash(b"atc"),simple_hash(b"atc"));assert_ne!(simple_hash(b"atc"),simple_hash(b"ATC"));}}
