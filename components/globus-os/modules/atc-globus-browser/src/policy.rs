@@ -14,7 +14,7 @@ pub struct BrowserPolicy {
 
 impl Default for BrowserPolicy {
     fn default() -> Self {
-        Self { allow_http: true, allow_https: true, max_response_bytes: 16 * 1024 * 1024 }
+        Self {\n            allow_http: true,\n            allow_https: true,\n            max_response_bytes: 16 * 1024 * 1024,\n        }
     }
 }
 
@@ -33,7 +33,7 @@ impl BrowserPolicy {
             return Err(BrowserError::InvalidPort);
         }
         if self.max_response_bytes == 0 {
-            return Err(BrowserError::ResourceLimit("maximum response size must be greater than zero".into()));
+            return Err(BrowserError::ResourceLimit(\n                "maximum response size must be greater than zero".into(),\n            ));
         }
         Ok(())
     }
