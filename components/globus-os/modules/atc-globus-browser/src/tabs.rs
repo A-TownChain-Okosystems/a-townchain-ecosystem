@@ -9,8 +9,13 @@ pub struct Tab {
 }
 
 impl Tab {
-    pub fn id(&self) -> TabId {\n        self.id\n    }
-    pub fn browser(&mut self) -> &mut Browser {\n        &mut self.browser\n    }
+    pub fn id(&self) -> TabId {
+        self.id
+    }
+
+    pub fn browser(&mut self) -> &mut Browser {
+        &mut self.browser
+    }
 }
 
 #[derive(Default)]
@@ -21,12 +26,23 @@ pub struct TabManager {
 }
 
 impl TabManager {
-    pub fn new() -> Self {\n        Self {\n            next_id: 1,\n            ..Self::default()\n        }\n    }
+    pub fn new() -> Self {
+        Self {
+            next_id: 1,
+            ..Self::default()
+        }
+    }
 
     pub fn open(&mut self, config: BrowserConfig) -> Result<TabId, BrowserError> {
         let id = TabId(self.next_id);
-        self.next_id = self\n            .next_id\n            .checked_add(1)\n            .ok_or_else(|| BrowserError::ResourceLimit("tab id exhausted".into()))?;
-        self.tabs.push(Tab {\n            id,\n            browser: Browser::new(config)?,\n        });
+        self.next_id = self
+            .next_id
+            .checked_add(1)
+            .ok_or_else(|| BrowserError::ResourceLimit("tab id exhausted".into()))?;
+        self.tabs.push(Tab {
+            id,
+            browser: Browser::new(config)?,
+        });
         self.active = Some(id);
         Ok(id)
     }
@@ -40,25 +56,32 @@ impl TabManager {
         before != self.tabs.len()
     }
 
-    pub fn active(&self) -> Option<TabId> {\n        self.active\n    }
+    pub fn active(&self) -> Option<TabId> {
+        self.active
+    }
 
     pub fn activate(&mut self, id: TabId) -> bool {
         if self.tabs.iter().any(|tab| tab.id == id) {
             self.active = Some(id);
             true
-        } else {\n            false\n        }
+        } else {
+            false
+        }
     }
 
     pub fn get_mut(&mut self, id: TabId) -> Option<&mut Tab> {
         self.tabs.iter_mut().find(|tab| tab.id == id)
     }
 
-    pub fn len(&self) -> usize {\n        self.tabs.len()\n    }
+    pub fn len(&self) -> usize {
+        self.tabs.len()
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
     #[test]
     fn tabs_have_unique_ids_and_close_updates_active() {
         let mut tabs = TabManager::new();
