@@ -20,6 +20,7 @@ mod framebuffer;
 mod gdt;
 mod hal;
 mod interrupts;
+mod kernel_init;
 mod memory;
 mod serial;
 
