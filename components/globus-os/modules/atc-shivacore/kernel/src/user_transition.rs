@@ -24,33 +24,19 @@ pub unsafe fn enter_init(
     let code_page = Page::<Size4KiB>::containing_address(VirtAddr::new(USER_CODE));
     let stack_page = Page::<Size4KiB>::containing_address(VirtAddr::new(USER_STACK));
 
-    let code_frame = frame_allocator
-        .allocate_frame()
-        .expect("ShivaCore: no frame available for GlobusOS init code");
-    let stack_frame = frame_allocator
-        .allocate_frame()
-        .expect("ShivaCore: no frame available for GlobusOS init stack");
+    let code_frame = frame_allocator.allocate_frame().expect("ShivaCore: no frame available for GlobusOS init code");
+    let stack_frame = frame_allocator.allocate_frame().expect("ShivaCore: no frame available for GlobusOS init stack");
 
-    let user_flags = PageTableFlags::PRESENT
-        | PageTableFlags::WRITABLE
-        | PageTableFlags::USER_ACCESSIBLE;
+    let code_flags = PageTableFlags::PRESENT | PageTableFlags::USER_ACCESSIBLE;
+    let stack_flags = PageTableFlags::PRESENT | PageTableFlags::WRITABLE | PageTableFlags::USER_ACCESSIBLE;
 
-    mapper
-        .map_to(code_page, code_frame, user_flags, frame_allocator)
-        .expect("ShivaCore: failed to map GlobusOS init code")
-        .flush();
-    mapper
-        .map_to(stack_page, stack_frame, user_flags, frame_allocator)
-        .expect("ShivaCore: failed to map GlobusOS init stack")
-        .flush();
+    mapper.map_to(code_page, code_frame, code_flags, frame_allocator)
+        .expect("ShivaCore: failed to map GlobusOS init code").flush();
+    mapper.map_to(stack_page, stack_frame, stack_flags, frame_allocator)
+        .expect("ShivaCore: failed to map GlobusOS init stack").flush();
 
-    let code_dst = VirtAddr::new(physical_memory_offset)
-        + code_frame.start_address().as_u64();
-    core::ptr::copy_nonoverlapping(
-        USER_PROGRAM.as_ptr(),
-        code_dst.as_mut_ptr::<u8>(),
-        USER_PROGRAM.len(),
-    );
+    let code_dst = VirtAddr::new(physical_memory_offset) + code_frame.start_address().as_u64();
+    core::ptr::copy_nonoverlapping(USER_PROGRAM.as_ptr(), code_dst.as_mut_ptr::<u8>(), USER_PROGRAM.len());
 
     let user_cs = u64::from(gdt::user_code_selector().0);
     let user_ss = u64::from(gdt::user_data_selector().0);
@@ -58,19 +44,7 @@ pub unsafe fn enter_init(
     let rflags = 0x202u64;
 
     x86_64::instructions::interrupts::disable();
-
-    asm!(
-        "push {ss}",
-        "push {rsp}",
-        "push {rflags}",
-        "push {cs}",
-        "push {rip}",
-        "iretq",
-        ss = in(reg) user_ss,
-        rsp = in(reg) user_rsp,
-        rflags = in(reg) rflags,
-        cs = in(reg) user_cs,
-        rip = in(reg) USER_CODE,
-        options(noreturn)
-    );
+    asm!("push {ss}", "push {rsp}", "push {rflags}", "push {cs}", "push {rip}", "iretq",
+        ss = in(reg) user_ss, rsp = in(reg) user_rsp, rflags = in(reg) rflags,
+        cs = in(reg) user_cs, rip = in(reg) USER_CODE, options(noreturn));
 }
