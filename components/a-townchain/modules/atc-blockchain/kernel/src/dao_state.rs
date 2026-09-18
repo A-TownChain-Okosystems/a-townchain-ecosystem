@@ -78,9 +78,9 @@ impl DaoState {
                 Status::Executed => 5,
                 Status::Cancelled => 6,
             });
-            put(&mut o, &p.title);
-            put(&mut o, &p.description);
-            put(&mut o, &p.proposer);
+            put(&mut o, p.title.as_bytes());
+            put(&mut o, p.description.as_bytes());
+            put(&mut o, p.proposer.as_bytes());
             o.extend_from_slice(&p.start.to_be_bytes());
             o.extend_from_slice(&p.end.to_be_bytes());
             o.extend_from_slice(&p.yes.to_be_bytes());
@@ -210,7 +210,7 @@ impl DaoState {
         voting_power: u64,
     ) -> Result<Option<DaoEffect>, String> {
         if !payload.starts_with(MAGIC) {
-            return Ok(());
+            return Ok(None);
         }
         let mut q = MAGIC.len();
         let op = get1(payload, &mut q)?;
