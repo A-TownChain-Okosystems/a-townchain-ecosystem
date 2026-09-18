@@ -36,6 +36,7 @@ pub struct Transaction {
     pub poh_hash: [u8; 32],
 }
 impl Transaction {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         t: TxType,
         s: String,
@@ -51,6 +52,7 @@ impl Transaction {
     ) -> Self {
         Self::new_with_chain_id(0, t, s, r, a, gp, gl, n, ts, p, sig, [0; 32], poh)
     }
+    #[allow(clippy::too_many_arguments)]
     pub fn new_signed(
         t: TxType,
         s: String,
@@ -67,6 +69,7 @@ impl Transaction {
     ) -> Self {
         Self::new_with_chain_id(0, t, s, r, a, gp, gl, n, ts, p, sig, public_key, poh)
     }
+    #[allow(clippy::too_many_arguments)]
     pub fn new_with_chain_id(
         chain_id: u64,
         t: TxType,
@@ -244,6 +247,12 @@ pub struct StateDb {
     dao: Mutex<crate::dao_state::DaoState>,
     genesis_sealed: Mutex<bool>,
 }
+impl Default for StateDb {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl StateDb {
     pub fn new() -> Self {
         Self {
@@ -495,9 +504,6 @@ impl StateDb {
             }
         }
         Ok(())
-    }
-    fn saturating_add(a: u64, b: u64) -> u64 {
-        a.saturating_add(b)
     }
 }
 
