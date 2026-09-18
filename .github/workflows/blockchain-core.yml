@@ -24,6 +24,8 @@ jobs:
             manifest: components/atc-indexer/Cargo.toml
           - name: atc-node
             manifest: components/atc-node/Cargo.toml
+          - name: atc-governance
+            manifest: components/a-townchain/modules/atc-governance/Cargo.toml
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -44,4 +46,4 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - name: Run full blockchain E2E gate
-        run: cargo test --manifest-path components/atc-sdk/Cargo.toml --test e2e sdk_node_mempool_consensus_vm_state_storage_indexer -- --exact
+        run: cargo test --manifest-path components/atc-sdk/Cargo.toml --test e2e
