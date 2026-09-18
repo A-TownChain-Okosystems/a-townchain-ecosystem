@@ -10,6 +10,7 @@ extern crate alloc;
 
 mod allocator;
 mod ats1000;
+mod capability;
 mod context;
 mod execution;
 mod framebuffer;
