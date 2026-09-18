@@ -45,7 +45,6 @@ impl BootInfoFrameAllocator {
     }
 }
 
-
 pub struct AddressSpace {
     root_frame: PhysFrame,
     mapper: OffsetPageTable<'static>,
@@ -83,6 +82,10 @@ impl AddressSpace {
 
     pub fn root_frame(&self) -> PhysFrame {
         self.root_frame
+    }
+
+    pub fn cr3_flags(&self) -> x86_64::registers::control::Cr3Flags {
+        self.cr3_flags
     }
 
     pub unsafe fn activate(&self) {
