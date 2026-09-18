@@ -45,6 +45,51 @@ impl BootInfoFrameAllocator {
     }
 }
 
+
+pub struct AddressSpace {
+    root_frame: PhysFrame,
+    mapper: OffsetPageTable<'static>,
+    cr3_flags: x86_64::registers::control::Cr3Flags,
+}
+
+impl AddressSpace {
+    /// Creates a new process root and inherits only the kernel half.
+    pub unsafe fn new(
+        physical_memory_offset: VirtAddr,
+        frame_allocator: &mut BootInfoFrameAllocator,
+    ) -> Self {
+        let (active_frame, cr3_flags) = x86_64::registers::control::Cr3::read();
+        let active_ptr = physical_memory_offset + active_frame.start_address().as_u64();
+        let active_table = &*active_ptr.as_mut_ptr::<PageTable>();
+
+        let root_frame = frame_allocator
+            .allocate_frame()
+            .expect("ShivaCore: no frame available for process page table");
+        let root_ptr = physical_memory_offset + root_frame.start_address().as_u64();
+        let root = &mut *root_ptr.as_mut_ptr::<PageTable>();
+        root.zero();
+
+        for index in 256..512 {
+            root[index] = active_table[index];
+        }
+
+        let mapper = OffsetPageTable::new(root, physical_memory_offset);
+        Self { root_frame, mapper, cr3_flags }
+    }
+
+    pub fn mapper(&mut self) -> &mut OffsetPageTable<'static> {
+        &mut self.mapper
+    }
+
+    pub fn root_frame(&self) -> PhysFrame {
+        self.root_frame
+    }
+
+    pub unsafe fn activate(&self) {
+        x86_64::registers::control::Cr3::write(self.root_frame, self.cr3_flags);
+    }
+}
+
 unsafe impl Send for BootInfoFrameAllocator {}
 
 unsafe impl FrameAllocator<Size4KiB> for BootInfoFrameAllocator {
