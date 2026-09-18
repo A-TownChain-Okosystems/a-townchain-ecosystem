@@ -3,6 +3,9 @@
 pub mod boot_state;
 pub mod health;
 pub mod transition;
+pub mod verification;
+
+pub use verification::{UpdateArtifact, UpdateVerifier, VerificationError, verify_artifact};
 
 pub use boot_state::{BootState, BootStateError};
 pub use health::{BootHealth, HealthError};
