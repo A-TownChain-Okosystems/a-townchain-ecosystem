@@ -7,6 +7,13 @@ members = [
   "components/atc-l2",
 ]
 
+[workspace.exclude]
+members = [
+  "components/atclang/crates/atc-core",
+  "components/atc-shivacore/modules/atc-security",
+  "components/atc-shivacore/sdk",
+]
+
 [workspace.package]
 edition = "2021"
 license = "Apache-2.0"
