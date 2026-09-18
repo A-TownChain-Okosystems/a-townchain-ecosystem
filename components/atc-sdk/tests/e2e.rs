@@ -50,11 +50,19 @@ fn dao_transactions_persist_and_recover() {
     node.submit(execute,3).unwrap();
     node.produce(3,10).unwrap();
 
+    let fund=TransactionBuilder::dao_fund(chain_id,&proposer,500,1,1000,4,4).sign(&key);
+    node.submit(fund,4).unwrap();
+    node.produce(4,10).unwrap();
+    let payout=TransactionBuilder::dao_payout(chain_id,&proposer,7,"bob",125,1,1000,5,5).sign(&key);
+    node.submit(payout,5).unwrap();
+    node.produce(5,10).unwrap();
+    assert_eq!(node.state.balance("bob"),125);
+    assert_eq!(node.state.balance(&proposer),999000-500-25);
     let temp=std::env::temp_dir().join(format!("atc-dao-{}.journal",std::process::id()));
     let recovered=Node::open_storage(chain_id,proposer,&temp).unwrap();
     let recovered_dao=atc_blockchain::dao_state::DaoState::decode(&recovered.state.dao_snapshot()).unwrap();
     assert_eq!(recovered_dao.proposals.get(&7).unwrap().status,atc_blockchain::dao_state::Status::Executed);
-    assert_eq!(recovered.chain.height(),3);
+    assert_eq!(recovered.chain.height(),5);assert_eq!(recovered.state.balance("bob"),125);
     let _=std::fs::remove_file(&temp);
     let _=std::fs::remove_file(temp.with_extension("state"));
 }
