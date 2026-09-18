@@ -41,7 +41,7 @@ mod tests {
             status: 200,
             content_type: Some("text/html".into()),
             body: b"<html></html>".to_vec(),
-        }).expect("render input");
+        })\n        .expect("render input");
         let mut renderer = PassthroughRenderer;
         let output = renderer.render(input).expect("render");
         assert_eq!(output.status, 200);

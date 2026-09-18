@@ -44,14 +44,14 @@ impl Browser {
     /// Creates a browser with the supplied security and resource policy.
     pub fn new(config: BrowserConfig) -> Result<Self, BrowserError> {
         if config.timeout_seconds == 0 {
-            return Err(BrowserError::ResourceLimit("timeout must be greater than zero".into()));
+            return Err(BrowserError::ResourceLimit(\n                "timeout must be greater than zero".into(),\n            ));
         }
         let client = Client::builder()
             .redirect(reqwest::redirect::Policy::none())
             .timeout(std::time::Duration::from_secs(config.timeout_seconds))
             .user_agent(config.user_agent.clone())
             .build()?;
-        Ok(Self { client, config, history: History::new() })
+        Ok(Self {\n            client,\n            config,\n            history: History::new(),\n        })
     }
 
     /// Navigates to an HTTP(S) URL, validating every redirect before following it.
@@ -68,7 +68,7 @@ impl Browser {
 
             if response.status().is_redirection() {
                 if redirect_count == self.config.max_redirects {
-                    return Err(BrowserError::ResourceLimit("maximum redirect count exceeded".into()));
+                    return Err(BrowserError::ResourceLimit(\n                        "maximum redirect count exceeded".into(),\n                    ));
                 }
                 let location = response.headers().get(LOCATION)
                     .ok_or_else(|| BrowserError::InvalidUrl("redirect response has no Location header".into()))?
@@ -84,7 +84,7 @@ impl Browser {
             return self.finish_response(response);
         }
 
-        Err(BrowserError::ResourceLimit("navigation loop exhausted".into()))
+        Err(BrowserError::ResourceLimit(\n            "navigation loop exhausted".into(),\n        ))
     }
 
     fn finish_response(&mut self, mut response: Response) -> Result<BrowserResponse, BrowserError> {
@@ -98,20 +98,20 @@ impl Browser {
             )));
         }
 
-        let content_type = response.headers().get(CONTENT_TYPE)
+        let content_type = response\n            .headers()\n            .get(CONTENT_TYPE)
             .and_then(|v| v.to_str().ok())
             .map(str::to_owned);
         let status = response.status().as_u16();
 
         let mut body = Vec::with_capacity(
-            response.headers().get(CONTENT_LENGTH)
+            response\n                .headers()\n                .get(CONTENT_LENGTH)
                 .and_then(|v| v.to_str().ok())
                 .and_then(|v| v.parse::<usize>().ok())
                 .unwrap_or(0)
                 .min(limit),
         );
         let mut limited = (&mut response).take((limit as u64).saturating_add(1));
-        limited.read_to_end(&mut body)
+        limited\n            .read_to_end(&mut body)
             .map_err(|e| BrowserError::ResourceLimit(format!("response read failed: {e}")))?;
         if body.len() > limit {
             return Err(BrowserError::ResourceLimit(format!(
@@ -169,6 +169,6 @@ mod tests {
 
     #[test]
     fn rejects_zero_timeout() {
-        assert!(Browser::new(BrowserConfig { timeout_seconds: 0, ..BrowserConfig::default() }).is_err());
+        assert!(\n            Browser::new(BrowserConfig {\n                timeout_seconds: 0,\n                ..BrowserConfig::default()\n            })\n            .is_err()\n        );
     }
 }
