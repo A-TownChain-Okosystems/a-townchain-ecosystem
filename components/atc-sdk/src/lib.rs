@@ -3,7 +3,7 @@ use atc_blockchain::{crypto::signing_bytes,mempool::{Transaction,TxType}};
 use ed25519_dalek::{Signer,SigningKey};
 pub struct TransactionBuilder{pub chain_id:u64,pub tx_type:TxType,pub sender:String,pub recipient:Option<String>,pub amount:u64,pub gas_price:u64,pub gas_limit:u64,pub nonce:u64,pub timestamp:u64,pub payload:Vec<u8>,pub poh_hash:[u8;32]}
 fn field(o:&mut Vec<u8>,v:&[u8]){o.extend_from_slice(&(v.len()as u32).to_be_bytes());o.extend_from_slice(v)}
-fn dao(op:u8,body:impl FnOnce(&mut Vec<u8>))->Vec<u8>{let mut o=Vec::from(b"ATC-DAO-V1".as_slice());o.push(op);body(&mut o);o}
+fn dao(op:u8,body:impl FnOnce(&mut Vec<u8>))->Vec<u8>{let mut o=Vec::from(b"ATC-DAO-V2".as_slice());o.push(op);body(&mut o);o}
 impl TransactionBuilder{
  pub fn dao_create_proposal(chain_id:u64,sender:impl Into<String>,id:u64,start:u64,end:u64,title:&str,description:&str,action_recipient:Option<&str>,action_amount:u64,gas_price:u64,gas_limit:u64,nonce:u64,timestamp:u64)->Self{Self::dao_tx(chain_id,sender,dao(0,|o|{o.extend_from_slice(&id.to_be_bytes());o.extend_from_slice(&start.to_be_bytes());o.extend_from_slice(&end.to_be_bytes());field(o,title.as_bytes());field(o,description.as_bytes());match action_recipient{Some(v)=>{o.push(1);field(o,v.as_bytes())},None=>o.push(0)}o.extend_from_slice(&action_amount.to_be_bytes());}),gas_price,gas_limit,nonce,timestamp)}
  pub fn dao_vote(chain_id:u64,sender:impl Into<String>,proposal_id:u64,vote_type:u8,gas_price:u64,gas_limit:u64,nonce:u64,timestamp:u64)->Self{Self::dao_tx(chain_id,sender,dao(1,|o|{o.extend_from_slice(&proposal_id.to_be_bytes());o.push(vote_type);}),gas_price,gas_limit,nonce,timestamp)}
