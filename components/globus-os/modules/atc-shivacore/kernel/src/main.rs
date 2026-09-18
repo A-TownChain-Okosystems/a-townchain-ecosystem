@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // ShivaCore — Kernel-Einstiegspunkt.
-// K-Sprint 4: process execution bridge + address-space-aware scheduling.
+// K-Sprint 5: ProcessManager -> Scheduler -> CR3 -> Ring3 -> Syscall.
 #![no_std]
 #![feature(abi_x86_interrupt)]
 #![feature(alloc_error_handler)]
@@ -18,6 +18,7 @@ mod hal;
 mod interrupts;
 mod memory;
 mod serial;
+mod syscall;
 mod user_transition;
 
 use alloc::{boxed::Box, vec::Vec};
@@ -60,18 +61,13 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
     serial_println!("ShivaCore: Kernel-Einstiegspunkt erreicht.");
 
     let cpu = hal::CpuInfo::detect();
-    serial_println!(
-        "ShivaCore: CPU vendor={} family={} model={} stepping={} apic={} x2apic={} nx={} invariant_tsc={}",
-        cpu.vendor_name(), cpu.family, cpu.model, cpu.stepping,
-        cpu.features.apic, cpu.features.x2apic, cpu.features.nx, cpu.features.invariant_tsc
-    );
     if !cpu.boot_compatible() {
         panic!("ShivaCore: CPU lacks required x86-64 boot features (SSE2/NX/APIC)");
     }
 
     if let Some(fb) = boot_info.framebuffer.as_mut() {
         framebuffer::init(fb);
-        println!("ShivaCore Kernel v0.0.3 -- K-Sprint 4");
+        println!("ShivaCore Kernel v0.0.3 -- K-Sprint 5");
         println!("Boot: OK | Serial: OK | Framebuffer: OK");
     }
 
@@ -79,7 +75,6 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
     interrupts::init_idt();
     x86_64::instructions::interrupts::int3();
     interrupts::init_pics();
-    serial_println!("ShivaCore: GDT/IDT/PIC OK.");
 
     let phys_mem_offset = x86_64::VirtAddr::new(
         boot_info
@@ -103,18 +98,18 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
 
     let boxed = Box::new(41);
     serial_println!("ShivaCore: Box-Test -- Wert: {}", *boxed);
+
     let mut vec = Vec::new();
-    for i in 0..10 { vec.push(i); }
+    for i in 0..10 {
+        vec.push(i);
+    }
     serial_println!("ShivaCore: Vec-Test -- Summe 0..10: {}", vec.iter().sum::<i32>());
 
     let init_pid = kernel
         .processes
         .spawn(shivacore::process::ProcessType::System, 255);
     assert!(kernel.processes.set_running(init_pid));
-    serial_println!("ShivaCore: GlobusOS init process registered/running pid={}.", init_pid.0);
 
-    // Transfer the exact ProcessManager capability state into the syscall boundary.
-    // After this point the syscall path owns a kernel snapshot; userspace cannot replace it.
     let syscall_capabilities = kernel.processes.caps.clone();
     syscall::install_capability_state(syscall_capabilities);
 
@@ -130,13 +125,19 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
     }
 
     let init_task = context::BootstrapProcess::new(globus_init_kernel_task);
-    let scheduled_init = execution::ScheduledProcess::new(init_pid, init_task, &init_address_space);
+    let scheduled_init =
+        execution::ScheduledProcess::new(init_pid, init_task, &init_address_space);
+
     let mut process_scheduler = execution::ProcessScheduler::new();
     process_scheduler.enqueue(scheduled_init);
 
     let mut current_context = context::Context::empty();
+
     println!("K-Sprint 5: ProcessManager -> Scheduler -> CR3 -> Ring3 -> Syscall");
-    serial_println!("ShivaCore: ready queue contains {} process.", process_scheduler.ready_len());
+    serial_println!(
+        "ShivaCore: ready queue contains {} process.",
+        process_scheduler.ready_len()
+    );
 
     unsafe { process_scheduler.run_next(&mut current_context); }
 }
