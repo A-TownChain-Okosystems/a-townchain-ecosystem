@@ -15,5 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+      - name: Test native ATC-L2
+        run: cargo test -p atc-l2
       - name: Run executable ecosystem contract
         run: cargo test -p atc-ecosystem-integration
