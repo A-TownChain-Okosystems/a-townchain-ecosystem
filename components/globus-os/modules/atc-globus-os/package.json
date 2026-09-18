@@ -5,7 +5,7 @@
   "author": "Michael Wroblewski",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --noEmit",
     "dev": "tsc --watch",
     "test": "jest --passWithNoTests"
   },
