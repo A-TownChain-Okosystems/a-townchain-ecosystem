@@ -1,3 +1,4 @@
+#![allow(clippy::too_many_arguments)]
 //! Canonical transaction construction for A-TownChain.
 use atc_blockchain::{
     crypto::signing_bytes,
