@@ -1,4 +1,7 @@
 //! GlobusOS application SDK facade.
+
+pub mod abi;
+pub use abi::{compatible, AbiHeader, ApiClass, ABI_MAJOR, ABI_MINOR, ABI_VERSION};
 use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct WalletHandle {
