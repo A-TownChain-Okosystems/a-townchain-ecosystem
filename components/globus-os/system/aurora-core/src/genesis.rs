@@ -2,6 +2,7 @@
 //! The adapter is userspace-only and talks to the allow-listed Genesis protocol.
 
 use crate::{AuroraError, ChatTool, ToolCallRequest};
+use crate::types::ToolId;
 use std::io::{BufRead, BufReader, Write};
 use std::process::{Child, ChildStdin, ChildStdout, Command, Stdio};
 use std::sync::Mutex;
