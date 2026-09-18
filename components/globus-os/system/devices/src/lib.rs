@@ -16,6 +16,11 @@ pub mod pci;
 pub mod registry;
 pub mod smp;
 pub mod timer;
+pub mod hal;
+pub mod driver_manager;
+
+pub use hal::*;
+pub use driver_manager::{DriverBinding, DriverError, DriverManager, DriverSpec, DriverState};
 
 pub use block_cache::{BlockCache, CacheError};
 pub use block_manager::{BlockDeviceId, BlockDeviceRegistry};
