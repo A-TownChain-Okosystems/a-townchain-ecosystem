@@ -17,13 +17,33 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
-      - name: Validate Rust workspaces and standalone packages
+      - name: Validate every Rust workspace/package once
         shell: bash
         run: |
           set -u
           fail=0
+          declare -A roots=()
+
           while IFS= read -r manifest; do
             dir="$(dirname "$manifest")"
+            candidate="$dir"
+            root=""
+            while [ "$candidate" != "components" ] && [ "$candidate" != "." ]; do
+              if grep -q '^\[workspace\]' "$candidate/Cargo.toml" 2>/dev/null; then
+                root="$candidate"
+                break
+              fi
+              candidate="$(dirname "$candidate")"
+            done
+
+            if [ -n "$root" ]; then
+              roots["$root"]=1
+            else
+              roots["$dir"]=1
+            fi
+          done < <(find components -name Cargo.toml -not -path '*/archive/*' -not -path '*/target/*' -not -path '*/node_modules/*' | sort -u)
+
+          for dir in "${!roots[@]}"; do
             echo "=== Rust: $dir"
             for gate in fmt check test clippy; do
               log="$(mktemp)"
@@ -36,11 +56,11 @@ jobs:
               if ! (cd "$dir" && "${command[@]}") >"$log" 2>&1; then
                 fail=1
                 echo "::error::Rust $gate failed in $dir"
-                tail -n 120 "$log"
+                tail -n 160 "$log"
               fi
               rm -f "$log"
             done
-          done < <(find components -name Cargo.toml -not -path '*/archive/*' -not -path '*/target/*' -not -path '*/node_modules/*' | sort -u)
+          done
           exit "$fail"
 
   python-projects:
