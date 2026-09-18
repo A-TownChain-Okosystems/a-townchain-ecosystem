@@ -10,3 +10,5 @@ description = "ATCLang Canonical Core (Rust) — Lexer, Parser, AST, Bytecode-Ve
 [[bin]]
 name = "atc"
 path = "src/main.rs"
+
+[workspace]
