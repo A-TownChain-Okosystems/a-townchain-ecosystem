@@ -36,4 +36,29 @@ mod tests {
         assert_eq!(a.id, b.id);
         assert_eq!(a.payload, b.payload);
     }
+
+    #[test]
+    fn sdk_dao_payload_round_trips_through_persistent_state_codec() {
+        let tx = TransactionBuilder::dao_create_proposal(
+            SYSTEM_CHAIN_ID,
+            "alice",
+            42,
+            1,
+            10,
+            "Ecosystem integration",
+            "Verify DAO state persistence",
+            None,
+            0,
+            1,
+            10_000,
+            0,
+            1,
+        );
+        let state = atc_blockchain::mempool::StateDb::new();
+        state.apply_dao_payload(&tx.payload, 1, "alice").expect("DAO proposal must enter canonical chain state");
+        let snapshot = state.dao_snapshot();
+        let root_before = state.root();
+        state.restore_dao(&snapshot).expect("DAO snapshot must be decodable");
+        assert_eq!(root_before, state.root());
+    }
 }
