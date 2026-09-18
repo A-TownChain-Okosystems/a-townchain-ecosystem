@@ -2,7 +2,7 @@
 use crate::security::simple_hash;
 use std::collections::BTreeMap;
 
-const MAGIC: &[u8] = b"ATC-DAO-V2";
+pub const MAGIC: &[u8] = b"ATC-DAO-V2";
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Status {
     Pending,
