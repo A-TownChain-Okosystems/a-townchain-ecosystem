@@ -1,7 +1,6 @@
 use std::collections::BTreeMap;
 use crate::{Proposal,ProposalStatus,VoteType,VotingSystem,Treasury,Timelock,Delegation};
 
-#[derive(Debug,Clone)]
 pub struct Dao{pub proposals:BTreeMap<u64,Proposal>,pub voting:VotingSystem,pub treasury:Treasury,pub timelock:Timelock,pub delegation:Delegation,pub quorum:u64,pub approval_bps:u16}
 impl Dao{
  pub fn new(initial_treasury:u64,timelock_blocks:u64,quorum:u64,approval_bps:u16)->Result<Self,String>{if quorum==0{return Err("quorum must be non-zero".into())}if approval_bps>10_000{return Err("approval threshold exceeds 10000 bps".into())}Ok(Self{proposals:BTreeMap::new(),voting:VotingSystem::new(),treasury:Treasury::new(initial_treasury),timelock:Timelock::new(timelock_blocks),delegation:Delegation::new(),quorum,approval_bps})}
