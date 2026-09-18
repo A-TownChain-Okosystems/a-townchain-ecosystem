@@ -61,6 +61,7 @@ impl PohChain {
     }
 
     pub fn verify(&self) -> bool {
+        if self.ticks.is_empty() { return false; }
         for i in 1..self.ticks.len() {
             let prev = &self.ticks[i - 1];
             let cur = &self.ticks[i];
@@ -101,6 +102,8 @@ mod tests {
         }
         assert!(c.verify());
         c.ticks[3].hash ^= 1;
+        assert!(!c.verify());
+        c.ticks.clear();
         assert!(!c.verify());
     }
 
