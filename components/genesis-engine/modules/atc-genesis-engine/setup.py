@@ -1,7 +1,7 @@
 # setup.py — atc-genesis-engine
 # Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
     name="atc-genesis-engine",
@@ -12,9 +12,7 @@ setup(
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     python_requires=">=3.11",
-    install_requires=[
-        # See requirements.txt for full dependency list
-    ],
+    install_requires=[],
     classifiers=[
         "Programming Language :: Python :: 3.11",
         "Operating System :: OS Independent",
