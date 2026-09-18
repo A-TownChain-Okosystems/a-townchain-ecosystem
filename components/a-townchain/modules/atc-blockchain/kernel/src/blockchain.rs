@@ -35,6 +35,7 @@ pub struct Block {
     pub signature: [u8; 64],
 }
 impl Block {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         h: u64,
         parent: [u8; 32],
@@ -68,6 +69,7 @@ fn tx_root(txs: &[Transaction]) -> [u8; 32] {
     }
     simple_hash(&b)
 }
+#[allow(clippy::too_many_arguments)]
 fn block_id(
     h: u64,
     parent: [u8; 32],
@@ -99,6 +101,12 @@ pub struct BlockChain {
     hashes: Mutex<BTreeMap<[u8; 32], u64>>,
     height: Mutex<u64>,
 }
+impl Default for BlockChain {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl BlockChain {
     pub fn new() -> Self {
         Self {
