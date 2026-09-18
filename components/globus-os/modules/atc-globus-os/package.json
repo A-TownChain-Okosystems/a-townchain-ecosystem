@@ -10,7 +10,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "typescript": "^7"
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@types/node": "^26",
