@@ -2,6 +2,7 @@
 // Treasury management
 use std::collections::HashMap;
 
+#[derive(Clone)]
 pub struct Treasury {
     balance: u64,
     allocations: HashMap<String, u64>,
