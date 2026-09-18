@@ -30,7 +30,7 @@ fn dao_transactions_persist_and_recover() {
     let temp=std::env::temp_dir().join(format!("atc-dao-{}-{}.journal",std::process::id(),chain_id));
     let _=std::fs::remove_file(&temp);let _=std::fs::remove_file(temp.with_extension("state"));
     let node=Node::open_storage(chain_id,proposer.clone(),&temp).unwrap();
-    node.state.genesis_credit(&proposer,1_000_000);
+    node.state.genesis_credit(&proposer,1_000_000).expect("genesis allocation must respect supply cap");
     node.create_genesis(0).unwrap();
     let key=SigningKey::from_bytes(&[11u8;32]);
 
