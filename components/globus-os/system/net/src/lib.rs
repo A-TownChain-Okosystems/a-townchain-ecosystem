@@ -1,9 +1,11 @@
 //! Network policy boundary. Protocol implementations remain behind explicit services.
 
 pub mod address;
+pub mod manager;
 pub mod socket;
 
 pub use address::{AddressError, EndpointAddress, IpAddress, Ipv4Address, validate_endpoint};
+pub use manager::{ConfigurationSource, InterfaceConfig, InterfaceState, NetworkError, NetworkManager};
 pub use socket::{Socket, SocketState, SocketTable};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
