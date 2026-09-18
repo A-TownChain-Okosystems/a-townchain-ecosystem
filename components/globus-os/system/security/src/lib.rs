@@ -2,6 +2,9 @@
 
 pub mod capability_registry;
 pub mod identity;
+pub mod sandbox;
+
+pub use sandbox::{ResourceQuota, SandboxError, SandboxPolicy, SandboxResource};
 pub use capability_registry::{CapabilityObject, CapabilityRegistry};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
