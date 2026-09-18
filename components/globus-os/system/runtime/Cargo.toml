@@ -21,5 +21,20 @@ globus-identity = { path = "../identity" }
 globus-wallet-service = { path = "../wallet-service" }
 globus-diagnostics = { path = "../diagnostics" }
 libshivacore = { path = "../shivacore-api" }
+globus-application-manager = { path = "../application-manager" }
+globus-configuration-manager = { path = "../configuration-manager" }
+globus-environment-manager = { path = "../environment-manager" }
+globus-event-bus = { path = "../event-bus" }
+globus-ipc-manager = { path = "../ipc-manager" }
+globus-job-manager = { path = "../job-manager" }
+globus-notification-manager = { path = "../notification-manager" }
+globus-observability = { path = "../observability" }
+globus-process-manager = { path = "../process-manager" }
+globus-resource = { path = "../resource" }
+globus-system-manager = { path = "../system-manager" }
+globus-task = { path = "../task" }
+globus-update-manager = { path = "../update-manager" }
+globus-watchdog = { path = "../watchdog" }
+
 
 shivacore-service-space = { path = "../../modules/atc-shivacore/service_space" }
