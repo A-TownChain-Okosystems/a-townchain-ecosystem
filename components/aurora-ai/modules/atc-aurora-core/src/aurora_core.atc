@@ -30,20 +30,6 @@ fn status() -> String {
     return "aurora_core ready"
 }
 
-// Initialize
-fn init() -> Bool {
-    // TODO: Implement
-    return Bool:default()
-}
-// Shutdown
-fn shutdown() -> Bool {
-    // TODO: Implement
-    return Bool:default()
-}
-// Get status
-fn status() -> String {
-    // TODO: Implement
-    return String:default()
-}
-
+// Lifecycle is represented by the canonical init/status contract above.
+// Shutdown is owned by the runtime supervisor.
 } // module aurora_core
