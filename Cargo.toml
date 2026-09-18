@@ -2,6 +2,8 @@
 resolver = "2"
 members = [
   "integration",
+  "components/atc-algorithm",
+  "components/atc-mining",
   "components/atc-node",
   "components/atc-sdk",
 ]
