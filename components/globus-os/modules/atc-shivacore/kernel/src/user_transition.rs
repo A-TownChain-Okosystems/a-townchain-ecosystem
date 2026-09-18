@@ -14,9 +14,15 @@ use crate::{gdt, memory::BootInfoFrameAllocator};
 
 const USER_CODE: u64 = 0x0040_0000;
 const USER_STACK: u64 = 0x0080_0000;
-// int 0x80 enters the DPL3 syscall gate; the following short jump keeps the
-// bootstrap task alive after the syscall returns.
-static USER_PROGRAM: [u8; 4] = [0xCD, 0x80, 0xEB, 0xFE];
+
+// rax = Yield syscall ID, then int 0x80. The loop keeps init alive after
+// returning from the kernel. This exercises the real register-based ABI.
+static USER_PROGRAM: [u8; 13] = [
+    0x48, 0xC7, 0xC0, 0x01, 0x00, 0x00, 0x00, // mov rax, 1
+    0xCD, 0x80,                                 // int 0x80
+    0xEB, 0xFE,                                 // jmp $-2
+    0x90, 0x90,                                 // padding
+];
 
 pub unsafe fn enter_init(
     mapper: &mut impl Mapper<Size4KiB>,
