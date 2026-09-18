@@ -62,3 +62,14 @@ mod tests {
         assert_eq!(root_before, state.root());
     }
 }
+    #[test]
+    fn node_produces_and_finalizes_sdk_transaction() {
+        let runtime = Runtime::devnet("ecosystem-integration").expect("runtime must boot");
+        let tx = build_signed_transfer("alice", "bob", 1, 0);
+        runtime.submit(tx, 1).expect("transaction must enter mempool");
+        let block = runtime.produce(2, 100).expect("node must produce a block from the pending transaction");
+        assert_eq!(block.height, 1);
+        assert_eq!(block.transactions.len(), 1);
+        assert!(runtime.finalize(&block).expect("block finalization must execute"));
+    }
+
