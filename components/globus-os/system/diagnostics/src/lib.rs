@@ -4,6 +4,9 @@
 
 extern crate alloc;
 
+pub mod audit;
+pub use audit::{AuditError, AuditEvent, AuditLog};
+
 use alloc::string::String;
 use alloc::vec::Vec;
 
