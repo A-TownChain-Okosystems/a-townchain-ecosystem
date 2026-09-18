@@ -3,6 +3,8 @@
 
 use crate::context::{execution_gate, ChainContext, ContextError};
 
+#[allow(dead_code)]
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Op {
     Push(u64),
