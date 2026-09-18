@@ -288,9 +288,7 @@ impl ChainStorage {
         Ok(self.recover_state_with_dao()?.map(|x| x.0))
     }
 
-    pub fn recover_state_with_dao(
-        &self,
-    ) -> Result<Option<DaoStateSnapshot>, String> {
+    pub fn recover_state_with_dao(&self) -> Result<Option<DaoStateSnapshot>, String> {
         let Some(p) = &self.state_journal else {
             return Ok(None);
         };
