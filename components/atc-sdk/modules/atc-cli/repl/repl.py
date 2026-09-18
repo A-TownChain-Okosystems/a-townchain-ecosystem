@@ -5,7 +5,7 @@ Version: 0.1.0-alpha | Read-Eval-Print Loop
 Eigene Implementierung — kein CPython-REPL-Klon
 """
 
-import os
+import os  # noqa: I001
 import readline
 
 from atclang.compiler.compiler import CompileError, compile_source, disassemble
