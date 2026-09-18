@@ -23,7 +23,7 @@ pub fn cleanup_mempool(&self,now:u64)->usize{self.mempool.cleanup(now)} pub fn c
 #[derive(Debug,Clone,PartialEq,Eq)] pub enum PipelineError{NoPendingTxs,AllTxsInvalid,NoGenesis,InvalidHeight,ParentNotFound,BlockExists,DuplicateBlock,GenesisExists,DagInsertFailed}
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::{Block, BlockChain, PipelineError, ProposalPipeline};\n    use alloc::vec;
     use crate::mempool::{NonceTracker, MemoryPool, TxType};
     use crate::consensus::ConsensusEngine;
     fn setup() -> ProposalPipeline {
