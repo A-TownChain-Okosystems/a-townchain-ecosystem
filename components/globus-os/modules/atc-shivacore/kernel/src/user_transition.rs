@@ -10,7 +10,7 @@ use x86_64::{
     VirtAddr,
 };
 
-use crate::{gdt, memory::BootInfoFrameAllocator};
+use crate::{gdt, memory::{AddressSpace, BootInfoFrameAllocator}};
 
 const USER_CODE: u64 = 0x0040_0000;
 const USER_STACK: u64 = 0x0080_0000;
@@ -25,7 +25,7 @@ static USER_PROGRAM: [u8; 13] = [
 ];
 
 pub unsafe fn enter_init(
-    mapper: &mut impl Mapper<Size4KiB>,
+    address_space: &mut AddressSpace,
     frame_allocator: &mut BootInfoFrameAllocator,
     physical_memory_offset: u64,
 ) -> ! {
@@ -38,9 +38,9 @@ pub unsafe fn enter_init(
     let code_flags = PageTableFlags::PRESENT | PageTableFlags::USER_ACCESSIBLE;
     let stack_flags = PageTableFlags::PRESENT | PageTableFlags::WRITABLE | PageTableFlags::USER_ACCESSIBLE;
 
-    mapper.map_to(code_page, code_frame, code_flags, frame_allocator)
+    address_space.mapper().map_to(code_page, code_frame, code_flags, frame_allocator)
         .expect("ShivaCore: failed to map GlobusOS init code").flush();
-    mapper.map_to(stack_page, stack_frame, stack_flags, frame_allocator)
+    address_space.mapper().map_to(stack_page, stack_frame, stack_flags, frame_allocator)
         .expect("ShivaCore: failed to map GlobusOS init stack").flush();
 
     let code_dst = VirtAddr::new(physical_memory_offset) + code_frame.start_address().as_u64();
@@ -51,6 +51,7 @@ pub unsafe fn enter_init(
     let user_rsp = USER_STACK + 4096 - 16;
     let rflags = 0x202u64;
 
+    address_space.activate();
     x86_64::instructions::interrupts::disable();
     asm!("push {ss}", "push {rsp}", "push {rflags}", "push {cs}", "push {rip}", "iretq",
         ss = in(reg) user_ss, rsp = in(reg) user_rsp, rflags = in(reg) rflags,
