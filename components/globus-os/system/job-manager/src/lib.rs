@@ -12,7 +12,7 @@ use globus_process_manager::{ProcessManager,ProcessManagerError};
 impl JobManager{
  pub fn new()->Self{Self{next_id:1,..Self::default()}}
  pub fn submit(&mut self,pm:&mut ProcessManager,parent:Option<ProcessId>,priority:u8)->Result<JobId,JobError>{
-  let process=pm.spawn(parent,priority).map_err(JobError::Process)?;
+  let process=pm.spawn(parent).map_err(JobError::Process)?;
   let id=JobId(self.next_id);self.next_id=self.next_id.saturating_add(1);
   self.jobs.insert(id,Job{id,process,state:JobState::Queued});Ok(id)
  }
