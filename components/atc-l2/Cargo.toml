@@ -1,0 +1,10 @@
+[package]
+name = "atc-l2"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+publish = false
+description = "Native A-TownChain Layer-2 execution and settlement primitives"
+
+[dependencies]
+sha2 = "0.10"
