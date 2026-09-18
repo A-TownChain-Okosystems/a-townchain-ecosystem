@@ -18,7 +18,7 @@ pub struct VotingSystem {
 }
 
 impl VotingSystem {
-    pub fn new() -> Self { Self { votes: HashMap::new() } }
+    pub fn new() -> Self { Self { votes: HashMap::new() } }\n}\n\nimpl Default for VotingSystem {\n    fn default() -> Self {\n        Self::new()\n    }
 
     pub fn cast_vote(&mut self, voter: &str, proposal_id: u64, vote_type: VoteType, weight: u64) -> Result<(), String> {
         let key = (voter.to_string(), proposal_id);
