@@ -187,9 +187,9 @@ mod tests {
     }
 
     #[test]
-    fn rejects_hostless_url() {
+    fn rejects_invalid_port() {
         let policy = BrowserPolicy::default();
-        let url = Url::parse("https:///missing-host").expect("parse");
+        let url = Url::parse("https://example.com:0/").expect("parse");
         assert!(policy.validate(&url).is_err());
     }
 
