@@ -385,7 +385,8 @@ impl StateDb {
                 x.balance = x
                     .balance
                     .checked_add(amount)
-                    .ok_or("recipient balance overflow".to_string())
+                    .ok_or("recipient balance overflow".to_string())?;
+                Ok(())
             }
         };
         if let Err(e) = result {
@@ -462,7 +463,7 @@ impl StateDb {
                     x.balance = x
                         .balance
                         .checked_add(tx.amount)
-                        .ok_or(MempoolError::InsufficientBalance)?
+                        .ok_or(MempoolError::InsufficientBalance)?;
                 }
             }
             TxType::Stake => {
@@ -476,7 +477,7 @@ impl StateDb {
                     .checked_add(tx.amount)
                     .ok_or(MempoolError::InsufficientStake)?;
                 ns.nonce += 1;
-                a.insert(tx.sender_did.clone(), ns)
+                a.insert(tx.sender_did.clone(), ns);
             }
             TxType::Unstake => {
                 if s.staked < tx.amount || s.balance < fee {
@@ -490,7 +491,7 @@ impl StateDb {
                     .and_then(|v| v.checked_sub(fee))
                     .ok_or(MempoolError::InsufficientBalance)?;
                 ns.nonce += 1;
-                a.insert(tx.sender_did.clone(), ns)
+                a.insert(tx.sender_did.clone(), ns);
             }
         }
         Ok(())
