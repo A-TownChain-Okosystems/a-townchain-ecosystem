@@ -1,4 +1,4 @@
-// Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
+// Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems.
 // ShivaCore — Interrupt Descriptor Table + PIC-Remapping.
 
 use crate::gdt;
@@ -25,25 +25,11 @@ impl InterruptIndex {
     fn as_u8(self) -> u8 { self as u8 }
 }
 
-/// Exact register frame produced by shivacore_syscall_entry.
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
 struct SyscallRegisters {
-    rax: u64,
-    rbx: u64,
-    rcx: u64,
-    rdx: u64,
-    rsi: u64,
-    rdi: u64,
-    rbp: u64,
-    r8: u64,
-    r9: u64,
-    r10: u64,
-    r11: u64,
-    r12: u64,
-    r13: u64,
-    r14: u64,
-    r15: u64,
+    rax: u64, rbx: u64, rcx: u64, rdx: u64, rsi: u64, rdi: u64, rbp: u64,
+    r8: u64, r9: u64, r10: u64, r11: u64, r12: u64, r13: u64, r14: u64, r15: u64,
 }
 
 global_asm!(
@@ -88,9 +74,7 @@ shivacore_syscall_entry:
     handler = sym syscall_rust_handler,
 );
 
-unsafe extern "C" {
-    fn shivacore_syscall_entry();
-}
+unsafe extern "C" { fn shivacore_syscall_entry(); }
 
 extern "C" fn syscall_rust_handler(frame: *mut SyscallRegisters) {
     let frame = unsafe { &mut *frame };
@@ -145,11 +129,13 @@ pub fn init_pics() {
 }
 
 extern "x86-interrupt" fn breakpoint_handler(stack_frame: InterruptStackFrame) {
-    serial_println!("EXCEPTION: BREAKPOINT\n{:#?}", stack_frame);
+    serial_println!("EXCEPTION: BREAKPOINT
+{:#?}", stack_frame);
 }
 
 extern "x86-interrupt" fn double_fault_handler(stack_frame: InterruptStackFrame, _error_code: u64) -> ! {
-    panic!("EXCEPTION: DOUBLE FAULT\n{:#?}", stack_frame);
+    panic!("EXCEPTION: DOUBLE FAULT
+{:#?}", stack_frame);
 }
 
 extern "x86-interrupt" fn page_fault_handler(stack_frame: InterruptStackFrame, error_code: PageFaultErrorCode) {
@@ -161,6 +147,7 @@ extern "x86-interrupt" fn page_fault_handler(stack_frame: InterruptStackFrame, e
 }
 
 extern "x86-interrupt" fn timer_interrupt_handler(_stack_frame: InterruptStackFrame) {
+    crate::execution::on_timer_tick();
     unsafe { PICS.lock().notify_end_of_interrupt(InterruptIndex::Timer.as_u8()); }
 }
 
