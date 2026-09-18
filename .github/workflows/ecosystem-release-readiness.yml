@@ -50,7 +50,7 @@ jobs:
             echo "=== Python: $dir"
             if ! ruff check "$dir"; then fail=1; fi
             if ! python -m compileall -q "$dir"; then fail=1; fi
-          done < <(find components -name pyproject.toml -o -name setup.py -not -path '*/archive/*' -not -path '*/node_modules/*' | sort -u)
+          done < <(find components \( -name pyproject.toml -o -name setup.py \) -not -path '*/archive/*' -not -path '*/node_modules/*' | sort -u)
           exit "$fail"
 
   javascript-projects:
