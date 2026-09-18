@@ -17,8 +17,7 @@ pub struct GenesisRuntime<
     R,
     A = atc_genesis_audio::NullAudioRuntime,
     N = atc_genesis_network::LoopbackTransport,
->
-where
+> where
     N: ReplicationTransport,
 {
     pub world: WorldStreamer,
