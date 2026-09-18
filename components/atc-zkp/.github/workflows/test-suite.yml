@@ -1,0 +1,21 @@
+name: ATC Test Suite
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+
+jobs:
+  cargo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: cargo fmt check
+        run: cargo fmt --all -- --check
+      - name: cargo test
+        run: cargo test --workspace --all-targets
+      - name: cargo clippy
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings

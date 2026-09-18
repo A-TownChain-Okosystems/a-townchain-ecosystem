@@ -4,10 +4,10 @@
 //! implementation. Concrete backends can evolve independently behind these
 //! interfaces.
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Default)]
 pub struct EntityId(pub u64);
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Default)]
 pub struct AssetId(pub u128);
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -50,7 +50,8 @@ pub trait AssetStore {
 
 pub trait PhysicsWorld {
     fn step(&mut self, dt_seconds: f32);
-    fn raycast(&self, origin: [f32; 3], direction: [f32; 3], max_distance: f32) -> Option<EntityId>;
+    fn raycast(&self, origin: [f32; 3], direction: [f32; 3], max_distance: f32)
+        -> Option<EntityId>;
 }
 
 pub trait AudioRuntime {

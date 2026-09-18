@@ -1,0 +1,12 @@
+# GENERIERT aus registry/standards.yaml (Allokations-SSOT) — nicht manuell pflegen
+# ATC-STD-002 §3/§6: family_id != standard_id
+category: blockchain
+family: BLOCKCHAIN / PROTOCOL
+family_id: '600'
+file: standards/os/ATC-STD-600.md
+mandate: 'Root Specification für Chain Identity & Network Identification; definiert Schema, Semantik, Validierung, Transaction Domain, Runtime Compatibility und Fail-Closed Conformance für A-TownChain Core.'
+registry_version: 1
+standard_id: ATC-STD-600
+status: stable
+title: Chain Identity & Network Identification
+version: 1.0.0

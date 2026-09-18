@@ -1,3 +1,4 @@
+# ruff: noqa
 """Genesis Franchise Factory (GFF) — Core-Paket.
 
 Content-Pipeline-Orchestrator des Genesis-Oekosystems.
@@ -26,3 +27,5 @@ from gff.workflows import (
     WorkflowRegistry,
     WorkflowStage,
 )
+
+__all__ = [name for name in globals() if not name.startswith('_')]

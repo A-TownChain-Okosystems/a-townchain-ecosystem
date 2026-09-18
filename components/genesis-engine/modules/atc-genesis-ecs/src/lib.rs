@@ -381,10 +381,7 @@ impl SystemSchedule {
         let mut batches: Vec<Vec<SystemId>> = Vec::new();
 
         for id in order {
-            let descriptor = self
-                .systems
-                .get(&id)
-                .expect("scheduled system invariant");
+            let descriptor = self.systems.get(&id).expect("scheduled system invariant");
             let mut placed = false;
 
             for batch in &mut batches {
@@ -436,11 +433,7 @@ impl SystemExecutor {
         Self::default()
     }
 
-    pub fn register<F>(
-        &mut self,
-        descriptor: SystemDescriptor,
-        run: F,
-    ) -> Result<(), ScheduleError>
+    pub fn register<F>(&mut self, descriptor: SystemDescriptor, run: F) -> Result<(), ScheduleError>
     where
         F: FnMut(&mut World) + Send + 'static,
     {
@@ -553,7 +546,7 @@ impl World {
         self.components
             .entry(TypeId::of::<T>())
             .or_insert_with(|| {
-                Box::new(TypedComponentTable {
+                Box::new(TypedComponentTable::<T> {
                     values: HashMap::new(),
                     added: HashSet::new(),
                     changed: HashSet::new(),
@@ -569,16 +562,21 @@ impl World {
             return false;
         }
         let type_id = TypeId::of::<T>();
-        let table = self.component_table::<T>();
-        let inserted = table.values.insert(id, component).is_none();
+        let inserted = {
+            let table = self.component_table::<T>();
+            let inserted = table.values.insert(id, component).is_none();
+            if inserted {
+                table.added.insert(id);
+            }
+            table.changed.insert(id);
+            inserted
+        };
         if inserted {
-            table.added.insert(id);
             self.lifecycle.emit(LifecycleEvent::ComponentInserted {
                 entity: id,
                 component: type_id,
             });
         }
-        table.changed.insert(id);
         inserted
     }
 
@@ -587,16 +585,21 @@ impl World {
             return false;
         }
         let type_id = TypeId::of::<T>();
-        let table = self.component_table::<T>();
-        let replaced = table.values.insert(id, component).is_some();
+        let replaced = {
+            let table = self.component_table::<T>();
+            let replaced = table.values.insert(id, component).is_some();
+            if !replaced {
+                table.added.insert(id);
+            }
+            table.changed.insert(id);
+            replaced
+        };
         if !replaced {
-            table.added.insert(id);
             self.lifecycle.emit(LifecycleEvent::ComponentInserted {
                 entity: id,
                 component: type_id,
             });
         }
-        table.changed.insert(id);
         replaced
     }
 
@@ -624,12 +627,19 @@ impl World {
 
     pub fn remove_component<T: Any + Send + Sync>(&mut self, id: EntityId) -> Option<T> {
         let type_id = TypeId::of::<T>();
-        let table = self.components.get_mut(&type_id)?;
-        let table = table.as_any_mut().downcast_mut::<TypedComponentTable<T>>()?;
-        let removed = table.values.remove(&id);
+        let removed = {
+            let table = self.components.get_mut(&type_id)?;
+            let table = table
+                .as_any_mut()
+                .downcast_mut::<TypedComponentTable<T>>()?;
+            let removed = table.values.remove(&id);
+            if removed.is_some() {
+                table.added.remove(&id);
+                table.changed.remove(&id);
+            }
+            removed
+        };
         if removed.is_some() {
-            table.added.remove(&id);
-            table.changed.remove(&id);
             self.lifecycle.emit(LifecycleEvent::ComponentRemoved {
                 entity: id,
                 component: type_id,
@@ -691,7 +701,7 @@ impl World {
     }
 
     pub fn has_resource<T: Any + Send + Sync>(&self) -> bool {
-        self.resources.contains()
+        self.resources.contains::<T>()
     }
 
     pub fn resource_count(&self) -> usize {
@@ -762,18 +772,10 @@ impl World {
             .collect()
     }
 
-    pub fn query2<A: Any + Send + Sync, B: Any + Send + Sync>(
-        &self,
-    ) -> Vec<(EntityId, &A, &B)> {
+    pub fn query2<A: Any + Send + Sync, B: Any + Send + Sync>(&self) -> Vec<(EntityId, &A, &B)> {
         self.entities()
             .into_iter()
-            .filter_map(|id| {
-                Some((
-                    id,
-                    self.component::<A>(id)?,
-                    self.component::<B>(id)?,
-                ))
-            })
+            .filter_map(|id| Some((id, self.component::<A>(id)?, self.component::<B>(id)?)))
             .collect()
     }
 
@@ -1090,15 +1092,11 @@ mod tests {
         let mut schedule = SystemSchedule::new();
         schedule
             .register(
-                SystemDescriptor::new(SystemId(2), "read-position")
-                    .read_component::<Position>(),
+                SystemDescriptor::new(SystemId(2), "read-position").read_component::<Position>(),
             )
             .unwrap();
         schedule
-            .register(
-                SystemDescriptor::new(SystemId(1), "read-health")
-                    .read_component::<Health>(),
-            )
+            .register(SystemDescriptor::new(SystemId(1), "read-health").read_component::<Health>())
             .unwrap();
         schedule
             .register(
