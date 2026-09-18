@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+members = [
+  "integration",
+  "components/atc-node",
+  "components/atc-sdk",
+]
+
+[workspace.package]
+edition = "2021"
+license = "Apache-2.0"
