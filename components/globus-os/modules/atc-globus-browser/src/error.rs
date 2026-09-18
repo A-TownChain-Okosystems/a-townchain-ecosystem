@@ -3,11 +3,17 @@ use std::fmt;
 /// Errors returned by the GlobusOS browser boundary.
 #[derive(Debug)]
 pub enum BrowserError {
+    /// The supplied URL could not be parsed or resolved.
     InvalidUrl(String),
+    /// The URL scheme is not permitted by the browser policy.
     UnsupportedScheme(String),
+    /// The destination host is blocked by browser policy.
     BlockedHost(String),
+    /// The URL contains an invalid port.
     InvalidPort,
+    /// A configured browser resource limit was exceeded.
     ResourceLimit(String),
+    /// The HTTP client reported a network failure.
     Network(reqwest::Error),
 }
 
