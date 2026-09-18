@@ -9,6 +9,10 @@ pub use chat::{ChatChunk, ChatMessage, ChatModel, ChatRequest, ChatResponse, Cha
 pub use context::{ContextBuilder, ContextLimits};
 pub use memory::ConversationMemory;
 pub use orchestrator::{AuroraOrchestrator, AuthorizedTool};
+pub use model::{DeterministicTestEngine, EngineBackedModel, InferenceEngine};
+pub use rag::{ContextAugmenter, KnowledgeDocument, Retriever};
+pub use multimodal::{MediaInput, Modality, MultimodalInput};
+pub use distributed::{InferenceTask, InferenceWorker, LocalWorker, WorkerDescriptor, WorkerRouter};
 pub mod errors;
 pub mod state;
 pub mod types;
@@ -18,6 +22,10 @@ pub mod chat;
 pub mod context;
 pub mod memory;
 pub mod orchestrator;
+pub mod model;
+pub mod rag;
+pub mod multimodal;
+pub mod distributed;
 
 pub use contracts::*;
 pub use errors::AuroraError;
