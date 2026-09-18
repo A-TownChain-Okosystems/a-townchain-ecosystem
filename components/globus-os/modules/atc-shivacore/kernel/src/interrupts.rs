@@ -28,13 +28,15 @@ impl InterruptIndex {
     fn as_usize(self) -> usize { usize::from(self.as_u8()) }
 }
 
-/// Register ABI for the real ring-3 syscall entry.
-/// rax=syscall id, rdi=capability handle (0 means None),
-/// rsi=arg0, rdx=arg1, r10=payload length.
-/// Return: rax=value, rdx=ABI error number (0 on success).
+/// Exact register frame produced by shivacore_syscall_entry.
+///
+/// The trampoline pushes registers in reverse order so the first field at the
+/// pointer passed to Rust is rax, followed by rbx..r15. The CPU's iret frame
+/// (RIP/CS/RFLAGS/RSP/SS) remains below these registers on the interrupt stack
+/// and is intentionally not represented here.
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
-struct SyscallFrame {
+struct SyscallRegisters {
     rax: u64,
     rbx: u64,
     rcx: u64,
@@ -50,11 +52,6 @@ struct SyscallFrame {
     r13: u64,
     r14: u64,
     r15: u64,
-    rip: u64,
-    cs: u64,
-    rflags: u64,
-    rsp: u64,
-    ss: u64,
 }
 
 global_asm!(
@@ -103,7 +100,7 @@ unsafe extern "C" {
     fn shivacore_syscall_entry();
 }
 
-extern "C" fn syscall_rust_handler(frame: *mut SyscallFrame) {
+extern "C" fn syscall_rust_handler(frame: *mut SyscallRegisters) {
     let frame = unsafe { &mut *frame };
     let capability = (frame.rdi != 0).then_some(libshivacore::CapabilityHandle(frame.rdi));
     let request = SyscallRequest {
