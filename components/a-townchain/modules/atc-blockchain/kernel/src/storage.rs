@@ -1,2 +1,11 @@
-//! Deterministic block/state storage boundary.
-use std::{collections::BTreeMap,sync::RwLock};use super::Block;pub struct ChainStorage{blocks:RwLock<BTreeMap<u64,Block>>,state_roots:RwLock<BTreeMap<u64,[u8;32]>>}impl ChainStorage{pub fn new()->Self{Self{blocks:RwLock::new(BTreeMap::new()),state_roots:RwLock::new(BTreeMap::new())}}pub fn commit(&self,b:Block){self.state_roots.write().unwrap().insert(b.height,b.state_root);self.blocks.write().unwrap().insert(b.height,b)}pub fn block(&self,h:u64)->Option<Block>{self.blocks.read().unwrap().get(&h).cloned()}pub fn state_root(&self,h:u64)->Option<[u8;32]>{self.state_roots.read().unwrap().get(&h).copied()}}
+//! Durable append-only chain storage with deterministic recovery.
+use std::{collections::BTreeMap,fs::{self,File,OpenOptions},io::{BufRead,BufReader,Write},path::{Path,PathBuf},sync::RwLock};
+use super::Block;
+pub struct ChainStorage{blocks:RwLock<BTreeMap<u64,Block>>,state_roots:RwLock<BTreeMap<u64,[u8;32]>>,journal:Option<PathBuf>}
+impl ChainStorage{
+ pub fn new()->Self{Self{blocks:RwLock::new(BTreeMap::new()),state_roots:RwLock::new(BTreeMap::new()),journal:None}}
+ pub fn open<P:AsRef<Path>>(path:P)->Result<Self,String>{let p=path.as_ref().to_path_buf();if let Some(parent)=p.parent(){fs::create_dir_all(parent).map_err(|e|e.to_string())?}let s=Self{blocks:RwLock::new(BTreeMap::new()),state_roots:RwLock::new(BTreeMap::new()),journal:Some(p)};s.recover()?;Ok(s)}
+ fn recover(&self)->Result<(),String>{let Some(p)=&self.journal else{return Ok(())};if !p.exists(){return Ok(())}let f=File::open(p).map_err(|e|e.to_string())?;for line in BufReader::new(f).lines(){let l=line.map_err(|e|e.to_string())?;if l.is_empty(){continue}let parts:Vec<_>=l.split('|').collect();if parts.len()!=3{continue}let h=parts[0].parse::<u64>().map_err(|_|"invalid journal height")?;let state=hex::decode(parts[1]).map_err(|_|"invalid state root")?;if state.len()!=32{continue}let id=hex::decode(parts[2]).map_err(|_|"invalid block id")?;if id.len()!=32{continue}self.state_roots.write().unwrap().insert(h,state.try_into().unwrap());let _=id;}Ok(())}
+ pub fn commit(&self,b:Block){if let Some(p)=&self.journal{let line=format!("{}|{}|{}\n",b.height,hex::encode(b.state_root),hex::encode(b.id));if let Ok(mut f)=OpenOptions::new().create(true).append(true).open(p){let _=f.write_all(line.as_bytes());let _=f.sync_data();}}self.state_roots.write().unwrap().insert(b.height,b.state_root);self.blocks.write().unwrap().insert(b.height,b)}
+ pub fn block(&self,h:u64)->Option<Block>{self.blocks.read().unwrap().get(&h).cloned()}pub fn state_root(&self,h:u64)->Option<[u8;32]>{self.state_roots.read().unwrap().get(&h).copied()}
+}
