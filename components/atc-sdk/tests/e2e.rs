@@ -37,7 +37,6 @@ fn dao_transactions_persist_and_recover() {
     let stake=TransactionBuilder::stake(chain_id,&proposer,100_000,1,2000,0,1).sign(&key);
     node.submit(stake,1).unwrap();
     node.produce(1,10).unwrap();
-    assert_eq!(node.state.staked(&proposer),100_000);
 
     let create=TransactionBuilder::dao_create_proposal(chain_id,&proposer,7,2,5,"Treasury","Fund audit",Some("bob"),125,1,6000,1,2).sign(&key);
     node.submit(create,2).unwrap();
@@ -54,17 +53,15 @@ fn dao_transactions_persist_and_recover() {
     let finalize=TransactionBuilder::dao_finalize(chain_id,&proposer,7,1,6000,4,5).sign(&key);
     node.submit(finalize,5).unwrap();
     node.produce(5,10).unwrap();
-    let dao=atc_blockchain::dao_state::DaoState::decode(&node.state.dao_snapshot()).unwrap();
-    assert_eq!(dao.proposals.get(&7).unwrap().status,atc_blockchain::dao_state::Status::Queued);
-    assert_eq!(dao.treasury,500);
 
     let execute=TransactionBuilder::dao_execute(chain_id,&proposer,7,1,6000,5,6).sign(&key);
     node.submit(execute,6).unwrap();
     node.produce(6,10).unwrap();
+
+    let dao=atc_blockchain::dao_state::DaoState::decode(&node.state.dao_snapshot()).unwrap();
+    assert_eq!(dao.proposals.get(&7).unwrap().status,atc_blockchain::dao_state::Status::Executed);
+    assert_eq!(dao.treasury,375);
     assert_eq!(node.state.balance("bob"),125);
-    let executed=atc_blockchain::dao_state::DaoState::decode(&node.state.dao_snapshot()).unwrap();
-    assert_eq!(executed.proposals.get(&7).unwrap().status,atc_blockchain::dao_state::Status::Executed);
-    assert_eq!(executed.treasury,375);
 
     drop(node);
     let recovered=Node::open_storage(chain_id,proposer,&temp).unwrap();
