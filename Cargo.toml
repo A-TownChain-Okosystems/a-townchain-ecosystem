@@ -4,6 +4,7 @@ members = [
   "integration",
   "components/atc-node",
   "components/atc-sdk",
+  "components/atc-l2",
 ]
 
 [workspace.package]
