@@ -3,13 +3,13 @@
 //!
 //! The scheduler owns the authoritative current PID used by the syscall boundary.
 //! Timer interrupts only request preemption; context switching remains outside
-//! the interrupt handler until a complete interrupt-frame switch path exists.
+//! the interrupt handler until the complete interrupt-frame switch path is active.
 
 use alloc::collections::VecDeque;
 use core::sync::atomic::{AtomicBool, AtomicU32, AtomicU64, Ordering};
 
 use crate::ats1000::Pid;
-use crate::context::{self, BootstrapProcess, Context};
+use crate::context::{self, BootstrapProcess, Context, UserContext};
 use crate::memory::AddressSpace;
 use x86_64::registers::control::{Cr3, Cr3Flags};
 use x86_64::structures::paging::PhysFrame;
@@ -25,7 +25,6 @@ pub fn current_pid() -> Option<Pid> {
     }
 }
 
-/// Called from the timer interrupt. It performs only atomic bookkeeping.
 pub fn on_timer_tick() {
     TIMER_TICKS.fetch_add(1, Ordering::Relaxed);
     if current_pid().is_some() {
@@ -37,7 +36,6 @@ pub fn timer_ticks() -> u64 {
     TIMER_TICKS.load(Ordering::Relaxed)
 }
 
-/// Consumes a pending preemption request at a scheduler-safe execution point.
 pub fn take_preemption_request() -> bool {
     PREEMPT_REQUESTED.swap(false, Ordering::AcqRel)
 }
@@ -45,6 +43,7 @@ pub fn take_preemption_request() -> bool {
 pub struct ScheduledProcess {
     pub pid: Pid,
     process: BootstrapProcess,
+    user_context: UserContext,
     root_frame: PhysFrame,
     cr3_flags: Cr3Flags,
 }
@@ -54,6 +53,7 @@ impl ScheduledProcess {
         Self {
             pid,
             process,
+            user_context: UserContext::default(),
             root_frame: address_space.root_frame(),
             cr3_flags: address_space.cr3_flags(),
         }
@@ -61,6 +61,8 @@ impl ScheduledProcess {
 
     pub fn context(&self) -> &Context { self.process.context() }
     pub fn context_mut(&mut self) -> &mut Context { self.process.context_mut() }
+    pub fn user_context(&self) -> &UserContext { &self.user_context }
+    pub fn user_context_mut(&mut self) -> &mut UserContext { &mut self.user_context }
 
     pub unsafe fn activate_address_space(&self) {
         Cr3::write(self.root_frame, self.cr3_flags);
@@ -87,7 +89,6 @@ impl ProcessScheduler {
         self.current.as_ref().map(|p| p.pid)
     }
 
-    /// Selects the next process and retains it in the scheduler.
     pub unsafe fn run_next(&mut self, current_context: &mut Context) -> ! {
         let process = self
             .ready
@@ -105,8 +106,6 @@ impl ProcessScheduler {
         panic!("ShivaCore: scheduled process returned unexpectedly");
     }
 
-    /// Moves the current process back to the ready queue after its context
-    /// has been saved. This is the controlled return path for preemption.
     pub fn requeue_current(&mut self) {
         if let Some(process) = self.current.take() {
             self.ready.push_back(process);
