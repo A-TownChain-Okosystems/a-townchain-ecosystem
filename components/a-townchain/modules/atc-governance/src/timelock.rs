@@ -1,5 +1,6 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Timelock for proposal execution
+#[derive(Clone)]
 pub struct Timelock {
     pub delay_blocks: u64,
     pub queued: Vec<(u64, u64)>,
