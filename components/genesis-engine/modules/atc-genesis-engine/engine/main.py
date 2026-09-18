@@ -1,22 +1,22 @@
 # Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
-"""
-Genesis Engine — MVP Milestone 1 Demo
-Erzeugt 5 bewegte, farbige Entities und rendert sie via Renderer2D.
-
-Ausfuehrung mit Display: python main.py
-Ausfuehrung headless (Test/CI, kein SDL-Fenster): python main.py --headless
-"""
+"""Genesis Engine — MVP Milestone 1 Demo."""
 import sys
 import time
-from core.ecs import World, Position, Velocity, Sprite, MovementSystem
+
+from core.ecs import MovementSystem, Position, Sprite, Velocity, World
 from render.renderer2d import Renderer2D
 
 
 def build_demo_world() -> World:
     world = World()
     world.add_system(MovementSystem())
-
-    colors = [(255, 80, 80), (80, 255, 120), (80, 160, 255), (255, 220, 80), (200, 80, 255)]
+    colors = [
+        (255, 80, 80),
+        (80, 255, 120),
+        (80, 160, 255),
+        (255, 220, 80),
+        (200, 80, 255),
+    ]
     for i in range(5):
         eid = world.create_entity()
         world.add_component(eid, Position(x=50 + i * 100, y=50 + i * 60))
@@ -25,10 +25,9 @@ def build_demo_world() -> World:
     return world
 
 
-def run(headless: bool = False, frames: int = 60):
+def run(headless: bool = False, frames: int = 60) -> World:
     world = build_demo_world()
     renderer = Renderer2D(world, headless=headless)
-
     dt = 1 / 60
     for frame in range(frames):
         world.update(dt)
@@ -39,11 +38,9 @@ def run(headless: bool = False, frames: int = 60):
                 print(f"  Entity @ ({x:.1f}, {y:.1f}) size={w}x{h} color={color}")
         if not headless:
             time.sleep(dt)
-
     renderer.close()
     return world
 
 
 if __name__ == "__main__":
-    headless = "--headless" in sys.argv
-    run(headless=headless)
+    run(headless="--headless" in sys.argv)
