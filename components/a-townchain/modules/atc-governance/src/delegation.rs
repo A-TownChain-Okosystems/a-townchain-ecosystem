@@ -18,7 +18,7 @@ impl Delegation {
         Ok(())
     }
     pub fn undelegate(&mut self, from: &str) {
-        self.delegations.remove(from);
+        self.delegations.remove(from);;
     }
     pub fn get_delegate(&self, from: &str) -> Option<&String> {
         self.delegations.get(from)
