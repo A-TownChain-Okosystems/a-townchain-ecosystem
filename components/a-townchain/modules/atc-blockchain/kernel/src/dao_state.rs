@@ -258,7 +258,7 @@ impl DaoState {
                 let voter = sender.to_owned();
                 let kind = get1(payload, &mut q)?;
                 let weight = voting_power;
-                if !matches!(kind, 0 | 1 | 2) {
+                if !matches!(kind, 0..=2) {
                     return Err("invalid vote type".into());
                 }
                 let p = self.proposals.get_mut(&id).ok_or("proposal not found")?;
