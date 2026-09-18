@@ -198,6 +198,6 @@ mod tests {
             assert_eq!(hex.len(), 64, "Padding-Kante {} muss ohne Panik hashen", l);
         }
         // Kante 55 vs 56: unterschiedliche Eingaben -> unterschiedliche Digests
-        assert_ne!(atc_hash(&vec![b'k'; 55]), atc_hash(&vec![b'k'; 56]));
+        assert_ne!(atc_hash(&[b'k'; 55]), atc_hash(&[b'k'; 56]));
     }
 }
