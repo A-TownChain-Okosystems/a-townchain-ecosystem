@@ -113,7 +113,7 @@ mod tests {
 
         let runtime = Runtime::open_storage("ecosystem-integration", &path)
             .expect("durable runtime must open");
-        runtime.node.state.deposit("alice", 1_000_000);
+        runtime.node.state.genesis_credit("alice", 1_000_000).expect("genesis allocation must respect supply cap");
         runtime.node.create_genesis(0).expect("genesis must persist");
 
         let key = SigningKey::from_bytes(&[11u8; 32]);
