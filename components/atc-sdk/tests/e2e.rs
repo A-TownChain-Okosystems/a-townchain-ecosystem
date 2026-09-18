@@ -27,42 +27,53 @@ fn storage_restart_recovers_chain_and_state(){
 fn dao_transactions_persist_and_recover() {
     let chain_id=658467;
     let proposer="alice".to_string();
-    let node=Node::new(chain_id,proposer.clone());
+    let temp=std::env::temp_dir().join(format!("atc-dao-{}-{}.journal",std::process::id(),chain_id));
+    let _=std::fs::remove_file(&temp);let _=std::fs::remove_file(temp.with_extension("state"));
+    let node=Node::open_storage(chain_id,proposer.clone(),&temp).unwrap();
     node.state.deposit(&proposer,1_000_000);
     node.create_genesis(0).unwrap();
     let key=SigningKey::from_bytes(&[11u8;32]);
 
-    let create=TransactionBuilder::dao_create_proposal(chain_id,&proposer,7,1,2,"Treasury","Fund audit",1,1000,0,1).sign(&key);
-    node.submit(create,1).unwrap();
+    let stake=TransactionBuilder::stake(chain_id,&proposer,100_000,1,2000,0,1).sign(&key);
+    node.submit(stake,1).unwrap();
     node.produce(1,10).unwrap();
+    assert_eq!(node.state.staked(&proposer),100_000);
 
-    let vote=TransactionBuilder::dao_vote(chain_id,&proposer,7,0,1,1,1000,1,2).sign(&key);
-    let finalize=TransactionBuilder::dao_finalize(chain_id,&proposer,7,1,1000,2,2).sign(&key);
-    node.submit(vote,2).unwrap();
-    node.submit(finalize,2).unwrap();
+    let create=TransactionBuilder::dao_create_proposal(chain_id,&proposer,7,2,4,"Treasury","Fund audit",Some("bob"),125,1,6000,1,2).sign(&key);
+    node.submit(create,2).unwrap();
     node.produce(2,10).unwrap();
 
-    let snap=node.state.dao_snapshot();
-    let dao=atc_blockchain::dao_state::DaoState::decode(&snap).unwrap();
-    assert_eq!(dao.proposals.get(&7).unwrap().status,atc_blockchain::dao_state::Status::Queued);
-
-    let execute=TransactionBuilder::dao_execute(chain_id,&proposer,7,1,1000,3,3).sign(&key);
-    node.submit(execute,3).unwrap();
+    let fund=TransactionBuilder::dao_fund(chain_id,&proposer,500,1,6000,2,3).sign(&key);
+    node.submit(fund,3).unwrap();
     node.produce(3,10).unwrap();
 
-    let fund=TransactionBuilder::dao_fund(chain_id,&proposer,500,1,1000,4,4).sign(&key);
-    node.submit(fund,4).unwrap();
+    let vote=TransactionBuilder::dao_vote(chain_id,&proposer,7,0,1,6000,3,4).sign(&key);
+    node.submit(vote,4).unwrap();
     node.produce(4,10).unwrap();
-    let payout=TransactionBuilder::dao_payout(chain_id,&proposer,7,"bob",125,1,1000,5,5).sign(&key);
-    node.submit(payout,5).unwrap();
+
+    let finalize=TransactionBuilder::dao_finalize(chain_id,&proposer,7,1,6000,4,5).sign(&key);
+    node.submit(finalize,5).unwrap();
     node.produce(5,10).unwrap();
+    let dao=atc_blockchain::dao_state::DaoState::decode(&node.state.dao_snapshot()).unwrap();
+    assert_eq!(dao.proposals.get(&7).unwrap().status,atc_blockchain::dao_state::Status::Queued);
+    assert_eq!(dao.treasury,500);
+
+    let execute=TransactionBuilder::dao_execute(chain_id,&proposer,7,1,6000,5,6).sign(&key);
+    node.submit(execute,6).unwrap();
+    node.produce(6,10).unwrap();
     assert_eq!(node.state.balance("bob"),125);
-    assert_eq!(node.state.balance(&proposer),994000-500);
-    let temp=std::env::temp_dir().join(format!("atc-dao-{}.journal",std::process::id()));
+    let executed=atc_blockchain::dao_state::DaoState::decode(&node.state.dao_snapshot()).unwrap();
+    assert_eq!(executed.proposals.get(&7).unwrap().status,atc_blockchain::dao_state::Status::Executed);
+    assert_eq!(executed.treasury,375);
+
+    drop(node);
     let recovered=Node::open_storage(chain_id,proposer,&temp).unwrap();
     let recovered_dao=atc_blockchain::dao_state::DaoState::decode(&recovered.state.dao_snapshot()).unwrap();
     assert_eq!(recovered_dao.proposals.get(&7).unwrap().status,atc_blockchain::dao_state::Status::Executed);
-    assert_eq!(recovered.chain.height(),5);assert_eq!(recovered.state.balance("bob"),125);
+    assert_eq!(recovered_dao.treasury,375);
+    assert_eq!(recovered.state.balance("bob"),125);
+    assert_eq!(recovered.state.staked("alice"),100_000);
+    assert_eq!(recovered.chain.height(),6);
     let _=std::fs::remove_file(&temp);
     let _=std::fs::remove_file(temp.with_extension("state"));
 }
