@@ -103,6 +103,39 @@ mod supply_tests {
     }
 
     #[test]
+    #[test]
+    fn monthly_halving_emission_reaches_exact_360m() {
+        let state = StateDb::new();
+        state.seal_genesis();
+        let mut total = 0u64;
+        for _ in 0..EMISSION_MONTHS {
+            total += state.release_monthly_emission("emission-pool").unwrap();
+        }
+        assert_eq!(total, MAX_ATC_SUPPLY);
+        assert_eq!(state.total_supply(), MAX_ATC_SUPPLY);
+        let emission = state.emission_state();
+        assert_eq!(emission.months_released, EMISSION_MONTHS);
+        assert_eq!(emission.released_supply, MAX_ATC_SUPPLY);
+        assert_eq!(emission.remainder, 0);
+        assert!(state.release_monthly_emission("emission-pool").is_err());
+    }
+
+    #[test]
+    fn halving_changes_the_protocol_rate_at_month_61() {
+        let state = StateDb::new();
+        state.seal_genesis();
+        for _ in 0..60 {
+            state.release_monthly_emission("epoch-a").unwrap();
+        }
+        let before = state.emission_state();
+        let first_after_halving = state.release_monthly_emission("epoch-b").unwrap();
+        let after = state.emission_state();
+        assert_eq!(before.months_released, 60);
+        assert_eq!(after.months_released, 61);
+        assert!(first_after_halving < 2_000_000);
+        assert_eq!(after.released_supply, state.total_supply());
+    }
+
     fn supply_is_part_of_state_root() {
         let a = StateDb::new();
         let b = StateDb::new();
