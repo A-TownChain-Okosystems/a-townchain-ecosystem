@@ -4,6 +4,7 @@
 // K-Sprint 1: GDT/TSS + IDT/PIC.
 // K-Sprint 2: Paging/frame allocator/heap.
 // K-Sprint 3: kernel context switch + controlled ring-3 init handoff.
+// K-Sprint 4: process execution bridge + address-space-aware scheduling.
 #![no_std]
 #![feature(abi_x86_interrupt)]
 #![feature(alloc_error_handler)]
@@ -14,6 +15,7 @@ extern crate alloc;
 mod allocator;
 mod ats1000;
 mod context;
+mod execution;
 mod framebuffer;
 mod gdt;
 mod hal;
@@ -80,7 +82,7 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
 
     if let Some(fb) = boot_info.framebuffer.as_mut() {
         framebuffer::init(fb);
-        println!("ShivaCore Kernel v0.0.3 -- K-Sprint 3");
+        println!("ShivaCore Kernel v0.0.3 -- K-Sprint 4");
         println!("Boot: OK | Serial: OK | Framebuffer: OK");
     }
 
@@ -146,27 +148,23 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
     }
 
     let init_task = context::BootstrapProcess::new(globus_init_kernel_task);
+    let scheduled_init = execution::ScheduledProcess::new(
+        init_pid,
+        init_task,
+        &init_address_space,
+    );
+    let mut process_scheduler = execution::ProcessScheduler::new();
+    process_scheduler.enqueue(scheduled_init);
+
     let mut current_context = context::Context::empty();
 
-    println!("K-Sprint 3: kernel context switch -> GlobusOS init -> ring3");
-    serial_println!("ShivaCore: switching CPU context to GlobusOS init task.");
+    println!("K-Sprint 4: scheduler -> process context -> CR3 -> GlobusOS init -> ring3");
+    serial_println!(
+        "ShivaCore: ready queue contains {} process.",
+        process_scheduler.ready_len()
+    );
 
     unsafe {
-        context::switch(&mut current_context, init_task.context());
-    }
-
-    panic!("ShivaCore: init task unexpectedly returned");
-}
-
-#[alloc_error_handler]
-fn alloc_error_handler(layout: core::alloc::Layout) -> ! {
-    panic!("Allokation fehlgeschlagen: {:?}", layout)
-}
-
-#[panic_handler]
-fn panic(info: &PanicInfo) -> ! {
-    serial_println!("ShivaCore: KERNEL PANIC -- {}", info);
-    loop {
-        x86_64::instructions::hlt();
+        process_scheduler.run_next(&mut current_context);
     }
 }
