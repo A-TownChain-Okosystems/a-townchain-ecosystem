@@ -39,7 +39,7 @@ fn dao_transactions_persist_and_recover() {
     node.produce(1,10).unwrap();
     assert_eq!(node.state.staked(&proposer),100_000);
 
-    let create=TransactionBuilder::dao_create_proposal(chain_id,&proposer,7,2,4,"Treasury","Fund audit",Some("bob"),125,1,6000,1,2).sign(&key);
+    let create=TransactionBuilder::dao_create_proposal(chain_id,&proposer,7,2,5,"Treasury","Fund audit",Some("bob"),125,1,6000,1,2).sign(&key);
     node.submit(create,2).unwrap();
     node.produce(2,10).unwrap();
 
