@@ -174,7 +174,7 @@ mod tests {
         manager.set_policy(NetworkPolicy::Normal);
         let id = manager.register_interface("eth0", ConfigurationSource::Dhcp).unwrap();
         assert_eq!(
-            manager.set_address(id, IpAddress::V4(Ipv4Address::new(192, 0, 2, 10))),
+            manager.set_address(id, IpAddress::V4(Ipv4Address::new([192, 0, 2, 10]))),
             Err(NetworkError::InvalidTransition)
         );
         manager.configure(id).unwrap();
@@ -188,7 +188,7 @@ mod tests {
         manager.set_policy(NetworkPolicy::Normal);
         let id = manager.register_interface("eth0", ConfigurationSource::Static).unwrap();
         manager.configure(id).unwrap();
-        manager.set_address(id, IpAddress::V4(Ipv4Address::new(192, 0, 2, 20))).unwrap();
+        manager.set_address(id, IpAddress::V4(Ipv4Address::new([192, 0, 2, 20]))).unwrap();
         manager.set_policy(NetworkPolicy::Disabled);
         assert_eq!(manager.get(id).unwrap().1, InterfaceState::Down);
     }
