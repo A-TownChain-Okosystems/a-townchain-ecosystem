@@ -1,0 +1,92 @@
+name: Ecosystem Release Readiness
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  rust-manifests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - name: Validate every non-archived Cargo workspace/package
+        shell: bash
+        run: |
+          set -euo pipefail
+          fail=0
+          while IFS= read -r manifest; do
+            dir="$(dirname "$manifest")"
+            echo "=== Rust: $dir"
+            if ! (cd "$dir" && cargo fmt --all -- --check); then fail=1; fi
+            if ! (cd "$dir" && cargo check --workspace --all-targets); then fail=1; fi
+            if ! (cd "$dir" && cargo test --workspace --all-targets); then fail=1; fi
+            if ! (cd "$dir" && cargo clippy --workspace --all-targets --all-features -- -D warnings); then fail=1; fi
+          done < <(find components -name Cargo.toml -not -path '*/archive/*' -not -path '*/target/*' -not -path '*/node_modules/*' | sort -u)
+          exit "$fail"
+
+  python-projects:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate Python projects
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check -q ruff
+          fail=0
+          while IFS= read -r project; do
+            dir="$(dirname "$project")"
+            echo "=== Python: $dir"
+            if ! ruff check "$dir"; then fail=1; fi
+            if ! python -m compileall -q "$dir"; then fail=1; fi
+          done < <(find components -name pyproject.toml -o -name setup.py -not -path '*/archive/*' -not -path '*/node_modules/*' | sort -u)
+          exit "$fail"
+
+  javascript-projects:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate every package.json project
+        shell: bash
+        run: |
+          set -euo pipefail
+          fail=0
+          while IFS= read -r package; do
+            dir="$(dirname "$package")"
+            echo "=== Node: $dir"
+            if [ -f "$dir/package-lock.json" ]; then
+              if ! (cd "$dir" && npm ci --no-audit --no-fund); then fail=1; continue; fi
+            else
+              if ! (cd "$dir" && npm install --no-audit --no-fund); then fail=1; continue; fi
+            fi
+            if ! (cd "$dir" && npm test --if-present); then fail=1; fi
+            if ! (cd "$dir" && npm run build --if-present); then fail=1; fi
+          done < <(find components -name package.json -not -path '*/archive/*' -not -path '*/node_modules/*' | sort -u)
+          exit "$fail"
+
+  repository-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify canonical component set
+        shell: bash
+        run: |
+          set -euo pipefail
+          for component in             atc-standards atclang a-townchain a-townchain-os a-townchain-os-docs             atc-shivacore atc-contracts atc-node atc-compute atc-oracle atc-sdk             atc-marketplace atc-wallet atc-vm atc-zkp aurora-ai globus-os             genesis-engine genesis-chronicles atc-mining atc-indexer atc-interop             atc-launchpad atc-explorer atc-storage atc-algorithm; do
+            test -d "components/$component" || { echo "MISSING components/$component"; exit 1; }
+          done
+          echo "Canonical component set present."

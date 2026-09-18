@@ -66,7 +66,8 @@ class System:
     world: World = None
 
     def update(self, dt: float) -> None:
-        raise NotImplementedError
+        """Default system hook; concrete systems override this method."""
+        return None
 
 
 # --- Kern-Components (minimal, erweiterbar) ---
