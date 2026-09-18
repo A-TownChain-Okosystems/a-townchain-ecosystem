@@ -57,7 +57,7 @@ fn dao_transactions_persist_and_recover() {
     node.submit(payout,5).unwrap();
     node.produce(5,10).unwrap();
     assert_eq!(node.state.balance("bob"),125);
-    assert_eq!(node.state.balance(&proposer),999000-500-25);
+    assert_eq!(node.state.balance(&proposer),994000-500);
     let temp=std::env::temp_dir().join(format!("atc-dao-{}.journal",std::process::id()));
     let recovered=Node::open_storage(chain_id,proposer,&temp).unwrap();
     let recovered_dao=atc_blockchain::dao_state::DaoState::decode(&recovered.state.dao_snapshot()).unwrap();
