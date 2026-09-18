@@ -3,6 +3,7 @@ mod browser;
 mod error;
 mod history;
 mod policy;
+#[allow(missing_docs)]
 mod tabs;
 
 pub use browser::{Browser, BrowserConfig, BrowserResponse};
