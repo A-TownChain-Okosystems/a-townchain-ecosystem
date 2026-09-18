@@ -5,7 +5,7 @@
   "author": "Michael Wroblewski",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "tsc --noEmit --pretty false --target ES2022 --module ESNext src/index.ts",
+    "build": "tsc --noEmit --pretty false --target ES2022 --module ESNext --ignoreConfig src/index.ts",
     "dev": "tsc --watch",
     "test": "jest --passWithNoTests"
   },
