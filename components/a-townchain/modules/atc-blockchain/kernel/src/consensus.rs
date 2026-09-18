@@ -1,5 +1,5 @@
 //! Deterministic finality boundary with unique-voter and signed-vote validation.
-use crate::{crypto::Ed25519Verifier, security::simple_hash};
+use crate::security::simple_hash;
 use ed25519_dalek::{Signature, Verifier, VerifyingKey};
 use std::{
     collections::{BTreeMap, BTreeSet},
