@@ -157,8 +157,8 @@ mod tests {
     fn control_flow_ops_parse() {
         // Das Format ist zum vollstaendigen Bytecode-Textformat gewachsen
         // (Contract-Execution): Jumps mit explizitem Ziel-Index.
-        let prog = parse_ops("Jump 2\nJumpIfNotZero 0\nJumpIfZero 1\nHalt\n")
-            .expect("gueltiges .ops");
+        let prog =
+            parse_ops("Jump 2\nJumpIfNotZero 0\nJumpIfZero 1\nHalt\n").expect("gueltiges .ops");
         assert_eq!(prog.len(), 4);
         assert_eq!(prog[0], Op::Jump(2));
         assert_eq!(prog[1], Op::JumpIfNotZero(0));

@@ -25,22 +25,39 @@ pub enum ContextError {
 
 impl ChainContext {
     pub fn validate(&self, expected_protocol: &str, expected_vm: &str) -> Result<(), ContextError> {
-        if self.chain_id != CHAIN_ID { return Err(ContextError::InvalidChainId); }
-        if !matches!(self.network_id.as_str(), "devnet" | "testnet" | "mainnet") { return Err(ContextError::InvalidNetworkId); }
-        if self.genesis_id.len() != 64 || !self.genesis_id.bytes().all(|b| b.is_ascii_hexdigit()) { return Err(ContextError::InvalidGenesisId); }
-        if self.protocol_version != expected_protocol { return Err(ContextError::ProtocolMismatch); }
-        if self.vm_version != expected_vm { return Err(ContextError::VmMismatch); }
+        if self.chain_id != CHAIN_ID {
+            return Err(ContextError::InvalidChainId);
+        }
+        if !matches!(self.network_id.as_str(), "devnet" | "testnet" | "mainnet") {
+            return Err(ContextError::InvalidNetworkId);
+        }
+        if self.genesis_id.len() != 64 || !self.genesis_id.bytes().all(|b| b.is_ascii_hexdigit()) {
+            return Err(ContextError::InvalidGenesisId);
+        }
+        if self.protocol_version != expected_protocol {
+            return Err(ContextError::ProtocolMismatch);
+        }
+        if self.vm_version != expected_vm {
+            return Err(ContextError::VmMismatch);
+        }
         Ok(())
     }
 
     pub fn verify_genesis_id(&self, computed: &str) -> Result<(), ContextError> {
-        if self.genesis_id != computed { return Err(ContextError::GenesisMismatch); }
+        if self.genesis_id != computed {
+            return Err(ContextError::GenesisMismatch);
+        }
         Ok(())
     }
 }
 
 /// State transitions MUST call this gate before VM execution.
-pub fn execution_gate(context: &ChainContext, computed_genesis_id: &str, expected_protocol: &str, expected_vm: &str) -> Result<(), ContextError> {
+pub fn execution_gate(
+    context: &ChainContext,
+    computed_genesis_id: &str,
+    expected_protocol: &str,
+    expected_vm: &str,
+) -> Result<(), ContextError> {
     context.validate(expected_protocol, expected_vm)?;
     context.verify_genesis_id(computed_genesis_id)?;
     Ok(())

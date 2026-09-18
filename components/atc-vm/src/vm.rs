@@ -185,30 +185,16 @@ mod tests {
 
     #[test]
     fn state_transition_requires_identity_gate() {
-        let mut vm = Vm::with_context(
-            vec![Op::Push(7), Op::Store(0), Op::Halt],
-            1,
-            vec![],
-        );
+        let mut vm = Vm::with_context(vec![Op::Push(7), Op::Store(0), Op::Halt], 1, vec![]);
         assert!(vm
-            .execute_state_transition(
-                &context(),
-                &"b".repeat(64),
-                "1.0.0",
-                "1.0.0"
-            )
+            .execute_state_transition(&context(), &"b".repeat(64), "1.0.0", "1.0.0")
             .is_err());
         assert!(
             vm.state().is_empty(),
             "invalid context darf keinen State mutieren"
         );
         assert!(vm
-            .execute_state_transition(
-                &context(),
-                &"a".repeat(64),
-                "1.0.0",
-                "1.0.0"
-            )
+            .execute_state_transition(&context(), &"a".repeat(64), "1.0.0", "1.0.0")
             .is_ok());
         assert_eq!(vm.state(), &[7]);
     }

@@ -11,13 +11,21 @@ pub struct Treasury {
 
 impl Treasury {
     pub fn new(initial: u64) -> Self {
-        Self { balance: initial, allocations: HashMap::new(), total_allocated: 0 }
+        Self {
+            balance: initial,
+            allocations: HashMap::new(),
+            total_allocated: 0,
+        }
     }
 
-    pub fn deposit(&mut self, amount: u64) { self.balance += amount; }
+    pub fn deposit(&mut self, amount: u64) {
+        self.balance += amount;
+    }
 
     pub fn allocate(&mut self, recipient: &str, amount: u64) -> Result<(), String> {
-        if self.balance - self.total_allocated < amount { return Err("Insufficient treasury".into()); }
+        if self.balance - self.total_allocated < amount {
+            return Err("Insufficient treasury".into());
+        }
         *self.allocations.entry(recipient.into()).or_insert(0) += amount;
         self.total_allocated += amount;
         Ok(())
@@ -30,8 +38,12 @@ impl Treasury {
         Ok(amount)
     }
 
-    pub fn available(&self) -> u64 { self.balance - self.total_allocated }
-    pub fn balance(&self) -> u64 { self.balance }
+    pub fn available(&self) -> u64 {
+        self.balance - self.total_allocated
+    }
+    pub fn balance(&self) -> u64 {
+        self.balance
+    }
 }
 
 #[cfg(test)]

@@ -1,2 +1,28 @@
 //! Reproducible chain genesis configuration.
-#[derive(Clone,Debug,PartialEq,Eq)]pub struct Genesis{pub chain_id:u64,pub timestamp:u64,pub initial_allocations:Vec<(String,u64)>}impl Genesis{pub fn new(chain_id:u64,timestamp:u64,allocations:Vec<(String,u64)>)->Self{let mut a=allocations;a.sort();a.dedup_by(|x,y|x.0==y.0);Self{chain_id,timestamp,initial_allocations:a}}pub fn validate(&self)->Result<(),&'static str>{if self.chain_id==0{return Err("chain id must be non-zero")}if self.initial_allocations.iter().any(|(_,v)|*v==0){return Err("zero allocation")}Ok(())}}
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Genesis {
+    pub chain_id: u64,
+    pub timestamp: u64,
+    pub initial_allocations: Vec<(String, u64)>,
+}
+impl Genesis {
+    pub fn new(chain_id: u64, timestamp: u64, allocations: Vec<(String, u64)>) -> Self {
+        let mut a = allocations;
+        a.sort();
+        a.dedup_by(|x, y| x.0 == y.0);
+        Self {
+            chain_id,
+            timestamp,
+            initial_allocations: a,
+        }
+    }
+    pub fn validate(&self) -> Result<(), &'static str> {
+        if self.chain_id == 0 {
+            return Err("chain id must be non-zero");
+        }
+        if self.initial_allocations.iter().any(|(_, v)| *v == 0) {
+            return Err("zero allocation");
+        }
+        Ok(())
+    }
+}

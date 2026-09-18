@@ -41,9 +41,8 @@ fn fail_closed_on_wrong_expectation() {
 
 #[test]
 fn div_executes_deterministically() {
-    let prog =
-        atc_vm::ops::parse_ops("Push 21000000\nPush 10\nMul\nPush 100\nDiv\nHalt\n")
-            .expect("gueltiges .ops");
+    let prog = atc_vm::ops::parse_ops("Push 21000000\nPush 10\nMul\nPush 100\nDiv\nHalt\n")
+        .expect("gueltiges .ops");
     let mut machine = Vm::new(prog);
     let stack = machine.run().expect("ATVM-Ausfuehrung");
     assert_eq!(stack.last(), Some(&2_100_000));
@@ -58,9 +57,8 @@ fn div_by_zero_fails_closed() {
 
 #[test]
 fn storage_round_trip_persists_state() {
-    let prog =
-        atc_vm::ops::parse_ops("Load 0\nPush 1000\nAdd\nStore 0\nLoad 0\nHalt\n")
-            .expect("gueltiges .ops");
+    let prog = atc_vm::ops::parse_ops("Load 0\nPush 1000\nAdd\nStore 0\nLoad 0\nHalt\n")
+        .expect("gueltiges .ops");
     let mut machine = Vm::new(prog);
     let stack = machine.run().expect("ATVM");
     assert_eq!(stack.last(), Some(&1000));
@@ -109,11 +107,7 @@ fn owner_check_rejects_intruder() {
         Some(&0),
         "Fremder Caller muss abgewiesen werden"
     );
-    assert_eq!(
-        machine.state(),
-        &[0, 42],
-        "Storage darf unberuehrt bleiben"
-    );
+    assert_eq!(machine.state(), &[0, 42], "Storage darf unberuehrt bleiben");
 }
 
 #[test]
@@ -141,9 +135,5 @@ fn sufficient_funds_transfer_moves_both_sides() {
     let mut machine = Vm::with_context(prog, 0, vec![0, 0, 100, 0]);
     let stack = machine.run().expect("ATVM-Ausfuehrung");
     assert_eq!(stack.last(), Some(&1));
-    assert_eq!(
-        machine.state(),
-        &[0, 0, 50, 50],
-        "Sender 50, Empfaenger 50"
-    );
+    assert_eq!(machine.state(), &[0, 0, 50, 50], "Sender 50, Empfaenger 50");
 }

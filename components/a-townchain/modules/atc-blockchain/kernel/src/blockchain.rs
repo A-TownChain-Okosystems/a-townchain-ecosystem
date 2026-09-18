@@ -1,10 +1,390 @@
 //! Canonical A-TownChain deterministic block pipeline.
-pub mod security;pub mod economics;pub mod dao_state;pub mod mempool;pub mod consensus;pub mod genesis;pub mod storage;pub mod network;pub mod rpc;pub mod crypto;pub mod execution;pub mod receipts;pub mod fork_choice;
-use std::{collections::BTreeMap,sync::{Arc,Mutex}};use mempool::{MemoryPool,MempoolError,StateDb,Transaction};use consensus::{ConsensusEngine,Vote};use security::simple_hash;use crypto::{Ed25519Verifier,SignatureVerifier,signing_bytes};use execution::{AtcVmExecutor,VmExecutor};
-#[derive(Clone,Debug,PartialEq,Eq)]pub struct Block{pub id:[u8;32],pub height:u64,pub parent_hash:[u8;32],pub proposer:String,pub timestamp:u64,pub transactions:Vec<Transaction>,pub tx_root:[u8;32],pub state_root:[u8;32],pub receipt_root:[u8;32],pub signature:[u8;64]}
-impl Block{pub fn new(h:u64,parent:[u8;32],proposer:String,t:u64,txs:Vec<Transaction>,state:[u8;32],receipt:[u8;32],sig:[u8;64])->Self{let tr=tx_root(&txs);let id=block_id(h,parent,&proposer,t,tr,state,receipt,sig);Self{id,height:h,parent_hash:parent,proposer,timestamp:t,transactions:txs,tx_root:tr,state_root:state,receipt_root:receipt,signature:sig}}}
-fn tx_root(txs:&[Transaction])->[u8;32]{let mut b=Vec::new();for x in txs{b.extend_from_slice(&x.id)}simple_hash(&b)}fn block_id(h:u64,parent:[u8;32],proposer:&str,t:u64,tr:[u8;32],state:[u8;32],receipt:[u8;32],sig:[u8;64])->[u8;32]{let mut b=Vec::new();b.extend_from_slice(b"ATC-BLOCK-V1");b.extend_from_slice(&h.to_be_bytes());b.extend_from_slice(&parent);b.extend_from_slice(&(proposer.len()as u32).to_be_bytes());b.extend_from_slice(proposer.as_bytes());b.extend_from_slice(&t.to_be_bytes());b.extend_from_slice(&tr);b.extend_from_slice(&state);b.extend_from_slice(&receipt);b.extend_from_slice(&sig);simple_hash(&b)}
-pub trait IndexerSink:Send+Sync{fn ingest_finalized(&self,block:&Block)->Result<(),String>;}pub struct BlockChain{blocks:Mutex<BTreeMap<u64,Block>>,hashes:Mutex<BTreeMap<[u8;32],u64>>,height:Mutex<u64>}
-impl BlockChain{pub fn new()->Self{Self{blocks:Mutex::new(BTreeMap::new()),hashes:Mutex::new(BTreeMap::new()),height:Mutex::new(0)}}pub fn genesis(&self,b:Block)->Result<(),String>{if b.height!=0||self.blocks.lock().unwrap().contains_key(&0){return Err("invalid genesis".into())}if tx_root(&b.transactions)!=b.tx_root||block_id(b.height,b.parent_hash,&b.proposer,b.timestamp,b.tx_root,b.state_root,b.receipt_root,b.signature)!=b.id{return Err("invalid genesis commitment".into())}self.hashes.lock().unwrap().insert(b.id,0);self.blocks.lock().unwrap().insert(0,b);Ok(())}pub fn validate_append(&self,b:&Block)->Result<(),String>{if tx_root(&b.transactions)!=b.tx_root{return Err("transaction root mismatch".into())}if block_id(b.height,b.parent_hash,&b.proposer,b.timestamp,b.tx_root,b.state_root,b.receipt_root,b.signature)!=b.id{return Err("block id mismatch".into())}let h=*self.height.lock().unwrap();if b.height!=h.saturating_add(1){return Err("non-sequential height".into())}if self.hashes.lock().unwrap().contains_key(&b.id){return Err("duplicate block".into())}if b.parent_hash!=self.blocks.lock().unwrap().get(&h).map(|x|x.id).unwrap_or([0;32]){return Err("parent mismatch".into())}Ok(())}pub fn append(&self,b:Block)->Result<(),String>{self.validate_append(&b)?;self.hashes.lock().unwrap().insert(b.id,b.height);self.blocks.lock().unwrap().insert(b.height,b.clone());*self.height.lock().unwrap()=b.height;Ok(())}pub fn last(&self)->Option<Block>{let h=*self.height.lock().unwrap();self.blocks.lock().unwrap().get(&h).cloned()}pub fn height(&self)->u64{*self.height.lock().unwrap()}}
-pub struct Node{pub chain_id:u64,pub pool:Arc<MemoryPool>,pub state:Arc<StateDb>,pub consensus:Arc<ConsensusEngine>,pub chain:Arc<BlockChain>,pub storage:Arc<storage::ChainStorage>,proposer:String,verifier:Arc<dyn SignatureVerifier>,indexer:Mutex<Option<Arc<dyn IndexerSink>>>}
-impl Node{pub fn new(chain_id:u64,proposer:String)->Self{Self{chain_id,pool:Arc::new(MemoryPool::new(10000,300)),state:Arc::new(StateDb::new()),consensus:Arc::new(ConsensusEngine::new(chain_id,proposer.clone())),chain:Arc::new(BlockChain::new()),storage:Arc::new(storage::ChainStorage::new()),proposer,verifier:Arc::new(Ed25519Verifier),indexer:Mutex::new(None)}}pub fn set_indexer(&self,sink:Arc<dyn IndexerSink>){*self.indexer.lock().unwrap()=Some(sink)}pub fn open_storage<P:AsRef<std::path::Path>>(chain_id:u64,proposer:String,path:P)->Result<Self,String>{let mut n=Self::new(chain_id,proposer);n.storage=Arc::new(storage::ChainStorage::open(path)?);if let Some((snapshot,dao))=n.storage.recover_state_with_dao()?{n.state.restore(snapshot);if !dao.is_empty(){n.state.restore_dao(&dao)?}}if let Some(g)=n.storage.block(0){n.state.seal_genesis();n.chain.genesis(g)?;let mut h=1u64;while let Some(b)=n.storage.block(h){n.chain.append(b)?;h=h.saturating_add(1)}}if let Some(last)=n.chain.last(){if n.state.root()!=last.state_root{return Err("recovered state root mismatch".into())}}Ok(n)}pub fn create_genesis(&self,t:u64)->Result<Block,String>{let b=Block::new(0,[0;32],self.proposer.clone(),t,Vec::new(),self.state.root(),[0;32],[0;64]);self.chain.genesis(b.clone())?;self.storage.commit(b.clone())?;self.storage.commit_state_with_dao(b.height,&self.state.snapshot(),&self.state.dao_snapshot())?;self.state.seal_genesis();Ok(b)}pub fn submit(&self,tx:Transaction,now:u64)->Result<[u8;32],MempoolError>{if tx.chain_id!=self.chain_id{return Err(MempoolError::WrongChain)}let id=tx.id;if !self.verifier.verify(&signing_bytes(&tx),&tx.signature,&tx.public_key){return Err(MempoolError::InvalidSignature)}self.pool.add(tx,now)?;if let Err(e)=self.pool.validate_tx(&id,now){self.pool.remove(&id);return Err(e)}Ok(id)}pub fn produce(&self,t:u64,max:usize)->Result<Block,String>{let txs=self.pool.get_pending_batch(max);if txs.is_empty(){return Err("no validated transactions".into())}for tx in &txs{if tx.chain_id!=self.chain_id||!self.verifier.verify(&signing_bytes(tx),&tx.signature,&tx.public_key){return Err("invalid transaction signature or chain".into())}}let parent=self.chain.last().ok_or("genesis required")?;let exec=AtcVmExecutor{protocol:"1.0.0".into(),vm_version:"1.0.0".into(),genesis_id:hex::encode(parent.id)};let mut receipts=Vec::new();for tx in &txs{receipts.push(exec.execute(tx,self.state.root()).map_err(|e|e.to_string())?)}let mut expected_nonces=BTreeMap::<String,u64>::new();for tx in &txs{let expected=*expected_nonces.entry(tx.sender_did.clone()).or_insert_with(||self.state.nonce(&tx.sender_did));if tx.nonce!=expected{return Err(format!("invalid nonce for {}: expected {}, got {}",tx.sender_did,expected,tx.nonce))}*expected_nonces.get_mut(&tx.sender_did).unwrap()=expected.saturating_add(1)}let state_snapshot=self.state.snapshot();let dao_snapshot=self.state.dao_snapshot();self.state.apply_batch(&txs).map_err(|e|format!("state transition: {e:?}"))?;for tx in &txs{if !tx.payload.is_empty(){if let Err(e)=self.state.apply_dao_payload(&tx.payload,parent.height.saturating_add(1),&tx.sender_did){self.state.restore(state_snapshot);let _=self.state.restore_dao(&dao_snapshot);return Err(format!("DAO transition: {e}"));}}}let new_root=self.state.root();let receipt_root=receipts::root(&receipts);let b=Block::new(parent.height.saturating_add(1),parent.id,self.proposer.clone(),t,txs,new_root,receipt_root,[0;64]);self.chain.validate_append(&b)?;if let Err(e)=self.storage.commit(b.clone()){self.state.restore(state_snapshot);let _=self.state.restore_dao(&dao_snapshot);return Err(e)}if let Err(e)=self.storage.commit_state_with_dao(b.height,&self.state.snapshot(),&self.state.dao_snapshot()){self.state.restore(state_snapshot);let _=self.state.restore_dao(&dao_snapshot);return Err(e)}self.chain.append(b.clone())?;for tx in &b.transactions{self.pool.mark_in_block(&tx.id)}self.consensus.set_height(b.height);Ok(b)}pub fn submit_vote(&self,vote:Vote)->Result<(),String>{self.consensus.vote(vote)}pub fn finalize(&self,b:&Block,quorum:usize)->Result<bool,String>{if self.consensus.proposer!=self.proposer{return Err("finalizer is not proposer".into())}if quorum==0{return Err("quorum must be non-zero".into())}if !self.consensus.finality(&b.id,quorum){return Ok(false)}if let Some(sink)=self.indexer.lock().unwrap().clone(){sink.ingest_finalized(b)?}Ok(true)}}
+pub mod consensus;
+pub mod crypto;
+pub mod dao_state;
+pub mod economics;
+pub mod execution;
+pub mod fork_choice;
+pub mod genesis;
+pub mod mempool;
+pub mod network;
+pub mod receipts;
+pub mod rpc;
+pub mod security;
+pub mod storage;
+use consensus::{ConsensusEngine, Vote};
+use crypto::{signing_bytes, Ed25519Verifier, SignatureVerifier};
+use execution::{AtcVmExecutor, VmExecutor};
+use mempool::{MemoryPool, MempoolError, StateDb, Transaction};
+use security::simple_hash;
+use std::{
+    collections::BTreeMap,
+    sync::{Arc, Mutex},
+};
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Block {
+    pub id: [u8; 32],
+    pub height: u64,
+    pub parent_hash: [u8; 32],
+    pub proposer: String,
+    pub timestamp: u64,
+    pub transactions: Vec<Transaction>,
+    pub tx_root: [u8; 32],
+    pub state_root: [u8; 32],
+    pub receipt_root: [u8; 32],
+    pub signature: [u8; 64],
+}
+impl Block {
+    pub fn new(
+        h: u64,
+        parent: [u8; 32],
+        proposer: String,
+        t: u64,
+        txs: Vec<Transaction>,
+        state: [u8; 32],
+        receipt: [u8; 32],
+        sig: [u8; 64],
+    ) -> Self {
+        let tr = tx_root(&txs);
+        let id = block_id(h, parent, &proposer, t, tr, state, receipt, sig);
+        Self {
+            id,
+            height: h,
+            parent_hash: parent,
+            proposer,
+            timestamp: t,
+            transactions: txs,
+            tx_root: tr,
+            state_root: state,
+            receipt_root: receipt,
+            signature: sig,
+        }
+    }
+}
+fn tx_root(txs: &[Transaction]) -> [u8; 32] {
+    let mut b = Vec::new();
+    for x in txs {
+        b.extend_from_slice(&x.id)
+    }
+    simple_hash(&b)
+}
+fn block_id(
+    h: u64,
+    parent: [u8; 32],
+    proposer: &str,
+    t: u64,
+    tr: [u8; 32],
+    state: [u8; 32],
+    receipt: [u8; 32],
+    sig: [u8; 64],
+) -> [u8; 32] {
+    let mut b = Vec::new();
+    b.extend_from_slice(b"ATC-BLOCK-V1");
+    b.extend_from_slice(&h.to_be_bytes());
+    b.extend_from_slice(&parent);
+    b.extend_from_slice(&(proposer.len() as u32).to_be_bytes());
+    b.extend_from_slice(proposer.as_bytes());
+    b.extend_from_slice(&t.to_be_bytes());
+    b.extend_from_slice(&tr);
+    b.extend_from_slice(&state);
+    b.extend_from_slice(&receipt);
+    b.extend_from_slice(&sig);
+    simple_hash(&b)
+}
+pub trait IndexerSink: Send + Sync {
+    fn ingest_finalized(&self, block: &Block) -> Result<(), String>;
+}
+pub struct BlockChain {
+    blocks: Mutex<BTreeMap<u64, Block>>,
+    hashes: Mutex<BTreeMap<[u8; 32], u64>>,
+    height: Mutex<u64>,
+}
+impl BlockChain {
+    pub fn new() -> Self {
+        Self {
+            blocks: Mutex::new(BTreeMap::new()),
+            hashes: Mutex::new(BTreeMap::new()),
+            height: Mutex::new(0),
+        }
+    }
+    pub fn genesis(&self, b: Block) -> Result<(), String> {
+        if b.height != 0 || self.blocks.lock().unwrap().contains_key(&0) {
+            return Err("invalid genesis".into());
+        }
+        if tx_root(&b.transactions) != b.tx_root
+            || block_id(
+                b.height,
+                b.parent_hash,
+                &b.proposer,
+                b.timestamp,
+                b.tx_root,
+                b.state_root,
+                b.receipt_root,
+                b.signature,
+            ) != b.id
+        {
+            return Err("invalid genesis commitment".into());
+        }
+        self.hashes.lock().unwrap().insert(b.id, 0);
+        self.blocks.lock().unwrap().insert(0, b);
+        Ok(())
+    }
+    pub fn validate_append(&self, b: &Block) -> Result<(), String> {
+        if tx_root(&b.transactions) != b.tx_root {
+            return Err("transaction root mismatch".into());
+        }
+        if block_id(
+            b.height,
+            b.parent_hash,
+            &b.proposer,
+            b.timestamp,
+            b.tx_root,
+            b.state_root,
+            b.receipt_root,
+            b.signature,
+        ) != b.id
+        {
+            return Err("block id mismatch".into());
+        }
+        let h = *self.height.lock().unwrap();
+        if b.height != h.saturating_add(1) {
+            return Err("non-sequential height".into());
+        }
+        if self.hashes.lock().unwrap().contains_key(&b.id) {
+            return Err("duplicate block".into());
+        }
+        if b.parent_hash
+            != self
+                .blocks
+                .lock()
+                .unwrap()
+                .get(&h)
+                .map(|x| x.id)
+                .unwrap_or([0; 32])
+        {
+            return Err("parent mismatch".into());
+        }
+        Ok(())
+    }
+    pub fn append(&self, b: Block) -> Result<(), String> {
+        self.validate_append(&b)?;
+        self.hashes.lock().unwrap().insert(b.id, b.height);
+        self.blocks.lock().unwrap().insert(b.height, b.clone());
+        *self.height.lock().unwrap() = b.height;
+        Ok(())
+    }
+    pub fn last(&self) -> Option<Block> {
+        let h = *self.height.lock().unwrap();
+        self.blocks.lock().unwrap().get(&h).cloned()
+    }
+    pub fn height(&self) -> u64 {
+        *self.height.lock().unwrap()
+    }
+}
+pub struct Node {
+    pub chain_id: u64,
+    pub pool: Arc<MemoryPool>,
+    pub state: Arc<StateDb>,
+    pub consensus: Arc<ConsensusEngine>,
+    pub chain: Arc<BlockChain>,
+    pub storage: Arc<storage::ChainStorage>,
+    proposer: String,
+    verifier: Arc<dyn SignatureVerifier>,
+    indexer: Mutex<Option<Arc<dyn IndexerSink>>>,
+}
+impl Node {
+    pub fn new(chain_id: u64, proposer: String) -> Self {
+        Self {
+            chain_id,
+            pool: Arc::new(MemoryPool::new(10000, 300)),
+            state: Arc::new(StateDb::new()),
+            consensus: Arc::new(ConsensusEngine::new(chain_id, proposer.clone())),
+            chain: Arc::new(BlockChain::new()),
+            storage: Arc::new(storage::ChainStorage::new()),
+            proposer,
+            verifier: Arc::new(Ed25519Verifier),
+            indexer: Mutex::new(None),
+        }
+    }
+    pub fn set_indexer(&self, sink: Arc<dyn IndexerSink>) {
+        *self.indexer.lock().unwrap() = Some(sink)
+    }
+    pub fn open_storage<P: AsRef<std::path::Path>>(
+        chain_id: u64,
+        proposer: String,
+        path: P,
+    ) -> Result<Self, String> {
+        let mut n = Self::new(chain_id, proposer);
+        n.storage = Arc::new(storage::ChainStorage::open(path)?);
+        if let Some((snapshot, dao)) = n.storage.recover_state_with_dao()? {
+            n.state.restore(snapshot);
+            if !dao.is_empty() {
+                n.state.restore_dao(&dao)?
+            }
+        }
+        if let Some(g) = n.storage.block(0) {
+            n.state.seal_genesis();
+            n.chain.genesis(g)?;
+            let mut h = 1u64;
+            while let Some(b) = n.storage.block(h) {
+                n.chain.append(b)?;
+                h = h.saturating_add(1)
+            }
+        }
+        if let Some(last) = n.chain.last() {
+            if n.state.root() != last.state_root {
+                return Err("recovered state root mismatch".into());
+            }
+        }
+        Ok(n)
+    }
+    pub fn create_genesis(&self, t: u64) -> Result<Block, String> {
+        let b = Block::new(
+            0,
+            [0; 32],
+            self.proposer.clone(),
+            t,
+            Vec::new(),
+            self.state.root(),
+            [0; 32],
+            [0; 64],
+        );
+        self.chain.genesis(b.clone())?;
+        self.storage.commit(b.clone())?;
+        self.storage.commit_state_with_dao(
+            b.height,
+            &self.state.snapshot(),
+            &self.state.dao_snapshot(),
+        )?;
+        self.state.seal_genesis();
+        Ok(b)
+    }
+    pub fn submit(&self, tx: Transaction, now: u64) -> Result<[u8; 32], MempoolError> {
+        if tx.chain_id != self.chain_id {
+            return Err(MempoolError::WrongChain);
+        }
+        let id = tx.id;
+        if !self
+            .verifier
+            .verify(&signing_bytes(&tx), &tx.signature, &tx.public_key)
+        {
+            return Err(MempoolError::InvalidSignature);
+        }
+        self.pool.add(tx, now)?;
+        if let Err(e) = self.pool.validate_tx(&id, now) {
+            self.pool.remove(&id);
+            return Err(e);
+        }
+        Ok(id)
+    }
+    pub fn produce(&self, t: u64, max: usize) -> Result<Block, String> {
+        let txs = self.pool.get_pending_batch(max);
+        if txs.is_empty() {
+            return Err("no validated transactions".into());
+        }
+        for tx in &txs {
+            if tx.chain_id != self.chain_id
+                || !self
+                    .verifier
+                    .verify(&signing_bytes(tx), &tx.signature, &tx.public_key)
+            {
+                return Err("invalid transaction signature or chain".into());
+            }
+        }
+        let parent = self.chain.last().ok_or("genesis required")?;
+        let exec = AtcVmExecutor {
+            protocol: "1.0.0".into(),
+            vm_version: "1.0.0".into(),
+            genesis_id: hex::encode(parent.id),
+        };
+        let mut receipts = Vec::new();
+        for tx in &txs {
+            receipts.push(
+                exec.execute(tx, self.state.root())
+                    .map_err(|e| e.to_string())?,
+            )
+        }
+        let mut expected_nonces = BTreeMap::<String, u64>::new();
+        for tx in &txs {
+            let expected = *expected_nonces
+                .entry(tx.sender_did.clone())
+                .or_insert_with(|| self.state.nonce(&tx.sender_did));
+            if tx.nonce != expected {
+                return Err(format!(
+                    "invalid nonce for {}: expected {}, got {}",
+                    tx.sender_did, expected, tx.nonce
+                ));
+            }
+            *expected_nonces.get_mut(&tx.sender_did).unwrap() = expected.saturating_add(1)
+        }
+        let state_snapshot = self.state.snapshot();
+        let dao_snapshot = self.state.dao_snapshot();
+        self.state
+            .apply_batch(&txs)
+            .map_err(|e| format!("state transition: {e:?}"))?;
+        for tx in &txs {
+            if !tx.payload.is_empty() {
+                if let Err(e) = self.state.apply_dao_payload(
+                    &tx.payload,
+                    parent.height.saturating_add(1),
+                    &tx.sender_did,
+                ) {
+                    self.state.restore(state_snapshot);
+                    let _ = self.state.restore_dao(&dao_snapshot);
+                    return Err(format!("DAO transition: {e}"));
+                }
+            }
+        }
+        let new_root = self.state.root();
+        let receipt_root = receipts::root(&receipts);
+        let b = Block::new(
+            parent.height.saturating_add(1),
+            parent.id,
+            self.proposer.clone(),
+            t,
+            txs,
+            new_root,
+            receipt_root,
+            [0; 64],
+        );
+        self.chain.validate_append(&b)?;
+        if let Err(e) = self.storage.commit(b.clone()) {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            return Err(e);
+        }
+        if let Err(e) = self.storage.commit_state_with_dao(
+            b.height,
+            &self.state.snapshot(),
+            &self.state.dao_snapshot(),
+        ) {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            return Err(e);
+        }
+        self.chain.append(b.clone())?;
+        for tx in &b.transactions {
+            self.pool.mark_in_block(&tx.id)
+        }
+        self.consensus.set_height(b.height);
+        Ok(b)
+    }
+    pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
+        self.consensus.vote(vote)
+    }
+    pub fn finalize(&self, b: &Block, quorum: usize) -> Result<bool, String> {
+        if self.consensus.proposer != self.proposer {
+            return Err("finalizer is not proposer".into());
+        }
+        if quorum == 0 {
+            return Err("quorum must be non-zero".into());
+        }
+        if !self.consensus.finality(&b.id, quorum) {
+            return Ok(false);
+        }
+        if let Some(sink) = self.indexer.lock().unwrap().clone() {
+            sink.ingest_finalized(b)?
+        }
+        Ok(true)
+    }
+}

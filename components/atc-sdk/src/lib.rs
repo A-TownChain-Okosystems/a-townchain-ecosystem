@@ -291,8 +291,7 @@ mod tests {
     #[test]
     fn canonical_signature_is_accepted() {
         let key = SigningKey::from_bytes(&[9u8; 32]);
-        let tx =
-            TransactionBuilder::transfer(658467, "alice", "bob", 10, 1, 1000, 0, 1).sign(&key);
+        let tx = TransactionBuilder::transfer(658467, "alice", "bob", 10, 1, 1000, 0, 1).sign(&key);
         assert_eq!(tx.chain_id, 658467);
         assert_eq!(tx.signature.len(), 64);
         assert_ne!(tx.id, [0; 32]);

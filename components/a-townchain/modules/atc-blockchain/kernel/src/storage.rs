@@ -76,14 +76,10 @@ fn tx_decode(b: &[u8], p: &mut usize) -> Result<Transaction, String> {
             _ => return Err("invalid tx type".into()),
         }
     };
-    let sender =
-        String::from_utf8(get(b, p)?.to_vec()).map_err(|_| "invalid sender")?;
+    let sender = String::from_utf8(get(b, p)?.to_vec()).map_err(|_| "invalid sender")?;
     let has = fixed::<1>(b, p)?[0];
     let recipient = if has == 1 {
-        Some(
-            String::from_utf8(get(b, p)?.to_vec())
-                .map_err(|_| "invalid recipient")?,
-        )
+        Some(String::from_utf8(get(b, p)?.to_vec()).map_err(|_| "invalid recipient")?)
     } else if has == 0 {
         None
     } else {
@@ -99,19 +95,8 @@ fn tx_decode(b: &[u8], p: &mut usize) -> Result<Transaction, String> {
     let public_key = fixed::<32>(b, p)?;
     let poh = fixed::<32>(b, p)?;
     Ok(Transaction::new_with_chain_id(
-        chain_id,
-        ty,
-        sender,
-        recipient,
-        amount,
-        gas_price,
-        gas_limit,
-        nonce,
-        timestamp,
-        payload,
-        signature,
-        public_key,
-        poh,
+        chain_id, ty, sender, recipient, amount, gas_price, gas_limit, nonce, timestamp, payload,
+        signature, public_key, poh,
     ))
 }
 
@@ -142,8 +127,7 @@ fn block_decode(b: &[u8]) -> Result<Block, String> {
     let mut p = MAGIC.len();
     let h = u64::from_be_bytes(fixed::<8>(b, &mut p)?);
     let parent = fixed::<32>(b, &mut p)?;
-    let proposer =
-        String::from_utf8(get(b, &mut p)?.to_vec()).map_err(|_| "invalid proposer")?;
+    let proposer = String::from_utf8(get(b, &mut p)?.to_vec()).map_err(|_| "invalid proposer")?;
     let ts = u64::from_be_bytes(fixed::<8>(b, &mut p)?);
     if p + 4 > b.len() {
         return Err("truncated tx count".into());
@@ -221,8 +205,8 @@ impl ChainStorage {
             }
             let bytes = hex::decode(l.trim())
                 .map_err(|e| format!("journal line {}: invalid hex: {e}", line_no + 1))?;
-            let block = block_decode(&bytes)
-                .map_err(|e| format!("journal line {}: {e}", line_no + 1))?;
+            let block =
+                block_decode(&bytes).map_err(|e| format!("journal line {}: {e}", line_no + 1))?;
             self.state_roots
                 .write()
                 .unwrap()
@@ -288,9 +272,7 @@ impl ChainStorage {
         Ok(())
     }
 
-    pub fn recover_state(
-        &self,
-    ) -> Result<Option<BTreeMap<String, Account>>, String> {
+    pub fn recover_state(&self) -> Result<Option<BTreeMap<String, Account>>, String> {
         Ok(self.recover_state_with_dao()?.map(|x| x.0))
     }
 

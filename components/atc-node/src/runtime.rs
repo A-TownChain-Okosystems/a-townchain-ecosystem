@@ -1,5 +1,5 @@
-use std::{path::Path, sync::Arc};
 use atc_blockchain::{Block, Node};
+use std::{path::Path, sync::Arc};
 
 pub const NUMERIC_CHAIN_ID: u64 = 658467;
 
@@ -18,13 +18,12 @@ impl Runtime {
     ///
     /// This is deliberately separate from `devnet`: opening an existing path must never
     /// silently create a second genesis or discard previously committed state.
-    pub fn open_storage<P: AsRef<Path>>(proposer: impl Into<String>, path: P) -> Result<Self, String> {
+    pub fn open_storage<P: AsRef<Path>>(
+        proposer: impl Into<String>,
+        path: P,
+    ) -> Result<Self, String> {
         Ok(Self {
-            node: Arc::new(Node::open_storage(
-                NUMERIC_CHAIN_ID,
-                proposer.into(),
-                path,
-            )?),
+            node: Arc::new(Node::open_storage(NUMERIC_CHAIN_ID, proposer.into(), path)?),
         })
     }
 

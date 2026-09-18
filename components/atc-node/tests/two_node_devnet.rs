@@ -9,9 +9,8 @@ use std::time::Duration;
 
 fn start_node() -> (u16, u64) {
     let g = Genesis::devnet();
-    let (peers, boot_hash) =
-        devnet_boot(&g, &[(1, "atc-node-1".into()), (2, "atc-node-2".into())])
-            .expect("devnet_boot fehlgeschlagen");
+    let (peers, boot_hash) = devnet_boot(&g, &[(1, "atc-node-1".into()), (2, "atc-node-2".into())])
+        .expect("devnet_boot fehlgeschlagen");
     let state = DevnetRpc::from_state(&g, &peers);
     let probe = std::net::TcpListener::bind("127.0.0.1:0").expect("probe fehlgeschlagen");
     let port = probe.local_addr().unwrap().port();
@@ -78,10 +77,7 @@ fn zwei_nodes_syncen_kette_ueber_gossip() {
     let port = probe.local_addr().unwrap().port();
     drop(probe);
     std::thread::spawn(move || {
-        let _ = atc_node::gossip::serve_gossip(
-            &format!("127.0.0.1:{}", port),
-            handler,
-        );
+        let _ = atc_node::gossip::serve_gossip(&format!("127.0.0.1:{}", port), handler);
     });
     for _ in 0..50 {
         if TcpStream::connect(("127.0.0.1", port)).is_ok() {
@@ -90,8 +86,7 @@ fn zwei_nodes_syncen_kette_ueber_gossip() {
         std::thread::sleep(Duration::from_millis(100));
     }
     let mut b = atc_node::chain::Chain::from_genesis(&g);
-    let rep =
-        atc_node::gossip::sync_pull(&mut b, &format!("127.0.0.1:{}", port)).unwrap();
+    let rep = atc_node::gossip::sync_pull(&mut b, &format!("127.0.0.1:{}", port)).unwrap();
     assert!(rep.adopted);
     assert_eq!(b.height(), 4);
     assert_eq!(b.best_hash(), ziel);

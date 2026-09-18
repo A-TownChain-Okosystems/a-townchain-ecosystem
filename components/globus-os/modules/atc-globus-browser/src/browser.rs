@@ -64,8 +64,7 @@ impl Browser {
 
     /// Navigates to an HTTP(S) URL, validating every redirect before following it.
     pub fn navigate(&mut self, raw_url: &str) -> Result<BrowserResponse, BrowserError> {
-        let mut url =
-            Url::parse(raw_url).map_err(|_| BrowserError::InvalidUrl(raw_url.into()))?;
+        let mut url = Url::parse(raw_url).map_err(|_| BrowserError::InvalidUrl(raw_url.into()))?;
         self.config.policy.validate(&url)?;
 
         for redirect_count in 0..=self.config.max_redirects {
@@ -86,15 +85,11 @@ impl Browser {
                     .headers()
                     .get(LOCATION)
                     .ok_or_else(|| {
-                        BrowserError::InvalidUrl(
-                            "redirect response has no Location header".into(),
-                        )
+                        BrowserError::InvalidUrl("redirect response has no Location header".into())
                     })?
                     .to_str()
                     .map_err(|_| {
-                        BrowserError::InvalidUrl(
-                            "redirect Location is not valid UTF-8".into(),
-                        )
+                        BrowserError::InvalidUrl("redirect Location is not valid UTF-8".into())
                     })?;
 
                 let next = url
