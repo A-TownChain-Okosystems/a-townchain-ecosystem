@@ -1,8 +1,8 @@
 //! Deterministic lifecycle manager for finite user-space jobs.
 
 use std::collections::BTreeMap;
-use globus_process::{ProcessId, ProcessState};
-use globus_process_manager::{ProcessManager, ProcessManagerError};
+use globus_process::ProcessId;
+use globus_process_manager::{ProcessAction, ProcessManager, ProcessManagerError};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct JobId(pub u64);
@@ -36,9 +36,8 @@ impl JobManager {
         if j.state != JobState::Queued {
             return Err(JobError::InvalidTransition);
         }
-
-        pm.set_state(j.process, ProcessState::Running)
-            .map_err(|_| JobError::InvalidTransition)?;
+        pm.apply(j.process, ProcessAction::Start)
+            .map_err(JobError::Process)?;
         j.state = JobState::Running;
         Ok(())
     }
