@@ -1,0 +1,24 @@
+name: Blockchain Core Integration
+on:
+  push:
+    branches: [main, feature/blockchain-core-integration]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  atc-blockchain-kernel:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: components/a-townchain/modules/atc-blockchain/kernel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - run: cargo fmt -- --check
+      - run: cargo check --all-targets
+      - run: cargo test --all-targets
+      - run: cargo clippy --all-targets -- -D warnings
