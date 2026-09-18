@@ -17,7 +17,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
-      - name: Validate every non-archived Cargo workspace/package
+      - name: Validate Rust workspaces and standalone packages
         shell: bash
         run: |
           set -u
@@ -82,27 +82,32 @@ jobs:
             dir="$(dirname "$package")"
             echo "=== Node: $dir"
             if [ -f "$dir/package-lock.json" ]; then
-              if ! (cd "$dir" && npm ci --no-audit --no-fund); then
+              if ! (cd "$dir" && npm ci --no-audit --no-fund) > /tmp/npm-ci.log 2>&1; then
                 echo "::warning::npm ci failed for $dir; regenerating the dependency tree with npm install."
-                if ! (cd "$dir" && rm -rf node_modules && npm install --no-audit --no-fund); then
+                tail -n 80 /tmp/npm-ci.log
+                if ! (cd "$dir" && rm -rf node_modules && npm install --no-audit --no-fund) > /tmp/npm-install.log 2>&1; then
                   echo "::error::npm install failed in $dir"
+                  tail -n 120 /tmp/npm-install.log
                   fail=1
                   continue
                 fi
               fi
             else
-              if ! (cd "$dir" && npm install --no-audit --no-fund); then
+              if ! (cd "$dir" && npm install --no-audit --no-fund) > /tmp/npm-install.log 2>&1; then
                 echo "::error::npm install failed in $dir"
+                tail -n 120 /tmp/npm-install.log
                 fail=1
                 continue
               fi
             fi
-            if ! (cd "$dir" && npm test --if-present); then
-              echo "::error::npm test failed in $dir"
+            if ! (cd "$dir" && npm test --if-present) > /tmp/npm-test.log 2>&1; then
+              echo "::error::npm test failed for $dir"
+              tail -n 120 /tmp/npm-test.log
               fail=1
             fi
-            if ! (cd "$dir" && npm run build --if-present -- --pretty false); then
-              echo "::error::npm build failed in $dir"
+            if ! (cd "$dir" && npm run build --if-present -- --pretty false) > /tmp/npm-build.log 2>&1; then
+              echo "::error::npm build failed for $dir"
+              tail -n 160 /tmp/npm-build.log
               fail=1
             fi
           done < <(find components -name package.json -not -path '*/archive/*' -not -path '*/node_modules/*' | sort -u)
