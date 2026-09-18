@@ -1,6 +1,8 @@
 #![doc = "Aurora AI control-plane contracts for GlobusOS."]
 
 pub mod contracts;
+pub mod bridge;
+pub use bridge::{BridgeDecision, GlobusPolicyEndpoint, PolicyRequest, PolicyResponse};
 pub mod errors;
 pub mod state;
 pub mod types;
