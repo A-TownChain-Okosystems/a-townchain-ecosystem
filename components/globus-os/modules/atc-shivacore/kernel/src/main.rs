@@ -82,6 +82,21 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
         .expect("Heap-Initialisierung fehlgeschlagen");
     serial_println!("ShivaCore: Paging-Mapper + Heap initialisiert (100 KiB).");
 
+    // Initialize the real kernel control state after hardware/heap setup.
+    // This is the bridge from the boot protocol into ShivaCore's kernel
+    // subsystems; it must succeed before any userspace handoff is attempted.
+    let mut kernel = match crate::kernel_init::KernelState::boot() {
+        Ok(state) => state,
+        Err(error) => panic!("ShivaCore: kernel subsystem initialization failed: {:?}", error),
+    };
+    serial_println!("ShivaCore: kernel subsystem initialization OK.");
+
+    // Exercise the kernel-owned memory/filesystem path before handoff.
+    kernel
+        .smoke_test()
+        .expect("ShivaCore: kernel boot smoke test failed");
+    serial_println!("ShivaCore: kernel smoke test OK.");
+
     // Heap live testen: Box + Vec muessen funktionieren, ohne zu crashen.
     let boxed = Box::new(41);
     serial_println!("ShivaCore: Box-Test -- Wert: {}", *boxed);
