@@ -6,13 +6,14 @@
   "author": "Michael Wroblewski / ShivaCore / A-TownChain-Okosystems",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --config aistudio/vite.config.ts",
     "preview": "vite preview",
     "test": "vitest run --passWithNoTests --config aistudio/vite.config.ts"
   },
   "devDependencies": {
     "typescript": "^6.0.3",
     "vite": "^8.2.2",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.0",
+    "jsdom": "^29.1.1"
   }
 }
