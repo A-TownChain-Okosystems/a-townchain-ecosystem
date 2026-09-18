@@ -6,12 +6,18 @@ pub use bridge::{BridgeDecision, GlobusPolicyEndpoint, PolicyRequest, PolicyResp
 pub use identity::{AgentIdentity, IdentityVerifier};
 pub use attestation::{sign_attestation, verify_attestation, AttestationSigner, AttestationVerifier, ExecutionAttestation};
 pub use chat::{ChatChunk, ChatMessage, ChatModel, ChatRequest, ChatResponse, ChatTool, MessageRole, ToolCallRequest};
+pub use context::{ContextBuilder, ContextLimits};
+pub use memory::ConversationMemory;
+pub use orchestrator::{AuroraOrchestrator, AuthorizedTool};
 pub mod errors;
 pub mod state;
 pub mod types;
 pub mod identity;
 pub mod attestation;
 pub mod chat;
+pub mod context;
+pub mod memory;
+pub mod orchestrator;
 
 pub use contracts::*;
 pub use errors::AuroraError;
