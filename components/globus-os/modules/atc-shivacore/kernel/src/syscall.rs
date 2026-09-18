@@ -1,9 +1,8 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 //! Stable ShivaCore syscall boundary.
 //!
-//! Syscalls derive process identity from the scheduler and capability state from
-//! the kernel-owned capability table. Userspace cannot select its own PID or
-//! inject a capability table.
+//! Process identity comes from the scheduler. Capability state is installed by
+//! the kernel process manager during boot and remains kernel-owned.
 
 use crate::ats1000::Pid;
 use crate::capability::{CapId, CapabilityTable, ResourceType, Rights};
@@ -136,18 +135,32 @@ impl SyscallDispatcher {
     }
 }
 
-static SYSCALL_CAPABILITIES: Mutex<CapabilityTable> = Mutex::new(CapabilityTable::new());
+static SYSCALL_CAPABILITIES: Mutex<Option<CapabilityTable>> = Mutex::new(None);
 static SYSCALL_DISPATCHER: Mutex<SyscallDispatcher> = Mutex::new(SyscallDispatcher::new());
 
-/// Dispatches a userspace request using the scheduler-owned current process.
+/// Installs the kernel ProcessManager's capability state for the syscall path.
+///
+/// This is intentionally a one-way boot handoff: userspace cannot replace it.
+pub fn install_capability_state(capabilities: CapabilityTable) {
+    let mut slot = SYSCALL_CAPABILITIES.lock();
+    assert!(slot.is_none(), "ShivaCore: syscall capability state already installed");
+    *slot = Some(capabilities);
+}
+
+/// Dispatches a userspace request using scheduler-owned process identity and
+/// the ProcessManager capability state.
 pub fn dispatch_current(request: SyscallRequest) -> SyscallResponse {
     let Some(pid) = crate::execution::current_pid() else {
         return SyscallResponse::err(AbiError::PermissionDenied);
     };
 
     let capabilities = SYSCALL_CAPABILITIES.lock();
+    let Some(capabilities) = capabilities.as_ref() else {
+        return SyscallResponse::err(AbiError::PermissionDenied);
+    };
+
     let mut dispatcher = SYSCALL_DISPATCHER.lock();
-    dispatcher.dispatch(pid, request, &capabilities)
+    dispatcher.dispatch(pid, request, capabilities)
 }
 
 #[cfg(test)]
