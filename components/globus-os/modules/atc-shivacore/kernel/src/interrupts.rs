@@ -3,13 +3,12 @@
 
 use crate::gdt;
 use crate::serial_println;
-use crate::syscall::{SyscallDispatcher, SyscallRequest};
+use crate::syscall::SyscallRequest;
 use lazy_static::lazy_static;
 use pic8259::ChainedPics;
 use spin::Mutex;
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame, PageFaultErrorCode};
 use x86_64::{PrivilegeLevel, VirtAddr};
-
 use core::arch::global_asm;
 
 pub const PIC_1_OFFSET: u8 = 0x20;
@@ -17,7 +16,6 @@ pub const PIC_2_OFFSET: u8 = PIC_1_OFFSET + 8;
 pub const SYSCALL_VECTOR: u8 = 0x80;
 
 pub static PICS: Mutex<ChainedPics> = Mutex::new(unsafe { ChainedPics::new(PIC_1_OFFSET, PIC_2_OFFSET) });
-static SYSCALL_DISPATCHER: Mutex<SyscallDispatcher> = Mutex::new(SyscallDispatcher::new());
 
 #[derive(Debug, Clone, Copy)]
 #[repr(u8)]
@@ -25,15 +23,9 @@ pub enum InterruptIndex { Timer = PIC_1_OFFSET, Keyboard }
 
 impl InterruptIndex {
     fn as_u8(self) -> u8 { self as u8 }
-    fn as_usize(self) -> usize { usize::from(self.as_u8()) }
 }
 
 /// Exact register frame produced by shivacore_syscall_entry.
-///
-/// The trampoline pushes registers in reverse order so the first field at the
-/// pointer passed to Rust is rax, followed by rbx..r15. The CPU's iret frame
-/// (RIP/CS/RFLAGS/RSP/SS) remains below these registers on the interrupt stack
-/// and is intentionally not represented here.
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
 struct SyscallRegisters {
@@ -103,6 +95,7 @@ unsafe extern "C" {
 extern "C" fn syscall_rust_handler(frame: *mut SyscallRegisters) {
     let frame = unsafe { &mut *frame };
     let capability = (frame.rdi != 0).then_some(libshivacore::CapabilityHandle(frame.rdi));
+
     let request = SyscallRequest {
         abi_version: libshivacore::ABI_VERSION,
         syscall_id: frame.rax as u16,
@@ -112,17 +105,13 @@ extern "C" fn syscall_rust_handler(frame: *mut SyscallRegisters) {
         payload_len: frame.r10 as usize,
     };
 
-    let mut dispatcher = SYSCALL_DISPATCHER.lock();
-    let response = dispatcher.dispatch(
-        crate::ats1000::Pid(1),
-        request,
-        &crate::capability::CapabilityTable::new(),
-    );
-
+    let response = crate::syscall::dispatch_current(request);
     frame.rax = response.value;
     frame.rdx = response.error.map(|e| e as u32 as u64).unwrap_or(0);
+
     serial_println!(
-        "ShivaCore: ring3 syscall id={} error={} value={}",
+        "ShivaCore: ring3 syscall pid={:?} id={} error={} value={}",
+        crate::execution::current_pid(),
         request.syscall_id,
         frame.rdx,
         frame.rax
@@ -135,7 +124,9 @@ lazy_static! {
         idt.breakpoint.set_handler_fn(breakpoint_handler);
         idt.page_fault.set_handler_fn(page_fault_handler);
         unsafe {
-            idt.double_fault.set_handler_fn(double_fault_handler).set_stack_index(gdt::DOUBLE_FAULT_IST_INDEX);
+            idt.double_fault
+                .set_handler_fn(double_fault_handler)
+                .set_stack_index(gdt::DOUBLE_FAULT_IST_INDEX);
             idt[SYSCALL_VECTOR]
                 .set_handler_addr(VirtAddr::new(shivacore_syscall_entry as usize as u64))
                 .set_privilege_level(PrivilegeLevel::Ring3);
