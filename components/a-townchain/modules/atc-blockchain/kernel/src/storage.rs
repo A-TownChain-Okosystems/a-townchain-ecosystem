@@ -157,7 +157,7 @@ fn block_decode(b: &[u8]) -> Result<Block, String> {
     Ok(block)
 }
 
-pub struct ChainStorage {
+pub type DaoStateSnapshot = (BTreeMap<String, Account>, Vec<u8>);\n\npub struct ChainStorage {
     blocks: RwLock<BTreeMap<u64, Block>>,
     state_roots: RwLock<BTreeMap<u64, [u8; 32]>>,
     journal: Option<PathBuf>,
