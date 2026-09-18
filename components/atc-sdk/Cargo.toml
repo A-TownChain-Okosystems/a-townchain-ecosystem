@@ -7,3 +7,6 @@ description = "Canonical Rust SDK transaction builder for A-TownChain"
 [dependencies]
 atc-blockchain = { path = "../../../a-townchain/modules/atc-blockchain/kernel" }
 ed25519-dalek = { version = "2", features = ["rand_core"] }
+
+[dev-dependencies]
+atc-indexer = { path = "../atc-indexer" }
