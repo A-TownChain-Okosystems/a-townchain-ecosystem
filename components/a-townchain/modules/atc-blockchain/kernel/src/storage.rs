@@ -170,6 +170,12 @@ pub struct ChainStorage {
     state_journal: Option<PathBuf>,
 }
 
+impl Default for ChainStorage {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ChainStorage {
     pub fn new() -> Self {
         Self {
@@ -284,7 +290,7 @@ impl ChainStorage {
 
     pub fn recover_state_with_dao(
         &self,
-    ) -> Result<Option<(BTreeMap<String, Account>, Vec<u8>)>, String> {
+    ) -> Result<Option<DaoStateSnapshot>, String> {
         let Some(p) = &self.state_journal else {
             return Ok(None);
         };
