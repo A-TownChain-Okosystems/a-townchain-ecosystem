@@ -18,7 +18,7 @@ pub struct AtcVmExecutor {
 }
 impl VmExecutor for AtcVmExecutor {
     fn execute(&self, tx: &Transaction, _: [u8; 32]) -> Result<ExecutionReceipt, String> {
-        if tx.tx_type != TxType::Contract {
+        if tx.tx_type != TxType::Contract || tx.payload.starts_with(crate::dao_state::MAGIC) {
             return Ok(ExecutionReceipt {
                 tx_id: tx.id,
                 success: true,
