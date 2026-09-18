@@ -2,7 +2,6 @@
 //! The adapter is userspace-only and talks to the allow-listed Genesis protocol.
 
 use crate::{AuroraError, ChatTool, ToolCallRequest};
-use crate::types::ToolId;
 use std::io::{BufRead, BufReader, Write};
 use std::process::{Child, ChildStdin, ChildStdout, Command, Stdio};
 use std::sync::Mutex;
@@ -19,7 +18,11 @@ struct GenesisProcess {
 }
 
 impl GenesisEngineControl {
-    pub fn spawn(python: impl AsRef<std::ffi::OsStr>, script: impl AsRef<std::ffi::OsStr>, tool_id: crate::ToolId) -> Result<Self, AuroraError> {
+    pub fn spawn(
+        python: impl AsRef<std::ffi::OsStr>,
+        script: impl AsRef<std::ffi::OsStr>,
+        tool_id: crate::ToolId,
+    ) -> Result<Self, AuroraError> {
         let mut child = Command::new(python)
             .arg(script)
             .stdin(Stdio::piped())
@@ -27,29 +30,61 @@ impl GenesisEngineControl {
             .stderr(Stdio::null())
             .spawn()
             .map_err(|_| AuroraError::ResourceExhausted)?;
-        let stdin = child.stdin.take().ok_or(AuroraError::ResourceExhausted)?;
-        let stdout = child.stdout.take().ok_or(AuroraError::ResourceExhausted)?;
+        let stdin = child
+            .stdin
+            .take()
+            .ok_or(AuroraError::ResourceExhausted)?;
+        let stdout = child
+            .stdout
+            .take()
+            .ok_or(AuroraError::ResourceExhausted)?;
         Ok(Self {
-            process: Mutex::new(GenesisProcess { child, stdin, stdout: BufReader::new(stdout) }),
+            process: Mutex::new(GenesisProcess {
+                child,
+                stdin,
+                stdout: BufReader::new(stdout),
+            }),
             tool_id,
         })
     }
 
     fn execute(&self, input: &str) -> Result<String, AuroraError> {
-        let mut process = self.process.lock().map_err(|_| AuroraError::SecurityViolation)?;
+        let mut process = self
+            .process
+            .lock()
+            .map_err(|_| AuroraError::SecurityViolation)?;
         let command = input.trim();
-        if command.is_empty() || command.len() > 512 || command.contains('\n') || command.contains('\r') {
+        if command.is_empty()
+            || command.len() > 512
+            || command.contains('\n')
+            || command.contains('\r')
+        {
             return Err(AuroraError::InvalidRequest);
         }
-        let allowed = ["STATUS", "SPAWN", "DESTROY", "SET_POSITION", "TICK", "SNAPSHOT", "RESET"];
+        let allowed = [
+            "STATUS",
+            "SPAWN",
+            "DESTROY",
+            "SET_POSITION",
+            "TICK",
+            "SNAPSHOT",
+            "RESET",
+        ];
         let verb = command.split_whitespace().next().unwrap_or("");
         if !allowed.contains(&verb) {
             return Err(AuroraError::CapabilityDenied);
         }
-        writeln!(process.stdin, "{command}").map_err(|_| AuroraError::ResourceExhausted)?;
-        process.stdin.flush().map_err(|_| AuroraError::ResourceExhausted)?;
+        writeln!(process.stdin, "{command}")
+            .map_err(|_| AuroraError::ResourceExhausted)?;
+        process
+            .stdin
+            .flush()
+            .map_err(|_| AuroraError::ResourceExhausted)?;
         let mut line = String::new();
-        process.stdout.read_line(&mut line).map_err(|_| AuroraError::ResourceExhausted)?;
+        process
+            .stdout
+            .read_line(&mut line)
+            .map_err(|_| AuroraError::ResourceExhausted)?;
         let line = line.trim_end().to_string();
         if line.starts_with("ERR ") {
             return Err(AuroraError::CapabilityDenied);
@@ -85,7 +120,6 @@ impl Drop for GenesisEngineControl {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -94,7 +128,15 @@ mod tests {
     fn rejects_unallowlisted_commands() {
         // Protocol filtering is applied before any process I/O.
         let input = "SHELL rm -rf /";
-        assert!(!["STATUS", "SPAWN", "DESTROY", "SET_POSITION", "TICK", "SNAPSHOT", "RESET"]
-            .contains(&input.split_whitespace().next().unwrap()));
+        assert!(![
+            "STATUS",
+            "SPAWN",
+            "DESTROY",
+            "SET_POSITION",
+            "TICK",
+            "SNAPSHOT",
+            "RESET"
+        ]
+        .contains(&input.split_whitespace().next().unwrap()));
     }
 }
