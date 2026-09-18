@@ -1,3 +1,5 @@
+[workspace]
+
 [package]
 name="aurora-ai-sdk"
 version="0.1.0"
