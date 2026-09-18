@@ -24,6 +24,7 @@ pub enum Op {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(dead_code)]
 pub enum VmError {
     StackUnderflow,
     InvalidJump(usize),
@@ -38,6 +39,7 @@ pub struct Vm {
     storage: Vec<u64>,
 }
 
+#[allow(dead_code)]
 impl Vm {
     pub fn new(program: Vec<Op>) -> Self {
         Vm {
