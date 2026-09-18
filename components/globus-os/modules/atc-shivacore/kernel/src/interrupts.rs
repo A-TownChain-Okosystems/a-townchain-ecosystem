@@ -3,6 +3,7 @@
 
 use crate::gdt;
 use crate::serial_println;
+use crate::syscall::{SyscallDispatcher, SyscallRequest};
 use lazy_static::lazy_static;
 use pic8259::ChainedPics;
 use spin::Mutex;
@@ -14,6 +15,7 @@ pub const PIC_2_OFFSET: u8 = PIC_1_OFFSET + 8;
 pub const SYSCALL_VECTOR: u8 = 0x80;
 
 pub static PICS: Mutex<ChainedPics> = Mutex::new(unsafe { ChainedPics::new(PIC_1_OFFSET, PIC_2_OFFSET) });
+static SYSCALL_DISPATCHER: Mutex<SyscallDispatcher> = Mutex::new(SyscallDispatcher::new());
 
 #[derive(Debug, Clone, Copy)]
 #[repr(u8)]
@@ -76,5 +78,21 @@ extern "x86-interrupt" fn keyboard_interrupt_handler(_stack_frame: InterruptStac
 }
 
 extern "x86-interrupt" fn syscall_interrupt_handler(_stack_frame: InterruptStackFrame) {
-    serial_println!("ShivaCore: ring3 syscall gate entered.");
+    // The interrupt-frame ABI intentionally does not expose general-purpose
+    // registers. Until the dedicated register-save trampoline is installed,
+    // this gate uses a fixed bootstrap Yield request for PID 1. This proves
+    // the ring3 -> kernel -> versioned dispatcher path without inventing a
+    // register ABI. The next step replaces this with the assembly trampoline.
+    let request = SyscallRequest {
+        abi_version: libshivacore::ABI_VERSION,
+        syscall_id: libshivacore::Syscall::Yield.id(),
+        capability: None,
+        arg0: 0,
+        arg1: 0,
+        payload_len: 0,
+    };
+
+    let mut dispatcher = SYSCALL_DISPATCHER.lock();
+    let response = dispatcher.dispatch(crate::ats1000::Pid(1), request, &crate::capability::CapabilityTable::new());
+    serial_println!("ShivaCore: ring3 syscall dispatched: error={:?} value={}", response.error, response.value);
 }
