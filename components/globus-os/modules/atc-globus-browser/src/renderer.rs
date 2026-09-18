@@ -1,12 +1,9 @@
 use crate::{BrowserError, ContentKind, RenderInput};
 
-/// Rendering capability exposed to the browser UI.
 pub trait Renderer {
-    /// Converts a network response into renderer-owned output.
     fn render(&mut self, input: RenderInput) -> Result<RenderedDocument, BrowserError>;
 }
 
-/// Renderer output deliberately contains no kernel, wallet, or identity capabilities.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RenderedDocument {
     pub url: String,
@@ -15,7 +12,6 @@ pub struct RenderedDocument {
     pub body: Vec<u8>,
 }
 
-/// Minimal renderer used until the full HTML/CSS engine is integrated.
 #[derive(Debug, Default)]
 pub struct PassthroughRenderer;
 
@@ -41,7 +37,8 @@ mod tests {
             status: 200,
             content_type: Some("text/html".into()),
             body: b"<html></html>".to_vec(),
-        })\n        .expect("render input");
+        })
+        .expect("render input");
         let mut renderer = PassthroughRenderer;
         let output = renderer.render(input).expect("render");
         assert_eq!(output.status, 200);

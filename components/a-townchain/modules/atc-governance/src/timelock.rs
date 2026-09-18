@@ -7,18 +7,28 @@ pub struct Timelock {
 }
 
 impl Timelock {
-    pub fn new(delay: u64) -> Self { Self { delay_blocks: delay, queued: Vec::new() } }
+    pub fn new(delay: u64) -> Self {
+        Self {
+            delay_blocks: delay,
+            queued: Vec::new(),
+        }
+    }
 
     pub fn queue(&mut self, proposal_id: u64, current_block: u64) {
-        self.queued.push((proposal_id, current_block + self.delay_blocks));
+        self.queued
+            .push((proposal_id, current_block + self.delay_blocks));
     }
 
     pub fn is_ready(&self, proposal_id: u64, current_block: u64) -> bool {
-        self.queued.iter().any(|(id, eta)| *id == proposal_id && current_block >= *eta)
+        self.queued
+            .iter()
+            .any(|(id, eta)| *id == proposal_id && current_block >= *eta)
     }
 
     pub fn execute(&mut self, proposal_id: u64, current_block: u64) -> Result<(), String> {
-        if !self.is_ready(proposal_id, current_block) { return Err("Timelock not expired".into()); }
+        if !self.is_ready(proposal_id, current_block) {
+            return Err("Timelock not expired".into());
+        }
         self.queued.retain(|(id, _)| *id != proposal_id);
         Ok(())
     }

@@ -44,37 +44,56 @@ impl Browser {
     /// Creates a browser with the supplied security and resource policy.
     pub fn new(config: BrowserConfig) -> Result<Self, BrowserError> {
         if config.timeout_seconds == 0 {
-            return Err(BrowserError::ResourceLimit(\n                "timeout must be greater than zero".into(),\n            ));
+            return Err(BrowserError::ResourceLimit(
+                "timeout must be greater than zero".into(),
+            ));
         }
+
         let client = Client::builder()
             .redirect(reqwest::redirect::Policy::none())
             .timeout(std::time::Duration::from_secs(config.timeout_seconds))
             .user_agent(config.user_agent.clone())
             .build()?;
-        Ok(Self {\n            client,\n            config,\n            history: History::new(),\n        })
+
+        Ok(Self {
+            client,
+            config,
+            history: History::new(),
+        })
     }
 
     /// Navigates to an HTTP(S) URL, validating every redirect before following it.
     pub fn navigate(&mut self, raw_url: &str) -> Result<BrowserResponse, BrowserError> {
-        let mut url = Url::parse(raw_url)
-            .map_err(|_| BrowserError::InvalidUrl(raw_url.into()))?;
+        let mut url = Url::parse(raw_url).map_err(|_| BrowserError::InvalidUrl(raw_url.into()))?;
         self.config.policy.validate(&url)?;
 
         for redirect_count in 0..=self.config.max_redirects {
-            let response = self.client
+            let response = self
+                .client
                 .get(url.clone())
                 .header(USER_AGENT, self.config.user_agent.clone())
                 .send()?;
 
             if response.status().is_redirection() {
                 if redirect_count == self.config.max_redirects {
-                    return Err(BrowserError::ResourceLimit(\n                        "maximum redirect count exceeded".into(),\n                    ));
+                    return Err(BrowserError::ResourceLimit(
+                        "maximum redirect count exceeded".into(),
+                    ));
                 }
-                let location = response.headers().get(LOCATION)
-                    .ok_or_else(|| BrowserError::InvalidUrl("redirect response has no Location header".into()))?
+
+                let location = response
+                    .headers()
+                    .get(LOCATION)
+                    .ok_or_else(|| {
+                        BrowserError::InvalidUrl("redirect response has no Location header".into())
+                    })?
                     .to_str()
-                    .map_err(|_| BrowserError::InvalidUrl("redirect Location is not valid UTF-8".into()))?;
-                let next = url.join(location)
+                    .map_err(|_| {
+                        BrowserError::InvalidUrl("redirect Location is not valid UTF-8".into())
+                    })?;
+
+                let next = url
+                    .join(location)
                     .map_err(|_| BrowserError::InvalidUrl(location.into()))?;
                 self.config.policy.validate(&next)?;
                 url = next;
@@ -84,7 +103,9 @@ impl Browser {
             return self.finish_response(response);
         }
 
-        Err(BrowserError::ResourceLimit(\n            "navigation loop exhausted".into(),\n        ))
+        Err(BrowserError::ResourceLimit(
+            "navigation loop exhausted".into(),
+        ))
     }
 
     fn finish_response(&mut self, mut response: Response) -> Result<BrowserResponse, BrowserError> {
@@ -98,20 +119,25 @@ impl Browser {
             )));
         }
 
-        let content_type = response\n            .headers()\n            .get(CONTENT_TYPE)
+        let content_type = response
+            .headers()
+            .get(CONTENT_TYPE)
             .and_then(|v| v.to_str().ok())
             .map(str::to_owned);
         let status = response.status().as_u16();
 
         let mut body = Vec::with_capacity(
-            response\n                .headers()\n                .get(CONTENT_LENGTH)
+            response
+                .headers()
+                .get(CONTENT_LENGTH)
                 .and_then(|v| v.to_str().ok())
                 .and_then(|v| v.parse::<usize>().ok())
                 .unwrap_or(0)
                 .min(limit),
         );
         let mut limited = (&mut response).take((limit as u64).saturating_add(1));
-        limited\n            .read_to_end(&mut body)
+        limited
+            .read_to_end(&mut body)
             .map_err(|e| BrowserError::ResourceLimit(format!("response read failed: {e}")))?;
         if body.len() > limit {
             return Err(BrowserError::ResourceLimit(format!(
@@ -161,14 +187,20 @@ mod tests {
     }
 
     #[test]
-    fn rejects_hostless_url() {
+    fn rejects_invalid_port() {
         let policy = BrowserPolicy::default();
-        let url = Url::parse("https:///missing-host").expect("parse");
+        let url = Url::parse("https://example.com:0/").expect("parse");
         assert!(policy.validate(&url).is_err());
     }
 
     #[test]
     fn rejects_zero_timeout() {
-        assert!(\n            Browser::new(BrowserConfig {\n                timeout_seconds: 0,\n                ..BrowserConfig::default()\n            })\n            .is_err()\n        );
+        assert!(
+            Browser::new(BrowserConfig {
+                timeout_seconds: 0,
+                ..BrowserConfig::default()
+            })
+            .is_err()
+        );
     }
 }

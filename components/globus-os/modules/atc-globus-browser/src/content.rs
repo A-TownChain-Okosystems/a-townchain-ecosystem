@@ -14,7 +14,6 @@ pub enum ContentKind {
 }
 
 impl ContentKind {
-    /// Classifies an HTTP Content-Type value.
     pub fn from_content_type(value: Option<&str>) -> Self {
         let media_type = value
             .and_then(|v| v.split(';').next())
@@ -35,7 +34,6 @@ impl ContentKind {
     }
 }
 
-/// Immutable input passed from networking into a renderer.
 #[derive(Debug, Clone)]
 pub struct RenderInput {
     pub url: String,
@@ -45,7 +43,6 @@ pub struct RenderInput {
 }
 
 impl RenderInput {
-    /// Creates a renderer input while enforcing the browser response boundary.
     pub fn from_response(response: BrowserResponse) -> Result<Self, BrowserError> {
         if response.url.is_empty() {
             return Err(BrowserError::InvalidUrl("empty response URL".into()));
@@ -66,10 +63,22 @@ mod tests {
 
     #[test]
     fn classifies_common_web_content() {
-        assert_eq!(\n            ContentKind::from_content_type(Some("text/html; charset=utf-8")),\n            ContentKind::Html\n        );
-        assert_eq!(\n            ContentKind::from_content_type(Some("text/css")),\n            ContentKind::Css\n        );
-        assert_eq!(\n            ContentKind::from_content_type(Some("application/json")),\n            ContentKind::Json\n        );
-        assert_eq!(\n            ContentKind::from_content_type(Some("image/png")),\n            ContentKind::Image\n        );
+        assert_eq!(
+            ContentKind::from_content_type(Some("text/html; charset=utf-8")),
+            ContentKind::Html
+        );
+        assert_eq!(
+            ContentKind::from_content_type(Some("text/css")),
+            ContentKind::Css
+        );
+        assert_eq!(
+            ContentKind::from_content_type(Some("application/json")),
+            ContentKind::Json
+        );
+        assert_eq!(
+            ContentKind::from_content_type(Some("image/png")),
+            ContentKind::Image
+        );
     }
 
     #[test]
