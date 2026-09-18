@@ -1,3 +1,5 @@
+[workspace]
+
 [package]
 name = "atc-compute"
 version = "0.1.0"
