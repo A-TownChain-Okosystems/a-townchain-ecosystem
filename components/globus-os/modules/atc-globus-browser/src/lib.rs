@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 //! Internet-browser foundation for GlobusOS.
 mod browser;
 mod content;
