@@ -7,7 +7,7 @@ pub struct Delegation {
 }
 
 impl Delegation {
-    pub fn new() -> Self { Self { delegations: HashMap::new() } }
+    pub fn new() -> Self { Self { delegations: HashMap::new() } }\n\n    pub fn default() -> Self { Self::new() }
 
     pub fn delegate(&mut self, from: &str, to: &str) -> Result<(), String> {
         if from == to { return Err("Cannot delegate to self".into()); }
