@@ -85,7 +85,7 @@ mod tests {
     #[test]
     fn identity_mismatch_fails_closed() {
         let mut c = ctx();
-        c.network_id = "mainnet".into();
+        c.chain_id = "wrong".into();
         assert!(execution_gate(&c, &"a".repeat(64), "1.0.0", "1.0.0").is_err());
     }
 
