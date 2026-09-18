@@ -102,4 +102,86 @@ mod tests {
         let _ = std::fs::remove_file(&path);
         let _ = std::fs::remove_file(path.with_extension("state"));
     }
+    #[test]
+    fn dao_transaction_state_survives_runtime_restart() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-ecosystem-dao-{}",
+            std::process::id()
+        ));
+        let _ = std::fs::remove_file(&path);
+        let _ = std::fs::remove_file(path.with_extension("state"));
+
+        let runtime = Runtime::open_storage("ecosystem-integration", &path)
+            .expect("durable runtime must open");
+        runtime.node.state.deposit("alice", 1_000_000);
+        runtime.node.create_genesis(0).expect("genesis must persist");
+
+        let key = SigningKey::from_bytes(&[11u8; 32]);
+
+        let stake = TransactionBuilder::stake(
+            SYSTEM_CHAIN_ID, "alice", 100_000, 1, 2_000, 0, 1
+        ).sign(&key);
+        runtime.submit(stake, 1).expect("stake must enter runtime");
+        runtime.produce(1, 10).expect("stake block must be produced");
+
+        let create = TransactionBuilder::dao_create_proposal(
+            SYSTEM_CHAIN_ID, "alice", 7, 2, 5, "Treasury", "Fund audit",
+            Some("bob"), 125, 1, 6_000, 1, 2
+        ).sign(&key);
+        runtime.submit(create, 2).expect("DAO proposal must enter runtime");
+        runtime.produce(2, 10).expect("proposal block must be produced");
+
+        let fund = TransactionBuilder::dao_fund(
+            SYSTEM_CHAIN_ID, "alice", 500, 1, 6_000, 2, 3
+        ).sign(&key);
+        runtime.submit(fund, 3).expect("DAO funding must enter runtime");
+        runtime.produce(3, 10).expect("funding block must be produced");
+
+        let vote = TransactionBuilder::dao_vote(
+            SYSTEM_CHAIN_ID, "alice", 7, 0, 1, 6_000, 3, 4
+        ).sign(&key);
+        runtime.submit(vote, 4).expect("DAO vote must enter runtime");
+        runtime.produce(4, 10).expect("vote block must be produced");
+
+        let finalize = TransactionBuilder::dao_finalize(
+            SYSTEM_CHAIN_ID, "alice", 7, 1, 6_000, 4, 5
+        ).sign(&key);
+        runtime.submit(finalize, 5).expect("DAO finalization must enter runtime");
+        runtime.produce(5, 10).expect("finalization block must be produced");
+
+        let execute = TransactionBuilder::dao_execute(
+            SYSTEM_CHAIN_ID, "alice", 7, 1, 6_000, 5, 6
+        ).sign(&key);
+        runtime.submit(execute, 6).expect("DAO execution must enter runtime");
+        runtime.produce(6, 10).expect("execution block must be produced");
+
+        let before = atc_blockchain::dao_state::DaoState::decode(
+            &runtime.node.state.dao_snapshot()
+        ).expect("DAO state must decode");
+        assert_eq!(
+            before.proposals.get(&7).unwrap().status,
+            atc_blockchain::dao_state::Status::Executed
+        );
+        assert_eq!(before.treasury, 375);
+        assert_eq!(runtime.node.state.balance("bob"), 125);
+        drop(runtime);
+
+        let recovered = Runtime::open_storage("ecosystem-integration", &path)
+            .expect("restart must reconstruct DAO state");
+        let after = atc_blockchain::dao_state::DaoState::decode(
+            &recovered.node.state.dao_snapshot()
+        ).expect("recovered DAO state must decode");
+        assert_eq!(
+            after.proposals.get(&7).unwrap().status,
+            atc_blockchain::dao_state::Status::Executed
+        );
+        assert_eq!(after.treasury, 375);
+        assert_eq!(recovered.node.state.balance("bob"), 125);
+        assert_eq!(recovered.node.state.staked("alice"), 100_000);
+        assert_eq!(recovered.node.chain.height(), 6);
+
+        let _ = std::fs::remove_file(&path);
+        let _ = std::fs::remove_file(path.with_extension("state"));
+    }
+
 }
