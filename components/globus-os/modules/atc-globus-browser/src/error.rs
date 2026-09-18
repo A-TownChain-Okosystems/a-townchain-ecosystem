@@ -6,17 +6,18 @@ pub enum BrowserError {
     UnsupportedScheme(String),
     BlockedHost(String),
     InvalidPort,
+    ResourceLimit(String),
     Network(reqwest::Error),
 }
-
 impl fmt::Display for BrowserError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::InvalidUrl(value) => write!(f, "invalid URL: {value}"),
-            Self::UnsupportedScheme(value) => write!(f, "unsupported URL scheme: {value}"),
-            Self::BlockedHost(value) => write!(f, "host blocked by browser policy: {value}"),
+            Self::InvalidUrl(v) => write!(f, "invalid URL: {v}"),
+            Self::UnsupportedScheme(v) => write!(f, "unsupported URL scheme: {v}"),
+            Self::BlockedHost(v) => write!(f, "host blocked by browser policy: {v}"),
             Self::InvalidPort => write!(f, "invalid URL port"),
-            Self::Network(error) => write!(f, "network error: {error}"),
+            Self::ResourceLimit(v) => write!(f, "browser resource limit: {v}"),
+            Self::Network(e) => write!(f, "network error: {e}"),
         }
     }
 }
