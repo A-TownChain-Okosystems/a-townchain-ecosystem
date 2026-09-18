@@ -14,7 +14,9 @@ use crate::{gdt, memory::BootInfoFrameAllocator};
 
 const USER_CODE: u64 = 0x0040_0000;
 const USER_STACK: u64 = 0x0080_0000;
-static USER_PROGRAM: [u8; 3] = [0xCC, 0xEB, 0xFE];
+// int 0x80 enters the DPL3 syscall gate; the following short jump keeps the
+// bootstrap task alive after the syscall returns.
+static USER_PROGRAM: [u8; 4] = [0xCD, 0x80, 0xEB, 0xFE];
 
 pub unsafe fn enter_init(
     mapper: &mut impl Mapper<Size4KiB>,
