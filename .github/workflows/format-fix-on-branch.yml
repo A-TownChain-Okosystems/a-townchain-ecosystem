@@ -1,0 +1,38 @@
+name: Temporary Format Fix
+
+on:
+  push:
+    branches:
+      - fix/atc-blockchain-storage-brace
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    if: github.ref == 'refs/heads/fix/atc-blockchain-storage-brace'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - name: Format failing Rust components
+        run: |
+          set -euo pipefail
+          cargo fmt --manifest-path components/a-townchain/modules/atc-blockchain/kernel/Cargo.toml
+          cargo fmt --manifest-path components/a-townchain/modules/atc-governance/Cargo.toml
+          cargo fmt --manifest-path components/atc-indexer/Cargo.toml
+          cargo fmt --manifest-path components/atc-node/Cargo.toml
+          cargo fmt --manifest-path components/atc-sdk/Cargo.toml
+          cargo fmt --manifest-path components/atc-vm/Cargo.toml
+          cargo fmt --manifest-path components/globus-os/modules/atc-globus-browser/Cargo.toml
+      - name: Commit formatting
+        run: |
+          set -euo pipefail
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add components
+          git commit -m "chore(ci): apply rustfmt to failing components"
+          git push origin HEAD:fix/atc-blockchain-storage-brace
