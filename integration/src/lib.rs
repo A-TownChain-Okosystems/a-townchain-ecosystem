@@ -72,4 +72,34 @@ mod tests {
         assert_eq!(block.transactions.len(), 1);
         assert!(runtime.finalize(&block).expect("block finalization must execute"));
     }
+    #[test]
+    fn durable_block_state_survives_runtime_restart() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-ecosystem-integration-{}",
+            std::process::id()
+        ));
+        let _ = std::fs::remove_file(&path);
+        let _ = std::fs::remove_file(path.with_extension("state"));
 
+        let runtime = Runtime::open_storage("ecosystem-integration", &path)
+            .expect("fresh durable runtime must open");
+        runtime.node.create_genesis(0).expect("genesis must persist");
+
+        let tx = build_signed_transfer("alice", "bob", 1, 0);
+        runtime.submit(tx, 1).expect("transaction must enter runtime");
+        let block = runtime.produce(2, 100).expect("block must be produced");
+        let committed_root = block.state_root;
+        let committed_id = block.id;
+        drop(runtime);
+
+        let recovered = Runtime::open_storage("ecosystem-integration", &path)
+            .expect("restart must reconstruct persisted chain and state");
+        assert_eq!(recovered.node.chain.height(), 1);
+        assert_eq!(recovered.node.storage.block(1).unwrap().id, committed_id);
+        assert_eq!(recovered.node.state.root(), committed_root);
+        assert_eq!(recovered.node.storage.state_root(1), Some(committed_root));
+
+        let _ = std::fs::remove_file(&path);
+        let _ = std::fs::remove_file(path.with_extension("state"));
+    }
+}
