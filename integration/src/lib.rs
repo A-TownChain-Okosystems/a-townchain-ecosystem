@@ -83,6 +83,7 @@ mod tests {
 
         let runtime = Runtime::open_storage("ecosystem-integration", &path)
             .expect("fresh durable runtime must open");
+        runtime.node.state.genesis_credit("alice", 1_000_000).expect("genesis allocation must succeed");
         runtime.node.create_genesis(0).expect("genesis must persist");
 
         let tx = build_signed_transfer("alice", "bob", 1, 0);
