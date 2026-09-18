@@ -1,5 +1,6 @@
 use std::fmt;
 
+/// Errors returned by the GlobusOS browser boundary.
 #[derive(Debug)]
 pub enum BrowserError {
     InvalidUrl(String),
@@ -9,6 +10,7 @@ pub enum BrowserError {
     ResourceLimit(String),
     Network(reqwest::Error),
 }
+
 impl fmt::Display for BrowserError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
@@ -21,7 +23,11 @@ impl fmt::Display for BrowserError {
         }
     }
 }
+
 impl std::error::Error for BrowserError {}
+
 impl From<reqwest::Error> for BrowserError {
-    fn from(value: reqwest::Error) -> Self { Self::Network(value) }
+    fn from(value: reqwest::Error) -> Self {
+        Self::Network(value)
+    }
 }
