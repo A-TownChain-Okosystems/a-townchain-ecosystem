@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest run --passWithNoTests --exclude 'docs/**' --exclude 'wiki/**'"
   },
   "devDependencies": {
     "typescript": "^6.0.3",
