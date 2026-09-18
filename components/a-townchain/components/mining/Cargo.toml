@@ -7,3 +7,9 @@ description = "ATC Mining — execution and deterministic mining primitives; con
 
 [dependencies]
 sha3 = "0.10"
+atc-algorithm = { path = "../../../atc-algorithm" }
+
+# This component is intentionally a standalone migrated crate. It is not a
+# member of the root workspace because the root already contains the canonical
+# atc-mining package.
+[workspace]
