@@ -13,6 +13,7 @@ pub use model::{DeterministicTestEngine, EngineBackedModel, InferenceEngine};
 pub use rag::{ContextAugmenter, KnowledgeDocument, Retriever};
 pub use multimodal::{MediaInput, Modality, MultimodalInput};
 pub use distributed::{InferenceTask, InferenceWorker, LocalWorker, WorkerDescriptor, WorkerRouter};
+pub use local::{LocalInferenceConfig, LocalInferenceEngine};
 pub mod errors;
 pub mod state;
 pub mod types;
@@ -26,6 +27,7 @@ pub mod model;
 pub mod rag;
 pub mod multimodal;
 pub mod distributed;
+pub mod local;
 
 pub use contracts::*;
 pub use errors::AuroraError;
