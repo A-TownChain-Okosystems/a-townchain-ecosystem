@@ -125,7 +125,7 @@ jobs:
               tail -n 120 /tmp/npm-test.log
               fail=1
             fi
-            if ! (cd "$dir" && npm run build --if-present -- --pretty false) > /tmp/npm-build.log 2>&1; then
+            if ! (cd "$dir" && npm run build --if-present) > /tmp/npm-build.log 2>&1; then
               echo "::error::npm build failed for $dir"
               tail -n 160 /tmp/npm-build.log
               fail=1
