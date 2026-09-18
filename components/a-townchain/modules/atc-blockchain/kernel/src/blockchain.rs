@@ -1,5 +1,5 @@
 //! Canonical A-TownChain deterministic block pipeline.
-pub mod security;pub mod mempool;pub mod consensus;pub mod genesis;pub mod storage;pub mod network;pub mod rpc;pub mod crypto;pub mod execution;pub mod receipts;pub mod fork_choice;
+pub mod security;pub mod dao_state;pub mod mempool;pub mod consensus;pub mod genesis;pub mod storage;pub mod network;pub mod rpc;pub mod crypto;pub mod execution;pub mod receipts;pub mod fork_choice;
 use std::{collections::BTreeMap,sync::{Arc,Mutex}};use mempool::{MemoryPool,MempoolError,StateDb,Transaction};use consensus::{ConsensusEngine,Vote};use security::simple_hash;use crypto::{Ed25519Verifier,SignatureVerifier,signing_bytes};use execution::{AtcVmExecutor,VmExecutor};
 #[derive(Clone,Debug,PartialEq,Eq)]pub struct Block{pub id:[u8;32],pub height:u64,pub parent_hash:[u8;32],pub proposer:String,pub timestamp:u64,pub transactions:Vec<Transaction>,pub tx_root:[u8;32],pub state_root:[u8;32],pub receipt_root:[u8;32],pub signature:[u8;64]}
 impl Block{pub fn new(h:u64,parent:[u8;32],proposer:String,t:u64,txs:Vec<Transaction>,state:[u8;32],receipt:[u8;32],sig:[u8;64])->Self{let tr=tx_root(&txs);let id=block_id(h,parent,&proposer,t,tr,state,receipt,sig);Self{id,height:h,parent_hash:parent,proposer,timestamp:t,transactions:txs,tx_root:tr,state_root:state,receipt_root:receipt,signature:sig}}}
