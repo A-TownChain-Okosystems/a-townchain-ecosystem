@@ -10,6 +10,7 @@ pub struct Runtime {
 impl Runtime {
     pub fn devnet(proposer: impl Into<String>) -> Result<Self, String> {
         let node = Arc::new(Node::new(NUMERIC_CHAIN_ID, proposer.into()));
+        node.state.genesis_credit("alice", 1_000_000)?;
         node.create_genesis(0)?;
         Ok(Self { node })
     }
