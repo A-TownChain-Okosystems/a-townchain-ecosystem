@@ -1,5 +1,5 @@
 //! Transactions, mempool and deterministic state transition.
-use std::{collections::BTreeMap,sync::Mutex};use crate::{economics::MAX_ATC_SUPPLY,security::simple_hash};
+use std::{collections::BTreeMap,sync::Mutex};use crate::{economics::{emission_rate_numerator,EMISSION_FIXED_DENOMINATOR,EMISSION_MONTHS,MAX_ATC_SUPPLY},security::simple_hash};
 #[derive(Clone,Copy,Debug,PartialEq,Eq)]pub enum TxType{Transfer=0,Stake=1,Unstake=2,Contract=3}impl TxType{pub fn base_gas(self)->u64{match self{Self::Transfer=>1000,Self::Stake=>1200,Self::Unstake=>1200,Self::Contract=>5000}}}
 #[derive(Clone,Debug,PartialEq,Eq)]pub struct Transaction{pub id:[u8;32],pub chain_id:u64,pub tx_type:TxType,pub sender_did:String,pub recipient_did:Option<String>,pub amount:u64,pub gas_price:u64,pub gas_limit:u64,pub nonce:u64,pub timestamp:u64,pub payload:Vec<u8>,pub signature:[u8;64],pub public_key:[u8;32],pub poh_hash:[u8;32]}
 impl Transaction{pub fn new(t:TxType,s:String,r:Option<String>,a:u64,gp:u64,gl:u64,n:u64,ts:u64,p:Vec<u8>,sig:[u8;64],poh:[u8;32])->Self{Self::new_with_chain_id(0,t,s,r,a,gp,gl,n,ts,p,sig,[0;32],poh)}pub fn new_signed(t:TxType,s:String,r:Option<String>,a:u64,gp:u64,gl:u64,n:u64,ts:u64,p:Vec<u8>,sig:[u8;64],public_key:[u8;32],poh:[u8;32])->Self{Self::new_with_chain_id(0,t,s,r,a,gp,gl,n,ts,p,sig,public_key,poh)}pub fn new_with_chain_id(chain_id:u64,t:TxType,s:String,r:Option<String>,a:u64,gp:u64,gl:u64,n:u64,ts:u64,p:Vec<u8>,sig:[u8;64],public_key:[u8;32],poh:[u8;32])->Self{let mut b=Vec::new();b.extend_from_slice(b"ATC-TX-ID-V2");b.extend_from_slice(&chain_id.to_be_bytes());b.push(t as u8);b.extend_from_slice(&(s.len()as u32).to_be_bytes());b.extend_from_slice(s.as_bytes());match &r{Some(x)=>{b.push(1);b.extend_from_slice(&(x.len()as u32).to_be_bytes());b.extend_from_slice(x.as_bytes())},None=>b.push(0)}b.extend_from_slice(&a.to_be_bytes());b.extend_from_slice(&gp.to_be_bytes());b.extend_from_slice(&gl.to_be_bytes());b.extend_from_slice(&n.to_be_bytes());b.extend_from_slice(&ts.to_be_bytes());b.extend_from_slice(&(p.len()as u32).to_be_bytes());b.extend_from_slice(&p);b.extend_from_slice(&poh);Self{id:simple_hash(&b),chain_id,tx_type:t,sender_did:s,recipient_did:r,amount:a,gas_price:gp,gas_limit:gl,nonce:n,timestamp:ts,payload:p,signature:sig,public_key,poh_hash:poh}}pub fn gas_cost(&self)->u64{self.tx_type.base_gas()+self.payload.len()as u64*10}pub fn max_fee(&self)->u64{self.gas_limit.saturating_mul(self.gas_price)}}
@@ -7,7 +7,58 @@ impl Transaction{pub fn new(t:TxType,s:String,r:Option<String>,a:u64,gp:u64,gl:u
 #[derive(Clone,Debug)]pub struct PoolEntry{pub tx:Transaction,pub status:TxStatus,pub added_at:u64,pub priority:u64}
 #[derive(Debug,Clone,PartialEq,Eq)]pub enum MempoolError{PoolFull,DuplicateTx,TxNotFound,GasLimitTooLow,GasPriceTooLow,NoRecipient,InvalidNonce{expected:u64,got:u64},InsufficientBalance,InsufficientStake,Expired,InvalidSignature,WrongChain}
 pub struct MemoryPool{entries:Mutex<BTreeMap<[u8;32],PoolEntry>>,max_size:usize,max_age:u64}impl MemoryPool{pub fn new(m:usize,a:u64)->Self{Self{entries:Mutex::new(BTreeMap::new()),max_size:m,max_age:a}}pub fn add(&self,tx:Transaction,now:u64)->Result<(),MempoolError>{let mut e=self.entries.lock().unwrap();if e.contains_key(&tx.id){return Err(MempoolError::DuplicateTx)}if e.len()>=self.max_size{return Err(MempoolError::PoolFull)}let id=tx.id;e.insert(id,PoolEntry{priority:tx.gas_price.saturating_mul(tx.gas_limit),tx,status:TxStatus::Pending,added_at:now});Ok(())}pub fn remove(&self,id:&[u8;32]){self.entries.lock().unwrap().remove(id);}pub fn validate_tx(&self,id:&[u8;32],now:u64)->Result<(),MempoolError>{let mut e=self.entries.lock().unwrap();let x=e.get_mut(id).ok_or(MempoolError::TxNotFound)?;if now.saturating_sub(x.added_at)>self.max_age{x.status=TxStatus::Expired;return Err(MempoolError::Expired)}if x.tx.gas_limit<x.tx.gas_cost(){x.status=TxStatus::Rejected;return Err(MempoolError::GasLimitTooLow)}if x.tx.gas_price==0{x.status=TxStatus::Rejected;return Err(MempoolError::GasPriceTooLow)}if x.tx.tx_type==TxType::Transfer&&x.tx.amount>0&&x.tx.recipient_did.is_none(){x.status=TxStatus::Rejected;return Err(MempoolError::NoRecipient)}x.status=TxStatus::Validated;Ok(())}pub fn get_pending_batch(&self,n:usize)->Vec<Transaction>{let e=self.entries.lock().unwrap();let mut v:Vec<_>=e.values().filter(|x|x.status==TxStatus::Validated).cloned().collect();v.sort_by(|a,b|b.priority.cmp(&a.priority).then(a.tx.id.cmp(&b.tx.id)));v.into_iter().take(n).map(|x|x.tx).collect()}pub fn mark_in_block(&self,id:&[u8;32]){if let Some(x)=self.entries.lock().unwrap().get_mut(id){x.status=TxStatus::InBlock}}}
-#[derive(Clone,Debug,PartialEq,Eq)]pub struct Account{pub balance:u64,pub staked:u64,pub nonce:u64}pub struct StateDb{accounts:Mutex<BTreeMap<String,Account>>,dao:Mutex<crate::dao_state::DaoState>,genesis_sealed:Mutex<bool>}impl StateDb{pub fn new()->Self{Self{accounts:Mutex::new(BTreeMap::new()),dao:Mutex::new(crate::dao_state::DaoState::new(1,5000).expect("valid default DAO config")),genesis_sealed:Mutex::new(false)}}pub fn genesis_credit(&self,id:&str,n:u64)->Result<(),String>{if *self.genesis_sealed.lock().unwrap(){return Err("genesis allocation is sealed".into())}let mut a=self.accounts.lock().unwrap();let current=a.values().try_fold(0u64,|acc,x|acc.checked_add(x.balance).and_then(|v|v.checked_add(x.staked))).ok_or("supply overflow".to_string())?;let new_supply=current.checked_add(n).ok_or("supply overflow".to_string())?;if new_supply>MAX_ATC_SUPPLY{return Err(format!("ATC supply cap exceeded: {new_supply} > {MAX_ATC_SUPPLY}"))}let x=a.entry(id.into()).or_insert(Account{balance:0,staked:0,nonce:0});x.balance=x.balance.checked_add(n).ok_or("balance overflow".to_string())?;Ok(())}pub fn seal_genesis(&self){*self.genesis_sealed.lock().unwrap()=true}pub fn total_supply(&self)->u64{self.accounts.lock().unwrap().values().fold(0u64,|acc,x|acc.saturating_add(x.balance).saturating_add(x.staked))}pub fn balance(&self,id:&str)->u64{self.accounts.lock().unwrap().get(id).map(|x|x.balance).unwrap_or(0)}pub fn nonce(&self,id:&str)->u64{self.accounts.lock().unwrap().get(id).map(|x|x.nonce).unwrap_or(0)}pub fn staked(&self,id:&str)->u64{self.accounts.lock().unwrap().get(id).map(|x|x.staked).unwrap_or(0)}pub fn root(&self)->[u8;32]{let a=self.accounts.lock().unwrap();let mut b=Vec::new();for(k,v)in a.iter(){b.extend_from_slice(&(k.len()as u32).to_be_bytes());b.extend_from_slice(k.as_bytes());b.extend_from_slice(&v.balance.to_be_bytes());b.extend_from_slice(&v.staked.to_be_bytes());b.extend_from_slice(&v.nonce.to_be_bytes())}let account_root=simple_hash(&b);let supply=a.values().fold(0u64,|acc,x|acc.saturating_add(x.balance).saturating_add(x.staked));let dao_root=self.dao.lock().unwrap().root();let mut combined=Vec::from(b"ATC-STATE-V2");combined.extend_from_slice(&account_root);combined.extend_from_slice(&supply.to_be_bytes());combined.extend_from_slice(&dao_root);simple_hash(&combined)}pub fn apply_dao_payload(&self,payload:&[u8],block:u64,sender:&str)->Result<(),String>{
+#[derive(Clone,Debug,PartialEq,Eq)]pub struct Account{pub balance:u64,pub staked:u64,pub nonce:u64}#[derive(Clone,Copy,Debug,PartialEq,Eq)]
+pub struct EmissionState {
+    pub months_released: u64,
+    pub released_supply: u64,
+    pub remainder: u64,
+}
+impl EmissionState {
+    pub fn new() -> Self { Self { months_released: 0, released_supply: 0, remainder: 0 } }
+    pub fn next_amount(&self) -> Result<u64,String> {
+        let month = self.months_released.checked_add(1).ok_or("emission month overflow".to_string())?;
+        let numerator = emission_rate_numerator(month).ok_or("ATC emission schedule is complete".to_string())?;
+        let value = numerator.checked_add(self.remainder).ok_or("emission fixed-point overflow".to_string())?;
+        Ok(value / EMISSION_FIXED_DENOMINATOR)
+    }
+    pub fn release(&mut self) -> Result<u64,String> {
+        let month = self.months_released.checked_add(1).ok_or("emission month overflow".to_string())?;
+        if month > EMISSION_MONTHS { return Err("ATC emission schedule is complete".into()); }
+        let numerator = emission_rate_numerator(month).ok_or("ATC emission schedule is complete".to_string())?;
+        let value = numerator.checked_add(self.remainder).ok_or("emission fixed-point overflow".to_string())?;
+        let amount = value / EMISSION_FIXED_DENOMINATOR;
+        self.remainder = value % EMISSION_FIXED_DENOMINATOR;
+        self.months_released = month;
+        self.released_supply = self.released_supply.checked_add(amount).ok_or("released supply overflow".to_string())?;
+        Ok(amount)
+    }
+}
+pub struct StateDb{accounts:Mutex<BTreeMap<String,Account>>,dao:Mutex<crate::dao_state::DaoState>,genesis_sealed:Mutex<bool>,emission:Mutex<EmissionState>}
+impl StateDb{
+ pub fn new()->Self{Self{accounts:Mutex::new(BTreeMap::new()),dao:Mutex::new(crate::dao_state::DaoState::new(1,5000).expect("valid default DAO config")),genesis_sealed:Mutex::new(false),emission:Mutex::new(EmissionState::new())}}
+ pub fn genesis_credit(&self,id:&str,n:u64)->Result<(),String>{if *self.genesis_sealed.lock().unwrap(){return Err("genesis allocation is sealed".into())}let mut a=self.accounts.lock().unwrap();let current=a.values().try_fold(0u64,|acc,x|acc.checked_add(x.balance).and_then(|v|v.checked_add(x.staked))).ok_or("supply overflow".to_string())?;let new_supply=current.checked_add(n).ok_or("supply overflow".to_string())?;if new_supply>MAX_ATC_SUPPLY{return Err(format!("ATC supply cap exceeded: {new_supply} > {MAX_ATC_SUPPLY}"))}let x=a.entry(id.into()).or_insert(Account{balance:0,staked:0,nonce:0});x.balance=x.balance.checked_add(n).ok_or("balance overflow".to_string())?;Ok(())}
+ pub fn seal_genesis(&self){*self.genesis_sealed.lock().unwrap()=true}
+ pub fn total_supply(&self)->u64{self.accounts.lock().unwrap().values().fold(0u64,|acc,x|acc.saturating_add(x.balance).saturating_add(x.staked))}
+ pub fn emission_state(&self)->EmissionState{*self.emission.lock().unwrap()}
+ pub fn release_monthly_emission(&self,recipient:&str)->Result<u64,String>{
+  if !*self.genesis_sealed.lock().unwrap(){return Err("genesis must be sealed before scheduled emission".into())}
+  let mut a=self.accounts.lock().unwrap();
+  let mut e=self.emission.lock().unwrap();
+  let current=a.values().try_fold(0u64,|acc,x|acc.checked_add(x.balance).and_then(|v|v.checked_add(x.staked))).ok_or("supply overflow".to_string())?;
+  let amount=e.next_amount()?;
+  let new_supply=current.checked_add(amount).ok_or("supply overflow".to_string())?;
+  if new_supply>MAX_ATC_SUPPLY{return Err(format!("ATC supply cap exceeded: {new_supply} > {MAX_ATC_SUPPLY}"))}
+  let x=a.entry(recipient.to_owned()).or_insert(Account{balance:0,staked:0,nonce:0});
+  x.balance=x.balance.checked_add(amount).ok_or("balance overflow".to_string())?;
+  let released=e.release()?;
+  debug_assert_eq!(released,amount);
+  Ok(amount)
+ }
+ pub fn balance(&self,id:&str)->u64{self.accounts.lock().unwrap().get(id).map(|x|x.balance).unwrap_or(0)}
+ pub fn nonce(&self,id:&str)->u64{self.accounts.lock().unwrap().get(id).map(|x|x.nonce).unwrap_or(0)}
+ pub fn staked(&self,id:&str)->u64{self.accounts.lock().unwrap().get(id).map(|x|x.staked).unwrap_or(0)}
+ pub fn root(&self)->[u8;32]{let a=self.accounts.lock().unwrap();let mut b=Vec::new();for(k,v)in a.iter(){b.extend_from_slice(&(k.len()as u32).to_be_bytes());b.extend_from_slice(k.as_bytes());b.extend_from_slice(&v.balance.to_be_bytes());b.extend_from_slice(&v.staked.to_be_bytes());b.extend_from_slice(&v.nonce.to_be_bytes())}let account_root=simple_hash(&b);let supply=a.values().fold(0u64,|acc,x|acc.saturating_add(x.balance).saturating_add(x.staked));let emission=*self.emission.lock().unwrap();let dao_root=self.dao.lock().unwrap().root();let mut combined=Vec::from(b"ATC-STATE-V3");combined.extend_from_slice(&account_root);combined.extend_from_slice(&supply.to_be_bytes());combined.extend_from_slice(&emission.months_released.to_be_bytes());combined.extend_from_slice(&emission.released_supply.to_be_bytes());combined.extend_from_slice(&emission.remainder.to_be_bytes());combined.extend_from_slice(&dao_root);simple_hash(&combined)}
+pub fn apply_dao_payload(&self,payload:&[u8],block:u64,sender:&str)->Result<(),String>{
  let account_snapshot=self.snapshot(); let dao_snapshot=self.dao_snapshot();
  let voting_power=self.staked(sender);let effect=self.dao.lock().unwrap().apply(payload,block,sender,voting_power);
  let effect=match effect{Ok(e)=>e,Err(e)=>{let _=self.restore_dao(&dao_snapshot);return Err(e)}};
