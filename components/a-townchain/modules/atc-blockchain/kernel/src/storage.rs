@@ -143,6 +143,7 @@ fn block_decode(b: &[u8]) -> Result<Block, String> {
             return Err("trailing tx bytes".into());
         }
     }
+    let tx_root = fixed::<32>(b, &mut p)?;
     let state = fixed::<32>(b, &mut p)?;
     let receipt = fixed::<32>(b, &mut p)?;
     let sig = fixed::<64>(b, &mut p)?;
@@ -151,6 +152,9 @@ fn block_decode(b: &[u8]) -> Result<Block, String> {
         return Err("trailing storage bytes".into());
     }
     let block = Block::new(h, parent, proposer, ts, txs, state, receipt, sig);
+    if block.tx_root != tx_root {
+        return Err("transaction root mismatch".into());
+    }
     if block.id != stored_id {
         return Err("block commitment mismatch".into());
     }
