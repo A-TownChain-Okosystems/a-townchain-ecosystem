@@ -25,7 +25,6 @@ mod user_transition;
 use alloc::{boxed::Box, vec::Vec};
 use bootloader_api::{config::{BootloaderConfig, Mapping}, entry_point, BootInfo};
 use core::panic::PanicInfo;
-use x86_64::structures::paging::OffsetPageTable;
 
 pub static BOOTLOADER_CONFIG: BootloaderConfig = {
     let mut config = BootloaderConfig::new_default();
@@ -36,7 +35,7 @@ pub static BOOTLOADER_CONFIG: BootloaderConfig = {
 entry_point!(kernel_main, config = &BOOTLOADER_CONFIG);
 
 struct InitHandoff {
-    mapper: *mut OffsetPageTable<'static>,
+    address_space: *mut memory::AddressSpace,
     frame_allocator: *mut memory::BootInfoFrameAllocator,
     physical_memory_offset: u64,
 }
@@ -59,7 +58,7 @@ extern "C" fn globus_init_kernel_task() -> ! {
     serial_println!("ShivaCore: entering controlled GlobusOS ring-3 init.");
     unsafe {
         user_transition::enter_init(
-            &mut *handoff.mapper,
+            &mut *handoff.address_space,
             &mut *handoff.frame_allocator,
             handoff.physical_memory_offset,
         )
@@ -130,9 +129,17 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
 
     // Keep the boot-owned mapper/allocator alive while the init task performs
     // its final page mappings and IRETQ transition.
+    let mut init_address_space = unsafe {
+        memory::AddressSpace::new(phys_mem_offset, &mut frame_allocator)
+    };
+    serial_println!(
+        "ShivaCore: isolated init address space created root_frame={:?}.",
+        init_address_space.root_frame()
+    );
+
     unsafe {
         INIT_HANDOFF = Some(InitHandoff {
-            mapper: &mut mapper as *mut _,
+            address_space: &mut init_address_space as *mut _,
             frame_allocator: &mut frame_allocator as *mut _,
             physical_memory_offset: phys_mem_offset.as_u64(),
         });
