@@ -73,6 +73,28 @@ Memory / context
 
 The exact authority of each interface is determined by the applicable system and security specifications.
 
+## Decentralized execution trust
+
+Aurora's decentralized execution path is anchored outside the ShivaCore TCB:
+
+```text
+AgentIdentity
+    -> device/identity verification
+    -> capability + policy + approval
+    -> distributed compute task
+    -> ExecutionAttestation
+    -> verification / evidence
+    -> A-TownChain settlement
+```
+
+The central `aurora-core` contracts provide the identity and attestation envelopes.
+Cryptographic signing and verification are injected through explicit provider interfaces;
+the contracts do not claim production cryptographic security by themselves. Attestation
+fields are aligned with ATC-COMP-505, including domain separation
+`atc-compute.attestation.v1`.
+
+
+
 ## Requirements
 
 - Rust toolchain for Rust modules.
