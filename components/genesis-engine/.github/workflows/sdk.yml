@@ -12,3 +12,12 @@ jobs:
         run: cargo check --manifest-path modules/atc-genesis-sdk/Cargo.toml
       - name: Test
         run: cargo test --manifest-path modules/atc-genesis-sdk/Cargo.toml
+      - name: Python control protocol smoke test
+        working-directory: components/genesis-engine/modules/atc-genesis-engine/engine
+        run: |
+          printf 'STATUS\nSPAWN 10 20\nSET_POSITION 1 30 40\nTICK 2 0.0166667\nSNAPSHOT\nQUIT\n' | python control.py | tee control.out
+          grep -q '^OK STATUS entities=0 frame=0 control.out
+          grep -q '^OK SPAWN id=1 control.out
+          grep -q '^OK SET_POSITION id=1 x=30.0 y=40.0 control.out
+          grep -q '^OK TICK frame=2 control.out
+          grep -q '^OK SNAPSHOT 1:30.000000,40.000000 control.out

@@ -73,6 +73,28 @@ Memory / context
 
 The exact authority of each interface is determined by the applicable system and security specifications.
 
+## Decentralized execution trust
+
+Aurora's decentralized execution path is anchored outside the ShivaCore TCB:
+
+```text
+AgentIdentity
+    -> device/identity verification
+    -> capability + policy + approval
+    -> distributed compute task
+    -> ExecutionAttestation
+    -> verification / evidence
+    -> A-TownChain settlement
+```
+
+The central `aurora-core` contracts provide the identity and attestation envelopes.
+Cryptographic signing and verification are injected through explicit provider interfaces;
+the contracts do not claim production cryptographic security by themselves. Attestation
+fields are aligned with ATC-COMP-505, including domain separation
+`atc-compute.attestation.v1`.
+
+
+
 ## Requirements
 
 - Rust toolchain for Rust modules.
@@ -178,3 +200,10 @@ governance:
 
 
 ![ATC COMPLIANCE](https://img.shields.io/badge/ATC%20COMPLIANCE-R3%20%C2%B7%20ATC--STD--201%2F202%2F203-brightgreen)
+
+
+## Genesis Engine Control
+
+Aurora can control the Genesis Engine through the userspace-only `GenesisEngineControl` adapter in `globus-os/system/aurora-core`. The adapter talks to the Genesis Engine MVP through an allow-listed, line-oriented control process.
+
+Supported operations are `STATUS`, `SPAWN`, `DESTROY`, `SET_POSITION`, `TICK`, `SNAPSHOT` and `RESET`. The adapter rejects commands outside this allow-list before process I/O. This is an execution interface, not kernel authority: Genesis remains outside the ShivaCore TCB and engine state changes remain behind the Genesis command boundary.
