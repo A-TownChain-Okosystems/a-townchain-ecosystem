@@ -5,9 +5,10 @@ Version: 0.1.0-alpha | Read-Eval-Print Loop
 Eigene Implementierung — kein CPython-REPL-Klon
 """
 
-import sys, os, time, readline
+import os
+import readline
 
-from atclang.compiler.compiler import compile_source, disassemble, CompileError
+from atclang.compiler.compiler import CompileError, compile_source, disassemble
 from atclang.vm.atcvm import ATCVM, ATCVMError
 
 
@@ -55,8 +56,8 @@ class ATCRepl:
         try:
             readline.set_completer(self._complete)
             readline.parse_and_bind("tab: complete")
-        except Exception:
-            pass
+        except (AttributeError, OSError, RuntimeError):
+            return
 
     def _complete(self, text, state):
         keywords = [
@@ -142,7 +143,7 @@ class ATCRepl:
             return f"  ❌ VM-Fehler: {e}"
         except SyntaxError as e:
             return f"  ❌ Syntaxfehler: {e}"
-        except Exception as e:
+        except (AttributeError, KeyError, TypeError, ValueError) as e:
             return f"  ❌ Fehler: {type(e).__name__}: {e}"
 
     def run(self):
