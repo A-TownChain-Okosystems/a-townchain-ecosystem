@@ -10,6 +10,61 @@ use globus_diagnostics::EventLog;
 use globus_identity::{IdentitySession, LoginState, UserId, WalletAddress};
 use globus_services::ServiceState;
 use globus_system_core::{BOOT_PLAN, BootStep, SystemState, validate_boot_plan};
+
+use globus_application_manager::ApplicationManager;
+use globus_configuration_manager::ConfigurationManager;
+use globus_environment_manager::EnvironmentManager;
+use globus_event_bus::EventBus;
+use globus_ipc_manager::IpcManager;
+use globus_job_manager::JobManager;
+use globus_notification_manager::NotificationManager;
+use globus_observability::Observability;
+use globus_process_manager::ProcessManager;
+use globus_resource::ResourceManager;
+use globus_system_manager::SystemManager;
+use globus_task::TaskManager;
+use globus_update_manager::UpdateManager;
+use globus_watchdog::Watchdog;
+
+#[derive(Debug)]
+pub struct SystemControlPlane {
+    pub system: SystemManager,
+    pub processes: ProcessManager,
+    pub tasks: TaskManager,
+    pub applications: ApplicationManager,
+    pub resources: ResourceManager,
+    pub ipc: IpcManager,
+    pub events: EventBus,
+    pub watchdog: Watchdog,
+    pub updates: UpdateManager,
+    pub configuration: ConfigurationManager,
+    pub notifications: NotificationManager,
+    pub environment: EnvironmentManager,
+    pub jobs: JobManager,
+    pub observability: Observability,
+}
+
+impl SystemControlPlane {
+    pub fn new(event_capacity: usize, notification_capacity: usize) -> Self {
+        Self {
+            system: SystemManager::new(),
+            processes: ProcessManager::new(),
+            tasks: TaskManager::new(),
+            applications: ApplicationManager::new(),
+            resources: ResourceManager::new(),
+            ipc: IpcManager::new(),
+            events: EventBus::new(event_capacity),
+            watchdog: Watchdog::new(),
+            updates: UpdateManager::new(),
+            configuration: ConfigurationManager::new(),
+            notifications: NotificationManager::new(notification_capacity),
+            environment: EnvironmentManager::new(),
+            jobs: JobManager::new(),
+            observability: Observability::new(),
+        }
+    }
+}
+
 use shivacore_service_space::genesis::{
     GENESIS_CHAIN_ID, GenesisAllocation, GenesisConfig, GenesisValidator, LockType,
 };
