@@ -25,7 +25,7 @@ impl BrowserPolicy {
             "https" if self.allow_https => {}
             scheme => return Err(BrowserError::UnsupportedScheme(scheme.to_owned())),
         }
-        if url.host_str().is_none() {
+        if matches!(url.host_str(), None | Some("")) {
             return Err(BrowserError::InvalidUrl(url.to_string()));
         }
         if url.port() == Some(0) {
