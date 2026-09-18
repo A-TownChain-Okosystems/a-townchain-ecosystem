@@ -70,7 +70,7 @@ mod tests {
         let block = runtime.produce(2, 100).expect("node must produce a block from the pending transaction");
         assert_eq!(block.height, 1);
         assert_eq!(block.transactions.len(), 1);
-        assert!(runtime.finalize(&block).expect("block finalization must execute"));
+        assert!(!runtime.finalize(&block).expect("finality check must execute without a quorum vote"));
     }
     #[test]
     fn durable_block_state_survives_runtime_restart() {
