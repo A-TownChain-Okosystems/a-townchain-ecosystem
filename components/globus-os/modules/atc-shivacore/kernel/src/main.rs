@@ -1,10 +1,9 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // ShivaCore — Kernel-Einstiegspunkt.
-// K-Sprint 0: Boot (BIOS+UEFI via bootloader 0.11), serielle Debug-Konsole,
-// Framebuffer-Textausgabe.
-// K-Sprint 1: GDT + TSS, IDT, PIC.
-// K-Sprint 2: Paging, Frame-Allocator, Heap.
-// K-Sprint 3: kernel-mode execution context switch + init task bootstrap.
+// K-Sprint 0: Boot protocol + diagnostics.
+// K-Sprint 1: GDT/TSS + IDT/PIC.
+// K-Sprint 2: Paging/frame allocator/heap.
+// K-Sprint 3: kernel context switch + controlled ring-3 init handoff.
 #![no_std]
 #![feature(abi_x86_interrupt)]
 #![feature(alloc_error_handler)]
@@ -21,13 +20,12 @@ mod hal;
 mod interrupts;
 mod memory;
 mod serial;
+mod user_transition;
 
 use alloc::{boxed::Box, vec::Vec};
-use bootloader_api::{
-    config::{BootloaderConfig, Mapping},
-    entry_point, BootInfo,
-};
+use bootloader_api::{config::{BootloaderConfig, Mapping}, entry_point, BootInfo};
 use core::panic::PanicInfo;
+use x86_64::structures::paging::OffsetPageTable;
 
 pub static BOOTLOADER_CONFIG: BootloaderConfig = {
     let mut config = BootloaderConfig::new_default();
@@ -37,11 +35,34 @@ pub static BOOTLOADER_CONFIG: BootloaderConfig = {
 
 entry_point!(kernel_main, config = &BOOTLOADER_CONFIG);
 
+struct InitHandoff {
+    mapper: *mut OffsetPageTable<'static>,
+    frame_allocator: *mut memory::BootInfoFrameAllocator,
+    physical_memory_offset: u64,
+}
+
+unsafe impl Send for InitHandoff {}
+unsafe impl Sync for InitHandoff {}
+
+static mut INIT_HANDOFF: Option<InitHandoff> = None;
+
 extern "C" fn globus_init_kernel_task() -> ! {
     serial_println!("ShivaCore: GlobusOS init task entered via CPU context switch.");
     serial_println!("ShivaCore: kernel execution context switch OK.");
-    loop {
-        x86_64::instructions::hlt();
+
+    let handoff = unsafe {
+        INIT_HANDOFF
+            .as_ref()
+            .expect("ShivaCore: missing init handoff state")
+    };
+
+    serial_println!("ShivaCore: entering controlled GlobusOS ring-3 init.");
+    unsafe {
+        user_transition::enter_init(
+            &mut *handoff.mapper,
+            &mut *handoff.frame_allocator,
+            handoff.physical_memory_offset,
+        )
     }
 }
 
@@ -57,14 +78,11 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
     if !cpu.boot_compatible() {
         panic!("ShivaCore: CPU lacks required x86-64 boot features (SSE2/NX/APIC)");
     }
-    serial_println!("ShivaCore: CPU HAL compatibility check OK.");
 
     if let Some(fb) = boot_info.framebuffer.as_mut() {
         framebuffer::init(fb);
         println!("ShivaCore Kernel v0.0.3 -- K-Sprint 3");
         println!("Boot: OK | Serial: OK | Framebuffer: OK");
-    } else {
-        serial_println!("ShivaCore: WARNUNG -- kein Framebuffer vom Bootloader erhalten.");
     }
 
     gdt::init();
@@ -87,17 +105,13 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
         .expect("Heap-Initialisierung fehlgeschlagen");
     serial_println!("ShivaCore: Paging-Mapper + Heap initialisiert (100 KiB).");
 
-    // kernel_init belongs to the library crate. The binary must consume the
-    // exported library module instead of redeclaring it as a binary module.
     let mut kernel = match shivacore::kernel_init::KernelState::boot() {
         Ok(state) => state,
         Err(error) => panic!("ShivaCore: kernel subsystem initialization failed: {:?}", error),
     };
     serial_println!("ShivaCore: kernel subsystem initialization OK.");
 
-    kernel
-        .smoke_test()
-        .expect("ShivaCore: kernel boot smoke test failed");
+    kernel.smoke_test().expect("ShivaCore: kernel boot smoke test failed");
     serial_println!("ShivaCore: kernel smoke test OK.");
 
     let boxed = Box::new(41);
@@ -107,31 +121,33 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
     for i in 0..10 {
         vec.push(i);
     }
-    serial_println!(
-        "ShivaCore: Vec-Test -- Summe 0..10: {}",
-        vec.iter().sum::<i32>()
-    );
+    serial_println!("ShivaCore: Vec-Test -- Summe 0..10: {}", vec.iter().sum::<i32>());
 
-    // Register the first system process in the kernel process table before
-    // transferring CPU execution to its dedicated kernel stack.
     let init_pid = kernel
         .processes
         .spawn(shivacore::process::ProcessType::System, 255);
     serial_println!("ShivaCore: GlobusOS init process registered pid={}.", init_pid.0);
 
-    let mut init_task = context::BootstrapProcess::new(globus_init_kernel_task);
+    // Keep the boot-owned mapper/allocator alive while the init task performs
+    // its final page mappings and IRETQ transition.
+    unsafe {
+        INIT_HANDOFF = Some(InitHandoff {
+            mapper: &mut mapper as *mut _,
+            frame_allocator: &mut frame_allocator as *mut _,
+            physical_memory_offset: phys_mem_offset.as_u64(),
+        });
+    }
+
+    let init_task = context::BootstrapProcess::new(globus_init_kernel_task);
     let mut current_context = context::Context::empty();
 
-    println!("K-Sprint 3: kernel context switch -> GlobusOS init");
+    println!("K-Sprint 3: kernel context switch -> GlobusOS init -> ring3");
     serial_println!("ShivaCore: switching CPU context to GlobusOS init task.");
 
     unsafe {
         context::switch(&mut current_context, init_task.context());
     }
 
-    // The bootstrap task is deliberately non-returning. Reaching this point
-    // means the context-switch contract was violated.
-    let _ = init_task.context_mut();
     panic!("ShivaCore: init task unexpectedly returned");
 }
 
