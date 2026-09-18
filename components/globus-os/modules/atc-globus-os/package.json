@@ -5,9 +5,7 @@
   "author": "Michael Wroblewski",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "tsc --noEmit --pretty false --project tsconfig.production.json",
-    "dev": "tsc --watch",
-    "test": "jest --passWithNoTests"
+    "build": "tsc --noEmit --pretty false --diagnostics --project tsconfig.production.json"
   },
   "dependencies": {
     "typescript": "^6.0.3"
