@@ -7,3 +7,4 @@ description = "ATC Mining — execution and deterministic mining primitives; con
 
 [dependencies]
 sha3 = "0.10"
+atc-algorithm = { path = "../../../atc-algorithm" }
