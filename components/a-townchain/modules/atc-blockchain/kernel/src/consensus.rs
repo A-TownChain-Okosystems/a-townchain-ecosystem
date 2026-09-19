@@ -40,7 +40,7 @@ pub struct Vote {
     pub public_key: [u8; 32],
 }
 
-fn vote_bytes(chain: u64, v: &Vote) -> Vec<u8> {
+pub fn vote_signing_bytes(chain: u64, v: &Vote) -> Vec<u8> {
     let mut b = Vec::new();
     b.extend_from_slice(b"ATC-VOTE-V1");
     b.extend_from_slice(&chain.to_be_bytes());
@@ -143,7 +143,7 @@ impl ConsensusEngine {
         let pk = VerifyingKey::from_bytes(&v.public_key)
             .map_err(|_| "invalid vote public key".to_string())?;
         pk.verify(
-            &vote_bytes(self.chain_id, &v),
+            &vote_signing_bytes(self.chain_id, &v),
             &Signature::from_bytes(&v.signature),
         )
         .map_err(|_| "invalid vote signature".to_string())?;
