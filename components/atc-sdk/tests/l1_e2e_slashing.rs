@@ -10,7 +10,14 @@ fn l1_e2e_slashing_finality_restart_and_continue() {
         std::process::id(),
         chain_id
     ));
-    for suffix in ["", "state", "validators", "finality", "slashing", "issuance"] {
+    for suffix in [
+        "",
+        "state",
+        "validators",
+        "finality",
+        "slashing",
+        "issuance",
+    ] {
         let p = if suffix.is_empty() {
             path.clone()
         } else {
@@ -25,9 +32,7 @@ fn l1_e2e_slashing_finality_restart_and_continue() {
     node.register_validator("validator-1".into(), 100).unwrap();
 
     let key = SigningKey::from_bytes(&[9u8; 32]);
-    let tx = TransactionBuilder::transfer(
-        chain_id, "alice", "bob", 25, 1, 1000, 0, 2,
-    ).sign(&key);
+    let tx = TransactionBuilder::transfer(chain_id, "alice", "bob", 25, 1, 1000, 0, 2).sign(&key);
     node.submit(tx, 2).unwrap();
     let block = node.produce(3, 10).unwrap();
     assert_eq!(block.height, 1);
@@ -70,15 +75,21 @@ fn l1_e2e_slashing_finality_restart_and_continue() {
     assert_eq!(reopened.consensus.validator_stake("validator-1"), 60);
     assert_eq!(reopened.consensus.finalized(), Some((1, block.id)));
 
-    let tx2 = TransactionBuilder::transfer(
-        chain_id, "alice", "carol", 10, 1, 1000, 1, 4,
-    ).sign(&key);
+    let tx2 =
+        TransactionBuilder::transfer(chain_id, "alice", "carol", 10, 1, 1000, 1, 4).sign(&key);
     reopened.submit(tx2, 4).unwrap();
     let block2 = reopened.produce(5, 10).unwrap();
     assert_eq!(block2.height, 2);
     assert_eq!(reopened.state.balance("carol"), 10);
 
-    for suffix in ["", "state", "validators", "finality", "slashing", "issuance"] {
+    for suffix in [
+        "",
+        "state",
+        "validators",
+        "finality",
+        "slashing",
+        "issuance",
+    ] {
         let p = if suffix.is_empty() {
             path.clone()
         } else {
