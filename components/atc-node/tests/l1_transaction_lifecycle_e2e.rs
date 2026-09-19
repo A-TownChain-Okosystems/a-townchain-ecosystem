@@ -1,5 +1,5 @@
 use atc_blockchain::{
-    blockchain::Node,
+    Node,
     consensus::{vote_signing_bytes, Vote},
     mempool::{Transaction as L1Transaction, TxType as L1TxType},
 };
