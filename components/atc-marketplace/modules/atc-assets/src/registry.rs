@@ -7,6 +7,12 @@ pub struct AssetRegistry {
     assets: HashMap<u64, TokenMetadata>,
 }
 
+impl Default for AssetRegistry {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl AssetRegistry {
     pub fn new() -> Self { Self { assets: HashMap::new() } }
     pub fn register(&mut self, metadata: TokenMetadata) -> Result<(), String> {
