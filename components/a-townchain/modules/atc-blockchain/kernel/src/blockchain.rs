@@ -456,6 +456,51 @@ impl Node {
         }
         Ok(id)
     }
+    /// Produce a deterministic reward-only block for process-level network E2E.
+    pub fn produce_reward_block(&self, t: u64) -> Result<Block, String> {
+        let parent = self.chain.last().ok_or("genesis required")?;
+        let height = parent.height.saturating_add(1);
+        let snapshot = self.state.snapshot();
+        let dao_snapshot = self.state.dao_snapshot();
+        let issued_snapshot = self.state.issued_base_units();
+
+        self.state.apply_block_reward(height, &self.proposer)
+            .map_err(|e| format!("block reward: {e}"))?;
+        let b = Block::new(
+            height,
+            parent.id,
+            self.proposer.clone(),
+            t,
+            Vec::new(),
+            self.state.root(),
+            receipts::root(&[]),
+            [0; 64],
+        );
+        self.chain.validate_append(&b)?;
+        if let Err(e) = self.storage.commit(b.clone()) {
+            self.state.restore(snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(e);
+        }
+        if let Err(e) = self.storage.commit_state_with_dao(height, &self.state.snapshot(), &self.state.dao_snapshot()) {
+            self.state.restore(snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(e);
+        }
+        if let Err(e) = self.storage.commit_issuance(height, self.state.issued_base_units()) {
+            self.state.restore(snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(e);
+        }
+        self.chain.append(b.clone())?;
+        self.consensus.set_height(height);
+        self.broadcast(NetworkMessage::Block(b.clone()))?;
+        Ok(b)
+    }
+
     pub fn produce(&self, t: u64, max: usize) -> Result<Block, String> {
         let txs = self.pool.get_pending_batch(max);
         if txs.is_empty() {
