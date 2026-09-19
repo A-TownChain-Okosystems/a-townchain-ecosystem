@@ -361,7 +361,9 @@ impl ChainStorage {
         height: u64,
         validators: &BTreeMap<String, u64>,
     ) -> Result<(), String> {
-        let Some(p) = &self.validator_journal else { return Ok(()); };
+        let Some(p) = &self.validator_journal else {
+            return Ok(());
+        };
         let mut o = Vec::from(VALIDATOR_MAGIC);
         o.extend_from_slice(&height.to_be_bytes());
         o.extend_from_slice(&(validators.len() as u32).to_be_bytes());
@@ -381,7 +383,9 @@ impl ChainStorage {
     }
 
     pub fn recover_validators(&self) -> Result<Option<(u64, BTreeMap<String, u64>)>, String> {
-        let Some(p) = &self.validator_journal else { return Ok(None); };
+        let Some(p) = &self.validator_journal else {
+            return Ok(None);
+        };
         if !p.exists() {
             return Ok(None);
         }
@@ -395,7 +399,10 @@ impl ChainStorage {
             let b = hex::decode(raw.trim())
                 .map_err(|e| format!("validator journal line {}: invalid hex: {e}", line_no + 1))?;
             if !b.starts_with(VALIDATOR_MAGIC) {
-                return Err(format!("validator journal line {}: invalid magic", line_no + 1));
+                return Err(format!(
+                    "validator journal line {}: invalid magic",
+                    line_no + 1
+                ));
             }
             let mut q = VALIDATOR_MAGIC.len();
             let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
@@ -421,103 +428,172 @@ impl ChainStorage {
     }
 
     pub fn commit_finalized(&self, height: u64, block: [u8; 32]) -> Result<(), String> {
-        let Some(p) = &self.finality_journal else { return Ok(()); };
+        let Some(p) = &self.finality_journal else {
+            return Ok(());
+        };
         let mut o = Vec::from(FINALITY_MAGIC);
         o.extend_from_slice(&height.to_be_bytes());
         o.extend_from_slice(&block);
         let line = format!("{}\n", hex::encode(o));
-        let mut f = OpenOptions::new().create(true).append(true).open(p).map_err(|e| e.to_string())?;
+        let mut f = OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(p)
+            .map_err(|e| e.to_string())?;
         f.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
         f.sync_data().map_err(|e| e.to_string())?;
         Ok(())
     }
 
     pub fn recover_finalized(&self) -> Result<Option<(u64, [u8; 32])>, String> {
-        let Some(p) = &self.finality_journal else { return Ok(None); };
-        if !p.exists() { return Ok(None); }
+        let Some(p) = &self.finality_journal else {
+            return Ok(None);
+        };
+        if !p.exists() {
+            return Ok(None);
+        }
         let f = File::open(p).map_err(|e| e.to_string())?;
         let mut latest = None;
         for (line_no, line) in BufReader::new(f).lines().enumerate() {
             let raw = line.map_err(|e| e.to_string())?;
-            if raw.trim().is_empty() { continue; }
-            let b = hex::decode(raw.trim()).map_err(|e| format!("finality journal line {}: invalid hex: {e}", line_no + 1))?;
-            if !b.starts_with(FINALITY_MAGIC) { return Err(format!("finality journal line {}: invalid magic", line_no + 1)); }
+            if raw.trim().is_empty() {
+                continue;
+            }
+            let b = hex::decode(raw.trim())
+                .map_err(|e| format!("finality journal line {}: invalid hex: {e}", line_no + 1))?;
+            if !b.starts_with(FINALITY_MAGIC) {
+                return Err(format!(
+                    "finality journal line {}: invalid magic",
+                    line_no + 1
+                ));
+            }
             let mut q = FINALITY_MAGIC.len();
             let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
             let id = fixed::<32>(&b, &mut q)?;
-            if q != b.len() { return Err("trailing finality bytes".into()); }
+            if q != b.len() {
+                return Err("trailing finality bytes".into());
+            }
             if let Some((prev, _)) = latest {
-                if h < prev { return Err("finalized height regression".into()); }
+                if h < prev {
+                    return Err("finalized height regression".into());
+                }
             }
             latest = Some((h, id));
         }
         Ok(latest)
     }
 
-    pub fn commit_slashing(&self, height: u64, validator: &str, evidence_id: [u8; 32], penalty: u64) -> Result<(), String> {
-        let Some(p) = &self.slashing_journal else { return Ok(()); };
+    pub fn commit_slashing(
+        &self,
+        height: u64,
+        validator: &str,
+        evidence_id: [u8; 32],
+        penalty: u64,
+    ) -> Result<(), String> {
+        let Some(p) = &self.slashing_journal else {
+            return Ok(());
+        };
         let mut o = Vec::from(SLASH_MAGIC);
         o.extend_from_slice(&height.to_be_bytes());
         put(&mut o, validator.as_bytes());
         o.extend_from_slice(&evidence_id);
         o.extend_from_slice(&penalty.to_be_bytes());
         let line = format!("{}\n", hex::encode(o));
-        let mut f = OpenOptions::new().create(true).append(true).open(p).map_err(|e| e.to_string())?;
+        let mut f = OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(p)
+            .map_err(|e| e.to_string())?;
         f.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
         f.sync_data().map_err(|e| e.to_string())?;
         Ok(())
     }
 
     pub fn recover_slashing(&self) -> Result<Vec<(u64, String, [u8; 32], u64)>, String> {
-        let Some(p) = &self.slashing_journal else { return Ok(Vec::new()); };
-        if !p.exists() { return Ok(Vec::new()); }
+        let Some(p) = &self.slashing_journal else {
+            return Ok(Vec::new());
+        };
+        if !p.exists() {
+            return Ok(Vec::new());
+        }
         let f = File::open(p).map_err(|e| e.to_string())?;
         let mut out = Vec::new();
         for (line_no, line) in BufReader::new(f).lines().enumerate() {
             let raw = line.map_err(|e| e.to_string())?;
-            if raw.trim().is_empty() { continue; }
-            let b = hex::decode(raw.trim()).map_err(|e| format!("slashing journal line {}: invalid hex: {e}", line_no + 1))?;
-            if !b.starts_with(SLASH_MAGIC) { return Err(format!("slashing journal line {}: invalid magic", line_no + 1)); }
+            if raw.trim().is_empty() {
+                continue;
+            }
+            let b = hex::decode(raw.trim())
+                .map_err(|e| format!("slashing journal line {}: invalid hex: {e}", line_no + 1))?;
+            if !b.starts_with(SLASH_MAGIC) {
+                return Err(format!(
+                    "slashing journal line {}: invalid magic",
+                    line_no + 1
+                ));
+            }
             let mut q = SLASH_MAGIC.len();
             let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
-            let validator = String::from_utf8(get(&b, &mut q)?.to_vec()).map_err(|_| "invalid slashing validator")?;
+            let validator = String::from_utf8(get(&b, &mut q)?.to_vec())
+                .map_err(|_| "invalid slashing validator")?;
             let evidence_id = fixed::<32>(&b, &mut q)?;
             let penalty = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
-            if validator.is_empty() || penalty == 0 || q != b.len() { return Err("invalid slashing record".into()); }
+            if validator.is_empty() || penalty == 0 || q != b.len() {
+                return Err("invalid slashing record".into());
+            }
             out.push((h, validator, evidence_id, penalty));
         }
         Ok(out)
     }
 
     pub fn commit_issuance(&self, height: u64, issued_base_units: u128) -> Result<(), String> {
-        let Some(p) = &self.issuance_journal else { return Ok(()); };
-        if issued_base_units > crate::economics::MAX_SUPPLY { return Err("issued supply cap exceeded".into()); }
+        let Some(p) = &self.issuance_journal else {
+            return Ok(());
+        };
+        if issued_base_units > crate::economics::MAX_SUPPLY {
+            return Err("issued supply cap exceeded".into());
+        }
         let mut o = Vec::from(ISSUANCE_MAGIC);
         o.extend_from_slice(&height.to_be_bytes());
         o.extend_from_slice(&issued_base_units.to_be_bytes());
         let line = format!("{}\n", hex::encode(o));
-        let mut f = OpenOptions::new().create(true).append(true).open(p).map_err(|e| e.to_string())?;
+        let mut f = OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(p)
+            .map_err(|e| e.to_string())?;
         f.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
         f.sync_data().map_err(|e| e.to_string())?;
         Ok(())
     }
 
     pub fn recover_issuance(&self) -> Result<Option<(u64, u128)>, String> {
-        let Some(p) = &self.issuance_journal else { return Ok(None); };
-        if !p.exists() { return Ok(None); }
+        let Some(p) = &self.issuance_journal else {
+            return Ok(None);
+        };
+        if !p.exists() {
+            return Ok(None);
+        }
         let f = File::open(p).map_err(|e| e.to_string())?;
         let mut latest = None;
         for line in BufReader::new(f).lines() {
             let raw = line.map_err(|e| e.to_string())?;
-            if raw.trim().is_empty() { continue; }
+            if raw.trim().is_empty() {
+                continue;
+            }
             let b = hex::decode(raw.trim()).map_err(|e| e.to_string())?;
-            if !b.starts_with(ISSUANCE_MAGIC) { return Err("invalid issuance magic".into()); }
+            if !b.starts_with(ISSUANCE_MAGIC) {
+                return Err("invalid issuance magic".into());
+            }
             let mut q = ISSUANCE_MAGIC.len();
             let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
             let issued = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
-            if issued > crate::economics::MAX_SUPPLY || q != b.len() { return Err("invalid issuance record".into()); }
+            if issued > crate::economics::MAX_SUPPLY || q != b.len() {
+                return Err("invalid issuance record".into());
+            }
             if let Some((prev, _)) = latest {
-                if h < prev { return Err("issuance height regression".into()); }
+                if h < prev {
+                    return Err("issuance height regression".into());
+                }
             }
             latest = Some((h, issued));
         }

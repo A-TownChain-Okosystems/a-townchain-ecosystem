@@ -288,7 +288,8 @@ impl Node {
             &self.state.snapshot(),
             &self.state.dao_snapshot(),
         )?;
-        self.storage.commit_issuance(b.height, self.state.issued_base_units())?;
+        self.storage
+            .commit_issuance(b.height, self.state.issued_base_units())?;
         self.state.seal_genesis();
         self.consensus.set_height(b.height);
         Ok(b)
@@ -404,7 +405,10 @@ impl Node {
             let _ = self.state.restore_issued_base_units(issued_snapshot);
             return Err(e);
         }
-        if let Err(e) = self.storage.commit_issuance(b.height, self.state.issued_base_units()) {
+        if let Err(e) = self
+            .storage
+            .commit_issuance(b.height, self.state.issued_base_units())
+        {
             self.state.restore(state_snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
             let _ = self.state.restore_issued_base_units(issued_snapshot);
@@ -419,8 +423,10 @@ impl Node {
     }
     pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
         self.consensus.register_validator(address, stake)?;
-        self.storage
-            .commit_validators(self.consensus.height(), &self.consensus.validators_snapshot())
+        self.storage.commit_validators(
+            self.consensus.height(),
+            &self.consensus.validators_snapshot(),
+        )
     }
 
     pub fn slash_validator(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
@@ -428,16 +434,28 @@ impl Node {
             return Err("slashing evidence is above current chain height".into());
         }
         let applied = self.consensus.slash(evidence.clone(), penalty)?;
-        if applied == 0 { return Err("slashing penalty is zero".into()); }
-        self.storage.commit_slashing(evidence.height, &evidence.validator, evidence.id(), applied)?;
-        self.storage.commit_validators(self.consensus.height(), &self.consensus.validators_snapshot())?;
+        if applied == 0 {
+            return Err("slashing penalty is zero".into());
+        }
+        self.storage.commit_slashing(
+            evidence.height,
+            &evidence.validator,
+            evidence.id(),
+            applied,
+        )?;
+        self.storage.commit_validators(
+            self.consensus.height(),
+            &self.consensus.validators_snapshot(),
+        )?;
         Ok(applied)
     }
 
     pub fn unregister_validator(&self, address: &str) -> Result<(), String> {
         self.consensus.unregister_validator(address);
-        self.storage
-            .commit_validators(self.consensus.height(), &self.consensus.validators_snapshot())
+        self.storage.commit_validators(
+            self.consensus.height(),
+            &self.consensus.validators_snapshot(),
+        )
     }
 
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
@@ -483,7 +501,6 @@ impl Node {
         Ok(true)
     }
 }
-
 
 #[cfg(test)]
 mod tests {
