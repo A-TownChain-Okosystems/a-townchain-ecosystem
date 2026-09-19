@@ -22,6 +22,10 @@ pub struct DnsRegistry {
     records: HashMap<String, DnsRecord>,
 }
 
+impl Default for DnsRegistry {
+    fn default() -> Self { Self::new() }
+}
+
 impl DnsRegistry {
     pub fn new() -> Self {
         Self {
