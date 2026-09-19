@@ -15,6 +15,7 @@ use super::{
 const MAGIC: &[u8] = b"ATCB1";
 const VALIDATOR_MAGIC: &[u8] = b"ATCV1";
 const FINALITY_MAGIC: &[u8] = b"ATCF1";
+const SLASH_MAGIC: &[u8] = b"ATCS1";
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
     out.extend_from_slice(&(b.len() as u32).to_be_bytes());
@@ -172,6 +173,7 @@ pub struct ChainStorage {
     state_journal: Option<PathBuf>,
     validator_journal: Option<PathBuf>,
     finality_journal: Option<PathBuf>,
+    slashing_journal: Option<PathBuf>,
 }
 
 impl Default for ChainStorage {
@@ -189,6 +191,7 @@ impl ChainStorage {
             state_journal: None,
             validator_journal: None,
             finality_journal: None,
+            slashing_journal: None,
         }
     }
 
@@ -200,6 +203,7 @@ impl ChainStorage {
         let state_p = p.with_extension("state");
         let validator_p = p.with_extension("validators");
         let finality_p = p.with_extension("finality");
+        let slashing_p = p.with_extension("slashing");
         let s = Self {
             blocks: RwLock::new(BTreeMap::new()),
             state_roots: RwLock::new(BTreeMap::new()),
@@ -207,6 +211,7 @@ impl ChainStorage {
             state_journal: Some(state_p),
             validator_journal: Some(validator_p),
             finality_journal: Some(finality_p),
+            slashing_journal: Some(slashing_p),
         };
         s.recover()?;
         Ok(s)
@@ -442,6 +447,41 @@ impl ChainStorage {
             latest = Some((h, id));
         }
         Ok(latest)
+    }
+
+    pub fn commit_slashing(&self, height: u64, validator: &str, evidence_id: [u8; 32], penalty: u64) -> Result<(), String> {
+        let Some(p) = &self.slashing_journal else { return Ok(()); };
+        let mut o = Vec::from(SLASH_MAGIC);
+        o.extend_from_slice(&height.to_be_bytes());
+        put(&mut o, validator.as_bytes());
+        o.extend_from_slice(&evidence_id);
+        o.extend_from_slice(&penalty.to_be_bytes());
+        let line = format!("{}\n", hex::encode(o));
+        let mut f = OpenOptions::new().create(true).append(true).open(p).map_err(|e| e.to_string())?;
+        f.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
+        f.sync_data().map_err(|e| e.to_string())?;
+        Ok(())
+    }
+
+    pub fn recover_slashing(&self) -> Result<Vec<(u64, String, [u8; 32], u64)>, String> {
+        let Some(p) = &self.slashing_journal else { return Ok(Vec::new()); };
+        if !p.exists() { return Ok(Vec::new()); }
+        let f = File::open(p).map_err(|e| e.to_string())?;
+        let mut out = Vec::new();
+        for (line_no, line) in BufReader::new(f).lines().enumerate() {
+            let raw = line.map_err(|e| e.to_string())?;
+            if raw.trim().is_empty() { continue; }
+            let b = hex::decode(raw.trim()).map_err(|e| format!("slashing journal line {}: invalid hex: {e}", line_no + 1))?;
+            if !b.starts_with(SLASH_MAGIC) { return Err(format!("slashing journal line {}: invalid magic", line_no + 1)); }
+            let mut q = SLASH_MAGIC.len();
+            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let validator = String::from_utf8(get(&b, &mut q)?.to_vec()).map_err(|_| "invalid slashing validator")?;
+            let evidence_id = fixed::<32>(&b, &mut q)?;
+            let penalty = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            if validator.is_empty() || penalty == 0 || q != b.len() { return Err("invalid slashing record".into()); }
+            out.push((h, validator, evidence_id, penalty));
+        }
+        Ok(out)
     }
 
     pub fn block(&self, h: u64) -> Option<Block> {
