@@ -1,3 +1,5 @@
+#![allow(missing_docs)]
+
 //! Process and thread identity for GlobusOS user space.
 
 pub mod scheduler;
