@@ -236,12 +236,8 @@ impl Node {
         *self.transport.lock().unwrap() = Some(transport);
     }
 
-    pub fn transport_peer_count(&self) -> usize {
-        self.transport
-            .lock()
-            .ok()
-            .and_then(|t| t.as_ref().map(|_| 1))
-            .unwrap_or(0)
+    pub fn transport_attached(&self) -> bool {
+        self.transport.lock().map(|t| t.is_some()).unwrap_or(false)
     }
 
     /// Run the canonical Node message loop on an already authenticated TCP peer.
