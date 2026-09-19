@@ -12,7 +12,7 @@ pub mod receipts;
 pub mod rpc;
 pub mod security;
 pub mod storage;
-use consensus::{ConsensusEngine, Vote};
+use consensus::{ConsensusEngine, SlashingEvidence, Vote};
 use crypto::{signing_bytes, Ed25519Verifier, SignatureVerifier};
 use execution::{AtcVmExecutor, VmExecutor};
 use mempool::{MemoryPool, MempoolError, StateDb, Transaction};
@@ -35,7 +35,6 @@ pub struct Block {
     pub signature: [u8; 64],
 }
 impl Block {
-    #[allow(clippy::too_many_arguments)]
     #[allow(clippy::too_many_arguments)]
     pub fn new(
         h: u64,
@@ -136,6 +135,7 @@ impl BlockChain {
         }
         self.hashes.lock().unwrap().insert(b.id, 0);
         self.blocks.lock().unwrap().insert(0, b);
+        *self.height.lock().unwrap() = 0;
         Ok(())
     }
     pub fn validate_append(&self, b: &Block) -> Result<(), String> {
@@ -225,11 +225,22 @@ impl Node {
     ) -> Result<Self, String> {
         let mut n = Self::new(chain_id, proposer);
         n.storage = Arc::new(storage::ChainStorage::open(path)?);
+        if let Some((height, validators)) = n.storage.recover_validators()? {
+            if n.storage.block(height).is_none() {
+                return Err("validator snapshot references missing block".into());
+            }
+            for (address, stake) in validators {
+                n.consensus.register_validator(address, stake)?;
+            }
+        }
         if let Some((snapshot, dao)) = n.storage.recover_state_with_dao()? {
             n.state.restore(snapshot);
             if !dao.is_empty() {
                 n.state.restore_dao(&dao)?
             }
+        }
+        if let Some((_, issued)) = n.storage.recover_issuance()? {
+            n.state.restore_issued_base_units(issued)?;
         }
         if let Some(g) = n.storage.block(0) {
             n.state.seal_genesis();
@@ -244,6 +255,18 @@ impl Node {
             if n.state.root() != last.state_root {
                 return Err("recovered state root mismatch".into());
             }
+            n.consensus.set_height(last.height);
+        }
+        // Slashing records are durable evidence/audit records. The active
+        // validator snapshot is the canonical recovered voting weight, so
+        // evidence is not replayed as a second penalty during restart.
+        let _ = n.storage.recover_slashing()?;
+        if let Some((height, id)) = n.storage.recover_finalized()? {
+            let block = n.storage.block(height).ok_or("finalized block missing")?;
+            if block.id != id || height > n.chain.height() {
+                return Err("recovered finality marker is inconsistent".into());
+            }
+            n.consensus.mark_finalized(height, id)?;
         }
         Ok(n)
     }
@@ -265,7 +288,9 @@ impl Node {
             &self.state.snapshot(),
             &self.state.dao_snapshot(),
         )?;
+        self.storage.commit_issuance(b.height, self.state.issued_base_units())?;
         self.state.seal_genesis();
+        self.consensus.set_height(b.height);
         Ok(b)
     }
     pub fn submit(&self, tx: Transaction, now: u64) -> Result<[u8; 32], MempoolError> {
@@ -328,6 +353,7 @@ impl Node {
         }
         let state_snapshot = self.state.snapshot();
         let dao_snapshot = self.state.dao_snapshot();
+        let issued_snapshot = self.state.issued_base_units();
         self.state
             .apply_batch(&txs)
             .map_err(|e| format!("state transition: {e:?}"))?;
@@ -340,14 +366,19 @@ impl Node {
                 ) {
                     self.state.restore(state_snapshot);
                     let _ = self.state.restore_dao(&dao_snapshot);
+                    let _ = self.state.restore_issued_base_units(issued_snapshot);
                     return Err(format!("DAO transition: {e}"));
                 }
             }
         }
+        let block_height = parent.height.saturating_add(1);
+        self.state
+            .apply_block_reward(block_height, &self.proposer)
+            .map_err(|e| format!("block reward: {e}"))?;
         let new_root = self.state.root();
         let receipt_root = receipts::root(&receipts);
         let b = Block::new(
-            parent.height.saturating_add(1),
+            block_height,
             parent.id,
             self.proposer.clone(),
             t,
@@ -360,6 +391,7 @@ impl Node {
         if let Err(e) = self.storage.commit(b.clone()) {
             self.state.restore(state_snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
             return Err(e);
         }
         if let Err(e) = self.storage.commit_state_with_dao(
@@ -369,6 +401,13 @@ impl Node {
         ) {
             self.state.restore(state_snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(e);
+        }
+        if let Err(e) = self.storage.commit_issuance(b.height, self.state.issued_base_units()) {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
             return Err(e);
         }
         self.chain.append(b.clone())?;
@@ -378,9 +417,51 @@ impl Node {
         self.consensus.set_height(b.height);
         Ok(b)
     }
+    pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
+        self.consensus.register_validator(address, stake)?;
+        self.storage
+            .commit_validators(self.consensus.height(), &self.consensus.validators_snapshot())
+    }
+
+    pub fn slash_validator(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
+        if evidence.height > self.chain.height() {
+            return Err("slashing evidence is above current chain height".into());
+        }
+        let applied = self.consensus.slash(evidence.clone(), penalty)?;
+        if applied == 0 { return Err("slashing penalty is zero".into()); }
+        self.storage.commit_slashing(evidence.height, &evidence.validator, evidence.id(), applied)?;
+        self.storage.commit_validators(self.consensus.height(), &self.consensus.validators_snapshot())?;
+        Ok(applied)
+    }
+
+    pub fn unregister_validator(&self, address: &str) -> Result<(), String> {
+        self.consensus.unregister_validator(address);
+        self.storage
+            .commit_validators(self.consensus.height(), &self.consensus.validators_snapshot())
+    }
+
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
         self.consensus.vote(vote)
     }
+
+    pub fn finalize_weighted(&self, b: &Block) -> Result<bool, String> {
+        if self.consensus.proposer != self.proposer {
+            return Err("finalizer is not proposer".into());
+        }
+        if !self.consensus.weighted_finality(&b.id) {
+            return Ok(false);
+        }
+        if b.height > self.chain.height() || self.chain.last().map(|x| x.id) != Some(b.id) {
+            return Err("can only finalize the current canonical tip".into());
+        }
+        self.consensus.mark_finalized(b.height, b.id)?;
+        self.storage.commit_finalized(b.height, b.id)?;
+        if let Some(sink) = self.indexer.lock().unwrap().clone() {
+            sink.ingest_finalized(b)?
+        }
+        Ok(true)
+    }
+
     pub fn finalize(&self, b: &Block, quorum: usize) -> Result<bool, String> {
         if self.consensus.proposer != self.proposer {
             return Err("finalizer is not proposer".into());
@@ -391,9 +472,56 @@ impl Node {
         if !self.consensus.finality(&b.id, quorum) {
             return Ok(false);
         }
+        if b.height > self.chain.height() || self.chain.last().map(|x| x.id) != Some(b.id) {
+            return Err("can only finalize the current canonical tip".into());
+        }
+        self.consensus.mark_finalized(b.height, b.id)?;
+        self.storage.commit_finalized(b.height, b.id)?;
         if let Some(sink) = self.indexer.lock().unwrap().clone() {
             sink.ingest_finalized(b)?
         }
         Ok(true)
+    }
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn genesis_sets_chain_height_and_allows_first_append() {
+        let chain = BlockChain::new();
+        let genesis = Block::new(
+            0,
+            [0; 32],
+            "validator-0".into(),
+            1,
+            Vec::new(),
+            [1; 32],
+            [0; 32],
+            [0; 64],
+        );
+
+        chain.genesis(genesis.clone()).unwrap();
+
+        assert_eq!(chain.height(), 0);
+        assert_eq!(chain.last(), Some(genesis.clone()));
+
+        let block1 = Block::new(
+            1,
+            genesis.id,
+            "validator-0".into(),
+            361,
+            Vec::new(),
+            [2; 32],
+            [0; 32],
+            [0; 64],
+        );
+
+        chain.append(block1.clone()).unwrap();
+
+        assert_eq!(chain.height(), 1);
+        assert_eq!(chain.last(), Some(block1));
     }
 }

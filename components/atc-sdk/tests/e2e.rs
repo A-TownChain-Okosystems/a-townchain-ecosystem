@@ -12,6 +12,7 @@ fn sdk_node_mempool_consensus_vm_state_storage_indexer() {
     node.state
         .genesis_credit("alice", 1_000_000)
         .expect("genesis allocation must respect supply cap");
+    node.register_validator("validator-1".into(), 100).unwrap();
     node.create_genesis(1).unwrap();
     let key = SigningKey::from_bytes(&[7u8; 32]);
     let tx = TransactionBuilder::transfer(chain_id, "alice", "bob", 100, 1, 1000, 0, 2).sign(&key);
@@ -53,24 +54,56 @@ fn storage_restart_recovers_chain_and_state() {
         std::process::id(),
         658467u64
     ));
-    let _ = std::fs::remove_file(&path);
-    let _ = std::fs::remove_file(path.with_extension("state"));
+    for ext in ["", "state", "validators", "finality", "slashing", "issuance"] {
+        let target = if ext.is_empty() { path.clone() } else { path.with_extension(ext) };
+        let _ = std::fs::remove_file(target);
+    }
     let node = Node::open_storage(658467, "validator-1".into(), &path).unwrap();
     node.state
         .genesis_credit("alice", 1_000_000)
         .expect("genesis allocation must respect supply cap");
+    node.register_validator("validator-1".into(), 100).unwrap();
     node.create_genesis(1).unwrap();
     let key = SigningKey::from_bytes(&[8u8; 32]);
     let tx = TransactionBuilder::transfer(658467, "alice", "bob", 25, 1, 1000, 0, 2).sign(&key);
     node.submit(tx, 2).unwrap();
     let block = node.produce(3, 10).unwrap();
+    let vote_key = SigningKey::from_bytes(&[10u8; 32]);
+    let voter = "validator-1".to_string();
+    let mut vote = atc_blockchain::consensus::Vote {
+        block: block.id,
+        voter: voter.clone(),
+        approve: true,
+        signature: [0; 64],
+        public_key: vote_key.verifying_key().to_bytes(),
+    };
+    let mut vb = Vec::new();
+    vb.extend_from_slice(b"ATC-VOTE-V1");
+    vb.extend_from_slice(&658467u64.to_be_bytes());
+    vb.extend_from_slice(&vote.block);
+    vb.push(1);
+    vb.extend_from_slice(&(voter.len() as u32).to_be_bytes());
+    vb.extend_from_slice(voter.as_bytes());
+    vote.signature = vote_key.sign(&vb).to_bytes();
+    node.submit_vote(vote).unwrap();
+    assert!(node.finalize(&block, 1).unwrap());
     drop(node);
     let reopened = Node::open_storage(658467, "validator-1".into(), &path).unwrap();
     assert_eq!(reopened.chain.height(), 1);
     assert_eq!(reopened.state.balance("bob"), 25);
     assert_eq!(reopened.storage.block(1).unwrap().id, block.id);
-    let _ = std::fs::remove_file(&path);
-    let _ = std::fs::remove_file(path.with_extension("state"));
+    assert!(reopened.state.issued_base_units() > 1_000_000u128 * atc_blockchain::economics::ATC_BASE_UNITS);
+    assert_eq!(reopened.consensus.validator_stake("validator-1"), 100);
+    assert_eq!(reopened.consensus.finalized(), Some((1, block.id)));
+    let key2 = SigningKey::from_bytes(&[9u8; 32]);
+    let tx2 = TransactionBuilder::transfer(658467, "alice", "carol", 10, 1, 1000, 1, 4).sign(&key2);
+    reopened.submit(tx2, 4).unwrap();
+    let block2 = reopened.produce(5, 10).unwrap();
+    assert_eq!(block2.height, 2);
+    for ext in ["", "state", "validators", "finality", "slashing", "issuance"] {
+        let target = if ext.is_empty() { path.clone() } else { path.with_extension(ext) };
+        let _ = std::fs::remove_file(target);
+    }
 }
 
 #[test]
@@ -82,8 +115,10 @@ fn dao_transactions_persist_and_recover() {
         std::process::id(),
         chain_id
     ));
-    let _ = std::fs::remove_file(&temp);
-    let _ = std::fs::remove_file(temp.with_extension("state"));
+    for ext in ["", "state", "validators", "finality", "slashing", "issuance"] {
+        let target = if ext.is_empty() { temp.clone() } else { temp.with_extension(ext) };
+        let _ = std::fs::remove_file(target);
+    }
     let node = Node::open_storage(chain_id, proposer.clone(), &temp).unwrap();
     node.state
         .genesis_credit(&proposer, 1_000_000)
