@@ -37,7 +37,10 @@ fn l1_e2e_slashing_finality_restart_and_continue() {
     let block = node.produce(3, 10).unwrap();
     assert_eq!(block.height, 1);
     assert_eq!(node.state.balance("bob"), 25);
-    assert_eq!(atc_blockchain::consensus::ConsensusEngine::epoch(block.height), 0);
+    assert_eq!(
+        atc_blockchain::consensus::ConsensusEngine::epoch(block.height),
+        0
+    );
 
     let evidence = SlashingEvidence {
         validator: "validator-1".into(),
