@@ -51,7 +51,7 @@ impl TcpPeerTransport {
         Self { peers: Mutex::new(Vec::new()), chain_id, node_id: node_id.into() }
     }
 
-    pub fn connect(&self, addr: &str, height: u64, best_block: [u8; 32]) -> Result<(), String> {
+    pub fn connect_stream(&self, addr: &str, height: u64, best_block: [u8; 32]) -> Result<TcpStream, String> {
         let mut stream = TcpStream::connect(addr).map_err(|e| format!("connect {addr}: {e}"))?;
         stream.set_nodelay(true).map_err(|e| e.to_string())?;
         write_message(&mut stream, &NetworkMessage::Hello {
@@ -61,14 +61,17 @@ impl TcpPeerTransport {
             best_block,
         })?;
         match read_message(&mut stream)? {
-            Some(NetworkMessage::Hello { chain_id, .. }) if chain_id == self.chain_id => {
-                self.peers.lock().map_err(|_| "peer lock poisoned")?
-                    .push(Arc::new(Mutex::new(stream)));
-                Ok(())
-            }
+            Some(NetworkMessage::Hello { chain_id, .. }) if chain_id == self.chain_id => Ok(stream),
             Some(_) => Err("peer handshake rejected".into()),
             None => Err("peer closed during handshake".into()),
         }
+    }
+
+    pub fn connect(&self, addr: &str, height: u64, best_block: [u8; 32]) -> Result<(), String> {
+        let stream = self.connect_stream(addr, height, best_block)?;
+        self.peers.lock().map_err(|_| "peer lock poisoned")?
+            .push(Arc::new(Mutex::new(stream)));
+        Ok(())
     }
 
     pub fn accept(
