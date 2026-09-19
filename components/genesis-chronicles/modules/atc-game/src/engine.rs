@@ -5,6 +5,12 @@ pub struct GameEngine {
     running: bool,
 }
 
+impl Default for GameEngine {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl GameEngine {
     pub fn new() -> Self { Self { tick: 0, running: false } }
     pub fn start(&mut self) { self.running = true; }
