@@ -183,7 +183,10 @@ fn main() -> std::io::Result<()> {
         }
     }
 
-    let local_validator = validators.iter().find(|v| v.id == node_id);
+    let local_validator = validators
+        .iter()
+        .find(|v| v.id == node_id)
+        .filter(|v| runtime.node.consensus.validator_stake(&v.id) > 0);
     if let Some(v) = local_validator {
         runtime.node.set_vote_signer(v.id.clone(), v.seed);
     }
