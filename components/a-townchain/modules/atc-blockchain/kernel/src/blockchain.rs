@@ -407,7 +407,18 @@ impl Node {
     pub fn handle_network_message(&self, message: NetworkMessage) -> Result<(), String> {
         match message {
             NetworkMessage::Block(b) => self.import_block(b),
-            NetworkMessage::Vote(v) => self.submit_vote(v),
+            NetworkMessage::Vote(v) => {
+                let block_id = v.block;
+                self.submit_vote(v)?;
+                if self.consensus.weighted_finality(&block_id) {
+                    if let Some(block) = self.chain.last() {
+                        if block.id == block_id {
+                            let _ = self.finalize_weighted(&block)?;
+                        }
+                    }
+                }
+                Ok(())
+            },
             NetworkMessage::Transaction(tx) => {
                 // Remote transactions are admitted locally but are not re-broadcast
                 // here, preventing gossip loops. Local submission uses the broadcast path.
