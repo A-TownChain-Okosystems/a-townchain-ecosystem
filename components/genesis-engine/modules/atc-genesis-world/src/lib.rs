@@ -11,11 +11,11 @@ impl WorldBounds {
     }
     pub fn distance_squared(&self, p: [f32; 3]) -> f32 {
         let mut d = 0.0;
-        for i in 0..3 {
-            let delta = if p[i] < self.min[i] {
-                self.min[i] - p[i]
-            } else if p[i] > self.max[i] {
-                p[i] - self.max[i]
+        for ((point, min), max) in p.iter().zip(self.min).zip(self.max) {
+            let delta = if *point < min {
+                min - *point
+            } else if *point > max {
+                *point - max
             } else {
                 0.0
             };
