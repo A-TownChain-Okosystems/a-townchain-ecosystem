@@ -18,7 +18,9 @@ pub struct ProofRequestBuilder {
 }
 
 impl Default for ProofRequestBuilder {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl ProofRequestBuilder {

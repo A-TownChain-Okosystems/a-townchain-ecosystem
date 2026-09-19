@@ -6,7 +6,9 @@ pub struct LearningPipeline {
 }
 
 impl Default for LearningPipeline {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl LearningPipeline {

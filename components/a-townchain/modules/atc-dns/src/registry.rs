@@ -23,7 +23,9 @@ pub struct DnsRegistry {
 }
 
 impl Default for DnsRegistry {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl DnsRegistry {

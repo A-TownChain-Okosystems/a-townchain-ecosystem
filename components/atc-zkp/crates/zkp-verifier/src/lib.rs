@@ -98,7 +98,7 @@ pub fn verify_format(system_id: u8, proof_len: usize) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     use zkp_prover::{prove_square, setup};
 
     #[test]

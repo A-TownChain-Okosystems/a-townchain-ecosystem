@@ -23,7 +23,9 @@ pub struct SecurityAuditor {
 }
 
 impl Default for SecurityAuditor {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl SecurityAuditor {

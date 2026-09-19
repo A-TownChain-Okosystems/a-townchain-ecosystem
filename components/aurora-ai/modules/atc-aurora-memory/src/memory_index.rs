@@ -16,7 +16,9 @@ pub struct MemoryIndex {
 }
 
 impl Default for MemoryIndex {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl MemoryIndex {

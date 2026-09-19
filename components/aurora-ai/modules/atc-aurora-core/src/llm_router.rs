@@ -11,7 +11,9 @@ pub struct RouterRule {
 }
 
 impl Default for LlmRouter {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl LlmRouter {

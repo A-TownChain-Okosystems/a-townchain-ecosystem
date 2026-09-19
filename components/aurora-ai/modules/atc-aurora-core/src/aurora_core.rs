@@ -11,7 +11,9 @@ pub struct AuroraCore {
 }
 
 impl Default for AuroraCore {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl AuroraCore {

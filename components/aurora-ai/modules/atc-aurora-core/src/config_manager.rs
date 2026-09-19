@@ -7,7 +7,9 @@ pub struct ConfigManager {
 }
 
 impl Default for ConfigManager {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl ConfigManager {

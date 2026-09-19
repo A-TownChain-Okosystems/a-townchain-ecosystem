@@ -9,7 +9,9 @@ pub struct AgentPool {
 }
 
 impl Default for AgentPool {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl AgentPool {

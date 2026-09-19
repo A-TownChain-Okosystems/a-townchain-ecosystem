@@ -45,7 +45,9 @@ impl RewardPolicy {
 }
 
 impl Default for RewardLedger {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl RewardLedger {

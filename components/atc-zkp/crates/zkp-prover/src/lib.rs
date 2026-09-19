@@ -108,7 +108,6 @@ pub fn verify_square(
 #[cfg(test)]
 mod tests {
     use super::*;
-    
 
     #[test]
     fn real_groth16_round_trip_and_negative_case() {

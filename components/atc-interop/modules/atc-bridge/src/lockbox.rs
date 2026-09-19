@@ -8,7 +8,9 @@ pub struct Lockbox {
 }
 
 impl Default for Lockbox {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl Lockbox {

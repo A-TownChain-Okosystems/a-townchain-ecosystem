@@ -7,7 +7,9 @@ pub struct ZoneManager {
 }
 
 impl Default for ZoneManager {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl ZoneManager {
