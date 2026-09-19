@@ -282,7 +282,7 @@ mod tests {
             signature: [0; 64],
             public_key: key.verifying_key().to_bytes(),
         };
-        let sig = key.sign(&vote_bytes(engine.chain_id, &vote));
+        let sig = key.sign(&vote_signing_bytes(engine.chain_id, &vote));
         vote.signature = sig.to_bytes();
         vote
     }
