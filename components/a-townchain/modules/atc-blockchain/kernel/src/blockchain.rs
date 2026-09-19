@@ -426,12 +426,12 @@ impl Node {
                 Ok(())
             },
             NetworkMessage::SlashingEvidence { evidence, penalty } => {
-                self.consensus.slash(evidence.clone(), penalty)?;
+                let applied = self.consensus.slash(evidence.clone(), penalty)?;
                 self.storage.commit_slashing(
                     evidence.height,
                     &evidence.validator,
                     evidence.id(),
-                    penalty,
+                    applied,
                 )?;
                 self.storage.commit_validators(
                     self.chain.height(),
