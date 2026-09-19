@@ -1,0 +1,58 @@
+name: Ecosystem Subtree Sync
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ecosystem-subtree-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ecosystem
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Configure Git
+        run: |
+          git config user.name "A-TownChain Ecosystem Sync"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync canonical repositories
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          sync_subtree() {
+            local prefix="$1"
+            local repo="$2"
+            local remote="https://github.com/A-TownChain-Okosystems/${repo}.git"
+
+            if ! git remote get-url "$repo" >/dev/null 2>&1; then
+              git remote add "$repo" "$remote"
+            else
+              git remote set-url "$repo" "$remote"
+            fi
+
+            git fetch --no-tags "$repo" main
+            git subtree pull --prefix="$prefix" "$repo" main --no-squash -m "sync: ${repo} into ${prefix}"
+          }
+
+          sync_subtree "components/atclang" "atclang"
+          sync_subtree "components/a-townchain" "a-townchain"
+          sync_subtree "components/atc-shivacore" "atc-shivacore"
+          sync_subtree "components/aurora-ai" "aurora-ai"
+          sync_subtree "components/genesis-engine" "genesis-engine"
+
+      - name: Push synchronized state
+        run: |
+          git push origin HEAD:main
