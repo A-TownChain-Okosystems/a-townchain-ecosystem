@@ -231,6 +231,14 @@ impl Node {
         *self.transport.lock().unwrap() = Some(transport);
     }
 
+    pub fn transport_peer_count(&self) -> usize {
+        self.transport
+            .lock()
+            .ok()
+            .and_then(|t| t.as_ref().map(|_| 1))
+            .unwrap_or(0)
+    }
+
     /// Run the canonical Node message loop on an already authenticated TCP peer.
     pub fn serve_tcp_stream(
         self: Arc<Self>,
