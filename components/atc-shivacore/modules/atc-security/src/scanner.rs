@@ -15,6 +15,12 @@ pub struct ScanResult {
     pub description: String,
 }
 
+impl Default for VulnerabilityScanner {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl VulnerabilityScanner {
     pub fn new() -> Self { Self { findings: Vec::new() } }
 
