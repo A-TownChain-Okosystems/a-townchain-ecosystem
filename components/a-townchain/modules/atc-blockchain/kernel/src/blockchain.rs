@@ -12,7 +12,7 @@ pub mod receipts;
 pub mod rpc;
 pub mod security;
 pub mod storage;
-use consensus::{ConsensusEngine, Vote};
+use consensus::{ConsensusEngine, SlashingEvidence, Vote};
 use crypto::{signing_bytes, Ed25519Verifier, SignatureVerifier};
 use execution::{AtcVmExecutor, VmExecutor};
 use mempool::{MemoryPool, MempoolError, StateDb, Transaction};
@@ -254,6 +254,23 @@ impl Node {
             }
             n.consensus.set_height(last.height);
         }
+        for (height, validator, evidence_id, penalty) in n.storage.recover_slashing()? {
+            let applied = n.state.staked(&validator).min(penalty);
+            if applied != penalty {
+                return Err("recovered slashing exceeds validator stake".into());
+            }
+            n.state.slash_stake(&validator, penalty)?;
+            if n.consensus.slashed_stake(&validator) < penalty {
+                let evidence = SlashingEvidence {
+                    validator: validator.clone(),
+                    height,
+                    block_a: evidence_id,
+                    block_b: [0; 32],
+                    reason: "recovered".into(),
+                };
+                n.consensus.slash(evidence, penalty)?;
+            }
+        }
         if let Some((height, id)) = n.storage.recover_finalized()? {
             let block = n.storage.block(height).ok_or("finalized block missing")?;
             if block.id != id || height > n.chain.height() {
@@ -399,6 +416,21 @@ impl Node {
         self.consensus.register_validator(address, stake)?;
         self.storage
             .commit_validators(self.consensus.height(), &self.consensus.validators_snapshot())
+    }
+
+    pub fn slash_validator(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
+        if evidence.height > self.chain.height() {
+            return Err("slashing evidence is above current chain height".into());
+        }
+        let applied = self.consensus.slash(evidence.clone(), penalty)?;
+        if applied == 0 { return Err("slashing penalty is zero".into()); }
+        let state_applied = self.state.slash_stake(&evidence.validator, applied)?;
+        if state_applied != applied {
+            return Err("validator state stake differs from consensus stake".into());
+        }
+        self.storage.commit_slashing(evidence.height, &evidence.validator, evidence.id(), applied)?;
+        self.storage.commit_validators(self.consensus.height(), &self.consensus.validators_snapshot())?;
+        Ok(applied)
     }
 
     pub fn unregister_validator(&self, address: &str) -> Result<(), String> {
