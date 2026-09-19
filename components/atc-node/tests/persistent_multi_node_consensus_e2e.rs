@@ -1,7 +1,6 @@
 use std::{
     io::{Read, Write},
     net::TcpStream,
-    path::PathBuf,
     process::{Command, Stdio},
     thread,
     time::{Duration, SystemTime, UNIX_EPOCH},
@@ -10,6 +9,21 @@ use std::{
 fn rpc(addr: &str, method: &str) -> serde_json::Value {
     let mut stream = TcpStream::connect(addr).expect("rpc connect");
     let body = format!(r#"{{"jsonrpc":"2.0","method":"{method}","id":1}}"#);
+    stream.write_all(body.as_bytes()).unwrap();
+    stream.write_all(b"\n").unwrap();
+    stream
+        .set_read_timeout(Some(Duration::from_secs(2)))
+        .unwrap();
+    let mut out = String::new();
+    stream.read_to_string(&mut out).unwrap();
+    serde_json::from_str(out.trim()).unwrap()
+}
+
+fn rpc_block(addr: &str, height: u64) -> serde_json::Value {
+    let mut stream = TcpStream::connect(addr).expect("rpc block connect");
+    let body = format!(
+        r#"{{"jsonrpc":"2.0","method":"block","params":{{"height":{height}}},"id":1}}"#
+    );
     stream.write_all(body.as_bytes()).unwrap();
     stream.write_all(b"\n").unwrap();
     stream
@@ -120,10 +134,77 @@ fn persistent_two_node_consensus_path() {
         "node B did not reach weighted finality"
     );
 
+    let persisted_height = a_status["result"]["height"].as_u64().unwrap();
+    let persisted_block = rpc_block(a_rpc, persisted_height);
+    let persisted_block_id = persisted_block["result"]["block_id"]
+        .as_str()
+        .expect("persisted block id")
+        .to_string();
+
     let _ = rpc(a_rpc, "ping");
     let _ = a.kill();
     let _ = b.kill();
     let _ = a.wait();
     let _ = b.wait();
+
+    let mut recovered_a = Command::new(env!("CARGO_BIN_EXE_atc-node"))
+        .env("ATC_NODE_ID", "atc-node-a")
+        .env("ATC_RPC_ADDR", a_rpc)
+        .env("ATC_P2P_ADDR", a_p2p)
+        .env("ATC_DATA_DIR", &a_dir)
+        .env("ATC_VALIDATORS", &validators)
+        .env("ATC_PEERS", "")
+        .env("ATC_BLOCK_INTERVAL_SECS", "1")
+        .stdin(Stdio::null())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .spawn()
+        .unwrap();
+
+    let recovered_status = wait_status(a_rpc, persisted_height);
+    assert_eq!(
+        recovered_status["result"]["height"].as_u64(),
+        Some(persisted_height),
+        "restart did not recover the persisted height"
+    );
+    assert_eq!(
+        recovered_status["result"]["finalized"]["height"].as_u64(),
+        a_status["result"]["finalized"]["height"].as_u64(),
+        "restart did not recover finalized height"
+    );
+    let recovered_block = rpc_block(a_rpc, persisted_height);
+    assert_eq!(
+        recovered_block["result"]["block_id"].as_str(),
+        Some(persisted_block_id.as_str()),
+        "restart changed the persisted block"
+    );
+
+    let mut recovered_b = Command::new(env!("CARGO_BIN_EXE_atc-node"))
+        .env("ATC_NODE_ID", "atc-node-b")
+        .env("ATC_RPC_ADDR", b_rpc)
+        .env("ATC_P2P_ADDR", b_p2p)
+        .env("ATC_DATA_DIR", &b_dir)
+        .env("ATC_VALIDATORS", &validators)
+        .env("ATC_PEERS", a_p2p)
+        .env("ATC_BLOCK_INTERVAL_SECS", "1")
+        .stdin(Stdio::null())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .spawn()
+        .unwrap();
+
+    let next_height = persisted_height + 1;
+    let recovered_a_next = wait_status(a_rpc, next_height);
+    let recovered_b_next = wait_status(b_rpc, next_height);
+    assert_eq!(
+        recovered_a_next["result"]["height"].as_u64(),
+        recovered_b_next["result"]["height"].as_u64(),
+        "restarted nodes diverged after recovery"
+    );
+
+    let _ = recovered_a.kill();
+    let _ = recovered_b.kill();
+    let _ = recovered_a.wait();
+    let _ = recovered_b.wait();
     std::fs::remove_dir_all(root).unwrap();
 }
