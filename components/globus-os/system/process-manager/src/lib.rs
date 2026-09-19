@@ -35,27 +35,58 @@ pub struct ProcessManager {
 }
 
 impl ProcessManager {
-    pub fn new() -> Self { Self { next_pid: 1, processes: Vec::new() } }
+    pub fn new() -> Self {
+        Self {
+            next_pid: 1,
+            processes: Vec::new(),
+        }
+    }
 
     pub fn spawn(&mut self, parent: Option<ProcessId>) -> Result<ProcessId, ProcessManagerError> {
         if let Some(pid) = parent {
-            if !self.processes.iter().any(|p| p.id == pid && p.state != ProcessState::Exited) {
+            if !self
+                .processes
+                .iter()
+                .any(|p| p.id == pid && p.state != ProcessState::Exited)
+            {
                 return Err(ProcessManagerError::InvalidParent);
             }
         }
         let id = self.allocate_pid();
-        self.processes.push(ProcessRecord { id, parent, state: ProcessState::Created, exit_code: None });
+        self.processes.push(ProcessRecord {
+            id,
+            parent,
+            state: ProcessState::Created,
+            exit_code: None,
+        });
         Ok(id)
     }
 
-    pub fn apply(&mut self, id: ProcessId, action: ProcessAction) -> Result<(), ProcessManagerError> {
-        let p = self.processes.iter_mut().find(|p| p.id == id).ok_or(ProcessManagerError::UnknownProcess)?;
+    pub fn apply(
+        &mut self,
+        id: ProcessId,
+        action: ProcessAction,
+    ) -> Result<(), ProcessManagerError> {
+        let p = self
+            .processes
+            .iter_mut()
+            .find(|p| p.id == id)
+            .ok_or(ProcessManagerError::UnknownProcess)?;
         match (p.state, action) {
             (ProcessState::Created, ProcessAction::Start) => p.state = ProcessState::Ready,
-            (ProcessState::Ready | ProcessState::Running, ProcessAction::Block) => p.state = ProcessState::Blocked,
+            (ProcessState::Ready | ProcessState::Running, ProcessAction::Block) => {
+                p.state = ProcessState::Blocked
+            }
             (ProcessState::Blocked, ProcessAction::Resume) => p.state = ProcessState::Ready,
-            (ProcessState::Created | ProcessState::Ready | ProcessState::Running | ProcessState::Blocked, ProcessAction::Terminate(code)) => {
-                p.state = ProcessState::Exited; p.exit_code = Some(code);
+            (
+                ProcessState::Created
+                | ProcessState::Ready
+                | ProcessState::Running
+                | ProcessState::Blocked,
+                ProcessAction::Terminate(code),
+            ) => {
+                p.state = ProcessState::Exited;
+                p.exit_code = Some(code);
             }
             _ => return Err(ProcessManagerError::InvalidTransition),
         }
@@ -63,19 +94,31 @@ impl ProcessManager {
     }
 
     pub fn reap(&mut self, id: ProcessId) -> Result<ProcessRecord, ProcessManagerError> {
-        let index = self.processes.iter().position(|p| p.id == id).ok_or(ProcessManagerError::UnknownProcess)?;
-        if self.processes[index].state != ProcessState::Exited { return Err(ProcessManagerError::InvalidTransition); }
+        let index = self
+            .processes
+            .iter()
+            .position(|p| p.id == id)
+            .ok_or(ProcessManagerError::UnknownProcess)?;
+        if self.processes[index].state != ProcessState::Exited {
+            return Err(ProcessManagerError::InvalidTransition);
+        }
         Ok(self.processes.remove(index))
     }
 
-    pub fn get(&self, id: ProcessId) -> Option<ProcessRecord> { self.processes.iter().copied().find(|p| p.id == id) }
-    pub fn processes(&self) -> &[ProcessRecord] { &self.processes }
+    pub fn get(&self, id: ProcessId) -> Option<ProcessRecord> {
+        self.processes.iter().copied().find(|p| p.id == id)
+    }
+    pub fn processes(&self) -> &[ProcessRecord] {
+        &self.processes
+    }
 
     fn allocate_pid(&mut self) -> ProcessId {
         loop {
             let id = ProcessId(self.next_pid);
             self.next_pid = self.next_pid.saturating_add(1).max(1);
-            if !self.processes.iter().any(|p| p.id == id) { return id; }
+            if !self.processes.iter().any(|p| p.id == id) {
+                return id;
+            }
         }
     }
 }
@@ -87,7 +130,10 @@ mod tests {
     fn parent_and_reaping_are_enforced() {
         let mut m = ProcessManager::new();
         let root = m.spawn(None).unwrap();
-        assert_eq!(m.spawn(Some(ProcessId(99))), Err(ProcessManagerError::InvalidParent));
+        assert_eq!(
+            m.spawn(Some(ProcessId(99))),
+            Err(ProcessManagerError::InvalidParent)
+        );
         m.apply(root, ProcessAction::Start).unwrap();
         let child = m.spawn(Some(root)).unwrap();
         m.apply(child, ProcessAction::Terminate(7)).unwrap();

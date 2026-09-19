@@ -39,11 +39,15 @@ pub enum WatchdogError {
 }
 
 impl From<ServiceError> for WatchdogError {
-    fn from(value: ServiceError) -> Self { Self::Service(value) }
+    fn from(value: ServiceError) -> Self {
+        Self::Service(value)
+    }
 }
 
 impl From<EventError> for WatchdogError {
-    fn from(value: EventError) -> Self { Self::Event(value) }
+    fn from(value: EventError) -> Self {
+        Self::Event(value)
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -61,7 +65,9 @@ pub struct Watchdog {
 
 impl Watchdog {
     /// Creates an empty watchdog.
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 
     /// Registers a monitored service.
     pub fn register(&mut self, target: WatchTarget) -> Result<(), WatchdogError> {
@@ -76,14 +82,23 @@ impl Watchdog {
         }
         self.targets.insert(
             target.service.clone(),
-            (target, TargetState { last_heartbeat: 0, missed: 0, unhealthy: false }),
+            (
+                target,
+                TargetState {
+                    last_heartbeat: 0,
+                    missed: 0,
+                    unhealthy: false,
+                },
+            ),
         );
         Ok(())
     }
 
     /// Records a heartbeat at a monotonically increasing logical tick.
     pub fn heartbeat(&mut self, service: &str, tick: u64) -> Result<(), WatchdogError> {
-        let (_, state) = self.targets.get_mut(service)
+        let (_, state) = self
+            .targets
+            .get_mut(service)
             .ok_or_else(|| WatchdogError::UnknownTarget(service.into()))?;
         if tick < state.last_heartbeat {
             return Err(WatchdogError::InvalidTarget(service.into()));
@@ -120,7 +135,10 @@ impl Watchdog {
             } else {
                 RecoveryAction::RestartService
             };
-            let report = HealthReport { healthy: false, consecutive_failures: state.missed };
+            let report = HealthReport {
+                healthy: false,
+                consecutive_failures: state.missed,
+            };
             let restart_allowed = services.record_health(&name, report)?;
             if matches!(action, RecoveryAction::RestartService) && !restart_allowed {
                 continue;
@@ -155,17 +173,32 @@ mod tests {
         let mut services = ServiceManager::new();
         services.register(service("network", false)).unwrap();
         let mut watchdog = Watchdog::new();
-        watchdog.register(WatchTarget {
-            service: "network".into(),
-            timeout_ticks: 10,
-            max_missed_heartbeats: 2,
-            critical: false,
-        }).unwrap();
+        watchdog
+            .register(WatchTarget {
+                service: "network".into(),
+                timeout_ticks: 10,
+                max_missed_heartbeats: 2,
+                critical: false,
+            })
+            .unwrap();
         let mut events = EventBus::new(4).unwrap();
-        assert!(watchdog.poll(19, &mut services, &mut events).unwrap().is_empty());
+        assert!(
+            watchdog
+                .poll(19, &mut services, &mut events)
+                .unwrap()
+                .is_empty()
+        );
         let actions = watchdog.poll(20, &mut services, &mut events).unwrap();
-        assert_eq!(actions, vec![(String::from("network"), RecoveryAction::RestartService)]);
-        assert!(watchdog.poll(40, &mut services, &mut events).unwrap().is_empty());
+        assert_eq!(
+            actions,
+            vec![(String::from("network"), RecoveryAction::RestartService)]
+        );
+        assert!(
+            watchdog
+                .poll(40, &mut services, &mut events)
+                .unwrap()
+                .is_empty()
+        );
     }
 
     #[test]
@@ -173,15 +206,20 @@ mod tests {
         let mut services = ServiceManager::new();
         services.register(service("security", true)).unwrap();
         let mut watchdog = Watchdog::new();
-        watchdog.register(WatchTarget {
-            service: "security".into(),
-            timeout_ticks: 5,
-            max_missed_heartbeats: 1,
-            critical: true,
-        }).unwrap();
+        watchdog
+            .register(WatchTarget {
+                service: "security".into(),
+                timeout_ticks: 5,
+                max_missed_heartbeats: 1,
+                critical: true,
+            })
+            .unwrap();
         let mut events = EventBus::new(2).unwrap();
         let actions = watchdog.poll(5, &mut services, &mut events).unwrap();
-        assert_eq!(actions, vec![(String::from("security"), RecoveryAction::EnterRecovery)]);
+        assert_eq!(
+            actions,
+            vec![(String::from("security"), RecoveryAction::EnterRecovery)]
+        );
     }
 
     #[test]
@@ -189,15 +227,25 @@ mod tests {
         let mut services = ServiceManager::new();
         services.register(service("network", false)).unwrap();
         let mut watchdog = Watchdog::new();
-        watchdog.register(WatchTarget {
-            service: "network".into(),
-            timeout_ticks: 10,
-            max_missed_heartbeats: 1,
-            critical: false,
-        }).unwrap();
+        watchdog
+            .register(WatchTarget {
+                service: "network".into(),
+                timeout_ticks: 10,
+                max_missed_heartbeats: 1,
+                critical: false,
+            })
+            .unwrap();
         let mut events = EventBus::new(4).unwrap();
-        assert_eq!(watchdog.poll(10, &mut services, &mut events).unwrap().len(), 1);
+        assert_eq!(
+            watchdog.poll(10, &mut services, &mut events).unwrap().len(),
+            1
+        );
         watchdog.heartbeat("network", 11).unwrap();
-        assert!(watchdog.poll(20, &mut services, &mut events).unwrap().is_empty());
+        assert!(
+            watchdog
+                .poll(20, &mut services, &mut events)
+                .unwrap()
+                .is_empty()
+        );
     }
 }

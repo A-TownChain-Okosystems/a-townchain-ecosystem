@@ -43,9 +43,13 @@ pub struct RpcResponse<T> {
 impl<T> RpcResponse<T> {
     pub fn into_result(self) -> Result<T, SdkError> {
         if let Some(error) = self.error {
-            return Err(SdkError::Rpc { code: error.code, message: error.message });
+            return Err(SdkError::Rpc {
+                code: error.code,
+                message: error.message,
+            });
         }
-        self.result.ok_or_else(|| SdkError::InvalidResponse("missing result".into()))
+        self.result
+            .ok_or_else(|| SdkError::InvalidResponse("missing result".into()))
     }
 }
 
@@ -56,11 +60,12 @@ pub struct ClientConfig {
 
 impl ClientConfig {
     pub fn new(endpoint: &str) -> Result<Self, SdkError> {
-        let url = Url::parse(endpoint)
-            .map_err(|e| SdkError::InvalidEndpoint(e.to_string()))?;
+        let url = Url::parse(endpoint).map_err(|e| SdkError::InvalidEndpoint(e.to_string()))?;
         match url.scheme() {
             "http" | "https" | "ws" | "wss" => Ok(Self { endpoint: url }),
-            scheme => Err(SdkError::InvalidEndpoint(format!("unsupported scheme: {scheme}"))),
+            scheme => Err(SdkError::InvalidEndpoint(format!(
+                "unsupported scheme: {scheme}"
+            ))),
         }
     }
 }
@@ -72,14 +77,21 @@ pub struct AtcClient {
 
 impl AtcClient {
     pub fn new(endpoint: &str) -> Result<Self, SdkError> {
-        Ok(Self { config: ClientConfig::new(endpoint)? })
+        Ok(Self {
+            config: ClientConfig::new(endpoint)?,
+        })
     }
 
     pub fn endpoint(&self) -> &Url {
         &self.config.endpoint
     }
 
-    pub fn request<P: Serialize>(&self, id: u64, method: impl Into<String>, params: P) -> RpcRequest<P> {
+    pub fn request<P: Serialize>(
+        &self,
+        id: u64,
+        method: impl Into<String>,
+        params: P,
+    ) -> RpcRequest<P> {
         RpcRequest {
             jsonrpc: "2.0".into(),
             id,
@@ -127,6 +139,9 @@ mod tests {
             result: None,
             error: None,
         };
-        assert!(matches!(response.into_result(), Err(SdkError::InvalidResponse(_))));
+        assert!(matches!(
+            response.into_result(),
+            Err(SdkError::InvalidResponse(_))
+        ));
     }
 }

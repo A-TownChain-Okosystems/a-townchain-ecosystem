@@ -21,7 +21,11 @@ pub struct Sale {
 
 impl Sale {
     pub fn new(config: SaleConfig) -> Self {
-        Sale { config, total: 0, contributions: Vec::new() }
+        Sale {
+            config,
+            total: 0,
+            contributions: Vec::new(),
+        }
     }
 
     pub fn contribute(&mut self, contributor: u64, amount: u128) -> Result<(), SaleError> {
@@ -51,7 +55,10 @@ mod tests {
 
     #[test]
     fn cap_und_minimum() {
-        let mut s = Sale::new(SaleConfig { hard_cap: 100, min_contribution: 10 });
+        let mut s = Sale::new(SaleConfig {
+            hard_cap: 100,
+            min_contribution: 10,
+        });
         assert_eq!(s.contribute(1, 10), Ok(()));
         assert_eq!(s.contribute(2, 90), Ok(()));
         assert_eq!(s.contribute(3, 1), Err(SaleError::BelowMinimum));
@@ -62,7 +69,10 @@ mod tests {
 
     #[test]
     fn exakt_bis_cap() {
-        let mut s = Sale::new(SaleConfig { hard_cap: 100, min_contribution: 1 });
+        let mut s = Sale::new(SaleConfig {
+            hard_cap: 100,
+            min_contribution: 1,
+        });
         for i in 0..100 {
             assert_eq!(s.contribute(i, 1), Ok(()));
         }

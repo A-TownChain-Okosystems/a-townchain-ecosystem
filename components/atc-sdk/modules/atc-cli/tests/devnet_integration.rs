@@ -28,15 +28,27 @@ fn sdk_spricht_mit_echtem_node() {
     let mut bereit = false;
     for _ in 0..50 {
         match TcpStream::connect(("127.0.0.1", port)) {
-            Ok(s) => { drop(s); bereit = true; break; }
+            Ok(s) => {
+                drop(s);
+                bereit = true;
+                break;
+            }
             Err(_) => std::thread::sleep(Duration::from_millis(100)),
         }
     }
     assert!(bereit, "Node-Dienst nicht bereit");
 
     let mut c = RpcClient::new(format!("127.0.0.1:{}", port));
-    assert_eq!(c.chain_id().expect("chain_id"), 658467, "SDK-Client muss Chain-ID des echten Nodes lesen");
+    assert_eq!(
+        c.chain_id().expect("chain_id"),
+        658467,
+        "SDK-Client muss Chain-ID des echten Nodes lesen"
+    );
     assert_eq!(c.peers().expect("peers"), 2);
     // Kerninvariante: Boot-Hash aus der Node-Genesis == was der Client ueber RPC erhaelt
-    assert_eq!(c.boot_hash().expect("boot_hash"), boot_hash, "Boot-Hash muss ueber RPC identisch sein");
+    assert_eq!(
+        c.boot_hash().expect("boot_hash"),
+        boot_hash,
+        "Boot-Hash muss ueber RPC identisch sein"
+    );
 }

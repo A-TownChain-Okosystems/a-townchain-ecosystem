@@ -53,7 +53,8 @@ impl SystemControlPlane {
             applications: ApplicationManager::new(),
             resources: ResourceManager::new(),
             ipc: IpcManager::new(),
-            events: EventBus::new(event_capacity).expect("control-plane event capacity must be non-zero"),
+            events: EventBus::new(event_capacity)
+                .expect("control-plane event capacity must be non-zero"),
             watchdog: Watchdog::new(),
             updates: UpdateManager::new(),
             configuration: ConfigurationManager::new(),

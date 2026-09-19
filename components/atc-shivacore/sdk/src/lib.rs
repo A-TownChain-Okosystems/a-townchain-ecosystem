@@ -8,5 +8,9 @@ pub struct CapabilityId(pub u64);
 pub struct ChannelId(pub u64);
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct AttestationId(pub u64);
-pub trait CapabilityResolver { fn resolve(&self, id: CapabilityId) -> bool; }
-pub trait IpcEndpoint { fn channel(&self) -> ChannelId; }
+pub trait CapabilityResolver {
+    fn resolve(&self, id: CapabilityId) -> bool;
+}
+pub trait IpcEndpoint {
+    fn channel(&self) -> ChannelId;
+}

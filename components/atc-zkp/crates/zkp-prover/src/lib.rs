@@ -5,12 +5,12 @@
 //! and distributed as audited artifacts; this module does not embed toxic
 //! waste or a production proving key.
 
-use ark_bn254::Fr;
 pub use ark_bn254::Bn254;
+use ark_bn254::Fr;
 use ark_groth16::{prepare_verifying_key, Groth16, Proof, ProvingKey, VerifyingKey};
 use ark_r1cs_std::alloc::AllocVar;
-use ark_r1cs_std::fields::fp::FpVar;
 use ark_r1cs_std::eq::EqGadget;
+use ark_r1cs_std::fields::fp::FpVar;
 use ark_relations::gr1cs::{ConstraintSynthesizer, ConstraintSystemRef, SynthesisError};
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use ark_snark::SNARK;
@@ -27,7 +27,9 @@ pub struct SquareCircuit {
 
 impl ConstraintSynthesizer<Fr> for SquareCircuit {
     fn generate_constraints(self, cs: ConstraintSystemRef<Fr>) -> Result<(), SynthesisError> {
-        let x = FpVar::new_witness(cs.clone(), || self.x.ok_or(SynthesisError::AssignmentMissing))?;
+        let x = FpVar::new_witness(cs.clone(), || {
+            self.x.ok_or(SynthesisError::AssignmentMissing)
+        })?;
         let y = FpVar::new_input(cs, || self.y.ok_or(SynthesisError::AssignmentMissing))?;
         let square = &x * &x;
         square.enforce_equal(&y)?;
@@ -35,7 +37,9 @@ impl ConstraintSynthesizer<Fr> for SquareCircuit {
     }
 }
 
-pub fn setup<R: RngCore + CryptoRng>(rng: &mut R) -> Result<(ProvingKey<Bn254>, VerifyingKey<Bn254>), ProofError> {
+pub fn setup<R: RngCore + CryptoRng>(
+    rng: &mut R,
+) -> Result<(ProvingKey<Bn254>, VerifyingKey<Bn254>), ProofError> {
     Groth16::<Bn254>::circuit_specific_setup(SquareCircuit { x: None, y: None }, rng)
         .map_err(|_| ProofError::VerificationFailed)
 }
@@ -51,7 +55,10 @@ pub fn prove_square<R: RngCore + CryptoRng>(
     }
     let proof = Groth16::<Bn254>::prove(
         pk,
-        SquareCircuit { x: Some(x), y: Some(y) },
+        SquareCircuit {
+            x: Some(x),
+            y: Some(y),
+        },
         rng,
     )
     .map_err(|_| ProofError::VerificationFailed)?;
@@ -81,7 +88,8 @@ pub fn verify_square(
     y: Fr,
 ) -> Result<bool, ProofError> {
     envelope.validate()?;
-    if envelope.system != ProofSystem::Groth16 || envelope.circuit_id != CIRCUIT_ID_EQUALITY_SQUARE {
+    if envelope.system != ProofSystem::Groth16 || envelope.circuit_id != CIRCUIT_ID_EQUALITY_SQUARE
+    {
         return Err(ProofError::UnsupportedSystem);
     }
 
@@ -95,8 +103,7 @@ pub fn verify_square(
     }
 
     let pvk = prepare_verifying_key(vk);
-    Groth16::<Bn254>::verify_proof(&pvk, &proof, &[y])
-        .map_err(|_| ProofError::VerificationFailed)
+    Groth16::<Bn254>::verify_proof(&pvk, &proof, &[y]).map_err(|_| ProofError::VerificationFailed)
 }
 
 #[cfg(test)]

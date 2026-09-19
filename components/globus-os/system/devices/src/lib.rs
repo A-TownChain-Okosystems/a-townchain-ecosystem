@@ -6,7 +6,9 @@ pub mod block;
 pub mod block_cache;
 pub mod block_manager;
 pub mod boot;
+pub mod driver_manager;
 pub mod ethernet;
+pub mod hal;
 pub mod interrupt;
 pub mod iommu;
 pub mod msi;
@@ -16,11 +18,9 @@ pub mod pci;
 pub mod registry;
 pub mod smp;
 pub mod timer;
-pub mod hal;
-pub mod driver_manager;
 
-pub use hal::*;
 pub use driver_manager::{DriverBinding, DriverError, DriverManager, DriverSpec, DriverState};
+pub use hal::*;
 
 pub use block_cache::{BlockCache, CacheError};
 pub use block_manager::{BlockDeviceId, BlockDeviceRegistry};

@@ -52,7 +52,9 @@ pub enum ApplicationError {
 }
 
 impl From<ProcessManagerError> for ApplicationError {
-    fn from(value: ProcessManagerError) -> Self { Self::Process(value) }
+    fn from(value: ProcessManagerError) -> Self {
+        Self::Process(value)
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -68,17 +70,28 @@ pub struct ApplicationManager {
 }
 
 impl ApplicationManager {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 
     pub fn register(&mut self, spec: ApplicationSpec) -> Result<(), ApplicationError> {
-        if spec.name.is_empty() { return Err(ApplicationError::EmptyName); }
-        if spec.executable.is_empty() { return Err(ApplicationError::EmptyExecutable); }
-        if self.applications.contains_key(&spec.id) { return Err(ApplicationError::DuplicateId); }
-        self.applications.insert(spec.id, ApplicationRecord {
-            spec,
-            state: ApplicationState::Installed,
-            process: None,
-        });
+        if spec.name.is_empty() {
+            return Err(ApplicationError::EmptyName);
+        }
+        if spec.executable.is_empty() {
+            return Err(ApplicationError::EmptyExecutable);
+        }
+        if self.applications.contains_key(&spec.id) {
+            return Err(ApplicationError::DuplicateId);
+        }
+        self.applications.insert(
+            spec.id,
+            ApplicationRecord {
+                spec,
+                state: ApplicationState::Installed,
+                process: None,
+            },
+        );
         Ok(())
     }
 
@@ -88,7 +101,10 @@ impl ApplicationManager {
         action: ApplicationAction,
         processes: &mut ProcessManager,
     ) -> Result<(), ApplicationError> {
-        let record = self.applications.get_mut(&id).ok_or(ApplicationError::UnknownApplication)?;
+        let record = self
+            .applications
+            .get_mut(&id)
+            .ok_or(ApplicationError::UnknownApplication)?;
 
         match (record.state, action) {
             (ApplicationState::Installed, ApplicationAction::Prepare) => {
@@ -117,7 +133,14 @@ impl ApplicationManager {
                 }
                 record.state = ApplicationState::Stopped;
             }
-            (ApplicationState::Installed | ApplicationState::Ready | ApplicationState::Running | ApplicationState::Suspended | ApplicationState::Stopped, ApplicationAction::Fail) => {
+            (
+                ApplicationState::Installed
+                | ApplicationState::Ready
+                | ApplicationState::Running
+                | ApplicationState::Suspended
+                | ApplicationState::Stopped,
+                ApplicationAction::Fail,
+            ) => {
                 record.state = ApplicationState::Failed;
             }
             _ => return Err(ApplicationError::InvalidTransition),
@@ -153,23 +176,43 @@ mod tests {
         let mut apps = ApplicationManager::new();
         let mut processes = ProcessManager::new();
         apps.register(spec(1)).unwrap();
-        apps.apply(ApplicationId(1), ApplicationAction::Prepare, &mut processes).unwrap();
-        apps.apply(ApplicationId(1), ApplicationAction::Start, &mut processes).unwrap();
-        assert_eq!(apps.get(ApplicationId(1)).unwrap().state, ApplicationState::Running);
+        apps.apply(ApplicationId(1), ApplicationAction::Prepare, &mut processes)
+            .unwrap();
+        apps.apply(ApplicationId(1), ApplicationAction::Start, &mut processes)
+            .unwrap();
+        assert_eq!(
+            apps.get(ApplicationId(1)).unwrap().state,
+            ApplicationState::Running
+        );
         let pid = apps.get(ApplicationId(1)).unwrap().process.unwrap();
         assert_eq!(processes.get(pid).unwrap().state, ProcessState::Ready);
-        apps.apply(ApplicationId(1), ApplicationAction::Suspend, &mut processes).unwrap();
+        apps.apply(ApplicationId(1), ApplicationAction::Suspend, &mut processes)
+            .unwrap();
         assert_eq!(processes.get(pid).unwrap().state, ProcessState::Blocked);
-        apps.apply(ApplicationId(1), ApplicationAction::Resume, &mut processes).unwrap();
-        apps.apply(ApplicationId(1), ApplicationAction::Stop, &mut processes).unwrap();
-        assert_eq!(apps.get(ApplicationId(1)).unwrap().state, ApplicationState::Stopped);
+        apps.apply(ApplicationId(1), ApplicationAction::Resume, &mut processes)
+            .unwrap();
+        apps.apply(ApplicationId(1), ApplicationAction::Stop, &mut processes)
+            .unwrap();
+        assert_eq!(
+            apps.get(ApplicationId(1)).unwrap().state,
+            ApplicationState::Stopped
+        );
         assert!(processes.get(pid).is_none());
     }
 
     #[test]
     fn duplicate_and_empty_metadata_are_rejected() {
         let mut apps = ApplicationManager::new();
-        assert_eq!(apps.register(ApplicationSpec { id: ApplicationId(1), name: String::new(), executable: "x".into(), capabilities: vec![], auto_restart: false }), Err(ApplicationError::EmptyName));
+        assert_eq!(
+            apps.register(ApplicationSpec {
+                id: ApplicationId(1),
+                name: String::new(),
+                executable: "x".into(),
+                capabilities: vec![],
+                auto_restart: false
+            }),
+            Err(ApplicationError::EmptyName)
+        );
         apps.register(spec(1)).unwrap();
         assert_eq!(apps.register(spec(1)), Err(ApplicationError::DuplicateId));
     }

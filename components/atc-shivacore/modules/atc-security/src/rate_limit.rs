@@ -10,7 +10,10 @@ pub struct RateLimiter {
 
 impl RateLimiter {
     pub fn new() -> Self {
-        Self { limits: HashMap::new(), counts: HashMap::new() }
+        Self {
+            limits: HashMap::new(),
+            counts: HashMap::new(),
+        }
     }
 
     pub fn set_limit(&mut self, key: &str, max: u32, window: Duration) {

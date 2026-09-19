@@ -23,7 +23,10 @@ mod syscall;
 mod user_transition;
 
 use alloc::{boxed::Box, vec::Vec};
-use bootloader_api::{config::{BootloaderConfig, Mapping}, entry_point, BootInfo};
+use bootloader_api::{
+    config::{BootloaderConfig, Mapping},
+    entry_point, BootInfo,
+};
 
 pub static BOOTLOADER_CONFIG: BootloaderConfig = {
     let mut config = BootloaderConfig::new_default();
@@ -47,7 +50,9 @@ static mut INIT_HANDOFF: Option<InitHandoff> = None;
 extern "C" fn globus_init_kernel_task() -> ! {
     serial_println!("ShivaCore: GlobusOS init task entered via CPU context switch.");
     let handoff = unsafe {
-        INIT_HANDOFF.as_ref().expect("ShivaCore: missing init handoff state")
+        INIT_HANDOFF
+            .as_ref()
+            .expect("ShivaCore: missing init handoff state")
     };
     unsafe {
         user_transition::enter_init(
@@ -93,9 +98,14 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
 
     let mut kernel = match shivacore::kernel_init::KernelState::boot() {
         Ok(state) => state,
-        Err(error) => panic!("ShivaCore: kernel subsystem initialization failed: {:?}", error),
+        Err(error) => panic!(
+            "ShivaCore: kernel subsystem initialization failed: {:?}",
+            error
+        ),
     };
-    kernel.smoke_test().expect("ShivaCore: kernel boot smoke test failed");
+    kernel
+        .smoke_test()
+        .expect("ShivaCore: kernel boot smoke test failed");
 
     let boxed = Box::new(41);
     serial_println!("ShivaCore: Box-Test -- Wert: {}", *boxed);
@@ -104,7 +114,10 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
     for i in 0..10 {
         vec.push(i);
     }
-    serial_println!("ShivaCore: Vec-Test -- Summe 0..10: {}", vec.iter().sum::<i32>());
+    serial_println!(
+        "ShivaCore: Vec-Test -- Summe 0..10: {}",
+        vec.iter().sum::<i32>()
+    );
 
     let init_pid = kernel
         .processes
@@ -126,8 +139,7 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
     }
 
     let init_task = context::BootstrapProcess::new(globus_init_kernel_task);
-    let scheduled_init =
-        execution::ScheduledProcess::new(init_pid, init_task, &init_address_space);
+    let scheduled_init = execution::ScheduledProcess::new(init_pid, init_task, &init_address_space);
 
     let mut process_scheduler = execution::ProcessScheduler::new();
     process_scheduler.enqueue(scheduled_init);
@@ -140,5 +152,7 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
         process_scheduler.ready_len()
     );
 
-    unsafe { process_scheduler.run_next(&mut current_context); }
+    unsafe {
+        process_scheduler.run_next(&mut current_context);
+    }
 }

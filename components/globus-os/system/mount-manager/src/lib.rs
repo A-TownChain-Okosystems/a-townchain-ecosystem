@@ -29,7 +29,9 @@ pub struct MountManager {
 
 impl MountManager {
     /// Creates an empty manager.
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 
     /// Mounts a filesystem at a normalized namespace path.
     pub fn mount(&mut self, mount: Mount) -> Result<(), MountError> {
@@ -54,7 +56,8 @@ impl MountManager {
         if self.states.get(mountpoint) != Some(&MountState::Mounted) {
             return Err(MountError::NotMounted);
         }
-        self.states.insert(mountpoint.to_owned(), MountState::Unmounted);
+        self.states
+            .insert(mountpoint.to_owned(), MountState::Unmounted);
         Ok(())
     }
 
@@ -69,7 +72,9 @@ impl MountManager {
     }
 
     /// Returns the current namespace table.
-    pub fn mounts(&self) -> &[Mount] { self.table.mounts() }
+    pub fn mounts(&self) -> &[Mount] {
+        self.table.mounts()
+    }
 
     /// Returns the lifecycle state of a mountpoint.
     pub fn state(&self, mountpoint: &str) -> Option<MountState> {
@@ -84,11 +89,13 @@ mod tests {
     #[test]
     fn mounts_and_resolves_active_namespace() {
         let mut manager = MountManager::new();
-        manager.mount(Mount {
-            mountpoint: "/home".into(),
-            filesystem: "data".into(),
-            readonly: false,
-        }).unwrap();
+        manager
+            .mount(Mount {
+                mountpoint: "/home".into(),
+                filesystem: "data".into(),
+                readonly: false,
+            })
+            .unwrap();
         assert_eq!(manager.resolve("/home/user").unwrap().filesystem, "data");
         assert_eq!(manager.state("/home"), Some(MountState::Mounted));
     }
@@ -96,11 +103,13 @@ mod tests {
     #[test]
     fn unmount_disables_resolution() {
         let mut manager = MountManager::new();
-        manager.mount(Mount {
-            mountpoint: "/system".into(),
-            filesystem: "system".into(),
-            readonly: true,
-        }).unwrap();
+        manager
+            .mount(Mount {
+                mountpoint: "/system".into(),
+                filesystem: "system".into(),
+                readonly: true,
+            })
+            .unwrap();
         manager.unmount("/system").unwrap();
         assert!(manager.resolve("/system/bin").is_none());
         assert_eq!(manager.state("/system"), Some(MountState::Unmounted));

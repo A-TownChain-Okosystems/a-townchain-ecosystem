@@ -59,10 +59,18 @@ impl ScheduledProcess {
         }
     }
 
-    pub fn context(&self) -> &Context { self.process.context() }
-    pub fn context_mut(&mut self) -> &mut Context { self.process.context_mut() }
-    pub fn user_context(&self) -> &UserContext { &self.user_context }
-    pub fn user_context_mut(&mut self) -> &mut UserContext { &mut self.user_context }
+    pub fn context(&self) -> &Context {
+        self.process.context()
+    }
+    pub fn context_mut(&mut self) -> &mut Context {
+        self.process.context_mut()
+    }
+    pub fn user_context(&self) -> &UserContext {
+        &self.user_context
+    }
+    pub fn user_context_mut(&mut self) -> &mut UserContext {
+        &mut self.user_context
+    }
 
     pub unsafe fn activate_address_space(&self) {
         Cr3::write(self.root_frame, self.cr3_flags);
@@ -76,14 +84,19 @@ pub struct ProcessScheduler {
 
 impl ProcessScheduler {
     pub const fn new() -> Self {
-        Self { ready: VecDeque::new(), current: None }
+        Self {
+            ready: VecDeque::new(),
+            current: None,
+        }
     }
 
     pub fn enqueue(&mut self, process: ScheduledProcess) {
         self.ready.push_back(process);
     }
 
-    pub fn ready_len(&self) -> usize { self.ready.len() }
+    pub fn ready_len(&self) -> usize {
+        self.ready.len()
+    }
 
     pub fn current_pid(&self) -> Option<Pid> {
         self.current.as_ref().map(|p| p.pid)

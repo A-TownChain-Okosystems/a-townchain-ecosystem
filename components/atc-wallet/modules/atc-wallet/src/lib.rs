@@ -4,8 +4,8 @@
 //! Copyright (c) Michael Wroblewski. All Rights Reserved.
 
 // Entry point in src/main.rs
+pub mod balance;
+pub mod gui;
+pub mod history;
 pub mod keys;
 pub mod tx;
-pub mod gui;
-pub mod balance;
-pub mod history;

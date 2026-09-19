@@ -11,24 +11,45 @@ pub struct DnsRecord {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-pub enum RecordType { A, Cname, Txt, Mx }
+pub enum RecordType {
+    A,
+    Cname,
+    Txt,
+    Mx,
+}
 
 pub struct DnsRegistry {
     records: HashMap<String, DnsRecord>,
 }
 
 impl DnsRegistry {
-    pub fn new() -> Self { Self { records: HashMap::new() } }
-
-    pub fn add(&mut self, name: &str, rtype: RecordType, value: &str, ttl: u64) {
-        self.records.insert(name.into(), DnsRecord {
-            name: name.into(), record_type: rtype, value: value.into(), ttl,
-        });
+    pub fn new() -> Self {
+        Self {
+            records: HashMap::new(),
+        }
     }
 
-    pub fn lookup(&self, name: &str) -> Option<&DnsRecord> { self.records.get(name) }
-    pub fn remove(&mut self, name: &str) -> bool { self.records.remove(name).is_some() }
-    pub fn count(&self) -> usize { self.records.len() }
+    pub fn add(&mut self, name: &str, rtype: RecordType, value: &str, ttl: u64) {
+        self.records.insert(
+            name.into(),
+            DnsRecord {
+                name: name.into(),
+                record_type: rtype,
+                value: value.into(),
+                ttl,
+            },
+        );
+    }
+
+    pub fn lookup(&self, name: &str) -> Option<&DnsRecord> {
+        self.records.get(name)
+    }
+    pub fn remove(&mut self, name: &str) -> bool {
+        self.records.remove(name).is_some()
+    }
+    pub fn count(&self) -> usize {
+        self.records.len()
+    }
 }
 
 #[cfg(test)]

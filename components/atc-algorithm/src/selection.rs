@@ -39,7 +39,10 @@ mod tests {
 
     #[test]
     fn deterministisch_pro_slot() {
-        let vs = vec![Validator { id: 1, stake: 30 }, Validator { id: 2, stake: 70 }];
+        let vs = vec![
+            Validator { id: 1, stake: 30 },
+            Validator { id: 2, stake: 70 },
+        ];
         let a = select_proposer(&vs, 5).unwrap();
         let b = select_proposer(&vs, 5).unwrap();
         assert_eq!(a.id, b.id);
@@ -47,7 +50,10 @@ mod tests {
 
     #[test]
     fn jede_wahl_ist_valide() {
-        let vs = vec![Validator { id: 1, stake: 10 }, Validator { id: 2, stake: 10 }];
+        let vs = vec![
+            Validator { id: 1, stake: 10 },
+            Validator { id: 2, stake: 10 },
+        ];
         for slot in 0..100 {
             let sel = select_proposer(&vs, slot).unwrap();
             assert!(sel.id == 1 || sel.id == 2);

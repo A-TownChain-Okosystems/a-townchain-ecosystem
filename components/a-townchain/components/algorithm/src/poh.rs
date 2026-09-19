@@ -43,7 +43,12 @@ pub struct PohChain {
 
 impl PohChain {
     pub fn genesis(seed: u64) -> Self {
-        PohChain { ticks: vec![Tick { slot: 0, hash: seed }] }
+        PohChain {
+            ticks: vec![Tick {
+                slot: 0,
+                hash: seed,
+            }],
+        }
     }
 
     /// Append the next PoH tick and reject invalid chain state explicitly.

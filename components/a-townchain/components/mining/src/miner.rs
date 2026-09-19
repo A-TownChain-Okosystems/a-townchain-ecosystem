@@ -58,7 +58,11 @@ pub fn mine(job: &MiningJob, start_nonce: u64, attempts: u64) -> Result<MiningRe
         };
         let digest = hash_candidate(&job.header, nonce)?;
         if meets_target(&digest, &job.target) {
-            return Ok(MiningResult { job_id: job.job_id, nonce, digest });
+            return Ok(MiningResult {
+                job_id: job.job_id,
+                nonce,
+                digest,
+            });
         }
     }
 
@@ -85,7 +89,11 @@ mod tests {
 
     #[test]
     fn bounded_mining_finds_easy_target() {
-        let job = MiningJob { job_id: 42, header: b"header".to_vec(), target: [0xffu8; 32] };
+        let job = MiningJob {
+            job_id: 42,
+            header: b"header".to_vec(),
+            target: [0xffu8; 32],
+        };
         let result = mine(&job, 0, 1).unwrap();
         assert_eq!(result.job_id, 42);
         assert_eq!(result.nonce, 0);

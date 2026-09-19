@@ -5,8 +5,8 @@
 
 #![no_std]
 
+pub mod circuits;
+pub mod merkle;
 pub mod snarks;
 pub mod starks;
-pub mod circuits;
 pub mod verifier;
-pub mod merkle;

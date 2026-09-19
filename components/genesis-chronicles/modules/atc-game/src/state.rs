@@ -13,10 +13,21 @@ impl Default for GameState {
 }
 
 impl GameState {
-    pub fn new() -> Self { Self { tick: 0, data: HashMap::new() } }
-    pub fn set(&mut self, key: &str, val: i64) { self.data.insert(key.into(), val); }
-    pub fn get(&self, key: &str) -> Option<&i64> { self.data.get(key) }
-    pub fn advance(&mut self) { self.tick += 1; }
+    pub fn new() -> Self {
+        Self {
+            tick: 0,
+            data: HashMap::new(),
+        }
+    }
+    pub fn set(&mut self, key: &str, val: i64) {
+        self.data.insert(key.into(), val);
+    }
+    pub fn get(&self, key: &str) -> Option<&i64> {
+        self.data.get(key)
+    }
+    pub fn advance(&mut self) {
+        self.tick += 1;
+    }
 }
 
 #[cfg(test)]

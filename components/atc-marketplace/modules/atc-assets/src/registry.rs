@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Asset registry and lookup
-use std::collections::HashMap;
 use crate::metadata::TokenMetadata;
+use std::collections::HashMap;
 
 pub struct AssetRegistry {
     assets: HashMap<u64, TokenMetadata>,
@@ -14,14 +14,24 @@ impl Default for AssetRegistry {
 }
 
 impl AssetRegistry {
-    pub fn new() -> Self { Self { assets: HashMap::new() } }
+    pub fn new() -> Self {
+        Self {
+            assets: HashMap::new(),
+        }
+    }
     pub fn register(&mut self, metadata: TokenMetadata) -> Result<(), String> {
-        if self.assets.contains_key(&metadata.token_id) { return Err("Token already registered".into()); }
+        if self.assets.contains_key(&metadata.token_id) {
+            return Err("Token already registered".into());
+        }
         self.assets.insert(metadata.token_id, metadata);
         Ok(())
     }
-    pub fn lookup(&self, id: u64) -> Option<&TokenMetadata> { self.assets.get(&id) }
-    pub fn count(&self) -> usize { self.assets.len() }
+    pub fn lookup(&self, id: u64) -> Option<&TokenMetadata> {
+        self.assets.get(&id)
+    }
+    pub fn count(&self) -> usize {
+        self.assets.len()
+    }
 }
 
 #[cfg(test)]

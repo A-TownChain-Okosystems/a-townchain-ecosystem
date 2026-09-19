@@ -4,9 +4,9 @@ pub mod compositor;
 pub mod desktop;
 pub mod input;
 pub mod media_surface;
+pub mod session;
 pub mod shell;
 pub mod wm;
-pub mod session;
 pub use session::{DeviceSession, SessionId, SessionManager, SessionState};
 
 pub use media_surface::{MediaSurface, MediaSurfaceError, MediaSurfaceRegistry};

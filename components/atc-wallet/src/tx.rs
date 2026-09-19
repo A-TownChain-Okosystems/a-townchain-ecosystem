@@ -25,11 +25,18 @@ pub struct Transaction {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub enum TxError { InvalidDomain, InvalidSignature }
+pub enum TxError {
+    InvalidDomain,
+    InvalidSignature,
+}
 
 impl TransactionDomain {
     pub fn validate(&self) -> Result<(), TxError> {
-        if self.chain_id != "atc" || !matches!(self.network_id.as_str(), "devnet" | "testnet" | "mainnet") || self.protocol_version.is_empty() || self.transaction_type.is_empty() {
+        if self.chain_id != "atc"
+            || !matches!(self.network_id.as_str(), "devnet" | "testnet" | "mainnet")
+            || self.protocol_version.is_empty()
+            || self.transaction_type.is_empty()
+        {
             return Err(TxError::InvalidDomain);
         }
         Ok(())
@@ -61,8 +68,15 @@ impl TransactionDomain {
         Ok(key.sign(&self.signing_digest(tx)?))
     }
 
-    pub fn verify(&self, tx: &Transaction, public_key: &VerifyingKey, signature: &Signature) -> Result<(), TxError> {
-        public_key.verify(&self.signing_digest(tx)?, signature).map_err(|_| TxError::InvalidSignature)
+    pub fn verify(
+        &self,
+        tx: &Transaction,
+        public_key: &VerifyingKey,
+        signature: &Signature,
+    ) -> Result<(), TxError> {
+        public_key
+            .verify(&self.signing_digest(tx)?, signature)
+            .map_err(|_| TxError::InvalidSignature)
     }
 }
 
@@ -82,11 +96,23 @@ mod tests {
     use super::*;
 
     fn domain() -> TransactionDomain {
-        TransactionDomain { chain_id: "atc".into(), network_id: "devnet".into(), protocol_version: "1.0.0".into(), transaction_type: "transfer".into() }
+        TransactionDomain {
+            chain_id: "atc".into(),
+            network_id: "devnet".into(),
+            protocol_version: "1.0.0".into(),
+            transaction_type: "transfer".into(),
+        }
     }
 
     fn tx() -> Transaction {
-        Transaction { nonce: 1, sender: vec![1; 32], recipient: vec![2; 32], value: 100, fee: 1, payload: b"hello".to_vec() }
+        Transaction {
+            nonce: 1,
+            sender: vec![1; 32],
+            recipient: vec![2; 32],
+            value: 100,
+            fee: 1,
+            payload: b"hello".to_vec(),
+        }
     }
 
     #[test]

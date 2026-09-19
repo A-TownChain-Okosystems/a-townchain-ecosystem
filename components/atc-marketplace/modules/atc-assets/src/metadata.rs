@@ -14,7 +14,14 @@ pub struct TokenMetadata {
 
 impl TokenMetadata {
     pub fn new(id: u64, name: &str, symbol: &str, decimals: u8) -> Self {
-        Self { token_id: id, name: name.into(), symbol: symbol.into(), decimals, supply: 0, attributes: HashMap::new() }
+        Self {
+            token_id: id,
+            name: name.into(),
+            symbol: symbol.into(),
+            decimals,
+            supply: 0,
+            attributes: HashMap::new(),
+        }
     }
     pub fn set_attribute(&mut self, key: &str, val: &str) {
         self.attributes.insert(key.into(), val.into());

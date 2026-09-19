@@ -15,31 +15,48 @@ pub struct RpcClient {
 
 impl RpcClient {
     pub fn new(addr: impl Into<String>) -> Self {
-        RpcClient { addr: addr.into(), next_id: 1 }
+        RpcClient {
+            addr: addr.into(),
+            next_id: 1,
+        }
     }
 
     fn call(&mut self, method: &str) -> Result<String, String> {
         let id = self.next_id;
         self.next_id += 1;
-        let req = format!("{{\"jsonrpc\":\"2.0\",\"method\":\"{}\",\"id\":{}}}\n", method, id);
-        let mut stream = TcpStream::connect(&self.addr)
-            .map_err(|e| format!("connect {}: {}", self.addr, e))?;
-        stream.set_read_timeout(Some(Duration::from_secs(5)))
+        let req = format!(
+            "{{\"jsonrpc\":\"2.0\",\"method\":\"{}\",\"id\":{}}}\n",
+            method, id
+        );
+        let mut stream =
+            TcpStream::connect(&self.addr).map_err(|e| format!("connect {}: {}", self.addr, e))?;
+        stream
+            .set_read_timeout(Some(Duration::from_secs(5)))
             .map_err(|e| format!("timeout: {}", e))?;
-        stream.write_all(req.as_bytes()).map_err(|e| format!("send: {}", e))?;
+        stream
+            .write_all(req.as_bytes())
+            .map_err(|e| format!("send: {}", e))?;
         let mut line = String::new();
-        BufReader::new(stream).read_line(&mut line).map_err(|e| format!("recv: {}", e))?;
+        BufReader::new(stream)
+            .read_line(&mut line)
+            .map_err(|e| format!("recv: {}", e))?;
         extract_result(&line).ok_or_else(|| format!("kein result in: {}", line.trim()))
     }
 
     pub fn chain_id(&mut self) -> Result<u64, String> {
-        self.call("chain_id")?.parse::<u64>().map_err(|e| format!("kein u64: {}", e))
+        self.call("chain_id")?
+            .parse::<u64>()
+            .map_err(|e| format!("kein u64: {}", e))
     }
     pub fn boot_hash(&mut self) -> Result<u64, String> {
-        self.call("boot_hash")?.parse::<u64>().map_err(|e| format!("kein u64: {}", e))
+        self.call("boot_hash")?
+            .parse::<u64>()
+            .map_err(|e| format!("kein u64: {}", e))
     }
     pub fn peers(&mut self) -> Result<usize, String> {
-        self.call("peers")?.parse::<usize>().map_err(|e| format!("kein usize: {}", e))
+        self.call("peers")?
+            .parse::<usize>()
+            .map_err(|e| format!("kein usize: {}", e))
     }
     pub fn ping(&mut self) -> Result<String, String> {
         self.call("ping")
@@ -54,22 +71,32 @@ fn extract_result(resp: &str) -> Option<String> {
 }
 
 fn extract_id(resp: &str) -> String {
-    let i = resp.find("\"id\":").map(|i| i + "\"id\":".len()).unwrap_or(0);
+    let i = resp
+        .find("\"id\":")
+        .map(|i| i + "\"id\":".len())
+        .unwrap_or(0);
     let rest = &resp[i..];
     let digits: String = rest.chars().take_while(|c| c.is_ascii_digit()).collect();
-    if digits.is_empty() { "0".to_string() } else { digits }
+    if digits.is_empty() {
+        "0".to_string()
+    } else {
+        digits
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::net::TcpListener;
     use std::io::Write as _;
+    use std::net::TcpListener;
 
     /// Mock-Node: antwortet wie der atc-node Devnet-RPC (SCR-0109-Protokoll).
     fn mock_node(listener: TcpListener) {
         for s in listener.incoming() {
-            let mut s = match s { Ok(s) => s, Err(_) => break };
+            let mut s = match s {
+                Ok(s) => s,
+                Err(_) => break,
+            };
             let mut reader = BufReader::new(s.try_clone().unwrap());
             let mut line = String::new();
             reader.read_line(&mut line).unwrap();
@@ -82,7 +109,11 @@ mod tests {
             } else {
                 "pong"
             };
-            let resp = format!("{{\"jsonrpc\":\"2.0\",\"id\":{},\"result\":\"{}\"}}\n", extract_id(&line), body);
+            let resp = format!(
+                "{{\"jsonrpc\":\"2.0\",\"id\":{},\"result\":\"{}\"}}\n",
+                extract_id(&line),
+                body
+            );
             s.write_all(resp.as_bytes()).unwrap();
             break; // ein Request pro Verbindung (wie atc-node)
         }
@@ -113,7 +144,10 @@ mod tests {
 
     #[test]
     fn extract_helpers() {
-        assert_eq!(extract_result("{\"id\":7,\"result\":\"42\"}").unwrap(), "42");
+        assert_eq!(
+            extract_result("{\"id\":7,\"result\":\"42\"}").unwrap(),
+            "42"
+        );
         assert!(extract_result("{\"id\":7,\"error\":{\"code\":-32601}}").is_none());
         assert_eq!(extract_id("{\"id\":42,\"result\":\"x\"}"), "42");
     }

@@ -195,7 +195,10 @@ mod tests {
     fn empty_policy_denies_by_default() {
         assert_eq!(
             PolicyEngine::new().evaluate(request()),
-            PolicyDecision { decision: Decision::Deny, reason: DecisionReason::MissingGrant }
+            PolicyDecision {
+                decision: Decision::Deny,
+                reason: DecisionReason::MissingGrant
+            }
         );
     }
 
@@ -230,11 +233,13 @@ mod tests {
         }));
         engine.revoke_principal(PrincipalId(7));
         assert_eq!(
-            engine.evaluate(PolicyRequest {
-                resource: Resource::Wallet,
-                operation: Operation::Sign,
-                ..request()
-            }).reason,
+            engine
+                .evaluate(PolicyRequest {
+                    resource: Resource::Wallet,
+                    operation: Operation::Sign,
+                    ..request()
+                })
+                .reason,
             DecisionReason::RevokedGrant
         );
     }

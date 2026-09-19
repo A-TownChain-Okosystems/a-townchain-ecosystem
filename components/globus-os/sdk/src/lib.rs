@@ -25,7 +25,6 @@ pub trait ServiceProvider {
     fn service(&self, name: &str) -> Option<ServiceHandle>;
 }
 
-
 /// Capability-scoped application context exposed by the SDK.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AppContext {
@@ -34,7 +33,12 @@ pub struct AppContext {
 }
 
 impl AppContext {
-    pub fn new(app_id: u64) -> Self { Self { app_id, capabilities: Vec::new() } }
+    pub fn new(app_id: u64) -> Self {
+        Self {
+            app_id,
+            capabilities: Vec::new(),
+        }
+    }
     pub fn with_capability(mut self, capability: impl Into<String>) -> Self {
         let capability = capability.into();
         if !capability.trim().is_empty() && !self.capabilities.contains(&capability) {
@@ -43,7 +47,9 @@ impl AppContext {
         }
         self
     }
-    pub fn has_capability(&self, capability: &str) -> bool { self.capabilities.iter().any(|c| c == capability) }
+    pub fn has_capability(&self, capability: &str) -> bool {
+        self.capabilities.iter().any(|c| c == capability)
+    }
 }
 
 #[cfg(test)]
@@ -51,7 +57,10 @@ mod tests {
     use super::*;
     #[test]
     fn capability_context_is_deterministic() {
-        let context = AppContext::new(7).with_capability("network").with_capability("identity").with_capability("network");
+        let context = AppContext::new(7)
+            .with_capability("network")
+            .with_capability("identity")
+            .with_capability("network");
         assert_eq!(context.capabilities, vec!["identity", "network"]);
         assert!(context.has_capability("network"));
     }
