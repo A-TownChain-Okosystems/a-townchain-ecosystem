@@ -41,7 +41,7 @@ jobs:
             else
               roots["$dir"]=1
             fi
-          done < <(find components -name Cargo.toml -not -path '*/archive/*' -not -path '*/target/*' -not -path '*/node_modules/*' | sort -u)
+          done < <(find components -name Cargo.toml -not -path '*/archive/*' -not -path '*/target/*' -not -path '*/node_modules/*' -not -path '*/a-townchain-os-docs/docs/monorepo-legacy/*' | sort -u)
 
           for dir in "${!roots[@]}"; do
             echo "=== Rust: $dir"
