@@ -6,6 +6,7 @@
 
 use crate::keys::WalletKey;
 use ed25519_dalek::{Signature, Verifier, VerifyingKey};
+use sha2::{Digest, Sha256};
 
 pub const TX_DOMAIN: &[u8] = b"ATC-TX-DOMAIN-V2";
 
@@ -67,6 +68,12 @@ impl Transaction {
         put_bytes(&mut b, &self.payload);
         b.extend_from_slice(&self.poh_hash);
         Ok(b)
+    }
+
+    pub fn id(&self, signature: &[u8; 64]) -> Result<[u8; 32], TxError> {
+        let mut bytes = self.signing_bytes()?;
+        bytes.extend_from_slice(signature);
+        Ok(Sha256::digest(bytes).into())
     }
 
     pub fn sign(&self, key: &WalletKey) -> Result<[u8; 64], TxError> {
