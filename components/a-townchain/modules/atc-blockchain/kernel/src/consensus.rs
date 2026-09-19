@@ -103,7 +103,7 @@ impl ConsensusEngine {
     }
 
     pub fn is_epoch_boundary(height: u64) -> bool {
-        height > 0 && height % EPOCH_LENGTH_BLOCKS == 0
+        height > 0 && height.is_multiple_of(EPOCH_LENGTH_BLOCKS)
     }
 
     pub fn slashed_stake(&self, address: &str) -> u64 {

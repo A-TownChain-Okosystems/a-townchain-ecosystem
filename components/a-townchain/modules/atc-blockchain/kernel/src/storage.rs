@@ -18,6 +18,9 @@ const FINALITY_MAGIC: &[u8] = b"ATCF1";
 const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
+pub type ValidatorSnapshot = (u64, BTreeMap<String, u64>);
+pub type SlashingRecord = (u64, String, [u8; 32], u64);
+
 fn put(out: &mut Vec<u8>, b: &[u8]) {
     out.extend_from_slice(&(b.len() as u32).to_be_bytes());
     out.extend_from_slice(b);
@@ -382,7 +385,7 @@ impl ChainStorage {
         Ok(())
     }
 
-    pub fn recover_validators(&self) -> Result<Option<(u64, BTreeMap<String, u64>)>, String> {
+    pub fn recover_validators(&self) -> Result<Option<ValidatorSnapshot>, String> {
         let Some(p) = &self.validator_journal else {
             return Ok(None);
         };
@@ -509,7 +512,7 @@ impl ChainStorage {
         Ok(())
     }
 
-    pub fn recover_slashing(&self) -> Result<Vec<(u64, String, [u8; 32], u64)>, String> {
+    pub fn recover_slashing(&self) -> Result<Vec<SlashingRecord>, String> {
         let Some(p) = &self.slashing_journal else {
             return Ok(Vec::new());
         };
