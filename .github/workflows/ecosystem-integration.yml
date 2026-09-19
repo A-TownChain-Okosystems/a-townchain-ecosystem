@@ -9,11 +9,46 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ecosystem-integration-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  rust-integration:
+  rust-workspace:
+    name: Rust workspace check and tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - name: Run executable ecosystem contract
-        run: cargo test -p atc-ecosystem-integration
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+      - name: Check workspace
+        run: cargo check --workspace --all-targets
+      - name: Test workspace
+        run: cargo test --workspace --all-targets
+
+  integration:
+    name: Ecosystem contract tests
+    runs-on: ubuntu-latest
+    needs: rust-workspace
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Run integration crate
+        run: cargo test -p atc-ecosystem-integration --all-targets
