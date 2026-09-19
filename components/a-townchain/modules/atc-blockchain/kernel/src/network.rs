@@ -134,8 +134,8 @@ impl TcpPeerTransport {
             Some(NetworkMessage::Hello {
                 chain_id: peer_chain,
                 node_id: peer_node_id,
-                height: peer_height,
-                best_block: peer_best_block,
+                height: _peer_height,
+                best_block: _peer_best_block,
             }) => {
                 if peer_chain != chain_id {
                     return Err(format!(
