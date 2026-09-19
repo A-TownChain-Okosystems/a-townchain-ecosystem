@@ -302,22 +302,21 @@ impl StateDb {
     }
 
     pub fn apply_block_reward(&self, height: u64, recipient: &str) -> Result<u64, String> {
-        let mut issued = self.issued_base_units.lock().unwrap();
-        let reward = crate::economics::block_reward_base_units(height, *issued);
+        let reward = crate::economics::block_reward_base_units(height, self.issued_base_units());
         if reward == 0 { return Ok(0); }
         let whole = reward / crate::economics::ATC_BASE_UNITS;
-        let dust = reward % crate::economics::ATC_BASE_UNITS;
         if whole > u64::MAX as u128 { return Err("block reward exceeds account balance range".into()); }
         let mut accounts = self.accounts.lock().unwrap();
+        let mut issued = self.issued_base_units.lock().unwrap();
+        let new_issued = (*issued).checked_add(reward).ok_or("issued supply overflow")?;
+        if new_issued > crate::economics::MAX_SUPPLY { return Err("issued supply cap exceeded".into()); }
         let x = accounts.entry(recipient.to_owned()).or_insert(Account { balance: 0, staked: 0, nonce: 0 });
         x.balance = x.balance.checked_add(whole as u64).ok_or("reward balance overflow")?;
-        *issued = issued.checked_add(reward).ok_or("issued supply overflow")?;
-        if *issued > crate::economics::MAX_SUPPLY { return Err("issued supply cap exceeded".into()); }
-        let _ = dust;
+        *issued = new_issued;
         Ok(whole as u64)
     }
 
-    pub fn seal_genesis {
+    pub fn seal_genesis(&self) {
         *self.genesis_sealed.lock().unwrap() = true
     }
     pub fn total_supply(&self) -> u64 {
