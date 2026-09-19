@@ -80,7 +80,9 @@ impl TcpPeerTransport {
     ) -> Result<TcpStream, String> {
         let mut stream = TcpStream::connect(addr).map_err(|e| format!("connect {addr}: {e}"))?;
         stream.set_nodelay(true).map_err(|e| e.to_string())?;
-        stream.set_read_timeout(Some(Duration::from_secs(5))).map_err(|e| e.to_string())?;
+        stream
+            .set_read_timeout(Some(Duration::from_secs(5)))
+            .map_err(|e| e.to_string())?;
         write_message(
             &mut stream,
             &NetworkMessage::Hello {
@@ -94,7 +96,7 @@ impl TcpPeerTransport {
             Some(NetworkMessage::Hello { chain_id, .. }) if chain_id == self.chain_id => {
                 stream.set_read_timeout(None).map_err(|e| e.to_string())?;
                 Ok(stream)
-            },
+            }
             Some(_) => Err("peer handshake rejected".into()),
             None => Err("peer closed during handshake".into()),
         }
@@ -129,13 +131,15 @@ impl TcpPeerTransport {
     ) -> Result<(TcpStream, String, u64, [u8; 32]), String> {
         let local_node_id = node_id.into();
         stream.set_nodelay(true).map_err(|e| e.to_string())?;
-        stream.set_read_timeout(Some(Duration::from_secs(5))).map_err(|e| e.to_string())?;
+        stream
+            .set_read_timeout(Some(Duration::from_secs(5)))
+            .map_err(|e| e.to_string())?;
         match read_message(&mut stream)? {
             Some(NetworkMessage::Hello {
                 chain_id: peer_chain,
                 node_id: peer_node_id,
-                height,
-                best_block,
+                height: _peer_height,
+                best_block: _peer_best_block,
             }) => {
                 if peer_chain != chain_id {
                     return Err(format!(

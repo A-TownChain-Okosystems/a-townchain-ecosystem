@@ -12,7 +12,9 @@ fn rpc(addr: &str, method: &str) -> serde_json::Value {
     let body = format!(r#"{{"jsonrpc":"2.0","method":"{method}","id":1}}"#);
     stream.write_all(body.as_bytes()).unwrap();
     stream.write_all(b"\n").unwrap();
-    stream.set_read_timeout(Some(Duration::from_secs(2))).unwrap();
+    stream
+        .set_read_timeout(Some(Duration::from_secs(2)))
+        .unwrap();
     let mut out = String::new();
     stream.read_to_string(&mut out).unwrap();
     serde_json::from_str(out.trim()).unwrap()
@@ -28,7 +30,12 @@ fn wait_status(addr: &str, min_height: u64) -> serde_json::Value {
             let mut out = String::new();
             if stream.read_to_string(&mut out).is_ok() {
                 if let Ok(v) = serde_json::from_str::<serde_json::Value>(out.trim()) {
-                    if v.get("result").and_then(|x| x.get("height")).and_then(|x| x.as_u64()).unwrap_or(0) >= min_height {
+                    if v.get("result")
+                        .and_then(|x| x.get("height"))
+                        .and_then(|x| x.as_u64())
+                        .unwrap_or(0)
+                        >= min_height
+                    {
                         return v;
                     }
                 }
@@ -41,7 +48,10 @@ fn wait_status(addr: &str, min_height: u64) -> serde_json::Value {
 
 #[test]
 fn persistent_two_node_consensus_path() {
-    let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_nanos();
     let root = std::env::temp_dir().join(format!("atc-node-network-{now}"));
     let a_dir = root.join("a");
     let b_dir = root.join("b");
@@ -96,11 +106,17 @@ fn persistent_two_node_consensus_path() {
         b_status["result"]["height"].as_u64()
     );
     assert!(
-        a_status["result"]["finalized"]["height"].as_u64().unwrap_or(0) >= 1,
+        a_status["result"]["finalized"]["height"]
+            .as_u64()
+            .unwrap_or(0)
+            >= 1,
         "node A did not reach weighted finality"
     );
     assert!(
-        b_status["result"]["finalized"]["height"].as_u64().unwrap_or(0) >= 1,
+        b_status["result"]["finalized"]["height"]
+            .as_u64()
+            .unwrap_or(0)
+            >= 1,
         "node B did not reach weighted finality"
     );
 

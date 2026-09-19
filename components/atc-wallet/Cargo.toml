@@ -1,7 +1,5 @@
-[workspace]
-
 [package]
-name = "atc_wallet"
+name = "atc-wallet"
 version = "0.2.0"
 edition = "2021"
 description = "A-TownChain Rust wallet core — key management, addresses and L1 transaction signing"

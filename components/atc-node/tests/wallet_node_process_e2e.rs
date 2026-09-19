@@ -69,11 +69,7 @@ fn wallet_to_atc_node_mempool_block_state_process_e2e() {
     let expected_id = tx.id(&signature).unwrap();
     assert_eq!(tx_id, expected_id);
 
-    let produced = rpc(
-        &addr,
-        "produce_block",
-        json!({"timestamp":2,"max":100}),
-    );
+    let produced = rpc(&addr, "produce_block", json!({"timestamp":2,"max":100}));
     assert_eq!(produced["height"], 1);
     assert_eq!(produced["tx_count"], 1);
 

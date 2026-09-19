@@ -41,7 +41,9 @@ pub fn encode(public_key: &[u8; 32], version: u8) -> String {
 }
 
 pub fn decode(address: &str, expected_version: u8) -> Result<[u8; 20], AddressError> {
-    let raw = bs58::decode(address).into_vec().map_err(|_| AddressError::InvalidEncoding)?;
+    let raw = bs58::decode(address)
+        .into_vec()
+        .map_err(|_| AddressError::InvalidEncoding)?;
     if raw.len() != 25 {
         return Err(AddressError::InvalidLength);
     }
@@ -55,7 +57,9 @@ pub fn decode(address: &str, expected_version: u8) -> Result<[u8; 20], AddressEr
         return Err(AddressError::InvalidChecksum);
     }
 
-    raw[1..21].try_into().map_err(|_| AddressError::InvalidLength)
+    raw[1..21]
+        .try_into()
+        .map_err(|_| AddressError::InvalidLength)
 }
 
 #[cfg(test)]
@@ -66,7 +70,10 @@ mod tests {
     fn address_roundtrip() {
         let public_key = [7u8; 32];
         let address = encode(&public_key, 42);
-        assert_eq!(decode(&address, 42).unwrap(), payload_from_public_key(&public_key));
+        assert_eq!(
+            decode(&address, 42).unwrap(),
+            payload_from_public_key(&public_key)
+        );
     }
 
     #[test]

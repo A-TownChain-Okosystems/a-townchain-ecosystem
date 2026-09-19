@@ -31,11 +31,7 @@ impl DevnetRpc {
         }
     }
 
-    pub fn from_runtime(
-        runtime: Arc<Runtime>,
-        genesis: &Genesis,
-        peers: &PeerTable,
-    ) -> Self {
+    pub fn from_runtime(runtime: Arc<Runtime>, genesis: &Genesis, peers: &PeerTable) -> Self {
         Self {
             chain_id: runtime.node.chain_id.to_string(),
             boot_hash: genesis.boot_hash(),
@@ -96,15 +92,25 @@ impl DevnetRpc {
         let p = self.params(req);
         let tx = decode_transaction(p)?;
         let now = tx.timestamp;
-        let id = self.runtime()?.node.submit_and_broadcast(tx, now).map_err(|e| (-32001, format!("transaction rejected: {e:?}")))?;
+        let id = self
+            .runtime()?
+            .node
+            .submit_and_broadcast(tx, now)
+            .map_err(|e| (-32001, format!("transaction rejected: {e:?}")))?;
         Ok(json!({"tx_id": hex::encode(id), "status":"accepted"}))
     }
 
     fn produce_block(&self, req: &Value) -> Result<Value, (i64, String)> {
         let p = self.params(req);
-        let timestamp = p.get("timestamp").and_then(Value::as_u64).ok_or((-32602, "missing params.timestamp".into()))?;
+        let timestamp = p
+            .get("timestamp")
+            .and_then(Value::as_u64)
+            .ok_or((-32602, "missing params.timestamp".into()))?;
         let max = p.get("max").and_then(Value::as_u64).unwrap_or(100) as usize;
-        let block = self.runtime()?.produce(timestamp, max).map_err(|e| (-32002, e))?;
+        let block = self
+            .runtime()?
+            .produce(timestamp, max)
+            .map_err(|e| (-32002, e))?;
         Ok(json!({
             "height": block.height,
             "block_id": hex::encode(block.id),
@@ -114,13 +120,26 @@ impl DevnetRpc {
     }
 
     fn balance(&self, req: &Value) -> Result<Value, (i64, String)> {
-        let address = self.params(req).get("address").and_then(Value::as_str).ok_or((-32602, "missing params.address".into()))?;
+        let address = self
+            .params(req)
+            .get("address")
+            .and_then(Value::as_str)
+            .ok_or((-32602, "missing params.address".into()))?;
         Ok(json!({"address": address, "balance": self.runtime()?.node.state.balance(address)}))
     }
 
     fn block(&self, req: &Value) -> Result<Value, (i64, String)> {
-        let height = self.params(req).get("height").and_then(Value::as_u64).ok_or((-32602, "missing params.height".into()))?;
-        let block = self.runtime()?.node.storage.block(height).ok_or((-32004, "block not found".into()))?;
+        let height = self
+            .params(req)
+            .get("height")
+            .and_then(Value::as_u64)
+            .ok_or((-32602, "missing params.height".into()))?;
+        let block = self
+            .runtime()?
+            .node
+            .storage
+            .block(height)
+            .ok_or((-32004, "block not found".into()))?;
         Ok(json!({
             "height": block.height,
             "block_id": hex::encode(block.id),
@@ -147,23 +166,42 @@ impl DevnetRpc {
     }
 
     fn state_root(&self, req: &Value) -> Result<Value, (i64, String)> {
-        let height = self.params(req).get("height").and_then(Value::as_u64).ok_or((-32602, "missing params.height".into()))?;
-        let root = self.runtime()?.node.storage.state_root(height).ok_or((-32004, "state root not found".into()))?;
+        let height = self
+            .params(req)
+            .get("height")
+            .and_then(Value::as_u64)
+            .ok_or((-32602, "missing params.height".into()))?;
+        let root = self
+            .runtime()?
+            .node
+            .storage
+            .state_root(height)
+            .ok_or((-32004, "state root not found".into()))?;
         Ok(json!({"height": height, "state_root": hex::encode(root)}))
     }
 }
 
 fn decode_transaction(params: &Value) -> Result<Transaction, (i64, String)> {
-    let tx_type = match params.get("tx_type").and_then(Value::as_u64).ok_or((-32602, "missing params.tx_type".into()))? {
+    let tx_type = match params
+        .get("tx_type")
+        .and_then(Value::as_u64)
+        .ok_or((-32602, "missing params.tx_type".into()))?
+    {
         0 => TxType::Transfer,
         1 => TxType::Stake,
         2 => TxType::Unstake,
         3 => TxType::Contract,
         _ => return Err((-32602, "invalid params.tx_type".into())),
     };
-    let chain_id = params.get("chain_id").and_then(Value::as_u64).ok_or((-32602, "missing params.chain_id".into()))?;
+    let chain_id = params
+        .get("chain_id")
+        .and_then(Value::as_u64)
+        .ok_or((-32602, "missing params.chain_id".into()))?;
     let sender_did = string_param(params, "sender_did")?;
-    let recipient_did = params.get("recipient_did").and_then(Value::as_str).map(str::to_owned);
+    let recipient_did = params
+        .get("recipient_did")
+        .and_then(Value::as_str)
+        .map(str::to_owned);
     let amount = u64_param(params, "amount")?;
     let gas_price = u64_param(params, "gas_price")?;
     let gas_limit = u64_param(params, "gas_limit")?;
@@ -192,11 +230,18 @@ fn decode_transaction(params: &Value) -> Result<Transaction, (i64, String)> {
 }
 
 fn string_param(params: &Value, key: &str) -> Result<String, (i64, String)> {
-    params.get(key).and_then(Value::as_str).map(str::to_owned).ok_or((-32602, format!("missing params.{key}")))
+    params
+        .get(key)
+        .and_then(Value::as_str)
+        .map(str::to_owned)
+        .ok_or((-32602, format!("missing params.{key}")))
 }
 
 fn u64_param(params: &Value, key: &str) -> Result<u64, (i64, String)> {
-    params.get(key).and_then(Value::as_u64).ok_or((-32602, format!("missing params.{key}")))
+    params
+        .get(key)
+        .and_then(Value::as_u64)
+        .ok_or((-32602, format!("missing params.{key}")))
 }
 
 fn hex_param(params: &Value, key: &str) -> Result<Vec<u8>, (i64, String)> {
@@ -206,7 +251,12 @@ fn hex_param(params: &Value, key: &str) -> Result<Vec<u8>, (i64, String)> {
 
 fn array_param<const N: usize>(params: &Value, key: &str) -> Result<[u8; N], (i64, String)> {
     let value = hex_param(params, key)?;
-    value.try_into().map_err(|_| (-32602, format!("params.{key} must contain exactly {N} bytes")))
+    value.try_into().map_err(|_| {
+        (
+            -32602,
+            format!("params.{key} must contain exactly {N} bytes"),
+        )
+    })
 }
 
 fn rpc_error(id: Value, code: i64, message: &str) -> String {

@@ -44,7 +44,8 @@ jobs:
             fi
 
             git fetch --no-tags "$repo" main
-            git subtree pull --prefix="$prefix" "$repo" main --no-squash -m "sync: ${repo} into ${prefix}"
+            git subtree pull --prefix="$prefix" "$repo" main --no-squash -X theirs -m "sync: ${repo} into ${prefix}"
+          # Canonical component repositories are SSOTs. If the umbrella has drifted in the same subtree, prefer the canonical repository side for conflicting component files; governance/docs remain audited separately.
           }
 
           sync_subtree "components/atclang" "atclang"

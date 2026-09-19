@@ -24,7 +24,9 @@ impl WalletKey {
     }
 
     pub fn from_seed(seed: [u8; 32]) -> Self {
-        Self { signing_key: SigningKey::from_bytes(&seed) }
+        Self {
+            signing_key: SigningKey::from_bytes(&seed),
+        }
     }
 
     pub fn public_key(&self) -> [u8; 32] {
@@ -55,6 +57,9 @@ mod tests {
     fn signature_roundtrip() {
         let key = WalletKey::from_seed([7u8; 32]);
         let sig = key.sign(b"ATC wallet test");
-        assert!(key.verifying_key().verify_strict(b"ATC wallet test", &sig).is_ok());
+        assert!(key
+            .verifying_key()
+            .verify_strict(b"ATC wallet test", &sig)
+            .is_ok());
     }
 }
