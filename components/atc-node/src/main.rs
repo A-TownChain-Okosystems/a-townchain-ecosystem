@@ -82,14 +82,15 @@ fn is_local_proposer(node: &Node) -> bool {
     !validators.is_empty() && validators[(height as usize - 1) % validators.len()].0 == node.proposer_id()
 }
 
-fn load_or_create_node(node_id: &str, data_dir: &PathBuf) -> Result<Arc<Node>, String> {
+fn load_or_create_node(node_id: &str, data_dir: &PathBuf) -> Result<(Arc<Node>, bool), String> {
     std::fs::create_dir_all(data_dir).map_err(|e| e.to_string())?;
     let node = Node::open_storage(DEFAULT_CHAIN_ID, node_id.to_string(), data_dir)?;
-    if node.chain.last().is_none() {
+    let fresh = node.chain.last().is_none();
+    if fresh {
         node.state.genesis_credit("alice", 1_000_000)?;
         node.create_genesis_with_proposer(0, DEFAULT_GENESIS_PROPOSER)?;
     }
-    Ok(Arc::new(node))
+    Ok((Arc::new(node), fresh))
 }
 
 fn attach_network(node: Arc<Node>, listen_addr: String, peers: Vec<String>) -> Result<(), String> {
@@ -164,18 +165,21 @@ fn main() -> std::io::Result<()> {
         }
     };
 
-    let runtime = match load_or_create_node(&node_id, &data_dir) {
-        Ok(node) => Arc::new(Runtime { node }),
+    let (node, fresh) = match load_or_create_node(&node_id, &data_dir) {
+        Ok(value) => value,
         Err(e) => {
             eprintln!("canonical runtime startup failed: {e}");
             std::process::exit(1);
         }
     };
 
-    for validator in &validators {
-        if let Err(e) = runtime.node.register_validator(validator.id.clone(), validator.stake) {
+    let runtime = Arc::new(Runtime { node });
+    if fresh {
+        for validator in &validators {
+            if let Err(e) = runtime.node.register_validator(validator.id.clone(), validator.stake) {
             eprintln!("validator registration failed for {}: {e}", validator.id);
-            std::process::exit(1);
+                std::process::exit(1);
+            }
         }
     }
 
