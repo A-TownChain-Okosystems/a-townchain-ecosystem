@@ -8,7 +8,7 @@
 //! blocks/votes/transactions to the consensus boundary.
 
 use crate::{
-    consensus::Vote,
+    consensus::{SlashingEvidence, Vote},
     mempool::{Transaction, TxType},
     Block,
 };
@@ -34,6 +34,7 @@ pub enum NetworkMessage {
     Transaction(Transaction),
     Block(Block),
     Vote(Vote),
+    SlashingEvidence { evidence: SlashingEvidence, penalty: u64 },
     BlockRequest {
         from_height: u64,
     },
@@ -347,6 +348,29 @@ fn block_decode(b: &[u8]) -> Result<Block, String> {
     }
     Ok(out)
 }
+fn evidence_encode(e: &SlashingEvidence, penalty: u64) -> Vec<u8> {
+    let mut o = Vec::new();
+    put(&mut o, e.validator.as_bytes());
+    o.extend_from_slice(&e.height.to_be_bytes());
+    o.extend_from_slice(&e.block_a);
+    o.extend_from_slice(&e.block_b);
+    put(&mut o, e.reason.as_bytes());
+    o.extend_from_slice(&penalty.to_be_bytes());
+    o
+}
+
+fn evidence_decode(b: &[u8]) -> Result<(SlashingEvidence, u64), String> {
+    let mut p = 0;
+    let validator = String::from_utf8(take(b, &mut p)?.to_vec()).map_err(|_| "invalid evidence validator")?;
+    let height = u64::from_be_bytes(fixed::<8>(b, &mut p)?);
+    let block_a = fixed::<32>(b, &mut p)?;
+    let block_b = fixed::<32>(b, &mut p)?;
+    let reason = String::from_utf8(take(b, &mut p)?.to_vec()).map_err(|_| "invalid evidence reason")?;
+    let penalty = u64::from_be_bytes(fixed::<8>(b, &mut p)?);
+    if p != b.len() { return Err("trailing evidence bytes".into()); }
+    Ok((SlashingEvidence { validator, height, block_a, block_b, reason }, penalty))
+}
+
 fn vote_encode(v: &Vote) -> Vec<u8> {
     let mut o = Vec::new();
     o.extend_from_slice(&v.block);
@@ -405,6 +429,10 @@ fn encode(m: &NetworkMessage) -> Result<Vec<u8>, String> {
             o.push(3);
             o.extend_from_slice(&vote_encode(v))
         }
+        NetworkMessage::SlashingEvidence { evidence, penalty } => {
+            o.push(7);
+            o.extend_from_slice(&evidence_encode(evidence, *penalty));
+        }
         NetworkMessage::BlockRequest { from_height } => {
             o.push(4);
             o.extend_from_slice(&from_height.to_be_bytes())
@@ -450,6 +478,10 @@ fn decode(b: &[u8]) -> Result<NetworkMessage, String> {
         1 => NetworkMessage::Transaction(tx_decode(b, &mut p)?),
         2 => NetworkMessage::Block(block_decode(&b[p..])?),
         3 => NetworkMessage::Vote(vote_decode(&b[p..])?),
+        7 => {
+            let (evidence, penalty) = evidence_decode(&b[p..])?;
+            NetworkMessage::SlashingEvidence { evidence, penalty }
+        }
         4 => NetworkMessage::BlockRequest {
             from_height: u64::from_be_bytes(fixed::<8>(b, &mut p)?),
         },
