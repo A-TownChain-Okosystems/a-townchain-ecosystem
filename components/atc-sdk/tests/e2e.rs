@@ -54,8 +54,10 @@ fn storage_restart_recovers_chain_and_state() {
         std::process::id(),
         658467u64
     ));
-    let _ = std::fs::remove_file(&path);
-    let _ = std::fs::remove_file(path.with_extension("state"));
+    for ext in ["", "state", "validators", "finality", "slashing", "issuance"] {
+        let target = if ext.is_empty() { path.clone() } else { path.with_extension(ext) };
+        let _ = std::fs::remove_file(target);
+    }
     let node = Node::open_storage(658467, "validator-1".into(), &path).unwrap();
     node.state
         .genesis_credit("alice", 1_000_000)
@@ -113,8 +115,10 @@ fn dao_transactions_persist_and_recover() {
         std::process::id(),
         chain_id
     ));
-    let _ = std::fs::remove_file(&temp);
-    let _ = std::fs::remove_file(temp.with_extension("state"));
+    for ext in ["", "state", "validators", "finality", "slashing", "issuance"] {
+        let target = if ext.is_empty() { temp.clone() } else { temp.with_extension(ext) };
+        let _ = std::fs::remove_file(target);
+    }
     let node = Node::open_storage(chain_id, proposer.clone(), &temp).unwrap();
     node.state
         .genesis_credit(&proposer, 1_000_000)
