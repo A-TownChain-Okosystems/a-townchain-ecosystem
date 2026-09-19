@@ -13,8 +13,7 @@ use ark_r1cs_std::eq::EqGadget;
 use ark_r1cs_std::fields::fp::FpVar;
 use ark_relations::gr1cs::{ConstraintSynthesizer, ConstraintSystemRef, SynthesisError};
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
-use ark_snark::SNARK;
-use ark_std::rand::{CryptoRng, RngCore, SeedableRng};
+use ark_std::rand::{CryptoRng, RngCore};
 use zkp_core::{ProofEnvelope, ProofError, ProofSystem};
 
 pub const CIRCUIT_ID_EQUALITY_SQUARE: u32 = 1;
@@ -109,11 +108,11 @@ pub fn verify_square(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use ark_std::rand::rngs::StdRng;
+    
 
     #[test]
     fn real_groth16_round_trip_and_negative_case() {
-        let mut rng = StdRng::seed_from_u64(42);
+        let mut rng = ark_std::test_rng();
         let (pk, vk) = setup(&mut rng).expect("setup");
         let x = Fr::from(7u64);
         let y = x * x;
