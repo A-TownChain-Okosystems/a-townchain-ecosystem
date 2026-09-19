@@ -1,7 +1,7 @@
 use atc_blockchain::{
-    blockchain::Node,
+    Node,
     consensus::{vote_signing_bytes, Vote},
-    network::{NetworkMessage, TcpPeerTransport},
+    network::{NetworkMessage, PeerTransport, TcpPeerTransport},
 };
 use ed25519_dalek::{Signer, SigningKey};
 use std::{
@@ -13,7 +13,7 @@ use std::{
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
-const CHAIN_ID: u64 = 658467;
+const CHAIN_ID: u64 = atc_blockchain::chain_identity::NUMERIC_CHAIN_ID;
 const PORT_BASE: u16 = 39100;
 
 fn paths() -> (String, String) {
