@@ -8,6 +8,10 @@ pub struct RateLimiter {
     counts: HashMap<String, (u32, Instant)>,
 }
 
+impl Default for RateLimiter {
+    fn default() -> Self { Self::new() }
+}
+
 impl RateLimiter {
     pub fn new() -> Self {
         Self {
