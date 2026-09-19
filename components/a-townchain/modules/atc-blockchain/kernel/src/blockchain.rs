@@ -226,6 +226,10 @@ impl Node {
         *self.indexer.lock().unwrap() = Some(sink)
     }
 
+    pub fn proposer_id(&self) -> String {
+        self.proposer.clone()
+    }
+
     /// Attach the network transport to the canonical Node/consensus boundary.
     pub fn set_transport(&self, transport: Arc<dyn PeerTransport>) {
         *self.transport.lock().unwrap() = Some(transport);
