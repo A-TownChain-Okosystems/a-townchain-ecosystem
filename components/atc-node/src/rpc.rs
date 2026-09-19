@@ -68,6 +68,7 @@ impl DevnetRpc {
             "peers" => Ok(json!(self.peer_count)),
             "ping" => Ok(json!("pong")),
             "submit_transaction" => self.submit_transaction(&parsed),
+            "submit_slashing_evidence" => self.submit_slashing_evidence(&parsed),
             "produce_block" => self.produce_block(&parsed),
             "balance" => self.balance(&parsed),
             "block" => self.block(&parsed),
@@ -98,6 +99,21 @@ impl DevnetRpc {
         let now = tx.timestamp;
         let id = self.runtime()?.node.submit_and_broadcast(tx, now).map_err(|e| (-32001, format!("transaction rejected: {e:?}")))?;
         Ok(json!({"tx_id": hex::encode(id), "status":"accepted"}))
+    }
+
+    fn submit_slashing_evidence(&self, req: &Value) -> Result<Value, (i64, String)> {
+        let p = self.params(req);
+        let evidence = atc_blockchain::consensus::SlashingEvidence {
+            validator: string_param(p, "validator")?,
+            height: u64_param(p, "height")?,
+            block_a: array_param::<32>(p, "block_a")?,
+            block_b: array_param::<32>(p, "block_b")?,
+            reason: string_param(p, "reason")?,
+        };
+        let penalty = u64_param(p, "penalty")?;
+        let applied = self.runtime()?.node.submit_slashing_evidence(evidence.clone(), penalty)
+            .map_err(|e| (-32003, format!("slashing evidence rejected: {e}")))?;
+        Ok(json!({"evidence_id": hex::encode(evidence.id()), "validator": evidence.validator, "penalty_applied": applied}))
     }
 
     fn produce_block(&self, req: &Value) -> Result<Value, (i64, String)> {
