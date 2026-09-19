@@ -297,6 +297,12 @@ impl StateDb {
             .ok_or("balance overflow".to_string())?;
         Ok(())
     }
+    pub fn restore_issued_base_units(&self, issued: u128) -> Result<(), String> {
+        if issued > crate::economics::MAX_SUPPLY { return Err("issued supply cap exceeded".into()); }
+        *self.issued_base_units.lock().unwrap() = issued;
+        Ok(())
+    }
+
     pub fn issued_base_units(&self) -> u128 {
         *self.issued_base_units.lock().unwrap()
     }
