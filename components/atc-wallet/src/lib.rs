@@ -5,4 +5,5 @@ pub mod balance;
 pub mod gui;
 pub mod history;
 pub mod keys;
+pub mod node;
 pub mod tx;
