@@ -6,11 +6,10 @@
 //! RPC -> mempool -> proposer -> block broadcast -> block validation/state
 //! transition -> validator vote -> weighted finality -> durable storage.
 
-use atc_blockchain::{blockchain::Node, chain_identity::NUMERIC_CHAIN_ID, network::TcpPeerTransport};
+use atc_blockchain::{chain_identity::NUMERIC_CHAIN_ID, network::TcpPeerTransport, Node};
 use atc_node::bootstrap::Genesis;
 use atc_node::rpc::{serve, DevnetRpc};
 use atc_node::runtime::Runtime;
-use ed25519_dalek::SigningKey;
 use std::{env, net::TcpListener, path::PathBuf, sync::Arc, thread, time::Duration};
 
 const DEFAULT_GENESIS_PROPOSER: &str = "atc-genesis";
@@ -227,7 +226,7 @@ fn main() -> std::io::Result<()> {
 
     eprintln!(
         "ATC-Node started | chain={} node={} rpc={} p2p={} data={}",
-        DEFAULT_CHAIN_ID,
+        NUMERIC_CHAIN_ID,
         node_id,
         rpc_addr,
         listen_addr,
