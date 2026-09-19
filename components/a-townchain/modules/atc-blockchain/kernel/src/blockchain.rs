@@ -1,4 +1,5 @@
 //! Canonical A-TownChain deterministic block pipeline.
+pub mod chain_identity;
 pub mod consensus;
 pub mod crypto;
 pub mod dao_state;

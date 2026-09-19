@@ -1,5 +1,6 @@
 // Copyright (c) 2026 A-TownChain-Okosystems — Apache-2.0
 
+use atc_blockchain::chain_identity::NUMERIC_CHAIN_ID;
 use atc_wallet::{
     address,
     keys::WalletKey,
@@ -19,7 +20,7 @@ fn main() {
     println!("example_address={address}");
 
     let tx = Transaction {
-        chain_id: 1,
+        chain_id: NUMERIC_CHAIN_ID,
         tx_type: TxType::Transfer,
         sender_did: address.clone(),
         recipient_did: Some("ATC-example-recipient".into()),

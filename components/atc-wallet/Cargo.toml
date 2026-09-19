@@ -15,3 +15,5 @@ bs58 = "0.5"
 getrandom = "0.3"
 zeroize = "1"
 serde_json = "1"
+
+atc-blockchain = { path = "../a-townchain/modules/atc-blockchain/kernel" }

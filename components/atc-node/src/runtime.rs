@@ -1,7 +1,5 @@
-use atc_blockchain::{Block, Node};
+use atc_blockchain::{chain_identity::NUMERIC_CHAIN_ID, Block, Node};
 use std::{path::Path, sync::Arc};
-
-pub const NUMERIC_CHAIN_ID: u64 = 658467;
 
 pub struct Runtime {
     pub node: Arc<Node>,
