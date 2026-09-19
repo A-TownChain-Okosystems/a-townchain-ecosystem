@@ -246,6 +246,7 @@ pub struct StateDb {
     accounts: Mutex<BTreeMap<String, Account>>,
     dao: Mutex<crate::dao_state::DaoState>,
     genesis_sealed: Mutex<bool>,
+    issued_base_units: Mutex<u128>,
 }
 impl Default for StateDb {
     fn default() -> Self {
@@ -261,6 +262,7 @@ impl StateDb {
                 crate::dao_state::DaoState::new(1, 5000).expect("valid default DAO config"),
             ),
             genesis_sealed: Mutex::new(false),
+            issued_base_units: Mutex::new(0),
         }
     }
     pub fn genesis_credit(&self, id: &str, n: u64) -> Result<(), String> {
@@ -288,13 +290,34 @@ impl StateDb {
             staked: 0,
             nonce: 0,
         });
+        *self.issued_base_units.lock().unwrap() = new_supply as u128 * crate::economics::ATC_BASE_UNITS;
         x.balance = x
             .balance
             .checked_add(n)
             .ok_or("balance overflow".to_string())?;
         Ok(())
     }
-    pub fn seal_genesis(&self) {
+    pub fn issued_base_units(&self) -> u128 {
+        *self.issued_base_units.lock().unwrap()
+    }
+
+    pub fn apply_block_reward(&self, height: u64, recipient: &str) -> Result<u64, String> {
+        let mut issued = self.issued_base_units.lock().unwrap();
+        let reward = crate::economics::block_reward_base_units(height, *issued);
+        if reward == 0 { return Ok(0); }
+        let whole = reward / crate::economics::ATC_BASE_UNITS;
+        let dust = reward % crate::economics::ATC_BASE_UNITS;
+        if whole > u64::MAX as u128 { return Err("block reward exceeds account balance range".into()); }
+        let mut accounts = self.accounts.lock().unwrap();
+        let x = accounts.entry(recipient.to_owned()).or_insert(Account { balance: 0, staked: 0, nonce: 0 });
+        x.balance = x.balance.checked_add(whole as u64).ok_or("reward balance overflow")?;
+        *issued = issued.checked_add(reward).ok_or("issued supply overflow")?;
+        if *issued > crate::economics::MAX_SUPPLY { return Err("issued supply cap exceeded".into()); }
+        let _ = dust;
+        Ok(whole as u64)
+    }
+
+    pub fn seal_genesis {
         *self.genesis_sealed.lock().unwrap() = true
     }
     pub fn total_supply(&self) -> u64 {
@@ -353,6 +376,7 @@ impl StateDb {
         let mut combined = Vec::from(b"ATC-STATE-V2");
         combined.extend_from_slice(&account_root);
         combined.extend_from_slice(&supply.to_be_bytes());
+        combined.extend_from_slice(&self.issued_base_units().to_be_bytes());
         combined.extend_from_slice(&dao_root);
         simple_hash(&combined)
     }
