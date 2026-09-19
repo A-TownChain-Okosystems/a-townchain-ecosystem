@@ -9,6 +9,8 @@ description = "ATC Node Runtime — Konfiguration + Peer-Tabelle (MVP)"
 atc-algorithm = { git = "https://github.com/A-TownChain-Okosystems/atc-algorithm", rev = "a9f818872a8c2ddfa4a00638e1ab7d7f42919106" }  # SCR-0120: TownHash-256-Adoption, rev-gepinnt
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+hex = "0.4"
+ed25519-dalek = { version = "2", features = ["rand_core"] }
 
 atc-blockchain = { path = "../a-townchain/modules/atc-blockchain/kernel" }
 
