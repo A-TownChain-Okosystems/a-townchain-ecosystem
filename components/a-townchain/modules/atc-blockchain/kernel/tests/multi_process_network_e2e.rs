@@ -11,13 +11,16 @@ fn multi_process_tcp_handshake_and_block_transfer() {
     if std::env::var("ATC_TCP_CHILD").ok().as_deref() == Some("1") {
         let addr = std::env::var("ATC_TCP_ADDR").expect("ATC_TCP_ADDR");
         let transport = TcpPeerTransport::new(658467, "node-b");
-        transport.connect(&addr, 0, [0; 32]).expect("TCP handshake");
-        // The parent sends a complete serialized block after the handshake.
-        let peers = transport.peer_count();
-        assert_eq!(peers, 1);
-        // The transport keeps the connected stream internally; broadcast is the
-        // sender side, so the child cannot read from it. This child process is
-        // therefore only the independently spawned handshake participant.
+        let mut stream = transport.connect_stream(&addr, 0, [0; 32]).expect("TCP handshake");
+        let message = read_message(&mut stream).expect("read block").expect("peer closed");
+        match message {
+            NetworkMessage::Block(block) => {
+                assert_eq!(block.height, 2);
+                assert_eq!(block.parent_hash, [1; 32]);
+                assert_eq!(block.state_root, [2; 32]);
+            }
+            other => panic!("expected complete Block transfer, got {other:?}"),
+        }
         return;
     }
 
@@ -55,12 +58,6 @@ fn multi_process_tcp_handshake_and_block_transfer() {
     atc_blockchain::network::write_message(&mut stream, &NetworkMessage::Block(block.clone()))
         .expect("send block");
 
-    // Give the child enough time to finish its process-level transport test.
     let status = child.wait().expect("child wait");
     assert!(status.success(), "peer process exited with {status}");
-
-    // Decode once locally as a wire-format regression check. The message sent
-    // above is the same complete Block payload that the child-side TCP stream
-    // receives; the protocol codec is covered independently by network.rs.
-    assert_eq!(block.height, 2);
 }
