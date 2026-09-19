@@ -244,6 +244,7 @@ impl Node {
             if n.state.root() != last.state_root {
                 return Err("recovered state root mismatch".into());
             }
+            n.consensus.set_height(last.height);
         }
         Ok(n)
     }
@@ -266,6 +267,7 @@ impl Node {
             &self.state.dao_snapshot(),
         )?;
         self.state.seal_genesis();
+        self.consensus.set_height(b.height);
         Ok(b)
     }
     pub fn submit(&self, tx: Transaction, now: u64) -> Result<[u8; 32], MempoolError> {
