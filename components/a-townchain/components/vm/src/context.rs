@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 // Copyright (c) 2026 A-TownChain-Okosystems — Apache-2.0
 //! ATC-STD-600 execution context and fail-closed gate.
 
