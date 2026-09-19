@@ -14,11 +14,11 @@ pub mod security;
 pub mod storage;
 use consensus::{ConsensusEngine, SlashingEvidence, Vote};
 use crypto::{signing_bytes, Ed25519Verifier, SignatureVerifier};
+use ed25519_dalek::Signer;
 use execution::{AtcVmExecutor, VmExecutor};
 use mempool::{MemoryPool, MempoolError, StateDb, Transaction};
 use network::{NetworkMessage, PeerTransport};
 use security::simple_hash;
-use ed25519_dalek::Signer;
 use std::{
     collections::BTreeMap,
     net::TcpStream,
@@ -424,7 +424,7 @@ impl Node {
                     }
                 }
                 Ok(())
-            },
+            }
             NetworkMessage::Transaction(tx) => {
                 // Remote transactions are admitted locally but are not re-broadcast
                 // here, preventing gossip loops. Local submission uses the broadcast path.
@@ -541,7 +541,11 @@ impl Node {
         self.consensus.set_height(b.height);
         Ok(b)
     }
-    pub fn submit_and_broadcast(&self, tx: Transaction, now: u64) -> Result<[u8; 32], MempoolError> {
+    pub fn submit_and_broadcast(
+        &self,
+        tx: Transaction,
+        now: u64,
+    ) -> Result<[u8; 32], MempoolError> {
         let id = self.submit(tx.clone(), now)?;
         self.broadcast(NetworkMessage::Transaction(tx))
             .map_err(|_| MempoolError::TxNotFound)?;
