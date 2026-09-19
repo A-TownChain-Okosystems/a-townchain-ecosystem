@@ -81,20 +81,21 @@ impl TcpPeerTransport {
         height: u64,
         best_block: [u8; 32],
     ) -> Result<(TcpStream, String, u64, [u8; 32]), String> {
+        let local_node_id = node_id.into();
         let (mut stream, _) = listener.accept().map_err(|e| e.to_string())?;
         stream.set_nodelay(true).map_err(|e| e.to_string())?;
         match read_message(&mut stream)? {
-            Some(NetworkMessage::Hello { chain_id: peer_chain, node_id, height, best_block }) => {
+            Some(NetworkMessage::Hello { chain_id: peer_chain, node_id: peer_node_id, height, best_block }) => {
                 if peer_chain != chain_id {
                     return Err(format!("chain-id mismatch: local {chain_id}, peer {peer_chain}"));
                 }
                 write_message(&mut stream, &NetworkMessage::Hello {
                     chain_id,
-                    node_id: node_id.clone(),
+                    node_id: local_node_id,
                     height,
                     best_block,
                 })?;
-                Ok((stream, node_id, height, best_block))
+                Ok((stream, peer_node_id, height, best_block))
             }
             _ => Err("invalid peer handshake".into()),
         }
