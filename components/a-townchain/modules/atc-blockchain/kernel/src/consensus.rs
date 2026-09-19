@@ -120,35 +120,6 @@ impl ConsensusEngine {
         Ok(applied)
     }
 
-    pub fn epoch(height: u64) -> u64 {
-        height / EPOCH_LENGTH_BLOCKS
-    }
-
-    pub fn is_epoch_boundary(height: u64) -> bool {
-        height > 0 && height % EPOCH_LENGTH_BLOCKS == 0
-    }
-
-    pub fn slashed_stake(&self, address: &str) -> u64 {
-        self.slashed.lock().unwrap().get(address).copied().unwrap_or(0)
-    }
-
-    pub fn slash(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
-        if evidence.block_a == evidence.block_b || evidence.validator.is_empty() || penalty == 0 {
-            return Err("invalid slashing evidence".into());
-        }
-        let mut validators = self.validators.lock().map_err(|_| "validator lock poisoned")?;
-        let current = validators.get(&evidence.validator).copied().ok_or("validator is not active")?;
-        let applied = penalty.min(current);
-        let remaining = current - applied;
-        if remaining == 0 {
-            validators.remove(&evidence.validator);
-        } else {
-            validators.insert(evidence.validator.clone(), remaining);
-        }
-        self.slashed.lock().unwrap().entry(evidence.validator).and_modify(|x| *x = x.saturating_add(applied)).or_insert(applied);
-        Ok(applied)
-    }
-
     pub fn validators_snapshot(&self) -> BTreeMap<String, u64> {
         self.validators.lock().unwrap().clone()
     }
