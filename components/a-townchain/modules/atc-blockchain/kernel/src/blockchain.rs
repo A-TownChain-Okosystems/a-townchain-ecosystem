@@ -483,10 +483,20 @@ impl Node {
         Ok(n)
     }
     pub fn create_genesis(&self, t: u64) -> Result<Block, String> {
+        self.create_genesis_with_proposer(t, self.proposer.clone())
+    }
+
+    /// Create the canonical shared genesis. All nodes in one network must use
+    /// the same genesis proposer so the genesis commitment is identical.
+    pub fn create_genesis_with_proposer(
+        &self,
+        t: u64,
+        genesis_proposer: impl Into<String>,
+    ) -> Result<Block, String> {
         let b = Block::new(
             0,
             [0; 32],
-            self.proposer.clone(),
+            genesis_proposer.into(),
             t,
             Vec::new(),
             self.state.root(),
