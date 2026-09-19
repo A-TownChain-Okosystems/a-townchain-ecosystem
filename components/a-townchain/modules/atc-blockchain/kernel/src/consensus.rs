@@ -321,6 +321,32 @@ mod tests {
     }
 
     #[test]
+    fn epoch_is_height_deterministic() {
+        assert_eq!(ConsensusEngine::epoch(0), 0);
+        assert_eq!(ConsensusEngine::epoch(EPOCH_LENGTH_BLOCKS - 1), 0);
+        assert_eq!(ConsensusEngine::epoch(EPOCH_LENGTH_BLOCKS), 1);
+        assert!(ConsensusEngine::is_epoch_boundary(EPOCH_LENGTH_BLOCKS));
+    }
+
+    #[test]
+    fn slashing_reduces_voting_weight_and_is_idempotent_by_state() {
+        let engine = ConsensusEngine::new(658467, "proposer".into());
+        engine.register_validator("a".into(), 100).unwrap();
+        let evidence = SlashingEvidence {
+            validator: "a".into(),
+            height: 1,
+            block_a: [1; 32],
+            block_b: [2; 32],
+            reason: "double-sign".into(),
+        };
+        assert_eq!(engine.slash(evidence.clone(), 40).unwrap(), 40);
+        assert_eq!(engine.validator_stake("a"), 60);
+        assert_eq!(engine.slashed_stake("a"), 40);
+        assert_eq!(engine.slash(evidence, 10).unwrap(), 10);
+        assert_eq!(engine.validator_stake("a"), 50);
+    }
+
+    #[test]
     fn unregistered_votes_are_rejected() {
         let engine = ConsensusEngine::new(658467, "proposer".into());
         let key = SigningKey::from_bytes(&[7u8; 32]);
