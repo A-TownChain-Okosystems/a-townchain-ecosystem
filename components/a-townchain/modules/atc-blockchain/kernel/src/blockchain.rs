@@ -425,6 +425,20 @@ impl Node {
                 }
                 Ok(())
             },
+            NetworkMessage::SlashingEvidence { evidence, penalty } => {
+                self.consensus.slash(evidence.clone(), penalty)?;
+                self.storage.commit_slashing(
+                    evidence.height,
+                    &evidence.validator,
+                    evidence.id(),
+                    penalty,
+                )?;
+                self.storage.commit_validators(
+                    self.chain.height(),
+                    &self.consensus.validators_snapshot(),
+                )?;
+                Ok(())
+            },
             NetworkMessage::Transaction(tx) => {
                 // Remote transactions are admitted locally but are not re-broadcast
                 // here, preventing gossip loops. Local submission uses the broadcast path.
@@ -449,6 +463,25 @@ impl Node {
             }
             NetworkMessage::Status { .. } | NetworkMessage::Hello { .. } => Ok(()),
         }
+    }
+
+    /// Apply valid slashing evidence, persist the reduced validator set and gossip it.
+    pub fn submit_slashing_evidence(
+        &self,
+        evidence: SlashingEvidence,
+        penalty: u64,
+    ) -> Result<u64, String> {
+        let applied = self.consensus.slash(evidence.clone(), penalty)?;
+        self.storage.commit_slashing(
+            evidence.height,
+            &evidence.validator,
+            evidence.id(),
+            applied,
+        )?;
+        self.storage
+            .commit_validators(self.chain.height(), &self.consensus.validators_snapshot())?;
+        self.broadcast(NetworkMessage::SlashingEvidence { evidence, penalty })?;
+        Ok(applied)
     }
 
     pub fn submit_vote_and_broadcast(&self, vote: Vote) -> Result<(), String> {
