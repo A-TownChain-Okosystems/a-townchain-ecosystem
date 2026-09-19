@@ -18,6 +18,7 @@ use execution::{AtcVmExecutor, VmExecutor};
 use mempool::{MemoryPool, MempoolError, StateDb, Transaction};
 use network::{NetworkMessage, PeerTransport};
 use security::simple_hash;
+use ed25519_dalek::Signer;
 use std::{
     collections::BTreeMap,
     net::TcpStream,
@@ -771,9 +772,6 @@ impl Node {
     }
 
     pub fn finalize_weighted(&self, b: &Block) -> Result<bool, String> {
-        if self.consensus.proposer != self.proposer {
-            return Err("finalizer is not proposer".into());
-        }
         if !self.consensus.weighted_finality(&b.id) {
             return Ok(false);
         }
@@ -789,9 +787,6 @@ impl Node {
     }
 
     pub fn finalize(&self, b: &Block, quorum: usize) -> Result<bool, String> {
-        if self.consensus.proposer != self.proposer {
-            return Err("finalizer is not proposer".into());
-        }
         if quorum == 0 {
             return Err("quorum must be non-zero".into());
         }
