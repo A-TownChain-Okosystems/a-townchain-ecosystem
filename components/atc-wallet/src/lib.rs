@@ -1,9 +1,6 @@
-//! Desktop Wallet — Key-Management, TX-Signing, DeFi
-//!
-//! Part of the A-TownChain-Okosystems ecosystem.
-//! Copyright (c) Michael Wroblewski. All Rights Reserved.
+//! A-TownChain Rust wallet core.
 
-// Entry point in src/main.rs
+pub mod address;
 pub mod balance;
 pub mod gui;
 pub mod history;
