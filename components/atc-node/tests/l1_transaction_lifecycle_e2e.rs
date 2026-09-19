@@ -48,9 +48,7 @@ fn tx_block_reward_state_finality_persistence_recovery() {
     std::fs::create_dir_all(&path).unwrap();
 
     let node = Node::new(CHAIN_ID, "validator-a".into());
-    node.state
-        .genesis_credit("alice", GENESIS_BALANCE)
-        .unwrap();
+    node.state.genesis_credit("alice", GENESIS_BALANCE).unwrap();
     let genesis = node.create_genesis_with_proposer(1, "atc-genesis").unwrap();
 
     node.register_validator("validator-a".into(), 1).unwrap();
@@ -98,10 +96,16 @@ fn tx_block_reward_state_finality_persistence_recovery() {
     assert_eq!(block.height, 1);
     assert_eq!(block.parent_hash, genesis.id);
     assert_eq!(block.transactions.len(), 1);
-    assert_eq!(node.state.balance("alice"), GENESIS_BALANCE - TRANSFER_AMOUNT - GAS_LIMIT);
+    assert_eq!(
+        node.state.balance("alice"),
+        GENESIS_BALANCE - TRANSFER_AMOUNT - GAS_LIMIT
+    );
     assert_eq!(node.state.balance("bob"), TRANSFER_AMOUNT);
     assert_eq!(node.state.balance("validator-a"), 500);
-    assert_eq!(node.state.issued_base_units(), 1_000_500u128 * atc_blockchain::economics::ATC_BASE_UNITS);
+    assert_eq!(
+        node.state.issued_base_units(),
+        1_000_500u128 * atc_blockchain::economics::ATC_BASE_UNITS
+    );
     assert_eq!(node.storage.block(1).unwrap().id, block.id);
     assert_eq!(node.storage.state_root(1).unwrap(), block.state_root);
 
@@ -112,14 +116,20 @@ fn tx_block_reward_state_finality_persistence_recovery() {
     assert!(node.consensus.weighted_finality(&block.id));
     assert!(node.finalize_weighted(&block).unwrap());
     assert_eq!(node.consensus.finalized().map(|x| x.0), Some(1));
-    assert_eq!(node.storage.recover_finalized().unwrap().map(|x| x.0), Some(1));
+    assert_eq!(
+        node.storage.recover_finalized().unwrap().map(|x| x.0),
+        Some(1)
+    );
 
     drop(node);
 
     let recovered = Node::open_storage(CHAIN_ID, "validator-a".into(), &path).unwrap();
     assert_eq!(recovered.chain.height(), 1);
     assert_eq!(recovered.chain.last().unwrap().id, block.id);
-    assert_eq!(recovered.state.balance("alice"), GENESIS_BALANCE - TRANSFER_AMOUNT - GAS_LIMIT);
+    assert_eq!(
+        recovered.state.balance("alice"),
+        GENESIS_BALANCE - TRANSFER_AMOUNT - GAS_LIMIT
+    );
     assert_eq!(recovered.state.balance("bob"), TRANSFER_AMOUNT);
     assert_eq!(recovered.state.balance("validator-a"), 500);
     assert_eq!(recovered.state.root(), block.state_root);
