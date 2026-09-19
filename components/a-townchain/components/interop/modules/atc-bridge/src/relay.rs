@@ -13,6 +13,12 @@ pub struct RelayEvent {
     pub signatures: Vec<Vec<u8>>,
 }
 
+impl Default for Relay {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Relay {
     pub fn new() -> Self { Self { events: Vec::new() } }
     pub fn submit(&mut self, event: RelayEvent) -> usize {
