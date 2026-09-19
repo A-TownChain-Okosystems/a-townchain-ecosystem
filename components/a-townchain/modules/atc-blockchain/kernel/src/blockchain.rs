@@ -36,7 +36,6 @@ pub struct Block {
 }
 impl Block {
     #[allow(clippy::too_many_arguments)]
-    #[allow(clippy::too_many_arguments)]
     pub fn new(
         h: u64,
         parent: [u8; 32],
