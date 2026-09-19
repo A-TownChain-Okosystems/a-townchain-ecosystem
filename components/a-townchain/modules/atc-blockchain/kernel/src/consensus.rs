@@ -30,6 +30,7 @@ pub struct ConsensusEngine {
     pub chain_id: u64,
     pub proposer: String,
     height: Mutex<u64>,
+    finalized: Mutex<Option<(u64, [u8; 32])>>,
     votes: Mutex<BTreeMap<[u8; 32], Vec<Vote>>>,
     validators: Mutex<BTreeMap<String, u64>>,
 }
@@ -40,6 +41,7 @@ impl ConsensusEngine {
             chain_id,
             proposer,
             height: Mutex::new(0),
+            finalized: Mutex::new(None),
             votes: Mutex::new(BTreeMap::new()),
             validators: Mutex::new(BTreeMap::new()),
         }
@@ -138,6 +140,24 @@ impl ConsensusEngine {
             .filter_map(|v| validators.get(&v.voter).copied())
             .fold(0u64, u64::saturating_add);
         (approved as u128) * 3 >= (total as u128) * 2
+    }
+
+    pub fn mark_finalized(&self, height: u64, block: [u8; 32]) -> Result<(), String> {
+        if height > self.height() {
+            return Err("cannot finalize above current consensus height".into());
+        }
+        let mut finalized = self.finalized.lock().map_err(|_| "finality lock poisoned".to_string())?;
+        if let Some((current, current_id)) = *finalized {
+            if height < current || (height == current && block != current_id) {
+                return Err("finalized height regression or conflicting block".into());
+            }
+        }
+        *finalized = Some((height, block));
+        Ok(())
+    }
+
+    pub fn finalized(&self) -> Option<(u64, [u8; 32])> {
+        *self.finalized.lock().unwrap()
     }
 
     pub fn set_height(&self, h: u64) {
