@@ -225,6 +225,14 @@ impl Node {
     ) -> Result<Self, String> {
         let mut n = Self::new(chain_id, proposer);
         n.storage = Arc::new(storage::ChainStorage::open(path)?);
+        if let Some((height, validators)) = n.storage.recover_validators()? {
+            if n.storage.block(height).is_none() {
+                return Err("validator snapshot references missing block".into());
+            }
+            for (address, stake) in validators {
+                n.consensus.register_validator(address, stake)?;
+            }
+        }
         if let Some((snapshot, dao)) = n.storage.recover_state_with_dao()? {
             n.state.restore(snapshot);
             if !dao.is_empty() {
@@ -381,7 +389,15 @@ impl Node {
         Ok(b)
     }
     pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
-        self.consensus.register_validator(address, stake)
+        self.consensus.register_validator(address, stake)?;
+        self.storage
+            .commit_validators(self.consensus.height(), &self.consensus.validators_snapshot())
+    }
+
+    pub fn unregister_validator(&self, address: &str) -> Result<(), String> {
+        self.consensus.unregister_validator(address);
+        self.storage
+            .commit_validators(self.consensus.height(), &self.consensus.validators_snapshot())
     }
 
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
