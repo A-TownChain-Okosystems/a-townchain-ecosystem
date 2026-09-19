@@ -47,6 +47,16 @@ git clone https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem.git
 # Komponenten einzeln bauen: siehe jeweiliges components/<name>/README.md
 ```
 
+## L1 Integration Contract
+
+The canonical runtime path is now explicitly verified as a connected chain:
+
+`wallet/SDK transaction → mempool → proposer → block → network block validation → state transition → reward → validator vote → weighted finality → durable persistence → restart recovery → next block`.
+
+Multi-node operation uses the canonical `atc-node` runtime and the `atc-blockchain` consensus/network boundary. Network handshakes bind chain identity and expose the accepting node's own height/tip; received blocks are validated before state adoption, and finality/evidence state is persisted for restart recovery.
+
+A successful CI run is required before any production-readiness claim. Current development status remains **not production-ready** until all mandatory gates are green.
+
 ## Testing
 
 `ATC Test Suite` und `Determinism Gate` laufen pro Komponente mit deren
