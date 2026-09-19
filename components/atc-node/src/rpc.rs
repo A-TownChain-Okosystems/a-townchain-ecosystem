@@ -142,7 +142,7 @@ impl DevnetRpc {
                 "block_id": hex::encode(id)
             })),
             "validators": node.consensus.validators_snapshot(),
-            "peer_transport": node.transport_peer_count()
+            "transport_attached": node.transport_attached()
         }))
     }
 
