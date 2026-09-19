@@ -14,6 +14,7 @@ use super::{
 
 const MAGIC: &[u8] = b"ATCB1";
 const VALIDATOR_MAGIC: &[u8] = b"ATCV1";
+const FINALITY_MAGIC: &[u8] = b"ATCF1";
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
     out.extend_from_slice(&(b.len() as u32).to_be_bytes());
@@ -170,6 +171,7 @@ pub struct ChainStorage {
     journal: Option<PathBuf>,
     state_journal: Option<PathBuf>,
     validator_journal: Option<PathBuf>,
+    finality_journal: Option<PathBuf>,
 }
 
 impl Default for ChainStorage {
@@ -186,6 +188,7 @@ impl ChainStorage {
             journal: None,
             state_journal: None,
             validator_journal: None,
+            finality_journal: None,
         }
     }
 
@@ -196,12 +199,14 @@ impl ChainStorage {
         }
         let state_p = p.with_extension("state");
         let validator_p = p.with_extension("validators");
+        let finality_p = p.with_extension("finality");
         let s = Self {
             blocks: RwLock::new(BTreeMap::new()),
             state_roots: RwLock::new(BTreeMap::new()),
             journal: Some(p),
             state_journal: Some(state_p),
             validator_journal: Some(validator_p),
+            finality_journal: Some(finality_p),
         };
         s.recover()?;
         Ok(s)
@@ -401,6 +406,40 @@ impl ChainStorage {
                 return Err("trailing validator bytes".into());
             }
             latest = Some((h, validators));
+        }
+        Ok(latest)
+    }
+
+    pub fn commit_finalized(&self, height: u64, block: [u8; 32]) -> Result<(), String> {
+        let Some(p) = &self.finality_journal else { return Ok(()); };
+        let mut o = Vec::from(FINALITY_MAGIC);
+        o.extend_from_slice(&height.to_be_bytes());
+        o.extend_from_slice(&block);
+        let line = format!("{}\n", hex::encode(o));
+        let mut f = OpenOptions::new().create(true).append(true).open(p).map_err(|e| e.to_string())?;
+        f.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
+        f.sync_data().map_err(|e| e.to_string())?;
+        Ok(())
+    }
+
+    pub fn recover_finalized(&self) -> Result<Option<(u64, [u8; 32])>, String> {
+        let Some(p) = &self.finality_journal else { return Ok(None); };
+        if !p.exists() { return Ok(None); }
+        let f = File::open(p).map_err(|e| e.to_string())?;
+        let mut latest = None;
+        for (line_no, line) in BufReader::new(f).lines().enumerate() {
+            let raw = line.map_err(|e| e.to_string())?;
+            if raw.trim().is_empty() { continue; }
+            let b = hex::decode(raw.trim()).map_err(|e| format!("finality journal line {}: invalid hex: {e}", line_no + 1))?;
+            if !b.starts_with(FINALITY_MAGIC) { return Err(format!("finality journal line {}: invalid magic", line_no + 1)); }
+            let mut q = FINALITY_MAGIC.len();
+            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let id = fixed::<32>(&b, &mut q)?;
+            if q != b.len() { return Err("trailing finality bytes".into()); }
+            if let Some((prev, _)) = latest {
+                if h < prev { return Err("finalized height regression".into()); }
+            }
+            latest = Some((h, id));
         }
         Ok(latest)
     }
