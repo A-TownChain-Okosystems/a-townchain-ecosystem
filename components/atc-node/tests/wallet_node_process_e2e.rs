@@ -1,3 +1,4 @@
+use atc_blockchain::chain_identity::NUMERIC_CHAIN_ID;
 use atc_wallet::keys::WalletKey;
 use atc_wallet::node::{NodeClient, TcpNodeClient};
 use atc_wallet::tx::{Transaction, TxType};
@@ -6,7 +7,7 @@ use std::io::{BufRead, BufReader, Write};
 use std::net::{TcpListener, TcpStream};
 use std::process::{Child, Command, Stdio};
 use std::thread;
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use std::time::Duration;
 
 fn free_addr() -> String {
     let listener = TcpListener::bind("127.0.0.1:0").unwrap();
@@ -51,7 +52,7 @@ fn wallet_to_atc_node_mempool_block_state_process_e2e() {
 
     let key = WalletKey::from_seed([7u8; 32]);
     let tx = Transaction {
-        chain_id: 658467,
+        chain_id: NUMERIC_CHAIN_ID,
         tx_type: TxType::Transfer,
         sender_did: "alice".into(),
         recipient_did: Some("bob".into()),
@@ -86,5 +87,4 @@ fn wallet_to_atc_node_mempool_block_state_process_e2e() {
     let _ = child.kill();
     let _ = child.wait();
 
-    let _ = SystemTime::now().duration_since(UNIX_EPOCH).unwrap();
 }
