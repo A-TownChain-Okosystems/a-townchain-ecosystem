@@ -303,13 +303,21 @@ impl Node {
 
         for tx in &b.transactions {
             if !tx.payload.is_empty() {
-                self.state.apply_dao_payload(&tx.payload, b.height, &tx.sender_did)
-                    .map_err(|e| format!("DAO transition: {e}"))?;
+                if let Err(e) = self.state.apply_dao_payload(&tx.payload, b.height, &tx.sender_did) {
+                    self.state.restore(state_snapshot);
+                    let _ = self.state.restore_dao(&dao_snapshot);
+                    let _ = self.state.restore_issued_base_units(issued_snapshot);
+                    return Err(format!("DAO transition: {e}"));
+                }
             }
         }
 
-        self.state.apply_block_reward(b.height, &b.proposer)
-            .map_err(|e| format!("block reward: {e}"))?;
+        if let Err(e) = self.state.apply_block_reward(b.height, &b.proposer) {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(format!("block reward: {e}"));
+        }
 
         let root = self.state.root();
         if root != b.state_root || receipts::root(&receipts) != b.receipt_root {
@@ -319,7 +327,12 @@ impl Node {
             return Err("network block state/receipt root mismatch".into());
         }
 
-        self.storage.commit(b.clone())?;
+        if let Err(e) = self.storage.commit(b.clone()) {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(e);
+        }
         self.storage.commit_state_with_dao(b.height, &self.state.snapshot(), &self.state.dao_snapshot())?;
         self.storage.commit_issuance(b.height, self.state.issued_base_units())?;
         self.chain.append(b.clone())?;
