@@ -17,6 +17,10 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
+      - name: Install nightly toolchain for GlobusOS bootloader
+        run: |
+          rustup toolchain install nightly --profile minimal
+          rustup component add rustfmt clippy --toolchain nightly
       - name: Validate every Rust workspace/package once
         shell: bash
         run: |
@@ -45,13 +49,17 @@ jobs:
 
           for dir in "${!roots[@]}"; do
             echo "=== Rust: $dir"
+            cargo_cmd=(cargo)
+            if [ "$dir" = "components/globus-os" ]; then
+              cargo_cmd=(cargo +nightly)
+            fi
             for gate in fmt check test clippy; do
               log="$(mktemp)"
               case "$gate" in
-                fmt) command=(cargo fmt --all -- --check) ;;
-                check) command=(cargo check --workspace --all-targets) ;;
-                test) command=(cargo test --workspace --all-targets) ;;
-                clippy) command=(cargo clippy --workspace --all-targets --all-features -- -D warnings) ;;
+                fmt) command=("${cargo_cmd[@]}" fmt --all -- --check) ;;
+                check) command=("${cargo_cmd[@]}" check --workspace --all-targets) ;;
+                test) command=("${cargo_cmd[@]}" test --workspace --all-targets) ;;
+                clippy) command=("${cargo_cmd[@]}" clippy --workspace --all-targets --all-features -- -D warnings) ;;
               esac
               if ! (cd "$dir" && "${command[@]}") >"$log" 2>&1; then
                 fail=1
