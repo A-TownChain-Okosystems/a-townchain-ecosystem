@@ -13,6 +13,7 @@ use super::{
 };
 
 const MAGIC: &[u8] = b"ATCB1";
+const VALIDATOR_MAGIC: &[u8] = b"ATCV1";
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
     out.extend_from_slice(&(b.len() as u32).to_be_bytes());
@@ -168,6 +169,7 @@ pub struct ChainStorage {
     state_roots: RwLock<BTreeMap<u64, [u8; 32]>>,
     journal: Option<PathBuf>,
     state_journal: Option<PathBuf>,
+    validator_journal: Option<PathBuf>,
 }
 
 impl Default for ChainStorage {
@@ -183,6 +185,7 @@ impl ChainStorage {
             state_roots: RwLock::new(BTreeMap::new()),
             journal: None,
             state_journal: None,
+            validator_journal: None,
         }
     }
 
@@ -192,11 +195,13 @@ impl ChainStorage {
             fs::create_dir_all(parent).map_err(|e| e.to_string())?;
         }
         let state_p = p.with_extension("state");
+        let validator_p = p.with_extension("validators");
         let s = Self {
             blocks: RwLock::new(BTreeMap::new()),
             state_roots: RwLock::new(BTreeMap::new()),
             journal: Some(p),
             state_journal: Some(state_p),
+            validator_journal: Some(validator_p),
         };
         s.recover()?;
         Ok(s)
@@ -333,6 +338,71 @@ impl ChainStorage {
             latest = Some((h, (map, dao)));
         }
         Ok(latest.map(|(_, m)| m))
+    }
+
+    /// Persist the complete active validator set as a deterministic snapshot.
+    pub fn commit_validators(
+        &self,
+        height: u64,
+        validators: &BTreeMap<String, u64>,
+    ) -> Result<(), String> {
+        let Some(p) = &self.validator_journal else { return Ok(()); };
+        let mut o = Vec::from(VALIDATOR_MAGIC);
+        o.extend_from_slice(&height.to_be_bytes());
+        o.extend_from_slice(&(validators.len() as u32).to_be_bytes());
+        for (address, stake) in validators {
+            put(&mut o, address.as_bytes());
+            o.extend_from_slice(&stake.to_be_bytes());
+        }
+        let line = format!("{}\n", hex::encode(o));
+        let mut f = OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(p)
+            .map_err(|e| e.to_string())?;
+        f.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
+        f.sync_data().map_err(|e| e.to_string())?;
+        Ok(())
+    }
+
+    pub fn recover_validators(&self) -> Result<Option<(u64, BTreeMap<String, u64>)>, String> {
+        let Some(p) = &self.validator_journal else { return Ok(None); };
+        if !p.exists() {
+            return Ok(None);
+        }
+        let f = File::open(p).map_err(|e| e.to_string())?;
+        let mut latest = None;
+        for (line_no, line) in BufReader::new(f).lines().enumerate() {
+            let raw = line.map_err(|e| e.to_string())?;
+            if raw.trim().is_empty() {
+                continue;
+            }
+            let b = hex::decode(raw.trim())
+                .map_err(|e| format!("validator journal line {}: invalid hex: {e}", line_no + 1))?;
+            if !b.starts_with(VALIDATOR_MAGIC) {
+                return Err(format!("validator journal line {}: invalid magic", line_no + 1));
+            }
+            let mut q = VALIDATOR_MAGIC.len();
+            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let n = u32::from_be_bytes(fixed::<4>(&b, &mut q)?) as usize;
+            let mut validators = BTreeMap::new();
+            for _ in 0..n {
+                let address = String::from_utf8(get(&b, &mut q)?.to_vec())
+                    .map_err(|_| "invalid validator address")?;
+                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                if address.is_empty() || stake == 0 {
+                    return Err("invalid validator record".into());
+                }
+                if validators.insert(address, stake).is_some() {
+                    return Err("duplicate validator record".into());
+                }
+            }
+            if q != b.len() {
+                return Err("trailing validator bytes".into());
+            }
+            latest = Some((h, validators));
+        }
+        Ok(latest)
     }
 
     pub fn block(&self, h: u64) -> Option<Block> {
