@@ -112,8 +112,18 @@ impl TcpPeerTransport {
         height: u64,
         best_block: [u8; 32],
     ) -> Result<(TcpStream, String, u64, [u8; 32]), String> {
+        let (stream, _) = listener.accept().map_err(|e| e.to_string())?;
+        Self::accept_stream(stream, chain_id, node_id, height, best_block)
+    }
+
+    pub fn accept_stream(
+        mut stream: TcpStream,
+        chain_id: u64,
+        node_id: impl Into<String>,
+        height: u64,
+        best_block: [u8; 32],
+    ) -> Result<(TcpStream, String, u64, [u8; 32]), String> {
         let local_node_id = node_id.into();
-        let (mut stream, _) = listener.accept().map_err(|e| e.to_string())?;
         stream.set_nodelay(true).map_err(|e| e.to_string())?;
         match read_message(&mut stream)? {
             Some(NetworkMessage::Hello {
