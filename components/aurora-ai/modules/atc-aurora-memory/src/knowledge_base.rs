@@ -17,6 +17,10 @@ pub struct KnowledgeBase {
     index: HashMap<String, Vec<usize>>,
 }
 
+impl Default for KnowledgeBase {
+    fn default() -> Self { Self::new() }
+}
+
 impl KnowledgeBase {
     pub fn new() -> Self {
         Self {
