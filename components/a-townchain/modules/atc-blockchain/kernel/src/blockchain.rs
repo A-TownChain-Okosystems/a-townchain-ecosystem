@@ -204,6 +204,7 @@ pub struct Node {
     verifier: Arc<dyn SignatureVerifier>,
     indexer: Mutex<Option<Arc<dyn IndexerSink>>>,
     transport: Mutex<Option<Arc<dyn PeerTransport>>>,
+    vote_signer: Mutex<Option<(String, [u8; 32])>>,
 }
 impl Node {
     pub fn new(chain_id: u64, proposer: String) -> Self {
@@ -218,6 +219,7 @@ impl Node {
             verifier: Arc::new(Ed25519Verifier),
             indexer: Mutex::new(None),
             transport: Mutex::new(None),
+            vote_signer: Mutex::new(None),
         }
     }
     pub fn set_indexer(&self, sink: Arc<dyn IndexerSink>) {
@@ -255,6 +257,30 @@ impl Node {
         transport.register_stream(stream)?;
         self.set_transport(transport);
         Ok(self.clone().serve_tcp_stream(reader))
+    }
+
+    /// Configure the validator identity used by the long-running node consensus loop.
+    /// The seed is supplied by the operator and is never generated implicitly.
+    pub fn set_vote_signer(&self, validator: impl Into<String>, seed: [u8; 32]) {
+        *self.vote_signer.lock().unwrap() = Some((validator.into(), seed));
+    }
+
+    fn vote_for_block(&self, block: &Block) -> Result<(), String> {
+        let Some((validator, seed)) = self.vote_signer.lock().unwrap().clone() else {
+            return Ok(());
+        };
+        let signing = ed25519_dalek::SigningKey::from_bytes(&seed);
+        let mut vote = Vote {
+            block: block.id,
+            voter: validator,
+            approve: true,
+            signature: [0; 64],
+            public_key: signing.verifying_key().to_bytes(),
+        };
+        vote.signature = signing
+            .sign(&consensus::vote_signing_bytes(self.chain_id, &vote))
+            .to_bytes();
+        self.submit_vote_and_broadcast(vote)
     }
 
     fn broadcast(&self, message: NetworkMessage) -> Result<(), String> {
@@ -365,6 +391,7 @@ impl Node {
             self.pool.mark_in_block(&tx.id);
         }
         self.consensus.set_height(b.height);
+        self.vote_for_block(&b)?;
         Ok(())
     }
 
@@ -374,8 +401,9 @@ impl Node {
             NetworkMessage::Block(b) => self.import_block(b),
             NetworkMessage::Vote(v) => self.submit_vote(v),
             NetworkMessage::Transaction(tx) => {
-                self.submit(tx.clone(), tx.timestamp)
-                    .map_err(|e| e.to_string())?;
+                // Remote transactions are admitted locally but are not re-broadcast
+                // here, preventing gossip loops. Local submission uses the broadcast path.
+                self.submit(tx, 0).map_err(|e| e.to_string())?;
                 Ok(())
             }
             NetworkMessage::BlockRequest { from_height } => {
@@ -478,6 +506,13 @@ impl Node {
         self.consensus.set_height(b.height);
         Ok(b)
     }
+    pub fn submit_and_broadcast(&self, tx: Transaction, now: u64) -> Result<[u8; 32], MempoolError> {
+        let id = self.submit(tx.clone(), now)?;
+        self.broadcast(NetworkMessage::Transaction(tx))
+            .map_err(|_| MempoolError::TxNotFound)?;
+        Ok(id)
+    }
+
     pub fn submit(&self, tx: Transaction, now: u64) -> Result<[u8; 32], MempoolError> {
         if tx.chain_id != self.chain_id {
             return Err(MempoolError::WrongChain);
@@ -546,6 +581,7 @@ impl Node {
         self.chain.append(b.clone())?;
         self.consensus.set_height(height);
         self.broadcast(NetworkMessage::Block(b.clone()))?;
+        self.vote_for_block(&b)?;
         Ok(b)
     }
 
@@ -657,6 +693,7 @@ impl Node {
         }
         self.consensus.set_height(b.height);
         self.broadcast(NetworkMessage::Block(b.clone()))?;
+        self.vote_for_block(&b)?;
         Ok(b)
     }
     pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
