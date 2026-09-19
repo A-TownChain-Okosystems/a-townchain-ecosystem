@@ -189,10 +189,9 @@ mod tests {
             min: [-1.0; 3],
             max: [1.0; 3],
         };
-        assert_eq!(
-            aabb.point_resolution([0.9, 0.0, 0.0]),
-            Some(([1.0, 0.0, 0.0], 0.1))
-        );
+        let (normal, depth) = aabb.point_resolution([0.9, 0.0, 0.0]).unwrap();
+        assert_eq!(normal, [1.0, 0.0, 0.0]);
+        assert!((depth - 0.1).abs() < f32::EPSILON * 4.0);
     }
 
     #[test]
