@@ -33,7 +33,8 @@ fn main() {
     };
 
     let signature = tx.sign(&key).expect("transaction signing failed");
-    tx.verify(&public_key, &signature).expect("self verification failed");
+    tx.verify(&public_key, &signature)
+        .expect("self verification failed");
 
     println!("signature={}", hex(&signature));
     println!("address={address}");
