@@ -568,6 +568,19 @@ mod supply_tests {
     }
 
     #[test]
+    fn block_reward_uses_canonical_policy_and_tracks_base_units() {
+        let state = StateDb::new();
+        state.genesis_credit("genesis", 1_000_000).unwrap();
+        let before = state.issued_base_units();
+        assert_eq!(state.apply_block_reward(0, "validator"), 500);
+        assert_eq!(state.balance("validator"), 500);
+        assert_eq!(
+            state.issued_base_units(),
+            before + 500 * crate::economics::ATC_BASE_UNITS
+        );
+    }
+
+    #[test]
     fn supply_is_part_of_state_root() {
         let a = StateDb::new();
         let b = StateDb::new();
