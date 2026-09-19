@@ -21,6 +21,8 @@ use security::simple_hash;
 use std::{
     collections::BTreeMap,
     sync::{Arc, Mutex},
+    thread,
+    net::TcpStream,
 };
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Block {
@@ -225,6 +227,33 @@ impl Node {
     /// Attach the network transport to the canonical Node/consensus boundary.
     pub fn set_transport(&self, transport: Arc<dyn PeerTransport>) {
         *self.transport.lock().unwrap() = Some(transport);
+    }
+
+    /// Run the canonical Node message loop on an already authenticated TCP peer.
+    pub fn serve_tcp_stream(self: Arc<Self>, mut stream: TcpStream) -> thread::JoinHandle<Result<(), String>> {
+        thread::spawn(move || {
+            loop {
+                match network::read_message(&mut stream)? {
+                    Some(message) => self.handle_network_message(message)?,
+                    None => return Ok(()),
+                }
+            }
+        })
+    }
+
+    /// Connect a Node to a peer and start its receive loop. Outbound writes use
+    /// the same authenticated stream through the shared transport.
+    pub fn connect_tcp_peer(
+        self: &Arc<Self>,
+        transport: Arc<network::TcpPeerTransport>,
+        addr: &str,
+    ) -> Result<thread::JoinHandle<Result<(), String>>, String> {
+        let last = self.chain.last().ok_or("genesis required")?;
+        let stream = transport.connect_stream(addr, last.height, last.id)?;
+        let reader = stream.try_clone().map_err(|e| e.to_string())?;
+        transport.register_stream(stream)?;
+        self.set_transport(transport);
+        Ok(self.clone().serve_tcp_stream(reader))
     }
 
     fn broadcast(&self, message: NetworkMessage) -> Result<(), String> {
