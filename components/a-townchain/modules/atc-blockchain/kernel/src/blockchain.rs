@@ -135,6 +135,7 @@ impl BlockChain {
         }
         self.hashes.lock().unwrap().insert(b.id, 0);
         self.blocks.lock().unwrap().insert(0, b);
+        *self.height.lock().unwrap() = 0;
         Ok(())
     }
     pub fn validate_append(&self, b: &Block) -> Result<(), String> {
@@ -412,5 +413,47 @@ impl Node {
             sink.ingest_finalized(b)?
         }
         Ok(true)
+    }
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn genesis_sets_chain_height_and_allows_first_append() {
+        let chain = BlockChain::new();
+        let genesis = Block::new(
+            0,
+            [0; 32],
+            "validator-0".into(),
+            1,
+            Vec::new(),
+            [1; 32],
+            [0; 32],
+            [0; 64],
+        );
+
+        chain.genesis(genesis.clone()).unwrap();
+
+        assert_eq!(chain.height(), 0);
+        assert_eq!(chain.last(), Some(genesis.clone()));
+
+        let block1 = Block::new(
+            1,
+            genesis.id,
+            "validator-0".into(),
+            361,
+            Vec::new(),
+            [2; 32],
+            [0; 32],
+            [0; 64],
+        );
+
+        chain.append(block1.clone()).unwrap();
+
+        assert_eq!(chain.height(), 1);
+        assert_eq!(chain.last(), Some(block1));
     }
 }
