@@ -264,7 +264,12 @@ impl Node {
         let stream = transport.connect_stream(addr, last.height, last.id)?;
         let reader = stream.try_clone().map_err(|e| e.to_string())?;
         transport.register_stream(stream)?;
-        self.set_transport(transport);
+        self.set_transport(transport.clone());
+        if last.height < peer_height {
+            transport.broadcast(NetworkMessage::BlockRequest {
+                from_height: last.height.saturating_add(1),
+            })?;
+        }
         Ok(self.clone().serve_tcp_stream(reader))
     }
 
