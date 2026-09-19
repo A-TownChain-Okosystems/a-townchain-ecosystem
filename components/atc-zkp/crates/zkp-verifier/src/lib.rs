@@ -4,7 +4,6 @@
 use ark_bn254::Bn254;
 use ark_groth16::{prepare_verifying_key, Groth16, Proof, VerifyingKey};
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
-use ark_snark::SNARK;
 use zkp_core::{CircuitDescriptor, ProofEnvelope, ProofError, ProofSystem};
 use zkp_crypto::sha256;
 
@@ -99,12 +98,12 @@ pub fn verify_format(system_id: u8, proof_len: usize) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use ark_std::rand::test_rng;
+    
     use zkp_prover::{prove_square, setup};
 
     #[test]
     fn registry_binds_verifying_key() {
-        let mut rng = test_rng();
+        let mut rng = ark_std::test_rng();
         let (pk, vk) = setup(&mut rng).expect("setup");
         let circuit = register_equality_square(&vk).expect("registry");
         let envelope = prove_square(
