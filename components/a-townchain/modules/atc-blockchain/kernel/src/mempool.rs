@@ -246,6 +246,7 @@ pub struct StateDb {
     accounts: Mutex<BTreeMap<String, Account>>,
     dao: Mutex<crate::dao_state::DaoState>,
     genesis_sealed: Mutex<bool>,
+    issued_base_units: Mutex<u128>,
 }
 impl Default for StateDb {
     fn default() -> Self {
@@ -261,6 +262,7 @@ impl StateDb {
                 crate::dao_state::DaoState::new(1, 5000).expect("valid default DAO config"),
             ),
             genesis_sealed: Mutex::new(false),
+            issued_base_units: Mutex::new(0),
         }
     }
     pub fn genesis_credit(&self, id: &str, n: u64) -> Result<(), String> {
@@ -288,12 +290,38 @@ impl StateDb {
             staked: 0,
             nonce: 0,
         });
+        *self.issued_base_units.lock().unwrap() = new_supply as u128 * crate::economics::ATC_BASE_UNITS;
         x.balance = x
             .balance
             .checked_add(n)
             .ok_or("balance overflow".to_string())?;
         Ok(())
     }
+    pub fn restore_issued_base_units(&self, issued: u128) -> Result<(), String> {
+        if issued > crate::economics::MAX_SUPPLY { return Err("issued supply cap exceeded".into()); }
+        *self.issued_base_units.lock().unwrap() = issued;
+        Ok(())
+    }
+
+    pub fn issued_base_units(&self) -> u128 {
+        *self.issued_base_units.lock().unwrap()
+    }
+
+    pub fn apply_block_reward(&self, height: u64, recipient: &str) -> Result<u64, String> {
+        let reward = crate::economics::block_reward_base_units(height, self.issued_base_units());
+        if reward == 0 { return Ok(0); }
+        let whole = reward / crate::economics::ATC_BASE_UNITS;
+        if whole > u64::MAX as u128 { return Err("block reward exceeds account balance range".into()); }
+        let mut accounts = self.accounts.lock().unwrap();
+        let mut issued = self.issued_base_units.lock().unwrap();
+        let new_issued = (*issued).checked_add(reward).ok_or("issued supply overflow")?;
+        if new_issued > crate::economics::MAX_SUPPLY { return Err("issued supply cap exceeded".into()); }
+        let x = accounts.entry(recipient.to_owned()).or_insert(Account { balance: 0, staked: 0, nonce: 0 });
+        x.balance = x.balance.checked_add(whole as u64).ok_or("reward balance overflow")?;
+        *issued = new_issued;
+        Ok(whole as u64)
+    }
+
     pub fn seal_genesis(&self) {
         *self.genesis_sealed.lock().unwrap() = true
     }
@@ -318,6 +346,15 @@ impl StateDb {
             .map(|x| x.nonce)
             .unwrap_or(0)
     }
+    pub fn slash_stake(&self, id: &str, amount: u64) -> Result<u64, String> {
+        if amount == 0 { return Err("slash amount must be non-zero".into()); }
+        let mut a = self.accounts.lock().unwrap();
+        let x = a.get_mut(id).ok_or("validator account not found")?;
+        let applied = amount.min(x.staked);
+        x.staked -= applied;
+        Ok(applied)
+    }
+
     pub fn staked(&self, id: &str) -> u64 {
         self.accounts
             .lock()
@@ -344,6 +381,7 @@ impl StateDb {
         let mut combined = Vec::from(b"ATC-STATE-V2");
         combined.extend_from_slice(&account_root);
         combined.extend_from_slice(&supply.to_be_bytes());
+        combined.extend_from_slice(&self.issued_base_units().to_be_bytes());
         combined.extend_from_slice(&dao_root);
         simple_hash(&combined)
     }
@@ -527,6 +565,19 @@ mod supply_tests {
         state.seal_genesis();
         assert!(state.genesis_credit("bob", 1).is_err());
         assert_eq!(state.total_supply(), 100);
+    }
+
+    #[test]
+    fn block_reward_uses_canonical_policy_and_tracks_base_units() {
+        let state = StateDb::new();
+        state.genesis_credit("genesis", 1_000_000).unwrap();
+        let before = state.issued_base_units();
+        assert_eq!(state.apply_block_reward(0, "validator"), Ok(500));
+        assert_eq!(state.balance("validator"), 500);
+        assert_eq!(
+            state.issued_base_units(),
+            before + 500 * crate::economics::ATC_BASE_UNITS
+        );
     }
 
     #[test]
