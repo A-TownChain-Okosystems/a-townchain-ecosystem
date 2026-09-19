@@ -78,7 +78,9 @@ impl ConsensusEngine {
         if address.is_empty() || stake == 0 {
             return Err("validator address and stake are required".into());
         }
-        self.validators.lock().map_err(|_| "validator lock poisoned")?
+        self.validators
+            .lock()
+            .map_err(|_| "validator lock poisoned")?
             .insert(address, stake);
         Ok(())
     }
@@ -88,7 +90,12 @@ impl ConsensusEngine {
     }
 
     pub fn validator_stake(&self, address: &str) -> u64 {
-        self.validators.lock().unwrap().get(address).copied().unwrap_or(0)
+        self.validators
+            .lock()
+            .unwrap()
+            .get(address)
+            .copied()
+            .unwrap_or(0)
     }
 
     pub fn epoch(height: u64) -> u64 {
@@ -100,15 +107,26 @@ impl ConsensusEngine {
     }
 
     pub fn slashed_stake(&self, address: &str) -> u64 {
-        self.slashed.lock().unwrap().get(address).copied().unwrap_or(0)
+        self.slashed
+            .lock()
+            .unwrap()
+            .get(address)
+            .copied()
+            .unwrap_or(0)
     }
 
     pub fn slash(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
         if evidence.block_a == evidence.block_b || evidence.validator.is_empty() || penalty == 0 {
             return Err("invalid slashing evidence".into());
         }
-        let mut validators = self.validators.lock().map_err(|_| "validator lock poisoned")?;
-        let current = validators.get(&evidence.validator).copied().ok_or("validator is not active")?;
+        let mut validators = self
+            .validators
+            .lock()
+            .map_err(|_| "validator lock poisoned")?;
+        let current = validators
+            .get(&evidence.validator)
+            .copied()
+            .ok_or("validator is not active")?;
         let applied = penalty.min(current);
         let remaining = current - applied;
         if remaining == 0 {
@@ -116,7 +134,12 @@ impl ConsensusEngine {
         } else {
             validators.insert(evidence.validator.clone(), remaining);
         }
-        self.slashed.lock().unwrap().entry(evidence.validator).and_modify(|x| *x = x.saturating_add(applied)).or_insert(applied);
+        self.slashed
+            .lock()
+            .unwrap()
+            .entry(evidence.validator)
+            .and_modify(|x| *x = x.saturating_add(applied))
+            .or_insert(applied);
         Ok(applied)
     }
 
@@ -125,7 +148,12 @@ impl ConsensusEngine {
     }
 
     pub fn total_validator_stake(&self) -> u64 {
-        self.validators.lock().unwrap().values().copied().fold(0, u64::saturating_add)
+        self.validators
+            .lock()
+            .unwrap()
+            .values()
+            .copied()
+            .fold(0, u64::saturating_add)
     }
 
     pub fn propose_id(&self, h: u64, parent: [u8; 32], state: [u8; 32], tx: [u8; 32]) -> [u8; 32] {
@@ -148,12 +176,18 @@ impl ConsensusEngine {
         )
         .map_err(|_| "invalid vote signature".to_string())?;
 
-        if !self.validators.lock().map_err(|_| "validator lock poisoned".to_string())?
+        if !self
+            .validators
+            .lock()
+            .map_err(|_| "validator lock poisoned".to_string())?
             .contains_key(&v.voter)
         {
             return Err("voter is not an active validator".into());
         }
-        let mut all = self.votes.lock().map_err(|_| "vote lock poisoned".to_string())?;
+        let mut all = self
+            .votes
+            .lock()
+            .map_err(|_| "vote lock poisoned".to_string())?;
         let list = all.entry(v.block).or_default();
         if list.iter().any(|x| x.voter == v.voter) {
             return Err("duplicate voter".into());
@@ -191,7 +225,8 @@ impl ConsensusEngine {
             return false;
         };
         let mut seen = BTreeSet::new();
-        let approved = list.iter()
+        let approved = list
+            .iter()
             .filter(|v| v.approve && seen.insert(v.voter.as_str()))
             .filter_map(|v| validators.get(&v.voter).copied())
             .fold(0u64, u64::saturating_add);
@@ -202,7 +237,10 @@ impl ConsensusEngine {
         if height > self.height() {
             return Err("cannot finalize above current consensus height".into());
         }
-        let mut finalized = self.finalized.lock().map_err(|_| "finality lock poisoned".to_string())?;
+        let mut finalized = self
+            .finalized
+            .lock()
+            .map_err(|_| "finality lock poisoned".to_string())?;
         if let Some((current, current_id)) = *finalized {
             if height < current || (height == current && block != current_id) {
                 return Err("finalized height regression or conflicting block".into());
@@ -225,13 +263,18 @@ impl ConsensusEngine {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
     use ed25519_dalek::{Signer, SigningKey};
 
-    fn signed_vote(engine: &ConsensusEngine, key: &SigningKey, voter: &str, block: [u8; 32], approve: bool) -> Vote {
+    fn signed_vote(
+        engine: &ConsensusEngine,
+        key: &SigningKey,
+        voter: &str,
+        block: [u8; 32],
+        approve: bool,
+    ) -> Vote {
         let mut vote = Vote {
             block,
             voter: voter.into(),
@@ -254,11 +297,17 @@ mod tests {
         engine.register_validator("b".into(), 35).unwrap();
         engine.register_validator("c".into(), 25).unwrap();
         let block = [9u8; 32];
-        engine.vote(signed_vote(&engine, &a, "a", block, true)).unwrap();
-        engine.vote(signed_vote(&engine, &b, "b", block, true)).unwrap();
+        engine
+            .vote(signed_vote(&engine, &a, "a", block, true))
+            .unwrap();
+        engine
+            .vote(signed_vote(&engine, &b, "b", block, true))
+            .unwrap();
         assert!(engine.weighted_finality(&block));
         let other = [8u8; 32];
-        engine.vote(signed_vote(&engine, &a, "a", other, true)).unwrap();
+        engine
+            .vote(signed_vote(&engine, &a, "a", other, true))
+            .unwrap();
         assert!(!engine.weighted_finality(&other));
     }
 
@@ -293,6 +342,9 @@ mod tests {
         let engine = ConsensusEngine::new(658467, "proposer".into());
         let key = SigningKey::from_bytes(&[7u8; 32]);
         let vote = signed_vote(&engine, &key, "unknown", [1u8; 32], true);
-        assert_eq!(engine.vote(vote).unwrap_err(), "voter is not an active validator");
+        assert_eq!(
+            engine.vote(vote).unwrap_err(),
+            "voter is not an active validator"
+        );
     }
 }

@@ -54,8 +54,19 @@ fn storage_restart_recovers_chain_and_state() {
         std::process::id(),
         658467u64
     ));
-    for ext in ["", "state", "validators", "finality", "slashing", "issuance"] {
-        let target = if ext.is_empty() { path.clone() } else { path.with_extension(ext) };
+    for ext in [
+        "",
+        "state",
+        "validators",
+        "finality",
+        "slashing",
+        "issuance",
+    ] {
+        let target = if ext.is_empty() {
+            path.clone()
+        } else {
+            path.with_extension(ext)
+        };
         let _ = std::fs::remove_file(target);
     }
     let node = Node::open_storage(658467, "validator-1".into(), &path).unwrap();
@@ -92,7 +103,10 @@ fn storage_restart_recovers_chain_and_state() {
     assert_eq!(reopened.chain.height(), 1);
     assert_eq!(reopened.state.balance("bob"), 25);
     assert_eq!(reopened.storage.block(1).unwrap().id, block.id);
-    assert!(reopened.state.issued_base_units() > 1_000_000u128 * atc_blockchain::economics::ATC_BASE_UNITS);
+    assert!(
+        reopened.state.issued_base_units()
+            > 1_000_000u128 * atc_blockchain::economics::ATC_BASE_UNITS
+    );
     assert_eq!(reopened.consensus.validator_stake("validator-1"), 100);
     assert_eq!(reopened.consensus.finalized(), Some((1, block.id)));
     let key2 = SigningKey::from_bytes(&[9u8; 32]);
@@ -100,8 +114,19 @@ fn storage_restart_recovers_chain_and_state() {
     reopened.submit(tx2, 4).unwrap();
     let block2 = reopened.produce(5, 10).unwrap();
     assert_eq!(block2.height, 2);
-    for ext in ["", "state", "validators", "finality", "slashing", "issuance"] {
-        let target = if ext.is_empty() { path.clone() } else { path.with_extension(ext) };
+    for ext in [
+        "",
+        "state",
+        "validators",
+        "finality",
+        "slashing",
+        "issuance",
+    ] {
+        let target = if ext.is_empty() {
+            path.clone()
+        } else {
+            path.with_extension(ext)
+        };
         let _ = std::fs::remove_file(target);
     }
 }
@@ -115,8 +140,19 @@ fn dao_transactions_persist_and_recover() {
         std::process::id(),
         chain_id
     ));
-    for ext in ["", "state", "validators", "finality", "slashing", "issuance"] {
-        let target = if ext.is_empty() { temp.clone() } else { temp.with_extension(ext) };
+    for ext in [
+        "",
+        "state",
+        "validators",
+        "finality",
+        "slashing",
+        "issuance",
+    ] {
+        let target = if ext.is_empty() {
+            temp.clone()
+        } else {
+            temp.with_extension(ext)
+        };
         let _ = std::fs::remove_file(target);
     }
     let node = Node::open_storage(chain_id, proposer.clone(), &temp).unwrap();

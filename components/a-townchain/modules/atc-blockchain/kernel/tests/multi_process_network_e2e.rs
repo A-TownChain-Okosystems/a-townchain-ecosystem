@@ -38,7 +38,9 @@ fn make_vote(block: [u8; 32], voter: &str, seed: u8) -> Vote {
         signature: [0; 64],
         public_key: signing.verifying_key().to_bytes(),
     };
-    vote.signature = signing.sign(&vote_signing_bytes(CHAIN_ID, &vote)).to_bytes();
+    vote.signature = signing
+        .sign(&vote_signing_bytes(CHAIN_ID, &vote))
+        .to_bytes();
     vote
 }
 
@@ -49,7 +51,10 @@ fn wait_height(node: &Node, height: u64) {
         }
         thread::sleep(Duration::from_millis(25));
     }
-    panic!("node did not reach height {height}, current {}", node.chain.height());
+    panic!(
+        "node did not reach height {height}, current {}",
+        node.chain.height()
+    );
 }
 
 fn start_child(role: &str, root: &str, port: u16) -> std::process::Child {
@@ -80,18 +85,26 @@ fn run_initial_node_a() {
 
     let listener = TcpListener::bind(("127.0.0.1", port())).unwrap();
     let transport = Arc::new(TcpPeerTransport::new(CHAIN_ID, "node-a"));
-    let (stream, peer, peer_height, _) =
-        TcpPeerTransport::accept(&listener, CHAIN_ID, "node-a", node.chain.height(), node.chain.last().unwrap().id)
-            .unwrap();
+    let (stream, peer, peer_height, _) = TcpPeerTransport::accept(
+        &listener,
+        CHAIN_ID,
+        "node-a",
+        node.chain.height(),
+        node.chain.last().unwrap().id,
+    )
+    .unwrap();
     assert_eq!(peer, "node-b");
     assert_eq!(peer_height, 0);
-    transport.register_stream(stream.try_clone().unwrap()).unwrap();
+    transport
+        .register_stream(stream.try_clone().unwrap())
+        .unwrap();
     node.set_transport(transport.clone());
     let reader = stream.try_clone().unwrap();
     let loop_handle = node.clone().serve_tcp_stream(reader);
 
     let block = node.produce_reward_block(2).unwrap();
-    node.submit_vote_and_broadcast(make_vote(block.id, "validator-a", 1)).unwrap();
+    node.submit_vote_and_broadcast(make_vote(block.id, "validator-a", 1))
+        .unwrap();
 
     for _ in 0..120 {
         if node.consensus.finalized().map(|x| x.0) == Some(block.height) {
@@ -128,7 +141,8 @@ fn run_initial_node_b() {
     let handle = connected.expect("node-b could not connect to node-a");
     wait_height(&node, 2);
     let block = node.chain.last().unwrap();
-    node.submit_vote_and_broadcast(make_vote(block.id, "validator-b", 2)).unwrap();
+    node.submit_vote_and_broadcast(make_vote(block.id, "validator-b", 2))
+        .unwrap();
     thread::sleep(Duration::from_millis(250));
     assert_eq!(node.chain.last().unwrap().id, block.id);
     drop(handle);
@@ -143,12 +157,19 @@ fn run_restart_node_a() {
     let block3 = node.produce_reward_block(3).unwrap();
     let listener = TcpListener::bind(("127.0.0.1", port())).unwrap();
     let transport = Arc::new(TcpPeerTransport::new(CHAIN_ID, "node-a"));
-    let (stream, peer, peer_height, _) =
-        TcpPeerTransport::accept(&listener, CHAIN_ID, "node-a", node.chain.height(), block3.id)
-            .unwrap();
+    let (stream, peer, peer_height, _) = TcpPeerTransport::accept(
+        &listener,
+        CHAIN_ID,
+        "node-a",
+        node.chain.height(),
+        block3.id,
+    )
+    .unwrap();
     assert_eq!(peer, "node-b");
     assert_eq!(peer_height, 2);
-    transport.register_stream(stream.try_clone().unwrap()).unwrap();
+    transport
+        .register_stream(stream.try_clone().unwrap())
+        .unwrap();
     node.set_transport(transport);
     let handle = node.clone().serve_tcp_stream(stream.try_clone().unwrap());
     // B explicitly requests the missing height after restart; A serves it from durable storage.
@@ -164,11 +185,18 @@ fn run_restart_node_b() {
     assert_eq!(node.consensus.finalized().map(|x| x.0), Some(2));
 
     let transport = Arc::new(TcpPeerTransport::new(CHAIN_ID, "node-b"));
-    let handle = node.connect_tcp_peer(transport.clone(), &format!("127.0.0.1:{}", port())).unwrap();
-    transport.broadcast(NetworkMessage::BlockRequest { from_height: 3 }).unwrap();
+    let handle = node
+        .connect_tcp_peer(transport.clone(), &format!("127.0.0.1:{}", port()))
+        .unwrap();
+    transport
+        .broadcast(NetworkMessage::BlockRequest { from_height: 3 })
+        .unwrap();
     wait_height(&node, 3);
     assert_eq!(node.chain.last().unwrap().height, 3);
-    assert_eq!(node.storage.block(3).unwrap().id, node.chain.last().unwrap().id);
+    assert_eq!(
+        node.storage.block(3).unwrap().id,
+        node.chain.last().unwrap().id
+    );
     drop(handle);
 }
 
@@ -186,7 +214,10 @@ fn multi_process_l1_network_e2e() {
         return;
     }
 
-    let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos();
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_nanos();
     let root = env::temp_dir().join(format!("atc-mp-l1-{now}"));
     std::fs::create_dir_all(&root).unwrap();
     let root = root.to_string_lossy().into_owned();
@@ -201,8 +232,14 @@ fn multi_process_l1_network_e2e() {
     let mut a2 = start_child("restart-a", &root, port);
     thread::sleep(Duration::from_millis(100));
     let mut b2 = start_child("restart-b", &root, port);
-    assert!(a2.wait().unwrap().success(), "node-a restart process failed");
-    assert!(b2.wait().unwrap().success(), "node-b restart process failed");
+    assert!(
+        a2.wait().unwrap().success(),
+        "node-a restart process failed"
+    );
+    assert!(
+        b2.wait().unwrap().success(),
+        "node-b restart process failed"
+    );
 
     std::fs::remove_dir_all(root).unwrap();
 }

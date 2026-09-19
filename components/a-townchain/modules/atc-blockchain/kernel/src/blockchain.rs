@@ -13,16 +13,16 @@ pub mod rpc;
 pub mod security;
 pub mod storage;
 use consensus::{ConsensusEngine, SlashingEvidence, Vote};
-use network::{NetworkMessage, PeerTransport};
 use crypto::{signing_bytes, Ed25519Verifier, SignatureVerifier};
 use execution::{AtcVmExecutor, VmExecutor};
 use mempool::{MemoryPool, MempoolError, StateDb, Transaction};
+use network::{NetworkMessage, PeerTransport};
 use security::simple_hash;
 use std::{
     collections::BTreeMap,
+    net::TcpStream,
     sync::{Arc, Mutex},
     thread,
-    net::TcpStream,
 };
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Block {
@@ -230,13 +230,14 @@ impl Node {
     }
 
     /// Run the canonical Node message loop on an already authenticated TCP peer.
-    pub fn serve_tcp_stream(self: Arc<Self>, mut stream: TcpStream) -> thread::JoinHandle<Result<(), String>> {
-        thread::spawn(move || {
-            loop {
-                match network::read_message(&mut stream)? {
-                    Some(message) => self.handle_network_message(message)?,
-                    None => return Ok(()),
-                }
+    pub fn serve_tcp_stream(
+        self: Arc<Self>,
+        mut stream: TcpStream,
+    ) -> thread::JoinHandle<Result<(), String>> {
+        thread::spawn(move || loop {
+            match network::read_message(&mut stream)? {
+                Some(message) => self.handle_network_message(message)?,
+                None => return Ok(()),
             }
         })
     }
@@ -257,7 +258,12 @@ impl Node {
     }
 
     fn broadcast(&self, message: NetworkMessage) -> Result<(), String> {
-        if let Some(transport) = self.transport.lock().map_err(|_| "transport lock poisoned")?.clone() {
+        if let Some(transport) = self
+            .transport
+            .lock()
+            .map_err(|_| "transport lock poisoned")?
+            .clone()
+        {
             transport.broadcast(message)?;
         }
         Ok(())
@@ -266,7 +272,12 @@ impl Node {
     /// Apply a network block through the same deterministic state transition
     /// rules used by local block production, then persist it.
     pub fn import_block(&self, b: Block) -> Result<(), String> {
-        if self.chain_id != b.transactions.first().map(|t| t.chain_id).unwrap_or(self.chain_id) {
+        if self.chain_id
+            != b.transactions
+                .first()
+                .map(|t| t.chain_id)
+                .unwrap_or(self.chain_id)
+        {
             return Err("block transaction chain-id mismatch".into());
         }
         self.chain.validate_append(&b)?;
@@ -288,22 +299,31 @@ impl Node {
         let mut receipts = Vec::new();
         for tx in &b.transactions {
             if tx.chain_id != self.chain_id
-                || !self.verifier.verify(&signing_bytes(tx), &tx.signature, &tx.public_key)
+                || !self
+                    .verifier
+                    .verify(&signing_bytes(tx), &tx.signature, &tx.public_key)
             {
                 self.state.restore(state_snapshot);
                 let _ = self.state.restore_dao(&dao_snapshot);
                 let _ = self.state.restore_issued_base_units(issued_snapshot);
                 return Err("invalid transaction signature or chain".into());
             }
-            receipts.push(exec.execute(tx, self.state.root()).map_err(|e| e.to_string())?);
+            receipts.push(
+                exec.execute(tx, self.state.root())
+                    .map_err(|e| e.to_string())?,
+            );
         }
 
-        self.state.apply_batch(&b.transactions)
+        self.state
+            .apply_batch(&b.transactions)
             .map_err(|e| format!("state transition: {e:?}"))?;
 
         for tx in &b.transactions {
             if !tx.payload.is_empty() {
-                if let Err(e) = self.state.apply_dao_payload(&tx.payload, b.height, &tx.sender_did) {
+                if let Err(e) = self
+                    .state
+                    .apply_dao_payload(&tx.payload, b.height, &tx.sender_did)
+                {
                     self.state.restore(state_snapshot);
                     let _ = self.state.restore_dao(&dao_snapshot);
                     let _ = self.state.restore_issued_base_units(issued_snapshot);
@@ -333,8 +353,13 @@ impl Node {
             let _ = self.state.restore_issued_base_units(issued_snapshot);
             return Err(e);
         }
-        self.storage.commit_state_with_dao(b.height, &self.state.snapshot(), &self.state.dao_snapshot())?;
-        self.storage.commit_issuance(b.height, self.state.issued_base_units())?;
+        self.storage.commit_state_with_dao(
+            b.height,
+            &self.state.snapshot(),
+            &self.state.dao_snapshot(),
+        )?;
+        self.storage
+            .commit_issuance(b.height, self.state.issued_base_units())?;
         self.chain.append(b.clone())?;
         for tx in &b.transactions {
             self.pool.mark_in_block(&tx.id);
@@ -349,7 +374,8 @@ impl Node {
             NetworkMessage::Block(b) => self.import_block(b),
             NetworkMessage::Vote(v) => self.submit_vote(v),
             NetworkMessage::Transaction(tx) => {
-                self.submit(tx.clone(), tx.timestamp).map_err(|e| e.to_string())?;
+                self.submit(tx.clone(), tx.timestamp)
+                    .map_err(|e| e.to_string())?;
                 Ok(())
             }
             NetworkMessage::BlockRequest { from_height } => {
@@ -446,7 +472,8 @@ impl Node {
             &self.state.snapshot(),
             &self.state.dao_snapshot(),
         )?;
-        self.storage.commit_issuance(b.height, self.state.issued_base_units())?;
+        self.storage
+            .commit_issuance(b.height, self.state.issued_base_units())?;
         self.state.seal_genesis();
         self.consensus.set_height(b.height);
         Ok(b)
@@ -477,7 +504,8 @@ impl Node {
         let dao_snapshot = self.state.dao_snapshot();
         let issued_snapshot = self.state.issued_base_units();
 
-        self.state.apply_block_reward(height, &self.proposer)
+        self.state
+            .apply_block_reward(height, &self.proposer)
             .map_err(|e| format!("block reward: {e}"))?;
         let b = Block::new(
             height,
@@ -496,13 +524,20 @@ impl Node {
             let _ = self.state.restore_issued_base_units(issued_snapshot);
             return Err(e);
         }
-        if let Err(e) = self.storage.commit_state_with_dao(height, &self.state.snapshot(), &self.state.dao_snapshot()) {
+        if let Err(e) = self.storage.commit_state_with_dao(
+            height,
+            &self.state.snapshot(),
+            &self.state.dao_snapshot(),
+        ) {
             self.state.restore(snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
             let _ = self.state.restore_issued_base_units(issued_snapshot);
             return Err(e);
         }
-        if let Err(e) = self.storage.commit_issuance(height, self.state.issued_base_units()) {
+        if let Err(e) = self
+            .storage
+            .commit_issuance(height, self.state.issued_base_units())
+        {
             self.state.restore(snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
             let _ = self.state.restore_issued_base_units(issued_snapshot);
@@ -607,7 +642,10 @@ impl Node {
             let _ = self.state.restore_issued_base_units(issued_snapshot);
             return Err(e);
         }
-        if let Err(e) = self.storage.commit_issuance(b.height, self.state.issued_base_units()) {
+        if let Err(e) = self
+            .storage
+            .commit_issuance(b.height, self.state.issued_base_units())
+        {
             self.state.restore(state_snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
             let _ = self.state.restore_issued_base_units(issued_snapshot);
@@ -623,8 +661,10 @@ impl Node {
     }
     pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
         self.consensus.register_validator(address, stake)?;
-        self.storage
-            .commit_validators(self.consensus.height(), &self.consensus.validators_snapshot())
+        self.storage.commit_validators(
+            self.consensus.height(),
+            &self.consensus.validators_snapshot(),
+        )
     }
 
     pub fn slash_validator(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
@@ -632,16 +672,28 @@ impl Node {
             return Err("slashing evidence is above current chain height".into());
         }
         let applied = self.consensus.slash(evidence.clone(), penalty)?;
-        if applied == 0 { return Err("slashing penalty is zero".into()); }
-        self.storage.commit_slashing(evidence.height, &evidence.validator, evidence.id(), applied)?;
-        self.storage.commit_validators(self.consensus.height(), &self.consensus.validators_snapshot())?;
+        if applied == 0 {
+            return Err("slashing penalty is zero".into());
+        }
+        self.storage.commit_slashing(
+            evidence.height,
+            &evidence.validator,
+            evidence.id(),
+            applied,
+        )?;
+        self.storage.commit_validators(
+            self.consensus.height(),
+            &self.consensus.validators_snapshot(),
+        )?;
         Ok(applied)
     }
 
     pub fn unregister_validator(&self, address: &str) -> Result<(), String> {
         self.consensus.unregister_validator(address);
-        self.storage
-            .commit_validators(self.consensus.height(), &self.consensus.validators_snapshot())
+        self.storage.commit_validators(
+            self.consensus.height(),
+            &self.consensus.validators_snapshot(),
+        )
     }
 
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
@@ -687,7 +739,6 @@ impl Node {
         Ok(true)
     }
 }
-
 
 #[cfg(test)]
 mod tests {

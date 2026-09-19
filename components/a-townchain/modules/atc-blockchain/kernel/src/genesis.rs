@@ -89,10 +89,7 @@ mod tests {
         let g = Genesis::new(
             658467,
             1,
-            vec![
-                (String::from("a"), MAX_ATC_SUPPLY),
-                (String::from("b"), 1),
-            ],
+            vec![(String::from("a"), MAX_ATC_SUPPLY), (String::from("b"), 1)],
         );
         assert!(g.validate().is_err());
     }

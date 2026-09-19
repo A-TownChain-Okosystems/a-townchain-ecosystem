@@ -5,14 +5,8 @@
 //! blockchain kernel without defining a second schedule.
 
 pub use atc_algorithm::economics::{
-    ATC_BASE_UNITS,
-    FINAL_EMISSION_BLOCK,
-    HALVING_INTERVAL_BLOCKS,
-    INITIAL_SUBSIDY,
-    MAX_HALVINGS,
-    MAX_SUPPLY,
-    MonetaryPolicy,
-    TARGET_BLOCK_TIME_SECS,
+    MonetaryPolicy, ATC_BASE_UNITS, FINAL_EMISSION_BLOCK, HALVING_INTERVAL_BLOCKS, INITIAL_SUBSIDY,
+    MAX_HALVINGS, MAX_SUPPLY, TARGET_BLOCK_TIME_SECS,
 };
 
 pub const NATIVE_COIN_SYMBOL: &str = "ATC";
@@ -43,17 +37,8 @@ mod tests {
 
     #[test]
     fn reward_boundaries_match_canonical_policy() {
-        assert_eq!(
-            block_reward_base_units(0, 0),
-            500 * ATC_BASE_UNITS
-        );
-        assert_eq!(
-            block_reward_base_units(360_000, 0),
-            250 * ATC_BASE_UNITS
-        );
-        assert_eq!(
-            block_reward_base_units(12_960_000, 0),
-            0
-        );
+        assert_eq!(block_reward_base_units(0, 0), 500 * ATC_BASE_UNITS);
+        assert_eq!(block_reward_base_units(360_000, 0), 250 * ATC_BASE_UNITS);
+        assert_eq!(block_reward_base_units(12_960_000, 0), 0);
     }
 }
