@@ -6,19 +6,12 @@
 //! RPC -> mempool -> proposer -> block broadcast -> block validation/state
 //! transition -> validator vote -> weighted finality -> durable storage.
 
-use atc_blockchain::{network::TcpPeerTransport, blockchain::Node};
+use atc_blockchain::{blockchain::Node, network::TcpPeerTransport};
 use atc_node::bootstrap::Genesis;
 use atc_node::rpc::{serve, DevnetRpc};
 use atc_node::runtime::Runtime;
 use ed25519_dalek::SigningKey;
-use std::{
-    env,
-    net::TcpListener,
-    path::PathBuf,
-    sync::Arc,
-    thread,
-    time::Duration,
-};
+use std::{env, net::TcpListener, path::PathBuf, sync::Arc, thread, time::Duration};
 
 const DEFAULT_CHAIN_ID: u64 = 658467;
 const DEFAULT_GENESIS_PROPOSER: &str = "atc-genesis";
@@ -36,7 +29,9 @@ fn parse_seed(value: &str) -> Result<[u8; 32], String> {
         return Err("validator seed must contain exactly 64 hex characters".into());
     }
     let bytes = hex_to_bytes(raw)?;
-    bytes.try_into().map_err(|_| "validator seed must be 32 bytes".into())
+    bytes
+        .try_into()
+        .map_err(|_| "validator seed must be 32 bytes".into())
 }
 
 fn hex_to_bytes(value: &str) -> Result<Vec<u8>, String> {
@@ -45,7 +40,9 @@ fn hex_to_bytes(value: &str) -> Result<Vec<u8>, String> {
     }
     (0..value.len())
         .step_by(2)
-        .map(|i| u8::from_str_radix(&value[i..i + 2], 16).map_err(|_| "invalid hex value".to_string()))
+        .map(|i| {
+            u8::from_str_radix(&value[i..i + 2], 16).map_err(|_| "invalid hex value".to_string())
+        })
         .collect()
 }
 
@@ -57,7 +54,11 @@ fn validators_from_env() -> Result<Vec<ValidatorConfig>, String> {
     let mut out = Vec::new();
     for item in raw.split(',').filter(|x| !x.trim().is_empty()) {
         let mut parts = item.split(':');
-        let id = parts.next().ok_or("validator id missing")?.trim().to_string();
+        let id = parts
+            .next()
+            .ok_or("validator id missing")?
+            .trim()
+            .to_string();
         let stake = parts
             .next()
             .ok_or("validator stake missing")?
@@ -79,7 +80,8 @@ fn is_local_proposer(node: &Node) -> bool {
     let height = node.chain.height().saturating_add(1);
     let mut validators: Vec<_> = node.consensus.validators_snapshot().into_iter().collect();
     validators.sort_by(|a, b| a.0.cmp(&b.0));
-    !validators.is_empty() && validators[(height as usize - 1) % validators.len()].0 == node.proposer_id()
+    !validators.is_empty()
+        && validators[(height as usize - 1) % validators.len()].0 == node.proposer_id()
 }
 
 fn load_or_create_node(node_id: &str, data_dir: &PathBuf) -> Result<Arc<Node>, String> {
@@ -93,7 +95,8 @@ fn load_or_create_node(node_id: &str, data_dir: &PathBuf) -> Result<Arc<Node>, S
 }
 
 fn attach_network(node: Arc<Node>, listen_addr: String, peers: Vec<String>) -> Result<(), String> {
-    let listener = TcpListener::bind(&listen_addr).map_err(|e| format!("network bind {listen_addr}: {e}"))?;
+    let listener =
+        TcpListener::bind(&listen_addr).map_err(|e| format!("network bind {listen_addr}: {e}"))?;
     let transport = Arc::new(TcpPeerTransport::new(node.chain_id, node.proposer_id()));
     node.set_transport(transport.clone());
 
@@ -141,9 +144,8 @@ fn main() -> std::io::Result<()> {
     let node_id = env::var("ATC_NODE_ID").unwrap_or_else(|_| "atc-node-1".into());
     let rpc_addr = env::var("ATC_RPC_ADDR").unwrap_or_else(|_| "127.0.0.1:39471".into());
     let listen_addr = env::var("ATC_P2P_ADDR").unwrap_or_else(|_| "127.0.0.1:39472".into());
-    let data_dir = PathBuf::from(
-        env::var("ATC_DATA_DIR").unwrap_or_else(|_| format!("./data/{node_id}")),
-    );
+    let data_dir =
+        PathBuf::from(env::var("ATC_DATA_DIR").unwrap_or_else(|_| format!("./data/{node_id}")));
     let peers = env::var("ATC_PEERS")
         .unwrap_or_default()
         .split(',')
@@ -173,7 +175,10 @@ fn main() -> std::io::Result<()> {
     };
 
     for validator in &validators {
-        if let Err(e) = runtime.node.register_validator(validator.id.clone(), validator.stake) {
+        if let Err(e) = runtime
+            .node
+            .register_validator(validator.id.clone(), validator.stake)
+        {
             eprintln!("validator registration failed for {}: {e}", validator.id);
             std::process::exit(1);
         }
