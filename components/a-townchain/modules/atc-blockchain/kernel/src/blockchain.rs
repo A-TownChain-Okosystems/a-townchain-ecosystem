@@ -254,6 +254,13 @@ impl Node {
             }
             n.consensus.set_height(last.height);
         }
+        if let Some((height, id)) = n.storage.recover_finalized()? {
+            let block = n.storage.block(height).ok_or("finalized block missing")?;
+            if block.id != id || height > n.chain.height() {
+                return Err("recovered finality marker is inconsistent".into());
+            }
+            n.consensus.mark_finalized(height, id)?;
+        }
         Ok(n)
     }
     pub fn create_genesis(&self, t: u64) -> Result<Block, String> {
@@ -411,6 +418,11 @@ impl Node {
         if !self.consensus.weighted_finality(&b.id) {
             return Ok(false);
         }
+        if b.height > self.chain.height() || self.chain.last().map(|x| x.id) != Some(b.id) {
+            return Err("can only finalize the current canonical tip".into());
+        }
+        self.consensus.mark_finalized(b.height, b.id)?;
+        self.storage.commit_finalized(b.height, b.id)?;
         if let Some(sink) = self.indexer.lock().unwrap().clone() {
             sink.ingest_finalized(b)?
         }
@@ -427,6 +439,11 @@ impl Node {
         if !self.consensus.finality(&b.id, quorum) {
             return Ok(false);
         }
+        if b.height > self.chain.height() || self.chain.last().map(|x| x.id) != Some(b.id) {
+            return Err("can only finalize the current canonical tip".into());
+        }
+        self.consensus.mark_finalized(b.height, b.id)?;
+        self.storage.commit_finalized(b.height, b.id)?;
         if let Some(sink) = self.indexer.lock().unwrap().clone() {
             sink.ingest_finalized(b)?
         }
