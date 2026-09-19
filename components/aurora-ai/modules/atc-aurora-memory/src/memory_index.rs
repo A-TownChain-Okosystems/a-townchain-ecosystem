@@ -15,6 +15,10 @@ pub struct MemoryIndex {
     tag_index: HashMap<String, Vec<usize>>,
 }
 
+impl Default for MemoryIndex {
+    fn default() -> Self { Self::new() }
+}
+
 impl MemoryIndex {
     pub fn new() -> Self {
         Self {
