@@ -72,6 +72,7 @@ impl DevnetRpc {
             "balance" => self.balance(&parsed),
             "block" => self.block(&parsed),
             "state_root" => self.state_root(&parsed),
+            "status" => self.status(),
             other => return rpc_error(id, -32601, &format!("method not found: {other}")),
         };
 
@@ -95,7 +96,7 @@ impl DevnetRpc {
         let p = self.params(req);
         let tx = decode_transaction(p)?;
         let now = tx.timestamp;
-        let id = self.runtime()?.submit(tx, now).map_err(|e| (-32001, format!("transaction rejected: {e:?}")))?;
+        let id = self.runtime()?.node.submit_and_broadcast(tx, now).map_err(|e| (-32001, format!("transaction rejected: {e:?}")))?;
         Ok(json!({"tx_id": hex::encode(id), "status":"accepted"}))
     }
 
@@ -127,6 +128,21 @@ impl DevnetRpc {
             "state_root": hex::encode(block.state_root),
             "tx_root": hex::encode(block.tx_root),
             "tx_count": block.transactions.len()
+        }))
+    }
+
+    fn status(&self) -> Result<Value, (i64, String)> {
+        let runtime = self.runtime()?;
+        let node = &runtime.node;
+        Ok(json!({
+            "chain_id": node.chain_id,
+            "height": node.chain.height(),
+            "finalized": node.consensus.finalized().map(|(h, id)| json!({
+                "height": h,
+                "block_id": hex::encode(id)
+            })),
+            "validators": node.consensus.validators_snapshot(),
+            "peer_transport": node.transport_peer_count()
         }))
     }
 
