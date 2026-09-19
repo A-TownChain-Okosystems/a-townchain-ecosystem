@@ -1,7 +1,5 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Vulnerability scanner
-use std::collections::HashMap;
-
 pub struct VulnerabilityScanner {
     findings: Vec<ScanResult>,
 }
@@ -15,8 +13,18 @@ pub struct ScanResult {
     pub description: String,
 }
 
+impl Default for VulnerabilityScanner {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl VulnerabilityScanner {
-    pub fn new() -> Self { Self { findings: Vec::new() } }
+    pub fn new() -> Self {
+        Self {
+            findings: Vec::new(),
+        }
+    }
 
     pub fn scan_reentrancy(&mut self, contracts: &[String]) {
         for contract in contracts {
@@ -46,9 +54,14 @@ impl VulnerabilityScanner {
         }
     }
 
-    pub fn findings(&self) -> &Vec<ScanResult> { &self.findings }
+    pub fn findings(&self) -> &Vec<ScanResult> {
+        &self.findings
+    }
     pub fn critical_count(&self) -> usize {
-        self.findings.iter().filter(|f| f.severity == "Critical").count()
+        self.findings
+            .iter()
+            .filter(|f| f.severity == "Critical")
+            .count()
     }
 }
 

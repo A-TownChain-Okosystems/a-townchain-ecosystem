@@ -1,3 +1,5 @@
+#![allow(missing_docs)]
+
 //! Capability-aware IPC primitives used by GlobusOS.
 
 pub mod channel;

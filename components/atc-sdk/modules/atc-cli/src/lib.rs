@@ -4,7 +4,7 @@
 //! Copyright (c) Michael Wroblewski. All Rights Reserved.
 
 // Entry point in src/main.rs
-pub mod commands;
 pub mod client;
+pub mod commands;
 pub mod format;
 pub mod rpc_client;

@@ -27,7 +27,15 @@ pub struct Context {
 
 impl Context {
     pub const fn empty() -> Self {
-        Self { rsp: 0, rbx: 0, rbp: 0, r12: 0, r13: 0, r14: 0, r15: 0 }
+        Self {
+            rsp: 0,
+            rbx: 0,
+            rbp: 0,
+            r12: 0,
+            r13: 0,
+            r14: 0,
+            r15: 0,
+        }
     }
 }
 
@@ -81,7 +89,9 @@ pub struct UserContext {
 }
 
 impl UserContext {
-    pub fn is_ring3(&self) -> bool { self.frame.is_ring3() }
+    pub fn is_ring3(&self) -> bool {
+        self.frame.is_ring3()
+    }
 }
 
 pub struct BootstrapProcess {
@@ -94,17 +104,28 @@ impl BootstrapProcess {
         let mut stack = vec![0u8; STACK_SIZE].into_boxed_slice();
         let top = stack.as_mut_ptr() as usize + stack.len();
         let stack_top = (top & !0xFusize).saturating_sub(8);
-        unsafe { (stack_top as *mut u64).write(entry as usize as u64); }
+        unsafe {
+            (stack_top as *mut u64).write(entry as usize as u64);
+        }
 
         Self {
             stack,
-            context: Context { rsp: stack_top as u64, ..Context::empty() },
+            context: Context {
+                rsp: stack_top as u64,
+                ..Context::empty()
+            },
         }
     }
 
-    pub fn context(&self) -> &Context { &self.context }
-    pub fn context_mut(&mut self) -> &mut Context { &mut self.context }
-    pub fn stack_size(&self) -> usize { self.stack.len() }
+    pub fn context(&self) -> &Context {
+        &self.context
+    }
+    pub fn context_mut(&mut self) -> &mut Context {
+        &mut self.context
+    }
+    pub fn stack_size(&self) -> usize {
+        self.stack.len()
+    }
 }
 
 #[inline(never)]
@@ -135,7 +156,9 @@ pub unsafe fn switch(current: &mut Context, next: &Context) {
 mod tests {
     use super::*;
 
-    extern "C" fn never_returns() -> ! { loop {} }
+    extern "C" fn never_returns() -> ! {
+        loop {}
+    }
 
     #[test]
     fn bootstrap_context_has_stack_and_entry() {

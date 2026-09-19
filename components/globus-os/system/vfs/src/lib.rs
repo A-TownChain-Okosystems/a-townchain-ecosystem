@@ -3,7 +3,7 @@
 pub mod allocator;
 pub mod block;
 
-pub use block::{validate_geometry, BlockDevice, BlockError, BlockGeometry, Partition};
+pub use block::{BlockDevice, BlockError, BlockGeometry, Partition, validate_geometry};
 pub mod bitmap;
 pub mod dir_store;
 pub mod directory;

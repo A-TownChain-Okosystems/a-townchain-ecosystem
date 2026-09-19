@@ -28,31 +28,55 @@ pub fn canonical_block_subsidy(height: u64, issued_before_block: u128) -> u128 {
     MonetaryPolicy::subsidy(height, issued_before_block)
 }
 
-pub fn canonical_max_supply() -> u128 { MAX_SUPPLY }
+pub fn canonical_max_supply() -> u128 {
+    MAX_SUPPLY
+}
 
 impl RewardPolicy {
     pub fn validate(&self) -> Result<(), RewardError> {
-        if self.reward_per_block == 0 { return Err(RewardError::ZeroReward); }
-        if self.reward_per_block > self.max_supply { return Err(RewardError::SupplyExceeded); }
+        if self.reward_per_block == 0 {
+            return Err(RewardError::ZeroReward);
+        }
+        if self.reward_per_block > self.max_supply {
+            return Err(RewardError::SupplyExceeded);
+        }
         Ok(())
     }
 }
 
+impl Default for RewardLedger {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl RewardLedger {
-    pub const fn new() -> Self { Self { issued: 0 } }
+    pub const fn new() -> Self {
+        Self { issued: 0 }
+    }
 
     pub fn issue(&mut self, policy: RewardPolicy) -> Result<u128, RewardError> {
         policy.validate()?;
-        let next = self.issued.checked_add(policy.reward_per_block).ok_or(RewardError::ArithmeticOverflow)?;
-        if next > policy.max_supply { return Err(RewardError::SupplyExceeded); }
+        let next = self
+            .issued
+            .checked_add(policy.reward_per_block)
+            .ok_or(RewardError::ArithmeticOverflow)?;
+        if next > policy.max_supply {
+            return Err(RewardError::SupplyExceeded);
+        }
         self.issued = next;
         Ok(next)
     }
 
     pub fn issue_canonical(&mut self, height: u64) -> Result<u128, RewardError> {
         let reward = canonical_block_subsidy(height, self.issued);
-        let next = self.issued.checked_add(reward).ok_or(RewardError::ArithmeticOverflow)?;
-        if next > MAX_SUPPLY { return Err(RewardError::SupplyExceeded); }
+        let next = self
+            .issued
+            .checked_add(reward)
+            .ok_or(RewardError::ArithmeticOverflow)?;
+        if next > MAX_SUPPLY {
+            return Err(RewardError::SupplyExceeded);
+        }
         self.issued = next;
         Ok(reward)
     }
@@ -65,7 +89,10 @@ mod tests {
     #[test]
     fn supply_is_bounded() {
         let mut ledger = RewardLedger::new();
-        let policy = RewardPolicy { reward_per_block: 10, max_supply: 20 };
+        let policy = RewardPolicy {
+            reward_per_block: 10,
+            max_supply: 20,
+        };
         assert_eq!(ledger.issue(policy), Ok(10));
         assert_eq!(ledger.issue(policy), Ok(20));
         assert_eq!(ledger.issue(policy), Err(RewardError::SupplyExceeded));
@@ -73,8 +100,14 @@ mod tests {
 
     #[test]
     fn canonical_halving_schedule_is_consumed() {
-        assert_eq!(canonical_block_subsidy(0, 0), 500 * 1_000_000_000_000_000_000u128);
-        assert_eq!(canonical_block_subsidy(360_000, 0), 250 * 1_000_000_000_000_000_000u128);
+        assert_eq!(
+            canonical_block_subsidy(0, 0),
+            500 * 1_000_000_000_000_000_000u128
+        );
+        assert_eq!(
+            canonical_block_subsidy(360_000, 0),
+            250 * 1_000_000_000_000_000_000u128
+        );
         assert_eq!(canonical_block_subsidy(12_960_000, 0), 0);
     }
 

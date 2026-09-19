@@ -20,9 +20,18 @@ pub struct Executor {
     executed: Vec<Job>,
 }
 
+impl Default for Executor {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Executor {
     pub fn new() -> Self {
-        Executor { queue: Vec::new(), executed: Vec::new() }
+        Executor {
+            queue: Vec::new(),
+            executed: Vec::new(),
+        }
     }
 
     pub fn submit(&mut self, job: Job) -> Result<(), ExecError> {
@@ -55,8 +64,16 @@ mod tests {
     #[test]
     fn fifo_ordnung() {
         let mut e = Executor::new();
-        e.submit(Job { id: 1, payload: vec![1] }).unwrap();
-        e.submit(Job { id: 2, payload: vec![2] }).unwrap();
+        e.submit(Job {
+            id: 1,
+            payload: vec![1],
+        })
+        .unwrap();
+        e.submit(Job {
+            id: 2,
+            payload: vec![2],
+        })
+        .unwrap();
         assert_eq!(e.execute_next().unwrap().id, 1);
         assert_eq!(e.execute_next().unwrap().id, 2);
         assert_eq!(e.executed().len(), 2);
@@ -66,6 +83,12 @@ mod tests {
     fn fehlerfaelle() {
         let mut e = Executor::new();
         assert_eq!(e.execute_next(), Err(ExecError::QueueEmpty));
-        assert_eq!(e.submit(Job { id: 0, payload: vec![] }), Err(ExecError::InvalidJob));
+        assert_eq!(
+            e.submit(Job {
+                id: 0,
+                payload: vec![]
+            }),
+            Err(ExecError::InvalidJob)
+        );
     }
 }

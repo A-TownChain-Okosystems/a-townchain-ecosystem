@@ -1,9 +1,14 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Security audit framework
-use std::collections::HashMap;
 
 #[derive(Debug, Clone, PartialEq)]
-pub enum Severity { Critical, High, Medium, Low, Pass }
+pub enum Severity {
+    Critical,
+    High,
+    Medium,
+    Low,
+    Pass,
+}
 
 #[derive(Debug, Clone)]
 pub struct AuditReport {
@@ -17,8 +22,16 @@ pub struct SecurityAuditor {
     checks: Vec<AuditReport>,
 }
 
+impl Default for SecurityAuditor {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl SecurityAuditor {
-    pub fn new() -> Self { Self { checks: Vec::new() } }
+    pub fn new() -> Self {
+        Self { checks: Vec::new() }
+    }
 
     pub fn add_check(&mut self, category: &str, severity: Severity, desc: &str, rec: &str) {
         self.checks.push(AuditReport {
@@ -30,20 +43,44 @@ impl SecurityAuditor {
     }
 
     pub fn audit_chain_integrity(&mut self, block_count: u64, valid: bool) {
-        let sev = if valid { Severity::Pass } else { Severity::Critical };
-        self.add_check("Chain Integrity", sev,
+        let sev = if valid {
+            Severity::Pass
+        } else {
+            Severity::Critical
+        };
+        self.add_check(
+            "Chain Integrity",
+            sev,
             &format!("Checked {} blocks", block_count),
-            if valid { "All blocks valid" } else { "Invalid blocks detected — immediate action required" });
+            if valid {
+                "All blocks valid"
+            } else {
+                "Invalid blocks detected — immediate action required"
+            },
+        );
     }
 
     pub fn audit_validators(&mut self, validator_count: usize, threshold_met: bool) {
-        let sev = if threshold_met { Severity::Pass } else { Severity::High };
-        self.add_check("Validator Security", sev,
+        let sev = if threshold_met {
+            Severity::Pass
+        } else {
+            Severity::High
+        };
+        self.add_check(
+            "Validator Security",
+            sev,
             &format!("{} validators registered", validator_count),
-            if threshold_met { "Threshold met" } else { "Insufficient validators — need 2/3 majority" });
+            if threshold_met {
+                "Threshold met"
+            } else {
+                "Insufficient validators — need 2/3 majority"
+            },
+        );
     }
 
-    pub fn report(&self) -> &Vec<AuditReport> { &self.checks }
+    pub fn report(&self) -> &Vec<AuditReport> {
+        &self.checks
+    }
 
     pub fn has_critical(&self) -> bool {
         self.checks.iter().any(|c| c.severity == Severity::Critical)

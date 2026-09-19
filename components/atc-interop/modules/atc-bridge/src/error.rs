@@ -1,7 +1,12 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Error types
 #[derive(Debug)]
-pub enum BridgeError { InsufficientFunds, InvalidSignature, InvalidChain, Timeout }
+pub enum BridgeError {
+    InsufficientFunds,
+    InvalidSignature,
+    InvalidChain,
+    Timeout,
+}
 impl std::fmt::Display for BridgeError {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {

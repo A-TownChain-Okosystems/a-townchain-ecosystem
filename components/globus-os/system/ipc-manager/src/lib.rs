@@ -36,27 +36,67 @@ pub struct IpcManager {
 }
 
 impl IpcManager {
-    pub fn new() -> Self { Self { next_id: 1, endpoints: Vec::new() } }
+    pub fn new() -> Self {
+        Self {
+            next_id: 1,
+            endpoints: Vec::new(),
+        }
+    }
 
     pub fn create(&mut self, owner: ProcessId, capacity: usize) -> Result<EndpointId, IpcError> {
-        if capacity == 0 { return Err(IpcError::QueueFull); }
+        if capacity == 0 {
+            return Err(IpcError::QueueFull);
+        }
         let id = EndpointId(self.next_id);
         self.next_id = self.next_id.saturating_add(1).max(1);
-        self.endpoints.push(Endpoint { id, owner, capacity, queue: Vec::new() });
+        self.endpoints.push(Endpoint {
+            id,
+            owner,
+            capacity,
+            queue: Vec::new(),
+        });
         Ok(id)
     }
 
-    pub fn send(&mut self, endpoint: EndpointId, sender: ProcessId, correlation: u64, value: u64) -> Result<(), IpcError> {
-        let e = self.endpoints.iter_mut().find(|e| e.id == endpoint).ok_or(IpcError::UnknownEndpoint)?;
-        if e.queue.len() >= e.capacity { return Err(IpcError::QueueFull); }
-        e.queue.push(Message { sender, correlation, value });
+    pub fn send(
+        &mut self,
+        endpoint: EndpointId,
+        sender: ProcessId,
+        correlation: u64,
+        value: u64,
+    ) -> Result<(), IpcError> {
+        let e = self
+            .endpoints
+            .iter_mut()
+            .find(|e| e.id == endpoint)
+            .ok_or(IpcError::UnknownEndpoint)?;
+        if e.queue.len() >= e.capacity {
+            return Err(IpcError::QueueFull);
+        }
+        e.queue.push(Message {
+            sender,
+            correlation,
+            value,
+        });
         Ok(())
     }
 
-    pub fn receive(&mut self, endpoint: EndpointId, receiver: ProcessId) -> Result<Message, IpcError> {
-        let e = self.endpoints.iter_mut().find(|e| e.id == endpoint).ok_or(IpcError::UnknownEndpoint)?;
-        if e.owner != receiver { return Err(IpcError::PermissionDenied); }
-        if e.queue.is_empty() { return Err(IpcError::Empty); }
+    pub fn receive(
+        &mut self,
+        endpoint: EndpointId,
+        receiver: ProcessId,
+    ) -> Result<Message, IpcError> {
+        let e = self
+            .endpoints
+            .iter_mut()
+            .find(|e| e.id == endpoint)
+            .ok_or(IpcError::UnknownEndpoint)?;
+        if e.owner != receiver {
+            return Err(IpcError::PermissionDenied);
+        }
+        if e.queue.is_empty() {
+            return Err(IpcError::Empty);
+        }
         Ok(e.queue.remove(0))
     }
 }

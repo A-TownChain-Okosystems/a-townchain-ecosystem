@@ -1,10 +1,18 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Bridge fee calculation
-pub struct FeeCalculator { pub rate: u64 }
+pub struct FeeCalculator {
+    pub rate: u64,
+}
 impl FeeCalculator {
-    pub fn new(rate: u64) -> Self { Self { rate } }
-    pub fn calculate(&self, amount: u64) -> u64 { amount * self.rate / 10000 }
-    pub fn net(&self, amount: u64) -> u64 { amount - self.calculate(amount) }
+    pub fn new(rate: u64) -> Self {
+        Self { rate }
+    }
+    pub fn calculate(&self, amount: u64) -> u64 {
+        amount * self.rate / 10000
+    }
+    pub fn net(&self, amount: u64) -> u64 {
+        amount - self.calculate(amount)
+    }
 }
 
 #[cfg(test)]

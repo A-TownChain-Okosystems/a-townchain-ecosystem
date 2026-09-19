@@ -40,14 +40,23 @@ pub struct VolumeManager {
 
 impl VolumeManager {
     /// Creates an empty volume manager.
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 
     /// Registers a logical volume.
     pub fn register(&mut self, volume: Volume) -> Result<(), VolumeError> {
-        if volume.label.is_empty() { return Err(VolumeError::EmptyLabel); }
-        if volume.filesystem.is_empty() { return Err(VolumeError::EmptyFilesystem); }
-        if self.volumes.contains_key(&volume.id) { return Err(VolumeError::DuplicateId); }
-        self.volumes.insert(volume.id, (volume, VolumeState::Available));
+        if volume.label.is_empty() {
+            return Err(VolumeError::EmptyLabel);
+        }
+        if volume.filesystem.is_empty() {
+            return Err(VolumeError::EmptyFilesystem);
+        }
+        if self.volumes.contains_key(&volume.id) {
+            return Err(VolumeError::DuplicateId);
+        }
+        self.volumes
+            .insert(volume.id, (volume, VolumeState::Available));
         Ok(())
     }
 
@@ -62,19 +71,25 @@ impl VolumeManager {
                 | (VolumeState::Active, VolumeState::Failed)
                 | (VolumeState::Failed, VolumeState::Available)
         );
-        if !allowed { return Err(VolumeError::InvalidTransition); }
+        if !allowed {
+            return Err(VolumeError::InvalidTransition);
+        }
         *current = state;
         Ok(())
     }
 
     /// Returns a volume and its current state.
     pub fn get(&self, id: u64) -> Option<(&Volume, VolumeState)> {
-        self.volumes.get(&id).map(|(volume, state)| (volume, *state))
+        self.volumes
+            .get(&id)
+            .map(|(volume, state)| (volume, *state))
     }
 
     /// Returns volumes in deterministic ID order.
     pub fn volumes(&self) -> impl Iterator<Item = (&Volume, VolumeState)> {
-        self.volumes.values().map(|(volume, state)| (volume, *state))
+        self.volumes
+            .values()
+            .map(|(volume, state)| (volume, *state))
     }
 }
 
@@ -83,7 +98,12 @@ mod tests {
     use super::*;
 
     fn volume(id: u64) -> Volume {
-        Volume { id, label: format!("data-{id}"), filesystem: "atcfs".into(), readonly: false }
+        Volume {
+            id,
+            label: format!("data-{id}"),
+            filesystem: "atcfs".into(),
+            readonly: false,
+        }
     }
 
     #[test]
@@ -91,7 +111,10 @@ mod tests {
         let mut manager = VolumeManager::new();
         manager.register(volume(2)).unwrap();
         manager.register(volume(1)).unwrap();
-        assert_eq!(manager.volumes().map(|(v, _)| v.id).collect::<Vec<_>>(), vec![1, 2]);
+        assert_eq!(
+            manager.volumes().map(|(v, _)| v.id).collect::<Vec<_>>(),
+            vec![1, 2]
+        );
         assert_eq!(manager.get(1).unwrap().1, VolumeState::Available);
         manager.set_state(1, VolumeState::Active).unwrap();
         assert_eq!(manager.get(1).unwrap().1, VolumeState::Active);

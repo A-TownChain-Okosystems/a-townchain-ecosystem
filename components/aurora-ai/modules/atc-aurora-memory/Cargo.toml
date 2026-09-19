@@ -1,3 +1,5 @@
+[workspace]
+
 [package]
 name = "atc-aurora-memory"
 version = "1.0.0"

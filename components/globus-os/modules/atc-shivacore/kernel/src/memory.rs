@@ -73,7 +73,11 @@ impl AddressSpace {
         }
 
         let mapper = OffsetPageTable::new(root, physical_memory_offset);
-        Self { root_frame, mapper, cr3_flags }
+        Self {
+            root_frame,
+            mapper,
+            cr3_flags,
+        }
     }
 
     pub fn mapper(&mut self) -> &mut OffsetPageTable<'static> {

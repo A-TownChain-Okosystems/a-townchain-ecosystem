@@ -108,7 +108,11 @@ fn owner_check_rejects_intruder() {
     ).expect("gueltiges .ops");
     let mut machine = Vm::with_context(prog, 7, vec![0, 42]);
     let stack = machine.run().expect("ATVM");
-    assert_eq!(stack.last(), Some(&0), "Fremder Caller muss abgewiesen werden");
+    assert_eq!(
+        stack.last(),
+        Some(&0),
+        "Fremder Caller muss abgewiesen werden"
+    );
     assert_eq!(machine.state(), &[0, 42], "Storage darf unberuehrt bleiben");
 }
 
@@ -121,7 +125,11 @@ fn insufficient_funds_guard_rejects() {
     let mut machine = Vm::with_context(prog, 0, vec![0, 0, 100, 0]);
     let stack = machine.run().expect("ATVM");
     assert_eq!(stack.last(), Some(&0));
-    assert_eq!(machine.state(), &[0, 0, 100, 0], "Guthaben darf nicht sinken");
+    assert_eq!(
+        machine.state(),
+        &[0, 0, 100, 0],
+        "Guthaben darf nicht sinken"
+    );
 }
 
 #[test]

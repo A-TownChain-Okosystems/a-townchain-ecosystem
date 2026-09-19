@@ -44,6 +44,12 @@ impl RewardPolicy {
     }
 }
 
+impl Default for RewardLedger {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl RewardLedger {
     pub const fn new() -> Self {
         Self { issued: 0 }

@@ -18,6 +18,9 @@ mod tests {
     fn feld_arithmetik() {
         assert_eq!(field_add(FIELD_MODULUS - 1, 2), 1);
         assert_eq!(field_mul(0, 12345), 0);
-        assert_eq!(field_add(2, 3) + field_add(4, 5), field_add(field_add(2, 3), field_add(4, 5)));
+        assert_eq!(
+            field_add(2, 3) + field_add(4, 5),
+            field_add(field_add(2, 3), field_add(4, 5))
+        );
     }
 }

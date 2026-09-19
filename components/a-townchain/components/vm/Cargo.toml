@@ -1,3 +1,5 @@
+[workspace]
+
 [package]
 name = "atc-vm"
 version = "0.1.0"

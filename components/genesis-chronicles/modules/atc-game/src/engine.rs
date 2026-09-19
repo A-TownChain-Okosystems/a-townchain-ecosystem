@@ -5,15 +5,34 @@ pub struct GameEngine {
     running: bool,
 }
 
+impl Default for GameEngine {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl GameEngine {
-    pub fn new() -> Self { Self { tick: 0, running: false } }
-    pub fn start(&mut self) { self.running = true; }
-    pub fn stop(&mut self) { self.running = false; }
+    pub fn new() -> Self {
+        Self {
+            tick: 0,
+            running: false,
+        }
+    }
+    pub fn start(&mut self) {
+        self.running = true;
+    }
+    pub fn stop(&mut self) {
+        self.running = false;
+    }
     pub fn update(&mut self) -> u64 {
-        if self.running { self.tick += 1; }
+        if self.running {
+            self.tick += 1;
+        }
         self.tick
     }
-    pub fn is_running(&self) -> bool { self.running }
+    pub fn is_running(&self) -> bool {
+        self.running
+    }
 }
 
 #[cfg(test)]

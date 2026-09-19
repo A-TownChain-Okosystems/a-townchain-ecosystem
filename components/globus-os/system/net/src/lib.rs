@@ -2,13 +2,18 @@
 
 pub mod address;
 pub mod manager;
-pub mod socket;
 pub mod protocols;
+pub mod socket;
 
-pub use protocols::{DhcpLease, DnsAnswer, DnsQuestion, ProtocolError, TlsPeer, validate_dns_question, validate_lease, validate_tls_peer};
+pub use protocols::{
+    DhcpLease, DnsAnswer, DnsQuestion, ProtocolError, TlsPeer, validate_dns_question,
+    validate_lease, validate_tls_peer,
+};
 
 pub use address::{AddressError, EndpointAddress, IpAddress, Ipv4Address, validate_endpoint};
-pub use manager::{ConfigurationSource, InterfaceConfig, InterfaceState, NetworkError, NetworkManager};
+pub use manager::{
+    ConfigurationSource, InterfaceConfig, InterfaceState, NetworkError, NetworkManager,
+};
 pub use socket::{Socket, SocketState, SocketTable};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

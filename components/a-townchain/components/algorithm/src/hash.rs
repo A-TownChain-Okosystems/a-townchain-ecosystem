@@ -65,12 +65,9 @@ fn compress(h: &[u32; 8], block: &[u8; 64]) -> [u32; 8] {
         ]);
     }
     for t in 16..24 {
-        let s0 = w[t - 15].rotate_right(5)
-            ^ w[t - 15].rotate_right(19)
-            ^ w[t - 15].rotate_right(27);
-        let s1 = w[t - 2].rotate_right(9)
-            ^ w[t - 2].rotate_right(21)
-            ^ w[t - 2].rotate_right(29);
+        let s0 =
+            w[t - 15].rotate_right(5) ^ w[t - 15].rotate_right(19) ^ w[t - 15].rotate_right(27);
+        let s1 = w[t - 2].rotate_right(9) ^ w[t - 2].rotate_right(21) ^ w[t - 2].rotate_right(29);
         w[t] = w[t - 16]
             .wrapping_add(s0)
             .wrapping_add(w[t - 7])
@@ -134,7 +131,10 @@ pub fn atc_hash(input: &[u8]) -> [u8; 32] {
 
 /// Hex-Darstellung (Kleinbuchstaben) — Convenience fuer Tests und Logs.
 pub fn atc_hash_hex(input: &[u8]) -> String {
-    atc_hash(input).iter().map(|b| format!("{:02x}", b)).collect()
+    atc_hash(input)
+        .iter()
+        .map(|b| format!("{:02x}", b))
+        .collect()
 }
 
 #[cfg(test)]
@@ -144,16 +144,31 @@ mod tests {
     #[test]
     fn goldene_vektoren_aus_python_referenz() {
         let faelle: &[(&[u8], &str)] = &[
-            (b"", "990988d19043340533ab778bd931a811b7b28ed9664016e6951432d0f39c7753"),
-            (b"abc", "fb21ac42d95d7b753719e42e9d3ee20463be908629cfa3fee95c1d7a92e6dc01"),
-            (b"A-TownChain Devnet", "0b2a8e90d808e6e8236642ce446a7a003917b17aeac4840643895a9e99cc1372"),
+            (
+                b"",
+                "990988d19043340533ab778bd931a811b7b28ed9664016e6951432d0f39c7753",
+            ),
+            (
+                b"abc",
+                "fb21ac42d95d7b753719e42e9d3ee20463be908629cfa3fee95c1d7a92e6dc01",
+            ),
+            (
+                b"A-TownChain Devnet",
+                "0b2a8e90d808e6e8236642ce446a7a003917b17aeac4840643895a9e99cc1372",
+            ),
             (b"", "ersetzt-durch-laufzeit"),
         ];
         // Der vierte Fall ist ein Platzhalter-Schutz: echte Laengen-64/200/255
         // Faelle folgen separat, damit keine duplizierten Literal-Zeilen.
         let _ = faelle;
-        assert_eq!(atc_hash_hex(b""), "990988d19043340533ab778bd931a811b7b28ed9664016e6951432d0f39c7753");
-        assert_eq!(atc_hash_hex(b"abc"), "fb21ac42d95d7b753719e42e9d3ee20463be908629cfa3fee95c1d7a92e6dc01");
+        assert_eq!(
+            atc_hash_hex(b""),
+            "990988d19043340533ab778bd931a811b7b28ed9664016e6951432d0f39c7753"
+        );
+        assert_eq!(
+            atc_hash_hex(b"abc"),
+            "fb21ac42d95d7b753719e42e9d3ee20463be908629cfa3fee95c1d7a92e6dc01"
+        );
         assert_eq!(
             atc_hash_hex(b"A-TownChain Devnet"),
             "0b2a8e90d808e6e8236642ce446a7a003917b17aeac4840643895a9e99cc1372"
@@ -164,9 +179,18 @@ mod tests {
     fn goldene_vektoren_blockgrenzen() {
         let a64 = vec![b'a'; 64];
         let x200 = vec![b'x'; 200];
-        assert_eq!(atc_hash_hex(&a64), "8d03946ed520566e717ba0b01a199dd806563707ffbf99b4861e988c80c79646");
-        assert_eq!(atc_hash_hex(&x200), "45850dc6fbeb676e6705b43d80bfdfaaa111300f4c2d3fe20fe2ba94e2b307ed");
-        assert_eq!(atc_hash_hex(b"block-payload-1"), "72340bfa03ff7183e2482a3633426fa7ea0b032cad84e5a6b548cf921675ad9a");
+        assert_eq!(
+            atc_hash_hex(&a64),
+            "8d03946ed520566e717ba0b01a199dd806563707ffbf99b4861e988c80c79646"
+        );
+        assert_eq!(
+            atc_hash_hex(&x200),
+            "45850dc6fbeb676e6705b43d80bfdfaaa111300f4c2d3fe20fe2ba94e2b307ed"
+        );
+        assert_eq!(
+            atc_hash_hex(b"block-payload-1"),
+            "72340bfa03ff7183e2482a3633426fa7ea0b032cad84e5a6b548cf921675ad9a"
+        );
     }
 
     #[test]
@@ -177,7 +201,10 @@ mod tests {
             let hex = atc_hash_hex(&daten);
             assert_eq!(hex.len(), 64, "Digest muss 32 Bytes sein");
             assert_eq!(hex, atc_hash_hex(&daten), "Determinismus bei Laenge {}", l);
-            assert_ne!(hex, vorher, "aufeinanderfolgende Laengen muessen sich unterscheiden");
+            assert_ne!(
+                hex, vorher,
+                "aufeinanderfolgende Laengen muessen sich unterscheiden"
+            );
             vorher = hex;
         }
     }
@@ -198,6 +225,6 @@ mod tests {
             assert_eq!(hex.len(), 64, "Padding-Kante {} muss ohne Panik hashen", l);
         }
         // Kante 55 vs 56: unterschiedliche Eingaben -> unterschiedliche Digests
-        assert_ne!(atc_hash(&vec![b'k'; 55]), atc_hash(&vec![b'k'; 56]));
+        assert_ne!(atc_hash(&[b'k'; 55]), atc_hash(&[b'k'; 56]));
     }
 }

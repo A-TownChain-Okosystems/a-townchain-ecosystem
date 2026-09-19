@@ -55,7 +55,8 @@ pub struct BatteryStatus {
 impl BatteryStatus {
     /// Validates hardware-reported battery telemetry.
     pub const fn validate(self) -> Result<Self, PowerError> {
-        if self.percentage > 100 || self.temperature_celsius < -80 || self.temperature_celsius > 150 {
+        if self.percentage > 100 || self.temperature_celsius < -80 || self.temperature_celsius > 150
+        {
             return Err(PowerError::InvalidBatteryTelemetry);
         }
         Ok(self)
@@ -71,14 +72,20 @@ pub struct PowerManager {
 
 impl Default for PowerManager {
     fn default() -> Self {
-        Self { state: PowerState::Running, thermal_limit_celsius: 95 }
+        Self {
+            state: PowerState::Running,
+            thermal_limit_celsius: 95,
+        }
     }
 }
 
 impl PowerManager {
     /// Creates the default userspace power manager.
     pub const fn new() -> Self {
-        Self { state: PowerState::Running, thermal_limit_celsius: 95 }
+        Self {
+            state: PowerState::Running,
+            thermal_limit_celsius: 95,
+        }
     }
 
     /// Returns the current state.

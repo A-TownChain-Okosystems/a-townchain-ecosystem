@@ -79,7 +79,10 @@ impl NetworkManager {
             return Err(NetworkError::AlreadyExists);
         }
         let id = self.next_id;
-        self.next_id = self.next_id.checked_add(1).ok_or(NetworkError::InvalidInterface)?;
+        self.next_id = self
+            .next_id
+            .checked_add(1)
+            .ok_or(NetworkError::InvalidInterface)?;
         self.interfaces.push((
             InterfaceConfig {
                 id,
@@ -164,7 +167,9 @@ mod tests {
     #[test]
     fn networking_is_disabled_by_default() {
         let mut manager = NetworkManager::new();
-        let id = manager.register_interface("eth0", ConfigurationSource::Dhcp).unwrap();
+        let id = manager
+            .register_interface("eth0", ConfigurationSource::Dhcp)
+            .unwrap();
         assert_eq!(manager.configure(id), Err(NetworkError::PolicyDisabled));
     }
 
@@ -172,13 +177,17 @@ mod tests {
     fn interface_requires_configuration_before_address() {
         let mut manager = NetworkManager::new();
         manager.set_policy(NetworkPolicy::Normal);
-        let id = manager.register_interface("eth0", ConfigurationSource::Dhcp).unwrap();
+        let id = manager
+            .register_interface("eth0", ConfigurationSource::Dhcp)
+            .unwrap();
         assert_eq!(
             manager.set_address(id, IpAddress::V4(Ipv4Address::new([192, 0, 2, 10]))),
             Err(NetworkError::InvalidTransition)
         );
         manager.configure(id).unwrap();
-        manager.set_address(id, IpAddress::V4(Ipv4Address::new(192, 0, 2, 10))).unwrap();
+        manager
+            .set_address(id, IpAddress::V4(Ipv4Address::new(192, 0, 2, 10)))
+            .unwrap();
         assert_eq!(manager.get(id).unwrap().1, InterfaceState::Up);
     }
 
@@ -186,9 +195,13 @@ mod tests {
     fn disabling_network_brings_interfaces_down() {
         let mut manager = NetworkManager::new();
         manager.set_policy(NetworkPolicy::Normal);
-        let id = manager.register_interface("eth0", ConfigurationSource::Static).unwrap();
+        let id = manager
+            .register_interface("eth0", ConfigurationSource::Static)
+            .unwrap();
         manager.configure(id).unwrap();
-        manager.set_address(id, IpAddress::V4(Ipv4Address::new([192, 0, 2, 20]))).unwrap();
+        manager
+            .set_address(id, IpAddress::V4(Ipv4Address::new([192, 0, 2, 20])))
+            .unwrap();
         manager.set_policy(NetworkPolicy::Disabled);
         assert_eq!(manager.get(id).unwrap().1, InterfaceState::Down);
     }

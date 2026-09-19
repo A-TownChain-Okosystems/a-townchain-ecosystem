@@ -11,7 +11,7 @@ mod tests {
     use super::*;
     #[test]
     fn test_move() {
-        assert!(is_valid_move((0,0), (3,3), 6));
-        assert!(!is_valid_move((0,0), (5,5), 6));
+        assert!(is_valid_move((0, 0), (3, 3), 6));
+        assert!(!is_valid_move((0, 0), (5, 5), 6));
     }
 }

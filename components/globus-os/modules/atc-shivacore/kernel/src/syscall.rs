@@ -6,7 +6,9 @@
 
 use crate::ats1000::Pid;
 use crate::capability::{CapId, CapabilityTable, ResourceType, Rights};
-use libshivacore::{validate_abi_version, AbiError, CapabilityHandle, Syscall, MAX_SYSCALL_PAYLOAD};
+use libshivacore::{
+    validate_abi_version, AbiError, CapabilityHandle, Syscall, MAX_SYSCALL_PAYLOAD,
+};
 use spin::Mutex;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -26,8 +28,15 @@ pub struct SyscallResponse {
 }
 
 impl SyscallResponse {
-    const fn ok(value: u64) -> Self { Self { error: None, value } }
-    const fn err(error: AbiError) -> Self { Self { error: Some(error), value: 0 } }
+    const fn ok(value: u64) -> Self {
+        Self { error: None, value }
+    }
+    const fn err(error: AbiError) -> Self {
+        Self {
+            error: Some(error),
+            value: 0,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -36,7 +45,9 @@ pub struct SyscallDispatcher {
 }
 
 impl SyscallDispatcher {
-    pub const fn new() -> Self { Self { monotonic_ticks: 0 } }
+    pub const fn new() -> Self {
+        Self { monotonic_ticks: 0 }
+    }
 
     pub fn dispatch(
         &mut self,
@@ -67,7 +78,14 @@ impl SyscallDispatcher {
                 SyscallResponse::ok(preempt as u64)
             }
             Syscall::IpcSend => {
-                if !self.check_capability(pid, request.capability, capabilities, ResourceType::IpcChannel, request.arg0, Rights::WRITE) {
+                if !self.check_capability(
+                    pid,
+                    request.capability,
+                    capabilities,
+                    ResourceType::IpcChannel,
+                    request.arg0,
+                    Rights::WRITE,
+                ) {
                     return SyscallResponse::err(AbiError::PermissionDenied);
                 }
                 SyscallResponse::ok(0)
@@ -76,7 +94,14 @@ impl SyscallDispatcher {
                 if request.arg1 as usize > MAX_SYSCALL_PAYLOAD {
                     return SyscallResponse::err(AbiError::InvalidPayload);
                 }
-                if !self.check_capability(pid, request.capability, capabilities, ResourceType::IpcChannel, request.arg0, Rights::READ) {
+                if !self.check_capability(
+                    pid,
+                    request.capability,
+                    capabilities,
+                    ResourceType::IpcChannel,
+                    request.arg0,
+                    Rights::READ,
+                ) {
                     return SyscallResponse::err(AbiError::PermissionDenied);
                 }
                 SyscallResponse::ok(request.arg1)
@@ -134,7 +159,10 @@ static SYSCALL_DISPATCHER: Mutex<SyscallDispatcher> = Mutex::new(SyscallDispatch
 
 pub fn install_capability_state(capabilities: CapabilityTable) {
     let mut slot = SYSCALL_CAPABILITIES.lock();
-    assert!(slot.is_none(), "ShivaCore: syscall capability state already installed");
+    assert!(
+        slot.is_none(),
+        "ShivaCore: syscall capability state already installed"
+    );
     *slot = Some(capabilities);
 }
 
@@ -156,7 +184,9 @@ pub fn dispatch_current(request: SyscallRequest) -> SyscallResponse {
 mod tests {
     use super::*;
 
-    fn pid(n: u32) -> Pid { Pid(n) }
+    fn pid(n: u32) -> Pid {
+        Pid(n)
+    }
 
     fn request(syscall: Syscall) -> SyscallRequest {
         SyscallRequest {
@@ -180,21 +210,42 @@ mod tests {
     #[test]
     fn rejects_unknown_syscall() {
         let mut d = SyscallDispatcher::new();
-        let r = d.dispatch(pid(1), SyscallRequest { syscall_id: 0xffff, ..request(Syscall::Yield) }, &CapabilityTable::new());
+        let r = d.dispatch(
+            pid(1),
+            SyscallRequest {
+                syscall_id: 0xffff,
+                ..request(Syscall::Yield)
+            },
+            &CapabilityTable::new(),
+        );
         assert_eq!(r.error, Some(AbiError::InvalidSyscall));
     }
 
     #[test]
     fn rejects_major_abi_mismatch() {
         let mut d = SyscallDispatcher::new();
-        let r = d.dispatch(pid(1), SyscallRequest { abi_version: 0x0002_0000, ..request(Syscall::Yield) }, &CapabilityTable::new());
+        let r = d.dispatch(
+            pid(1),
+            SyscallRequest {
+                abi_version: 0x0002_0000,
+                ..request(Syscall::Yield)
+            },
+            &CapabilityTable::new(),
+        );
         assert_eq!(r.error, Some(AbiError::AbiVersionMismatch));
     }
 
     #[test]
     fn rejects_oversized_payload() {
         let mut d = SyscallDispatcher::new();
-        let r = d.dispatch(pid(1), SyscallRequest { payload_len: MAX_SYSCALL_PAYLOAD + 1, ..request(Syscall::Yield) }, &CapabilityTable::new());
+        let r = d.dispatch(
+            pid(1),
+            SyscallRequest {
+                payload_len: MAX_SYSCALL_PAYLOAD + 1,
+                ..request(Syscall::Yield)
+            },
+            &CapabilityTable::new(),
+        );
         assert_eq!(r.error, Some(AbiError::InvalidPayload));
     }
 
@@ -203,17 +254,41 @@ mod tests {
         let mut table = CapabilityTable::new();
         let cap = table.create(pid(1), ResourceType::IpcChannel, 42, Rights::WRITE);
         let mut d = SyscallDispatcher::new();
-        let r = d.dispatch(pid(1), SyscallRequest { capability: Some(CapabilityHandle(cap.0)), arg0: 42, ..request(Syscall::IpcSend) }, &table);
+        let r = d.dispatch(
+            pid(1),
+            SyscallRequest {
+                capability: Some(CapabilityHandle(cap.0)),
+                arg0: 42,
+                ..request(Syscall::IpcSend)
+            },
+            &table,
+        );
         assert_eq!(r.error, None);
-        let denied = d.dispatch(pid(2), SyscallRequest { capability: Some(CapabilityHandle(cap.0)), arg0: 42, ..request(Syscall::IpcSend) }, &table);
+        let denied = d.dispatch(
+            pid(2),
+            SyscallRequest {
+                capability: Some(CapabilityHandle(cap.0)),
+                arg0: 42,
+                ..request(Syscall::IpcSend)
+            },
+            &table,
+        );
         assert_eq!(denied.error, Some(AbiError::PermissionDenied));
     }
 
     #[test]
     fn monotonic_time_is_kernel_owned() {
         let mut d = SyscallDispatcher::new();
-        let a = d.dispatch(pid(1), request(Syscall::MonotonicTime), &CapabilityTable::new());
-        let b = d.dispatch(pid(1), request(Syscall::MonotonicTime), &CapabilityTable::new());
+        let a = d.dispatch(
+            pid(1),
+            request(Syscall::MonotonicTime),
+            &CapabilityTable::new(),
+        );
+        let b = d.dispatch(
+            pid(1),
+            request(Syscall::MonotonicTime),
+            &CapabilityTable::new(),
+        );
         assert_eq!(a.value + 1, b.value);
     }
 
@@ -222,7 +297,14 @@ mod tests {
         let mut table = CapabilityTable::new();
         let cap = table.create(pid(1), ResourceType::IpcChannel, 7, Rights::READ);
         let mut d = SyscallDispatcher::new();
-        let r = d.dispatch(pid(1), SyscallRequest { capability: Some(CapabilityHandle(cap.0)), ..request(Syscall::CapabilityQuery) }, &table);
+        let r = d.dispatch(
+            pid(1),
+            SyscallRequest {
+                capability: Some(CapabilityHandle(cap.0)),
+                ..request(Syscall::CapabilityQuery)
+            },
+            &table,
+        );
         assert_eq!(r.error, Some(AbiError::PermissionDenied));
     }
 }

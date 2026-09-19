@@ -11,7 +11,10 @@ pub struct Event {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum EventError { QueueFull, Empty }
+pub enum EventError {
+    QueueFull,
+    Empty,
+}
 
 #[derive(Debug)]
 pub struct EventBus {
@@ -22,12 +25,20 @@ pub struct EventBus {
 
 impl EventBus {
     pub fn new(capacity: usize) -> Result<Self, EventError> {
-        if capacity == 0 { return Err(EventError::QueueFull); }
-        Ok(Self { capacity, next_id: 1, queue: Vec::new() })
+        if capacity == 0 {
+            return Err(EventError::QueueFull);
+        }
+        Ok(Self {
+            capacity,
+            next_id: 1,
+            queue: Vec::new(),
+        })
     }
 
     pub fn publish(&mut self, kind: u16, value: u64) -> Result<EventId, EventError> {
-        if self.queue.len() >= self.capacity { return Err(EventError::QueueFull); }
+        if self.queue.len() >= self.capacity {
+            return Err(EventError::QueueFull);
+        }
         let id = EventId(self.next_id);
         self.next_id = self.next_id.saturating_add(1).max(1);
         self.queue.push(Event { id, kind, value });
@@ -35,7 +46,9 @@ impl EventBus {
     }
 
     pub fn receive(&mut self) -> Result<Event, EventError> {
-        if self.queue.is_empty() { return Err(EventError::Empty); }
+        if self.queue.is_empty() {
+            return Err(EventError::Empty);
+        }
         Ok(self.queue.remove(0))
     }
 }

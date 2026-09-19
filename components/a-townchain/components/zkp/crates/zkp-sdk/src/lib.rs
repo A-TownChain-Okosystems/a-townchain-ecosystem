@@ -17,9 +17,18 @@ pub struct ProofRequestBuilder {
     public_inputs: Vec<u64>,
 }
 
+impl Default for ProofRequestBuilder {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ProofRequestBuilder {
     pub fn new() -> Self {
-        ProofRequestBuilder { circuit_id: None, public_inputs: Vec::new() }
+        ProofRequestBuilder {
+            circuit_id: None,
+            public_inputs: Vec::new(),
+        }
     }
 
     pub fn circuit(mut self, id: u64) -> Self {
@@ -34,11 +43,16 @@ impl ProofRequestBuilder {
 
     pub fn build(self) -> Result<ProofRequest, RequestError> {
         match self.circuit_id {
-            Some(c) if !self.public_inputs.is_empty() => {
-                Ok(ProofRequest { circuit_id: c, public_inputs: self.public_inputs })
-            }
-            Some(_) => Err(RequestError { reason: "keine public inputs" }),
-            None => Err(RequestError { reason: "keine circuit id" }),
+            Some(c) if !self.public_inputs.is_empty() => Ok(ProofRequest {
+                circuit_id: c,
+                public_inputs: self.public_inputs,
+            }),
+            Some(_) => Err(RequestError {
+                reason: "keine public inputs",
+            }),
+            None => Err(RequestError {
+                reason: "keine circuit id",
+            }),
         }
     }
 }
@@ -48,9 +62,29 @@ mod tests {
     use super::*;
     #[test]
     fn builder() {
-        let ok = ProofRequestBuilder::new().circuit(7).public_input(1).public_input(2).build();
-        assert_eq!(ok, Ok(ProofRequest { circuit_id: 7, public_inputs: vec![1, 2] }));
-        assert_eq!(ProofRequestBuilder::new().build(), Err(RequestError { reason: "keine circuit id" }));
-        assert_eq!(ProofRequestBuilder::new().circuit(1).build(), Err(RequestError { reason: "keine public inputs" }));
+        let ok = ProofRequestBuilder::new()
+            .circuit(7)
+            .public_input(1)
+            .public_input(2)
+            .build();
+        assert_eq!(
+            ok,
+            Ok(ProofRequest {
+                circuit_id: 7,
+                public_inputs: vec![1, 2]
+            })
+        );
+        assert_eq!(
+            ProofRequestBuilder::new().build(),
+            Err(RequestError {
+                reason: "keine circuit id"
+            })
+        );
+        assert_eq!(
+            ProofRequestBuilder::new().circuit(1).build(),
+            Err(RequestError {
+                reason: "keine public inputs"
+            })
+        );
     }
 }

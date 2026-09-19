@@ -1,10 +1,22 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Token burning mechanism
-pub struct BurnEngine { pub burned: u64 }
+pub struct BurnEngine {
+    pub burned: u64,
+}
+impl Default for BurnEngine {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl BurnEngine {
-    pub fn new() -> Self { Self { burned: 0 } }
+    pub fn new() -> Self {
+        Self { burned: 0 }
+    }
     pub fn burn(&mut self, balance: u64, amount: u64) -> Result<u64, String> {
-        if amount > balance { return Err("Cannot burn more than balance".into()); }
+        if amount > balance {
+            return Err("Cannot burn more than balance".into());
+        }
         self.burned += amount;
         Ok(balance - amount)
     }

@@ -1,3 +1,5 @@
+[workspace]
+
 [package]
 name = "atc-storage"
 version = "0.1.0"
