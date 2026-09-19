@@ -20,6 +20,10 @@ pub struct Executor {
     executed: Vec<Job>,
 }
 
+impl Default for Executor {
+    fn default() -> Self { Self::new() }
+}
+
 impl Executor {
     pub fn new() -> Self {
         Executor {
