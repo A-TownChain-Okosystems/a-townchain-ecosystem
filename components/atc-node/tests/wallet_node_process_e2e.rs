@@ -1,4 +1,4 @@
-use atc_blockchain::chain_identity::NUMERIC_CHAIN_ID;
+use atc_blockchain::{chain_identity::NUMERIC_CHAIN_ID, Node};
 use atc_wallet::keys::WalletKey;
 use atc_wallet::node::{NodeClient, TcpNodeClient};
 use atc_wallet::tx::{Transaction, TxType};
