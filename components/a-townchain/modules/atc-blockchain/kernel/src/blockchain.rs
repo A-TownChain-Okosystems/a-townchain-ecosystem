@@ -13,6 +13,7 @@ pub mod rpc;
 pub mod security;
 pub mod storage;
 use consensus::{ConsensusEngine, SlashingEvidence, Vote};
+use network::{NetworkMessage, PeerTransport};
 use crypto::{signing_bytes, Ed25519Verifier, SignatureVerifier};
 use execution::{AtcVmExecutor, VmExecutor};
 use mempool::{MemoryPool, MempoolError, StateDb, Transaction};
@@ -200,6 +201,7 @@ pub struct Node {
     proposer: String,
     verifier: Arc<dyn SignatureVerifier>,
     indexer: Mutex<Option<Arc<dyn IndexerSink>>>,
+    transport: Mutex<Option<Arc<dyn PeerTransport>>>,
 }
 impl Node {
     pub fn new(chain_id: u64, proposer: String) -> Self {
@@ -213,10 +215,124 @@ impl Node {
             proposer,
             verifier: Arc::new(Ed25519Verifier),
             indexer: Mutex::new(None),
+            transport: Mutex::new(None),
         }
     }
     pub fn set_indexer(&self, sink: Arc<dyn IndexerSink>) {
         *self.indexer.lock().unwrap() = Some(sink)
+    }
+
+    /// Attach the network transport to the canonical Node/consensus boundary.
+    pub fn set_transport(&self, transport: Arc<dyn PeerTransport>) {
+        *self.transport.lock().unwrap() = Some(transport);
+    }
+
+    fn broadcast(&self, message: NetworkMessage) -> Result<(), String> {
+        if let Some(transport) = self.transport.lock().map_err(|_| "transport lock poisoned")?.clone() {
+            transport.broadcast(message)?;
+        }
+        Ok(())
+    }
+
+    /// Apply a network block through the same deterministic state transition
+    /// rules used by local block production, then persist it.
+    pub fn import_block(&self, b: Block) -> Result<(), String> {
+        if self.chain_id != b.transactions.first().map(|t| t.chain_id).unwrap_or(self.chain_id) {
+            return Err("block transaction chain-id mismatch".into());
+        }
+        self.chain.validate_append(&b)?;
+
+        let parent = self.chain.last().ok_or("genesis required")?;
+        if b.parent_hash != parent.id || b.height != parent.height.saturating_add(1) {
+            return Err("block is not the next canonical height".into());
+        }
+
+        let state_snapshot = self.state.snapshot();
+        let dao_snapshot = self.state.dao_snapshot();
+        let issued_snapshot = self.state.issued_base_units();
+
+        let exec = AtcVmExecutor {
+            protocol: "1.0.0".into(),
+            vm_version: "1.0.0".into(),
+            genesis_id: hex::encode(parent.id),
+        };
+        let mut receipts = Vec::new();
+        for tx in &b.transactions {
+            if tx.chain_id != self.chain_id
+                || !self.verifier.verify(&signing_bytes(tx), &tx.signature, &tx.public_key)
+            {
+                self.state.restore(state_snapshot);
+                let _ = self.state.restore_dao(&dao_snapshot);
+                let _ = self.state.restore_issued_base_units(issued_snapshot);
+                return Err("invalid transaction signature or chain".into());
+            }
+            receipts.push(exec.execute(tx, self.state.root()).map_err(|e| e.to_string())?);
+        }
+
+        self.state.apply_batch(&b.transactions)
+            .map_err(|e| format!("state transition: {e:?}"))?;
+
+        for tx in &b.transactions {
+            if !tx.payload.is_empty() {
+                self.state.apply_dao_payload(&tx.payload, b.height, &tx.sender_did)
+                    .map_err(|e| format!("DAO transition: {e}"))?;
+            }
+        }
+
+        self.state.apply_block_reward(b.height, &b.proposer)
+            .map_err(|e| format!("block reward: {e}"))?;
+
+        let root = self.state.root();
+        if root != b.state_root || receipts::root(&receipts) != b.receipt_root {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err("network block state/receipt root mismatch".into());
+        }
+
+        self.storage.commit(b.clone())?;
+        self.storage.commit_state_with_dao(b.height, &self.state.snapshot(), &self.state.dao_snapshot())?;
+        self.storage.commit_issuance(b.height, self.state.issued_base_units())?;
+        self.chain.append(b.clone())?;
+        for tx in &b.transactions {
+            self.pool.mark_in_block(&tx.id);
+        }
+        self.consensus.set_height(b.height);
+        Ok(())
+    }
+
+    /// Feed one decoded network message into the canonical Node.
+    pub fn handle_network_message(&self, message: NetworkMessage) -> Result<(), String> {
+        match message {
+            NetworkMessage::Block(b) => self.import_block(b),
+            NetworkMessage::Vote(v) => self.submit_vote(v),
+            NetworkMessage::Transaction(tx) => {
+                self.submit(tx.clone(), tx.timestamp)?;
+                Ok(())
+            }
+            NetworkMessage::BlockRequest { from_height } => {
+                for h in from_height..=self.chain.height() {
+                    if let Some(b) = self.storage.block(h) {
+                        self.broadcast(NetworkMessage::Block(b))?;
+                    }
+                }
+                Ok(())
+            }
+            NetworkMessage::StatusRequest => {
+                let last = self.chain.last().ok_or("genesis required")?;
+                self.broadcast(NetworkMessage::Status {
+                    height: last.height,
+                    best_block: last.id,
+                    finalized: self.consensus.finalized(),
+                })
+            }
+            NetworkMessage::Status { .. } | NetworkMessage::Hello { .. } => Ok(()),
+        }
+    }
+
+    pub fn submit_vote_and_broadcast(&self, vote: Vote) -> Result<(), String> {
+        self.submit_vote(vote.clone())?;
+        self.broadcast(NetworkMessage::Vote(vote))
     }
     pub fn open_storage<P: AsRef<std::path::Path>>(
         chain_id: u64,
@@ -415,6 +531,7 @@ impl Node {
             self.pool.mark_in_block(&tx.id)
         }
         self.consensus.set_height(b.height);
+        self.broadcast(NetworkMessage::Block(b.clone()))?;
         Ok(b)
     }
     pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
