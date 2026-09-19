@@ -6,33 +6,6 @@ use std::{
     sync::Mutex,
 };
 
-#[derive(Clone, Debug)]
-pub const EPOCH_LENGTH_BLOCKS: u64 = crate::economics::HALVING_INTERVAL_BLOCKS;
-
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct SlashingEvidence {
-    pub validator: String,
-    pub height: u64,
-    pub block_a: [u8; 32],
-    pub block_b: [u8; 32],
-    pub reason: String,
-}
-
-impl SlashingEvidence {
-    pub fn id(&self) -> [u8; 32] {
-        let mut b = Vec::from(b"ATC-SLASH-V1".as_slice());
-        b.extend_from_slice(&(self.validator.len() as u32).to_be_bytes());
-        b.extend_from_slice(self.validator.as_bytes());
-        b.extend_from_slice(&self.height.to_be_bytes());
-        b.extend_from_slice(&self.block_a);
-        b.extend_from_slice(&self.block_b);
-        b.extend_from_slice(&(self.reason.len() as u32).to_be_bytes());
-        b.extend_from_slice(self.reason.as_bytes());
-        simple_hash(&b)
-    }
-}
-
-#[derive(Clone, Debug, PartialEq, Eq)]
 pub const EPOCH_LENGTH_BLOCKS: u64 = crate::economics::HALVING_INTERVAL_BLOCKS;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -84,7 +57,6 @@ pub struct ConsensusEngine {
     height: Mutex<u64>,
     finalized: Mutex<Option<(u64, [u8; 32])>>,
     slashed: Mutex<BTreeMap<String, u64>>,
-    slashed: Mutex<BTreeMap<String, u64>>,
     votes: Mutex<BTreeMap<[u8; 32], Vec<Vote>>>,
     validators: Mutex<BTreeMap<String, u64>>,
 }
@@ -96,7 +68,6 @@ impl ConsensusEngine {
             proposer,
             height: Mutex::new(0),
             finalized: Mutex::new(None),
-            slashed: Mutex::new(BTreeMap::new()),
             slashed: Mutex::new(BTreeMap::new()),
             votes: Mutex::new(BTreeMap::new()),
             validators: Mutex::new(BTreeMap::new()),
