@@ -100,6 +100,13 @@ impl TcpPeerTransport {
         }
     }
 
+    pub fn register_stream(&self, stream: TcpStream) -> Result<(), String> {
+        stream.set_nodelay(true).map_err(|e| e.to_string())?;
+        self.peers.lock().map_err(|_| "peer lock poisoned")?
+            .push(Arc::new(Mutex::new(stream)));
+        Ok(())
+    }
+
     pub fn peer_count(&self) -> usize {
         self.peers.lock().map(|p| p.len()).unwrap_or(0)
     }
