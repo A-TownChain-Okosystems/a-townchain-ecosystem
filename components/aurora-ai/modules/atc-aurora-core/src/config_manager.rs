@@ -6,6 +6,10 @@ pub struct ConfigManager {
     config: HashMap<String, String>,
 }
 
+impl Default for ConfigManager {
+    fn default() -> Self { Self::new() }
+}
+
 impl ConfigManager {
     pub fn new() -> Self {
         let mut cm = Self {
