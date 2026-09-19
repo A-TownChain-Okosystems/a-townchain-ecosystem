@@ -6,6 +6,12 @@ pub struct VectorStore {
     vectors: HashMap<String, Vec<f32>>,
 }
 
+impl Default for VectorStore {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl VectorStore {
     pub fn new() -> Self { Self { vectors: HashMap::new() } }
 
