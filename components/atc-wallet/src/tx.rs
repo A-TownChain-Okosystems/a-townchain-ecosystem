@@ -6,6 +6,7 @@
 
 use crate::keys::WalletKey;
 use ed25519_dalek::{Signature, Verifier, VerifyingKey};
+use sha2::{Digest, Sha256};
 
 pub const TX_DOMAIN: &[u8] = b"ATC-TX-DOMAIN-V2";
 
@@ -67,6 +68,33 @@ impl Transaction {
         put_bytes(&mut b, &self.payload);
         b.extend_from_slice(&self.poh_hash);
         Ok(b)
+    }
+
+    /// Canonical L1 transaction identity. This mirrors kernel/mempool.rs:
+    /// SHA-256(ATC-TX-ID-V2 || canonical transaction fields).
+    /// The signature is deliberately excluded so transaction identity is stable
+    /// across signature verification and network transport.
+    pub fn id(&self, _signature: &[u8; 64]) -> Result<[u8; 32], TxError> {
+        let mut b = Vec::with_capacity(128 + self.payload.len());
+        b.extend_from_slice(b"ATC-TX-ID-V2");
+        b.extend_from_slice(&self.chain_id.to_be_bytes());
+        b.push(self.tx_type as u8);
+        put_bytes(&mut b, self.sender_did.as_bytes());
+        match &self.recipient_did {
+            Some(value) => {
+                b.push(1);
+                put_bytes(&mut b, value.as_bytes());
+            }
+            None => b.push(0),
+        }
+        b.extend_from_slice(&self.amount.to_be_bytes());
+        b.extend_from_slice(&self.gas_price.to_be_bytes());
+        b.extend_from_slice(&self.gas_limit.to_be_bytes());
+        b.extend_from_slice(&self.nonce.to_be_bytes());
+        b.extend_from_slice(&self.timestamp.to_be_bytes());
+        put_bytes(&mut b, &self.payload);
+        b.extend_from_slice(&self.poh_hash);
+        Ok(Sha256::digest(b).into())
     }
 
     pub fn sign(&self, key: &WalletKey) -> Result<[u8; 64], TxError> {

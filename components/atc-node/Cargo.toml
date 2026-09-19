@@ -11,3 +11,6 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 
 atc-blockchain = { path = "../a-townchain/modules/atc-blockchain/kernel" }
+
+[dev-dependencies]
+atc-wallet = { path = "../atc-wallet" }

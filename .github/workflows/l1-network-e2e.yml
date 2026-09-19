@@ -1,0 +1,31 @@
+name: L1 Network E2E
+
+on:
+  push:
+    branches:
+      - feat/atc-wallet-rust-l1-integration
+  pull_request:
+    paths:
+      - "components/atc-wallet/**"
+      - "components/atc-node/**"
+      - "components/a-townchain/modules/atc-blockchain/**"
+
+permissions:
+  contents: read
+
+jobs:
+  wallet-node-process-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Cargo test — wallet → atc-node → mempool → block → state
+        run: cargo test --manifest-path components/atc-node/Cargo.toml --test wallet_node_process_e2e -- --nocapture
+
+  multi-process-network-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Cargo test — canonical multi-process network E2E
+        run: cargo test --manifest-path components/a-townchain/modules/atc-blockchain/kernel/Cargo.toml --test multi_process_network_e2e -- --nocapture
