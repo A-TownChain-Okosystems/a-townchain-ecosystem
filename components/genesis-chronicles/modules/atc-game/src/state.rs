@@ -6,6 +6,12 @@ pub struct GameState {
     pub data: HashMap<String, i64>,
 }
 
+impl Default for GameState {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl GameState {
     pub fn new() -> Self { Self { tick: 0, data: HashMap::new() } }
     pub fn set(&mut self, key: &str, val: i64) { self.data.insert(key.into(), val); }
