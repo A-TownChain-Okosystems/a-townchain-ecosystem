@@ -147,6 +147,36 @@ fn persistent_two_node_consensus_path() {
         .to_owned();
     assert_eq!(root_a, root_b, "nodes diverged at persisted state root");
 
+    let slash = rpc_request(
+        a_rpc,
+        serde_json::json!({
+            "jsonrpc":"2.0",
+            "method":"submit_slashing_evidence",
+            "params":{
+                "validator":"atc-node-b",
+                "height":height,
+                "block_a":"01".repeat(32),
+                "block_b":"02".repeat(32),
+                "reason":"double-sign",
+                "penalty":1
+            },
+            "id":4
+        }),
+    );
+    assert_eq!(slash["result"]["penalty_applied"].as_u64(), Some(1));
+
+    for _ in 0..40 {
+        let status_b = rpc(b_rpc, "status");
+        if status_b["result"]["validators"]["atc-node-b"].is_null() {
+            break;
+        }
+        thread::sleep(Duration::from_millis(100));
+    }
+    let status_a = rpc(a_rpc, "status");
+    let status_b = rpc(b_rpc, "status");
+    assert_eq!(status_a["result"]["validators"]["atc-node-b"], serde_json::Value::Null);
+    assert_eq!(status_b["result"]["validators"]["atc-node-b"], serde_json::Value::Null);
+
     let _ = a.kill();
     let _ = b.kill();
     let _ = a.wait();
