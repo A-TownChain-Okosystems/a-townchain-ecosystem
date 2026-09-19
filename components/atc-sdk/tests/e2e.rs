@@ -12,6 +12,7 @@ fn sdk_node_mempool_consensus_vm_state_storage_indexer() {
     node.state
         .genesis_credit("alice", 1_000_000)
         .expect("genesis allocation must respect supply cap");
+    node.register_validator("validator-1".into(), 100).unwrap();
     node.create_genesis(1).unwrap();
     let key = SigningKey::from_bytes(&[7u8; 32]);
     let tx = TransactionBuilder::transfer(chain_id, "alice", "bob", 100, 1, 1000, 0, 2).sign(&key);
@@ -59,6 +60,7 @@ fn storage_restart_recovers_chain_and_state() {
     node.state
         .genesis_credit("alice", 1_000_000)
         .expect("genesis allocation must respect supply cap");
+    node.register_validator("validator-1".into(), 100).unwrap();
     node.create_genesis(1).unwrap();
     let key = SigningKey::from_bytes(&[8u8; 32]);
     let tx = TransactionBuilder::transfer(658467, "alice", "bob", 25, 1, 1000, 0, 2).sign(&key);
@@ -69,8 +71,17 @@ fn storage_restart_recovers_chain_and_state() {
     assert_eq!(reopened.chain.height(), 1);
     assert_eq!(reopened.state.balance("bob"), 25);
     assert_eq!(reopened.storage.block(1).unwrap().id, block.id);
-    let _ = std::fs::remove_file(&path);
-    let _ = std::fs::remove_file(path.with_extension("state"));
+    assert!(reopened.state.issued_base_units() > 1_000_000u128 * atc_blockchain::economics::ATC_BASE_UNITS);
+    assert_eq!(reopened.consensus.validator_stake("validator-1"), 100);
+    let key2 = SigningKey::from_bytes(&[9u8; 32]);
+    let tx2 = TransactionBuilder::transfer(658467, "alice", "carol", 10, 1, 1000, 1, 4).sign(&key2);
+    reopened.submit(tx2, 4).unwrap();
+    let block2 = reopened.produce(5, 10).unwrap();
+    assert_eq!(block2.height, 2);
+    for ext in ["", "state", "validators", "finality", "slashing", "issuance"] {
+        let target = if ext.is_empty() { path.clone() } else { path.with_extension(ext) };
+        let _ = std::fs::remove_file(target);
+    }
 }
 
 #[test]
