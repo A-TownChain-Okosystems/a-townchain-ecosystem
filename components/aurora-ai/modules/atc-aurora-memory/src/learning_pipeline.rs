@@ -5,6 +5,10 @@ pub struct LearningPipeline {
     pub accuracy: f64,
 }
 
+impl Default for LearningPipeline {
+    fn default() -> Self { Self::new() }
+}
+
 impl LearningPipeline {
     pub fn new() -> Self {
         Self {
