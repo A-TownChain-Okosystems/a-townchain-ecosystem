@@ -1,4 +1,5 @@
 name: L1 Network E2E
+# CI trigger: wallet/node/kernel integration changes must execute the full L1 gate.
 
 on:
   push:
