@@ -1,6 +1,27 @@
 //! Transactions, mempool and deterministic state transition.
 use crate::{economics::MAX_ATC_SUPPLY, security::simple_hash};
 use std::{collections::BTreeMap, sync::Mutex};
+
+mod signature_serde {
+    use serde::{Deserialize, Deserializer, Serializer};
+
+    pub fn serialize<S>(value: &[u8; 64], serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_bytes(value)
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<[u8; 64], D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let bytes = Vec::<u8>::deserialize(deserializer)?;
+        bytes.try_into().map_err(|_| {
+            serde::de::Error::custom("transaction signature must contain exactly 64 bytes")
+        })
+    }
+}
 #[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub enum TxType {
     Transfer = 0,
@@ -31,6 +52,7 @@ pub struct Transaction {
     pub nonce: u64,
     pub timestamp: u64,
     pub payload: Vec<u8>,
+    #[serde(with = "signature_serde")]
     pub signature: [u8; 64],
     pub public_key: [u8; 32],
     pub poh_hash: [u8; 32],
@@ -162,6 +184,30 @@ pub enum MempoolError {
     InvalidSignature,
     WrongChain,
 }
+
+impl std::fmt::Display for MempoolError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::PoolFull => write!(f, "mempool is full"),
+            Self::DuplicateTx => write!(f, "duplicate transaction"),
+            Self::TxNotFound => write!(f, "transaction not found"),
+            Self::GasLimitTooLow => write!(f, "gas limit too low"),
+            Self::GasPriceTooLow => write!(f, "gas price too low"),
+            Self::NoRecipient => write!(f, "recipient required"),
+            Self::InvalidNonce { expected, got } => {
+                write!(f, "invalid nonce: expected {expected}, got {got}")
+            }
+            Self::InsufficientBalance => write!(f, "insufficient balance"),
+            Self::InsufficientStake => write!(f, "insufficient stake"),
+            Self::Expired => write!(f, "transaction expired"),
+            Self::InvalidSignature => write!(f, "invalid signature"),
+            Self::WrongChain => write!(f, "wrong chain"),
+        }
+    }
+}
+
+impl std::error::Error for MempoolError {}
+
 pub struct MemoryPool {
     entries: Mutex<BTreeMap<[u8; 32], PoolEntry>>,
     max_size: usize,
