@@ -6,6 +6,10 @@ pub struct ZoneManager {
     zones: HashMap<String, Vec<String>>,
 }
 
+impl Default for ZoneManager {
+    fn default() -> Self { Self::new() }
+}
+
 impl ZoneManager {
     pub fn new() -> Self {
         Self {
