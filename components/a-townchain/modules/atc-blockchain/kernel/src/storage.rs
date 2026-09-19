@@ -16,6 +16,7 @@ const MAGIC: &[u8] = b"ATCB1";
 const VALIDATOR_MAGIC: &[u8] = b"ATCV1";
 const FINALITY_MAGIC: &[u8] = b"ATCF1";
 const SLASH_MAGIC: &[u8] = b"ATCS1";
+const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
     out.extend_from_slice(&(b.len() as u32).to_be_bytes());
@@ -174,6 +175,7 @@ pub struct ChainStorage {
     validator_journal: Option<PathBuf>,
     finality_journal: Option<PathBuf>,
     slashing_journal: Option<PathBuf>,
+    issuance_journal: Option<PathBuf>,
 }
 
 impl Default for ChainStorage {
@@ -192,6 +194,7 @@ impl ChainStorage {
             validator_journal: None,
             finality_journal: None,
             slashing_journal: None,
+            issuance_journal: None,
         }
     }
 
@@ -204,6 +207,7 @@ impl ChainStorage {
         let validator_p = p.with_extension("validators");
         let finality_p = p.with_extension("finality");
         let slashing_p = p.with_extension("slashing");
+        let issuance_p = p.with_extension("issuance");
         let s = Self {
             blocks: RwLock::new(BTreeMap::new()),
             state_roots: RwLock::new(BTreeMap::new()),
@@ -212,6 +216,7 @@ impl ChainStorage {
             validator_journal: Some(validator_p),
             finality_journal: Some(finality_p),
             slashing_journal: Some(slashing_p),
+            issuance_journal: Some(issuance_p),
         };
         s.recover()?;
         Ok(s)
@@ -482,6 +487,41 @@ impl ChainStorage {
             out.push((h, validator, evidence_id, penalty));
         }
         Ok(out)
+    }
+
+    pub fn commit_issuance(&self, height: u64, issued_base_units: u128) -> Result<(), String> {
+        let Some(p) = &self.issuance_journal else { return Ok(()); };
+        if issued_base_units > crate::economics::MAX_SUPPLY { return Err("issued supply cap exceeded".into()); }
+        let mut o = Vec::from(ISSUANCE_MAGIC);
+        o.extend_from_slice(&height.to_be_bytes());
+        o.extend_from_slice(&issued_base_units.to_be_bytes());
+        let line = format!("{}\n", hex::encode(o));
+        let mut f = OpenOptions::new().create(true).append(true).open(p).map_err(|e| e.to_string())?;
+        f.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
+        f.sync_data().map_err(|e| e.to_string())?;
+        Ok(())
+    }
+
+    pub fn recover_issuance(&self) -> Result<Option<(u64, u128)>, String> {
+        let Some(p) = &self.issuance_journal else { return Ok(None); };
+        if !p.exists() { return Ok(None); }
+        let f = File::open(p).map_err(|e| e.to_string())?;
+        let mut latest = None;
+        for line in BufReader::new(f).lines() {
+            let raw = line.map_err(|e| e.to_string())?;
+            if raw.trim().is_empty() { continue; }
+            let b = hex::decode(raw.trim()).map_err(|e| e.to_string())?;
+            if !b.starts_with(ISSUANCE_MAGIC) { return Err("invalid issuance magic".into()); }
+            let mut q = ISSUANCE_MAGIC.len();
+            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let issued = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
+            if issued > crate::economics::MAX_SUPPLY || q != b.len() { return Err("invalid issuance record".into()); }
+            if let Some((prev, _)) = latest {
+                if h < prev { return Err("issuance height regression".into()); }
+            }
+            latest = Some((h, issued));
+        }
+        Ok(latest)
     }
 
     pub fn block(&self, h: u64) -> Option<Block> {
