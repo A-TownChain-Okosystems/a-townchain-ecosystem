@@ -16,6 +16,14 @@ permissions:
   contents: read
 
 jobs:
+  tx-block-reward-state-finality-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Cargo test — tx → block → reward → state → finality → recovery
+        run: cargo test --manifest-path components/atc-node/Cargo.toml --test l1_transaction_lifecycle_e2e -- --nocapture
+
   wallet-node-process-e2e:
     runs-on: ubuntu-latest
     steps:
