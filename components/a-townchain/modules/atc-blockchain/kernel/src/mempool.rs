@@ -1,7 +1,7 @@
 //! Transactions, mempool and deterministic state transition.
 use crate::{economics::MAX_ATC_SUPPLY, security::simple_hash};
 use std::{collections::BTreeMap, sync::Mutex};
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub enum TxType {
     Transfer = 0,
     Stake = 1,
@@ -18,7 +18,7 @@ impl TxType {
         }
     }
 }
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub struct Transaction {
     pub id: [u8; 32],
     pub chain_id: u64,
