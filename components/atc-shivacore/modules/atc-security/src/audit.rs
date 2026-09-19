@@ -1,6 +1,5 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Security audit framework
-use std::collections::HashMap;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Severity {
@@ -21,6 +20,10 @@ pub struct AuditReport {
 
 pub struct SecurityAuditor {
     checks: Vec<AuditReport>,
+}
+
+impl Default for SecurityAuditor {
+    fn default() -> Self { Self::new() }
 }
 
 impl SecurityAuditor {
