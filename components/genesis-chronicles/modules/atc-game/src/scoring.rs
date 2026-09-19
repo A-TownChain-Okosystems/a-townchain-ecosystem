@@ -2,6 +2,12 @@
 // Score tracking and leaderboards
 use std::collections::BTreeMap;
 pub struct Leaderboard { scores: BTreeMap<i64, Vec<String>> }
+impl Default for Leaderboard {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Leaderboard {
     pub fn new() -> Self { Self { scores: BTreeMap::new() } }
     pub fn add_score(&mut self, player: &str, score: i64) {
