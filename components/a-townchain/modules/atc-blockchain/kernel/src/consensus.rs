@@ -33,6 +33,32 @@ impl SlashingEvidence {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
+pub const EPOCH_LENGTH_BLOCKS: u64 = crate::economics::HALVING_INTERVAL_BLOCKS;
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct SlashingEvidence {
+    pub validator: String,
+    pub height: u64,
+    pub block_a: [u8; 32],
+    pub block_b: [u8; 32],
+    pub reason: String,
+}
+
+impl SlashingEvidence {
+    pub fn id(&self) -> [u8; 32] {
+        let mut b = Vec::from(b"ATC-SLASH-V1".as_slice());
+        b.extend_from_slice(&(self.validator.len() as u32).to_be_bytes());
+        b.extend_from_slice(self.validator.as_bytes());
+        b.extend_from_slice(&self.height.to_be_bytes());
+        b.extend_from_slice(&self.block_a);
+        b.extend_from_slice(&self.block_b);
+        b.extend_from_slice(&(self.reason.len() as u32).to_be_bytes());
+        b.extend_from_slice(self.reason.as_bytes());
+        simple_hash(&b)
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Vote {
     pub block: [u8; 32],
     pub voter: String,
@@ -58,6 +84,7 @@ pub struct ConsensusEngine {
     height: Mutex<u64>,
     finalized: Mutex<Option<(u64, [u8; 32])>>,
     slashed: Mutex<BTreeMap<String, u64>>,
+    slashed: Mutex<BTreeMap<String, u64>>,
     votes: Mutex<BTreeMap<[u8; 32], Vec<Vote>>>,
     validators: Mutex<BTreeMap<String, u64>>,
 }
@@ -69,6 +96,7 @@ impl ConsensusEngine {
             proposer,
             height: Mutex::new(0),
             finalized: Mutex::new(None),
+            slashed: Mutex::new(BTreeMap::new()),
             slashed: Mutex::new(BTreeMap::new()),
             votes: Mutex::new(BTreeMap::new()),
             validators: Mutex::new(BTreeMap::new()),
@@ -90,6 +118,35 @@ impl ConsensusEngine {
 
     pub fn validator_stake(&self, address: &str) -> u64 {
         self.validators.lock().unwrap().get(address).copied().unwrap_or(0)
+    }
+
+    pub fn epoch(height: u64) -> u64 {
+        height / EPOCH_LENGTH_BLOCKS
+    }
+
+    pub fn is_epoch_boundary(height: u64) -> bool {
+        height > 0 && height % EPOCH_LENGTH_BLOCKS == 0
+    }
+
+    pub fn slashed_stake(&self, address: &str) -> u64 {
+        self.slashed.lock().unwrap().get(address).copied().unwrap_or(0)
+    }
+
+    pub fn slash(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
+        if evidence.block_a == evidence.block_b || evidence.validator.is_empty() || penalty == 0 {
+            return Err("invalid slashing evidence".into());
+        }
+        let mut validators = self.validators.lock().map_err(|_| "validator lock poisoned")?;
+        let current = validators.get(&evidence.validator).copied().ok_or("validator is not active")?;
+        let applied = penalty.min(current);
+        let remaining = current - applied;
+        if remaining == 0 {
+            validators.remove(&evidence.validator);
+        } else {
+            validators.insert(evidence.validator.clone(), remaining);
+        }
+        self.slashed.lock().unwrap().entry(evidence.validator).and_modify(|x| *x = x.saturating_add(applied)).or_insert(applied);
+        Ok(applied)
     }
 
     pub fn epoch(height: u64) -> u64 {
