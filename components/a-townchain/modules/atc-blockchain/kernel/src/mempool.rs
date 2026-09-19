@@ -318,6 +318,15 @@ impl StateDb {
             .map(|x| x.nonce)
             .unwrap_or(0)
     }
+    pub fn slash_stake(&self, id: &str, amount: u64) -> Result<u64, String> {
+        if amount == 0 { return Err("slash amount must be non-zero".into()); }
+        let mut a = self.accounts.lock().unwrap();
+        let x = a.get_mut(id).ok_or("validator account not found")?;
+        let applied = amount.min(x.staked);
+        x.staked -= applied;
+        Ok(applied)
+    }
+
     pub fn staked(&self, id: &str) -> u64 {
         self.accounts
             .lock()
