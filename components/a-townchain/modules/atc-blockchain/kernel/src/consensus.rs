@@ -62,6 +62,10 @@ impl ConsensusEngine {
         self.validators.lock().unwrap().get(address).copied().unwrap_or(0)
     }
 
+    pub fn validators_snapshot(&self) -> BTreeMap<String, u64> {
+        self.validators.lock().unwrap().clone()
+    }
+
     pub fn total_validator_stake(&self) -> u64 {
         self.validators.lock().unwrap().values().copied().fold(0, u64::saturating_add)
     }
