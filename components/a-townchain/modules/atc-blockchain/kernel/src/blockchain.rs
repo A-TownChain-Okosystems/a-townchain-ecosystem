@@ -377,9 +377,27 @@ impl Node {
         self.consensus.set_height(b.height);
         Ok(b)
     }
+    pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
+        self.consensus.register_validator(address, stake)
+    }
+
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
         self.consensus.vote(vote)
     }
+
+    pub fn finalize_weighted(&self, b: &Block) -> Result<bool, String> {
+        if self.consensus.proposer != self.proposer {
+            return Err("finalizer is not proposer".into());
+        }
+        if !self.consensus.weighted_finality(&b.id) {
+            return Ok(false);
+        }
+        if let Some(sink) = self.indexer.lock().unwrap().clone() {
+            sink.ingest_finalized(b)?
+        }
+        Ok(true)
+    }
+
     pub fn finalize(&self, b: &Block, quorum: usize) -> Result<bool, String> {
         if self.consensus.proposer != self.proposer {
             return Err("finalizer is not proposer".into());
