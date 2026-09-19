@@ -349,7 +349,7 @@ impl Node {
             NetworkMessage::Block(b) => self.import_block(b),
             NetworkMessage::Vote(v) => self.submit_vote(v),
             NetworkMessage::Transaction(tx) => {
-                self.submit(tx.clone(), tx.timestamp)?;
+                self.submit(tx.clone(), tx.timestamp).map_err(|e| e.to_string())?;
                 Ok(())
             }
             NetworkMessage::BlockRequest { from_height } => {
