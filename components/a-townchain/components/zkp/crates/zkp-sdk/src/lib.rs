@@ -17,6 +17,10 @@ pub struct ProofRequestBuilder {
     public_inputs: Vec<u64>,
 }
 
+impl Default for ProofRequestBuilder {
+    fn default() -> Self { Self::new() }
+}
+
 impl ProofRequestBuilder {
     pub fn new() -> Self {
         ProofRequestBuilder {
