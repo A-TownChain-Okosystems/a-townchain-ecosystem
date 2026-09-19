@@ -8,6 +8,10 @@ pub struct AgentPool {
     agents: HashMap<String, Box<dyn Agent>>,
 }
 
+impl Default for AgentPool {
+    fn default() -> Self { Self::new() }
+}
+
 impl AgentPool {
     pub fn new() -> Self {
         let mut pool = Self {
