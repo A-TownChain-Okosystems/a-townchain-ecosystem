@@ -103,21 +103,19 @@ fn attach_network(node: Arc<Node>, listen_addr: String, peers: Vec<String>) -> R
         thread::spawn(move || {
             for accepted in listener.incoming() {
                 match accepted {
-                    Ok(stream) => {
-                        match TcpPeerTransport::accept(
-                            &TcpListener::from_std(stream.try_clone().unwrap()).unwrap_or_else(|_| unreachable!()),
-                            node.chain_id,
-                            node.proposer_id(),
-                            node.chain.height(),
-                            node.chain.last().map(|b| b.id).unwrap_or([0; 32]),
-                        ) {
-                            Ok((stream, _peer, _height, _best)) => {
-                                let _ = transport.register_stream(stream.try_clone().unwrap());
-                                let _ = node.clone().serve_tcp_stream(stream);
-                            }
-                            Err(e) => eprintln!("peer handshake failed: {e}"),
+                    Ok(stream) => match TcpPeerTransport::accept_stream(
+                        stream,
+                        node.chain_id,
+                        node.proposer_id(),
+                        node.chain.height(),
+                        node.chain.last().map(|b| b.id).unwrap_or([0; 32]),
+                    ) {
+                        Ok((stream, _peer, _height, _best)) => {
+                            let _ = transport.register_stream(stream.try_clone().unwrap());
+                            let _ = node.clone().serve_tcp_stream(stream);
                         }
-                    }
+                        Err(e) => eprintln!("peer handshake failed: {e}"),
+                    },
                     Err(e) => eprintln!("peer accept failed: {e}"),
                 }
             }
