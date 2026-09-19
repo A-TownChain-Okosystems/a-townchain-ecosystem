@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Sandbox isolation
 pub struct Sandbox {
-    id: u64,
+    _id: u64,
     memory_limit: usize,
     cpu_limit_ms: u64,
     active: bool,
@@ -10,7 +10,7 @@ pub struct Sandbox {
 impl Sandbox {
     pub fn new(id: u64, memory_limit: usize, cpu_limit_ms: u64) -> Self {
         Self {
-            id,
+            _id: id,
             memory_limit,
             cpu_limit_ms,
             active: false,
