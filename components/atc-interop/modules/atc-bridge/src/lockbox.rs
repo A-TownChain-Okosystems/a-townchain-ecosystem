@@ -7,6 +7,10 @@ pub struct Lockbox {
     withdrawals: HashMap<String, u64>,
 }
 
+impl Default for Lockbox {
+    fn default() -> Self { Self::new() }
+}
+
 impl Lockbox {
     pub fn new() -> Self {
         Self {
