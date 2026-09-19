@@ -39,6 +39,15 @@ jobs:
         run: cargo test --manifest-path ${{ matrix.manifest }} --all-targets
       - name: Clippy
         run: cargo clippy --manifest-path ${{ matrix.manifest }} --all-targets -- -D warnings
+  multi-node-e2e:
+    runs-on: ubuntu-latest
+    needs: rust-components
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Run multi-node L1 integration gate
+        run: cargo test --manifest-path components/a-townchain/modules/atc-blockchain/kernel/Cargo.toml --test multi_node_e2e
+
   sdk-e2e:
     runs-on: ubuntu-latest
     needs: rust-components
