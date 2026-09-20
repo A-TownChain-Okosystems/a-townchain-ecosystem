@@ -16,7 +16,7 @@ fn free_addr() -> String {
 
 fn start_node(addr: &str) -> Child {
     Command::new(env!("CARGO_BIN_EXE_atc-node"))
-        .arg(addr)
+        .env("ATC_RPC_ADDR", addr)
         .stdin(Stdio::null())
         .stdout(Stdio::null())
         .stderr(Stdio::inherit())

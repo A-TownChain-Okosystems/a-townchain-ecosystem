@@ -1,5 +1,5 @@
 use atc_blockchain::{
-    blockchain::Node,
+    Node,
     consensus::{vote_signing_bytes, Vote},
     mempool::{Transaction as L1Transaction, TxType as L1TxType},
 };
@@ -13,7 +13,7 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
-const CHAIN_ID: u64 = 658467;
+const CHAIN_ID: u64 = atc_blockchain::chain_identity::NUMERIC_CHAIN_ID;
 const GENESIS_BALANCE: u64 = 1_000_000;
 const TRANSFER_AMOUNT: u64 = 1_000;
 const GAS_PRICE: u64 = 1;
@@ -47,7 +47,7 @@ fn tx_block_reward_state_finality_persistence_recovery() {
     let path = temp_path();
     std::fs::create_dir_all(&path).unwrap();
 
-    let node = Node::new(CHAIN_ID, "validator-a".into());
+    let node = Node::open_storage(CHAIN_ID, "validator-a".into(), &path).unwrap();
     node.state.genesis_credit("alice", GENESIS_BALANCE).unwrap();
     let genesis = node.create_genesis_with_proposer(1, "atc-genesis").unwrap();
 

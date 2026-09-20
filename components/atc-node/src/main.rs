@@ -6,11 +6,10 @@
 //! RPC -> mempool -> proposer -> block broadcast -> block validation/state
 //! transition -> validator vote -> weighted finality -> durable storage.
 
-use atc_blockchain::{blockchain::Node, chain_identity::NUMERIC_CHAIN_ID, network::TcpPeerTransport};
+use atc_blockchain::{chain_identity::NUMERIC_CHAIN_ID, network::TcpPeerTransport, Node};
 use atc_node::bootstrap::Genesis;
 use atc_node::rpc::{serve, DevnetRpc};
 use atc_node::runtime::Runtime;
-use ed25519_dalek::SigningKey;
 use std::{env, net::TcpListener, path::PathBuf, sync::Arc, thread, time::Duration};
 
 const DEFAULT_GENESIS_PROPOSER: &str = "atc-genesis";
@@ -85,7 +84,8 @@ fn is_local_proposer(node: &Node) -> bool {
 
 fn load_or_create_node(node_id: &str, data_dir: &PathBuf) -> Result<Arc<Node>, String> {
     std::fs::create_dir_all(data_dir).map_err(|e| e.to_string())?;
-    let node = Node::open_storage(NUMERIC_CHAIN_ID, node_id.to_string(), data_dir)?;
+    let journal_path = data_dir.join("chain.journal");
+    let node = Node::open_storage(NUMERIC_CHAIN_ID, node_id.to_string(), journal_path)?;
     if node.chain.last().is_none() {
         node.state.genesis_credit("alice", 1_000_000)?;
         node.create_genesis_with_proposer(0, DEFAULT_GENESIS_PROPOSER)?;
