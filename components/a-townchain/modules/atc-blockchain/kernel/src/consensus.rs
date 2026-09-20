@@ -147,6 +147,21 @@ impl ConsensusEngine {
         self.validators.lock().unwrap().clone()
     }
 
+    pub fn slashed_snapshot(&self) -> BTreeMap<String, u64> {
+        self.slashed.lock().unwrap().clone()
+    }
+
+    /// Restore the durable validator/evidence state after a failed cross-layer commit.
+    pub fn restore_validator_state(
+        &self,
+        validators: BTreeMap<String, u64>,
+        slashed: BTreeMap<String, u64>,
+    ) -> Result<(), String> {
+        *self.validators.lock().map_err(|_| "validator lock poisoned")? = validators;
+        *self.slashed.lock().map_err(|_| "slashed lock poisoned")? = slashed;
+        Ok(())
+    }
+
     pub fn total_validator_stake(&self) -> u64 {
         self.validators
             .lock()
