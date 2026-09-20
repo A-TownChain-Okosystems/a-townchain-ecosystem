@@ -31,6 +31,12 @@ jobs:
       - name: Multi-process L1 network E2E
         run: cargo test -p atc-blockchain --test multi_process_network_e2e -- --nocapture
 
+      - name: Wallet to Node to Block to Balance E2E
+        run: cargo test -p atc-node --test wallet_node_process_e2e -- --nocapture
+
+      - name: SDK and persistence integration
+        run: cargo test -p integration -- --nocapture
+
       - name: Emit runtime gate evidence
         if: always()
         env:
