@@ -748,16 +748,58 @@ impl Node {
         if evidence.height > self.chain.height() {
             return Err("slashing evidence is above current chain height".into());
         }
-        let applied = self.consensus.slash(evidence.clone(), penalty)?;
-        if applied == 0 {
+        if penalty == 0 {
             return Err("slashing penalty is zero".into());
         }
-        self.storage.commit_slashing(
+
+        // Slashing is a cross-layer state transition: voting weight and the
+        // validator account stake must change atomically from the caller's
+        // perspective. Do not persist evidence when either side cannot apply.
+        let state_snapshot = self.state.snapshot();
+        let applied_state = self.state.slash_stake(&evidence.validator, penalty)?;
+        if applied_state == 0 {
+            return Err("validator has no stake to slash".into());
+        }
+
+        let applied_consensus = match self.consensus.slash(evidence.clone(), applied_state) {
+            Ok(applied) => applied,
+            Err(e) => {
+                self.state.restore(state_snapshot);
+                return Err(e);
+            }
+        };
+        if applied_consensus != applied_state {
+            self.state.restore(state_snapshot);
+            return Err("consensus/state slashing amount mismatch".into());
+        }
+
+        if let Err(e) = self.storage.commit_validators(
+            self.consensus.height(),
+            &self.consensus.validators_snapshot(),
+        ) {
+            self.state.restore(state_snapshot);
+            return Err(e);
+        }
+        if let Err(e) = self.storage.commit_slashing(
             evidence.height,
             &evidence.validator,
             evidence.id(),
-            applied,
+            applied_consensus,
+        ) {
+            self.state.restore(state_snapshot);
+            return Err(e);
+        }
+        let state_root = self.state.root();
+        self.storage.commit_state_with_dao(
+            self.chain.height(),
+            &self.state.snapshot(),
+            &self.state.dao_snapshot(),
         )?;
+        self.storage
+            .commit_issuance(self.chain.height(), self.state.issued_base_units())?;
+        let _ = state_root;
+        Ok(applied_consensus)
+    }
         self.storage.commit_validators(
             self.consensus.height(),
             &self.consensus.validators_snapshot(),
