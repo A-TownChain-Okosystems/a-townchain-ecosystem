@@ -65,3 +65,7 @@ The L1 panel consumes these connected execution gates:
 - **VM boundary:** block production executes transactions through the canonical `AtcVmExecutor`; a successful production test is required before this connection is considered verified.
 
 A gate is **not verified** unless the corresponding GitHub Actions job completes successfully for the same commit SHA.
+
+- **Indexer/finality:** `cargo test -p atc-sdk --test e2e` verifies finalized blocks reach the indexer and survive storage restart.
+- **ATC-VM:** `cargo test --manifest-path components/atc-vm/Cargo.toml` verifies the VM independently; L1 VM integration additionally requires the L1 E2E gates above.
+- **Wallet library:** `cargo test --manifest-path components/atc-wallet/Cargo.toml` verifies wallet primitives independently; Wallet→Node integration requires the process E2E gate.
