@@ -1,7 +1,7 @@
 use atc_blockchain::{
-    Node,
     consensus::{vote_signing_bytes, Vote},
     mempool::{Transaction as L1Transaction, TxType as L1TxType},
+    Node,
 };
 use atc_wallet::{
     keys::WalletKey,
