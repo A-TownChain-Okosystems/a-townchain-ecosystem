@@ -756,6 +756,8 @@ impl Node {
         // validator account stake must change atomically from the caller's
         // perspective. Do not persist evidence when either side cannot apply.
         let state_snapshot = self.state.snapshot();
+        let validators_snapshot = self.consensus.validators_snapshot();
+        let slashed_snapshot = self.consensus.slashed_snapshot();
         let applied_state = self.state.slash_stake(&evidence.validator, penalty)?;
         if applied_state == 0 {
             return Err("validator has no stake to slash".into());
@@ -770,6 +772,7 @@ impl Node {
         };
         if applied_consensus != applied_state {
             self.state.restore(state_snapshot);
+            let _ = self.consensus.restore_validator_state(validators_snapshot, slashed_snapshot);
             return Err("consensus/state slashing amount mismatch".into());
         }
 
@@ -778,6 +781,7 @@ impl Node {
             &self.consensus.validators_snapshot(),
         ) {
             self.state.restore(state_snapshot);
+            let _ = self.consensus.restore_validator_state(validators_snapshot, slashed_snapshot);
             return Err(e);
         }
         if let Err(e) = self.storage.commit_slashing(
@@ -787,6 +791,7 @@ impl Node {
             applied_consensus,
         ) {
             self.state.restore(state_snapshot);
+            let _ = self.consensus.restore_validator_state(validators_snapshot, slashed_snapshot);
             return Err(e);
         }
         let state_root = self.state.root();
