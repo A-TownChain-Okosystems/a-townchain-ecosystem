@@ -1,0 +1,44 @@
+name: Control Plane Contract
+
+on:
+  pull_request:
+    paths:
+      - "control-plane/**"
+      - ".github/workflows/control-plane.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "control-plane/**"
+      - ".github/workflows/control-plane.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate control-plane contracts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate YAML contracts
+        run: |
+          ruby -e 'require "yaml"; YAML.load_file("control-plane/STATUS_SCHEMA.yaml"); puts "STATUS_SCHEMA.yaml: OK"'
+      
+      - name: Validate required panels
+        run: |
+          ruby -e '
+            text = File.read("control-plane/PANELS.md")
+            required = %w[SYS L1 WALLET LANG VM SHIVA GLOBUS AURORA GENESIS INFRA CICD SEC GOV RELEASE]
+            missing = required.reject { |id| text.include?("| #{id} |") }
+            abort("Missing panels: #{missing.join(", ")}") unless missing.empty?
+            puts "Panel registry: #{required.length}/#{required.length} present"
+          '
+
+      - name: Validate fail-closed contract
+        run: |
+          grep -q 'fail_closed: true' control-plane/STATUS_SCHEMA.yaml
+          grep -q 'production_ready_requires:' control-plane/STATUS_SCHEMA.yaml
+          grep -q 'human_approval' control-plane/STATUS_SCHEMA.yaml
+          echo "Fail-closed readiness contract: OK"
