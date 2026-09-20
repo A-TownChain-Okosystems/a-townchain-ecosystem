@@ -36,7 +36,7 @@ fn multi_node_block_and_state_commit_are_identical() {
     node_b.consensus.set_height(0);
 
     let link = Arc::new(Link::default());
-    link.broadcast(NetworkMessage::Block(genesis_a.id))
+    link.broadcast(NetworkMessage::Block(genesis_a.clone()))
         .expect("broadcast genesis");
 
     let block = Block::new(
@@ -63,10 +63,10 @@ fn multi_node_block_and_state_commit_are_identical() {
         node_b.chain.last().unwrap().state_root
     );
 
-    link.broadcast(NetworkMessage::Block(block.id))
+    link.broadcast(NetworkMessage::Block(block.clone()))
         .expect("broadcast block");
     let messages = link.messages.lock().unwrap();
     assert!(messages
         .iter()
-        .any(|m| matches!(m, NetworkMessage::Block(id) if *id == block.id)));
+        .any(|m| matches!(m, NetworkMessage::Block(b) if b.id == block.id)));
 }
