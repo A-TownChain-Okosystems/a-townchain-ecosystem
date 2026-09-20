@@ -227,7 +227,7 @@ fn main() -> std::io::Result<()> {
 
     eprintln!(
         "ATC-Node started | chain={} node={} rpc={} p2p={} data={}",
-        DEFAULT_CHAIN_ID,
+        NUMERIC_CHAIN_ID,
         node_id,
         rpc_addr,
         listen_addr,
