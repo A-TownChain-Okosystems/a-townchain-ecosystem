@@ -1,4 +1,5 @@
 use atc_blockchain::{chain_identity::NUMERIC_CHAIN_ID, Block, Node};
+pub use atc_blockchain::chain_identity::NUMERIC_CHAIN_ID as CANONICAL_CHAIN_ID;
 use std::{path::Path, sync::Arc};
 
 pub struct Runtime {
