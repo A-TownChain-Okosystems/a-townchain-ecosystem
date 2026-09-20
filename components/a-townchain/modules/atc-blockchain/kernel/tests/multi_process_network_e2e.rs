@@ -1,5 +1,6 @@
 use atc_blockchain::{
-    blockchain::Node,
+    network::PeerTransport,
+    Node,
     consensus::{vote_signing_bytes, Vote},
     network::{NetworkMessage, TcpPeerTransport},
 };
