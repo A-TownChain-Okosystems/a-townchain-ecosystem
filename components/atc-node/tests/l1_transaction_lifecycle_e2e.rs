@@ -1,7 +1,7 @@
 use atc_blockchain::{
-    Node,
     consensus::{vote_signing_bytes, Vote},
     mempool::{Transaction as L1Transaction, TxType as L1TxType},
+    Node,
 };
 use atc_wallet::{
     keys::WalletKey,
@@ -47,7 +47,12 @@ fn tx_block_reward_state_finality_persistence_recovery() {
     let path = temp_path();
     std::fs::create_dir_all(&path).unwrap();
 
-    let node = Node::open_storage(CHAIN_ID, "validator-a".into(), &path).unwrap();
+    let node = Node::open_storage(
+        CHAIN_ID,
+        "validator-a".into(),
+        path.join("chain.journal"),
+    )
+    .unwrap();
     node.state.genesis_credit("alice", GENESIS_BALANCE).unwrap();
     let genesis = node.create_genesis_with_proposer(1, "atc-genesis").unwrap();
 
