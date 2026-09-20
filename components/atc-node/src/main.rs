@@ -6,7 +6,7 @@
 //! RPC -> mempool -> proposer -> block broadcast -> block validation/state
 //! transition -> validator vote -> weighted finality -> durable storage.
 
-use atc_blockchain::{blockchain::Node, chain_identity::NUMERIC_CHAIN_ID, network::TcpPeerTransport};
+use atc_blockchain::{chain_identity::NUMERIC_CHAIN_ID, network::TcpPeerTransport, Node};
 use atc_node::bootstrap::Genesis;
 use atc_node::rpc::{serve, DevnetRpc};
 use atc_node::runtime::Runtime;
