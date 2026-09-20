@@ -37,6 +37,15 @@ jobs:
       - name: SDK and persistence integration
         run: cargo test -p integration -- --nocapture
 
+      - name: SDK to Node to Indexer to Finality E2E
+        run: cargo test -p atc-sdk --test e2e -- --nocapture
+
+      - name: ATC-VM standalone execution tests
+        run: cargo test --manifest-path components/atc-vm/Cargo.toml -- --nocapture
+
+      - name: ATC-Wallet library tests
+        run: cargo test --manifest-path components/atc-wallet/Cargo.toml -- --nocapture
+
       - name: Emit runtime gate evidence
         if: always()
         env:
