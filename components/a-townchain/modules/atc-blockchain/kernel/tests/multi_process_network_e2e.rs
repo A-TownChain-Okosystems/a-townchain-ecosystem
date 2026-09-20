@@ -1,8 +1,8 @@
 use atc_blockchain::{
-    network::PeerTransport,
-    Node,
     consensus::{vote_signing_bytes, Vote},
+    network::PeerTransport,
     network::{NetworkMessage, TcpPeerTransport},
+    Node,
 };
 use ed25519_dalek::{Signer, SigningKey};
 use std::{
