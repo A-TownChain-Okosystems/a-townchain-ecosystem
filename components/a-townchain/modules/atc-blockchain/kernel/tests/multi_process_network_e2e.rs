@@ -77,7 +77,7 @@ fn run_initial_node_a() {
     let (a_path, _) = paths();
     let node = Arc::new(Node::open_storage(CHAIN_ID, "node-a".into(), &a_path).unwrap());
     if node.chain.last().is_none() {
-        node.create_genesis(1).unwrap();
+        node.create_genesis_with_proposer(1, "atc-genesis").unwrap();
     }
     if node.consensus.total_validator_stake() == 0 {
         node.register_validator("validator-a".into(), 1).unwrap();
@@ -125,7 +125,7 @@ fn run_initial_node_b() {
     let (_, b_path) = paths();
     let node = Arc::new(Node::open_storage(CHAIN_ID, "node-b".into(), &b_path).unwrap());
     if node.chain.last().is_none() {
-        node.create_genesis(1).unwrap();
+        node.create_genesis_with_proposer(1, "atc-genesis").unwrap();
     }
     if node.consensus.total_validator_stake() == 0 {
         node.register_validator("validator-a".into(), 1).unwrap();
@@ -149,7 +149,10 @@ fn run_initial_node_b() {
     node.submit_vote_and_broadcast(make_vote(block.id, "validator-b", 2))
         .unwrap();
     thread::sleep(Duration::from_millis(250));
-    assert_eq!(node.chain.last().unwrap().id, block.id);
+    // Block 2 may already have arrived asynchronously; the important invariant
+    // here is that node-b remains on a valid canonical chain after receiving block 1.
+    assert!(node.chain.height() >= block.height);
+    assert_eq!(node.storage.block(block.height).unwrap().id, block.id);
     drop(handle);
 }
 
