@@ -28,6 +28,9 @@ jobs:
       - name: Cargo tests
         run: cargo test -p atc-node --all-targets
 
+      - name: Multi-process L1 network E2E
+        run: cargo test -p atc-blockchain --test multi_process_network_e2e -- --nocapture
+
       - name: Emit runtime gate evidence
         if: always()
         env:
