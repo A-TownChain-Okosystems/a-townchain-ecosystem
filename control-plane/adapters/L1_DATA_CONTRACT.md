@@ -52,3 +52,16 @@ A positive L1 state requires:
 8. evidence artifact/reference
 
 The adapter is observational by default. Node-control actions remain behind the Control Matrix and explicit authorization.
+
+
+## Cross-component evidence gates
+
+The L1 panel consumes these connected execution gates:
+
+- **L1 runtime:** `cargo check -p atc-node` and `cargo test -p atc-node --all-targets`
+- **Multi-node network:** `cargo test -p atc-blockchain --test multi_process_network_e2e`
+- **Wallet path:** `cargo test -p atc-node --test wallet_node_process_e2e` proving Wallet → Node → Block → Balance.
+- **SDK/persistence:** `cargo test -p integration` proving canonical SDK transaction construction and restart/state persistence paths.
+- **VM boundary:** block production executes transactions through the canonical `AtcVmExecutor`; a successful production test is required before this connection is considered verified.
+
+A gate is **not verified** unless the corresponding GitHub Actions job completes successfully for the same commit SHA.
