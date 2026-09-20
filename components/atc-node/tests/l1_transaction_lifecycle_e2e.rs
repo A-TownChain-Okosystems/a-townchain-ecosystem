@@ -1,5 +1,6 @@
 use atc_blockchain::{
     consensus::{vote_signing_bytes, Vote},
+    crypto::signing_bytes,
     mempool::{Transaction as L1Transaction, TxType as L1TxType},
     Node,
 };
@@ -180,24 +181,7 @@ fn slashing_connects_consensus_weight_account_stake_and_recovery() {
     let key = SigningKey::from_bytes(&[12u8; 32]);
     let mut signed = stake_tx;
     signed.public_key = key.verifying_key().to_bytes();
-    signed.signature = key.sign(&{
-        let mut bytes = Vec::new();
-        bytes.extend_from_slice(b"ATC-TX-V1");
-        bytes.extend_from_slice(&CHAIN_ID.to_be_bytes());
-        bytes.push(L1TxType::Stake as u8);
-        bytes.extend_from_slice(&(signed.sender_did.len() as u32).to_be_bytes());
-        bytes.extend_from_slice(signed.sender_did.as_bytes());
-        bytes.push(0);
-        bytes.extend_from_slice(&signed.amount.to_be_bytes());
-        bytes.extend_from_slice(&signed.gas_price.to_be_bytes());
-        bytes.extend_from_slice(&signed.gas_limit.to_be_bytes());
-        bytes.extend_from_slice(&signed.nonce.to_be_bytes());
-        bytes.extend_from_slice(&signed.timestamp.to_be_bytes());
-        bytes.extend_from_slice(&(signed.payload.len() as u32).to_be_bytes());
-        bytes.extend_from_slice(&signed.payload);
-        bytes.extend_from_slice(&signed.poh_hash);
-        bytes
-    }).to_bytes();
+    signed.signature = key.sign(&signing_bytes(&signed)).to_bytes();
     node.submit(signed, 2).unwrap();
     node.produce(3, 10).unwrap();
 
