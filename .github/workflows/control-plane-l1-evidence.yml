@@ -1,0 +1,59 @@
+name: Control Plane L1 Evidence
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - "control-plane/**"
+      - "components/atc-node/**"
+      - "components/a-townchain/**"
+      - ".github/workflows/control-plane-l1-evidence.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  l1-contract:
+    name: L1 panel contract gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate L1 adapter contract
+        run: |
+          test -s control-plane/adapters/L1_DATA_CONTRACT.md
+          grep -q 'GET /status' control-plane/adapters/L1_DATA_CONTRACT.md
+          grep -q 'GET /chain/head' control-plane/adapters/L1_DATA_CONTRACT.md
+          grep -q 'GET /consensus' control-plane/adapters/L1_DATA_CONTRACT.md
+          grep -q 'GET /evidence' control-plane/adapters/L1_DATA_CONTRACT.md
+          grep -q 'multi-process E2E result' control-plane/adapters/L1_DATA_CONTRACT.md
+
+      - name: Validate CI adapter contract
+        run: |
+          test -s control-plane/adapters/CICD_DATA_CONTRACT.md
+          grep -q 'workflow → run → jobs → artifacts → commit SHA' control-plane/adapters/CICD_DATA_CONTRACT.md
+
+      - name: Emit evidence manifest
+        env:
+          SHA: ${GITHUB_SHA}
+          RUN_ID: ${GITHUB_RUN_ID}
+        run: |
+          mkdir -p evidence
+          cat > evidence/l1-control-plane-contract.json <<EOF
+          {
+            "component_id": "control-plane",
+            "panel": "L1",
+            "contract_gate": "PASS",
+            "runtime_e2e": "NOT_VERIFIED",
+            "production_ready": false,
+            "commit_sha": "$SHA",
+            "run_id": "$RUN_ID"
+          }
+          EOF
+
+      - name: Upload contract evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: l1-control-plane-contract-evidence
+          path: evidence/l1-control-plane-contract.json
