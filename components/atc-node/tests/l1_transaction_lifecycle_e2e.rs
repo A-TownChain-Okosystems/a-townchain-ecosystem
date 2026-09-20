@@ -144,3 +144,79 @@ fn tx_block_reward_state_finality_persistence_recovery() {
 
     std::fs::remove_dir_all(path).unwrap();
 }
+
+
+#[test]
+fn slashing_connects_consensus_weight_account_stake_and_recovery() {
+    let path = temp_path();
+    std::fs::create_dir_all(&path).unwrap();
+
+    let node = Node::open_storage(
+        CHAIN_ID,
+        "validator-a".into(),
+        path.join("chain.journal"),
+    )
+    .unwrap();
+    node.state.genesis_credit("validator-a", 1_000_000).unwrap();
+    node.create_genesis_with_proposer(1, "atc-genesis").unwrap();
+
+    // The validator's economic stake and consensus voting weight start equal.
+    let stake_tx = L1Transaction::new_with_chain_id(
+        CHAIN_ID,
+        L1TxType::Stake,
+        "validator-a".into(),
+        None,
+        100_000,
+        1,
+        2_000,
+        0,
+        2,
+        Vec::new(),
+        [0; 64],
+        [0; 32],
+        [0; 32],
+    );
+    // Use the canonical test signing key for a valid stake transaction.
+    let key = SigningKey::from_bytes(&[12u8; 32]);
+    let mut signed = stake_tx;
+    signed.public_key = key.verifying_key().to_bytes();
+    signed.signature = key.sign(&{
+        let mut bytes = Vec::new();
+        bytes.extend_from_slice(b"ATC-TX-V1");
+        bytes.extend_from_slice(&CHAIN_ID.to_be_bytes());
+        bytes.push(L1TxType::Stake as u8);
+        bytes.extend_from_slice(&(signed.sender_did.len() as u32).to_be_bytes());
+        bytes.extend_from_slice(signed.sender_did.as_bytes());
+        bytes.push(0);
+        bytes.extend_from_slice(&signed.amount.to_be_bytes());
+        bytes.extend_from_slice(&signed.gas_price.to_be_bytes());
+        bytes.extend_from_slice(&signed.gas_limit.to_be_bytes());
+        bytes.extend_from_slice(&signed.nonce.to_be_bytes());
+        bytes.extend_from_slice(&signed.timestamp.to_be_bytes());
+        bytes.extend_from_slice(&(signed.payload.len() as u32).to_be_bytes());
+        bytes.extend_from_slice(&signed.payload);
+        bytes.extend_from_slice(&signed.poh_hash);
+        bytes
+    }).to_bytes();
+    node.submit(signed, 2).unwrap();
+    node.produce(3, 10).unwrap();
+
+    node.register_validator("validator-a".into(), 100).unwrap();
+    let evidence = atc_blockchain::consensus::SlashingEvidence {
+        validator: "validator-a".into(),
+        height: 1,
+        block_a: [1; 32],
+        block_b: [2; 32],
+        reason: "double-sign".into(),
+    };
+    assert_eq!(node.slash_validator(evidence.clone(), 40).unwrap(), 40);
+    assert_eq!(node.consensus.validator_stake("validator-a"), 60);
+    assert_eq!(node.state.staked("validator-a"), 99_960);
+
+    drop(node);
+    let recovered = Node::open_storage(CHAIN_ID, "validator-a".into(), path.join("chain.journal")).unwrap();
+    assert_eq!(recovered.consensus.validator_stake("validator-a"), 60);
+    assert_eq!(recovered.state.staked("validator-a"), 99_960);
+
+    std::fs::remove_dir_all(path).unwrap();
+}
