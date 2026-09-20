@@ -638,7 +638,7 @@ mod supply_tests {
         let state = StateDb::new();
         state.genesis_credit("genesis", 1_000_000).unwrap();
         let before = state.issued_base_units();
-        assert_eq!(state.apply_block_reward(0, "validator"), 500);
+        assert_eq!(state.apply_block_reward(0, "validator"), Ok(500));
         assert_eq!(state.balance("validator"), 500);
         assert_eq!(
             state.issued_base_units(),
