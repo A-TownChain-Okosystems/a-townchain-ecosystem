@@ -13,7 +13,7 @@ A runtime adapter MUST expose:
 - `GET /evidence` — evidence/slashing state
 - `GET /state/recovery` — persistence and restart-recovery status
 
-The existing `atc-node` code already exposes RPC concepts for balance and block lookup, while its chain implementation exposes height. The ecosystem README defines the intended L1 runtime path as transaction → mempool → proposer → block → validation/state transition → vote → weighted finality → persistence → restart recovery.
+The existing `atc-node` RPC currently exposes `status`, `block`, `state_root`, `balance`, transaction submission and block production. The adapter contract deliberately separates currently exposed RPC data from future runtime endpoints.
 
 ## Required L1 panel payload
 
