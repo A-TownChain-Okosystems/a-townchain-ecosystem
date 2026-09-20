@@ -1,0 +1,56 @@
+name: Control Plane L1 Runtime Gate
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "components/atc-node/**"
+      - "components/a-townchain/modules/atc-blockchain/**"
+      - "control-plane/adapters/**"
+      - ".github/workflows/control-plane-l1-runtime.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  l1-runtime:
+    name: Compile and test canonical atc-node
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cargo check
+        run: cargo check -p atc-node
+
+      - name: Cargo tests
+        run: cargo test -p atc-node --all-targets
+
+      - name: Emit runtime gate evidence
+        if: always()
+        env:
+          SHA: ${GITHUB_SHA}
+          RUN_ID: ${GITHUB_RUN_ID}
+        run: |
+          mkdir -p evidence
+          cat > evidence/l1-runtime-gate.json <<EOF
+          {
+            "component_id": "atc-node",
+            "panel": "L1",
+            "cargo_check": "see_workflow_result",
+            "cargo_test": "see_workflow_result",
+            "runtime_multinode_e2e": "NOT_VERIFIED",
+            "production_ready": false,
+            "commit_sha": "$SHA",
+            "run_id": "$RUN_ID"
+          }
+          EOF
+
+      - name: Upload runtime gate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: l1-runtime-gate-evidence
+          path: evidence/l1-runtime-gate.json
