@@ -7,7 +7,7 @@ authors = ["Michael Wroblewski"]
 license = "Apache-2.0"
 
 [dependencies]
-ed25519-dalek = { version = "3", features = ["rand_core"] }
+ed25519-dalek = { version = "2", features = ["rand_core"] }
 sha2 = "0.10"
 hex = "0.4"
 ripemd = "0.1"
