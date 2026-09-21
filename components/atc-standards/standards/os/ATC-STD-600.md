@@ -2,7 +2,7 @@
 standard:
   id: ATC-STD-600
   title: "Chain Identity & Network Identification"
-  version: "1.2.0"
+  version: "1.3.0"
   status: approved
   lifecycle: frozen
   role: "Root Specification"
@@ -10,7 +10,7 @@ standard:
   authority: A-TownChain-Okosystems
   owner: "Standards Governance"
   created: "2026-09-14"
-  updated: "2026-09-14"
+  updated: "2026-09-21"
   normative: true
   classification: PUBLIC
   language: de-DE
@@ -31,7 +31,7 @@ standard:
 
 # ATC-STD-600 — Chain Identity & Network Identification
 
-> **Version:** 1.2.0  
+> **Version:** 1.3.0  
 > **Status:** APPROVED  
 > **Lifecycle:** APPROVED  
 > **Role:** Root Specification  
@@ -167,52 +167,56 @@ These domains MUST NOT be collapsed into one implicit identity mechanism.
 
 ## 5. Transaction Domain
 
-The canonical transaction domain is:
+The canonical A-TownChain L1 transaction signing domain is:
 
-```text
-TRANSACTION_DOMAIN
-    =
-    ATC-TX-DOMAIN
-  + chain_id
-  + network_id
-  + protocol_version
-  + transaction_type
-  + canonical_transaction
-```
+    ATC-TX-DOMAIN-V2
 
-The domain separator `ATC-TX-DOMAIN` MUST be explicit and MUST prevent cross-domain interpretation of signatures.
+The legacy `ATC-TX-DOMAIN` format is retired and MUST NOT be used for L1 transaction signing.
 
-### 5.1 Canonical signing input
+### 5.1 Canonical L1 signing bytes
 
-Conceptually, implementations MUST authenticate a deterministic canonical encoding equivalent to:
+The authenticated byte representation is exactly:
 
-```text
-hash(
-    canonical_encode(
-        domain,
-        chain_id,
-        network_id,
-        protocol_version,
-        transaction_type,
-        nonce,
-        sender,
-        recipient,
-        value,
-        fee,
-        payload
-    )
-)
-```
+    ATC-TX-DOMAIN-V2
+    + chain_id          (u64, big-endian)
+    + tx_type           (u8)
+    + sender_did        (u32 length + UTF-8 bytes)
+    + recipient_did     (presence byte + optional u32 length + UTF-8 bytes)
+    + amount            (u64, big-endian)
+    + gas_price         (u64, big-endian)
+    + gas_limit         (u64, big-endian)
+    + nonce              (u64, big-endian)
+    + timestamp          (u64, big-endian)
+    + payload            (u32 length + bytes)
+    + poh_hash           (32 bytes)
 
-The exact canonical serialization format is governed by the applicable transaction/encoding standards. Ambiguous or multiple encodings of the same transaction MUST NOT be accepted as equivalent signing inputs.
+The canonical numeric chain identifier for the current L1 is:
 
-### 5.2 Genesis exclusion from transaction signatures
+    chain_id = 658467
 
-`genesis_id` is mandatory for local Chain Identity validation but MUST NOT automatically be inserted into every transaction signature domain solely by this standard.
+Implementations MUST produce byte-identical signing input. Rust L1 kernel, Rust SDK/wallet, and TypeScript SDK implementations MUST NOT maintain independent signing encodings.
 
-Replay protection is established through the defined chain/network/domain context. Standards or protocol versions MAY introduce additional explicit replay-protection fields through their own governed changes.
+`network_id`, `protocol_version`, `vm_version`, and `genesis_id` remain part of runtime/chain identity validation, but MUST NOT be silently inserted into the V2 transaction signing bytes.
 
-`vm_version` is likewise not automatically part of every transaction signature domain; it belongs primarily to runtime compatibility.
+### 5.2 Signature algorithm
+
+The canonical L1 signature is Ed25519 over the exact V2 signing bytes.
+
+    signature = Ed25519_Sign(private_key, signing_bytes_v2)
+
+Verification MUST operate on those same bytes. Hashing or field re-encoding before Ed25519 verification is not permitted unless explicitly defined by a future governed protocol revision.
+
+### 5.3 Canonical transaction identity
+
+Transaction identity is separate from the signing domain:
+
+    ATC-TX-ID-V2 + canonical transaction fields
+
+The signature is not part of transaction identity.
+
+### 5.4 Compatibility rule
+
+A node MUST reject signatures produced using the retired `ATC-TX-DOMAIN` representation. There is no dual-acceptance mode in the canonical L1 path.
 
 ## 6. Genesis Identity
 
@@ -416,7 +420,7 @@ Genesis / Network Configuration
 
 The meanings of `chain_id`, `network_id`, and `genesis_id` are normative. A semantic change to any of these fields, to transaction-domain semantics, replay protection, or runtime compatibility MUST proceed through the ATC-STD lifecycle and MUST NOT be introduced as an implementation-only change.
 
-ATC-STD-600 v1.0.0 is frozen. Deployment-specific values MAY evolve through governed Genesis/network configuration without changing the semantics of this standard.
+ATC-STD-600 v1.3.0 is the current canonical baseline for L1 transaction-domain semantics. Deployment-specific values MAY evolve through governed Genesis/network configuration without changing the semantics of this standard.
 
 ## 14. Reference Deployment Model
 
@@ -491,7 +495,7 @@ The dependency order is implementation guidance and MUST NOT be interpreted as p
 ## 17. Freeze Record
 
 ```text
-ATC-STD-600 v1.0.0
+ATC-STD-600 v1.3.0
 Status: STABLE / BASELINE
 Lifecycle: FROZEN
 Role: Root Specification
@@ -503,6 +507,7 @@ No further semantic changes are authorized within v1.0.0. Corrections that alter
 
 ## 18. Changelog
 
+- **1.3.0 — 2026-09-21:** Retires the legacy transaction domain and defines ATC-TX-DOMAIN-V2 canonical L1 signing bytes with numeric chain_id 658467.
 - **1.0.0 — 2026-09-14:** Root specification frozen. Establishes Chain Identity, Network Identity, Genesis Identity, transaction-domain separation, runtime compatibility, canonical encoding requirements, fail-closed execution, conformance gates, and the ATC-STD-600 family model.
 
 ## References
