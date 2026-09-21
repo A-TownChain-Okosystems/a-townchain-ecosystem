@@ -6,12 +6,16 @@
 
 const CHAIN_ID: u64 = 658467
 const CHAIN_NAME: String = "A-TownChain"
-const BLOCK_TIME: u64 = 10          // 10 seconds
+const BLOCK_TIME: u64 = 360         // 360 seconds (canonical L1 target)
 const MAX_BLOCK_SIZE: u32 = 1048576 // 1 MB
 const MAX_TX_PER_BLOCK: u32 = 500
 const MIN_STAKE: u128 = 1000000000000000000000  // 1000 ATC
-const EPOCH_LENGTH: u32 = 1000
+const EPOCH_LENGTH: u32 = 360000    // canonical halving interval (blocks)
 const GENESIS_TIMESTAMP: u64 = 1735689600
+const HALVING_INTERVAL_BLOCKS: u64 = 360000
+const MAX_HALVINGS: u32 = 36
+const MAX_SUPPLY: u128 = 360000000000000000000000000
+const INITIAL_BLOCK_REWARD: u128 = 500000000000000000000
 
 struct ChainConfig {
     chain_id:           u64,
