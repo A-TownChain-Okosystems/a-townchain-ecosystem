@@ -6,8 +6,13 @@
 // ════════════════════════════════════════════════════════════════
 
 const CHAIN_ID: u64 = 658467
-const GENESIS_SUPPLY: u128 = 21000000000000000000000000  // 21M * 10^18
+const GENESIS_SUPPLY: u128 = 0  // no premine; supply is emitted by the canonical block-reward schedule
 const GENESIS_TIMESTAMP: u64 = 1735689600  // 2025-01-01T00:00:00Z
+const BLOCK_TIME: u64 = 360
+const HALVING_INTERVAL_BLOCKS: u64 = 360000
+const MAX_HALVINGS: u32 = 36
+const MAX_SUPPLY: u128 = 360000000000000000000000000
+const INITIAL_BLOCK_REWARD: u128 = 500000000000000000000
 
 struct GenesisConfig {
     chain_id:           u64,
@@ -47,7 +52,7 @@ contract LaunchManager {
             initial_supply:     GENESIS_SUPPLY,
             initial_validators: [],
             consensus_type:     "hybrid",
-            block_time:         10,
+            block_time:         BLOCK_TIME,
             max_block_size:     1048576
         }
     }
