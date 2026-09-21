@@ -8,7 +8,8 @@ use crate::keys::WalletKey;
 use ed25519_dalek::{Signature, Verifier, VerifyingKey};
 use sha2::{Digest, Sha256};
 
-pub const TX_DOMAIN: &[u8] = b"ATC-TX-DOMAIN-V2";
+pub const NUMERIC_CHAIN_ID: u64 = 658467;
+pub const TX_DOMAIN_V2: &[u8] = b"ATC-TX-DOMAIN-V2";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
@@ -36,18 +37,22 @@ pub struct Transaction {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum TxError {
+    InvalidChainId,
     EmptySender,
     InvalidSignature,
 }
 
 impl Transaction {
     pub fn signing_bytes(&self) -> Result<Vec<u8>, TxError> {
+        if self.chain_id != NUMERIC_CHAIN_ID {
+            return Err(TxError::InvalidChainId);
+        }
         if self.sender_did.is_empty() {
             return Err(TxError::EmptySender);
         }
 
         let mut b = Vec::with_capacity(128 + self.payload.len());
-        b.extend_from_slice(TX_DOMAIN);
+        b.extend_from_slice(TX_DOMAIN_V2);
         b.extend_from_slice(&self.chain_id.to_be_bytes());
         b.push(self.tx_type as u8);
         put_bytes(&mut b, self.sender_did.as_bytes());
@@ -119,7 +124,7 @@ mod tests {
 
     fn tx() -> Transaction {
         Transaction {
-            chain_id: 1,
+            chain_id: NUMERIC_CHAIN_ID,
             tx_type: TxType::Transfer,
             sender_did: "ATC-sender".into(),
             recipient_did: Some("ATC-recipient".into()),
@@ -139,6 +144,14 @@ mod tests {
         let tx = tx();
         let signature = tx.sign(&key).unwrap();
         assert!(tx.verify(&key.public_key(), &signature).is_ok());
+    }
+
+    #[test]
+    fn wrong_chain_id_is_rejected_before_signing() {
+        let key = WalletKey::from_seed([7u8; 32]);
+        let mut tx = tx();
+        tx.chain_id = 1;
+        assert!(matches!(tx.sign(&key), Err(TxError::InvalidChainId)));
     }
 
     #[test]
