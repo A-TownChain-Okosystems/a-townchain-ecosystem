@@ -2,12 +2,15 @@
 resolver = "2"
 members = [
   "integration",
-  "components/a-townchain/modules/atc-blockchain/kernel",
   "components/atc-algorithm",
+  "components/atc-vm",
+  "components/a-townchain/modules/atc-blockchain/kernel",
   "components/atc-marketplace/modules/atc-dex",
   "components/atc-mining",
   "components/atc-node",
   "components/atc-sdk",
+  "components/atc-indexer",
+  "components/atc-wallet",
 ]
 
 [workspace.package]
