@@ -52,8 +52,8 @@ fn tx_block_reward_state_finality_persistence_recovery() {
     node.state.genesis_credit("alice", GENESIS_BALANCE).unwrap();
     let genesis = node.create_genesis_with_proposer(1, "atc-genesis").unwrap();
 
-    node.register_validator("validator-a".into(), 1).unwrap();
-    node.register_validator("validator-b".into(), 1).unwrap();
+    node.register_validator_with_key("validator-a".into(), 1, SigningKey::from_bytes(&[1u8; 32]).verifying_key().to_bytes()).unwrap();
+    node.register_validator_with_key("validator-b".into(), 1, SigningKey::from_bytes(&[2u8; 32]).verifying_key().to_bytes()).unwrap();
 
     let wallet_key = WalletKey::from_seed([7u8; 32]);
     let wallet_tx = WalletTransaction {
