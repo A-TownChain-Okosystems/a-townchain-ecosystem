@@ -176,7 +176,7 @@ fn main() -> std::io::Result<()> {
     for validator in &validators {
         if let Err(e) = runtime
             .node
-            .register_validator(validator.id.clone(), validator.stake)
+            .register_validator_with_key(validator.id.clone(), validator.stake, ed25519_dalek::SigningKey::from_bytes(&validator.seed).verifying_key().to_bytes())
         {
             eprintln!("validator registration failed for {}: {e}", validator.id);
             std::process::exit(1);
