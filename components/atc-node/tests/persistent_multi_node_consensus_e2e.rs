@@ -21,8 +21,10 @@ fn rpc(addr: &str, method: &str) -> serde_json::Value {
 
 fn rpc_block(addr: &str, height: u64) -> serde_json::Value {
     let mut stream = TcpStream::connect(addr).expect("rpc block connect");
-    let body =
-        format!(r#"{{\"jsonrpc\":\"2.0\",\"method\":\"block\",\"params\":{{\"height\":{height}}},\"id\":1}}"#);    stream.write_all(body.as_bytes()).unwrap();
+    let body = format!(
+        r#"{{"jsonrpc":"2.0","method":"block","params":{{"height":{height}}},"id":1}}"#
+    );
+    stream.write_all(body.as_bytes()).unwrap();
     stream.write_all(b"\n").unwrap();
     stream
         .set_read_timeout(Some(Duration::from_secs(2)))
