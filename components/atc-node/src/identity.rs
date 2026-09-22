@@ -38,17 +38,34 @@ pub enum IdentityError {
     InvalidChainId(String),
     InvalidNetworkId(String),
     InvalidGenesisId(String),
-    GenesisMismatch { configured: String, computed: String },
-    ProtocolMismatch { expected: String, actual: String },
-    VmMismatch { expected: String, actual: String },
+    GenesisMismatch {
+        configured: String,
+        computed: String,
+    },
+    ProtocolMismatch {
+        expected: String,
+        actual: String,
+    },
+    VmMismatch {
+        expected: String,
+        actual: String,
+    },
 }
 
 impl ChainIdentity {
     pub fn validate(&self) -> Result<(), IdentityError> {
-        if self.chain_id.is_empty() { return Err(IdentityError::EmptyField("chain_id")); }
-        if self.network_id.is_empty() { return Err(IdentityError::EmptyField("network_id")); }
-        if self.genesis_id.is_empty() { return Err(IdentityError::EmptyField("genesis_id")); }
-        if self.chain_id != CHAIN_ID { return Err(IdentityError::InvalidChainId(self.chain_id.clone())); }
+        if self.chain_id.is_empty() {
+            return Err(IdentityError::EmptyField("chain_id"));
+        }
+        if self.network_id.is_empty() {
+            return Err(IdentityError::EmptyField("network_id"));
+        }
+        if self.genesis_id.is_empty() {
+            return Err(IdentityError::EmptyField("genesis_id"));
+        }
+        if self.chain_id != CHAIN_ID {
+            return Err(IdentityError::InvalidChainId(self.chain_id.clone()));
+        }
         if !matches!(self.network_id.as_str(), "devnet" | "testnet" | "mainnet") {
             return Err(IdentityError::InvalidNetworkId(self.network_id.clone()));
         }
@@ -59,8 +76,39 @@ impl ChainIdentity {
     }
 }
 
+impl RuntimeContext {
+    pub fn validate(
+        &self,
+        expected_protocol: &str,
+        expected_vm: &str,
+    ) -> Result<(), IdentityError> {
+        self.identity.validate()?;
+        if self.protocol_version != expected_protocol {
+            return Err(IdentityError::ProtocolMismatch {
+                expected: expected_protocol.into(),
+                actual: self.protocol_version.clone(),
+            });
+        }
+        if self.vm_version != expected_vm {
+            return Err(IdentityError::VmMismatch {
+                expected: expected_vm.into(),
+                actual: self.vm_version.clone(),
+            });
+        }
+        Ok(())
+    }
+}
+
 impl TransactionDomain {
-    pub fn signing_bytes(&self, nonce: u64, sender: &str, recipient: &str, value: u64, fee: u64, payload: &[u8]) -> Vec<u8> {
+    pub fn signing_bytes(
+        &self,
+        nonce: u64,
+        sender: &str,
+        recipient: &str,
+        value: u64,
+        fee: u64,
+        payload: &[u8],
+    ) -> Vec<u8> {
         let payload_hex = hex_encode(payload);
         let nonce_s = nonce.to_string();
         let value_s = value.to_string();
@@ -175,7 +223,7 @@ mod tests {
             DEVNET_NETWORK_ID,
             0,
             &p,
-            &"0".repeat(64),
+            "0".repeat(64).as_str(),
             PROTOCOL_VERSION,
             VM_VERSION,
         );
@@ -185,7 +233,7 @@ mod tests {
             DEVNET_NETWORK_ID,
             0,
             &p,
-            &"0".repeat(64),
+            "0".repeat(64).as_str(),
             PROTOCOL_VERSION,
             VM_VERSION,
         );
@@ -201,7 +249,7 @@ mod tests {
             DEVNET_NETWORK_ID,
             0,
             &p,
-            &"0".repeat(64),
+            "0".repeat(64).as_str(),
             PROTOCOL_VERSION,
             VM_VERSION,
         );
@@ -215,7 +263,7 @@ mod tests {
             "A-TownChain Devnet",
             0,
             &p,
-            &"0".repeat(64),
+            "0".repeat(64).as_str(),
             PROTOCOL_VERSION,
             VM_VERSION
         )
