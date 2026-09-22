@@ -104,7 +104,6 @@ fn run_initial_node_a() {
     let loop_handle = node.clone().serve_tcp_stream(reader);
 
     let block = node.produce_reward_block(2).unwrap();
-    node.broadcast(NetworkMessage::Block(block.clone())).unwrap();
     node.submit_vote_and_broadcast(make_vote(block.id, "validator-a", 1))
         .unwrap();
 
