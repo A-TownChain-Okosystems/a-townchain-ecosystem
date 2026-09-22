@@ -128,8 +128,8 @@ fn run_initial_node_b() {
         node.create_genesis_with_proposer(1, "genesis-validator").unwrap();
     }
     if node.consensus.total_validator_stake() == 0 {
-        node.register_validator("validator-a".into(), 1).unwrap();
-        node.register_validator("validator-b".into(), 1).unwrap();
+        node.register_validator_with_key("validator-a".into(), 1, key(1).verifying_key().to_bytes()).unwrap();
+        node.register_validator_with_key("validator-b".into(), 1, key(2).verifying_key().to_bytes()).unwrap();
     }
 
     let transport = Arc::new(TcpPeerTransport::new(CHAIN_ID, "node-b"));
