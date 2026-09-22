@@ -518,8 +518,11 @@ impl Node {
         // validator snapshot is the canonical recovered voting weight, so
         // evidence is not replayed as a second penalty during restart.
         let slashing_records = n.storage.recover_slashing()?;
-        n.consensus
-            .restore_slashing_evidence(slashing_records.into_iter().map(|(_, _, evidence_id, _)| evidence_id));
+        n.consensus.restore_slashing_records(
+            slashing_records
+                .into_iter()
+                .map(|(_, validator, evidence_id, penalty)| (validator, evidence_id, penalty)),
+        );
         if let Some((height, id)) = n.storage.recover_finalized()? {
             let block = n.storage.block(height).ok_or("finalized block missing")?;
             if block.id != id || height > n.chain.height() {
@@ -757,9 +760,8 @@ impl Node {
         self.vote_for_block(&b)?;
         Ok(b)
     }
-    pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
-        self.consensus.register_validator(address, stake)?;
-        self.persist_validator_snapshot()
+    pub fn register_validator(&self, _address: String, _stake: u64) -> Result<(), String> {
+        Err("authenticated validator registration requires a public key".into())
     }
 
     pub fn register_validator_with_key(
@@ -768,9 +770,14 @@ impl Node {
         stake: u64,
         public_key: [u8; 32],
     ) -> Result<(), String> {
+        let previous = self.consensus.validators_with_keys_snapshot();
         self.consensus
             .register_validator_with_key(address, stake, public_key)?;
-        self.persist_validator_snapshot()
+        if let Err(e) = self.persist_validator_snapshot() {
+            let _ = self.consensus.restore_validators_with_keys(previous);
+            return Err(e);
+        }
+        Ok(())
     }
 
     fn persist_validator_snapshot(&self) -> Result<(), String> {
@@ -789,22 +796,28 @@ impl Node {
         if applied == 0 {
             return Err("slashing penalty is zero".into());
         }
-        self.storage.commit_slashing(
+        if let Err(e) = self.storage.commit_slashing(
             evidence.height,
             &evidence.validator,
             evidence_id,
             applied,
-        )?;
-        self.persist_validator_snapshot()?;
+        ) {
+            return Err(e);
+        }
+        if let Err(e) = self.persist_validator_snapshot() {
+            return Err(e);
+        }
         Ok(applied)
     }
 
     pub fn unregister_validator(&self, address: &str) -> Result<(), String> {
+        let previous = self.consensus.validators_with_keys_snapshot();
         self.consensus.unregister_validator(address);
-        self.storage.commit_validators(
-            self.consensus.height(),
-            &self.consensus.validators_snapshot(),
-        )
+        if let Err(e) = self.persist_validator_snapshot() {
+            let _ = self.consensus.restore_validators_with_keys(previous);
+            return Err(e);
+        }
+        Ok(())
     }
 
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
