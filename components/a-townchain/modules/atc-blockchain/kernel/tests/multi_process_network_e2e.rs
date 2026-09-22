@@ -144,12 +144,14 @@ fn run_initial_node_b() {
         }
     }
     let handle = connected.expect("node-b could not connect to node-a");
-    wait_height(&node, 2);
+    // B must vote on block 1 before A can reach weighted finality and produce block 2.
+    // Waiting for height 2 first deadlocks the two processes: A waits for B's vote,
+    // while B waits for A to produce the next block.
+    wait_height(&node, 1);
     let block = node.chain.last().unwrap();
     node.submit_vote_and_broadcast(make_vote(block.id, "validator-b", 2))
         .unwrap();
-    thread::sleep(Duration::from_millis(250));
-    assert_eq!(node.chain.last().unwrap().id, block.id);
+    wait_height(&node, 2);
     drop(handle);
 }
 
