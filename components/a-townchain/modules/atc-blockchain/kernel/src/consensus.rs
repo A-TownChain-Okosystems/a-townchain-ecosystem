@@ -187,6 +187,32 @@ impl ConsensusEngine {
     }
 
     /// Snapshot validator stake together with the authenticated public key.
+    pub fn validator_state_snapshot(&self) -> (
+        BTreeMap<String, (u64, [u8; 32])>,
+        BTreeMap<String, u64>,
+        BTreeSet<[u8; 32]>,
+    ) {
+        (
+            self.validators_with_keys_snapshot(),
+            self.slashed.lock().unwrap().clone(),
+            self.slashing_evidence.lock().unwrap().clone(),
+        )
+    }
+
+    pub fn restore_validator_state(
+        &self,
+        snapshot: (
+            BTreeMap<String, (u64, [u8; 32])>,
+            BTreeMap<String, u64>,
+            BTreeSet<[u8; 32]>,
+        ),
+    ) -> Result<(), String> {
+        self.restore_validators_with_keys(snapshot.0)?;
+        *self.slashed.lock().map_err(|_| "slashed lock poisoned")? = snapshot.1;
+        *self.slashing_evidence.lock().map_err(|_| "slashing evidence lock poisoned")? = snapshot.2;
+        Ok(())
+    }
+
     pub fn validators_with_keys_snapshot(&self) -> BTreeMap<String, (u64, [u8; 32])> {
         let validators = self.validators.lock().unwrap();
         let keys = self.validator_keys.lock().unwrap();
