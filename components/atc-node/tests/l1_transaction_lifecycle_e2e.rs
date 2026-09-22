@@ -54,6 +54,7 @@ fn tx_block_reward_state_finality_persistence_recovery() {
 
     node.register_validator_with_key("validator-a".into(), 1, SigningKey::from_bytes(&[1u8; 32]).verifying_key().to_bytes()).unwrap();
     node.register_validator_with_key("validator-b".into(), 1, SigningKey::from_bytes(&[2u8; 32]).verifying_key().to_bytes()).unwrap();
+    node.set_vote_signer("validator-a", [1u8; 32]);
 
     let wallet_key = WalletKey::from_seed([7u8; 32]);
     let wallet_tx = WalletTransaction {
