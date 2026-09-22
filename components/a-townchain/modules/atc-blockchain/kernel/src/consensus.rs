@@ -57,6 +57,7 @@ pub struct ConsensusEngine {
     height: Mutex<u64>,
     finalized: Mutex<Option<(u64, [u8; 32])>>,
     slashed: Mutex<BTreeMap<String, u64>>,
+    slashing_evidence: Mutex<BTreeSet<[u8; 32]>>,
     votes: Mutex<BTreeMap<[u8; 32], Vec<Vote>>>,
     validators: Mutex<BTreeMap<String, u64>>,
 }
@@ -69,6 +70,7 @@ impl ConsensusEngine {
             height: Mutex::new(0),
             finalized: Mutex::new(None),
             slashed: Mutex::new(BTreeMap::new()),
+            slashing_evidence: Mutex::new(BTreeSet::new()),
             votes: Mutex::new(BTreeMap::new()),
             validators: Mutex::new(BTreeMap::new()),
         }
@@ -118,6 +120,14 @@ impl ConsensusEngine {
     pub fn slash(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
         if evidence.block_a == evidence.block_b || evidence.validator.is_empty() || penalty == 0 {
             return Err("invalid slashing evidence".into());
+        }
+        let evidence_id = evidence.id();
+        let mut evidence_seen = self
+            .slashing_evidence
+            .lock()
+            .map_err(|_| "slashing evidence lock poisoned")?;
+        if !evidence_seen.insert(evidence_id) {
+            return Ok(0);
         }
         let mut validators = self
             .validators
@@ -333,8 +343,8 @@ mod tests {
         assert_eq!(engine.slash(evidence.clone(), 40).unwrap(), 40);
         assert_eq!(engine.validator_stake("a"), 60);
         assert_eq!(engine.slashed_stake("a"), 40);
-        assert_eq!(engine.slash(evidence, 10).unwrap(), 10);
-        assert_eq!(engine.validator_stake("a"), 50);
+        assert_eq!(engine.slash(evidence, 10).unwrap(), 0);
+        assert_eq!(engine.validator_stake("a"), 60);
     }
 
     #[test]
