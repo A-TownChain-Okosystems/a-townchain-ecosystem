@@ -487,9 +487,8 @@ impl Node {
             if n.storage.block(height).is_none() {
                 return Err("validator snapshot references missing block".into());
             }
-            for (address, stake) in validators {
-                n.consensus.register_validator(address, stake)?;
-            }
+            n.consensus.restore_validators_with_keys(validators)?;
+            
         }
         if let Some((snapshot, dao)) = n.storage.recover_state_with_dao()? {
             n.state.restore(snapshot);
@@ -518,7 +517,9 @@ impl Node {
         // Slashing records are durable evidence/audit records. The active
         // validator snapshot is the canonical recovered voting weight, so
         // evidence is not replayed as a second penalty during restart.
-        let _ = n.storage.recover_slashing()?;
+        let slashing_records = n.storage.recover_slashing()?;
+        n.consensus
+            .restore_slashing_evidence(slashing_records.into_iter().map(|(_, _, evidence_id, _)| evidence_id));
         if let Some((height, id)) = n.storage.recover_finalized()? {
             let block = n.storage.block(height).ok_or("finalized block missing")?;
             if block.id != id || height > n.chain.height() {
@@ -758,9 +759,24 @@ impl Node {
     }
     pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
         self.consensus.register_validator(address, stake)?;
+        self.persist_validator_snapshot()
+    }
+
+    pub fn register_validator_with_key(
+        &self,
+        address: String,
+        stake: u64,
+        public_key: [u8; 32],
+    ) -> Result<(), String> {
+        self.consensus
+            .register_validator_with_key(address, stake, public_key)?;
+        self.persist_validator_snapshot()
+    }
+
+    fn persist_validator_snapshot(&self) -> Result<(), String> {
         self.storage.commit_validators(
             self.consensus.height(),
-            &self.consensus.validators_snapshot(),
+            &self.consensus.validators_with_keys_snapshot(),
         )
     }
 
@@ -768,6 +784,7 @@ impl Node {
         if evidence.height > self.chain.height() {
             return Err("slashing evidence is above current chain height".into());
         }
+        let evidence_id = evidence.id();
         let applied = self.consensus.slash(evidence.clone(), penalty)?;
         if applied == 0 {
             return Err("slashing penalty is zero".into());
@@ -775,13 +792,10 @@ impl Node {
         self.storage.commit_slashing(
             evidence.height,
             &evidence.validator,
-            evidence.id(),
+            evidence_id,
             applied,
         )?;
-        self.storage.commit_validators(
-            self.consensus.height(),
-            &self.consensus.validators_snapshot(),
-        )?;
+        self.persist_validator_snapshot()?;
         Ok(applied)
     }
 
