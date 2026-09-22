@@ -8,7 +8,9 @@ use std::{
 
 fn rpc(addr: &str, method: &str) -> serde_json::Value {
     let mut stream = TcpStream::connect(addr).expect("rpc connect");
-    let body = format!(r#"{{"jsonrpc":"2.0","method":"{method}","id":1}}"#);
+    let body = format!(
+        r#"{{\"jsonrpc\":\"2.0\",\"method\":\"{method}\",\"id\":1}}"#,
+    );
     stream.write_all(body.as_bytes()).unwrap();
     stream.write_all(b"\n").unwrap();
     stream
