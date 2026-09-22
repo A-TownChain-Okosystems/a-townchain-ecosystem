@@ -804,6 +804,7 @@ impl Node {
             return Err("slashing evidence is above current chain height".into());
         }
         let evidence_id = evidence.id();
+        let validator_snapshot = self.consensus.validator_state_snapshot();
         let applied = self.consensus.slash(evidence.clone(), penalty)?;
         if applied == 0 {
             return Err("slashing penalty is zero".into());
@@ -814,9 +815,11 @@ impl Node {
             evidence_id,
             applied,
         ) {
+            let _ = self.consensus.restore_validator_state(validator_snapshot);
             return Err(e);
         }
         if let Err(e) = self.persist_validator_snapshot() {
+            let _ = self.consensus.restore_validator_state(validator_snapshot);
             return Err(e);
         }
         Ok(applied)
