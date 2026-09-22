@@ -24,7 +24,6 @@ fn sdk_node_mempool_consensus_vm_state_storage_indexer() {
     assert_eq!(block.transactions[0].id, txid);
     assert_eq!(node.state.balance("bob"), 100);
     assert!(indexer.blocks().is_empty());
-    let vote_key = SigningKey::from_bytes(&[6u8; 32]);
     let voter = "validator-1".to_string();
     let mut vote = atc_blockchain::consensus::Vote {
         block: block.id,
