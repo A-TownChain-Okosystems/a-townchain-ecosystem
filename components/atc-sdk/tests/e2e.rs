@@ -14,6 +14,7 @@ fn sdk_node_mempool_consensus_vm_state_storage_indexer() {
         .expect("genesis allocation must respect supply cap");
     let vote_key = SigningKey::from_bytes(&[6u8; 32]);
     node.register_validator_with_key("validator-1".into(), 100, vote_key.verifying_key().to_bytes()).unwrap();
+    node.set_vote_signer("validator-1", [6u8; 32]);
     node.create_genesis(1).unwrap();
     let key = SigningKey::from_bytes(&[7u8; 32]);
     let tx = TransactionBuilder::transfer(chain_id, "alice", "bob", 100, 1, 1000, 0, 2).sign(&key);
