@@ -19,15 +19,24 @@ pub struct ChainIdentity {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum IdentityError {
     EmptyField(&'static str),
-    GenesisMismatch { configured: String, computed: String },
+    GenesisMismatch {
+        configured: String,
+        computed: String,
+    },
 }
 
 impl std::fmt::Display for IdentityError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::EmptyField(field) => write!(f, "identity field {field} must not be empty"),
-            Self::GenesisMismatch { configured, computed } => {
-                write!(f, "genesis id mismatch: configured {configured}, computed {computed}")
+            Self::GenesisMismatch {
+                configured,
+                computed,
+            } => {
+                write!(
+                    f,
+                    "genesis id mismatch: configured {configured}, computed {computed}"
+                )
             }
         }
     }
@@ -139,9 +148,11 @@ fn hex_encode(bytes: &[u8]) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
     fn peers() -> Vec<String> {
         vec!["atc-node-1".into(), "atc-node-2".into()]
     }
+
     #[test]
     fn genesis_id_is_deterministic() {
         let p = peers();
@@ -168,6 +179,7 @@ mod tests {
         assert_eq!(a, b);
         assert_eq!(a.len(), 64);
     }
+
     #[test]
     fn identity_is_fail_closed() {
         let p = peers();
