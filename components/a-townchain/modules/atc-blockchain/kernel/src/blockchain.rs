@@ -349,15 +349,23 @@ impl Node {
                 let _ = self.state.restore_issued_base_units(issued_snapshot);
                 return Err("invalid transaction signature or chain".into());
             }
-            receipts.push(
-                exec.execute(tx, self.state.root())
-                    .map_err(|e| e.to_string())?,
-            );
+            match exec.execute(tx, self.state.root()) {
+                Ok(receipt) => receipts.push(receipt),
+                Err(e) => {
+                    self.state.restore(state_snapshot);
+                    let _ = self.state.restore_dao(&dao_snapshot);
+                    let _ = self.state.restore_issued_base_units(issued_snapshot);
+                    return Err(e.to_string());
+                }
+            }
         }
 
-        self.state
-            .apply_batch(&b.transactions)
-            .map_err(|e| format!("state transition: {e:?}"))?;
+        if let Err(e) = self.state.apply_batch(&b.transactions) {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(format!("state transition: {e:?}"));
+        }
 
         for tx in &b.transactions {
             if !tx.payload.is_empty() {
@@ -394,13 +402,25 @@ impl Node {
             let _ = self.state.restore_issued_base_units(issued_snapshot);
             return Err(e);
         }
-        self.storage.commit_state_with_dao(
+        if let Err(e) = self.storage.commit_state_with_dao(
             b.height,
             &self.state.snapshot(),
             &self.state.dao_snapshot(),
-        )?;
-        self.storage
-            .commit_issuance(b.height, self.state.issued_base_units())?;
+        ) {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(e);
+        }
+        if let Err(e) = self
+            .storage
+            .commit_issuance(b.height, self.state.issued_base_units())
+        {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(e);
+        }
         self.chain.append(b.clone())?;
         for tx in &b.transactions {
             self.pool.mark_in_block(&tx.id);
