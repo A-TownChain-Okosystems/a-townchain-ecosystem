@@ -60,6 +60,7 @@ pub struct ConsensusEngine {
     slashing_evidence: Mutex<BTreeSet<[u8; 32]>>,
     votes: Mutex<BTreeMap<[u8; 32], Vec<Vote>>>,
     validators: Mutex<BTreeMap<String, u64>>,
+    validator_keys: Mutex<BTreeMap<String, [u8; 32]>>,
 }
 
 impl ConsensusEngine {
@@ -73,6 +74,7 @@ impl ConsensusEngine {
             slashing_evidence: Mutex::new(BTreeSet::new()),
             votes: Mutex::new(BTreeMap::new()),
             validators: Mutex::new(BTreeMap::new()),
+            validator_keys: Mutex::new(BTreeMap::new()),
         }
     }
 
@@ -87,8 +89,31 @@ impl ConsensusEngine {
         Ok(())
     }
 
+    pub fn register_validator_with_key(
+        &self,
+        address: String,
+        stake: u64,
+        public_key: [u8; 32],
+    ) -> Result<(), String> {
+        if address.is_empty() || stake == 0 {
+            return Err("validator address and stake are required".into());
+        }
+        VerifyingKey::from_bytes(&public_key)
+            .map_err(|_| "invalid validator public key".to_string())?;
+        self.validators
+            .lock()
+            .map_err(|_| "validator lock poisoned")?
+            .insert(address.clone(), stake);
+        self.validator_keys
+            .lock()
+            .map_err(|_| "validator key lock poisoned")?
+            .insert(address, public_key);
+        Ok(())
+    }
+
     pub fn unregister_validator(&self, address: &str) {
         self.validators.lock().unwrap().remove(address);
+        self.validator_keys.lock().unwrap().remove(address);
     }
 
     pub fn validator_stake(&self, address: &str) -> u64 {
@@ -193,6 +218,16 @@ impl ConsensusEngine {
             .contains_key(&v.voter)
         {
             return Err("voter is not an active validator".into());
+        }
+        let registered_key = self
+            .validator_keys
+            .lock()
+            .map_err(|_| "validator key lock poisoned".to_string())?
+            .get(&v.voter)
+            .copied()
+            .ok_or("validator has no registered public key")?;
+        if registered_key != v.public_key {
+            return Err("vote public key does not match validator identity".into());
         }
         let mut all = self
             .votes
@@ -303,9 +338,9 @@ mod tests {
         let a = SigningKey::from_bytes(&[1u8; 32]);
         let b = SigningKey::from_bytes(&[2u8; 32]);
         let c = SigningKey::from_bytes(&[3u8; 32]);
-        engine.register_validator("a".into(), 40).unwrap();
-        engine.register_validator("b".into(), 35).unwrap();
-        engine.register_validator("c".into(), 25).unwrap();
+        engine.register_validator_with_key("a".into(), 40, a.verifying_key().to_bytes()).unwrap();
+        engine.register_validator_with_key("b".into(), 35, b.verifying_key().to_bytes()).unwrap();
+        engine.register_validator_with_key("c".into(), 25, c.verifying_key().to_bytes()).unwrap();
         let block = [9u8; 32];
         engine
             .vote(signed_vote(&engine, &a, "a", block, true))
@@ -332,7 +367,7 @@ mod tests {
     #[test]
     fn slashing_reduces_voting_weight_and_is_idempotent_by_state() {
         let engine = ConsensusEngine::new(658467, "proposer".into());
-        engine.register_validator("a".into(), 100).unwrap();
+        engine.register_validator_with_key("a".into(), 100, SigningKey::from_bytes(&[1u8; 32]).verifying_key().to_bytes()).unwrap();
         let evidence = SlashingEvidence {
             validator: "a".into(),
             height: 1,
