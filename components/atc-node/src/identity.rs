@@ -17,6 +17,34 @@ pub struct ChainIdentity {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub enum IdentityError {
+    EmptyField(&'static str),
+    GenesisMismatch { configured: String, computed: String },
+}
+
+impl std::fmt::Display for IdentityError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::EmptyField(field) => write!(f, "identity field {field} must not be empty"),
+            Self::GenesisMismatch { configured, computed } => {
+                write!(f, "genesis id mismatch: configured {configured}, computed {computed}")
+            }
+        }
+    }
+}
+
+impl std::error::Error for IdentityError {}
+
+impl ChainIdentity {
+    pub fn validate(&self) -> Result<(), IdentityError> {
+        if self.chain_id.is_empty() { return Err(IdentityError::EmptyField("chain_id")); }
+        if self.network_id.is_empty() { return Err(IdentityError::EmptyField("network_id")); }
+        if self.genesis_id.is_empty() { return Err(IdentityError::EmptyField("genesis_id")); }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RuntimeContext {
     pub identity: ChainIdentity,
     pub protocol_version: String,
