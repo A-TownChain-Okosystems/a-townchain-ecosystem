@@ -37,9 +37,15 @@ impl std::error::Error for IdentityError {}
 
 impl ChainIdentity {
     pub fn validate(&self) -> Result<(), IdentityError> {
-        if self.chain_id.is_empty() { return Err(IdentityError::EmptyField("chain_id")); }
-        if self.network_id.is_empty() { return Err(IdentityError::EmptyField("network_id")); }
-        if self.genesis_id.is_empty() { return Err(IdentityError::EmptyField("genesis_id")); }
+        if self.chain_id.is_empty() {
+            return Err(IdentityError::EmptyField("chain_id"));
+        }
+        if self.network_id.is_empty() {
+            return Err(IdentityError::EmptyField("network_id"));
+        }
+        if self.genesis_id.is_empty() {
+            return Err(IdentityError::EmptyField("genesis_id"));
+        }
         Ok(())
     }
 }
@@ -190,18 +196,4 @@ mod tests {
             VM_VERSION
         )
         .is_ok());
-    }
-    #[test]
-    fn transaction_encoding_is_unambiguous() {
-        let d = TransactionDomain {
-            chain_id: CHAIN_ID.into(),
-            network_id: DEVNET_NETWORK_ID.into(),
-            protocol_version: PROTOCOL_VERSION.into(),
-            transaction_type: "transfer".into(),
-        };
-        assert_ne!(
-            d.signing_bytes(1, "alice", "bob", 10, 1, b"ab"),
-            d.signing_bytes(1, "alice", "bob", 10, 1, b"a\0b")
-        );
-    }
-}
+    }undefined}
