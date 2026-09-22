@@ -13,12 +13,12 @@ use super::{
 };
 
 const MAGIC: &[u8] = b"ATCB1";
-const VALIDATOR_MAGIC: &[u8] = b"ATCV1";
+const VALIDATOR_MAGIC: &[u8] = b"ATCV2";
 const FINALITY_MAGIC: &[u8] = b"ATCF1";
 const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
-type ValidatorSnapshot = (u64, BTreeMap<String, u64>);
+type ValidatorSnapshot = (u64, BTreeMap<String, (u64, [u8; 32])>);
 type SlashingRecord = (u64, String, [u8; 32], u64);
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
@@ -362,7 +362,7 @@ impl ChainStorage {
     pub fn commit_validators(
         &self,
         height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, (u64, [u8; 32])>,
     ) -> Result<(), String> {
         let Some(p) = &self.validator_journal else {
             return Ok(());
@@ -370,9 +370,10 @@ impl ChainStorage {
         let mut o = Vec::from(VALIDATOR_MAGIC);
         o.extend_from_slice(&height.to_be_bytes());
         o.extend_from_slice(&(validators.len() as u32).to_be_bytes());
-        for (address, stake) in validators {
+        for (address, (stake, public_key)) in validators {
             put(&mut o, address.as_bytes());
             o.extend_from_slice(&stake.to_be_bytes());
+            o.extend_from_slice(public_key);
         }
         let line = format!("{}\n", hex::encode(o));
         let mut f = OpenOptions::new()
@@ -415,10 +416,11 @@ impl ChainStorage {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec())
                     .map_err(|_| "invalid validator address")?;
                 let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let public_key = fixed::<32>(&b, &mut q)?;
                 if address.is_empty() || stake == 0 {
                     return Err("invalid validator record".into());
                 }
-                if validators.insert(address, stake).is_some() {
+                if validators.insert(address, (stake, public_key)).is_some() {
                     return Err("duplicate validator record".into());
                 }
             }
