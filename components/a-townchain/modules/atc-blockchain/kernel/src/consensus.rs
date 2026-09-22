@@ -186,6 +186,46 @@ impl ConsensusEngine {
         self.validators.lock().unwrap().clone()
     }
 
+    /// Snapshot validator stake together with the authenticated public key.
+    pub fn validators_with_keys_snapshot(&self) -> BTreeMap<String, (u64, [u8; 32])> {
+        let validators = self.validators.lock().unwrap();
+        let keys = self.validator_keys.lock().unwrap();
+        validators
+            .iter()
+            .filter_map(|(address, stake)| {
+                keys.get(address)
+                    .copied()
+                    .map(|key| (address.clone(), (*stake, key)))
+            })
+            .collect()
+    }
+
+    /// Restore a persisted validator snapshot without allowing keyless validators.
+    pub fn restore_validators_with_keys(
+        &self,
+        validators: BTreeMap<String, (u64, [u8; 32])>,
+    ) -> Result<(), String> {
+        let mut stakes = self.validators.lock().map_err(|_| "validator lock poisoned")?;
+        let mut keys = self.validator_keys.lock().map_err(|_| "validator key lock poisoned")?;
+        stakes.clear();
+        keys.clear();
+        for (address, (stake, public_key)) in validators {
+            if address.is_empty() || stake == 0 {
+                return Err("invalid persisted validator record".into());
+            }
+            VerifyingKey::from_bytes(&public_key)
+                .map_err(|_| "invalid persisted validator public key".to_string())?;
+            stakes.insert(address.clone(), stake);
+            keys.insert(address, public_key);
+        }
+        Ok(())
+    }
+
+    pub fn restore_slashing_evidence(&self, evidence_ids: impl IntoIterator<Item = [u8; 32]>) {
+        let mut seen = self.slashing_evidence.lock().unwrap();
+        seen.extend(evidence_ids);
+    }
+
     pub fn total_validator_stake(&self) -> u64 {
         self.validators
             .lock()
