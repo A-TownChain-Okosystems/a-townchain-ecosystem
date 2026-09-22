@@ -124,7 +124,7 @@ fn tx_block_reward_state_finality_persistence_recovery() {
 
     drop(node);
 
-    let recovered = Node::open_storage(CHAIN_ID, "validator-a".into(), &path).unwrap();
+    let recovered = Node::open_storage(CHAIN_ID, "validator-a".into(), path.join("chain.journal")).unwrap();
     assert_eq!(recovered.chain.height(), 1);
     assert_eq!(recovered.chain.last().unwrap().id, block.id);
     assert_eq!(
