@@ -166,6 +166,10 @@ impl ConsensusEngine {
         let remaining = current - applied;
         if remaining == 0 {
             validators.remove(&evidence.validator);
+            self.validator_keys
+                .lock()
+                .map_err(|_| "validator key lock poisoned")?
+                .remove(&evidence.validator);
         } else {
             validators.insert(evidence.validator.clone(), remaining);
         }
