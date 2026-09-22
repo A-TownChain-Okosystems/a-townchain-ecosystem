@@ -226,6 +226,21 @@ impl ConsensusEngine {
         seen.extend(evidence_ids);
     }
 
+    pub fn restore_slashing_records(
+        &self,
+        records: impl IntoIterator<Item = (String, [u8; 32], u64)>,
+    ) {
+        let mut seen = self.slashing_evidence.lock().unwrap();
+        let mut slashed = self.slashed.lock().unwrap();
+        for (validator, evidence_id, penalty) in records {
+            seen.insert(evidence_id);
+            slashed
+                .entry(validator)
+                .and_modify(|v| *v = v.saturating_add(penalty))
+                .or_insert(penalty);
+        }
+    }
+
     pub fn total_validator_stake(&self) -> u64 {
         self.validators
             .lock()
