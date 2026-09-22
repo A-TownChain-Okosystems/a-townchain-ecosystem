@@ -138,8 +138,8 @@ impl TcpPeerTransport {
             Some(NetworkMessage::Hello {
                 chain_id: peer_chain,
                 node_id: peer_node_id,
-                height: _peer_height,
-                best_block: _peer_best_block,
+                height: peer_height,
+                best_block: peer_best_block,
             }) => {
                 if peer_chain != chain_id {
                     return Err(format!(
@@ -156,7 +156,7 @@ impl TcpPeerTransport {
                     },
                 )?;
                 stream.set_read_timeout(None).map_err(|e| e.to_string())?;
-                Ok((stream, peer_node_id, height, best_block))
+                Ok((stream, peer_node_id, peer_height, peer_best_block))
             }
             _ => Err("invalid peer handshake".into()),
         }
