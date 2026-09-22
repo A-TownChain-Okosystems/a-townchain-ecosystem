@@ -125,7 +125,7 @@ fn run_initial_node_b() {
     let (_, b_path) = paths();
     let node = Arc::new(Node::open_storage(CHAIN_ID, "node-b".into(), &b_path).unwrap());
     if node.chain.last().is_none() {
-        node.create_genesis(1).unwrap();
+        node.create_genesis_with_proposer(1, "genesis-validator").unwrap();
     }
     if node.consensus.total_validator_stake() == 0 {
         node.register_validator("validator-a".into(), 1).unwrap();
