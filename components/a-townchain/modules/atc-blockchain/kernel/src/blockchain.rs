@@ -421,7 +421,12 @@ impl Node {
             let _ = self.state.restore_issued_base_units(issued_snapshot);
             return Err(e);
         }
-        self.chain.append(b.clone())?;
+        if let Err(e) = self.chain.append(b.clone()) {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(e);
+        }
         for tx in &b.transactions {
             self.pool.mark_in_block(&tx.id);
         }
@@ -644,8 +649,12 @@ impl Node {
         }
         self.chain.append(b.clone())?;
         self.consensus.set_height(height);
-        self.broadcast(NetworkMessage::Block(b.clone()))?;
-        self.vote_for_block(&b)?;
+        if let Err(e) = self.broadcast(NetworkMessage::Block(b.clone())) {
+            eprintln!("block broadcast failed after durable commit: {e}");
+        }
+        if let Err(e) = self.vote_for_block(&b) {
+            eprintln!("local vote failed after durable commit: {e}");
+        }
         Ok(b)
     }
 
@@ -710,9 +719,12 @@ impl Node {
             }
         }
         let block_height = parent.height.saturating_add(1);
-        self.state
-            .apply_block_reward(block_height, &self.proposer)
-            .map_err(|e| format!("block reward: {e}"))?;
+        if let Err(e) = self.state.apply_block_reward(block_height, &self.proposer) {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(format!("block reward: {e}"));
+        }
         let new_root = self.state.root();
         let receipt_root = receipts::root(&receipts);
         let b = Block::new(
