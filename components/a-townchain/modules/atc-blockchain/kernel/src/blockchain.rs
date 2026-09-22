@@ -247,9 +247,18 @@ impl Node {
         mut stream: TcpStream,
     ) -> thread::JoinHandle<Result<(), String>> {
         thread::spawn(move || loop {
-            match network::read_message(&mut stream)? {
-                Some(message) => self.handle_network_message(message)?,
-                None => return Ok(()),
+            match network::read_message(&mut stream) {
+                Ok(Some(message)) => {
+                    if let Err(err) = self.handle_network_message(message) {
+                        eprintln!("network peer handler failed: {err}");
+                        return Err(err);
+                    }
+                }
+                Ok(None) => return Ok(()),
+                Err(err) => {
+                    eprintln!("network peer read failed: {err}");
+                    return Err(err);
+                }
             }
         })
     }
