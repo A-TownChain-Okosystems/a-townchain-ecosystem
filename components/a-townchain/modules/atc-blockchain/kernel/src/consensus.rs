@@ -122,13 +122,6 @@ impl ConsensusEngine {
             return Err("invalid slashing evidence".into());
         }
         let evidence_id = evidence.id();
-        let mut evidence_seen = self
-            .slashing_evidence
-            .lock()
-            .map_err(|_| "slashing evidence lock poisoned")?;
-        if !evidence_seen.insert(evidence_id) {
-            return Ok(0);
-        }
         let mut validators = self
             .validators
             .lock()
@@ -137,6 +130,13 @@ impl ConsensusEngine {
             .get(&evidence.validator)
             .copied()
             .ok_or("validator is not active")?;
+        let mut evidence_seen = self
+            .slashing_evidence
+            .lock()
+            .map_err(|_| "slashing evidence lock poisoned")?;
+        if !evidence_seen.insert(evidence_id) {
+            return Ok(0);
+        }
         let applied = penalty.min(current);
         let remaining = current - applied;
         if remaining == 0 {
