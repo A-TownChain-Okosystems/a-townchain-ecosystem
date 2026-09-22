@@ -213,6 +213,13 @@ impl ConsensusEngine {
         Ok(())
     }
 
+    pub fn validator_public_key(&self, address: &str) -> Option<[u8; 32]> {
+        self.validator_keys
+            .lock()
+            .ok()
+            .and_then(|keys| keys.get(address).copied())
+    }
+
     pub fn validators_with_keys_snapshot(&self) -> BTreeMap<String, (u64, [u8; 32])> {
         let validators = self.validators.lock().unwrap();
         let keys = self.validator_keys.lock().unwrap();
