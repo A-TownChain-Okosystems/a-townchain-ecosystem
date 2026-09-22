@@ -196,4 +196,5 @@ mod tests {
             VM_VERSION
         )
         .is_ok());
-    }undefined}
+    }
+}
