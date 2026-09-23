@@ -90,5 +90,6 @@ fn wallet_to_atc_node_mempool_block_state_process_e2e() {
 
     let _ = child.kill();
     let _ = child.wait();
+    let _ = std::fs::remove_dir_all(&data_dir);
 }
 
