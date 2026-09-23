@@ -2,8 +2,6 @@ name: Ecosystem Subtree Sync
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
 
 permissions:
   contents: write
@@ -37,15 +35,14 @@ jobs:
             local repo="$2"
             local remote="https://github.com/A-TownChain-Okosystems/${repo}.git"
 
-            if ! git remote get-url "$repo" >/dev/null 2>&1; then
-              git remote add "$repo" "$remote"
+            if ! git remote get-url "${repo}" >/dev/null 2>&1; then
+              git remote add "${repo}" "${remote}"
             else
-              git remote set-url "$repo" "$remote"
+              git remote set-url "${repo}" "${remote}"
             fi
 
-            git fetch --no-tags "$repo" main
-            git subtree pull --prefix="$prefix" "$repo" main --no-squash -X theirs -m "sync: ${repo} into ${prefix}"
-          # Canonical component repositories are SSOTs. If the umbrella has drifted in the same subtree, prefer the canonical repository side for conflicting component files; governance/docs remain audited separately.
+            git fetch --no-tags "${repo}" main
+            git subtree pull --prefix="${prefix}" "${repo}" main --no-squash -X theirs -m "sync: ${repo} into ${prefix}"
           }
 
           sync_subtree "components/atclang" "atclang"
