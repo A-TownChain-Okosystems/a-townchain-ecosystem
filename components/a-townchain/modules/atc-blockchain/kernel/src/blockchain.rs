@@ -468,7 +468,13 @@ impl Node {
     }
 
     pub fn submit_vote_and_broadcast(&self, vote: Vote) -> Result<(), String> {
+        let block_id = vote.block;
         self.submit_vote(vote.clone())?;
+        if self.consensus.weighted_finality(&block_id) {
+            if let Some(block) = self.chain.by_id(&block_id) {
+                let _ = self.finalize_weighted(&block)?;
+            }
+        }
         self.broadcast(NetworkMessage::Vote(vote))
     }
     pub fn open_storage<P: AsRef<std::path::Path>>(
@@ -637,6 +643,9 @@ impl Node {
         self.consensus.set_height(height);
         self.broadcast(NetworkMessage::Block(b.clone()))?;
         self.vote_for_block(&b)?;
+        if self.consensus.weighted_finality(&b.id) {
+            let _ = self.finalize_weighted(&b)?;
+        }
         Ok(b)
     }
 
@@ -749,6 +758,9 @@ impl Node {
         self.consensus.set_height(b.height);
         self.broadcast(NetworkMessage::Block(b.clone()))?;
         self.vote_for_block(&b)?;
+        if self.consensus.weighted_finality(&b.id) {
+            let _ = self.finalize_weighted(&b)?;
+        }
         Ok(b)
     }
     pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
