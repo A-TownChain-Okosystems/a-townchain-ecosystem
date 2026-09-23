@@ -191,6 +191,10 @@ impl BlockChain {
         let h = *self.height.lock().unwrap();
         self.blocks.lock().unwrap().get(&h).cloned()
     }
+    pub fn by_id(&self, id: &[u8; 32]) -> Option<Block> {
+        let height = self.hashes.lock().unwrap().get(id).copied()?;
+        self.blocks.lock().unwrap().get(&height).cloned()
+    }
     pub fn height(&self) -> u64 {
         *self.height.lock().unwrap()
     }
@@ -431,10 +435,8 @@ impl Node {
                 let block_id = v.block;
                 self.submit_vote(v)?;
                 if self.consensus.weighted_finality(&block_id) {
-                    if let Some(block) = self.chain.last() {
-                        if block.id == block_id {
-                            let _ = self.finalize_weighted(&block)?;
-                        }
+                    if let Some(block) = self.chain.by_id(&block_id) {
+                        let _ = self.finalize_weighted(&block)?;
                     }
                 }
                 Ok(())
@@ -794,8 +796,8 @@ impl Node {
         if !self.consensus.weighted_finality(&b.id) {
             return Ok(false);
         }
-        if b.height > self.chain.height() || self.chain.last().map(|x| x.id) != Some(b.id) {
-            return Err("can only finalize the current canonical tip".into());
+        if b.height > self.chain.height() || self.chain.by_id(&b.id).map(|x| x.id) != Some(b.id) {
+            return Err("can only finalize a canonical block".into());
         }
         self.consensus.mark_finalized(b.height, b.id)?;
         self.storage.commit_finalized(b.height, b.id)?;
