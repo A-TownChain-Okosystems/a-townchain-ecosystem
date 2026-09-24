@@ -964,15 +964,16 @@ impl Node {
 
         // The slashing journal is audit metadata; the validator snapshot above is
         // what determines the validator set after restart.
-        if let Err(e) = self.storage.commit_slashing(
+        // The validator snapshot is the canonical consensus-state record. If
+        // the auxiliary audit journal fails after the snapshot is durable, keep the
+        // live state aligned with the durable consensus state; do not roll back into
+        // a state that would disappear on restart.
+        self.storage.commit_slashing(
             evidence.height,
             &evidence.validator,
             evidence.id(),
             applied,
-        ) {
-            self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
-            return Err(e);
-        }
+        )?;
         Ok(applied)
     }
 
