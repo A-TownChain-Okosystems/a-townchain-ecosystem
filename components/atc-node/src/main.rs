@@ -112,8 +112,8 @@ fn attach_network(node: Arc<Node>, listen_addr: String, peers: Vec<String>) -> R
                         node.chain.height(),
                         node.chain.last().map(|b| b.id).unwrap_or([0; 32]),
                     ) {
-                        Ok((stream, _peer, _height, _best)) => {
-                            let _ = transport.register_stream(stream.try_clone().unwrap());
+                        Ok((stream, peer, _height, _best)) => {
+                            let _ = transport.register_stream_with_peer_id(stream.try_clone().unwrap(), peer);
                             let _ = node.clone().serve_tcp_stream(stream);
                         }
                         Err(e) => eprintln!("peer handshake failed: {e}"),
