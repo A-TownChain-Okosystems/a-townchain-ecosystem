@@ -188,6 +188,11 @@ fn main() -> std::io::Result<()> {
         }
     }
 
+    if let Err(e) = runtime.node.finalize_validator_snapshot() {
+        eprintln!("validator snapshot finalization failed: {e}");
+        std::process::exit(1);
+    }
+
     let local_validator = validators.iter().find(|v| v.id == node_id);
     if let Some(v) = local_validator {
         runtime.node.set_vote_signer(v.id.clone(), v.seed);
