@@ -927,8 +927,14 @@ impl Node {
     pub fn finalize_validator_snapshot(&self) -> Result<(), String> {
         let height = self.consensus.height();
         let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
-        self.consensus.restore_validator_snapshot(height, validators.clone(), keys.clone())?;
-        self.storage.commit_validators(height, &validators, &keys)
+
+        // Durable-first: finalizing the bootstrap snapshot must use the same
+        // persistence boundary as every other validator mutation. If storage
+        // rejects the snapshot, consensus must not expose a revision that will
+        // disappear on restart.
+        self.storage.commit_validators(height, &validators, &keys)?;
+        self.consensus
+            .restore_validator_snapshot(height, validators, keys)
     }
 
     pub fn register_validator_key(&self, address: &str, public_key: [u8; 32]) -> Result<(), String> {
