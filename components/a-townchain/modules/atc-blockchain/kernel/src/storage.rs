@@ -422,10 +422,18 @@ impl ChainStorage {
     }
 
     pub fn recover_state(&self) -> Result<Option<BTreeMap<String, Account>>, String> {
-        Ok(self.recover_state_with_dao()?.map(|x| x.0))
+        Ok(self
+            .recover_state_with_dao_at_height()?
+            .map(|(_, x)| x.0))
     }
 
-    pub fn recover_state_with_dao(&self) -> Result<Option<DaoStateSnapshot>, String> {
+    /// Recover the latest durable state snapshot together with the exact
+    /// canonical height it belongs to. The height is intentionally exposed
+    /// so startup can reject cross-journal combinations that were never one
+    /// committed block state.
+    pub fn recover_state_with_dao_at_height(
+        &self,
+    ) -> Result<Option<(u64, DaoStateSnapshot)>, String> {
         let Some(p) = &self.state_journal else {
             return Ok(None);
         };
@@ -484,7 +492,7 @@ impl ChainStorage {
             previous_height = Some(h);
             latest = Some((h, (map, dao)));
         }
-        Ok(latest.map(|(_, m)| m))
+        Ok(latest)
     }
 
     /// Persist the complete active validator set as a deterministic snapshot.
