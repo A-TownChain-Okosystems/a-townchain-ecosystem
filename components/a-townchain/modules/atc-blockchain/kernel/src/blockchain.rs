@@ -1268,6 +1268,105 @@ mod tests {
     }
 
     #[test]
+    fn multiple_pending_validator_revisions_collapse_to_latest_after_restart() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-revisions-restart-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key_a_old = ed25519_dalek::SigningKey::from_bytes(&[76u8; 32]);
+        let key_a_new = ed25519_dalek::SigningKey::from_bytes(&[77u8; 32]);
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[78u8; 32]);
+
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key_a_old.verifying_key().to_bytes()).unwrap();
+        node.set_vote_signer("validator-a", [76u8; 32]);
+        node.produce_reward_block(2).unwrap();
+
+        // Every mutation below targets the same pending activation height H+1=2.
+        // The durable journal therefore contains several complete revisions; recovery
+        // must retain only the last revision at height 2.
+        node.register_validator("validator-b".into(), 50).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key_a_new.verifying_key().to_bytes())?;
+
+        let before_slash = node.consensus.validator_stake("validator-a");
+        let evidence = {
+            let sign = |block: [u8; 32]| {
+                let mut bytes = Vec::from(b"ATC-SLASH-V1".as_slice());
+                bytes.extend_from_slice(&node.chain_id.to_be_bytes());
+                bytes.extend_from_slice(&1u64.to_be_bytes());
+                bytes.extend_from_slice(&block);
+                bytes.push(1);
+                bytes.extend_from_slice(&("validator-a".len() as u32).to_be_bytes());
+                bytes.extend_from_slice(b"validator-a");
+                key_a_new.sign(&bytes).to_bytes()
+            };
+            SlashingEvidence {
+                validator: "validator-a".into(),
+                height: 1,
+                block_a: [21u8; 32],
+                block_b: [22u8; 32],
+                approve_a: true,
+                approve_b: true,
+                public_key: key_a_new.verifying_key().to_bytes(),
+                signature_a: sign([21u8; 32]),
+                signature_b: sign([22u8; 32]),
+                reason: "same-height revision audit".into(),
+            }
+        };
+        node.slash_validator(evidence, 25).unwrap();
+        assert_eq!(node.consensus.validator_stake("validator-a"), before_slash - 25);
+
+        // Final revision at H+1 removes B again. A must retain the reduced stake
+        // and the rotated key.
+        node.unregister_validator("validator-b").unwrap();
+        let live = node.consensus.validator_snapshot_for_height(2).unwrap();
+        assert_eq!(live.0.get("validator-a"), Some(&(before_slash - 25)));
+        assert_eq!(live.1.get("validator-a"), Some(&key_a_new.verifying_key().to_bytes()));
+        assert!(!live.0.contains_key("validator-b"));
+        assert!(!live.1.contains_key("validator-b"));
+
+        drop(node);
+
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        let recovered = reopened.consensus.validator_snapshot_for_height(2).unwrap();
+        assert_eq!(recovered.0.get("validator-a"), Some(&(before_slash - 25)));
+        assert_eq!(recovered.1.get("validator-a"), Some(&key_a_new.verifying_key().to_bytes()));
+        assert!(!recovered.0.contains_key("validator-b"));
+        assert!(!recovered.1.contains_key("validator-b"));
+
+        // The latest same-height revision must be the only pending state used to
+        // authenticate and commit H+1 after restart.
+        reopened.set_vote_signer("validator-a", [77u8; 32]);
+        let h2 = reopened.produce_reward_block(3).unwrap();
+        assert_eq!(h2.height, 2);
+        assert_eq!(
+            h2.state_root,
+            committed_state_root(
+                reopened.state.root(),
+                2,
+                reopened.consensus.validator_snapshot_commitment(2),
+            ).unwrap()
+        );
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+        Ok::<(), String>(())
+    }
+
+    #[test]
     fn validator_public_key_survives_node_restart() {
         let path = std::env::temp_dir().join(format!(
             "atc-node-validator-restart-{}-{}",
