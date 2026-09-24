@@ -130,6 +130,23 @@ impl ConsensusEngine {
         Some(simple_hash(&bytes))
     }
 
+    pub fn validator_snapshot_commitment_from(
+        validators: &BTreeMap<String, u64>,
+        keys: &BTreeMap<String, [u8; 32]>,
+    ) -> Option<[u8; 32]> {
+        if validators.len() != keys.len() || validators.keys().any(|address| !keys.contains_key(address)) {
+            return None;
+        }
+        let mut bytes = Vec::from(b"ATC-VALIDATOR-SET-V1".as_slice());
+        for (address, stake) in validators {
+            bytes.extend_from_slice(&(address.len() as u32).to_be_bytes());
+            bytes.extend_from_slice(address.as_bytes());
+            bytes.extend_from_slice(&stake.to_be_bytes());
+            bytes.extend_from_slice(keys.get(address)?);
+        }
+        Some(simple_hash(&bytes))
+    }
+
     pub fn validator_snapshot_for_height(
         &self,
         height: u64,
