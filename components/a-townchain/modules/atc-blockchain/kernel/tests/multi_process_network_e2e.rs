@@ -100,7 +100,7 @@ fn run_initial_node_a() {
     assert_eq!(peer, "node-b");
     assert_eq!(peer_height, 0);
     transport
-        .register_stream(stream.try_clone().unwrap())
+        .register_stream_with_peer_id(stream.try_clone().unwrap(), peer.to_string())
         .unwrap();
     node.set_transport(transport.clone());
     let reader = stream.try_clone().unwrap();
@@ -241,7 +241,10 @@ fn run_restart_node_b() {
         .connect_tcp_peer(transport.clone(), &format!("127.0.0.1:{}", port()))
         .unwrap();
     transport
-        .broadcast(NetworkMessage::BlockRequest { from_height: 3 })
+        .send_to("node-a", NetworkMessage::BlockRequest {
+            from_height: 3,
+            requester_node_id: "node-b".into(),
+        })
         .unwrap();
     wait_height(&node, 3);
     assert_eq!(node.chain.last().unwrap().height, 3);
