@@ -937,14 +937,23 @@ impl Node {
         if applied == 0 {
             return Err("slashing penalty is zero".into());
         }
+        let activation_height = self.consensus.height().saturating_add(1);
+
+        // The validator snapshot is the consensus-state source of truth for the
+        // pending H+1 activation. Persist it before the auxiliary slashing audit
+        // record so a crash cannot leave a durable slash without the corresponding
+        // validator-set transition. The exact snapshot is then installed in live
+        // height-scoped consensus state by persist_validator_snapshot().
+        self.persist_validator_snapshot(activation_height)?;
+
+        // The slashing journal is audit metadata; the validator snapshot above is
+        // what determines the validator set after restart.
         self.storage.commit_slashing(
             evidence.height,
             &evidence.validator,
             evidence.id(),
             applied,
         )?;
-        let activation_height = self.consensus.height().saturating_add(1);
-        self.persist_validator_snapshot(activation_height)?;
         Ok(applied)
     }
 
@@ -1087,6 +1096,80 @@ mod tests {
         assert_eq!(receiver.state.root(), before_root);
         assert_eq!(receiver.chain.height(), before_height);
         assert!(receiver.storage.block(1).is_none());
+    }
+
+    #[test]
+    fn pending_slash_snapshot_survives_restart_before_next_block() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-pending-slash-restart-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key = ed25519_dalek::SigningKey::from_bytes(&[75u8; 32]);
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+        node.set_vote_signer("validator-a", [75u8; 32]);
+        let _h1 = node.produce_reward_block(2).unwrap();
+
+        let before = node.consensus.validator_stake("validator-a");
+        let evidence = {
+            let sign = |block: [u8; 32]| {
+                let mut bytes = Vec::from(b"ATC-SLASH-V1".as_slice());
+                bytes.extend_from_slice(&node.chain_id.to_be_bytes());
+                bytes.extend_from_slice(&1u64.to_be_bytes());
+                bytes.extend_from_slice(&block);
+                bytes.push(1);
+                bytes.extend_from_slice(&("validator-a".len() as u32).to_be_bytes());
+                bytes.extend_from_slice(b"validator-a");
+                key.sign(&bytes).to_bytes()
+            };
+            SlashingEvidence {
+                validator: "validator-a".into(),
+                height: 1,
+                block_a: [11u8; 32],
+                block_b: [12u8; 32],
+                approve_a: true,
+                approve_b: true,
+                public_key: key.verifying_key().to_bytes(),
+                signature_a: sign([11u8; 32]),
+                signature_b: sign([12u8; 32]),
+                reason: "restart-bound slash".into(),
+            }
+        };
+        node.slash_validator(evidence, 25).unwrap();
+        assert_eq!(
+            node.consensus.validator_snapshot_for_height(2).unwrap().0.get("validator-a"),
+            Some(&(before - 25))
+        );
+
+        drop(node);
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        assert_eq!(reopened.chain.height(), 1);
+        assert_eq!(
+            reopened.consensus.validator_snapshot_for_height(2).unwrap().0.get("validator-a"),
+            Some(&(before - 25))
+        );
+        reopened.set_vote_signer("validator-a", [75u8; 32]);
+        let h2 = reopened.produce_reward_block(3).unwrap();
+        assert_eq!(h2.height, 2);
+        assert_eq!(
+            h2.state_root,
+            committed_state_root(
+                reopened.state.root(),
+                2,
+                reopened.consensus.validator_snapshot_commitment(2),
+            ).unwrap()
+        );
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
     }
 
     #[test]
