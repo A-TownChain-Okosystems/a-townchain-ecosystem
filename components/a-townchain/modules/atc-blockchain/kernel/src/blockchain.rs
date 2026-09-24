@@ -15,7 +15,7 @@ pub mod security;
 pub mod storage;
 use consensus::{ConsensusEngine, SlashingEvidence, Vote};
 use crypto::{signing_bytes, Ed25519Verifier, SignatureVerifier};
-use ed25519_dalek::Signer;
+use ed25519_dalek::{Signer, Verifier};
 use execution::{AtcVmExecutor, VmExecutor};
 use mempool::{MemoryPool, MempoolError, StateDb, Transaction};
 use network::{NetworkMessage, PeerTransport};
