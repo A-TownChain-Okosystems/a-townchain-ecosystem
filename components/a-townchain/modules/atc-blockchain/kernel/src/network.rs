@@ -602,7 +602,7 @@ mod tests {
         };
         let decoded = decode(&encode(&message).unwrap()).unwrap();
         assert_eq!(decoded, message);
-        assert_eq!(matches!(decoded, NetworkMessage::BlockWithValidatorSnapshot { block: b, .. } if b.id == block.id), true);
+        assert!(matches!(decoded, NetworkMessage::BlockWithValidatorSnapshot { block: b, .. } if b.id == block.id));
     }
 
     #[test]
