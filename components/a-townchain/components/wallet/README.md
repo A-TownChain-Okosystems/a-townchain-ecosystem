@@ -42,7 +42,7 @@ ATC Wallet provides the canonical wallet and key management implementation withi
 
 - Sichere Generierung von A-TownChain-Adressen mit `ATC`-Präfix (32 Zeichen).
 - Hierarchisch-deterministische Schlüsselableitung nach BIP44 mit Coin-Type 658467 (`m/44'/658467'`).
-- Elliptic Curve Digital Signature Algorithm (ECDSA secp256k1) Signierung von Transaktionen.
+- Ed25519-Signierung von L1-Transaktionen mit dem kanonischen `ATC-TX-DOMAIN-V2`-Encoding.
 - Verwahrung von Schlüsselmaterial und Schnittstellen für Guthaben-, Historien- und Faucet-Abfragen.
 
 ## Status
@@ -55,14 +55,14 @@ Maturity: R2 (auditiert am 07.09.2026). Meilenstein-Einordnung: M6 (Dienste lauf
 
 ### Components
 
-- **Keystore & Key Derive (`src/keys.rs`, `src/crypto.py`):** Deterministische Schlüsselgenerierung (BIP44) und secp256k1-Kryptographie.
-- **Wallet Core & Transaction Signer (`src/wallet.py`, `src/tx.rs`):** Erstellung, Signierung und Validierung von Transaktionen.
+- **Key Boundary (`src/keys.rs`):** Re-Export der kanonischen Key-Implementierung aus `components/atc-wallet`.
+- **Transaction Signer (`src/tx.rs`):** Erstellung, Ed25519-Signierung und Validierung von L1-Transaktionen.
 - **Account Services (`src/balance.rs`, `src/history.rs`):** Schnittstellen für Kontostands- und Verlaufsabfragen.
 - **CLI & Module Interface (`modules/atc-wallet`):** Integration in das A-TownChain Monorepo und ATCLang Workspace.
 
 ### Data Flow
 
-Nutzer-Eingabe → BIP44-Schlüsselableitung (`m/44'/658467'`) → Transaktionserstellung → ECDSA secp256k1 Signierung → Übertragung an API-Gateway / `atc-node`.
+Nutzer-Eingabe → kanonisches Key-Management (`components/atc-wallet`) → Transaktionserstellung → Ed25519-Signierung über `ATC-TX-DOMAIN-V2` → `atc-node`.
 
 ### Dependencies
 
@@ -76,7 +76,7 @@ Nutzer-Eingabe → BIP44-Schlüsselableitung (`m/44'/658467'`) → Transaktionse
 
 - Generierung von ATC-Adressen mit Präfix (`ATC...`)
 - BIP44 Derivationspfad `m/44'/658467'`
-- ECDSA secp256k1 Signierung und Verifizierung
+- Ed25519 Signierung und Verifizierung
 - Kontostands- und Transaktionshistorien-Visualisierung
 - Faucet- und NFT-Viewer-Einbindung
 
