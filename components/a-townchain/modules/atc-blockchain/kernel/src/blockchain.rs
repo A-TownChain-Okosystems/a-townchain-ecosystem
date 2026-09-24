@@ -1018,6 +1018,32 @@ mod tests {
     }
 
     #[test]
+    fn future_block_is_rejected_without_state_corruption_then_accepts_after_parent() {
+        let producer = Node::new(658467, "validator-a".into());
+        producer.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&producer, "validator-a");
+        let block1 = producer.produce_reward_block(2).unwrap();
+        let block2 = producer.produce_reward_block(3).unwrap();
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+
+        let before = receiver.state.root();
+        assert_eq!(
+            receiver.handle_network_message(NetworkMessage::Block(block2.clone())).unwrap_err(),
+            "non-sequential height"
+        );
+        assert_eq!(receiver.chain.height(), 0);
+        assert_eq!(receiver.state.root(), before);
+
+        receiver.handle_network_message(NetworkMessage::Block(block1)).unwrap();
+        receiver.handle_network_message(NetworkMessage::Block(block2.clone())).unwrap();
+        assert_eq!(receiver.chain.height(), 2);
+        assert_eq!(receiver.chain.last().unwrap().id, block2.id);
+    }
+
+    #[test]
     fn duplicate_network_vote_is_rejected_after_first_acceptance() {
         let producer = Node::new(658467, "validator-a".into());
         producer.create_genesis_with_proposer(1, "genesis").unwrap();
