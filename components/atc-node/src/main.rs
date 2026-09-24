@@ -174,11 +174,16 @@ fn main() -> std::io::Result<()> {
     };
 
     for validator in &validators {
-        if let Err(e) = runtime
-            .node
-            .register_validator(validator.id.clone(), validator.stake)
-        {
+        if let Err(e) = runtime.node.register_validator(validator.id.clone(), validator.stake) {
             eprintln!("validator registration failed for {}: {e}", validator.id);
+            std::process::exit(1);
+        }
+        let signing = ed25519_dalek::SigningKey::from_bytes(&validator.seed);
+        if let Err(e) = runtime.node.register_validator_key(
+            &validator.id,
+            signing.verifying_key().to_bytes(),
+        ) {
+            eprintln!("validator key registration failed for {}: {e}", validator.id);
             std::process::exit(1);
         }
     }
