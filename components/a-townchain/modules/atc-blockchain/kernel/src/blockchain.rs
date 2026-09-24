@@ -913,8 +913,11 @@ impl Node {
         if b.height > self.chain.height() || self.chain.last().map(|x| x.id) != Some(b.id) {
             return Err("can only finalize the current canonical tip".into());
         }
-        self.consensus.mark_finalized(b.height, b.id)?;
+        // Persist the canonical finality marker before exposing it in memory.
+        // A storage failure must never leave the live node claiming finality
+        // that will disappear after restart.
         self.storage.commit_finalized(b.height, b.id)?;
+        self.consensus.mark_finalized(b.height, b.id)?;
         if let Some(sink) = self.indexer.lock().unwrap().clone() {
             sink.ingest_finalized(b)?
         }
