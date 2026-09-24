@@ -24,6 +24,7 @@ pub struct RuntimeContext {
 }
 
 
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct TransactionDomain {
     pub chain_id: String,
@@ -38,9 +39,18 @@ pub enum IdentityError {
     InvalidChainId(String),
     InvalidNetworkId(String),
     InvalidGenesisId(String),
-    GenesisMismatch { configured: String, computed: String },
-    ProtocolMismatch { expected: String, actual: String },
-    VmMismatch { expected: String, actual: String },
+    GenesisMismatch {
+        configured: String,
+        computed: String,
+    },
+    ProtocolMismatch {
+        expected: String,
+        actual: String,
+    },
+    VmMismatch {
+        expected: String,
+        actual: String,
+    },
 }
 
 impl ChainIdentity {
@@ -68,7 +78,11 @@ impl ChainIdentity {
 }
 
 impl RuntimeContext {
-    pub fn validate(&self, expected_protocol: &str, expected_vm: &str) -> Result<(), IdentityError> {
+    pub fn validate(
+        &self,
+        expected_protocol: &str,
+        expected_vm: &str,
+    ) -> Result<(), IdentityError> {
         self.identity.validate()?;
         if self.protocol_version != expected_protocol {
             return Err(IdentityError::ProtocolMismatch {
@@ -87,7 +101,15 @@ impl RuntimeContext {
 }
 
 impl TransactionDomain {
-    pub fn signing_bytes(&self, nonce: u64, sender: &str, recipient: &str, value: u64, fee: u64, payload: &[u8]) -> Vec<u8> {
+    pub fn signing_bytes(
+        &self,
+        nonce: u64,
+        sender: &str,
+        recipient: &str,
+        value: u64,
+        fee: u64,
+        payload: &[u8],
+    ) -> Vec<u8> {
         let payload_hex = hex_encode(payload);
         let nonce_s = nonce.to_string();
         let value_s = value.to_string();
