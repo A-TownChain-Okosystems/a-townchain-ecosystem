@@ -995,6 +995,88 @@ mod tests {
     use super::*;
 
     #[test]
+    fn validator_activation_is_bound_to_committed_block_state_and_survives_restart() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-state-binding-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[61u8; 32]);
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+        node.set_vote_signer("validator-a", [61u8; 32]);
+
+        let h1 = node.produce_reward_block(2).unwrap();
+        assert_eq!(node.chain.height(), 1);
+        assert_ne!(h1.state_root, node.state.root());
+        assert_eq!(
+            h1.state_root,
+            committed_state_root(
+                node.state.root(),
+                h1.height,
+                node.consensus.validator_snapshot_commitment(h1.height),
+            )
+            .unwrap()
+        );
+
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[62u8; 32]);
+        node.register_validator("validator-b".into(), 50).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        let pending = node.consensus.validator_snapshot_for_height(2).unwrap();
+        assert_eq!(pending.0.get("validator-b"), Some(&50));
+        let h2 = node.produce_reward_block(3).unwrap();
+        assert_eq!(h2.height, 2);
+        assert_eq!(h2.state_root, committed_state_root(
+            node.state.root(),
+            2,
+            node.consensus.validator_snapshot_commitment(2),
+        ).unwrap());
+
+        drop(node);
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        assert_eq!(reopened.chain.last().unwrap().id, h2.id);
+        assert_eq!(reopened.consensus.validator_snapshot_for_height(2).unwrap().0.get("validator-b"), Some(&50));
+        assert_eq!(
+            reopened.consensus.validator_snapshot_commitment(2),
+            Some(reopened.consensus.validator_snapshot_commitment(2).unwrap())
+        );
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn block_with_wrong_validator_activation_snapshot_is_rejected_before_commit() {
+        let producer = Node::new(658467, "validator-a".into());
+        producer.create_genesis_with_proposer(1, "genesis").unwrap();
+        let key = ed25519_dalek::SigningKey::from_bytes(&[63u8; 32]);
+        producer.register_validator("validator-a".into(), 100).unwrap();
+        producer.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+        producer.set_vote_signer("validator-a", [63u8; 32]);
+        let block = producer.produce_reward_block(2).unwrap();
+
+        let receiver = Node::new(658467, "validator-a".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        receiver.register_validator("validator-a".into(), 200).unwrap();
+        receiver.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+
+        let before_root = receiver.state.root();
+        let before_height = receiver.chain.height();
+        let err = receiver.import_block(block).unwrap_err();
+        assert_eq!(err, "network block state/receipt root mismatch");
+        assert_eq!(receiver.state.root(), before_root);
+        assert_eq!(receiver.chain.height(), before_height);
+        assert!(receiver.storage.block(1).is_none());
+    }
+
+    #[test]
     fn validator_public_key_survives_node_restart() {
         let path = std::env::temp_dir().join(format!(
             "atc-node-validator-restart-{}-{}",
