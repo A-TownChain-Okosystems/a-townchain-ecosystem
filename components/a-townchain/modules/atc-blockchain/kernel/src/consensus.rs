@@ -59,6 +59,7 @@ pub struct ConsensusEngine {
     slashed: Mutex<BTreeMap<String, u64>>,
     votes: Mutex<BTreeMap<[u8; 32], Vec<Vote>>>,
     validators: Mutex<BTreeMap<String, u64>>,
+    validator_keys: Mutex<BTreeMap<String, [u8; 32]>>,
 }
 
 impl ConsensusEngine {
@@ -71,6 +72,7 @@ impl ConsensusEngine {
             slashed: Mutex::new(BTreeMap::new()),
             votes: Mutex::new(BTreeMap::new()),
             validators: Mutex::new(BTreeMap::new()),
+            validator_keys: Mutex::new(BTreeMap::new()),
         }
     }
 
@@ -87,6 +89,21 @@ impl ConsensusEngine {
 
     pub fn unregister_validator(&self, address: &str) {
         self.validators.lock().unwrap().remove(address);
+        self.validator_keys.lock().unwrap().remove(address);
+    }
+
+    pub fn register_validator_key(&self, address: &str, public_key: [u8; 32]) -> Result<(), String> {
+        if self.validator_stake(address) == 0 {
+            return Err("validator must be registered before its signing key".into());
+        }
+        VerifyingKey::from_bytes(&public_key).map_err(|_| "invalid validator public key".to_string())?;
+        self.validator_keys.lock().map_err(|_| "validator key lock poisoned".to_string())?
+            .insert(address.to_owned(), public_key);
+        Ok(())
+    }
+
+    pub fn validator_public_key(&self, address: &str) -> Option<[u8; 32]> {
+        self.validator_keys.lock().ok()?.get(address).copied()
     }
 
     pub fn validator_stake(&self, address: &str) -> u64 {
@@ -176,14 +193,18 @@ impl ConsensusEngine {
         )
         .map_err(|_| "invalid vote signature".to_string())?;
 
-        if !self
-            .validators
-            .lock()
-            .map_err(|_| "validator lock poisoned".to_string())?
-            .contains_key(&v.voter)
-        {
+        let validators = self.validators.lock().map_err(|_| "validator lock poisoned".to_string())?;
+        if !validators.contains_key(&v.voter) {
             return Err("voter is not an active validator".into());
         }
+        let expected_key = self.validator_keys.lock()
+            .map_err(|_| "validator key lock poisoned".to_string())?
+            .get(&v.voter).copied()
+            .ok_or("validator signing key is not registered")?;
+        if expected_key != v.public_key {
+            return Err("vote public key does not match validator identity".into());
+        }
+        drop(validators);
         let mut all = self
             .votes
             .lock()
