@@ -340,6 +340,7 @@ impl ChainStorage {
         state: &BTreeMap<String, Account>,
         dao: &[u8],
     ) -> Result<(), String> {
+        self.block(height).ok_or("state snapshot references missing block")?;
         if let Some(p) = &self.state_journal {
             let mut o = Vec::new();
             o.extend_from_slice(&height.to_be_bytes());
@@ -414,9 +415,9 @@ impl ChainStorage {
                 if h < prev {
                     return Err("state journal height regression".into());
                 }
-            }
-            if self.block(h).is_none() {
-                return Err("state snapshot references missing block".into());
+                if h == prev {
+                    return Err("conflicting state snapshot at same height".into());
+                }
             }
             previous_height = Some(h);
             latest = Some((h, (map, dao)));
@@ -554,6 +555,9 @@ impl ChainStorage {
                 keys.insert(address, public_key);
             }
             if q != b.len() { return Err("trailing validator bytes".into()); }
+            if snapshots.contains_key(&h) {
+                return Err("conflicting validator snapshot at same height".into());
+            }
             snapshots.insert(h, (validators, keys));
         }
         Ok(snapshots)
@@ -570,6 +574,10 @@ impl ChainStorage {
     }
 
     pub fn commit_finalized(&self, height: u64, block: [u8; 32]) -> Result<(), String> {
+        let canonical = self.block(height).ok_or("finality marker references missing block")?;
+        if canonical.id != block {
+            return Err("finality marker does not match canonical block".into());
+        }
         if let Some((previous_height, previous_block)) = self.recover_finalized()? {
             if height < previous_height {
                 return Err("finalized height regression".into());
@@ -626,10 +634,17 @@ impl ChainStorage {
             if q != b.len() {
                 return Err("trailing finality bytes".into());
             }
-            if let Some((prev, _)) = latest {
+            if let Some((prev, previous_id)) = latest {
                 if h < prev {
                     return Err("finalized height regression".into());
                 }
+                if h == prev && id != previous_id {
+                    return Err("conflicting finalized block at same height".into());
+                }
+            }
+            let canonical = self.block(h).ok_or("finality marker references missing block")?;
+            if canonical.id != id {
+                return Err("finality marker does not match canonical block".into());
             }
             latest = Some((h, id));
         }
@@ -747,6 +762,9 @@ impl ChainStorage {
             if let Some(prev) = previous_height {
                 if h < prev {
                     return Err("issuance height regression".into());
+                }
+                if h == prev {
+                    return Err("conflicting issuance record at same height".into());
                 }
             }
             if self.block(h).is_none() {
