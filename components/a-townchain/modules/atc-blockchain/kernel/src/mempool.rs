@@ -545,15 +545,56 @@ impl StateDb {
                 validators.restore(validator_snapshot.clone());
                 return Err(e);
             }
-            if tx.tx_type == TxType::Validator {
-                let transition = match crate::validator_state::ValidatorTransition::decode(&tx.payload) {
-                    Ok(v) => v,
-                    Err(e) => { validators.restore(validator_snapshot.clone()); return Err(MempoolError::InvalidValidatorTransition(e)); }
-                };
-                if let Err(e) = validators.apply(&transition) {
-                    validators.restore(validator_snapshot.clone());
-                    return Err(MempoolError::InvalidValidatorTransition(e));
+            match tx.tx_type {
+                TxType::Stake if validators.get(&tx.sender_did).is_some() => {
+                    let transition = crate::validator_state::ValidatorTransition::Stake {
+                        address: tx.sender_did.clone(), amount: tx.amount,
+                    };
+                    if let Err(e) = validators.apply(&transition) {
+                        validators.restore(validator_snapshot.clone());
+                        return Err(MempoolError::InvalidValidatorTransition(e));
+                    }
                 }
+                TxType::Unstake if validators.get(&tx.sender_did).is_some() => {
+                    let transition = crate::validator_state::ValidatorTransition::Unstake {
+                        address: tx.sender_did.clone(), amount: tx.amount,
+                    };
+                    if let Err(e) = validators.apply(&transition) {
+                        validators.restore(validator_snapshot.clone());
+                        return Err(MempoolError::InvalidValidatorTransition(e));
+                    }
+                }
+                TxType::Validator => {
+                    let transition = match crate::validator_state::ValidatorTransition::decode(&tx.payload) {
+                        Ok(v) => v,
+                        Err(e) => { validators.restore(validator_snapshot.clone()); return Err(MempoolError::InvalidValidatorTransition(e)); }
+                    };
+                    match &transition {
+                        crate::validator_state::ValidatorTransition::Register { address, stake, .. }
+                        | crate::validator_state::ValidatorTransition::RotateKey { address, .. }
+                        | crate::validator_state::ValidatorTransition::Unregister { address, .. } if address != &tx.sender_did => {
+                            validators.restore(validator_snapshot.clone());
+                            return Err(MempoolError::InvalidValidatorTransition("validator transition sender mismatch".into()));
+                        }
+                        crate::validator_state::ValidatorTransition::Slash { .. } => {
+                            validators.restore(validator_snapshot.clone());
+                            return Err(MempoolError::InvalidValidatorTransition("slashing transitions require verified consensus evidence".into()));
+                        }
+                        _ => {}
+                    }
+                    if let crate::validator_state::ValidatorTransition::Register { stake, .. } = &transition {
+                        let account = staged.get(&tx.sender_did).ok_or(MempoolError::InvalidValidatorTransition("validator account missing".into()))?;
+                        if account.staked != *stake {
+                            validators.restore(validator_snapshot.clone());
+                            return Err(MempoolError::InvalidValidatorTransition("validator stake does not match account stake".into()));
+                        }
+                    }
+                    if let Err(e) = validators.apply(&transition) {
+                        validators.restore(validator_snapshot.clone());
+                        return Err(MempoolError::InvalidValidatorTransition(e));
+                    }
+                }
+                _ => {}
             }
         }
         *a = staged;
