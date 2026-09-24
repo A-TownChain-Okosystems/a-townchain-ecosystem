@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-0C3340D4C4AE",
-  "timestamp": "2026-09-24T14:52:55.897478Z",
+  "timestamp": "2026-09-24T16:39:35.974930Z",
   "category": "change",
   "title": "Commit: fix(network-e2e): align node-b genesis commitment",
   "context": "Git commit 0c3340d4c4ae9d10a24c48674c0bc5934c00779e on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/0c3340d4c4ae9d10a24c48674c0bc5934c00779e",
-    "commit": "7431e656e46a787e83bfb27482885cc87faf4c6a"
+    "commit": "8c937bfa9436efbd270e772776363a3e84ec7ad4"
   },
   "tags": [
     "commit",

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-727739C28CF6",
-  "timestamp": "2026-09-24T14:52:55.897478Z",
+  "timestamp": "2026-09-24T16:39:35.974930Z",
   "category": "change",
   "title": "Commit: test(network-e2e): surface peer receive-loop errors",
   "context": "Git commit 727739c28cf671ed1dd0fb3eb1a2b7522f11e0fd on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/727739c28cf671ed1dd0fb3eb1a2b7522f11e0fd",
-    "commit": "7431e656e46a787e83bfb27482885cc87faf4c6a"
+    "commit": "8c937bfa9436efbd270e772776363a3e84ec7ad4"
   },
   "tags": [
     "commit",

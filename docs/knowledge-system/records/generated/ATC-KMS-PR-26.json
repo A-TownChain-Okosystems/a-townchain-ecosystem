@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-26",
-  "timestamp": "2026-09-24T14:52:55.897478Z",
+  "timestamp": "2026-09-24T16:39:35.974930Z",
   "category": "change",
   "title": "PR #26: ci: enforce real ecosystem integration gates",
   "context": "Pull request 26 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/26",
-    "commit": "7431e656e46a787e83bfb27482885cc87faf4c6a"
+    "commit": "8c937bfa9436efbd270e772776363a3e84ec7ad4"
   },
   "tags": [
     "generated",

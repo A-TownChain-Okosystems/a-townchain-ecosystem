@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-EAC45002DEDA",
-  "timestamp": "2026-09-24T14:52:55.897478Z",
+  "timestamp": "2026-09-24T16:39:35.974930Z",
   "category": "change",
   "title": "Commit: feat(control-plane): add ecosystem control panel registry and contracts",
   "context": "Git commit eac45002deda0ef53661ca92c273ed3bf57f6ca4 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/eac45002deda0ef53661ca92c273ed3bf57f6ca4",
-    "commit": "7431e656e46a787e83bfb27482885cc87faf4c6a"
+    "commit": "8c937bfa9436efbd270e772776363a3e84ec7ad4"
   },
   "tags": [
     "commit",

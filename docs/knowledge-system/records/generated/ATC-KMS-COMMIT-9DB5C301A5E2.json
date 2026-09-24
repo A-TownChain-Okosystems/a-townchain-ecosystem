@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-9DB5C301A5E2",
-  "timestamp": "2026-09-24T14:52:55.897478Z",
+  "timestamp": "2026-09-24T16:39:35.974930Z",
   "category": "change",
   "title": "Commit: fix(mainnet): align config with canonical L1 economics",
   "context": "Git commit 9db5c301a5e2fe30f58526e4e53b419d38ea800c on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/9db5c301a5e2fe30f58526e4e53b419d38ea800c",
-    "commit": "7431e656e46a787e83bfb27482885cc87faf4c6a"
+    "commit": "8c937bfa9436efbd270e772776363a3e84ec7ad4"
   },
   "tags": [
     "commit",

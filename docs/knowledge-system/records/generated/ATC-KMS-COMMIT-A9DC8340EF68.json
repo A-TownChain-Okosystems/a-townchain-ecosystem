@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-A9DC8340EF68",
+  "timestamp": "2026-09-24T16:39:35.974930Z",
+  "category": "change",
+  "title": "Commit: fix: remove retired identity paths and harden security defaults",
+  "context": "Git commit a9dc8340ef685fa7b92ee667277d4fe026c75015 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/a9dc8340ef685fa7b92ee667277d4fe026c75015",
+    "commit": "8c937bfa9436efbd270e772776363a3e84ec7ad4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix: remove retired identity paths and harden security defaults"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-FF0DFC568F15",
+  "timestamp": "2026-09-24T16:39:35.974930Z",
+  "category": "change",
+  "title": "Commit: fix: harden decoding and repair genesis lint/test defects",
+  "context": "Git commit ff0dfc568f152901cf52b8959ec4de3ce41ee519 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/ff0dfc568f152901cf52b8959ec4de3ce41ee519",
+    "commit": "8c937bfa9436efbd270e772776363a3e84ec7ad4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix: harden decoding and repair genesis lint/test defects"
+}

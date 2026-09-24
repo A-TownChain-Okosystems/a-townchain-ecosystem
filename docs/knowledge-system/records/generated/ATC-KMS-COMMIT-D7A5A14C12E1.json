@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-D7A5A14C12E1",
-  "timestamp": "2026-09-24T14:52:55.897478Z",
+  "timestamp": "2026-09-24T16:39:35.974930Z",
   "category": "change",
   "title": "Commit: revert: remove accidentally created signing test from main",
   "context": "Git commit d7a5a14c12e123ce13ac7d2a8638bd377b7550fe on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/d7a5a14c12e123ce13ac7d2a8638bd377b7550fe",
-    "commit": "7431e656e46a787e83bfb27482885cc87faf4c6a"
+    "commit": "8c937bfa9436efbd270e772776363a3e84ec7ad4"
   },
   "tags": [
     "commit",
