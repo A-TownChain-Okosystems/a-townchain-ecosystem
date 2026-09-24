@@ -13,6 +13,7 @@ pub mod receipts;
 pub mod rpc;
 pub mod security;
 pub mod storage;
+pub mod validator_state;
 use consensus::{ConsensusEngine, SlashingEvidence, Vote};
 use crypto::{signing_bytes, Ed25519Verifier, SignatureVerifier};
 use ed25519_dalek::{Signer, Verifier};
