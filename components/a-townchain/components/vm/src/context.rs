@@ -1,10 +1,7 @@
-#![allow(dead_code)]
 // Copyright (c) 2026 A-TownChain-Okosystems — Apache-2.0
 //! ATC-STD-600 execution context and fail-closed gate.
 
 pub const CHAIN_ID: &str = "atc";
-pub const TX_DOMAIN: &str = "ATC-TX-DOMAIN";
-
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ChainContext {
     pub chain_id: String,
