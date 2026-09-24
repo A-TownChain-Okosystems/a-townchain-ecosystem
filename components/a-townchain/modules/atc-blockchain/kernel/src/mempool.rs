@@ -618,6 +618,13 @@ impl StateDb {
                 ns.nonce = ns.nonce.checked_add(1).ok_or(MempoolError::InvalidNonce { expected: u64::MAX, got: tx.nonce })?;
                 a.insert(tx.sender_did.clone(), ns);
             }
+            TxType::Validator => {
+                if s.balance < fee { return Err(MempoolError::InsufficientBalance); }
+                let mut ns = s;
+                ns.balance -= fee;
+                ns.nonce = ns.nonce.checked_add(1).ok_or(MempoolError::InvalidNonce { expected: u64::MAX, got: tx.nonce })?;
+                a.insert(tx.sender_did.clone(), ns);
+            }
             TxType::Unstake => {
                 if s.staked < tx.amount || s.balance < fee {
                     return Err(MempoolError::InsufficientStake);
