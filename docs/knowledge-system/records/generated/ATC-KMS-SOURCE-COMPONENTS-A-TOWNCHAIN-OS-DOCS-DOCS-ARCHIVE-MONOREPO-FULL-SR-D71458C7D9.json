@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-DOCS-ARCHIVE-MONOREPO-FULL-SR-D71458C7D9",
-  "timestamp": "2026-09-24T14:48:41.364764Z",
+  "timestamp": "2026-09-24T14:52:55.897478Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/docs/archive/monorepo-full/src/modules/atc-shivacore/CHANGELOG.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/docs/archive/monorepo-full/src/modules/atc-shivacore/CHANGELOG.md",
-    "commit": "6409e032d89f2a95f875b4fa6a481b645edae083"
+    "commit": "7431e656e46a787e83bfb27482885cc87faf4c6a"
   },
   "tags": [
     "generated",
