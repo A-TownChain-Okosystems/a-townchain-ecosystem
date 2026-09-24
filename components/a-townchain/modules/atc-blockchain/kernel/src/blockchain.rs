@@ -312,7 +312,6 @@ impl Node {
         self.set_transport(transport.clone());
         transport.send_to(&peer_id, NetworkMessage::BlockRequest {
             from_height: last.height.saturating_add(1),
-            requester_node_id: transport.node_id.clone(),
         })?;
         Ok(self.clone().serve_tcp_stream_with_peer(reader, peer_id))
     }
