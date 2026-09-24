@@ -484,7 +484,8 @@ fn encode(m: &NetworkMessage) -> Result<Vec<u8>, String> {
         }
         NetworkMessage::BlockWithValidatorSnapshot { block, activation_height, validators, validator_keys } => {
             o.push(7);
-            o.extend_from_slice(&block_encode(block));
+            let raw_block = block_encode(block);
+            put(&mut o, &raw_block);
             validator_snapshot_encode(*activation_height, validators, validator_keys, &mut o)?;
         }
         NetworkMessage::StatusRequest => o.push(5),
@@ -534,11 +535,8 @@ fn decode(b: &[u8]) -> Result<NetworkMessage, String> {
         },
         5 => NetworkMessage::StatusRequest,
         7 => {
-            let block = block_decode(&b[p..])?;
-            // block_decode consumes its own slice, so derive the snapshot start from
-            // the deterministic encoded block length rather than trusting a field.
-            let encoded_len = block_encode(&block).len();
-            p += encoded_len;
+            let raw_block = take(b, &mut p)?;
+            let block = block_decode(raw_block)?;
             let (activation_height, validators, validator_keys) = validator_snapshot_decode(b, &mut p)?;
             NetworkMessage::BlockWithValidatorSnapshot { block, activation_height, validators, validator_keys }
         }
