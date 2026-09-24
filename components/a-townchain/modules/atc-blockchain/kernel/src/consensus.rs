@@ -139,6 +139,9 @@ impl ConsensusEngine {
         }
         let mut bytes = Vec::from(b"ATC-VALIDATOR-SET-V1".as_slice());
         for (address, stake) in validators {
+            if address.is_empty() || *stake == 0 || ed25519_dalek::VerifyingKey::from_bytes(keys.get(address)?).is_err() {
+                return None;
+            }
             bytes.extend_from_slice(&(address.len() as u32).to_be_bytes());
             bytes.extend_from_slice(address.as_bytes());
             bytes.extend_from_slice(&stake.to_be_bytes());
