@@ -111,6 +111,10 @@ impl ConsensusEngine {
         Ok(())
     }
 
+    pub fn has_validator_snapshot(&self, height: u64) -> bool {
+        self.validator_snapshots.lock().ok().map(|s| s.contains_key(&height)).unwrap_or(false)
+    }
+
     pub fn validator_snapshot_for_height(
         &self,
         height: u64,
@@ -150,7 +154,7 @@ impl ConsensusEngine {
             let keys = self.validator_keys.lock().map_err(|_| "validator key lock poisoned".to_string())?;
             validators.len() == keys.len() && validators.keys().all(|id| keys.contains_key(id))
         };
-        if complete && self.validator_snapshot_for_height(self.height()).is_none() {
+        if complete && !self.has_validator_snapshot(self.height()) {
             self.capture_validator_snapshot(self.height())?;
         }
         Ok(())
