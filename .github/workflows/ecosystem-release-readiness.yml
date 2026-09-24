@@ -47,14 +47,17 @@ jobs:
             fi
           done < <(find components -name Cargo.toml -not -path '*/archive/*' -not -path '*/target/*' -not -path '*/node_modules/*' -not -path '*/a-townchain-os-docs/docs/monorepo-legacy/*' | sort -u)
 
+          mkdir -p .ci-evidence/rust
           for dir in "${!roots[@]}"; do
             echo "=== Rust: $dir"
             cargo_cmd=(cargo)
             if [ "$dir" = "components/globus-os" ]; then
               cargo_cmd=(cargo +nightly)
             fi
+            safe_dir="${dir//\//_}"
             for gate in fmt check test clippy; do
-              log="$(mktemp)"
+              log=".ci-evidence/rust/${safe_dir}-${gate}.log"
+              : >"$log"
               case "$gate" in
                 fmt) command=("${cargo_cmd[@]}" fmt --all -- --check) ;;
                 check) command=("${cargo_cmd[@]}" check --workspace --all-targets) ;;
@@ -66,10 +69,48 @@ jobs:
                 echo "::error::Rust $gate failed in $dir"
                 tail -n 160 "$log"
               fi
-              rm -f "$log"
             done
           done
           exit "$fail"
+
+      - name: Upload complete Rust diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-release-readiness-diagnostics
+          path: .ci-evidence/rust/
+          if-no-files-found: error
+          retention-days: 14
+
+  governance-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate governance control anchors
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          required=(
+            components/atc-standards/registry/standards.yaml
+            components/atc-standards/.atc/evidence/evidence.yaml
+            components/atc-standards/.atc/lifecycle.yaml
+            components/atc-standards/standards/governance-core/ATC-STD-CHANGE-001.md
+            components/atc-standards/standards/audit/ATC-STD-AUDIT-001.md
+            components/atc-standards/governance/ATC-STD-000.md
+          )
+
+          for path in "${required[@]}"; do
+            test -s "$path" || { echo "::error::Missing governance control anchor: $path"; exit 1; }
+          done
+
+          grep -q 'ATC-STD-000' components/atc-standards/registry/standards.yaml
+          grep -q 'evidence' components/atc-standards/.atc/evidence/evidence.yaml
+          grep -q 'lifecycle' components/atc-standards/.atc/lifecycle.yaml
+          grep -q 'CHANGE' components/atc-standards/standards/governance-core/ATC-STD-CHANGE-001.md
+          grep -q 'Evidence' components/atc-standards/standards/audit/ATC-STD-AUDIT-001.md
+
+          echo "Governance control anchors and evidence roots are present."
 
   python-projects:
     runs-on: ubuntu-latest
