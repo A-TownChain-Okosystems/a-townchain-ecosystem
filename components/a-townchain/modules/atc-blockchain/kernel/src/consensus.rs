@@ -190,6 +190,29 @@ impl ConsensusEngine {
         self.validators.lock().unwrap().clone()
     }
 
+    /// Return the validator registry together with its canonical Ed25519
+    /// identity binding for durable snapshots.
+    pub fn validator_snapshot_with_keys(
+        &self,
+    ) -> Result<(BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>), String> {
+        let validators = self
+            .validators
+            .lock()
+            .map_err(|_| "validator lock poisoned".to_string())?
+            .clone();
+        let keys = self
+            .validator_keys
+            .lock()
+            .map_err(|_| "validator key lock poisoned".to_string())?
+            .clone();
+        if validators.len() != keys.len()
+            || validators.keys().any(|address| !keys.contains_key(address))
+        {
+            return Err("validator registry contains an identity without a public key".into());
+        }
+        Ok((validators, keys))
+    }
+
     pub fn total_validator_stake(&self) -> u64 {
         self.validators
             .lock()
