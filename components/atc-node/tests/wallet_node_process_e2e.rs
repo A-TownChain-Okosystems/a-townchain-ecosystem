@@ -14,9 +14,11 @@ fn free_addr() -> String {
     listener.local_addr().unwrap().to_string()
 }
 
-fn start_node(addr: &str) -> Child {
+fn start_node(rpc_addr: &str, p2p_addr: &str, data_dir: &std::path::Path) -> Child {
     Command::new(env!("CARGO_BIN_EXE_atc-node"))
-        .env("ATC_RPC_ADDR", addr)
+        .env("ATC_RPC_ADDR", rpc_addr)
+        .env("ATC_P2P_ADDR", p2p_addr)
+        .env("ATC_DATA_DIR", data_dir)
         .stdin(Stdio::null())
         .stdout(Stdio::null())
         .stderr(Stdio::inherit())
@@ -45,10 +47,12 @@ fn rpc(addr: &str, method: &str, params: Value) -> Value {
 
 #[test]
 fn wallet_to_atc_node_mempool_block_state_process_e2e() {
-    let addr = free_addr();
-    let mut child = start_node(&addr);
+    let rpc_addr = free_addr();
+    let p2p_addr = free_addr();
+    let data_dir = std::env::temp_dir().join(format!("atc-node-wallet-e2e-{}", std::process::id()));
+    let mut child = start_node(&rpc_addr, &p2p_addr, &data_dir);
 
-    let _ = rpc(&addr, "ping", json!({}));
+    let _ = rpc(&rpc_addr, "ping", json!({}));
 
     let key = WalletKey::from_seed([7u8; 32]);
     let tx = Transaction {
@@ -65,25 +69,27 @@ fn wallet_to_atc_node_mempool_block_state_process_e2e() {
         poh_hash: [0u8; 32],
     };
     let signature = tx.sign(&key).unwrap();
-    let wallet_client = TcpNodeClient::from_wallet(&addr, &key);
+    let wallet_client = TcpNodeClient::from_wallet(&rpc_addr, &key);
     let tx_id = wallet_client.submit_transaction(&tx, &signature).unwrap();
     let expected_id = tx.id(&signature).unwrap();
     assert_eq!(tx_id, expected_id);
 
-    let produced = rpc(&addr, "produce_block", json!({"timestamp":2,"max":100}));
+    let produced = rpc(&rpc_addr, "produce_block", json!({"timestamp":2,"max":100}));
     assert_eq!(produced["height"], 1);
     assert_eq!(produced["tx_count"], 1);
 
     assert_eq!(wallet_client.balance("bob").unwrap(), 100);
 
-    let block = rpc(&addr, "block", json!({"height":1}));
+    let block = rpc(&rpc_addr, "block", json!({"height":1}));
     assert_eq!(block["height"], 1);
     assert_eq!(block["tx_count"], 1);
 
-    let root = rpc(&addr, "state_root", json!({"height":1}));
+    let root = rpc(&rpc_addr, "state_root", json!({"height":1}));
     assert_eq!(root["height"], 1);
     assert!(!root["state_root"].as_str().unwrap().is_empty());
 
     let _ = child.kill();
     let _ = child.wait();
+    let _ = std::fs::remove_dir_all(&data_dir);
 }
+

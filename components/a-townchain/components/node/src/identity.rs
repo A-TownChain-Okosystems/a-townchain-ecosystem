@@ -8,7 +8,6 @@ pub const CHAIN_ID: &str = "atc";
 pub const DEVNET_NETWORK_ID: &str = "devnet";
 pub const PROTOCOL_VERSION: &str = "1.0.0";
 pub const VM_VERSION: &str = "1.0.0";
-pub const TX_DOMAIN: &str = "ATC-TX-DOMAIN";
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ChainIdentity {
@@ -22,14 +21,6 @@ pub struct RuntimeContext {
     pub identity: ChainIdentity,
     pub protocol_version: String,
     pub vm_version: String,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub struct TransactionDomain {
-    pub chain_id: String,
-    pub network_id: String,
-    pub protocol_version: String,
-    pub transaction_type: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -96,36 +87,6 @@ impl RuntimeContext {
             });
         }
         Ok(())
-    }
-}
-
-impl TransactionDomain {
-    pub fn signing_bytes(
-        &self,
-        nonce: u64,
-        sender: &str,
-        recipient: &str,
-        value: u64,
-        fee: u64,
-        payload: &[u8],
-    ) -> Vec<u8> {
-        let payload_hex = hex_encode(payload);
-        let nonce_s = nonce.to_string();
-        let value_s = value.to_string();
-        let fee_s = fee.to_string();
-        canonical_fields(&[
-            ("domain", TX_DOMAIN),
-            ("chain_id", self.chain_id.as_str()),
-            ("network_id", self.network_id.as_str()),
-            ("protocol_version", self.protocol_version.as_str()),
-            ("transaction_type", self.transaction_type.as_str()),
-            ("nonce", nonce_s.as_str()),
-            ("sender", sender),
-            ("recipient", recipient),
-            ("value", value_s.as_str()),
-            ("fee", fee_s.as_str()),
-            ("payload_hex", payload_hex.as_str()),
-        ])
     }
 }
 
@@ -268,18 +229,5 @@ mod tests {
             VM_VERSION
         )
         .is_ok());
-    }
-    #[test]
-    fn transaction_encoding_is_unambiguous() {
-        let d = TransactionDomain {
-            chain_id: CHAIN_ID.into(),
-            network_id: DEVNET_NETWORK_ID.into(),
-            protocol_version: PROTOCOL_VERSION.into(),
-            transaction_type: "transfer".into(),
-        };
-        assert_ne!(
-            d.signing_bytes(1, "alice", "bob", 10, 1, b"ab"),
-            d.signing_bytes(1, "alice", "bob", 10, 1, b"a\0b")
-        );
     }
 }

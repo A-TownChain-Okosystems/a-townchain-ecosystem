@@ -191,6 +191,10 @@ impl BlockChain {
         let h = *self.height.lock().unwrap();
         self.blocks.lock().unwrap().get(&h).cloned()
     }
+    pub fn by_id(&self, id: &[u8; 32]) -> Option<Block> {
+        let height = self.hashes.lock().unwrap().get(id).copied()?;
+        self.blocks.lock().unwrap().get(&height).cloned()
+    }
     pub fn height(&self) -> u64 {
         *self.height.lock().unwrap()
     }
@@ -247,9 +251,18 @@ impl Node {
         mut stream: TcpStream,
     ) -> thread::JoinHandle<Result<(), String>> {
         thread::spawn(move || loop {
-            match network::read_message(&mut stream)? {
-                Some(message) => self.handle_network_message(message)?,
-                None => return Ok(()),
+            match network::read_message(&mut stream) {
+                Ok(Some(message)) => {
+                    if let Err(err) = self.handle_network_message(message) {
+                        eprintln!("network peer handler failed: {err}");
+                        return Err(err);
+                    }
+                }
+                Ok(None) => return Ok(()),
+                Err(err) => {
+                    eprintln!("network peer read failed: {err}");
+                    return Err(err);
+                }
             }
         })
     }
@@ -266,12 +279,16 @@ impl Node {
         let reader = stream.try_clone().map_err(|e| e.to_string())?;
         transport.register_stream(stream)?;
         self.set_transport(transport.clone());
+        // Start the receive loop before requesting synchronization. Otherwise
+        // a peer can answer the request while this node is not yet consuming
+        // the stream, creating a startup race in process-level sync.
+        let handle = self.clone().serve_tcp_stream(reader);
         // Ask the peer for any height we do not have yet. The peer answers
         // from durable storage; requesting beyond its tip is harmless.
         transport.broadcast(NetworkMessage::BlockRequest {
             from_height: last.height.saturating_add(1),
         })?;
-        Ok(self.clone().serve_tcp_stream(reader))
+        Ok(handle)
     }
 
     /// Configure the validator identity used by the long-running node consensus loop.
@@ -418,10 +435,8 @@ impl Node {
                 let block_id = v.block;
                 self.submit_vote(v)?;
                 if self.consensus.weighted_finality(&block_id) {
-                    if let Some(block) = self.chain.last() {
-                        if block.id == block_id {
-                            let _ = self.finalize_weighted(&block)?;
-                        }
+                    if let Some(block) = self.chain.by_id(&block_id) {
+                        let _ = self.finalize_weighted(&block)?;
                     }
                 }
                 Ok(())
@@ -453,7 +468,13 @@ impl Node {
     }
 
     pub fn submit_vote_and_broadcast(&self, vote: Vote) -> Result<(), String> {
+        let block_id = vote.block;
         self.submit_vote(vote.clone())?;
+        if self.consensus.weighted_finality(&block_id) {
+            if let Some(block) = self.chain.by_id(&block_id) {
+                let _ = self.finalize_weighted(&block)?;
+            }
+        }
         self.broadcast(NetworkMessage::Vote(vote))
     }
     pub fn open_storage<P: AsRef<std::path::Path>>(
@@ -622,6 +643,9 @@ impl Node {
         self.consensus.set_height(height);
         self.broadcast(NetworkMessage::Block(b.clone()))?;
         self.vote_for_block(&b)?;
+        if self.consensus.weighted_finality(&b.id) {
+            let _ = self.finalize_weighted(&b)?;
+        }
         Ok(b)
     }
 
@@ -734,6 +758,9 @@ impl Node {
         self.consensus.set_height(b.height);
         self.broadcast(NetworkMessage::Block(b.clone()))?;
         self.vote_for_block(&b)?;
+        if self.consensus.weighted_finality(&b.id) {
+            let _ = self.finalize_weighted(&b)?;
+        }
         Ok(b)
     }
     pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
@@ -781,8 +808,8 @@ impl Node {
         if !self.consensus.weighted_finality(&b.id) {
             return Ok(false);
         }
-        if b.height > self.chain.height() || self.chain.last().map(|x| x.id) != Some(b.id) {
-            return Err("can only finalize the current canonical tip".into());
+        if b.height > self.chain.height() || self.chain.by_id(&b.id).map(|x| x.id) != Some(b.id) {
+            return Err("can only finalize a canonical block".into());
         }
         self.consensus.mark_finalized(b.height, b.id)?;
         self.storage.commit_finalized(b.height, b.id)?;

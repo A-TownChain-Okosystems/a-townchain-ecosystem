@@ -77,7 +77,7 @@ fn run_initial_node_a() {
     let (a_path, _) = paths();
     let node = Arc::new(Node::open_storage(CHAIN_ID, "node-a".into(), &a_path).unwrap());
     if node.chain.last().is_none() {
-        node.create_genesis(1).unwrap();
+        node.create_genesis_with_proposer(1, "atc-genesis").unwrap();
     }
     if node.consensus.total_validator_stake() == 0 {
         node.register_validator("validator-a".into(), 1).unwrap();
@@ -125,7 +125,7 @@ fn run_initial_node_b() {
     let (_, b_path) = paths();
     let node = Arc::new(Node::open_storage(CHAIN_ID, "node-b".into(), &b_path).unwrap());
     if node.chain.last().is_none() {
-        node.create_genesis(1).unwrap();
+        node.create_genesis_with_proposer(1, "atc-genesis").unwrap();
     }
     if node.consensus.total_validator_stake() == 0 {
         node.register_validator("validator-a".into(), 1).unwrap();
@@ -144,12 +144,21 @@ fn run_initial_node_b() {
         }
     }
     let handle = connected.expect("node-b could not connect to node-a");
-    wait_height(&node, 2);
+    // B must vote on block 1 before A can reach weighted finality and produce block 2.
+    // Waiting for height 2 first deadlocks the two processes: A waits for B's vote,
+    // while B waits for A to produce the next block.
+    wait_height(&node, 1);
     let block = node.chain.last().unwrap();
     node.submit_vote_and_broadcast(make_vote(block.id, "validator-b", 2))
         .unwrap();
-    thread::sleep(Duration::from_millis(250));
-    assert_eq!(node.chain.last().unwrap().id, block.id);
+    wait_height(&node, 2);
+    for _ in 0..100 {
+        if node.consensus.finalized().map(|x| x.0) == Some(1) {
+            break;
+        }
+        thread::sleep(Duration::from_millis(25));
+    }
+    assert_eq!(node.consensus.finalized().map(|x| x.0), Some(1));
     drop(handle);
 }
 
@@ -157,7 +166,7 @@ fn run_restart_node_a() {
     let (a_path, _) = paths();
     let node = Arc::new(Node::open_storage(CHAIN_ID, "node-a".into(), &a_path).unwrap());
     assert_eq!(node.chain.height(), 2);
-    assert_eq!(node.consensus.finalized().map(|x| x.0), Some(2));
+    assert_eq!(node.consensus.finalized().map(|x| x.0), Some(1));
 
     let block3 = node.produce_reward_block(3).unwrap();
     let listener = TcpListener::bind(("127.0.0.1", port())).unwrap();
@@ -187,7 +196,7 @@ fn run_restart_node_b() {
     let (_, b_path) = paths();
     let node = Arc::new(Node::open_storage(CHAIN_ID, "node-b".into(), &b_path).unwrap());
     assert_eq!(node.chain.height(), 2);
-    assert_eq!(node.consensus.finalized().map(|x| x.0), Some(2));
+    assert_eq!(node.consensus.finalized().map(|x| x.0), Some(1));
 
     let transport = Arc::new(TcpPeerTransport::new(CHAIN_ID, "node-b"));
     let handle = node

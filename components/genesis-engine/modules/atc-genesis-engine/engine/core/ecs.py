@@ -62,7 +62,8 @@ class System:
     world: World | None = None
 
     def update(self, dt: float) -> None:
-        """Default system hook; concrete systems override this method."""
+        """Abstract update hook; concrete systems must override it."""
+        raise NotImplementedError("System.update() must be implemented by a concrete system")
 
 
 @dataclass

@@ -33,7 +33,7 @@ fn parse_seed(value: &str) -> Result<[u8; 32], String> {
 }
 
 fn hex_to_bytes(value: &str) -> Result<Vec<u8>, String> {
-    if value.len() % 2 != 0 {
+    if !value.len().is_multiple_of(2) {
         return Err("hex value has odd length".into());
     }
     (0..value.len())

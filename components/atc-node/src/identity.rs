@@ -17,6 +17,49 @@ pub struct ChainIdentity {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub enum IdentityError {
+    EmptyField(&'static str),
+    GenesisMismatch {
+        configured: String,
+        computed: String,
+    },
+}
+
+impl std::fmt::Display for IdentityError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::EmptyField(field) => write!(f, "identity field {field} must not be empty"),
+            Self::GenesisMismatch {
+                configured,
+                computed,
+            } => {
+                write!(
+                    f,
+                    "genesis id mismatch: configured {configured}, computed {computed}"
+                )
+            }
+        }
+    }
+}
+
+impl std::error::Error for IdentityError {}
+
+impl ChainIdentity {
+    pub fn validate(&self) -> Result<(), IdentityError> {
+        if self.chain_id.is_empty() {
+            return Err(IdentityError::EmptyField("chain_id"));
+        }
+        if self.network_id.is_empty() {
+            return Err(IdentityError::EmptyField("network_id"));
+        }
+        if self.genesis_id.is_empty() {
+            return Err(IdentityError::EmptyField("genesis_id"));
+        }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RuntimeContext {
     pub identity: ChainIdentity,
     pub protocol_version: String,
@@ -105,9 +148,11 @@ fn hex_encode(bytes: &[u8]) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
     fn peers() -> Vec<String> {
         vec!["atc-node-1".into(), "atc-node-2".into()]
     }
+
     #[test]
     fn genesis_id_is_deterministic() {
         let p = peers();
@@ -134,6 +179,7 @@ mod tests {
         assert_eq!(a, b);
         assert_eq!(a.len(), 64);
     }
+
     #[test]
     fn identity_is_fail_closed() {
         let p = peers();
@@ -162,18 +208,5 @@ mod tests {
             VM_VERSION
         )
         .is_ok());
-    }
-    #[test]
-    fn transaction_encoding_is_unambiguous() {
-        let d = TransactionDomain {
-            chain_id: CHAIN_ID.into(),
-            network_id: DEVNET_NETWORK_ID.into(),
-            protocol_version: PROTOCOL_VERSION.into(),
-            transaction_type: "transfer".into(),
-        };
-        assert_ne!(
-            d.signing_bytes(1, "alice", "bob", 10, 1, b"ab"),
-            d.signing_bytes(1, "alice", "bob", 10, 1, b"a\0b")
-        );
     }
 }
