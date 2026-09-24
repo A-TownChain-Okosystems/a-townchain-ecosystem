@@ -22,6 +22,7 @@ use std::{
 const MAGIC: &[u8; 4] = b"ATCP";
 const VERSION: u8 = 1;
 const MAX_FRAME: usize = 8 * 1024 * 1024;
+const MAX_TX_PER_BLOCK: usize = 500;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum NetworkMessage {
@@ -328,6 +329,9 @@ fn block_decode(b: &[u8]) -> Result<Block, String> {
     let proposer = String::from_utf8(take(b, &mut p)?.to_vec()).map_err(|_| "invalid proposer")?;
     let ts = u64::from_be_bytes(fixed::<8>(b, &mut p)?);
     let n = u32::from_be_bytes(fixed::<4>(b, &mut p)?) as usize;
+    if n > MAX_TX_PER_BLOCK {
+        return Err("block transaction count exceeds protocol limit".into());
+    }
     let mut txs = Vec::with_capacity(n);
     for _ in 0..n {
         let raw = take(b, &mut p)?;
