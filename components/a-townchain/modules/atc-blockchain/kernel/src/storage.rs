@@ -649,6 +649,56 @@ mod tests {
     use super::*;
 
     #[test]
+    fn validator_snapshot_persists_public_keys_across_restart() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-snapshot-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let journal = path.with_extension("journal");
+
+        let key = ed25519_dalek::SigningKey::from_bytes(&[7u8; 32])
+            .verifying_key()
+            .to_bytes();
+        let mut validators = BTreeMap::new();
+        validators.insert("validator-a".to_string(), 100u64);
+        let mut keys = BTreeMap::new();
+        keys.insert("validator-a".to_string(), key);
+
+        {
+            let storage = ChainStorage::open(&journal).unwrap();
+            storage.commit_validators(42, &validators, &keys).unwrap();
+        }
+
+        {
+            let storage = ChainStorage::open(&journal).unwrap();
+            let (height, recovered) = storage.recover_validators().unwrap().unwrap();
+            assert_eq!(height, 42);
+            assert_eq!(recovered.get("validator-a"), Some(&(100, key)));
+        }
+
+        let _ = std::fs::remove_file(&journal.with_extension("validators"));
+        let _ = std::fs::remove_file(&journal);
+        let _ = std::fs::remove_file(&journal.with_extension("state"));
+        let _ = std::fs::remove_file(&journal.with_extension("finality"));
+        let _ = std::fs::remove_file(&journal.with_extension("slashing"));
+        let _ = std::fs::remove_file(&journal.with_extension("issuance"));
+    }
+
+    #[test]
+    fn incomplete_validator_snapshot_is_rejected() {
+        let storage = ChainStorage::new();
+        let mut validators = BTreeMap::new();
+        validators.insert("validator-a".to_string(), 100u64);
+        let keys = BTreeMap::new();
+        let err = storage.commit_validators(1, &validators, &keys).unwrap_err();
+        assert!(err.contains("every validator needs a public key"));
+    }
+
+    #[test]
     fn round_trip() {
         let s = ChainStorage::new();
         let b = Block::new(
