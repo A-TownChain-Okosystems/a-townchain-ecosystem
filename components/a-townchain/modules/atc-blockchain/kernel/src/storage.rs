@@ -625,8 +625,14 @@ impl ChainStorage {
                 keys.insert(address, public_key);
             }
             if q != b.len() { return Err("trailing validator bytes".into()); }
-            if snapshots.contains_key(&h) {
-                return Err("conflicting validator snapshot at same height".into());
+            // Multiple validator mutations can intentionally target the same
+            // next activation height before that block is committed. The journal is
+            // append-only, so the latest complete snapshot at that height is the
+            // durable revision. Revisions at an older height are never allowed.
+            if let Some((&latest_height, _)) = snapshots.last_key_value() {
+                if h < latest_height {
+                    return Err("validator snapshot height regressed".into());
+                }
             }
             snapshots.insert(h, (validators, keys));
         }
