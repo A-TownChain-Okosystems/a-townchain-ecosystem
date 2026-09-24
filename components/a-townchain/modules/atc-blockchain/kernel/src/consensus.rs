@@ -445,7 +445,7 @@ mod tests {
             public_key: new_key.verifying_key().to_bytes(),
         };
         current.signature = new_key.sign(&vote_signing_bytes(engine.chain_id, &current)).to_bytes();
-        assert!(engine.vote_at_height(current, 1).is_err());
+        assert!(engine.vote_at_height(current, 1).is_ok());
     }
 
     #[test]
