@@ -1188,6 +1188,57 @@ mod tests {
     }
 
     #[test]
+    fn multiple_validator_mutations_same_activation_height_keep_only_final_revision() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-multi-mutation-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[101u8; 32]);
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[102u8; 32]);
+        let key_c = ed25519_dalek::SigningKey::from_bytes(&[103u8; 32]);
+
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+        node.produce_reward_block(2).unwrap();
+
+        // Every mutation below targets the same pending activation height (2).
+        node.register_validator("validator-b".into(), 50).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key_c.verifying_key().to_bytes()).unwrap();
+        node.unregister_validator("validator-b").unwrap();
+
+        let pending = node.consensus.validator_snapshot_for_height(2).unwrap();
+        assert_eq!(pending.0.get("validator-a"), Some(&100));
+        assert_eq!(pending.1.get("validator-a"), Some(&key_c.verifying_key().to_bytes()));
+        assert!(!pending.0.contains_key("validator-b"));
+        assert!(!pending.1.contains_key("validator-b"));
+
+        drop(node);
+
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        let recovered = reopened.consensus.validator_snapshot_for_height(2).unwrap();
+        assert_eq!(recovered.0.get("validator-a"), Some(&100));
+        assert_eq!(recovered.1.get("validator-a"), Some(&key_c.verifying_key().to_bytes()));
+        assert!(!recovered.0.contains_key("validator-b"));
+        assert!(!recovered.1.contains_key("validator-b"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
     fn block_with_wrong_validator_activation_snapshot_is_rejected_before_commit() {
         let producer = Node::new(658467, "validator-a".into());
         producer.create_genesis_with_proposer(1, "genesis").unwrap();
