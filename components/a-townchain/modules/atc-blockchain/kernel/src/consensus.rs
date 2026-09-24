@@ -65,6 +65,10 @@ pub struct ConsensusEngine {
     votes: Mutex<BTreeMap<[u8; 32], Vec<Vote>>>,
     validators: Mutex<BTreeMap<String, u64>>,
     validator_keys: Mutex<BTreeMap<String, [u8; 32]>>,
+    /// Immutable validator-set snapshots keyed by the height at which the
+    /// set became active. Consensus verification never falls back to the
+    /// mutable current registry for historical blocks.
+    validator_snapshots: Mutex<BTreeMap<u64, (BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)>>,
 }
 
 impl ConsensusEngine {
@@ -78,7 +82,44 @@ impl ConsensusEngine {
             votes: Mutex::new(BTreeMap::new()),
             validators: Mutex::new(BTreeMap::new()),
             validator_keys: Mutex::new(BTreeMap::new()),
+            validator_snapshots: Mutex::new(BTreeMap::new()),
         }
+    }
+
+    fn capture_validator_snapshot(&self, height: u64) -> Result<(), String> {
+        let validators = self.validators.lock().map_err(|_| "validator lock poisoned".to_string())?.clone();
+        let keys = self.validator_keys.lock().map_err(|_| "validator key lock poisoned".to_string())?.clone();
+        if validators.len() != keys.len() || validators.keys().any(|id| !keys.contains_key(id)) {
+            return Err("cannot snapshot validator registry without complete public-key bindings".into());
+        }
+        self.validator_snapshots.lock().map_err(|_| "validator snapshot lock poisoned".to_string())?
+            .entry(height).or_insert((validators, keys));
+        Ok(())
+    }
+
+    pub fn restore_validator_snapshot(
+        &self,
+        height: u64,
+        validators: BTreeMap<String, u64>,
+        keys: BTreeMap<String, [u8; 32]>,
+    ) -> Result<(), String> {
+        if validators.len() != keys.len() || validators.keys().any(|id| !keys.contains_key(id)) {
+            return Err("validator snapshot has incomplete public-key bindings".into());
+        }
+        self.validator_snapshots.lock().map_err(|_| "validator snapshot lock poisoned".to_string())?
+            .insert(height, (validators, keys));
+        Ok(())
+    }
+
+    pub fn validator_snapshot_for_height(
+        &self,
+        height: u64,
+    ) -> Option<(BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)> {
+        self.validator_snapshots.lock().ok()?.range(..=height).next_back().map(|(_, snapshot)| snapshot.clone())
+    }
+
+    pub fn validator_snapshot_heights(&self) -> Vec<u64> {
+        self.validator_snapshots.lock().ok().map(|s| s.keys().copied().collect()).unwrap_or_default()
     }
 
     pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
@@ -104,6 +145,7 @@ impl ConsensusEngine {
         VerifyingKey::from_bytes(&public_key).map_err(|_| "invalid validator public key".to_string())?;
         self.validator_keys.lock().map_err(|_| "validator key lock poisoned".to_string())?
             .insert(address.to_owned(), public_key);
+        self.capture_validator_snapshot(self.height())?;
         Ok(())
     }
 
@@ -284,8 +326,10 @@ impl ConsensusEngine {
     }
 
     /// Canonical L1 finality: at least two thirds of registered validator stake.
-    pub fn weighted_finality(&self, id: &[u8; 32]) -> bool {
-        let validators = self.validators.lock().unwrap();
+    pub fn weighted_finality_at_height(&self, id: &[u8; 32], height: u64) -> bool {
+        let Some((validators, _keys)) = self.validator_snapshot_for_height(height) else {
+            return false;
+        };
         let total = validators.values().copied().fold(0u64, u64::saturating_add);
         if total == 0 {
             return false;
@@ -301,6 +345,10 @@ impl ConsensusEngine {
             .filter_map(|v| validators.get(&v.voter).copied())
             .fold(0u64, u64::saturating_add);
         (approved as u128) * 3 >= (total as u128) * 2
+    }
+
+    pub fn weighted_finality(&self, id: &[u8; 32]) -> bool {
+        self.weighted_finality_at_height(id, self.height())
     }
 
     pub fn mark_finalized(&self, height: u64, block: [u8; 32]) -> Result<(), String> {
