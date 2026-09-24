@@ -101,7 +101,8 @@ mod tests {
             true,
         ));
 
-        let request = CapabilityRequest::new("wallet.transfer", "transfer", "wallet/main");
+        let request = CapabilityRequest::new("wallet.transfer", "transfer", "wallet/main")
+            .with_permission("wallet.transfer");
         assert!(matches!(
             engine.evaluate("agent", &request, None),
             PolicyDecision::ApprovalRequired { .. }
