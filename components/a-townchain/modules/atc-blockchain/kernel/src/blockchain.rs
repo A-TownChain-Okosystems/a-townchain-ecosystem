@@ -1169,6 +1169,107 @@ mod tests {
     }
 
     #[test]
+    fn conflicting_same_height_block_is_rejected_after_finality() {
+        let producer_a = Node::new(658467, "validator-a".into());
+        producer_a.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&producer_a, "validator-a");
+        let canonical = producer_a.produce_reward_block(2).unwrap();
+
+        let producer_b = Node::new(658467, "validator-a".into());
+        producer_b.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&producer_b, "validator-a");
+        let conflicting = producer_b.produce_reward_block(3).unwrap();
+        assert_ne!(canonical.id, conflicting.id);
+        assert_eq!(canonical.height, conflicting.height);
+        assert_eq!(canonical.parent_hash, conflicting.parent_hash);
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+        receiver.handle_network_message(NetworkMessage::Block(canonical.clone())).unwrap();
+
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut va = Vote { block: canonical.id, voter: "validator-a".into(), approve: true, signature: [0;64], public_key: key_a.verifying_key().to_bytes() };
+        va.signature = key_a.sign(&consensus::vote_signing_bytes(658467, &va)).to_bytes();
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
+        let mut vb = Vote { block: canonical.id, voter: "validator-b".into(), approve: true, signature: [0;64], public_key: key_b.verifying_key().to_bytes() };
+        vb.signature = key_b.sign(&consensus::vote_signing_bytes(658467, &vb)).to_bytes();
+        receiver.handle_network_message(NetworkMessage::Vote(va)).unwrap();
+        receiver.handle_network_message(NetworkMessage::Vote(vb)).unwrap();
+        assert_eq!(receiver.consensus.finalized(), Some((canonical.height, canonical.id)));
+
+        let before_root = receiver.state.root();
+        assert!(receiver.handle_network_message(NetworkMessage::Block(conflicting)).is_err());
+        assert_eq!(receiver.chain.height(), canonical.height);
+        assert_eq!(receiver.chain.last().unwrap().id, canonical.id);
+        assert_eq!(receiver.state.root(), before_root);
+        assert_eq!(receiver.consensus.finalized(), Some((canonical.height, canonical.id)));
+        assert_eq!(receiver.storage.block(canonical.height).unwrap().id, canonical.id);
+    }
+
+    #[test]
+    fn duplicate_canonical_block_after_resync_is_idempotent_without_finality_change() {
+        let source = Node::new(658467, "validator-a".into());
+        source.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&source, "validator-a");
+        let block = source.produce_reward_block(2).unwrap();
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap();
+        let root = receiver.state.root();
+
+        assert!(receiver.handle_network_message(NetworkMessage::Block(block.clone())).is_err());
+        assert_eq!(receiver.chain.height(), block.height);
+        assert_eq!(receiver.chain.last().unwrap().id, block.id);
+        assert_eq!(receiver.state.root(), root);
+        assert_eq!(receiver.consensus.finalized(), None);
+    }
+
+    #[test]
+    fn block_request_from_divergent_peer_cannot_replace_finalized_block() {
+        let canonical = Node::new(658467, "validator-a".into());
+        canonical.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&canonical, "validator-a");
+        let block = canonical.produce_reward_block(2).unwrap();
+
+        let divergent = Node::new(658467, "validator-a".into());
+        divergent.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&divergent, "validator-a");
+        let other = divergent.produce_reward_block(99).unwrap();
+        assert_ne!(block.id, other.id);
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap();
+
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut va = Vote { block: block.id, voter: "validator-a".into(), approve: true, signature: [0;64], public_key: key_a.verifying_key().to_bytes() };
+        va.signature = key_a.sign(&consensus::vote_signing_bytes(658467, &va)).to_bytes();
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
+        let mut vb = Vote { block: block.id, voter: "validator-b".into(), approve: true, signature: [0;64], public_key: key_b.verifying_key().to_bytes() };
+        vb.signature = key_b.sign(&consensus::vote_signing_bytes(658467, &vb)).to_bytes();
+        receiver.handle_network_message(NetworkMessage::Vote(va)).unwrap();
+        receiver.handle_network_message(NetworkMessage::Vote(vb)).unwrap();
+        assert_eq!(receiver.consensus.finalized(), Some((block.height, block.id)));
+
+        let transport = Arc::new(CaptureTransport::default());
+        divergent.set_transport(transport.clone());
+        divergent.handle_network_message(NetworkMessage::BlockRequest { from_height: 1 }).unwrap();
+        let messages = transport.messages.lock().unwrap().clone();
+        assert!(messages.iter().any(|m| matches!(m, NetworkMessage::Block(b) if b.id == other.id)));
+
+        for message in messages {
+            let _ = receiver.handle_network_message(message);
+        }
+        assert_eq!(receiver.chain.height(), block.height);
+        assert_eq!(receiver.chain.last().unwrap().id, block.id);
+        assert_eq!(receiver.consensus.finalized(), Some((block.height, block.id)));
+    }
+
+    #[test]
     fn genesis_sets_chain_height_and_allows_first_append() {
         let chain = BlockChain::new();
         let genesis = Block::new(
