@@ -75,14 +75,17 @@ fn start_child(role: &str, root: &str, port: u16) -> std::process::Child {
 
 fn run_initial_node_a() {
     let (a_path, _) = paths();
-    let node = Arc::new(Node::open_storage(CHAIN_ID, "node-a".into(), &a_path).unwrap());
+    let node = Arc::new(Node::open_storage(CHAIN_ID, "validator-a".into(), &a_path).unwrap());
     if node.chain.last().is_none() {
         node.create_genesis_with_proposer(1, "genesis").unwrap();
     }
     if node.consensus.total_validator_stake() == 0 {
         node.register_validator("validator-a".into(), 1).unwrap();
         node.register_validator("validator-b".into(), 1).unwrap();
+        node.register_validator_key("validator-a", key(1).verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-b", key(2).verifying_key().to_bytes()).unwrap();
     }
+    node.set_vote_signer("validator-a", [1u8; 32]);
 
     let listener = TcpListener::bind(("127.0.0.1", port())).unwrap();
     let transport = Arc::new(TcpPeerTransport::new(CHAIN_ID, "node-a"));
@@ -139,7 +142,10 @@ fn run_initial_node_b() {
     if node.consensus.total_validator_stake() == 0 {
         node.register_validator("validator-a".into(), 1).unwrap();
         node.register_validator("validator-b".into(), 1).unwrap();
+        node.register_validator_key("validator-a", key(1).verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-b", key(2).verifying_key().to_bytes()).unwrap();
     }
+    node.set_vote_signer("validator-b", [2u8; 32]);
 
     let transport = Arc::new(TcpPeerTransport::new(CHAIN_ID, "node-b"));
     let mut connected = None;
@@ -190,7 +196,10 @@ fn run_initial_node_b() {
 
 fn run_restart_node_a() {
     let (a_path, _) = paths();
-    let node = Arc::new(Node::open_storage(CHAIN_ID, "node-a".into(), &a_path).unwrap());
+    let node = Arc::new(Node::open_storage(CHAIN_ID, "validator-a".into(), &a_path).unwrap());
+    node.register_validator_key("validator-a", key(1).verifying_key().to_bytes()).unwrap();
+    node.register_validator_key("validator-b", key(2).verifying_key().to_bytes()).unwrap();
+    node.set_vote_signer("validator-a", [1u8; 32]);
     assert_eq!(node.chain.height(), 2);
     assert_eq!(node.consensus.finalized().map(|x| x.0), Some(2));
 
@@ -220,7 +229,10 @@ fn run_restart_node_a() {
 
 fn run_restart_node_b() {
     let (_, b_path) = paths();
-    let node = Arc::new(Node::open_storage(CHAIN_ID, "node-b".into(), &b_path).unwrap());
+    let node = Arc::new(Node::open_storage(CHAIN_ID, "validator-b".into(), &b_path).unwrap());
+    node.register_validator_key("validator-a", key(1).verifying_key().to_bytes()).unwrap();
+    node.register_validator_key("validator-b", key(2).verifying_key().to_bytes()).unwrap();
+    node.set_vote_signer("validator-b", [2u8; 32]);
     assert_eq!(node.chain.height(), 2);
     assert_eq!(node.consensus.finalized().map(|x| x.0), Some(2));
 
