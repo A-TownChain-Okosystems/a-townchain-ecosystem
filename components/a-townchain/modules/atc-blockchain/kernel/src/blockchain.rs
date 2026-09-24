@@ -1047,6 +1047,56 @@ mod tests {
     use super::*;
 
     #[test]
+    fn incomplete_validator_registration_is_pending_until_key_binding_and_survives_only_after_completion() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-bootstrap-pending-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[111u8; 32]);
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[112u8; 32]);
+
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+
+        // A validator without a key is an incomplete identity and is not a
+        // durable consensus snapshot.
+        node.register_validator("validator-a".into(), 100).unwrap();
+        drop(node);
+
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        assert_eq!(reopened.consensus.validator_stake("validator-a"), 0);
+        assert!(reopened.consensus.validator_public_key("validator-a").is_none());
+
+        // Once the identity is complete, the snapshot becomes durable.
+        reopened.register_validator("validator-a".into(), 100).unwrap();
+        reopened.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+        reopened.register_validator("validator-b".into(), 50).unwrap();
+        reopened.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        reopened.finalize_validator_snapshot().unwrap();
+
+        drop(reopened);
+        let recovered = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        let snapshot = recovered.consensus.validator_snapshot_for_height(0).unwrap();
+        assert_eq!(snapshot.0.get("validator-a"), Some(&100));
+        assert_eq!(snapshot.0.get("validator-b"), Some(&50));
+        assert_eq!(snapshot.1.get("validator-a"), Some(&key_a.verifying_key().to_bytes()));
+        assert_eq!(snapshot.1.get("validator-b"), Some(&key_b.verifying_key().to_bytes()));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
     fn validator_activation_is_bound_to_committed_block_state_and_survives_restart() {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-state-binding-{}-{}",
