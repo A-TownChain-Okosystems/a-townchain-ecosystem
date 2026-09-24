@@ -50,7 +50,7 @@ mod tests {
     }
     #[test]
     fn transaction_id_is_deterministic() {
-        let a = build_signed_transfer("alice", "bob", 1, 0);
+        let a = build_signed_transfer("alice", "bob", 1u128 * atc_blockchain::economics::ATC_BASE_UNITS, 0);
         let b = build_signed_transfer("alice", "bob", 1, 0);
         assert_eq!(a.id, b.id);
         assert_eq!(a.payload, b.payload);
