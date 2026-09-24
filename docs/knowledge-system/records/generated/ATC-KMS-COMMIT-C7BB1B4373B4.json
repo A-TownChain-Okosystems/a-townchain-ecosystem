@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-C7BB1B4373B4",
-  "timestamp": "2026-09-24T14:42:56.679568Z",
+  "timestamp": "2026-09-24T14:48:41.364764Z",
   "category": "change",
   "title": "Commit: fix(wallet): remove nested legacy transaction signing domain",
   "context": "Git commit c7bb1b4373b4257d9b6f5dda7229f26d6b895950 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/c7bb1b4373b4257d9b6f5dda7229f26d6b895950",
-    "commit": "f8aca14c2a32ea3b36daa793dd7ae9b82ae0ac70"
+    "commit": "6409e032d89f2a95f875b4fa6a481b645edae083"
   },
   "tags": [
     "commit",

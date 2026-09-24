@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-AE29922E65AB",
-  "timestamp": "2026-09-24T14:42:56.679568Z",
+  "timestamp": "2026-09-24T14:48:41.364764Z",
   "category": "change",
   "title": "Commit: refactor(l1): centralize canonical chain identity",
   "context": "Git commit ae29922e65abd80d7c3e3fdc90f2e064c4e63fb6 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/ae29922e65abd80d7c3e3fdc90f2e064c4e63fb6",
-    "commit": "f8aca14c2a32ea3b36daa793dd7ae9b82ae0ac70"
+    "commit": "6409e032d89f2a95f875b4fa6a481b645edae083"
   },
   "tags": [
     "commit",

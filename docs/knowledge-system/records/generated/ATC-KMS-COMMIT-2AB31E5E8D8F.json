@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-2AB31E5E8D8F",
+  "timestamp": "2026-09-24T14:48:41.364764Z",
+  "category": "change",
+  "title": "Commit: fix(l1-e2e): reopen journal file on persistence recovery",
+  "context": "Git commit 2ab31e5e8d8f3dcc10f65a3a5ebee1912707ab28 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/2ab31e5e8d8f3dcc10f65a3a5ebee1912707ab28",
+    "commit": "6409e032d89f2a95f875b4fa6a481b645edae083"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(l1-e2e): reopen journal file on persistence recovery"
+}

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-0447EB82DE1E",
-  "timestamp": "2026-09-24T14:42:56.679568Z",
+  "timestamp": "2026-09-24T14:48:41.364764Z",
   "category": "change",
   "title": "Commit: test(l1): verify node restart state recovery",
   "context": "Git commit 0447eb82de1e6136378a427fe5b74abc4c40d071 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/0447eb82de1e6136378a427fe5b74abc4c40d071",
-    "commit": "f8aca14c2a32ea3b36daa793dd7ae9b82ae0ac70"
+    "commit": "6409e032d89f2a95f875b4fa6a481b645edae083"
   },
   "tags": [
     "commit",

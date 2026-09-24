@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-921B78599894",
-  "timestamp": "2026-09-24T14:42:56.679568Z",
+  "timestamp": "2026-09-24T14:48:41.364764Z",
   "category": "change",
   "title": "Commit: fix(storage): factor recovery record types for clippy",
   "context": "Git commit 921b7859989435edfd768186f499dac1d506cf0d on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/921b7859989435edfd768186f499dac1d506cf0d",
-    "commit": "f8aca14c2a32ea3b36daa793dd7ae9b82ae0ac70"
+    "commit": "6409e032d89f2a95f875b4fa6a481b645edae083"
   },
   "tags": [
     "commit",
