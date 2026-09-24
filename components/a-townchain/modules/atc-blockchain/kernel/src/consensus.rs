@@ -687,6 +687,11 @@ mod tests {
             key.sign(&bytes).to_bytes()
         };
         engine.register_validator_key("a", key.verifying_key().to_bytes()).unwrap();
+        engine.restore_validator_snapshot(
+            1,
+            engine.validators_snapshot(),
+            [("a".to_string(), key.verifying_key().to_bytes())].into_iter().collect(),
+        ).unwrap();
         let evidence = SlashingEvidence {
             validator: "a".into(), height: 1, block_a: [1; 32], block_b: [2; 32],
             approve_a: true, approve_b: true, public_key: key.verifying_key().to_bytes(),
@@ -698,6 +703,74 @@ mod tests {
         assert_eq!(engine.slashed_stake("a"), 40);
         assert_eq!(engine.slash(evidence, 10).unwrap(), 10);
         assert_eq!(engine.validator_stake("a"), 50);
+    }
+
+    #[test]
+    fn slashing_uses_validator_key_at_evidence_height_after_rotation() {
+        let engine = ConsensusEngine::new(658467, "proposer".into());
+        let old_key = SigningKey::from_bytes(&[81u8; 32]);
+        let new_key = SigningKey::from_bytes(&[82u8; 32]);
+
+        engine.register_validator("alice".into(), 100).unwrap();
+        engine.register_validator_key("alice", old_key.verifying_key().to_bytes()).unwrap();
+        engine.restore_validator_snapshot(
+            1,
+            engine.validators_snapshot(),
+            [("alice".to_string(), old_key.verifying_key().to_bytes())]
+                .into_iter()
+                .collect(),
+        ).unwrap();
+
+        engine.register_validator_key("alice", new_key.verifying_key().to_bytes()).unwrap();
+        engine.restore_validator_snapshot(
+            2,
+            engine.validators_snapshot(),
+            [("alice".to_string(), new_key.verifying_key().to_bytes())]
+                .into_iter()
+                .collect(),
+        ).unwrap();
+
+        let sign = |key: &SigningKey, block: [u8; 32]| {
+            let mut bytes = Vec::new();
+            bytes.extend_from_slice(b"ATC-SLASH-V1");
+            bytes.extend_from_slice(&engine.chain_id.to_be_bytes());
+            bytes.extend_from_slice(&1u64.to_be_bytes());
+            bytes.extend_from_slice(&block);
+            bytes.push(1);
+            bytes.extend_from_slice(&(5u32).to_be_bytes());
+            bytes.extend_from_slice(b"alice");
+            key.sign(&bytes).to_bytes()
+        };
+        let evidence = SlashingEvidence {
+            validator: "alice".into(),
+            height: 1,
+            block_a: [91; 32],
+            block_b: [92; 32],
+            approve_a: true,
+            approve_b: true,
+            public_key: old_key.verifying_key().to_bytes(),
+            signature_a: sign(&old_key, [91; 32]),
+            signature_b: sign(&old_key, [92; 32]),
+            reason: "double-sign".into(),
+        };
+        assert_eq!(engine.slash(evidence, 10).unwrap(), 10);
+
+        let bad = SlashingEvidence {
+            validator: "alice".into(),
+            height: 1,
+            block_a: [93; 32],
+            block_b: [94; 32],
+            approve_a: true,
+            approve_b: true,
+            public_key: new_key.verifying_key().to_bytes(),
+            signature_a: sign(&new_key, [93; 32]),
+            signature_b: sign(&new_key, [94; 32]),
+            reason: "double-sign".into(),
+        };
+        assert_eq!(
+            engine.slash(bad, 10).unwrap_err(),
+            "slashing evidence public key does not match validator identity at evidence height"
+        );
     }
 
     #[test]
