@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-ATC-STANDARDS-4D797FB528",
-  "timestamp": "2026-09-24T14:37:46.647254Z",
+  "timestamp": "2026-09-24T14:39:17.998944Z",
   "category": "module",
   "title": "Component: atc-standards",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-standards",
-    "commit": "565520e5c76d2678a5bb45e624d4ce291551d806"
+    "commit": "78a86617b9947b472e64689bc3ea9a90c4ee1675"
   },
   "tags": [
     "atc-standards",

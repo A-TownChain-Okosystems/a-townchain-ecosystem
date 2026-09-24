@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-AURORA-AI-MODULES-ATC-AURORA-MEMORY-CARGO-TOML-CB79D43970",
-  "timestamp": "2026-09-24T14:37:46.647254Z",
+  "timestamp": "2026-09-24T14:39:17.998944Z",
   "category": "evidence",
   "title": "Indexed source: components/aurora-ai/modules/atc-aurora-memory/Cargo.toml",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/aurora-ai/modules/atc-aurora-memory/Cargo.toml",
-    "commit": "565520e5c76d2678a5bb45e624d4ce291551d806"
+    "commit": "78a86617b9947b472e64689bc3ea9a90c4ee1675"
   },
   "tags": [
     "generated",
