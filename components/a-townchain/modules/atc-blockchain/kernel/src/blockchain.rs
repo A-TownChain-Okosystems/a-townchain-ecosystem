@@ -1351,6 +1351,85 @@ mod tests {
     }
 
     #[test]
+    fn recovery_rejects_cross_journal_issuance_height_mismatch() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-cross-journal-issuance-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&node, "validator-a");
+        node.produce_reward_block(2).unwrap();
+        drop(node);
+
+        let mut record = Vec::from(b"ATCI1".as_slice());
+        record.extend_from_slice(&0u64.to_be_bytes());
+        record.extend_from_slice(&0u128.to_be_bytes());
+        std::fs::write(
+            path.with_extension("issuance"),
+            format!("{}\n", hex::encode(record)),
+        )
+        .unwrap();
+
+        let err = Node::open_storage(658467, "validator-a".into(), &path).unwrap_err();
+        assert!(err.contains("recovered issuance height 0 does not match canonical tip 1"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovery_rejects_cross_journal_state_height_mismatch() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-cross-journal-state-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&node, "validator-a");
+        node.produce_reward_block(2).unwrap();
+        drop(node);
+
+        let mut record = Vec::new();
+        record.extend_from_slice(&0u64.to_be_bytes());
+        record.extend_from_slice(&0u32.to_be_bytes());
+        record.extend_from_slice(&0u32.to_be_bytes());
+        std::fs::write(
+            path.with_extension("state"),
+            format!("{}\n", hex::encode(record)),
+        )
+        .unwrap();
+
+        let err = Node::open_storage(658467, "validator-a".into(), &path).unwrap_err();
+        assert!(err.contains("recovered state height 0 does not match canonical tip 1"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
     fn genesis_sets_chain_height_and_allows_first_append() {
         let chain = BlockChain::new();
         let genesis = Block::new(
