@@ -735,6 +735,43 @@ mod tests {
     }
 
     #[test]
+    fn validator_snapshot_history_survives_restart_without_mixing_heights() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-history-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let key0 = ed25519_dalek::SigningKey::from_bytes(&[41u8; 32]).verifying_key().to_bytes();
+        let key1 = ed25519_dalek::SigningKey::from_bytes(&[42u8; 32]).verifying_key().to_bytes();
+        let mut v0 = BTreeMap::new();
+        v0.insert("alice".to_string(), 100u64);
+        let mut k0 = BTreeMap::new();
+        k0.insert("alice".to_string(), key0);
+        let mut v1 = BTreeMap::new();
+        v1.insert("alice".to_string(), 60u64);
+        v1.insert("bob".to_string(), 40u64);
+        let mut k1 = BTreeMap::new();
+        k1.insert("alice".to_string(), key1);
+        k1.insert("bob".to_string(), ed25519_dalek::SigningKey::from_bytes(&[43u8; 32]).verifying_key().to_bytes());
+
+        {
+            let storage = ChainStorage::open(&path).unwrap();
+            storage.commit_validators(0, &v0, &k0).unwrap();
+            storage.commit_validators(10, &v1, &k1).unwrap();
+        }
+        let recovered = ChainStorage::open(&path).unwrap().recover_validator_snapshots().unwrap();
+        assert_eq!(recovered.get(&0).unwrap().1.get("alice"), Some(&key0));
+        assert_eq!(recovered.get(&10).unwrap().1.get("alice"), Some(&key1));
+        assert_eq!(recovered.get(&0).unwrap().0.get("bob"), None);
+        assert_eq!(recovered.get(&10).unwrap().0.get("bob"), Some(&40));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
     fn incomplete_validator_snapshot_is_rejected() {
         let storage = ChainStorage::new();
         let mut validators = BTreeMap::new();
