@@ -1211,6 +1211,42 @@ mod tests {
     }
 
     #[test]
+    fn late_conflicting_block_after_finality_cannot_replace_canonical_state() {
+        let source = Node::new(658467, "validator-a".into());
+        source.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&source, "validator-a");
+        let canonical = source.produce_reward_block(2).unwrap();
+
+        let fork_source = Node::new(658467, "validator-a".into());
+        fork_source.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&fork_source, "validator-a");
+        let fork = fork_source.produce_reward_block(3).unwrap();
+        assert_ne!(canonical.id, fork.id);
+
+        let node = Node::new(658467, "validator-b".into());
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&node, "validator-b");
+        node.handle_network_message(NetworkMessage::Block(canonical.clone())).unwrap();
+
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut vote_a = Vote { block: canonical.id, voter: "validator-a".into(), approve: true, signature: [0;64], public_key: key_a.verifying_key().to_bytes() };
+        vote_a.signature = key_a.sign(&consensus::vote_signing_bytes(658467, &vote_a)).to_bytes();
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
+        let mut vote_b = Vote { block: canonical.id, voter: "validator-b".into(), approve: true, signature: [0;64], public_key: key_b.verifying_key().to_bytes() };
+        vote_b.signature = key_b.sign(&consensus::vote_signing_bytes(658467, &vote_b)).to_bytes();
+        node.handle_network_message(NetworkMessage::Vote(vote_a)).unwrap();
+        node.handle_network_message(NetworkMessage::Vote(vote_b)).unwrap();
+        assert_eq!(node.consensus.finalized(), Some((canonical.height, canonical.id)));
+
+        let state_root = node.state.root();
+        let finalized = node.consensus.finalized();
+        assert!(node.import_block(fork).is_err());
+        assert_eq!(node.chain.last().unwrap().id, canonical.id);
+        assert_eq!(node.state.root(), state_root);
+        assert_eq!(node.consensus.finalized(), finalized);
+    }
+
+    #[test]
     fn duplicate_canonical_block_after_resync_is_idempotent_without_finality_change() {
         let source = Node::new(658467, "validator-a".into());
         source.create_genesis_with_proposer(1, "genesis").unwrap();
