@@ -492,6 +492,19 @@ mod tests {
     use std::thread;
 
     #[test]
+    fn block_decode_rejects_excessive_transaction_count_before_allocation() {
+        let mut bytes = Vec::new();
+        bytes.extend_from_slice(&1u64.to_be_bytes());
+        bytes.extend_from_slice(&[0u8; 32]);
+        bytes.extend_from_slice(&0u32.to_be_bytes());
+        bytes.extend_from_slice(&0u64.to_be_bytes());
+        bytes.extend_from_slice(&u32::MAX.to_be_bytes());
+
+        let err = block_decode(&bytes).unwrap_err();
+        assert_eq!(err, "block transaction count exceeds protocol limit");
+    }
+
+    #[test]
     fn tcp_handshake_and_complete_block_transfer() {
         let listener = TcpListener::bind("127.0.0.1:0").unwrap();
         let addr = listener.local_addr().unwrap();
