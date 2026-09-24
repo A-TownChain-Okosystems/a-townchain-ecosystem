@@ -61,6 +61,41 @@ impl Default for ValidatorState {
     }
 }
 
+impl ValidatorTransition {
+    /// Canonical binary payload. All integer fields are big-endian and every
+    /// variable-length address is length-prefixed with u32.
+    pub fn encode(&self) -> Vec<u8> {
+        let mut out = Vec::from(b"ATC-VAL-TX-V1" as &[u8]);
+        let put_address = |out: &mut Vec<u8>, address: &str| {
+            out.extend_from_slice(&(address.len() as u32).to_be_bytes());
+            out.extend_from_slice(address.as_bytes());
+        };
+        match self {
+            Self::Register { address, stake, public_key, activation_height } => {
+                out.push(0); put_address(&mut out, address); out.extend_from_slice(&stake.to_be_bytes());
+                out.extend_from_slice(public_key); out.extend_from_slice(&activation_height.to_be_bytes());
+            }
+            Self::RotateKey { address, public_key, activation_height } => {
+                out.push(1); put_address(&mut out, address); out.extend_from_slice(public_key);
+                out.extend_from_slice(&activation_height.to_be_bytes());
+            }
+            Self::Stake { address, amount } => { out.push(2); put_address(&mut out, address); out.extend_from_slice(&amount.to_be_bytes()); }
+            Self::Unstake { address, amount } => { out.push(3); put_address(&mut out, address); out.extend_from_slice(&amount.to_be_bytes()); }
+            Self::Slash { address, evidence_id, evidence_height, penalty, activation_height } => {
+                out.push(4); put_address(&mut out, address); out.extend_from_slice(evidence_id);
+                out.extend_from_slice(&evidence_height.to_be_bytes()); out.extend_from_slice(&penalty.to_be_bytes());
+                out.extend_from_slice(&activation_height.to_be_bytes());
+            }
+            Self::Unregister { address, activation_height } => {
+                out.push(5); put_address(&mut out, address); out.extend_from_slice(&activation_height.to_be_bytes());
+            }
+        }
+        out
+    }
+
+    pub fn id(&self) -> [u8; 32] { simple_hash(&self.encode()) }
+}
+
 impl ValidatorState {
     pub fn new() -> Self {
         Self { validators: BTreeMap::new() }
