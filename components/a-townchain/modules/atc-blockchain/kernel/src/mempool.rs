@@ -570,7 +570,7 @@ impl StateDb {
                         Err(e) => { validators.restore(validator_snapshot.clone()); return Err(MempoolError::InvalidValidatorTransition(e)); }
                     };
                     match &transition {
-                        crate::validator_state::ValidatorTransition::Register { address, stake, .. }
+                        crate::validator_state::ValidatorTransition::Register { address, .. }
                         | crate::validator_state::ValidatorTransition::RotateKey { address, .. }
                         | crate::validator_state::ValidatorTransition::Unregister { address, .. } if address != &tx.sender_did => {
                             validators.restore(validator_snapshot.clone());
