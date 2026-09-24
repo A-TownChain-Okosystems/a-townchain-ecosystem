@@ -88,4 +88,12 @@ mod tests {
         let r = hub.inference("shiva-1.0", "test prompt");
         assert!(r.contains("shiva-1.0"));
     }
+
+    #[test]
+    fn test_inference_accepts_unicode_without_panicking() {
+        let hub = ModelHub::new();
+        let prompt = "Ä".repeat(100);
+        let response = hub.inference("shiva-1.0", &prompt);
+        assert!(response.contains(&"Ä".repeat(40)));
+    }
 }
