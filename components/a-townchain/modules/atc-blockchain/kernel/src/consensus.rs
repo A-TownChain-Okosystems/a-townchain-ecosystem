@@ -292,7 +292,6 @@ mod tests {
         let engine = ConsensusEngine::new(658467, "proposer".into());
         let a = SigningKey::from_bytes(&[1u8; 32]);
         let b = SigningKey::from_bytes(&[2u8; 32]);
-        let c = SigningKey::from_bytes(&[3u8; 32]);
         engine.register_validator("a".into(), 40).unwrap();
         engine.register_validator("b".into(), 35).unwrap();
         engine.register_validator("c".into(), 25).unwrap();
