@@ -452,6 +452,48 @@ impl ChainStorage {
         Ok(latest)
     }
 
+    /// Recover every durable validator snapshot, preserving historical
+    /// height/epoch boundaries rather than only the latest mutable set.
+    pub fn recover_validator_snapshots(&self) -> Result<BTreeMap<u64, ValidatorSnapshot>, String> {
+        let Some(p) = &self.validator_journal else {
+            return Ok(BTreeMap::new());
+        };
+        if !p.exists() {
+            return Ok(BTreeMap::new());
+        }
+        let f = File::open(p).map_err(|e| e.to_string())?;
+        let mut snapshots = BTreeMap::new();
+        for (line_no, line) in BufReader::new(f).lines().enumerate() {
+            let raw = line.map_err(|e| e.to_string())?;
+            if raw.trim().is_empty() { continue; }
+            let b = hex::decode(raw.trim())
+                .map_err(|e| format!("validator journal line {}: invalid hex: {e}", line_no + 1))?;
+            if b.starts_with(LEGACY_VALIDATOR_MAGIC) {
+                return Err(format!("validator journal line {}: legacy validator snapshot has no public keys; migration is required before restart", line_no + 1));
+            }
+            if !b.starts_with(VALIDATOR_MAGIC) {
+                return Err(format!("validator journal line {}: invalid magic", line_no + 1));
+            }
+            let mut q = VALIDATOR_MAGIC.len();
+            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let n = u32::from_be_bytes(fixed::<4>(&b, &mut q)?) as usize;
+            let mut validators = BTreeMap::new();
+            let mut keys = BTreeMap::new();
+            for _ in 0..n {
+                let address = String::from_utf8(get(&b, &mut q)?.to_vec()).map_err(|_| "invalid validator address")?;
+                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let public_key = fixed::<32>(&b, &mut q)?;
+                ed25519_dalek::VerifyingKey::from_bytes(&public_key).map_err(|_| "invalid validator public key")?;
+                if address.is_empty() || stake == 0 { return Err("invalid validator record".into()); }
+                if validators.insert(address.clone(), stake).is_some() { return Err("duplicate validator record".into()); }
+                keys.insert(address, public_key);
+            }
+            if q != b.len() { return Err("trailing validator bytes".into()); }
+            snapshots.insert(h, (validators, keys));
+        }
+        Ok(snapshots)
+    }
+
     pub fn validator_snapshot_round_trip_for_restart(
         &self,
         height: u64,
