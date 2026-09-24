@@ -82,6 +82,22 @@ fn block_signing_bytes(chain_id: u64, b: &Block) -> Vec<u8> {
     out
 }
 
+fn committed_state_root(
+    base_state_root: [u8; 32],
+    height: u64,
+    validator_commitment: Option<[u8; 32]>,
+) -> Result<[u8; 32], String> {
+    if height == 0 {
+        return Ok(base_state_root);
+    }
+    let validator_commitment = validator_commitment.ok_or("validator snapshot is unavailable for state commitment")?;
+    let mut bytes = Vec::from(b"ATC-STATE-COMMIT-V1".as_slice());
+    bytes.extend_from_slice(&height.to_be_bytes());
+    bytes.extend_from_slice(&base_state_root);
+    bytes.extend_from_slice(&validator_commitment);
+    Ok(simple_hash(&bytes))
+}
+
 fn tx_root(txs: &[Transaction]) -> [u8; 32] {
     let mut b = Vec::new();
     for x in txs {
@@ -499,7 +515,12 @@ impl Node {
         }
 
         let root = self.state.root();
-        if root != b.state_root || receipts::root(&receipts) != b.receipt_root {
+        let expected_state_root = committed_state_root(
+            root,
+            b.height,
+            self.consensus.validator_snapshot_commitment(b.height),
+        )?;
+        if expected_state_root != b.state_root || receipts::root(&receipts) != b.receipt_root {
             self.state.restore(state_snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
             let _ = self.state.restore_issued_base_units(issued_snapshot);
@@ -629,8 +650,13 @@ impl Node {
                     issuance_height, last.height
                 ));
             }
-            if n.state.root() != last.state_root {
-                return Err("recovered state root mismatch".into());
+            let expected_state_root = committed_state_root(
+                n.state.root(),
+                last.height,
+                n.consensus.validator_snapshot_commitment(last.height),
+            )?;
+            if expected_state_root != last.state_root {
+                return Err("recovered state/validator commitment mismatch".into());
             }
             // Every historical validator activation height must have a
             // canonical predecessor block. Height H+1 is the only pending
@@ -732,9 +758,14 @@ impl Node {
         self.state
             .apply_block_reward(height, &self.proposer)
             .map_err(|e| format!("block reward: {e}"))?;
+        let state_root = committed_state_root(
+            self.state.root(),
+            height,
+            self.consensus.validator_snapshot_commitment(height),
+        )?;
         let b = self.sign_block(Block::new(
             height, parent.id, self.proposer.clone(), t, Vec::new(),
-            self.state.root(), receipts::root(&[]), [0; 64],
+            state_root, receipts::root(&[]), [0; 64],
         ))?;
         self.chain.validate_append(&b)?;
         if let Err(e) = self.storage.commit_block_state_issuance(
@@ -819,7 +850,11 @@ impl Node {
         self.state
             .apply_block_reward(block_height, &self.proposer)
             .map_err(|e| format!("block reward: {e}"))?;
-        let new_root = self.state.root();
+        let new_root = committed_state_root(
+            self.state.root(),
+            block_height,
+            self.consensus.validator_snapshot_commitment(block_height),
+        )?;
         let receipt_root = receipts::root(&receipts);
         let b = self.sign_block(Block::new(
             block_height, parent.id, self.proposer.clone(), t, txs,
