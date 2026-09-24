@@ -464,7 +464,10 @@ impl StateDb {
         combined.extend_from_slice(&supply.to_be_bytes());
         combined.extend_from_slice(&self.issued_base_units().to_be_bytes());
         combined.extend_from_slice(&dao_root);
-        combined.extend_from_slice(&self.validator_root());
+        let validator_snapshot = self.validator_snapshot();
+        if !validator_snapshot.is_empty() {
+            combined.extend_from_slice(&self.validator_root());
+        }
         simple_hash(&combined)
     }
     pub fn apply_dao_payload(
