@@ -587,6 +587,25 @@ mod tests {
     }
 
     #[test]
+    fn validator_snapshot_sync_message_round_trips_deterministically() {
+        let key = ed25519_dalek::SigningKey::from_bytes(&[91u8; 32]).verifying_key().to_bytes();
+        let mut validators = BTreeMap::new();
+        validators.insert("validator-a".to_string(), 100);
+        let mut keys = BTreeMap::new();
+        keys.insert("validator-a".to_string(), key);
+        let block = Block::new(1, [7; 32], "validator-a".into(), 361, Vec::new(), [8; 32], [0; 32], [0; 64]);
+        let message = NetworkMessage::BlockWithValidatorSnapshot {
+            block: block.clone(),
+            activation_height: 1,
+            validators: validators.clone(),
+            validator_keys: keys.clone(),
+        };
+        let decoded = decode(&encode(&message).unwrap()).unwrap();
+        assert_eq!(decoded, message);
+        assert_eq!(matches!(decoded, NetworkMessage::BlockWithValidatorSnapshot { block: b, .. } if b.id == block.id), true);
+    }
+
+    #[test]
     fn tcp_handshake_and_complete_block_transfer() {
         let listener = TcpListener::bind("127.0.0.1:0").unwrap();
         let addr = listener.local_addr().unwrap();
