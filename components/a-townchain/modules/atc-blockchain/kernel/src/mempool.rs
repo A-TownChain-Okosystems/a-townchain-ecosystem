@@ -293,6 +293,7 @@ pub struct StateDb {
     dao: Mutex<crate::dao_state::DaoState>,
     genesis_sealed: Mutex<bool>,
     issued_base_units: Mutex<u128>,
+    validator_state: Mutex<crate::validator_state::ValidatorState>,
 }
 impl Default for StateDb {
     fn default() -> Self {
@@ -309,6 +310,7 @@ impl StateDb {
             ),
             genesis_sealed: Mutex::new(false),
             issued_base_units: Mutex::new(0),
+            validator_state: Mutex::new(crate::validator_state::ValidatorState::new()),
         }
     }
     pub fn genesis_credit(&self, id: &str, n: u64) -> Result<(), String> {
@@ -417,6 +419,23 @@ impl StateDb {
         Ok((applied / crate::economics::ATC_BASE_UNITS).min(u64::MAX as u128) as u64)
     }
 
+    /// Deterministic commitment of the canonical validator state.
+    pub fn validator_root(&self) -> [u8; 32] {
+        self.validator_state.lock().unwrap().root()
+    }
+
+    pub fn validator_snapshot(&self) -> BTreeMap<String, crate::validator_state::ValidatorRecord> {
+        self.validator_state.lock().unwrap().snapshot()
+    }
+
+    /// Apply one canonical validator lifecycle transition.
+    pub fn apply_validator_transition(
+        &self,
+        transition: &crate::validator_state::ValidatorTransition,
+    ) -> Result<(), String> {
+        self.validator_state.lock().unwrap().apply(transition)
+    }
+
     pub fn staked_base_units(&self, id: &str) -> u128 {
         self.accounts.lock().unwrap().get(id).map(|x| x.staked).unwrap_or(0)
     }
@@ -441,6 +460,7 @@ impl StateDb {
         combined.extend_from_slice(&supply.to_be_bytes());
         combined.extend_from_slice(&self.issued_base_units().to_be_bytes());
         combined.extend_from_slice(&dao_root);
+        combined.extend_from_slice(&self.validator_root());
         simple_hash(&combined)
     }
     pub fn apply_dao_payload(
