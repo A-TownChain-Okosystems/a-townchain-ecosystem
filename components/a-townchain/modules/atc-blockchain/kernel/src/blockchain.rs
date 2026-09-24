@@ -849,7 +849,7 @@ impl Node {
     }
 
     pub fn finalize_weighted(&self, b: &Block) -> Result<bool, String> {
-        if !self.consensus.weighted_finality(&b.id) {
+        if !self.consensus.weighted_finality_at_height(&b.id, b.height) {
             return Ok(false);
         }
         if b.height > self.chain.height() || self.chain.last().map(|x| x.id) != Some(b.id) {
