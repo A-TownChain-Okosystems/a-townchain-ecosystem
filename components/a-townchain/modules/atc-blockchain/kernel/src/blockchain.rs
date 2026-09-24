@@ -1268,7 +1268,7 @@ mod tests {
     }
 
     #[test]
-    fn multiple_pending_validator_revisions_collapse_to_latest_after_restart() {
+    fn multiple_pending_validator_revisions_collapse_to_latest_after_restart() -> Result<(), String> {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-revisions-restart-{}-{}",
             std::process::id(),
