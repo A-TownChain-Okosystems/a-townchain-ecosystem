@@ -191,6 +191,7 @@ fn decode_transaction(params: &Value) -> Result<Transaction, (i64, String)> {
         1 => TxType::Stake,
         2 => TxType::Unstake,
         3 => TxType::Contract,
+        4 => TxType::Validator,
         _ => return Err((-32602, "invalid params.tx_type".into())),
     };
     let chain_id = params
