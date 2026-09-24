@@ -415,6 +415,13 @@ impl Node {
                 return Err("candidate would reorg finalized prefix".into());
             }
         }
+        let parent = self.chain.last().ok_or("genesis required")?;
+        let finalized_height = self.consensus.finalized().map(|(height, _)| height);
+        let selected = fork_choice::choose(parent, &b, finalized_height)
+            .map_err(|_| "fork-choice finality violation")?;
+        if selected.id != b.id {
+            return Err("candidate rejected by deterministic fork-choice".into());
+        }
         self.chain.validate_append(&b)?;
 
         if b.height > 0 {
