@@ -5,10 +5,10 @@
 //! layout. Ethereum RLP/EIP-155/Keccak are deliberately not used.
 
 use crate::keys::WalletKey;
+use atc_blockchain::chain_identity::NUMERIC_CHAIN_ID;
 use ed25519_dalek::{Signature, Verifier, VerifyingKey};
 use sha2::{Digest, Sha256};
 
-pub const NUMERIC_CHAIN_ID: u64 = 658467;
 pub const TX_DOMAIN_V2: &[u8] = b"ATC-TX-DOMAIN-V2";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
