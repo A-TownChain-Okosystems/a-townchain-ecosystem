@@ -1050,6 +1050,99 @@ mod tests {
     }
 
     #[test]
+    fn recovery_rejects_torn_canonical_block_record() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-storage-torn-block-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        let encoded = hex::encode(block_encode(&genesis));
+        std::fs::write(&path, format!("{}\n{}", &encoded[..encoded.len() - 2], encoded)).unwrap();
+        let err = ChainStorage::open(&path).unwrap_err();
+        assert!(err.contains("journal line 1"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovery_rejects_state_written_before_block_commit_point() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-storage-precommit-state-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let mut state_record = Vec::new();
+        state_record.extend_from_slice(&1u64.to_be_bytes());
+        state_record.extend_from_slice(&0u32.to_be_bytes());
+        put(&mut state_record, &[]);
+        std::fs::write(path.with_extension("state"), format!("{}\n", hex::encode(state_record))).unwrap();
+
+        let storage = ChainStorage::new();
+        // The same recovery boundary used by open_storage() must fail closed:
+        // state cannot become durable merely because its journal line is valid.
+        storage.state_journal = Some(path.with_extension("state"));
+        let err = storage.recover_state_with_dao().unwrap_err();
+        assert!(err.contains("missing block"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovery_rejects_torn_finality_record() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-storage-torn-finality-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        let storage = ChainStorage::open(&path).unwrap();
+        storage.commit(genesis.clone()).unwrap();
+        let mut record = Vec::from(FINALITY_MAGIC);
+        record.extend_from_slice(&0u64.to_be_bytes());
+        record.extend_from_slice(&genesis.id);
+        let encoded = hex::encode(record);
+        std::fs::write(path.with_extension("finality"), format!("{}\n", &encoded[..encoded.len() - 4])).unwrap();
+        let err = ChainStorage::open(&path).unwrap_err();
+        assert!(err.contains("finality journal line 1"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovery_rejects_torn_issuance_record() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-storage-torn-issuance-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let storage = ChainStorage::open(&path).unwrap();
+        let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        storage.commit(genesis).unwrap();
+        let mut record = Vec::from(ISSUANCE_MAGIC);
+        record.extend_from_slice(&0u64.to_be_bytes());
+        record.extend_from_slice(&0u128.to_be_bytes());
+        let encoded = hex::encode(record);
+        std::fs::write(path.with_extension("issuance"), format!("{}\n", &encoded[..encoded.len() - 2])).unwrap();
+        let err = ChainStorage::open(&path).unwrap_err();
+        assert!(err.contains("invalid issuance") || err.contains("range end index"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
     fn round_trip() {
         let s = ChainStorage::new();
         let b = Block::new(
