@@ -782,11 +782,7 @@ impl Node {
         // Registration and key binding are intentionally separate API operations.
         // Do not persist an incomplete identity snapshot; register_validator_key()
         // commits the complete registry once the Ed25519 key is known.
-        if self
-            .consensus
-            .validator_public_key(&self.proposer)
-            .is_some()
-        {
+        if self.consensus.validator_snapshot_with_keys().is_ok() {
             self.persist_validator_snapshot()?;
         }
         Ok(())
