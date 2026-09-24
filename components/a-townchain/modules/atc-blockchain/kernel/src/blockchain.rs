@@ -351,7 +351,12 @@ impl Node {
             return Err("pending vote buffer is full".into());
         }
         let list = pending.entry(vote.block).or_default();
-        if list.iter().any(|existing| existing.voter == vote.voter) {
+        if list.iter().any(|existing| {
+            existing.voter == vote.voter
+                && existing.approve == vote.approve
+                && existing.signature == vote.signature
+                && existing.public_key == vote.public_key
+        }) {
             return Ok(());
         }
         if list.len() >= 128 {
