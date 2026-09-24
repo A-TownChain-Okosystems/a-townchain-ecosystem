@@ -181,6 +181,49 @@ impl ConsensusEngine {
         self.validator_keys.lock().ok()?.get(address).copied()
     }
 
+    pub fn mutable_validator_state(
+        &self,
+    ) -> Result<
+        (
+            BTreeMap<String, u64>,
+            BTreeMap<String, [u8; 32]>,
+            BTreeMap<String, u64>,
+        ),
+        String,
+    > {
+        Ok((
+            self.validators
+                .lock()
+                .map_err(|_| "validator lock poisoned".to_string())?
+                .clone(),
+            self.validator_keys
+                .lock()
+                .map_err(|_| "validator key lock poisoned".to_string())?
+                .clone(),
+            self.slashed
+                .lock()
+                .map_err(|_| "slashed lock poisoned".to_string())?
+                .clone(),
+        ))
+    }
+
+    pub fn restore_mutable_validator_state(
+        &self,
+        validators: BTreeMap<String, u64>,
+        keys: BTreeMap<String, [u8; 32]>,
+        slashed: BTreeMap<String, u64>,
+    ) -> Result<(), String> {
+        if validators.len() != keys.len()
+            || validators.keys().any(|address| !keys.contains_key(address))
+        {
+            return Err("cannot restore incomplete validator identity state".into());
+        }
+        *self.validators.lock().map_err(|_| "validator lock poisoned".to_string())? = validators;
+        *self.validator_keys.lock().map_err(|_| "validator key lock poisoned".to_string())? = keys;
+        *self.slashed.lock().map_err(|_| "slashed lock poisoned".to_string())? = slashed;
+        Ok(())
+    }
+
     pub fn validator_stake(&self, address: &str) -> u64 {
         self.validators
             .lock()
