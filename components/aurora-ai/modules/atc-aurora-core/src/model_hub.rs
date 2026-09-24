@@ -55,11 +55,15 @@ impl ModelHub {
         if !self.models.contains_key(model) {
             return format!("[Error: Model '{}' not found]", model);
         }
+        // `str` slicing is byte-based and can panic when the boundary falls inside
+        // a UTF-8 code point. Aurora accepts natural-language input, so build the
+        // preview by Unicode scalar values instead of byte offsets.
+        let preview: String = prompt.chars().take(40).collect();
         format!(
             "[{}: {} → response ({} chars)]",
             model,
-            &prompt[..prompt.len().min(40)],
-            prompt.len() * 2
+            preview,
+            prompt.chars().count() * 2
         )
     }
 
