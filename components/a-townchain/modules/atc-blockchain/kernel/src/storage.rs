@@ -888,10 +888,12 @@ mod tests {
             std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
         ));
         let storage = ChainStorage::open(&path).unwrap();
-        storage.commit_finalized(7, [7u8; 32]).unwrap();
-        storage.commit_finalized(7, [7u8; 32]).unwrap();
+        let block = Block::new(7, [6u8; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        storage.commit(block.clone()).unwrap();
+        storage.commit_finalized(7, block.id).unwrap();
+        storage.commit_finalized(7, block.id).unwrap();
         assert!(storage.commit_finalized(7, [8u8; 32]).is_err());
-        assert_eq!(storage.recover_finalized().unwrap(), Some((7, [7u8; 32])));
+        assert_eq!(storage.recover_finalized().unwrap(), Some((7, block.id)));
 
         let raw = std::fs::read_to_string(path.with_extension("finality")).unwrap();
         assert_eq!(raw.lines().count(), 1);
