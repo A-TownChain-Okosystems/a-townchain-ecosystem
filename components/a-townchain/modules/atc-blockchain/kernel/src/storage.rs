@@ -677,6 +677,10 @@ impl ChainStorage {
         Ok(latest)
     }
 
+    pub fn find_block_by_id(&self, id: [u8; 32]) -> Option<Block> {
+        self.blocks.read().unwrap().values().find(|b| b.id == id).cloned()
+    }
+
     pub fn block(&self, h: u64) -> Option<Block> {
         self.blocks.read().unwrap().get(&h).cloned()
     }
