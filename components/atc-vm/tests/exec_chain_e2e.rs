@@ -51,7 +51,7 @@ fn div_executes_deterministically() {
 
 #[test]
 fn div_by_zero_fails_closed() {
-    let mut machine = Vm::new(vec![Op::Push(1), Op::Push(0), Op::Div, Op::Halt]);
+    let mut machine = Vm::new(vec![Op::Push(1), Op::Push(0), Op::Div, Op::Halt]).expect("ATVM-Verifier");
     let res = machine.run();
     assert_eq!(res, Err(atc_vm::vm::VmError::DivisionByZero));
 }
