@@ -1,0 +1,54 @@
+name: Knowledge Indexer
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/knowledge-system/records/generated/**'
+      - 'docs/knowledge-system/registry.json'
+
+permissions:
+  contents: write
+  pull-requests: read
+  issues: read
+
+concurrency:
+  group: knowledge-indexer
+  cancel-in-progress: false
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build knowledge index
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: python3 tools/knowledge_indexer.py
+      - name: Validate generated records
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, re
+          root=pathlib.Path("docs/knowledge-system")
+          reg=json.loads((root/"registry.json").read_text())
+          ids=set()
+          for p in (root/"records/generated").glob("*.json"):
+              r=json.loads(p.read_text()); assert re.fullmatch(r"ATC-KMS-[A-Z0-9-]+",r["id"]); assert r["id"] not in ids,r["id"]; ids.add(r["id"])
+          assert reg["indexer"]["generated_record_count"]==len(ids)
+          print("Validated",len(ids),"generated records.")
+          PY
+      - name: Commit indexed knowledge
+        run: |
+          git config user.name "A-TownChain Knowledge Indexer"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/knowledge-system/records/generated docs/knowledge-system/registry.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "chore(kms): update repository knowledge index"
+          git push
