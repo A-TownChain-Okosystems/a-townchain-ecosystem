@@ -66,6 +66,10 @@ impl PeerTransport for NullTransport {
     fn broadcast(&self, _message: NetworkMessage) -> Result<(), String> {
         Ok(())
     }
+
+    fn send_to(&self, _peer_id: &str, _message: NetworkMessage) -> Result<(), String> {
+        Ok(())
+    }
 }
 
 pub struct TcpPeerTransport {
