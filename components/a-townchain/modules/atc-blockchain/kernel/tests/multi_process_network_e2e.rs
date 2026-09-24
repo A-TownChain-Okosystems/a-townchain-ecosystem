@@ -80,9 +80,11 @@ fn run_initial_node_a() {
         node.create_genesis_with_proposer(1, "genesis").unwrap();
     }
     if node.consensus.total_validator_stake() == 0 {
+        // Complete each validator identity before adding the next one so no
+        // incomplete registry can be persisted.
         node.register_validator("validator-a".into(), 1).unwrap();
-        node.register_validator("validator-b".into(), 1).unwrap();
         node.register_validator_key("validator-a", key(1).verifying_key().to_bytes()).unwrap();
+        node.register_validator("validator-b".into(), 1).unwrap();
         node.register_validator_key("validator-b", key(2).verifying_key().to_bytes()).unwrap();
     }
     node.set_vote_signer("validator-a", [1u8; 32]);
