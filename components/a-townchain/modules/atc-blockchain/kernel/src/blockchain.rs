@@ -883,7 +883,15 @@ impl Node {
     }
     fn persist_validator_snapshot(&self, activation_height: u64) -> Result<(), String> {
         let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
-        self.storage.commit_validators(activation_height, &validators, &keys)
+
+        // Durable-first: once the activation snapshot is accepted by storage,
+        // make the exact same snapshot visible to height-scoped consensus
+        // lookups. Without this step, a persisted H+1 revision could survive
+        // restart while the live producer still authenticated H+1 with H's set.
+        self.storage
+            .commit_validators(activation_height, &validators, &keys)?;
+        self.consensus
+            .restore_validator_snapshot(activation_height, validators, keys)
     }
 
     pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
@@ -942,8 +950,8 @@ impl Node {
 
     pub fn unregister_validator(&self, address: &str) -> Result<(), String> {
         self.consensus.unregister_validator(address);
-        let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
-        self.storage.commit_validators(self.consensus.height().saturating_add(1), &validators, &keys)
+        let activation_height = self.consensus.height().saturating_add(1);
+        self.persist_validator_snapshot(activation_height)
     }
 
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
@@ -1079,6 +1087,78 @@ mod tests {
         assert_eq!(receiver.state.root(), before_root);
         assert_eq!(receiver.chain.height(), before_height);
         assert!(receiver.storage.block(1).is_none());
+    }
+
+    #[test]
+    fn validator_revisions_are_live_at_next_height_and_match_durable_snapshot() {
+        let node = Node::new(658467, "validator-a".into());
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[71u8; 32]);
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[72u8; 32]);
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+
+        let h1 = node.produce_reward_block(2).unwrap();
+        assert_eq!(h1.height, 1);
+
+        node.register_validator("validator-b".into(), 50).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        let snap = node.consensus.validator_snapshot_for_height(2).unwrap();
+        assert_eq!(snap.0.get("validator-a"), Some(&100));
+        assert_eq!(snap.0.get("validator-b"), Some(&50));
+
+        let h2 = node.produce_reward_block(3).unwrap();
+        assert_eq!(h2.height, 2);
+        assert_eq!(
+            h2.state_root,
+            committed_state_root(
+                node.state.root(),
+                2,
+                node.consensus.validator_snapshot_commitment(2),
+            ).unwrap()
+        );
+    }
+
+    #[test]
+    fn unregister_and_slash_activate_exactly_at_next_height() {
+        let node = Node::new(658467, "validator-a".into());
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[73u8; 32]);
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[74u8; 32]);
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+        node.register_validator("validator-b".into(), 100).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        let _ = node.produce_reward_block(2).unwrap();
+
+        node.unregister_validator("validator-b").unwrap();
+        let after_unregister = node.consensus.validator_snapshot_for_height(2).unwrap();
+        assert!(!after_unregister.0.contains_key("validator-b"));
+        assert!(!after_unregister.1.contains_key("validator-b"));
+
+        let h2 = node.produce_reward_block(3).unwrap();
+        assert_eq!(h2.height, 2);
+        assert!(!node.consensus.validator_snapshot_for_height(2).unwrap().0.contains_key("validator-b"));
+
+        // A slashing transition must produce the same height-scoped live snapshot.
+        let evidence = make_test_slashing_evidence(&node, "validator-a", 1);
+        let before = node.consensus.validator_stake("validator-a");
+        let applied = node.slash_validator(evidence, 25).unwrap();
+        assert_eq!(applied, 25);
+        assert_eq!(
+            node.consensus.validator_snapshot_for_height(3).unwrap().0.get("validator-a"),
+            Some(&(before - 25))
+        );
+        let h3 = node.produce_reward_block(4).unwrap();
+        assert_eq!(h3.height, 3);
+        assert_eq!(
+            h3.state_root,
+            committed_state_root(
+                node.state.root(),
+                3,
+                node.consensus.validator_snapshot_commitment(3),
+            ).unwrap()
+        );
     }
 
     #[test]
