@@ -795,6 +795,15 @@ impl Node {
         Ok(())
     }
 
+    /// Atomically finalize the bootstrap validator set at the current
+    /// height after all configured validator keys have been registered.
+    pub fn finalize_validator_snapshot(&self) -> Result<(), String> {
+        let height = self.consensus.height();
+        let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
+        self.consensus.restore_validator_snapshot(height, validators.clone(), keys.clone())?;
+        self.storage.commit_validators(height, &validators, &keys)
+    }
+
     pub fn register_validator_key(&self, address: &str, public_key: [u8; 32]) -> Result<(), String> {
         let activation_height = if self.consensus.has_validator_snapshot(self.consensus.height()) {
             self.consensus.height().saturating_add(1)
