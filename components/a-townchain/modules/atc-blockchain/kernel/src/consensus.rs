@@ -137,6 +137,18 @@ impl ConsensusEngine {
         self.validator_snapshots.lock().ok()?.range(..=height).next_back().map(|(_, snapshot)| snapshot.clone())
     }
 
+    pub fn validator_snapshot_with_activation_for_height(
+        &self,
+        height: u64,
+    ) -> Option<(u64, BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)> {
+        self.validator_snapshots
+            .lock()
+            .ok()?
+            .range(..=height)
+            .next_back()
+            .map(|(activation, (validators, keys))| (*activation, validators.clone(), keys.clone()))
+    }
+
     pub fn validator_snapshot_heights(&self) -> Vec<u64> {
         self.validator_snapshots.lock().ok().map(|s| s.keys().copied().collect()).unwrap_or_default()
     }
