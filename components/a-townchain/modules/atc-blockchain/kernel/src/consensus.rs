@@ -254,8 +254,16 @@ impl ConsensusEngine {
         if evidence.block_a == evidence.block_b || evidence.validator.is_empty() || penalty == 0 {
             return Err("invalid slashing evidence".into());
         }
-        let expected_key = self.validator_public_key(&evidence.validator)
-            .ok_or("validator has no registered signing key")?;
+        let (_historical_validators, historical_keys) = self
+            .validator_snapshot_for_height(evidence.height)
+            .ok_or("validator snapshot is unavailable for slashing evidence height")?;
+        let expected_key = historical_keys
+            .get(&evidence.validator)
+            .copied()
+            .ok_or("validator had no signing key at evidence height")?;
+        if evidence.public_key != expected_key {
+            return Err("slashing evidence public key does not match validator identity at evidence height".into());
+        }
         if evidence.block_a == evidence.block_b {
             return Err("slashing evidence blocks must conflict".into());
         }
