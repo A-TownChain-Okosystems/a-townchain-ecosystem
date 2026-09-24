@@ -275,7 +275,7 @@ impl ConsensusEngine {
         simple_hash(&b)
     }
 
-    pub fn vote(&self, v: Vote) -> Result<(), String> {
+    pub fn vote_at_height(&self, v: Vote, height: u64) -> Result<(), String> {
         let pk = VerifyingKey::from_bytes(&v.public_key)
             .map_err(|_| "invalid vote public key".to_string())?;
         pk.verify(
@@ -284,18 +284,18 @@ impl ConsensusEngine {
         )
         .map_err(|_| "invalid vote signature".to_string())?;
 
-        let validators = self.validators.lock().map_err(|_| "validator lock poisoned".to_string())?;
+        let (validators, keys) = self
+            .validator_snapshot_for_height(height)
+            .ok_or("validator snapshot is unavailable for vote height")?;
         if !validators.contains_key(&v.voter) {
-            return Err("voter is not an active validator".into());
+            return Err("voter is not an active validator at vote height".into());
         }
-        let expected_key = self.validator_keys.lock()
-            .map_err(|_| "validator key lock poisoned".to_string())?
+        let expected_key = keys
             .get(&v.voter).copied()
-            .ok_or("validator signing key is not registered")?;
+            .ok_or("validator signing key is not registered at vote height")?;
         if expected_key != v.public_key {
             return Err("vote public key does not match validator identity".into());
         }
-        drop(validators);
         let mut all = self
             .votes
             .lock()
@@ -306,6 +306,10 @@ impl ConsensusEngine {
         }
         list.push(v);
         Ok(())
+    }
+
+    pub fn vote(&self, v: Vote) -> Result<(), String> {
+        self.vote_at_height(v, self.height())
     }
 
     /// Legacy count-based finality retained for compatibility.
