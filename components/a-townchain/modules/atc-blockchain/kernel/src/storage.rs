@@ -505,6 +505,17 @@ impl ChainStorage {
     }
 
     pub fn commit_finalized(&self, height: u64, block: [u8; 32]) -> Result<(), String> {
+        if let Some((previous_height, previous_block)) = self.recover_finalized()? {
+            if height < previous_height {
+                return Err("finalized height regression".into());
+            }
+            if height == previous_height {
+                if block == previous_block {
+                    return Ok(());
+                }
+                return Err("conflicting finalized block at same height".into());
+            }
+        }
         let Some(p) = &self.finality_journal else {
             return Ok(());
         };
@@ -779,6 +790,28 @@ mod tests {
         let keys = BTreeMap::new();
         let err = storage.commit_validators(1, &validators, &keys).unwrap_err();
         assert!(err.contains("every validator needs a public key"));
+    }
+
+    #[test]
+    fn finality_journal_is_idempotent_and_rejects_conflicting_height() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-finality-idempotence-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let storage = ChainStorage::open(&path).unwrap();
+        storage.commit_finalized(7, [7u8; 32]).unwrap();
+        storage.commit_finalized(7, [7u8; 32]).unwrap();
+        assert!(storage.commit_finalized(7, [8u8; 32]).is_err());
+        assert_eq!(storage.recover_finalized().unwrap(), Some((7, [7u8; 32])));
+
+        let raw = std::fs::read_to_string(path.with_extension("finality")).unwrap();
+        assert_eq!(raw.lines().count(), 1);
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
     }
 
     #[test]
