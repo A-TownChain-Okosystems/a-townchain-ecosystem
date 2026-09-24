@@ -981,6 +981,18 @@ mod tests {
         }
     }
 
+    #[derive(Default)]
+    struct CaptureTransport {
+        messages: Mutex<Vec<NetworkMessage>>,
+    }
+
+    impl PeerTransport for CaptureTransport {
+        fn broadcast(&self, message: NetworkMessage) -> Result<(), String> {
+            self.messages.lock().unwrap().push(message);
+            Ok(())
+        }
+    }
+
     fn configure_two_validator_node(node: &Node, proposer: &str) {
         node.register_validator("validator-a".into(), 2).unwrap();
         node.register_validator("validator-b".into(), 1).unwrap();
@@ -1100,8 +1112,17 @@ mod tests {
         assert_eq!(receiver.chain.height(), block.height);
         assert_eq!(receiver.consensus.finalized(), None);
 
-        // Resync of the already durable block must not manufacture old votes.
-        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap_err();
+        // Exercise the actual BlockRequest -> BlockResponse/broadcast path.
+        let source = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        let capture = Arc::new(CaptureTransport::default());
+        source.set_transport(capture.clone());
+        source.handle_network_message(NetworkMessage::BlockRequest { from_height: block.height }).unwrap();
+        let messages = capture.messages.lock().unwrap().clone();
+        assert_eq!(messages, vec![NetworkMessage::Block(block.clone())]);
+        for message in messages {
+            receiver.handle_network_message(message).unwrap();
+        }
+        assert_eq!(receiver.chain.height(), block.height);
         assert_eq!(receiver.consensus.finalized(), None);
 
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
