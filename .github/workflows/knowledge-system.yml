@@ -1,0 +1,70 @@
+name: Knowledge System Integrity
+
+on:
+  push:
+    paths:
+      - 'docs/knowledge-system/**'
+      - '.github/workflows/knowledge-system.yml'
+  pull_request:
+    paths:
+      - 'docs/knowledge-system/**'
+      - '.github/workflows/knowledge-system.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate ATC-KMS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate registry and records
+        shell: python
+        run: |
+          import json
+          import pathlib
+          import re
+          import sys
+
+          root = pathlib.Path("docs/knowledge-system")
+          registry = json.loads((root / "registry.json").read_text())
+          schema = json.loads((root / "schema.json").read_text())
+
+          if registry["system"]["id"] != "ATC-KMS":
+              raise SystemExit("Invalid knowledge-system ID")
+
+          if registry["system"]["version"] != "v1.0.0":
+              raise SystemExit("Unexpected knowledge-system version")
+
+          categories = set(registry["categories"])
+          required = set(schema["required"])
+          ids = set()
+
+          for path in root.rglob("*.json"):
+              if path.name in {"schema.json", "registry.json"}:
+                  continue
+
+              record = json.loads(path.read_text())
+              missing = required - set(record)
+              if missing:
+                  raise SystemExit(f"{path}: missing required fields: {sorted(missing)}")
+
+              rid = record["id"]
+              if rid in ids:
+                  raise SystemExit(f"Duplicate record ID: {rid}")
+              ids.add(rid)
+
+              if record["category"] not in categories:
+                  raise SystemExit(f"{path}: unknown category {record['category']}")
+
+              if not re.fullmatch(r"ATC-KMS-[A-Z0-9-]+", rid):
+                  raise SystemExit(f"{path}: invalid record ID {rid}")
+
+              if not re.fullmatch(r"v[0-9]+\\.[0-9]+\\.[0-9]+", record["version"]):
+                  raise SystemExit(f"{path}: invalid version {record['version']}")
+
+          print("ATC-KMS integrity validation passed.")
