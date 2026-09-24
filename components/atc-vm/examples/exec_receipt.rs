@@ -52,7 +52,7 @@ fn main() {
         });
     }
     let ops_count = program.len();
-    let mut vm = Vm::new(program);
+    let mut vm = Vm::new(program).expect("ATVM-Verifier");
     let stack = vm
         .run()
         .unwrap_or_else(|e| panic!("ATVM-Ausfuehrungsfehler: {:?}", e));
