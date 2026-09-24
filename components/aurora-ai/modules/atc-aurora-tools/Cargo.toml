@@ -1,0 +1,8 @@
+[package]
+name = "atc-aurora-tools"
+version = "1.0.0"
+edition = "2021"
+license = "Apache-2.0"
+
+[dependencies]
+atc-aurora-policy = { path = "../atc-aurora-policy" }
