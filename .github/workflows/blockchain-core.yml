@@ -22,6 +22,8 @@ jobs:
             manifest: components/atc-sdk/Cargo.toml
           - name: atc-indexer
             manifest: components/atc-indexer/Cargo.toml
+          - name: atc-mining
+            manifest: components/atc-mining/Cargo.toml
           - name: atc-node
             manifest: components/atc-node/Cargo.toml
           - name: atc-governance

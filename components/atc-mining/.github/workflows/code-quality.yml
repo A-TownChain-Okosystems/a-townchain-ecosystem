@@ -21,3 +21,15 @@ jobs:
         run: ruff check .
       - name: Format-Pruefung (ATC-STD-082)
         run: ruff format --check .
+      - name: Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - name: Cargo fmt
+        run: cargo fmt --all -- --check
+      - name: Cargo check
+        run: cargo check --all-targets
+      - name: Cargo test
+        run: cargo test --all-targets
+      - name: Cargo clippy
+        run: cargo clippy --all-targets -- -D warnings

@@ -11,7 +11,7 @@ pub struct TransactionBuilder {
     pub tx_type: TxType,
     pub sender: String,
     pub recipient: Option<String>,
-    pub amount: u64,
+    pub amount: u128,
     pub gas_price: u64,
     pub gas_limit: u64,
     pub nonce: u64,
@@ -140,7 +140,7 @@ impl TransactionBuilder {
     pub fn dao_fund(
         chain_id: u64,
         sender: impl Into<String>,
-        amount: u64,
+        amount: u128,
         gas_price: u64,
         gas_limit: u64,
         nonce: u64,
@@ -171,7 +171,7 @@ impl TransactionBuilder {
             tx_type: TxType::Contract,
             sender: sender.into(),
             recipient: None,
-            amount: 0,
+            amount: 0u128,
             gas_price,
             gas_limit,
             nonce,
@@ -185,7 +185,7 @@ impl TransactionBuilder {
         chain_id: u64,
         sender: impl Into<String>,
         recipient: impl Into<String>,
-        amount: u64,
+        amount: u128,
         gas_price: u64,
         gas_limit: u64,
         nonce: u64,
@@ -209,7 +209,7 @@ impl TransactionBuilder {
     pub fn stake(
         chain_id: u64,
         sender: impl Into<String>,
-        amount: u64,
+        amount: u128,
         gas_price: u64,
         gas_limit: u64,
         nonce: u64,
@@ -233,7 +233,7 @@ impl TransactionBuilder {
     pub fn unstake(
         chain_id: u64,
         sender: impl Into<String>,
-        amount: u64,
+        amount: u128,
         gas_price: u64,
         gas_limit: u64,
         nonce: u64,
@@ -292,7 +292,7 @@ mod tests {
     #[test]
     fn canonical_signature_is_accepted() {
         let key = SigningKey::from_bytes(&[9u8; 32]);
-        let tx = TransactionBuilder::transfer(658467, "alice", "bob", 10, 1, 1000, 0, 1).sign(&key);
+        let tx = TransactionBuilder::transfer(658467, "alice", "bob", 10u128 * atc_blockchain::economics::ATC_BASE_UNITS, 1, 1000, 0, 1).sign(&key);
         assert_eq!(tx.chain_id, 658467);
         assert_eq!(tx.signature.len(), 64);
         assert_ne!(tx.id, [0; 32]);

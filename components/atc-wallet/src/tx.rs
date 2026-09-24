@@ -5,10 +5,10 @@
 //! layout. Ethereum RLP/EIP-155/Keccak are deliberately not used.
 
 use crate::keys::WalletKey;
+use atc_blockchain::chain_identity::NUMERIC_CHAIN_ID;
 use ed25519_dalek::{Signature, Verifier, VerifyingKey};
 use sha2::{Digest, Sha256};
 
-pub const NUMERIC_CHAIN_ID: u64 = 658467;
 pub const TX_DOMAIN_V2: &[u8] = b"ATC-TX-DOMAIN-V2";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -26,7 +26,7 @@ pub struct Transaction {
     pub tx_type: TxType,
     pub sender_did: String,
     pub recipient_did: Option<String>,
-    pub amount: u64,
+    pub amount: u128,
     pub gas_price: u64,
     pub gas_limit: u64,
     pub nonce: u64,
@@ -128,7 +128,7 @@ mod tests {
             tx_type: TxType::Transfer,
             sender_did: "ATC-sender".into(),
             recipient_did: Some("ATC-recipient".into()),
-            amount: 100,
+            amount: 100u128,
             gas_price: 1,
             gas_limit: 1000,
             nonce: 7,
@@ -160,7 +160,7 @@ mod tests {
         let tx = tx();
         let signature = tx.sign(&key).unwrap();
         let mut altered = tx.clone();
-        altered.amount += 1;
+        altered.amount += 1u128;
         assert!(altered.verify(&key.public_key(), &signature).is_err());
     }
 

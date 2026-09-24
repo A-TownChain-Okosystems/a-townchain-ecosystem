@@ -10,7 +10,7 @@ pub const SYSTEM_CHAIN_ID: u64 = NUMERIC_CHAIN_ID;
 pub fn build_signed_transfer(
     sender: &str,
     recipient: &str,
-    amount: u64,
+    amount: u128,
     nonce: u64,
 ) -> atc_blockchain::mempool::Transaction {
     let key = SigningKey::from_bytes(&[7u8; 32]);
@@ -30,7 +30,7 @@ pub fn build_signed_transfer(
 pub fn boot_and_build_transaction(
 ) -> Result<([u8; 32], atc_blockchain::mempool::Transaction), String> {
     let runtime = Runtime::devnet("ecosystem-integration")?;
-    let tx = build_signed_transfer("alice", "bob", 1, 0);
+    let tx = build_signed_transfer("alice", "bob", 1u128 * atc_blockchain::economics::ATC_BASE_UNITS, 0);
     let tx_id = runtime
         .submit(tx.clone(), 1)
         .map_err(|e| format!("transaction rejected: {e:?}"))?;
@@ -50,7 +50,7 @@ mod tests {
     }
     #[test]
     fn transaction_id_is_deterministic() {
-        let a = build_signed_transfer("alice", "bob", 1, 0);
+        let a = build_signed_transfer("alice", "bob", 1u128 * atc_blockchain::economics::ATC_BASE_UNITS, 0);
         let b = build_signed_transfer("alice", "bob", 1, 0);
         assert_eq!(a.id, b.id);
         assert_eq!(a.payload, b.payload);

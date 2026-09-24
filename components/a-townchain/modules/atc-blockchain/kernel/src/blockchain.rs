@@ -13,9 +13,10 @@ pub mod receipts;
 pub mod rpc;
 pub mod security;
 pub mod storage;
+pub mod validator_state;
 use consensus::{ConsensusEngine, SlashingEvidence, Vote};
 use crypto::{signing_bytes, Ed25519Verifier, SignatureVerifier};
-use ed25519_dalek::Signer;
+use ed25519_dalek::{Signer, Verifier};
 use execution::{AtcVmExecutor, VmExecutor};
 use mempool::{MemoryPool, MempoolError, StateDb, Transaction};
 use network::{NetworkMessage, PeerTransport};
@@ -67,6 +68,37 @@ impl Block {
         }
     }
 }
+fn block_signing_bytes(chain_id: u64, b: &Block) -> Vec<u8> {
+    let mut out = Vec::new();
+    out.extend_from_slice(b"ATC-BLOCK-SIG-V1");
+    out.extend_from_slice(&chain_id.to_be_bytes());
+    out.extend_from_slice(&b.height.to_be_bytes());
+    out.extend_from_slice(&b.parent_hash);
+    out.extend_from_slice(&(b.proposer.len() as u32).to_be_bytes());
+    out.extend_from_slice(b.proposer.as_bytes());
+    out.extend_from_slice(&b.timestamp.to_be_bytes());
+    out.extend_from_slice(&b.tx_root);
+    out.extend_from_slice(&b.state_root);
+    out.extend_from_slice(&b.receipt_root);
+    out
+}
+
+fn committed_state_root(
+    base_state_root: [u8; 32],
+    height: u64,
+    validator_commitment: Option<[u8; 32]>,
+) -> Result<[u8; 32], String> {
+    if height == 0 {
+        return Ok(base_state_root);
+    }
+    let validator_commitment = validator_commitment.ok_or("validator snapshot is unavailable for state commitment")?;
+    let mut bytes = Vec::from(b"ATC-STATE-COMMIT-V1".as_slice());
+    bytes.extend_from_slice(&height.to_be_bytes());
+    bytes.extend_from_slice(&base_state_root);
+    bytes.extend_from_slice(&validator_commitment);
+    Ok(simple_hash(&bytes))
+}
+
 fn tx_root(txs: &[Transaction]) -> [u8; 32] {
     let mut b = Vec::new();
     for x in txs {
@@ -207,6 +239,8 @@ pub struct Node {
     indexer: Mutex<Option<Arc<dyn IndexerSink>>>,
     transport: Mutex<Option<Arc<dyn PeerTransport>>>,
     vote_signer: Mutex<Option<(String, [u8; 32])>>,
+    pending_votes: Mutex<BTreeMap<[u8; 32], Vec<Vote>>>,
+    network_apply_lock: Mutex<()>,
 }
 impl Node {
     pub fn new(chain_id: u64, proposer: String) -> Self {
@@ -222,6 +256,8 @@ impl Node {
             indexer: Mutex::new(None),
             transport: Mutex::new(None),
             vote_signer: Mutex::new(None),
+            pending_votes: Mutex::new(BTreeMap::new()),
+            network_apply_lock: Mutex::new(()),
         }
     }
     pub fn set_indexer(&self, sink: Arc<dyn IndexerSink>) {
@@ -244,11 +280,19 @@ impl Node {
     /// Run the canonical Node message loop on an already authenticated TCP peer.
     pub fn serve_tcp_stream(
         self: Arc<Self>,
+        stream: TcpStream,
+    ) -> thread::JoinHandle<Result<(), String>> {
+        self.serve_tcp_stream_with_peer(stream, String::new())
+    }
+
+    pub fn serve_tcp_stream_with_peer(
+        self: Arc<Self>,
         mut stream: TcpStream,
+        peer_id: String,
     ) -> thread::JoinHandle<Result<(), String>> {
         thread::spawn(move || loop {
             match network::read_message(&mut stream)? {
-                Some(message) => self.handle_network_message(message)?,
+                Some(message) => self.handle_network_message_from_peer(message, &peer_id)?,
                 None => return Ok(()),
             }
         })
@@ -262,22 +306,46 @@ impl Node {
         addr: &str,
     ) -> Result<thread::JoinHandle<Result<(), String>>, String> {
         let last = self.chain.last().ok_or("genesis required")?;
-        let stream = transport.connect_stream(addr, last.height, last.id)?;
+        let (stream, peer_id) = transport.connect_stream_with_peer(addr, last.height, last.id)?;
         let reader = stream.try_clone().map_err(|e| e.to_string())?;
-        transport.register_stream(stream)?;
+        transport.register_stream_with_peer_id(stream, peer_id.clone())?;
         self.set_transport(transport.clone());
-        // Ask the peer for any height we do not have yet. The peer answers
-        // from durable storage; requesting beyond its tip is harmless.
-        transport.broadcast(NetworkMessage::BlockRequest {
+        transport.send_to(&peer_id, NetworkMessage::BlockRequest {
             from_height: last.height.saturating_add(1),
         })?;
-        Ok(self.clone().serve_tcp_stream(reader))
+        Ok(self.clone().serve_tcp_stream_with_peer(reader, peer_id))
     }
 
     /// Configure the validator identity used by the long-running node consensus loop.
     /// The seed is supplied by the operator and is never generated implicitly.
     pub fn set_vote_signer(&self, validator: impl Into<String>, seed: [u8; 32]) {
         *self.vote_signer.lock().unwrap() = Some((validator.into(), seed));
+    }
+
+    fn sign_block(&self, mut block: Block) -> Result<Block, String> {
+        let Some((validator, seed)) = self.vote_signer.lock().map_err(|_| "vote signer lock poisoned")?.clone() else {
+            return Err("proposer signing key is not configured".into());
+        };
+        if validator != block.proposer {
+            return Err("configured validator is not the block proposer".into());
+        }
+        let signing = ed25519_dalek::SigningKey::from_bytes(&seed);
+        let public_key = signing.verifying_key().to_bytes();
+        let (_, keys) = self
+            .consensus
+            .validator_snapshot_for_height(block.height)
+            .ok_or("validator snapshot is unavailable for block height")?;
+        let registered = keys
+            .get(&validator)
+            .copied()
+            .ok_or("block proposer is not registered at block height")?;
+        if registered != public_key {
+            return Err("proposer signing key does not match validator identity at block height".into());
+        }
+        block.signature = signing.sign(&block_signing_bytes(self.chain_id, &block)).to_bytes();
+        block.id = block_id(block.height, block.parent_hash, &block.proposer, block.timestamp,
+            block.tx_root, block.state_root, block.receipt_root, block.signature);
+        Ok(block)
     }
 
     fn vote_for_block(&self, block: &Block) -> Result<(), String> {
@@ -298,6 +366,47 @@ impl Node {
         self.submit_vote_and_broadcast(vote)
     }
 
+    fn queue_pending_vote(&self, vote: Vote) -> Result<(), String> {
+        self.consensus.verify_vote_signature(&vote)?;
+        let mut pending = self.pending_votes.lock().map_err(|_| "pending vote lock poisoned")?;
+        let total: usize = pending.values().map(Vec::len).sum();
+        if total >= 4096 {
+            return Err("pending vote buffer is full".into());
+        }
+        let list = pending.entry(vote.block).or_default();
+        if list.iter().any(|existing| {
+            existing.voter == vote.voter
+                && existing.approve == vote.approve
+                && existing.signature == vote.signature
+                && existing.public_key == vote.public_key
+        }) {
+            return Ok(());
+        }
+        if list.len() >= 128 {
+            return Err("pending vote buffer for block is full".into());
+        }
+        list.push(vote);
+        Ok(())
+    }
+
+    fn take_pending_votes(&self, block_id: &[u8; 32]) -> Vec<Vote> {
+        self.pending_votes
+            .lock()
+            .map(|mut pending| pending.remove(block_id).unwrap_or_default())
+            .unwrap_or_default()
+    }
+
+    fn replay_pending_votes(&self, block: &Block) -> Result<(), String> {
+        let votes = self.take_pending_votes(&block.id);
+        for vote in votes {
+            let _ = self.submit_vote(vote);
+        }
+        if self.consensus.weighted_finality_at_height(&block.id, block.height) {
+            let _ = self.finalize_weighted(block)?;
+        }
+        Ok(())
+    }
+
     fn broadcast(&self, message: NetworkMessage) -> Result<(), String> {
         if let Some(transport) = self
             .transport
@@ -313,6 +422,14 @@ impl Node {
     /// Apply a network block through the same deterministic state transition
     /// rules used by local block production, then persist it.
     pub fn import_block(&self, b: Block) -> Result<(), String> {
+        self.import_block_internal(b, None)
+    }
+
+    fn import_block_internal(
+        &self,
+        b: Block,
+        sync_snapshot: Option<(u64, BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)>,
+    ) -> Result<(), String> {
         if self.chain_id
             != b.transactions
                 .first()
@@ -321,7 +438,64 @@ impl Node {
         {
             return Err("block transaction chain-id mismatch".into());
         }
+        if let Some((finalized_height, finalized_id)) = self.consensus.finalized() {
+            if b.height <= finalized_height {
+                return Err("cannot replace finalized block".into());
+            }
+            if b.height == finalized_height.saturating_add(1) && b.parent_hash != finalized_id {
+                return Err("candidate would reorg finalized prefix".into());
+            }
+        }
+        let parent = self.chain.last().ok_or("genesis required")?;
+        let finalized_height = self.consensus.finalized().map(|(height, _)| height);
+        let selected = fork_choice::choose(parent, &b, finalized_height)
+            .map_err(|_| "fork-choice finality violation")?;
+        if selected.id != b.id {
+            return Err("candidate rejected by deterministic fork-choice".into());
+        }
         self.chain.validate_append(&b)?;
+
+        if let Some((activation_height, validators, keys)) = sync_snapshot.as_ref() {
+            if *activation_height > b.height || *activation_height > self.chain.height().saturating_add(1) {
+                return Err("validator snapshot activation is outside the synchronization boundary".into());
+            }
+            if self.consensus.has_validator_snapshot(*activation_height) {
+                let existing = self.consensus.validator_snapshot_for_height(*activation_height)
+                    .ok_or("existing validator snapshot is unavailable")?;
+                if existing.0 != *validators || existing.1 != *keys {
+                    return Err("conflicting validator snapshot at activation height".into());
+                }
+            }
+            if let Some(existing_for_block) = self.consensus.validator_snapshot_for_height(b.height) {
+                if existing_for_block.0 != *validators || existing_for_block.1 != *keys {
+                    return Err("synchronized block conflicts with local validator history".into());
+                }
+            }
+            consensus::ConsensusEngine::validator_snapshot_commitment_from(validators, keys)
+                .ok_or("invalid validator snapshot identity set")?;
+        }
+
+        if b.height > 0 {
+            let snapshot_keys;
+            let keys = if let Some((_, _, keys)) = sync_snapshot.as_ref() {
+                keys
+            } else {
+                snapshot_keys = self.consensus
+                    .validator_snapshot_for_height(b.height)
+                    .ok_or("validator snapshot is unavailable for block height")?;
+                &snapshot_keys.1
+            };
+            let public_key = keys
+                .get(&b.proposer)
+                .copied()
+                .ok_or("block proposer has no signing key at block height")?;
+            let key = ed25519_dalek::VerifyingKey::from_bytes(&public_key)
+                .map_err(|_| "invalid proposer public key")?;
+            key.verify(
+                &block_signing_bytes(self.chain_id, &b),
+                &ed25519_dalek::Signature::from_bytes(&b.signature),
+            ).map_err(|_| "invalid block proposer signature")?;
+        }
 
         let parent = self.chain.last().ok_or("genesis required")?;
         if b.parent_hash != parent.id || b.height != parent.height.saturating_add(1) {
@@ -381,48 +555,79 @@ impl Node {
         }
 
         let root = self.state.root();
-        if root != b.state_root || receipts::root(&receipts) != b.receipt_root {
+        let expected_state_root = committed_state_root(
+            root,
+            b.height,
+            if let Some((_, validators, keys)) = sync_snapshot.as_ref() {
+                consensus::ConsensusEngine::validator_snapshot_commitment_from(validators, keys)
+            } else {
+                self.consensus.validator_snapshot_commitment(b.height)
+            },
+        )?;
+        if expected_state_root != b.state_root || receipts::root(&receipts) != b.receipt_root {
             self.state.restore(state_snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
             let _ = self.state.restore_issued_base_units(issued_snapshot);
             return Err("network block state/receipt root mismatch".into());
         }
 
-        if let Err(e) = self.storage.commit(b.clone()) {
+        let storage_result = if let Some((activation_height, validators, keys)) = sync_snapshot.as_ref() {
+            self.storage.commit_block_state_issuance_with_validator_snapshot(
+                b.clone(),
+                &self.state.snapshot(),
+                &self.state.dao_snapshot(),
+                self.state.issued_base_units(),
+                *activation_height,
+                validators,
+                keys,
+            )
+        } else {
+            self.storage.commit_block_state_issuance(
+                b.clone(),
+                &self.state.snapshot(),
+                &self.state.dao_snapshot(),
+                self.state.issued_base_units(),
+            )
+        };
+        if let Err(e) = storage_result {
             self.state.restore(state_snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
             let _ = self.state.restore_issued_base_units(issued_snapshot);
             return Err(e);
         }
-        self.storage.commit_state_with_dao(
-            b.height,
-            &self.state.snapshot(),
-            &self.state.dao_snapshot(),
-        )?;
-        self.storage
-            .commit_issuance(b.height, self.state.issued_base_units())?;
         self.chain.append(b.clone())?;
+        if let Some((activation_height, validators, keys)) = sync_snapshot {
+            self.consensus.restore_validator_snapshot(activation_height, validators, keys)?;
+        }
         for tx in &b.transactions {
             self.pool.mark_in_block(&tx.id);
         }
         self.consensus.set_height(b.height);
+        self.replay_pending_votes(&b)?;
         self.vote_for_block(&b)?;
         Ok(())
     }
 
     /// Feed one decoded network message into the canonical Node.
     pub fn handle_network_message(&self, message: NetworkMessage) -> Result<(), String> {
+        self.handle_network_message_from_peer(message, "")
+    }
+
+    fn handle_network_message_from_peer(&self, message: NetworkMessage, peer_id: &str) -> Result<(), String> {
+        let _apply_guard = self.network_apply_lock.lock().map_err(|_| "network apply lock poisoned")?;
         match message {
             NetworkMessage::Block(b) => self.import_block(b),
+            NetworkMessage::BlockWithValidatorSnapshot { block, activation_height, validators, validator_keys } => {
+                self.import_block_internal(block, Some((activation_height, validators, validator_keys)))
+            }
             NetworkMessage::Vote(v) => {
                 let block_id = v.block;
+                let Some(block) = self.storage.find_block_by_id(block_id) else {
+                    return self.queue_pending_vote(v);
+                };
                 self.submit_vote(v)?;
-                if self.consensus.weighted_finality(&block_id) {
-                    if let Some(block) = self.chain.last() {
-                        if block.id == block_id {
-                            let _ = self.finalize_weighted(&block)?;
-                        }
-                    }
+                if self.consensus.weighted_finality_at_height(&block_id, block.height) {
+                    let _ = self.finalize_weighted(&block)?;
                 }
                 Ok(())
             }
@@ -433,9 +638,22 @@ impl Node {
                 Ok(())
             }
             NetworkMessage::BlockRequest { from_height } => {
+                if peer_id.is_empty() {
+                    return Err("block sync request has no authenticated peer context".into());
+                }
+                let transport = self.transport.lock().map_err(|_| "transport lock poisoned")?.clone()
+                    .ok_or("network transport is not configured")?;
                 for h in from_height..=self.chain.height() {
                     if let Some(b) = self.storage.block(h) {
-                        self.broadcast(NetworkMessage::Block(b))?;
+                        let (activation_height, validators, validator_keys) = self.consensus
+                            .validator_snapshot_with_activation_for_height(h)
+                            .ok_or("validator snapshot is unavailable for synchronized block")?;
+                        transport.send_to(peer_id, NetworkMessage::BlockWithValidatorSnapshot {
+                            block: b,
+                            activation_height,
+                            validators,
+                            validator_keys,
+                        })?;
                     }
                 }
                 Ok(())
@@ -463,22 +681,33 @@ impl Node {
     ) -> Result<Self, String> {
         let mut n = Self::new(chain_id, proposer);
         n.storage = Arc::new(storage::ChainStorage::open(path)?);
-        if let Some((height, validators)) = n.storage.recover_validators()? {
-            if n.storage.block(height).is_none() {
-                return Err("validator snapshot references missing block".into());
-            }
+        let recovered_validator_snapshots = n.storage.recover_validator_snapshots()?;
+
+        // Historical snapshots authenticate historical heights. The mutable
+        // registry, however, must represent only the latest durable snapshot;
+        // replaying every historical snapshot into the mutable registry would
+        // resurrect validators that were later unregistered or slashed.
+        for (height, (validators, keys)) in &recovered_validator_snapshots {
+            n.consensus.restore_validator_snapshot(*height, validators.clone(), keys.clone())?;
+        }
+        if let Some((_, (validators, keys))) = recovered_validator_snapshots.last_key_value() {
             for (address, stake) in validators {
-                n.consensus.register_validator(address, stake)?;
+                n.consensus.register_validator(address.clone(), *stake)?;
+            }
+            for (address, public_key) in keys {
+                n.consensus.register_validator_key(address, *public_key)?;
             }
         }
-        if let Some((snapshot, dao)) = n.storage.recover_state_with_dao()? {
-            n.state.restore(snapshot);
+        let recovered_state = n.storage.recover_state_with_dao_at_height()?;
+        if let Some((_, (snapshot, dao))) = &recovered_state {
+            n.state.restore(snapshot.clone());
             if !dao.is_empty() {
-                n.state.restore_dao(&dao)?
+                n.state.restore_dao(dao)?
             }
         }
-        if let Some((_, issued)) = n.storage.recover_issuance()? {
-            n.state.restore_issued_base_units(issued)?;
+        let recovered_issuance = n.storage.recover_issuance()?;
+        if let Some((_, issued)) = &recovered_issuance {
+            n.state.restore_issued_base_units(*issued)?;
         }
         if let Some(g) = n.storage.block(0) {
             n.state.seal_genesis();
@@ -490,10 +719,46 @@ impl Node {
             }
         }
         if let Some(last) = n.chain.last() {
-            if n.state.root() != last.state_root {
-                return Err("recovered state root mismatch".into());
+            let (state_height, _) = recovered_state
+                .as_ref()
+                .ok_or("canonical chain has no durable state snapshot")?;
+            let (issuance_height, _) = recovered_issuance
+                .as_ref()
+                .ok_or("canonical chain has no durable issuance record")?;
+            if *state_height != last.height {
+                return Err(format!(
+                    "recovered state height {} does not match canonical tip {}",
+                    state_height, last.height
+                ));
+            }
+            if *issuance_height != last.height {
+                return Err(format!(
+                    "recovered issuance height {} does not match canonical tip {}",
+                    issuance_height, last.height
+                ));
+            }
+            let expected_state_root = committed_state_root(
+                n.state.root(),
+                last.height,
+                n.consensus.validator_snapshot_commitment(last.height),
+            )?;
+            if expected_state_root != last.state_root {
+                return Err("recovered state/validator commitment mismatch".into());
+            }
+            // Every historical validator activation height must have a
+            // canonical predecessor block. Height H+1 is the only pending
+            // activation allowed without that block existing yet.
+            for height in recovered_validator_snapshots.keys().copied() {
+                if height > last.height.saturating_add(1) {
+                    return Err("validator snapshot is beyond the next activation height".into());
+                }
+                if height > 0 && height <= last.height && n.storage.block(height - 1).is_none() {
+                    return Err("validator snapshot references missing activation predecessor".into());
+                }
             }
             n.consensus.set_height(last.height);
+        } else if !recovered_validator_snapshots.is_empty() {
+            return Err("validator snapshot exists without a canonical chain".into());
         }
         // Slashing records are durable evidence/audit records. The active
         // validator snapshot is the canonical recovered voting weight, so
@@ -529,15 +794,13 @@ impl Node {
             [0; 32],
             [0; 64],
         );
-        self.chain.genesis(b.clone())?;
-        self.storage.commit(b.clone())?;
-        self.storage.commit_state_with_dao(
-            b.height,
+        self.storage.commit_block_state_issuance(
+            b.clone(),
             &self.state.snapshot(),
             &self.state.dao_snapshot(),
+            self.state.issued_base_units(),
         )?;
-        self.storage
-            .commit_issuance(b.height, self.state.issued_base_units())?;
+        self.chain.genesis(b.clone())?;
         self.state.seal_genesis();
         self.consensus.set_height(b.height);
         Ok(b)
@@ -582,37 +845,22 @@ impl Node {
         self.state
             .apply_block_reward(height, &self.proposer)
             .map_err(|e| format!("block reward: {e}"))?;
-        let b = Block::new(
-            height,
-            parent.id,
-            self.proposer.clone(),
-            t,
-            Vec::new(),
+        let state_root = committed_state_root(
             self.state.root(),
-            receipts::root(&[]),
-            [0; 64],
-        );
-        self.chain.validate_append(&b)?;
-        if let Err(e) = self.storage.commit(b.clone()) {
-            self.state.restore(snapshot);
-            let _ = self.state.restore_dao(&dao_snapshot);
-            let _ = self.state.restore_issued_base_units(issued_snapshot);
-            return Err(e);
-        }
-        if let Err(e) = self.storage.commit_state_with_dao(
             height,
+            self.consensus.validator_snapshot_commitment(height),
+        )?;
+        let b = self.sign_block(Block::new(
+            height, parent.id, self.proposer.clone(), t, Vec::new(),
+            state_root, receipts::root(&[]), [0; 64],
+        ))?;
+        self.chain.validate_append(&b)?;
+        if let Err(e) = self.storage.commit_block_state_issuance(
+            b.clone(),
             &self.state.snapshot(),
             &self.state.dao_snapshot(),
+            self.state.issued_base_units(),
         ) {
-            self.state.restore(snapshot);
-            let _ = self.state.restore_dao(&dao_snapshot);
-            let _ = self.state.restore_issued_base_units(issued_snapshot);
-            return Err(e);
-        }
-        if let Err(e) = self
-            .storage
-            .commit_issuance(height, self.state.issued_base_units())
-        {
             self.state.restore(snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
             let _ = self.state.restore_issued_base_units(issued_snapshot);
@@ -689,39 +937,23 @@ impl Node {
         self.state
             .apply_block_reward(block_height, &self.proposer)
             .map_err(|e| format!("block reward: {e}"))?;
-        let new_root = self.state.root();
-        let receipt_root = receipts::root(&receipts);
-        let b = Block::new(
+        let new_root = committed_state_root(
+            self.state.root(),
             block_height,
-            parent.id,
-            self.proposer.clone(),
-            t,
-            txs,
-            new_root,
-            receipt_root,
-            [0; 64],
-        );
+            self.consensus.validator_snapshot_commitment(block_height),
+        )?;
+        let receipt_root = receipts::root(&receipts);
+        let b = self.sign_block(Block::new(
+            block_height, parent.id, self.proposer.clone(), t, txs,
+            new_root, receipt_root, [0; 64],
+        ))?;
         self.chain.validate_append(&b)?;
-        if let Err(e) = self.storage.commit(b.clone()) {
-            self.state.restore(state_snapshot);
-            let _ = self.state.restore_dao(&dao_snapshot);
-            let _ = self.state.restore_issued_base_units(issued_snapshot);
-            return Err(e);
-        }
-        if let Err(e) = self.storage.commit_state_with_dao(
-            b.height,
+        if let Err(e) = self.storage.commit_block_state_issuance(
+            b.clone(),
             &self.state.snapshot(),
             &self.state.dao_snapshot(),
+            self.state.issued_base_units(),
         ) {
-            self.state.restore(state_snapshot);
-            let _ = self.state.restore_dao(&dao_snapshot);
-            let _ = self.state.restore_issued_base_units(issued_snapshot);
-            return Err(e);
-        }
-        if let Err(e) = self
-            .storage
-            .commit_issuance(b.height, self.state.issued_base_units())
-        {
             self.state.restore(state_snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
             let _ = self.state.restore_issued_base_units(issued_snapshot);
@@ -736,56 +968,132 @@ impl Node {
         self.vote_for_block(&b)?;
         Ok(b)
     }
+    fn persist_validator_snapshot(&self, activation_height: u64) -> Result<(), String> {
+        let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
+
+        // Durable-first: once the activation snapshot is accepted by storage,
+        // make the exact same snapshot visible to height-scoped consensus
+        // lookups. Without this step, a persisted H+1 revision could survive
+        // restart while the live producer still authenticated H+1 with H's set.
+        self.storage
+            .commit_validators(activation_height, &validators, &keys)?;
+        self.consensus
+            .restore_validator_snapshot(activation_height, validators, keys)
+    }
+
     pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
+        let activation_height = if self.consensus.has_validator_snapshot(self.consensus.height()) {
+            self.consensus.height().saturating_add(1)
+        } else {
+            self.consensus.height()
+        };
+        let previous = self.consensus.mutable_validator_state()?;
         self.consensus.register_validator(address, stake)?;
-        self.storage.commit_validators(
-            self.consensus.height(),
-            &self.consensus.validators_snapshot(),
-        )
+        // Registration and key binding are intentionally separate API operations.
+        // Do not persist an incomplete identity snapshot; register_validator_key()
+        // commits the complete registry once the Ed25519 key is known.
+        if self.consensus.validator_snapshot_with_keys().is_ok() {
+            if let Err(e) = self.persist_validator_snapshot(activation_height) {
+                self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
+                return Err(e);
+            }
+        }
+        Ok(())
+    }
+
+    /// Atomically finalize the bootstrap validator set at the current
+    /// height after all configured validator keys have been registered.
+    pub fn finalize_validator_snapshot(&self) -> Result<(), String> {
+        let height = self.consensus.height();
+        let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
+
+        // Durable-first: finalizing the bootstrap snapshot must use the same
+        // persistence boundary as every other validator mutation. If storage
+        // rejects the snapshot, consensus must not expose a revision that will
+        // disappear on restart.
+        self.storage.commit_validators(height, &validators, &keys)?;
+        self.consensus
+            .restore_validator_snapshot(height, validators, keys)
+    }
+
+    pub fn register_validator_key(&self, address: &str, public_key: [u8; 32]) -> Result<(), String> {
+        let activation_height = if self.consensus.has_validator_snapshot(self.consensus.height()) {
+            self.consensus.height().saturating_add(1)
+        } else {
+            self.consensus.height()
+        };
+        let previous = self.consensus.mutable_validator_state()?;
+        self.consensus.register_validator_key(address, public_key)?;
+        if let Err(e) = self.persist_validator_snapshot(activation_height) {
+            self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
+            return Err(e);
+        }
+        Ok(())
     }
 
     pub fn slash_validator(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
         if evidence.height > self.chain.height() {
             return Err("slashing evidence is above current chain height".into());
         }
+        let previous = self.consensus.mutable_validator_state()?;
         let applied = self.consensus.slash(evidence.clone(), penalty)?;
         if applied == 0 {
             return Err("slashing penalty is zero".into());
         }
+        let activation_height = self.consensus.height().saturating_add(1);
+
+        // The validator snapshot is the consensus-state source of truth for the
+        // pending H+1 activation. If durable persistence fails, restore the exact
+        // pre-slash live registry so callers cannot continue with state that will
+        // disappear after restart.
+        if let Err(e) = self.persist_validator_snapshot(activation_height) {
+            self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
+            return Err(e);
+        }
+
+        // The slashing journal is audit metadata; the validator snapshot above is
+        // what determines the validator set after restart.
+        // The validator snapshot is the canonical consensus-state record. If
+        // the auxiliary audit journal fails after the snapshot is durable, keep the
+        // live state aligned with the durable consensus state; do not roll back into
+        // a state that would disappear on restart.
         self.storage.commit_slashing(
             evidence.height,
             &evidence.validator,
             evidence.id(),
             applied,
         )?;
-        self.storage.commit_validators(
-            self.consensus.height(),
-            &self.consensus.validators_snapshot(),
-        )?;
         Ok(applied)
     }
 
     pub fn unregister_validator(&self, address: &str) -> Result<(), String> {
+        let previous = self.consensus.mutable_validator_state()?;
         self.consensus.unregister_validator(address);
-        self.storage.commit_validators(
-            self.consensus.height(),
-            &self.consensus.validators_snapshot(),
-        )
+        let activation_height = self.consensus.height().saturating_add(1);
+        if let Err(e) = self.persist_validator_snapshot(activation_height) {
+            self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
+            return Err(e);
+        }
+        Ok(())
     }
 
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
-        self.consensus.vote(vote)
+        let block = self.storage.find_block_by_id(vote.block).ok_or("vote references unknown block")?;
+        self.consensus.vote_at_height(vote, block.height)
     }
 
     pub fn finalize_weighted(&self, b: &Block) -> Result<bool, String> {
-        if !self.consensus.weighted_finality(&b.id) {
+        if !self.consensus.weighted_finality_at_height(&b.id, b.height) {
             return Ok(false);
         }
         if b.height > self.chain.height() || self.chain.last().map(|x| x.id) != Some(b.id) {
             return Err("can only finalize the current canonical tip".into());
         }
-        self.consensus.mark_finalized(b.height, b.id)?;
+        // Persist the canonical finality marker before exposing it in memory.
+        // A storage failure must never leave the live node claiming finality
+        // that will disappear after restart.
         self.storage.commit_finalized(b.height, b.id)?;
+        self.consensus.mark_finalized(b.height, b.id)?;
         if let Some(sink) = self.indexer.lock().unwrap().clone() {
             sink.ingest_finalized(b)?
         }
@@ -796,14 +1104,16 @@ impl Node {
         if quorum == 0 {
             return Err("quorum must be non-zero".into());
         }
-        if !self.consensus.finality(&b.id, quorum) {
+        if !self.consensus.finality_at_height(&b.id, b.height, quorum) {
             return Ok(false);
         }
         if b.height > self.chain.height() || self.chain.last().map(|x| x.id) != Some(b.id) {
             return Err("can only finalize the current canonical tip".into());
         }
-        self.consensus.mark_finalized(b.height, b.id)?;
+        // Storage is the durability boundary: never expose finality in memory
+        // before its canonical marker is durably synced.
         self.storage.commit_finalized(b.height, b.id)?;
+        self.consensus.mark_finalized(b.height, b.id)?;
         if let Some(sink) = self.indexer.lock().unwrap().clone() {
             sink.ingest_finalized(b)?
         }
@@ -814,6 +1124,1152 @@ impl Node {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn incomplete_validator_registration_is_pending_until_key_binding_and_survives_only_after_completion() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-bootstrap-pending-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[111u8; 32]);
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[112u8; 32]);
+
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+
+        // A validator without a key is an incomplete identity and is not a
+        // durable consensus snapshot.
+        node.register_validator("validator-a".into(), 100).unwrap();
+        drop(node);
+
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        assert_eq!(reopened.consensus.validator_stake("validator-a"), 0);
+        assert!(reopened.consensus.validator_public_key("validator-a").is_none());
+
+        // Once the identity is complete, the snapshot becomes durable.
+        reopened.register_validator("validator-a".into(), 100).unwrap();
+        reopened.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+        reopened.register_validator("validator-b".into(), 50).unwrap();
+        reopened.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        reopened.finalize_validator_snapshot().unwrap();
+
+        drop(reopened);
+        let recovered = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        let snapshot = recovered.consensus.validator_snapshot_for_height(0).unwrap();
+        assert_eq!(snapshot.0.get("validator-a"), Some(&100));
+        assert_eq!(snapshot.0.get("validator-b"), Some(&50));
+        assert_eq!(snapshot.1.get("validator-a"), Some(&key_a.verifying_key().to_bytes()));
+        assert_eq!(snapshot.1.get("validator-b"), Some(&key_b.verifying_key().to_bytes()));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn validator_activation_is_bound_to_committed_block_state_and_survives_restart() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-state-binding-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[61u8; 32]);
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+        node.set_vote_signer("validator-a", [61u8; 32]);
+
+        let h1 = node.produce_reward_block(2).unwrap();
+        assert_eq!(node.chain.height(), 1);
+        assert_ne!(h1.state_root, node.state.root());
+        assert_eq!(
+            h1.state_root,
+            committed_state_root(
+                node.state.root(),
+                h1.height,
+                node.consensus.validator_snapshot_commitment(h1.height),
+            )
+            .unwrap()
+        );
+
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[62u8; 32]);
+        node.register_validator("validator-b".into(), 50).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        let pending = node.consensus.validator_snapshot_for_height(2).unwrap();
+        assert_eq!(pending.0.get("validator-b"), Some(&50));
+        let h2 = node.produce_reward_block(3).unwrap();
+        assert_eq!(h2.height, 2);
+        assert_eq!(h2.state_root, committed_state_root(
+            node.state.root(),
+            2,
+            node.consensus.validator_snapshot_commitment(2),
+        ).unwrap());
+
+        drop(node);
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        assert_eq!(reopened.chain.last().unwrap().id, h2.id);
+        assert_eq!(reopened.consensus.validator_snapshot_for_height(2).unwrap().0.get("validator-b"), Some(&50));
+        assert_eq!(
+            h2.state_root,
+            committed_state_root(
+                reopened.state.root(),
+                2,
+                reopened.consensus.validator_snapshot_commitment(2),
+            )
+            .unwrap()
+        );
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn restart_does_not_resurrect_historically_removed_validator() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-restart-unregister-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key = ed25519_dalek::SigningKey::from_bytes(&[71u8; 32]);
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+        node.produce_reward_block(2).unwrap();
+
+        node.unregister_validator("validator-a").unwrap();
+        assert_eq!(node.consensus.validator_stake("validator-a"), 0);
+
+        drop(node);
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        assert_eq!(reopened.consensus.validator_stake("validator-a"), 0);
+        assert!(reopened.consensus.validator_public_key("validator-a").is_none());
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn validator_key_rotation_survives_restart_without_rewriting_history() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-key-rotation-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let old_key = ed25519_dalek::SigningKey::from_bytes(&[73u8; 32]);
+        let new_key = ed25519_dalek::SigningKey::from_bytes(&[74u8; 32]);
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", old_key.verifying_key().to_bytes()).unwrap();
+        node.produce_reward_block(2).unwrap();
+
+        node.register_validator_key("validator-a", new_key.verifying_key().to_bytes()).unwrap();
+        assert_eq!(
+            node.consensus.validator_snapshot_for_height(1).unwrap().1["validator-a"],
+            old_key.verifying_key().to_bytes()
+        );
+        assert_eq!(
+            node.consensus.validator_snapshot_for_height(2).unwrap().1["validator-a"],
+            new_key.verifying_key().to_bytes()
+        );
+
+        drop(node);
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        assert_eq!(
+            reopened.consensus.validator_snapshot_for_height(1).unwrap().1["validator-a"],
+            old_key.verifying_key().to_bytes()
+        );
+        assert_eq!(
+            reopened.consensus.validator_snapshot_for_height(2).unwrap().1["validator-a"],
+            new_key.verifying_key().to_bytes()
+        );
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn multiple_validator_mutations_same_activation_height_keep_only_final_revision() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-multi-mutation-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[101u8; 32]);
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[102u8; 32]);
+        let key_c = ed25519_dalek::SigningKey::from_bytes(&[103u8; 32]);
+
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+        node.produce_reward_block(2).unwrap();
+
+        // Every mutation below targets the same pending activation height (2).
+        node.register_validator("validator-b".into(), 50).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key_c.verifying_key().to_bytes()).unwrap();
+        node.unregister_validator("validator-b").unwrap();
+
+        let pending = node.consensus.validator_snapshot_for_height(2).unwrap();
+        assert_eq!(pending.0.get("validator-a"), Some(&100));
+        assert_eq!(pending.1.get("validator-a"), Some(&key_c.verifying_key().to_bytes()));
+        assert!(!pending.0.contains_key("validator-b"));
+        assert!(!pending.1.contains_key("validator-b"));
+
+        drop(node);
+
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        let recovered = reopened.consensus.validator_snapshot_for_height(2).unwrap();
+        assert_eq!(recovered.0.get("validator-a"), Some(&100));
+        assert_eq!(recovered.1.get("validator-a"), Some(&key_c.verifying_key().to_bytes()));
+        assert!(!recovered.0.contains_key("validator-b"));
+        assert!(!recovered.1.contains_key("validator-b"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn block_with_wrong_validator_activation_snapshot_is_rejected_before_commit() {
+        let producer = Node::new(658467, "validator-a".into());
+        producer.create_genesis_with_proposer(1, "genesis").unwrap();
+        let key = ed25519_dalek::SigningKey::from_bytes(&[63u8; 32]);
+        producer.register_validator("validator-a".into(), 100).unwrap();
+        producer.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+        producer.set_vote_signer("validator-a", [63u8; 32]);
+        let block = producer.produce_reward_block(2).unwrap();
+
+        let receiver = Node::new(658467, "validator-a".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        receiver.register_validator("validator-a".into(), 200).unwrap();
+        receiver.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+
+        let before_root = receiver.state.root();
+        let before_height = receiver.chain.height();
+        let err = receiver.import_block(block).unwrap_err();
+        assert_eq!(err, "network block state/receipt root mismatch");
+        assert_eq!(receiver.state.root(), before_root);
+        assert_eq!(receiver.chain.height(), before_height);
+        assert!(receiver.storage.block(1).is_none());
+    }
+
+    #[test]
+    fn pending_slash_snapshot_survives_restart_before_next_block() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-pending-slash-restart-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key = ed25519_dalek::SigningKey::from_bytes(&[75u8; 32]);
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+        node.set_vote_signer("validator-a", [75u8; 32]);
+        let _h1 = node.produce_reward_block(2).unwrap();
+
+        let before = node.consensus.validator_stake("validator-a");
+        let evidence = {
+            let sign = |block: [u8; 32]| {
+                let mut bytes = Vec::from(b"ATC-SLASH-V1".as_slice());
+                bytes.extend_from_slice(&node.chain_id.to_be_bytes());
+                bytes.extend_from_slice(&1u64.to_be_bytes());
+                bytes.extend_from_slice(&block);
+                bytes.push(1);
+                bytes.extend_from_slice(&("validator-a".len() as u32).to_be_bytes());
+                bytes.extend_from_slice(b"validator-a");
+                key.sign(&bytes).to_bytes()
+            };
+            SlashingEvidence {
+                validator: "validator-a".into(),
+                height: 1,
+                block_a: [11u8; 32],
+                block_b: [12u8; 32],
+                approve_a: true,
+                approve_b: true,
+                public_key: key.verifying_key().to_bytes(),
+                signature_a: sign([11u8; 32]),
+                signature_b: sign([12u8; 32]),
+                reason: "restart-bound slash".into(),
+            }
+        };
+        node.slash_validator(evidence, 25).unwrap();
+        assert_eq!(
+            node.consensus.validator_snapshot_for_height(2).unwrap().0.get("validator-a"),
+            Some(&(before - 25))
+        );
+
+        drop(node);
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        assert_eq!(reopened.chain.height(), 1);
+        assert_eq!(
+            reopened.consensus.validator_snapshot_for_height(2).unwrap().0.get("validator-a"),
+            Some(&(before - 25))
+        );
+        reopened.set_vote_signer("validator-a", [75u8; 32]);
+        let h2 = reopened.produce_reward_block(3).unwrap();
+        assert_eq!(h2.height, 2);
+        assert_eq!(
+            h2.state_root,
+            committed_state_root(
+                reopened.state.root(),
+                2,
+                reopened.consensus.validator_snapshot_commitment(2),
+            ).unwrap()
+        );
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn validator_revisions_are_live_at_next_height_and_match_durable_snapshot() {
+        let node = Node::new(658467, "validator-a".into());
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[71u8; 32]);
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[72u8; 32]);
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+
+        let h1 = node.produce_reward_block(2).unwrap();
+        assert_eq!(h1.height, 1);
+
+        node.register_validator("validator-b".into(), 50).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        let snap = node.consensus.validator_snapshot_for_height(2).unwrap();
+        assert_eq!(snap.0.get("validator-a"), Some(&100));
+        assert_eq!(snap.0.get("validator-b"), Some(&50));
+
+        let h2 = node.produce_reward_block(3).unwrap();
+        assert_eq!(h2.height, 2);
+        assert_eq!(
+            h2.state_root,
+            committed_state_root(
+                node.state.root(),
+                2,
+                node.consensus.validator_snapshot_commitment(2),
+            ).unwrap()
+        );
+    }
+
+    #[test]
+    fn unregister_and_slash_activate_exactly_at_next_height() {
+        let node = Node::new(658467, "validator-a".into());
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[73u8; 32]);
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[74u8; 32]);
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+        node.register_validator("validator-b".into(), 100).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        let _ = node.produce_reward_block(2).unwrap();
+
+        node.unregister_validator("validator-b").unwrap();
+        let after_unregister = node.consensus.validator_snapshot_for_height(2).unwrap();
+        assert!(!after_unregister.0.contains_key("validator-b"));
+        assert!(!after_unregister.1.contains_key("validator-b"));
+
+        let h2 = node.produce_reward_block(3).unwrap();
+        assert_eq!(h2.height, 2);
+        assert!(!node.consensus.validator_snapshot_for_height(2).unwrap().0.contains_key("validator-b"));
+
+        // A slashing transition must produce the same height-scoped live snapshot.
+        let before = node.consensus.validator_stake("validator-a");
+        let evidence = {
+            let signing = |block: [u8; 32], approve: bool| {
+                let mut bytes = Vec::from(b"ATC-SLASH-V1".as_slice());
+                bytes.extend_from_slice(&node.chain_id.to_be_bytes());
+                bytes.extend_from_slice(&1u64.to_be_bytes());
+                bytes.extend_from_slice(&block);
+                bytes.push(approve as u8);
+                bytes.extend_from_slice(&("validator-a".len() as u32).to_be_bytes());
+                bytes.extend_from_slice(b"validator-a");
+                key_a.sign(&bytes).to_bytes()
+            };
+            SlashingEvidence {
+                validator: "validator-a".into(),
+                height: 1,
+                block_a: [1u8; 32],
+                block_b: [2u8; 32],
+                approve_a: true,
+                approve_b: false,
+                public_key: key_a.verifying_key().to_bytes(),
+                signature_a: signing([1u8; 32], true),
+                signature_b: signing([2u8; 32], false),
+                reason: "conflicting vote".into(),
+            }
+        };
+        let applied = node.slash_validator(evidence, 25).unwrap();
+        assert_eq!(applied, 25);
+        assert_eq!(
+            node.consensus.validator_snapshot_for_height(3).unwrap().0.get("validator-a"),
+            Some(&(before - 25))
+        );
+        let h3 = node.produce_reward_block(4).unwrap();
+        assert_eq!(h3.height, 3);
+        assert_eq!(
+            h3.state_root,
+            committed_state_root(
+                node.state.root(),
+                3,
+                node.consensus.validator_snapshot_commitment(3),
+            ).unwrap()
+        );
+    }
+
+    #[test]
+    fn multiple_pending_validator_revisions_collapse_to_latest_after_restart() -> Result<(), String> {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-revisions-restart-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key_a_old = ed25519_dalek::SigningKey::from_bytes(&[76u8; 32]);
+        let key_a_new = ed25519_dalek::SigningKey::from_bytes(&[77u8; 32]);
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[78u8; 32]);
+
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key_a_old.verifying_key().to_bytes()).unwrap();
+        node.set_vote_signer("validator-a", [76u8; 32]);
+        node.produce_reward_block(2).unwrap();
+
+        // Every mutation below targets the same pending activation height H+1=2.
+        // The durable journal therefore contains several complete revisions; recovery
+        // must retain only the last revision at height 2.
+        node.register_validator("validator-b".into(), 50).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key_a_new.verifying_key().to_bytes())?;
+
+        let before_slash = node.consensus.validator_stake("validator-a");
+        let evidence = {
+            let sign = |block: [u8; 32]| {
+                let mut bytes = Vec::from(b"ATC-SLASH-V1".as_slice());
+                bytes.extend_from_slice(&node.chain_id.to_be_bytes());
+                bytes.extend_from_slice(&1u64.to_be_bytes());
+                bytes.extend_from_slice(&block);
+                bytes.push(1);
+                bytes.extend_from_slice(&("validator-a".len() as u32).to_be_bytes());
+                bytes.extend_from_slice(b"validator-a");
+                key_a_new.sign(&bytes).to_bytes()
+            };
+            SlashingEvidence {
+                validator: "validator-a".into(),
+                height: 1,
+                block_a: [21u8; 32],
+                block_b: [22u8; 32],
+                approve_a: true,
+                approve_b: true,
+                public_key: key_a_new.verifying_key().to_bytes(),
+                signature_a: sign([21u8; 32]),
+                signature_b: sign([22u8; 32]),
+                reason: "same-height revision audit".into(),
+            }
+        };
+        node.slash_validator(evidence, 25).unwrap();
+        assert_eq!(node.consensus.validator_stake("validator-a"), before_slash - 25);
+
+        // Final revision at H+1 removes B again. A must retain the reduced stake
+        // and the rotated key.
+        node.unregister_validator("validator-b").unwrap();
+        let live = node.consensus.validator_snapshot_for_height(2).unwrap();
+        assert_eq!(live.0.get("validator-a"), Some(&(before_slash - 25)));
+        assert_eq!(live.1.get("validator-a"), Some(&key_a_new.verifying_key().to_bytes()));
+        assert!(!live.0.contains_key("validator-b"));
+        assert!(!live.1.contains_key("validator-b"));
+
+        drop(node);
+
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        let recovered = reopened.consensus.validator_snapshot_for_height(2).unwrap();
+        assert_eq!(recovered.0.get("validator-a"), Some(&(before_slash - 25)));
+        assert_eq!(recovered.1.get("validator-a"), Some(&key_a_new.verifying_key().to_bytes()));
+        assert!(!recovered.0.contains_key("validator-b"));
+        assert!(!recovered.1.contains_key("validator-b"));
+
+        // The latest same-height revision must be the only pending state used to
+        // authenticate and commit H+1 after restart.
+        reopened.set_vote_signer("validator-a", [77u8; 32]);
+        let h2 = reopened.produce_reward_block(3).unwrap();
+        assert_eq!(h2.height, 2);
+        assert_eq!(
+            h2.state_root,
+            committed_state_root(
+                reopened.state.root(),
+                2,
+                reopened.consensus.validator_snapshot_commitment(2),
+            ).unwrap()
+        );
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+        Ok::<(), String>(())
+    }
+
+    #[test]
+    fn validator_public_key_survives_node_restart() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-node-validator-restart-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key = ed25519_dalek::SigningKey::from_bytes(&[19u8; 32]);
+        let public_key = key.verifying_key().to_bytes();
+
+        {
+            let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+            node.create_genesis_with_proposer(0, "atc-genesis").unwrap();
+            node.register_validator("validator-a".into(), 100).unwrap();
+            node.register_validator_key("validator-a", public_key).unwrap();
+            assert_eq!(node.consensus.validator_public_key("validator-a"), Some(public_key));
+        }
+
+        {
+            let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+            assert_eq!(node.consensus.validator_stake("validator-a"), 100);
+            assert_eq!(node.consensus.validator_public_key("validator-a"), Some(public_key));
+        }
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[derive(Default)]
+    struct CaptureTransport {
+        messages: Mutex<Vec<NetworkMessage>>,
+    }
+
+    impl PeerTransport for CaptureTransport {
+        fn broadcast(&self, message: NetworkMessage) -> Result<(), String> {
+            self.messages.lock().unwrap().push(message);
+            Ok(())
+        }
+    }
+
+    fn configure_two_validator_node(node: &Node, proposer: &str) {
+        node.register_validator("validator-a".into(), 2).unwrap();
+        node.register_validator("validator-b".into(), 1).unwrap();
+        node.register_validator_key("validator-a", ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]).verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-b", ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]).verifying_key().to_bytes()).unwrap();
+        node.set_vote_signer(proposer, if proposer == "validator-a" { [1u8; 32] } else { [2u8; 32] });
+    }
+
+    #[test]
+    fn network_vote_before_block_is_buffered_and_replayed() {
+        let producer = Node::new(658467, "validator-a".into());
+        producer.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&producer, "validator-a");
+        let block = producer.produce_reward_block(2).unwrap();
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+        // Do not let receiver produce its own vote; the delayed vote is from validator-a.
+        let signing = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut vote = Vote {
+            block: block.id,
+            voter: "validator-a".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: signing.verifying_key().to_bytes(),
+        };
+        vote.signature = signing
+            .sign(&consensus::vote_signing_bytes(658467, &vote))
+            .to_bytes();
+
+        // Network reordering: vote arrives before the corresponding block.
+        receiver.handle_network_message(NetworkMessage::Vote(vote.clone())).unwrap();
+        assert_eq!(receiver.consensus.finalized(), None);
+
+        // The later block arrival resolves the canonical height and replays the buffered vote.
+        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap();
+        assert_eq!(receiver.chain.height(), 1);
+        assert_eq!(receiver.consensus.finalized(), Some((1, block.id)));
+    }
+
+    #[test]
+    fn future_block_is_rejected_without_state_corruption_then_accepts_after_parent() {
+        let producer = Node::new(658467, "validator-a".into());
+        producer.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&producer, "validator-a");
+        let block1 = producer.produce_reward_block(2).unwrap();
+        let block2 = producer.produce_reward_block(3).unwrap();
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+
+        let before = receiver.state.root();
+        assert_eq!(
+            receiver.handle_network_message(NetworkMessage::Block(block2.clone())).unwrap_err(),
+            "non-sequential height"
+        );
+        assert_eq!(receiver.chain.height(), 0);
+        assert_eq!(receiver.state.root(), before);
+
+        receiver.handle_network_message(NetworkMessage::Block(block1)).unwrap();
+        receiver.handle_network_message(NetworkMessage::Block(block2.clone())).unwrap();
+        assert_eq!(receiver.chain.height(), 2);
+        assert_eq!(receiver.chain.last().unwrap().id, block2.id);
+    }
+
+    #[test]
+    fn duplicate_network_vote_is_rejected_after_first_acceptance() {
+        let producer = Node::new(658467, "validator-a".into());
+        producer.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&producer, "validator-a");
+        let block = producer.produce_reward_block(2).unwrap();
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+        let signing = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut vote = Vote {
+            block: block.id,
+            voter: "validator-a".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: signing.verifying_key().to_bytes(),
+        };
+        vote.signature = signing
+            .sign(&consensus::vote_signing_bytes(658467, &vote))
+            .to_bytes();
+
+        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap();
+        receiver.handle_network_message(NetworkMessage::Vote(vote.clone())).unwrap();
+        assert_eq!(
+            receiver.handle_network_message(NetworkMessage::Vote(vote)).unwrap_err(),
+            "duplicate voter"
+        );
+    }
+
+    #[test]
+    fn restart_resync_does_not_reconstruct_transient_votes_and_late_vote_restores_finality() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-restart-resync-votes-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+
+        let producer = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        producer.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&producer, "validator-a");
+        let block = producer.produce_reward_block(2).unwrap();
+
+        // The block is durable, but the in-memory vote is intentionally not.
+        assert_eq!(producer.storage.block(block.height), Some(block.clone()));
+
+        drop(producer);
+
+        let receiver = Node::open_storage(658467, "validator-b".into(), &path).unwrap();
+        assert_eq!(receiver.chain.height(), block.height);
+        assert_eq!(receiver.consensus.finalized(), None);
+
+        // Exercise the actual BlockRequest -> BlockResponse/broadcast path.
+        let source = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        let capture = Arc::new(CaptureTransport::default());
+        source.set_transport(capture.clone());
+        source.handle_network_message(NetworkMessage::BlockRequest { from_height: block.height }).unwrap();
+        let messages = capture.messages.lock().unwrap().clone();
+        assert_eq!(messages, vec![NetworkMessage::Block(block.clone())]);
+        for message in messages {
+            receiver.handle_network_message(message).unwrap();
+        }
+        assert_eq!(receiver.chain.height(), block.height);
+        assert_eq!(receiver.consensus.finalized(), None);
+
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut late_vote = Vote {
+            block: block.id,
+            voter: "validator-a".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: key_a.verifying_key().to_bytes(),
+        };
+        late_vote.signature = key_a
+            .sign(&consensus::vote_signing_bytes(658467, &late_vote))
+            .to_bytes();
+
+        // One delayed vote after restart is still insufficient: the node did
+        // not reconstruct a phantom vote from pre-restart memory.
+        receiver.handle_network_message(NetworkMessage::Vote(late_vote)).unwrap();
+        assert_eq!(receiver.consensus.finalized(), None);
+
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
+        let mut second_vote = Vote {
+            block: block.id,
+            voter: "validator-b".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: key_b.verifying_key().to_bytes(),
+        };
+        second_vote.signature = key_b
+            .sign(&consensus::vote_signing_bytes(658467, &second_vote))
+            .to_bytes();
+
+        receiver.handle_network_message(NetworkMessage::Vote(second_vote)).unwrap();
+        assert_eq!(receiver.consensus.finalized(), Some((block.height, block.id)));
+
+        drop(receiver);
+        let reopened = Node::open_storage(658467, "validator-b".into(), &path).unwrap();
+        assert_eq!(reopened.consensus.finalized(), Some((block.height, block.id)));
+        assert_eq!(reopened.storage.recover_finalized().unwrap(), Some((block.height, block.id)));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn conflicting_same_height_block_is_rejected_after_finality() {
+        let producer_a = Node::new(658467, "validator-a".into());
+        producer_a.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&producer_a, "validator-a");
+        let canonical = producer_a.produce_reward_block(2).unwrap();
+
+        let producer_b = Node::new(658467, "validator-a".into());
+        producer_b.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&producer_b, "validator-a");
+        let conflicting = producer_b.produce_reward_block(3).unwrap();
+        assert_ne!(canonical.id, conflicting.id);
+        assert_eq!(canonical.height, conflicting.height);
+        assert_eq!(canonical.parent_hash, conflicting.parent_hash);
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+        receiver.handle_network_message(NetworkMessage::Block(canonical.clone())).unwrap();
+
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut va = Vote { block: canonical.id, voter: "validator-a".into(), approve: true, signature: [0;64], public_key: key_a.verifying_key().to_bytes() };
+        va.signature = key_a.sign(&consensus::vote_signing_bytes(658467, &va)).to_bytes();
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
+        let mut vb = Vote { block: canonical.id, voter: "validator-b".into(), approve: true, signature: [0;64], public_key: key_b.verifying_key().to_bytes() };
+        vb.signature = key_b.sign(&consensus::vote_signing_bytes(658467, &vb)).to_bytes();
+        receiver.handle_network_message(NetworkMessage::Vote(va)).unwrap();
+        receiver.handle_network_message(NetworkMessage::Vote(vb)).unwrap();
+        assert_eq!(receiver.consensus.finalized(), Some((canonical.height, canonical.id)));
+
+        let before_root = receiver.state.root();
+        assert!(receiver.handle_network_message(NetworkMessage::Block(conflicting)).is_err());
+        assert_eq!(receiver.chain.height(), canonical.height);
+        assert_eq!(receiver.chain.last().unwrap().id, canonical.id);
+        assert_eq!(receiver.state.root(), before_root);
+        assert_eq!(receiver.consensus.finalized(), Some((canonical.height, canonical.id)));
+        assert_eq!(receiver.storage.block(canonical.height).unwrap().id, canonical.id);
+    }
+
+    #[test]
+    fn longer_divergent_chain_cannot_reorg_finalized_prefix() {
+        let canonical = Node::new(658467, "validator-a".into());
+        canonical.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&canonical, "validator-a");
+        let canonical_h1 = canonical.produce_reward_block(2).unwrap();
+        let canonical_h2 = canonical.produce_reward_block(3).unwrap();
+
+        let fork = Node::new(658467, "validator-a".into());
+        fork.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&fork, "validator-a");
+        let fork_h1 = fork.produce_reward_block(99).unwrap();
+        let fork_h2 = fork.produce_reward_block(100).unwrap();
+        assert_ne!(canonical_h1.id, fork_h1.id);
+        assert_ne!(canonical_h2.id, fork_h2.id);
+        assert_eq!(fork_h2.parent_hash, fork_h1.id);
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+        receiver.handle_network_message(NetworkMessage::Block(canonical_h1.clone())).unwrap();
+
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut vote_a = Vote { block: canonical_h1.id, voter: "validator-a".into(), approve: true, signature: [0;64], public_key: key_a.verifying_key().to_bytes() };
+        vote_a.signature = key_a.sign(&consensus::vote_signing_bytes(658467, &vote_a)).to_bytes();
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
+        let mut vote_b = Vote { block: canonical_h1.id, voter: "validator-b".into(), approve: true, signature: [0;64], public_key: key_b.verifying_key().to_bytes() };
+        vote_b.signature = key_b.sign(&consensus::vote_signing_bytes(658467, &vote_b)).to_bytes();
+        receiver.handle_network_message(NetworkMessage::Vote(vote_a)).unwrap();
+        receiver.handle_network_message(NetworkMessage::Vote(vote_b)).unwrap();
+        assert_eq!(receiver.consensus.finalized(), Some((canonical_h1.height, canonical_h1.id)));
+
+        assert!(receiver.handle_network_message(NetworkMessage::Block(fork_h1)).is_err());
+        assert!(receiver.handle_network_message(NetworkMessage::Block(fork_h2)).is_err());
+        assert_eq!(receiver.chain.height(), canonical_h1.height);
+        assert_eq!(receiver.chain.last().unwrap().id, canonical_h1.id);
+        assert_eq!(receiver.consensus.finalized(), Some((canonical_h1.height, canonical_h1.id)));
+
+        // The longer canonical continuation remains valid and cannot be
+        // displaced by the rejected fork.
+        receiver.handle_network_message(NetworkMessage::Block(canonical_h2.clone())).unwrap();
+        assert_eq!(receiver.chain.last().unwrap().id, canonical_h2.id);
+    }
+
+    #[test]
+    fn late_conflicting_block_after_finality_cannot_replace_canonical_state() {
+        let source = Node::new(658467, "validator-a".into());
+        source.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&source, "validator-a");
+        let canonical = source.produce_reward_block(2).unwrap();
+
+        let fork_source = Node::new(658467, "validator-a".into());
+        fork_source.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&fork_source, "validator-a");
+        let fork = fork_source.produce_reward_block(3).unwrap();
+        assert_ne!(canonical.id, fork.id);
+
+        let node = Node::new(658467, "validator-b".into());
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&node, "validator-b");
+        node.handle_network_message(NetworkMessage::Block(canonical.clone())).unwrap();
+
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut vote_a = Vote { block: canonical.id, voter: "validator-a".into(), approve: true, signature: [0;64], public_key: key_a.verifying_key().to_bytes() };
+        vote_a.signature = key_a.sign(&consensus::vote_signing_bytes(658467, &vote_a)).to_bytes();
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
+        let mut vote_b = Vote { block: canonical.id, voter: "validator-b".into(), approve: true, signature: [0;64], public_key: key_b.verifying_key().to_bytes() };
+        vote_b.signature = key_b.sign(&consensus::vote_signing_bytes(658467, &vote_b)).to_bytes();
+        node.handle_network_message(NetworkMessage::Vote(vote_a)).unwrap();
+        node.handle_network_message(NetworkMessage::Vote(vote_b)).unwrap();
+        assert_eq!(node.consensus.finalized(), Some((canonical.height, canonical.id)));
+
+        let state_root = node.state.root();
+        let finalized = node.consensus.finalized();
+        assert!(node.import_block(fork).is_err());
+        assert_eq!(node.chain.last().unwrap().id, canonical.id);
+        assert_eq!(node.state.root(), state_root);
+        assert_eq!(node.consensus.finalized(), finalized);
+    }
+
+    #[test]
+    fn duplicate_canonical_block_after_resync_is_idempotent_without_finality_change() {
+        let source = Node::new(658467, "validator-a".into());
+        source.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&source, "validator-a");
+        let block = source.produce_reward_block(2).unwrap();
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap();
+        let root = receiver.state.root();
+
+        assert!(receiver.handle_network_message(NetworkMessage::Block(block.clone())).is_err());
+        assert_eq!(receiver.chain.height(), block.height);
+        assert_eq!(receiver.chain.last().unwrap().id, block.id);
+        assert_eq!(receiver.state.root(), root);
+        assert_eq!(receiver.consensus.finalized(), None);
+    }
+
+    #[test]
+    fn block_request_from_divergent_peer_cannot_replace_finalized_block() {
+        let canonical = Node::new(658467, "validator-a".into());
+        canonical.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&canonical, "validator-a");
+        let block = canonical.produce_reward_block(2).unwrap();
+
+        let divergent = Node::new(658467, "validator-a".into());
+        divergent.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&divergent, "validator-a");
+        let other = divergent.produce_reward_block(99).unwrap();
+        assert_ne!(block.id, other.id);
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap();
+
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut va = Vote { block: block.id, voter: "validator-a".into(), approve: true, signature: [0;64], public_key: key_a.verifying_key().to_bytes() };
+        va.signature = key_a.sign(&consensus::vote_signing_bytes(658467, &va)).to_bytes();
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
+        let mut vb = Vote { block: block.id, voter: "validator-b".into(), approve: true, signature: [0;64], public_key: key_b.verifying_key().to_bytes() };
+        vb.signature = key_b.sign(&consensus::vote_signing_bytes(658467, &vb)).to_bytes();
+        receiver.handle_network_message(NetworkMessage::Vote(va)).unwrap();
+        receiver.handle_network_message(NetworkMessage::Vote(vb)).unwrap();
+        assert_eq!(receiver.consensus.finalized(), Some((block.height, block.id)));
+
+        let transport = Arc::new(CaptureTransport::default());
+        divergent.set_transport(transport.clone());
+        divergent.handle_network_message(NetworkMessage::BlockRequest { from_height: 1 }).unwrap();
+        let messages = transport.messages.lock().unwrap().clone();
+        assert!(messages.iter().any(|m| matches!(m, NetworkMessage::Block(b) if b.id == other.id)));
+
+        for message in messages {
+            let _ = receiver.handle_network_message(message);
+        }
+        assert_eq!(receiver.chain.height(), block.height);
+        assert_eq!(receiver.chain.last().unwrap().id, block.id);
+        assert_eq!(receiver.consensus.finalized(), Some((block.height, block.id)));
+    }
+
+    #[test]
+    fn recovery_rejects_cross_journal_issuance_height_mismatch() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-cross-journal-issuance-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&node, "validator-a");
+        node.produce_reward_block(2).unwrap();
+        drop(node);
+
+        let mut record = Vec::from(b"ATCI1".as_slice());
+        record.extend_from_slice(&0u64.to_be_bytes());
+        record.extend_from_slice(&0u128.to_be_bytes());
+        std::fs::write(
+            path.with_extension("issuance"),
+            format!("{}\n", hex::encode(record)),
+        )
+        .unwrap();
+
+        let err = match Node::open_storage(658467, "validator-a".into(), &path) {
+            Ok(_) => panic!("cross-journal issuance height mismatch must be rejected"),
+            Err(err) => err,
+        };
+        assert!(err.contains("recovered issuance height 0 does not match canonical tip 1"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovery_rejects_cross_journal_state_height_mismatch() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-cross-journal-state-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&node, "validator-a");
+        node.produce_reward_block(2).unwrap();
+        drop(node);
+
+        let mut record = Vec::new();
+        record.extend_from_slice(&0u64.to_be_bytes());
+        record.extend_from_slice(&0u32.to_be_bytes());
+        record.extend_from_slice(&0u32.to_be_bytes());
+        std::fs::write(
+            path.with_extension("state"),
+            format!("{}\n", hex::encode(record)),
+        )
+        .unwrap();
+
+        let err = match Node::open_storage(658467, "validator-a".into(), &path) {
+            Ok(_) => panic!("cross-journal state height mismatch must be rejected"),
+            Err(err) => err,
+        };
+        assert!(err.contains("recovered state height 0 does not match canonical tip 1"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovered_pending_validator_snapshot_is_only_usable_for_next_canonical_height() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-pending-activation-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key = ed25519_dalek::SigningKey::from_bytes(&[71u8; 32]);
+
+        {
+            let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+            node.create_genesis_with_proposer(1, "genesis").unwrap();
+            node.register_validator("validator-a".into(), 100).unwrap();
+            node.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+            assert_eq!(node.consensus.height(), 0);
+            assert!(node.consensus.has_validator_snapshot(1));
+        }
+
+        {
+            let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+            assert!(node.consensus.has_validator_snapshot(1));
+            let block = node.produce_reward_block(2).unwrap();
+            assert_eq!(block.height, 1);
+            assert_eq!(node.chain.last().unwrap().id, block.id);
+        }
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovered_validator_snapshot_without_canonical_chain_is_rejected() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-orphan-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key = ed25519_dalek::SigningKey::from_bytes(&[72u8; 32]);
+
+        let mut record = Vec::from(b"ATCV2".as_slice());
+        record.extend_from_slice(&1u64.to_be_bytes());
+        record.extend_from_slice(&1u32.to_be_bytes());
+        record.extend_from_slice(&(11u32).to_be_bytes());
+        record.extend_from_slice(b"validator-a");
+        record.extend_from_slice(&100u64.to_be_bytes());
+        record.extend_from_slice(&key.verifying_key().to_bytes());
+        std::fs::write(
+            path.with_extension("validators"),
+            format!("{}\n", hex::encode(record)),
+        )
+        .unwrap();
+
+        let err = match Node::open_storage(658467, "validator-a".into(), &path) {
+            Ok(_) => panic!("orphan validator snapshot must be rejected"),
+            Err(err) => err,
+        };
+        assert!(err.contains("validator snapshot exists without a canonical chain"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn pending_validator_snapshot_does_not_bypass_wrong_parent_rejection() {
+        let node = Node::new(658467, "validator-a".into());
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        let key = ed25519_dalek::SigningKey::from_bytes(&[73u8; 32]);
+        node.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+
+        let mut block = Block::new(
+            1,
+            [0xabu8; 32],
+            "validator-a".into(),
+            2,
+            Vec::new(),
+            node.state.root(),
+            receipts::root(&[]),
+            [0; 64],
+        );
+        block.signature = key.sign(&block_signing_bytes(658467, &block)).to_bytes();
+        block.id = block_id(
+            block.height,
+            block.parent_hash,
+            &block.proposer,
+            block.timestamp,
+            block.tx_root,
+            block.state_root,
+            block.receipt_root,
+            block.signature,
+        );
+
+        let before = node.state.root();
+        assert_eq!(node.import_block(block).unwrap_err(), "parent mismatch");
+        assert_eq!(node.chain.height(), 0);
+        assert_eq!(node.state.root(), before);
+    }
 
     #[test]
     fn genesis_sets_chain_height_and_allows_first_append() {
