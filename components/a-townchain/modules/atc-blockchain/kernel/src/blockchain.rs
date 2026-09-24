@@ -266,12 +266,16 @@ impl Node {
         let reader = stream.try_clone().map_err(|e| e.to_string())?;
         transport.register_stream(stream)?;
         self.set_transport(transport.clone());
+
+        // Start receiving before requesting blocks so the response cannot
+        // arrive before the node has a reader installed for this peer.
+        let handle = self.clone().serve_tcp_stream(reader);
         // Ask the peer for any height we do not have yet. The peer answers
         // from durable storage; requesting beyond its tip is harmless.
         transport.broadcast(NetworkMessage::BlockRequest {
             from_height: last.height.saturating_add(1),
         })?;
-        Ok(self.clone().serve_tcp_stream(reader))
+        Ok(handle)
     }
 
     /// Configure the validator identity used by the long-running node consensus loop.
