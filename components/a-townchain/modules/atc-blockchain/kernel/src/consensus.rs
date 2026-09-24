@@ -410,6 +410,45 @@ mod tests {
     }
 
     #[test]
+    fn historical_validator_snapshot_is_immutable_for_vote_verification() {
+        let engine = ConsensusEngine::new(658467, "proposer".into());
+        let old_key = SigningKey::from_bytes(&[21u8; 32]);
+        let new_key = SigningKey::from_bytes(&[22u8; 32]);
+
+        engine.register_validator("alice".into(), 100).unwrap();
+        engine.register_validator_key("alice", old_key.verifying_key().to_bytes()).unwrap();
+        engine.set_height(1);
+
+        // A later mutable registry update must not rewrite the historical set
+        // that authenticated height 0.
+        engine.register_validator_key("alice", new_key.verifying_key().to_bytes()).unwrap();
+        assert_eq!(
+            engine.validator_snapshot_for_height(0).unwrap().1.get("alice"),
+            Some(&old_key.verifying_key().to_bytes())
+        );
+
+        let mut historical = Vote {
+            block: [41u8; 32],
+            voter: "alice".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: old_key.verifying_key().to_bytes(),
+        };
+        historical.signature = old_key.sign(&vote_signing_bytes(engine.chain_id, &historical)).to_bytes();
+        assert!(engine.vote_at_height(historical, 0).is_ok());
+
+        let mut current = Vote {
+            block: [42u8; 32],
+            voter: "alice".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: new_key.verifying_key().to_bytes(),
+        };
+        current.signature = new_key.sign(&vote_signing_bytes(engine.chain_id, &current)).to_bytes();
+        assert!(engine.vote_at_height(current, 1).is_err());
+    }
+
+    #[test]
     fn weighted_finality_requires_two_thirds_stake() {
         let engine = ConsensusEngine::new(658467, "proposer".into());
         let a = SigningKey::from_bytes(&[1u8; 32]);
