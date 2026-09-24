@@ -81,6 +81,7 @@ fn tx_decode(b: &[u8], p: &mut usize) -> Result<Transaction, String> {
             1 => TxType::Stake,
             2 => TxType::Unstake,
             3 => TxType::Contract,
+            4 => TxType::Validator,
             _ => return Err("invalid tx type".into()),
         }
     };
