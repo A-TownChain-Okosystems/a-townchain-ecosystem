@@ -952,6 +952,90 @@ mod tests {
     }
 
     #[test]
+    fn validator_snapshot_same_activation_height_uses_latest_revision() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-revision-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[51u8; 32]).verifying_key().to_bytes();
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[52u8; 32]).verifying_key().to_bytes();
+
+        let mut first = BTreeMap::new();
+        first.insert("alice".to_string(), 100u64);
+        let mut first_keys = BTreeMap::new();
+        first_keys.insert("alice".to_string(), key_a);
+
+        let mut second = first.clone();
+        second.insert("bob".to_string(), 50u64);
+        let mut second_keys = first_keys.clone();
+        second_keys.insert("bob".to_string(), key_b);
+
+        {
+            let storage = ChainStorage::open(&path).unwrap();
+            storage.commit_validators(10, &first, &first_keys).unwrap();
+            storage.commit_validators(10, &second, &second_keys).unwrap();
+        }
+
+        let storage = ChainStorage::open(&path).unwrap();
+        let recovered = storage.recover_validator_snapshots().unwrap();
+        let (validators, keys) = recovered.get(&10).unwrap();
+        assert_eq!(validators.get("alice"), Some(&100));
+        assert_eq!(validators.get("bob"), Some(&50));
+        assert_eq!(keys.get("bob"), Some(&key_b));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn validator_snapshot_history_rejects_height_regression() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-regression-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key = ed25519_dalek::SigningKey::from_bytes(&[53u8; 32]).verifying_key().to_bytes();
+        let mut validators = BTreeMap::new();
+        validators.insert("alice".to_string(), 100u64);
+        let mut keys = BTreeMap::new();
+        keys.insert("alice".to_string(), key);
+
+        {
+            let storage = ChainStorage::open(&path).unwrap();
+            storage.commit_validators(10, &validators, &keys).unwrap();
+            storage.commit_validators(9, &validators, &keys).unwrap();
+        }
+
+        let err = match ChainStorage::open(&path) {
+            Ok(_) => panic!("validator height regression must be rejected"),
+            Err(err) => err,
+        };
+        assert!(err.contains("validator snapshot height regressed"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
     fn incomplete_validator_snapshot_is_rejected() {
         let storage = ChainStorage::new();
         let mut validators = BTreeMap::new();
