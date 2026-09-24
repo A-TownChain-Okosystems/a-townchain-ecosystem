@@ -933,14 +933,20 @@ impl Node {
         } else {
             self.consensus.height()
         };
+        let previous = self.consensus.mutable_validator_state()?;
         self.consensus.register_validator_key(address, public_key)?;
-        self.persist_validator_snapshot(activation_height)
+        if let Err(e) = self.persist_validator_snapshot(activation_height) {
+            self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
+            return Err(e);
+        }
+        Ok(())
     }
 
     pub fn slash_validator(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
         if evidence.height > self.chain.height() {
             return Err("slashing evidence is above current chain height".into());
         }
+        let previous = self.consensus.mutable_validator_state()?;
         let applied = self.consensus.slash(evidence.clone(), penalty)?;
         if applied == 0 {
             return Err("slashing penalty is zero".into());
@@ -948,20 +954,25 @@ impl Node {
         let activation_height = self.consensus.height().saturating_add(1);
 
         // The validator snapshot is the consensus-state source of truth for the
-        // pending H+1 activation. Persist it before the auxiliary slashing audit
-        // record so a crash cannot leave a durable slash without the corresponding
-        // validator-set transition. The exact snapshot is then installed in live
-        // height-scoped consensus state by persist_validator_snapshot().
-        self.persist_validator_snapshot(activation_height)?;
+        // pending H+1 activation. If durable persistence fails, restore the exact
+        // pre-slash live registry so callers cannot continue with state that will
+        // disappear after restart.
+        if let Err(e) = self.persist_validator_snapshot(activation_height) {
+            self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
+            return Err(e);
+        }
 
         // The slashing journal is audit metadata; the validator snapshot above is
         // what determines the validator set after restart.
-        self.storage.commit_slashing(
+        if let Err(e) = self.storage.commit_slashing(
             evidence.height,
             &evidence.validator,
             evidence.id(),
             applied,
-        )?;
+        ) {
+            self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
+            return Err(e);
+        }
         Ok(applied)
     }
 
@@ -1106,6 +1117,55 @@ mod tests {
         let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         assert_eq!(reopened.consensus.validator_stake("validator-a"), 0);
         assert!(reopened.consensus.validator_public_key("validator-a").is_none());
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn validator_key_rotation_survives_restart_without_rewriting_history() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-key-rotation-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let old_key = ed25519_dalek::SigningKey::from_bytes(&[73u8; 32]);
+        let new_key = ed25519_dalek::SigningKey::from_bytes(&[74u8; 32]);
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", old_key.verifying_key().to_bytes()).unwrap();
+        node.produce_reward_block(2).unwrap();
+
+        node.register_validator_key("validator-a", new_key.verifying_key().to_bytes()).unwrap();
+        assert_eq!(
+            node.consensus.validator_snapshot_for_height(1).unwrap().1["validator-a"],
+            old_key.verifying_key().to_bytes()
+        );
+        assert_eq!(
+            node.consensus.validator_snapshot_for_height(2).unwrap().1["validator-a"],
+            new_key.verifying_key().to_bytes()
+        );
+
+        drop(node);
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        assert_eq!(
+            reopened.consensus.validator_snapshot_for_height(1).unwrap().1["validator-a"],
+            old_key.verifying_key().to_bytes()
+        );
+        assert_eq!(
+            reopened.consensus.validator_snapshot_for_height(2).unwrap().1["validator-a"],
+            new_key.verifying_key().to_bytes()
+        );
 
         for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
             let target = if suffix.is_empty() {
