@@ -650,14 +650,12 @@ impl Node {
             [0; 64],
         );
         self.chain.genesis(b.clone())?;
-        self.storage.commit(b.clone())?;
-        self.storage.commit_state_with_dao(
-            b.height,
+        self.storage.commit_block_state_issuance(
+            b.clone(),
             &self.state.snapshot(),
             &self.state.dao_snapshot(),
+            self.state.issued_base_units(),
         )?;
-        self.storage
-            .commit_issuance(b.height, self.state.issued_base_units())?;
         self.state.seal_genesis();
         self.consensus.set_height(b.height);
         Ok(b)
@@ -707,26 +705,12 @@ impl Node {
             self.state.root(), receipts::root(&[]), [0; 64],
         ))?;
         self.chain.validate_append(&b)?;
-        if let Err(e) = self.storage.commit(b.clone()) {
-            self.state.restore(snapshot);
-            let _ = self.state.restore_dao(&dao_snapshot);
-            let _ = self.state.restore_issued_base_units(issued_snapshot);
-            return Err(e);
-        }
-        if let Err(e) = self.storage.commit_state_with_dao(
-            height,
+        if let Err(e) = self.storage.commit_block_state_issuance(
+            b.clone(),
             &self.state.snapshot(),
             &self.state.dao_snapshot(),
+            self.state.issued_base_units(),
         ) {
-            self.state.restore(snapshot);
-            let _ = self.state.restore_dao(&dao_snapshot);
-            let _ = self.state.restore_issued_base_units(issued_snapshot);
-            return Err(e);
-        }
-        if let Err(e) = self
-            .storage
-            .commit_issuance(height, self.state.issued_base_units())
-        {
             self.state.restore(snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
             let _ = self.state.restore_issued_base_units(issued_snapshot);
@@ -810,26 +794,12 @@ impl Node {
             new_root, receipt_root, [0; 64],
         ))?;
         self.chain.validate_append(&b)?;
-        if let Err(e) = self.storage.commit(b.clone()) {
-            self.state.restore(state_snapshot);
-            let _ = self.state.restore_dao(&dao_snapshot);
-            let _ = self.state.restore_issued_base_units(issued_snapshot);
-            return Err(e);
-        }
-        if let Err(e) = self.storage.commit_state_with_dao(
-            b.height,
+        if let Err(e) = self.storage.commit_block_state_issuance(
+            b.clone(),
             &self.state.snapshot(),
             &self.state.dao_snapshot(),
+            self.state.issued_base_units(),
         ) {
-            self.state.restore(state_snapshot);
-            let _ = self.state.restore_dao(&dao_snapshot);
-            let _ = self.state.restore_issued_base_units(issued_snapshot);
-            return Err(e);
-        }
-        if let Err(e) = self
-            .storage
-            .commit_issuance(b.height, self.state.issued_base_units())
-        {
             self.state.restore(state_snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
             let _ = self.state.restore_issued_base_units(issued_snapshot);
