@@ -1,0 +1,193 @@
+//! Canonical validator state and deterministic lifecycle transitions.
+//!
+//! This module is deliberately independent of ConsensusEngine.  It is the
+//! state-machine representation that can be replayed from canonical blocks.
+use crate::security::simple_hash;
+use std::collections::BTreeMap;
+
+const DOMAIN: &[u8] = b"ATC-VALIDATOR-STATE-V1";
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ValidatorRecord {
+    pub stake: u128,
+    pub public_key: [u8; 32],
+    pub activation_height: u64,
+    pub active: bool,
+    pub slashed_base_units: u128,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum ValidatorTransition {
+    Register {
+        address: String,
+        stake: u128,
+        public_key: [u8; 32],
+        activation_height: u64,
+    },
+    RotateKey {
+        address: String,
+        public_key: [u8; 32],
+        activation_height: u64,
+    },
+    Stake {
+        address: String,
+        amount: u128,
+    },
+    Unstake {
+        address: String,
+        amount: u128,
+    },
+    Slash {
+        address: String,
+        evidence_id: [u8; 32],
+        evidence_height: u64,
+        penalty: u128,
+        activation_height: u64,
+    },
+    Unregister {
+        address: String,
+        activation_height: u64,
+    },
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ValidatorState {
+    validators: BTreeMap<String, ValidatorRecord>,
+}
+
+impl Default for ValidatorState {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl ValidatorState {
+    pub fn new() -> Self {
+        Self { validators: BTreeMap::new() }
+    }
+
+    pub fn get(&self, address: &str) -> Option<&ValidatorRecord> {
+        self.validators.get(address)
+    }
+
+    pub fn snapshot(&self) -> BTreeMap<String, ValidatorRecord> {
+        self.validators.clone()
+    }
+
+    pub fn restore(&mut self, validators: BTreeMap<String, ValidatorRecord>) {
+        self.validators = validators;
+    }
+
+    pub fn apply(&mut self, transition: &ValidatorTransition) -> Result<(), String> {
+        match transition {
+            ValidatorTransition::Register { address, stake, public_key, activation_height } => {
+                if address.is_empty() || *stake == 0 || *public_key == [0; 32] {
+                    return Err("invalid validator registration".into());
+                }
+                if self.validators.contains_key(address) {
+                    return Err("validator already registered".into());
+                }
+                self.validators.insert(address.clone(), ValidatorRecord {
+                    stake: *stake,
+                    public_key: *public_key,
+                    activation_height: *activation_height,
+                    active: true,
+                    slashed_base_units: 0,
+                });
+            }
+            ValidatorTransition::RotateKey { address, public_key, activation_height } => {
+                if *public_key == [0; 32] {
+                    return Err("validator public key must not be zero".into());
+                }
+                let v = self.validators.get_mut(address).ok_or("validator not found")?;
+                v.public_key = *public_key;
+                v.activation_height = *activation_height;
+            }
+            ValidatorTransition::Stake { address, amount } => {
+                let v = self.validators.get_mut(address).ok_or("validator not found")?;
+                v.stake = v.stake.checked_add(*amount).ok_or("validator stake overflow")?;
+            }
+            ValidatorTransition::Unstake { address, amount } => {
+                let v = self.validators.get_mut(address).ok_or("validator not found")?;
+                v.stake = v.stake.checked_sub(*amount).ok_or("insufficient validator stake")?;
+            }
+            ValidatorTransition::Slash { address, evidence_id, evidence_height: _, penalty, activation_height } => {
+                if *evidence_id == [0; 32] || *penalty == 0 {
+                    return Err("invalid slashing transition".into());
+                }
+                let v = self.validators.get_mut(address).ok_or("validator not found")?;
+                let applied = (*penalty).min(v.stake);
+                v.stake -= applied;
+                v.slashed_base_units = v.slashed_base_units.checked_add(applied).ok_or("slash accounting overflow")?;
+                v.activation_height = *activation_height;
+            }
+            ValidatorTransition::Unregister { address, activation_height } => {
+                let v = self.validators.get_mut(address).ok_or("validator not found")?;
+                v.active = false;
+                v.activation_height = *activation_height;
+            }
+        }
+        Ok(())
+    }
+
+    /// Deterministic commitment over the complete validator state.
+    pub fn root(&self) -> [u8; 32] {
+        let mut bytes = Vec::from(DOMAIN);
+        for (address, validator) in &self.validators {
+            bytes.extend_from_slice(&(address.len() as u32).to_be_bytes());
+            bytes.extend_from_slice(address.as_bytes());
+            bytes.extend_from_slice(&validator.stake.to_be_bytes());
+            bytes.extend_from_slice(&validator.public_key);
+            bytes.extend_from_slice(&validator.activation_height.to_be_bytes());
+            bytes.push(u8::from(validator.active));
+            bytes.extend_from_slice(&validator.slashed_base_units.to_be_bytes());
+        }
+        simple_hash(&bytes)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn key(n: u8) -> [u8; 32] {
+        [n; 32]
+    }
+
+    #[test]
+    fn validator_root_changes_for_key_rotation_and_slash() {
+        let mut state = ValidatorState::new();
+        state.apply(&ValidatorTransition::Register {
+            address: "validator-a".into(), stake: 100, public_key: key(1), activation_height: 1,
+        }).unwrap();
+        let registered = state.root();
+        state.apply(&ValidatorTransition::RotateKey {
+            address: "validator-a".into(), public_key: key(2), activation_height: 2,
+        }).unwrap();
+        assert_ne!(registered, state.root());
+        let rotated = state.root();
+        state.apply(&ValidatorTransition::Slash {
+            address: "validator-a".into(), evidence_id: [7; 32], evidence_height: 1,
+            penalty: 25, activation_height: 3,
+        }).unwrap();
+        assert_ne!(rotated, state.root());
+        assert_eq!(state.get("validator-a").unwrap().stake, 75);
+    }
+
+    #[test]
+    fn validator_state_is_replay_deterministic() {
+        let transitions = [
+            ValidatorTransition::Register { address: "a".into(), stake: 100, public_key: key(1), activation_height: 1 },
+            ValidatorTransition::Stake { address: "a".into(), amount: 50 },
+            ValidatorTransition::RotateKey { address: "a".into(), public_key: key(2), activation_height: 2 },
+            ValidatorTransition::Slash { address: "a".into(), evidence_id: [9; 32], evidence_height: 2, penalty: 20, activation_height: 3 },
+            ValidatorTransition::Unregister { address: "a".into(), activation_height: 4 },
+        ];
+        let mut left = ValidatorState::new();
+        let mut right = ValidatorState::new();
+        for transition in &transitions { left.apply(transition).unwrap(); }
+        for transition in &transitions { right.apply(transition).unwrap(); }
+        assert_eq!(left, right);
+        assert_eq!(left.root(), right.root());
+    }
+}
