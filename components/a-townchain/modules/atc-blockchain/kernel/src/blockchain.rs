@@ -513,8 +513,9 @@ impl Node {
             if n.storage.block(height).is_none() {
                 return Err("validator snapshot references missing block".into());
             }
-            for (address, stake) in validators {
-                n.consensus.register_validator(address, stake)?;
+            for (address, (stake, public_key)) in validators {
+                n.consensus.register_validator(address.clone(), stake)?;
+                n.consensus.register_validator_key(&address, public_key)?;
             }
         }
         if let Some((snapshot, dao)) = n.storage.recover_state_with_dao()? {
@@ -770,16 +771,30 @@ impl Node {
         self.vote_for_block(&b)?;
         Ok(b)
     }
+    fn persist_validator_snapshot(&self) -> Result<(), String> {
+        let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
+        self.storage
+            .commit_validators(self.consensus.height(), &validators, &keys)
+    }
+
     pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
         self.consensus.register_validator(address, stake)?;
-        self.storage.commit_validators(
-            self.consensus.height(),
-            &self.consensus.validators_snapshot(),
-        )
+        // Registration and key binding are intentionally separate API operations.
+        // Do not persist an incomplete identity snapshot; register_validator_key()
+        // commits the complete registry once the Ed25519 key is known.
+        if self
+            .consensus
+            .validator_public_key(&self.proposer)
+            .is_some()
+        {
+            self.persist_validator_snapshot()?;
+        }
+        Ok(())
     }
 
     pub fn register_validator_key(&self, address: &str, public_key: [u8; 32]) -> Result<(), String> {
-        self.consensus.register_validator_key(address, public_key)
+        self.consensus.register_validator_key(address, public_key)?;
+        self.persist_validator_snapshot()
     }
 
     pub fn slash_validator(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
@@ -796,10 +811,7 @@ impl Node {
             evidence.id(),
             applied,
         )?;
-        self.storage.commit_validators(
-            self.consensus.height(),
-            &self.consensus.validators_snapshot(),
-        )?;
+        self.persist_validator_snapshot()?;
         Ok(applied)
     }
 
