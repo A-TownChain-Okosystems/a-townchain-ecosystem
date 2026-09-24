@@ -165,6 +165,9 @@ fn dao_transactions_persist_and_recover() {
     node.state
         .genesis_credit(&proposer, 1_000_000)
         .expect("genesis allocation must respect supply cap");
+    node.register_validator(proposer.clone(), 100).unwrap();
+    node.register_validator_key(&proposer, SigningKey::from_bytes(&[11u8; 32]).verifying_key().to_bytes()).unwrap();
+    node.set_vote_signer(proposer.clone(), [11u8; 32]);
     node.create_genesis(0).unwrap();
     let key = SigningKey::from_bytes(&[11u8; 32]);
 
