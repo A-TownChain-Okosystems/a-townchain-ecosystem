@@ -45,10 +45,18 @@ pub enum IdentityError {
 
 impl ChainIdentity {
     pub fn validate(&self) -> Result<(), IdentityError> {
-        if self.chain_id.is_empty() { return Err(IdentityError::EmptyField("chain_id")); }
-        if self.network_id.is_empty() { return Err(IdentityError::EmptyField("network_id")); }
-        if self.genesis_id.is_empty() { return Err(IdentityError::EmptyField("genesis_id")); }
-        if self.chain_id != CHAIN_ID { return Err(IdentityError::InvalidChainId(self.chain_id.clone())); }
+        if self.chain_id.is_empty() {
+            return Err(IdentityError::EmptyField("chain_id"));
+        }
+        if self.network_id.is_empty() {
+            return Err(IdentityError::EmptyField("network_id"));
+        }
+        if self.genesis_id.is_empty() {
+            return Err(IdentityError::EmptyField("genesis_id"));
+        }
+        if self.chain_id != CHAIN_ID {
+            return Err(IdentityError::InvalidChainId(self.chain_id.clone()));
+        }
         if !matches!(self.network_id.as_str(), "devnet" | "testnet" | "mainnet") {
             return Err(IdentityError::InvalidNetworkId(self.network_id.clone()));
         }
@@ -63,10 +71,16 @@ impl RuntimeContext {
     pub fn validate(&self, expected_protocol: &str, expected_vm: &str) -> Result<(), IdentityError> {
         self.identity.validate()?;
         if self.protocol_version != expected_protocol {
-            return Err(IdentityError::ProtocolMismatch { expected: expected_protocol.into(), actual: self.protocol_version.clone() });
+            return Err(IdentityError::ProtocolMismatch {
+                expected: expected_protocol.into(),
+                actual: self.protocol_version.clone(),
+            });
         }
         if self.vm_version != expected_vm {
-            return Err(IdentityError::VmMismatch { expected: expected_vm.into(), actual: self.vm_version.clone() });
+            return Err(IdentityError::VmMismatch {
+                expected: expected_vm.into(),
+                actual: self.vm_version.clone(),
+            });
         }
         Ok(())
     }
