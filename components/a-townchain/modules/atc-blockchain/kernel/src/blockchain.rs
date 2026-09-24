@@ -67,6 +67,21 @@ impl Block {
         }
     }
 }
+fn block_signing_bytes(chain_id: u64, b: &Block) -> Vec<u8> {
+    let mut out = Vec::new();
+    out.extend_from_slice(b"ATC-BLOCK-SIG-V1");
+    out.extend_from_slice(&chain_id.to_be_bytes());
+    out.extend_from_slice(&b.height.to_be_bytes());
+    out.extend_from_slice(&b.parent_hash);
+    out.extend_from_slice(&(b.proposer.len() as u32).to_be_bytes());
+    out.extend_from_slice(b.proposer.as_bytes());
+    out.extend_from_slice(&b.timestamp.to_be_bytes());
+    out.extend_from_slice(&b.tx_root);
+    out.extend_from_slice(&b.state_root);
+    out.extend_from_slice(&b.receipt_root);
+    out
+}
+
 fn tx_root(txs: &[Transaction]) -> [u8; 32] {
     let mut b = Vec::new();
     for x in txs {
@@ -280,6 +295,26 @@ impl Node {
         *self.vote_signer.lock().unwrap() = Some((validator.into(), seed));
     }
 
+    fn sign_block(&self, mut block: Block) -> Result<Block, String> {
+        let Some((validator, seed)) = self.vote_signer.lock().map_err(|_| "vote signer lock poisoned")?.clone() else {
+            return Err("proposer signing key is not configured".into());
+        };
+        if validator != block.proposer {
+            return Err("configured validator is not the block proposer".into());
+        }
+        let signing = ed25519_dalek::SigningKey::from_bytes(&seed);
+        let public_key = signing.verifying_key().to_bytes();
+        let registered = self.consensus.validator_public_key(&validator)
+            .ok_or("block proposer is not registered with a signing key")?;
+        if registered != public_key {
+            return Err("proposer signing key does not match validator registry".into());
+        }
+        block.signature = signing.sign(&block_signing_bytes(self.chain_id, &block)).to_bytes();
+        block.id = block_id(block.height, block.parent_hash, &block.proposer, block.timestamp,
+            block.tx_root, block.state_root, block.receipt_root, block.signature);
+        Ok(block)
+    }
+
     fn vote_for_block(&self, block: &Block) -> Result<(), String> {
         let Some((validator, seed)) = self.vote_signer.lock().unwrap().clone() else {
             return Ok(());
@@ -322,6 +357,17 @@ impl Node {
             return Err("block transaction chain-id mismatch".into());
         }
         self.chain.validate_append(&b)?;
+
+        if b.height > 0 {
+            let public_key = self.consensus.validator_public_key(&b.proposer)
+                .ok_or("block proposer has no registered signing key")?;
+            let key = ed25519_dalek::VerifyingKey::from_bytes(&public_key)
+                .map_err(|_| "invalid proposer public key")?;
+            key.verify(
+                &block_signing_bytes(self.chain_id, &b),
+                &ed25519_dalek::Signature::from_bytes(&b.signature),
+            ).map_err(|_| "invalid block proposer signature")?;
+        }
 
         let parent = self.chain.last().ok_or("genesis required")?;
         if b.parent_hash != parent.id || b.height != parent.height.saturating_add(1) {
@@ -582,16 +628,10 @@ impl Node {
         self.state
             .apply_block_reward(height, &self.proposer)
             .map_err(|e| format!("block reward: {e}"))?;
-        let b = Block::new(
-            height,
-            parent.id,
-            self.proposer.clone(),
-            t,
-            Vec::new(),
-            self.state.root(),
-            receipts::root(&[]),
-            [0; 64],
-        );
+        let b = self.sign_block(Block::new(
+            height, parent.id, self.proposer.clone(), t, Vec::new(),
+            self.state.root(), receipts::root(&[]), [0; 64],
+        ))?;
         self.chain.validate_append(&b)?;
         if let Err(e) = self.storage.commit(b.clone()) {
             self.state.restore(snapshot);
@@ -691,16 +731,10 @@ impl Node {
             .map_err(|e| format!("block reward: {e}"))?;
         let new_root = self.state.root();
         let receipt_root = receipts::root(&receipts);
-        let b = Block::new(
-            block_height,
-            parent.id,
-            self.proposer.clone(),
-            t,
-            txs,
-            new_root,
-            receipt_root,
-            [0; 64],
-        );
+        let b = self.sign_block(Block::new(
+            block_height, parent.id, self.proposer.clone(), t, txs,
+            new_root, receipt_root, [0; 64],
+        ))?;
         self.chain.validate_append(&b)?;
         if let Err(e) = self.storage.commit(b.clone()) {
             self.state.restore(state_snapshot);
