@@ -222,6 +222,8 @@ pub struct Node {
     indexer: Mutex<Option<Arc<dyn IndexerSink>>>,
     transport: Mutex<Option<Arc<dyn PeerTransport>>>,
     vote_signer: Mutex<Option<(String, [u8; 32])>>,
+    pending_votes: Mutex<BTreeMap<[u8; 32], Vec<Vote>>>,
+    network_apply_lock: Mutex<()>,
 }
 impl Node {
     pub fn new(chain_id: u64, proposer: String) -> Self {
@@ -237,6 +239,8 @@ impl Node {
             indexer: Mutex::new(None),
             transport: Mutex::new(None),
             vote_signer: Mutex::new(None),
+            pending_votes: Mutex::new(BTreeMap::new()),
+            network_apply_lock: Mutex::new(()),
         }
     }
     pub fn set_indexer(&self, sink: Arc<dyn IndexerSink>) {
@@ -304,10 +308,16 @@ impl Node {
         }
         let signing = ed25519_dalek::SigningKey::from_bytes(&seed);
         let public_key = signing.verifying_key().to_bytes();
-        let registered = self.consensus.validator_public_key(&validator)
-            .ok_or("block proposer is not registered with a signing key")?;
+        let (_, keys) = self
+            .consensus
+            .validator_snapshot_for_height(block.height)
+            .ok_or("validator snapshot is unavailable for block height")?;
+        let registered = keys
+            .get(&validator)
+            .copied()
+            .ok_or("block proposer is not registered at block height")?;
         if registered != public_key {
-            return Err("proposer signing key does not match validator registry".into());
+            return Err("proposer signing key does not match validator identity at block height".into());
         }
         block.signature = signing.sign(&block_signing_bytes(self.chain_id, &block)).to_bytes();
         block.id = block_id(block.height, block.parent_hash, &block.proposer, block.timestamp,
@@ -331,6 +341,42 @@ impl Node {
             .sign(&consensus::vote_signing_bytes(self.chain_id, &vote))
             .to_bytes();
         self.submit_vote_and_broadcast(vote)
+    }
+
+    fn queue_pending_vote(&self, vote: Vote) -> Result<(), String> {
+        self.consensus.verify_vote_signature(&vote)?;
+        let mut pending = self.pending_votes.lock().map_err(|_| "pending vote lock poisoned")?;
+        let total: usize = pending.values().map(Vec::len).sum();
+        if total >= 4096 {
+            return Err("pending vote buffer is full".into());
+        }
+        let list = pending.entry(vote.block).or_default();
+        if list.iter().any(|existing| existing.voter == vote.voter) {
+            return Ok(());
+        }
+        if list.len() >= 128 {
+            return Err("pending vote buffer for block is full".into());
+        }
+        list.push(vote);
+        Ok(())
+    }
+
+    fn take_pending_votes(&self, block_id: &[u8; 32]) -> Vec<Vote> {
+        self.pending_votes
+            .lock()
+            .map(|mut pending| pending.remove(block_id).unwrap_or_default())
+            .unwrap_or_default()
+    }
+
+    fn replay_pending_votes(&self, block: &Block) -> Result<(), String> {
+        let votes = self.take_pending_votes(&block.id);
+        for vote in votes {
+            let _ = self.submit_vote(vote);
+        }
+        if self.consensus.weighted_finality_at_height(&block.id, block.height) {
+            let _ = self.finalize_weighted(block)?;
+        }
+        Ok(())
     }
 
     fn broadcast(&self, message: NetworkMessage) -> Result<(), String> {
@@ -458,18 +504,21 @@ impl Node {
             self.pool.mark_in_block(&tx.id);
         }
         self.consensus.set_height(b.height);
+        self.replay_pending_votes(&b)?;
         self.vote_for_block(&b)?;
         Ok(())
     }
 
     /// Feed one decoded network message into the canonical Node.
     pub fn handle_network_message(&self, message: NetworkMessage) -> Result<(), String> {
+        let _apply_guard = self.network_apply_lock.lock().map_err(|_| "network apply lock poisoned")?;
         match message {
             NetworkMessage::Block(b) => self.import_block(b),
             NetworkMessage::Vote(v) => {
                 let block_id = v.block;
-                let block = self.storage.find_block_by_id(block_id)
-                    .ok_or("vote references unknown block")?;
+                let Some(block) = self.storage.find_block_by_id(block_id) else {
+                    return self.queue_pending_vote(v);
+                };
                 self.submit_vote(v)?;
                 if self.consensus.weighted_finality_at_height(&block_id, block.height) {
                     let _ = self.finalize_weighted(&block)?;
@@ -871,7 +920,7 @@ impl Node {
         if quorum == 0 {
             return Err("quorum must be non-zero".into());
         }
-        if !self.consensus.finality(&b.id, quorum) {
+        if !self.consensus.finality_at_height(&b.id, b.height, quorum) {
             return Ok(false);
         }
         if b.height > self.chain.height() || self.chain.last().map(|x| x.id) != Some(b.id) {
