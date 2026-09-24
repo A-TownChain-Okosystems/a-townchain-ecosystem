@@ -134,6 +134,29 @@ impl ValidatorState {
     pub fn snapshot(&self) -> BTreeMap<String, ValidatorRecord> {
         self.validators.clone()
     }
+    pub fn consensus_view_at_height(&self, height: u64) -> (BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>) {
+        let mut stakes = BTreeMap::new();
+        let mut keys = BTreeMap::new();
+        for (address, record) in &self.validators {
+            if record.active && record.activation_height <= height && record.stake > 0 {
+                stakes.insert(address.clone(), record.stake);
+                keys.insert(address.clone(), record.public_key);
+            }
+        }
+        (stakes, keys)
+    }
+
+    pub fn consensus_view_commitment(&self, height: u64) -> [u8; 32] {
+        let (stakes, keys) = self.consensus_view_at_height(height);
+        let mut bytes = Vec::from(b"ATC-VALIDATOR-SET-V2".as_slice());
+        for (address, stake) in &stakes {
+            bytes.extend_from_slice(&(address.len() as u32).to_be_bytes());
+            bytes.extend_from_slice(address.as_bytes());
+            bytes.extend_from_slice(&stake.to_be_bytes());
+            bytes.extend_from_slice(keys.get(address).expect("consensus view key"));
+        }
+        simple_hash(&bytes)
+    }
 
     pub fn restore(&mut self, validators: BTreeMap<String, ValidatorRecord>) {
         self.validators = validators;
