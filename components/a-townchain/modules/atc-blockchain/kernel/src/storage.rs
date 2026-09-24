@@ -288,6 +288,25 @@ impl ChainStorage {
         Ok(())
     }
 
+    fn append_block_record(&self, b: &Block) -> Result<(), String> {
+        if let Some(p) = &self.journal {
+            let line = format!("{}\n", hex::encode(block_encode(b)));
+            let mut f = OpenOptions::new()
+                .create(true)
+                .append(true)
+                .open(p)
+                .map_err(|e| e.to_string())?;
+            f.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
+            f.sync_data().map_err(|e| e.to_string())?;
+        }
+        self.state_roots
+            .write()
+            .unwrap()
+            .insert(b.height, b.state_root);
+        self.blocks.write().unwrap().insert(b.height, b.clone());
+        Ok(())
+    }
+
     pub fn commit(&self, b: Block) -> Result<(), String> {
         if let Some(existing) = self.blocks.read().unwrap().get(&b.height) {
             if existing.id == b.id {
@@ -308,39 +327,15 @@ impl ChainStorage {
         } else if b.parent_hash != [0; 32] {
             return Err("invalid genesis parent".into());
         }
-        if let Some(p) = &self.journal {
-            let line = format!("{}\n", hex::encode(block_encode(&b)));
-            let mut f = OpenOptions::new()
-                .create(true)
-                .append(true)
-                .open(p)
-                .map_err(|e| e.to_string())?;
-            f.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
-            f.sync_data().map_err(|e| e.to_string())?;
-        }
-        self.state_roots
-            .write()
-            .unwrap()
-            .insert(b.height, b.state_root);
-        self.blocks.write().unwrap().insert(b.height, b);
-        Ok(())
+        self.append_block_record(&b)
     }
 
-    pub fn commit_state(
-        &self,
-        height: u64,
-        state: &BTreeMap<String, Account>,
-    ) -> Result<(), String> {
-        self.commit_state_with_dao(height, state, &[])
-    }
-
-    pub fn commit_state_with_dao(
+    fn append_state_snapshot(
         &self,
         height: u64,
         state: &BTreeMap<String, Account>,
         dao: &[u8],
     ) -> Result<(), String> {
-        self.block(height).ok_or("state snapshot references missing block")?;
         if let Some(p) = &self.state_journal {
             let mut o = Vec::new();
             o.extend_from_slice(&height.to_be_bytes());
@@ -362,6 +357,68 @@ impl ChainStorage {
             f.sync_data().map_err(|e| e.to_string())?;
         }
         Ok(())
+    }
+
+    pub fn commit_state(
+        &self,
+        height: u64,
+        state: &BTreeMap<String, Account>,
+    ) -> Result<(), String> {
+        self.commit_state_with_dao(height, state, &[])
+    }
+
+    pub fn commit_state_with_dao(
+        &self,
+        height: u64,
+        state: &BTreeMap<String, Account>,
+        dao: &[u8],
+    ) -> Result<(), String> {
+        self.block(height).ok_or("state snapshot references missing block")?;
+        self.append_state_snapshot(height, state, dao)
+    }
+
+    /// Commit the block-associated state as one ordered durable transaction.
+    ///
+    /// State and issuance are synced before the canonical block record. The block
+    /// journal is therefore the durable commit point: after restart, a block that
+    /// exists in the canonical journal necessarily follows durable state/issuance
+    /// records, while a crash before the block write leaves those records above the
+    /// canonical tip and recovery rejects them.
+    pub fn commit_block_state_issuance(
+        &self,
+        block: Block,
+        state: &BTreeMap<String, Account>,
+        dao: &[u8],
+        issued_base_units: u128,
+    ) -> Result<(), String> {
+        if issued_base_units > crate::economics::MAX_SUPPLY {
+            return Err("issued supply cap exceeded".into());
+        }
+        if let Some(existing) = self.blocks.read().unwrap().get(&block.height) {
+            if existing.id == block.id {
+                return Ok(());
+            }
+            return Err("conflicting block at canonical height".into());
+        }
+        if block.height > 0 {
+            let parent = self
+                .blocks
+                .read()
+                .unwrap()
+                .get(&block.height.saturating_sub(1))
+                .ok_or("cannot commit block without canonical parent")?;
+            if block.parent_hash != parent.id {
+                return Err("canonical parent mismatch".into());
+            }
+        } else if block.parent_hash != [0; 32] {
+            return Err("invalid genesis parent".into());
+        }
+
+        self.append_state_snapshot(block.height, state, dao)?;
+        self.append_issuance_record(block.height, issued_base_units)?;
+
+        // This is intentionally the final durable write for the block commit.
+        self.append_block_record(&block)
     }
 
     pub fn recover_state(&self) -> Result<Option<BTreeMap<String, Account>>, String> {
@@ -411,6 +468,11 @@ impl ChainStorage {
             if q != b.len() {
                 return Err("trailing state bytes".into());
             }
+            // A state record is only committed once its canonical block record
+            // exists. This also detects a crash after state/issuance writes but
+            // before the block journal reached its durable commit point.
+            self.block(h)
+                .ok_or("state snapshot references missing block")?;
             if let Some(prev) = previous_height {
                 if h < prev {
                     return Err("state journal height regression".into());
@@ -713,7 +775,7 @@ impl ChainStorage {
         Ok(out)
     }
 
-    pub fn commit_issuance(&self, height: u64, issued_base_units: u128) -> Result<(), String> {
+    fn append_issuance_record(&self, height: u64, issued_base_units: u128) -> Result<(), String> {
         let Some(p) = &self.issuance_journal else {
             return Ok(());
         };
@@ -732,6 +794,11 @@ impl ChainStorage {
         f.write_all(line.as_bytes()).map_err(|e| e.to_string())?;
         f.sync_data().map_err(|e| e.to_string())?;
         Ok(())
+    }
+
+    pub fn commit_issuance(&self, height: u64, issued_base_units: u128) -> Result<(), String> {
+        self.block(height).ok_or("issuance record references missing block")?;
+        self.append_issuance_record(height, issued_base_units)
     }
 
     pub fn recover_issuance(&self) -> Result<Option<(u64, u128)>, String> {
