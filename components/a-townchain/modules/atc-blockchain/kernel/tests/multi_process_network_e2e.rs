@@ -104,7 +104,7 @@ fn run_initial_node_a() {
         .unwrap();
     node.set_transport(transport.clone());
     let reader = stream.try_clone().unwrap();
-    let loop_handle = node.clone().serve_tcp_stream(reader);
+    let loop_handle = node.clone().serve_tcp_stream_with_peer(reader, peer.to_string());
 
     let block = node.produce_reward_block(2).unwrap();
     node.submit_vote_and_broadcast(make_vote(block.id, "validator-a", 1))
@@ -220,7 +220,7 @@ fn run_restart_node_a() {
         .register_stream(stream.try_clone().unwrap())
         .unwrap();
     node.set_transport(transport);
-    let handle = node.clone().serve_tcp_stream(stream.try_clone().unwrap());
+    let handle = node.clone().serve_tcp_stream_with_peer(stream.try_clone().unwrap(), peer.to_string());
     // B explicitly requests the missing height after restart; A serves it from durable storage.
     thread::sleep(Duration::from_millis(500));
     assert_eq!(node.storage.block(3).unwrap().id, block3.id);
@@ -241,10 +241,7 @@ fn run_restart_node_b() {
         .connect_tcp_peer(transport.clone(), &format!("127.0.0.1:{}", port()))
         .unwrap();
     transport
-        .send_to("node-a", NetworkMessage::BlockRequest {
-            from_height: 3,
-            requester_node_id: "node-b".into(),
-        })
+        .send_to("node-a", NetworkMessage::BlockRequest { from_height: 3 })
         .unwrap();
     wait_height(&node, 3);
     assert_eq!(node.chain.last().unwrap().height, 3);
