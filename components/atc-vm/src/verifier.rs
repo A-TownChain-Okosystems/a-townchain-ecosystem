@@ -112,7 +112,16 @@ impl BytecodeVerifier {
             let (next_depth, successors) = self.validate_instruction(&program, pc, depth)?;
 
             for target in successors {
-                if target >= program.len() {
+                // Reaching the end through ordinary fallthrough is the
+                // existing VM termination behavior. Explicit jump targets
+                // are still checked below by requiring them to be < len.
+                if target == program.len() {
+                    if matches!(program[pc], Op::Jump(_)) {
+                        return Err(VerifyError::InvalidJump { pc, target });
+                    }
+                    continue;
+                }
+                if target > program.len() {
                     return Err(VerifyError::InvalidJump { pc, target });
                 }
                 work.push((target, next_depth));
