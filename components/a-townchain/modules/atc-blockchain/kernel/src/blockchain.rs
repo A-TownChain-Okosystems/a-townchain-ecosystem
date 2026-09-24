@@ -583,13 +583,15 @@ impl Node {
             }
             n.consensus.restore_validator_snapshot(*height, validators.clone(), keys.clone())?;
         }
-        if let Some((snapshot, dao)) = n.storage.recover_state_with_dao()? {
-            n.state.restore(snapshot);
+        let recovered_state = n.storage.recover_state_with_dao_at_height()?;
+        if let Some((_, (snapshot, dao))) = &recovered_state {
+            n.state.restore(snapshot.clone());
             if !dao.is_empty() {
-                n.state.restore_dao(&dao)?
+                n.state.restore_dao(dao)?
             }
         }
-        if let Some((_, issued)) = n.storage.recover_issuance()? {
+        let recovered_issuance = n.storage.recover_issuance()?;
+        if let Some((_, issued)) = recovered_issuance {
             n.state.restore_issued_base_units(issued)?;
         }
         if let Some(g) = n.storage.block(0) {
@@ -602,6 +604,24 @@ impl Node {
             }
         }
         if let Some(last) = n.chain.last() {
+            let (state_height, _) = recovered_state
+                .as_ref()
+                .ok_or("canonical chain has no durable state snapshot")?;
+            let (issuance_height, _) = recovered_issuance
+                .as_ref()
+                .ok_or("canonical chain has no durable issuance record")?;
+            if *state_height != last.height {
+                return Err(format!(
+                    "recovered state height {} does not match canonical tip {}",
+                    state_height, last.height
+                ));
+            }
+            if *issuance_height != last.height {
+                return Err(format!(
+                    "recovered issuance height {} does not match canonical tip {}",
+                    issuance_height, last.height
+                ));
+            }
             if n.state.root() != last.state_root {
                 return Err("recovered state root mismatch".into());
             }
