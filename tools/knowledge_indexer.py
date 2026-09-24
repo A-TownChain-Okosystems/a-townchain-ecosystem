@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import json, os, re, subprocess, urllib.parse, urllib.request
+import hashlib, json, os, re, subprocess, urllib.parse, urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
@@ -19,7 +19,10 @@ def page(path, params=None, limit=100):
         out.extend(batch)
         if len(batch)<100 or len(out)>=limit: break
     return out[:limit]
-def slug(s): return re.sub(r"[^A-Za-z0-9]+","-",s.upper()).strip("-")[:80] or "UNNAMED"
+def slug(s):
+    normalized=re.sub(r"[^A-Za-z0-9]+","-",s.upper()).strip("-") or "UNNAMED"
+    digest=hashlib.sha256(s.encode("utf-8")).hexdigest()[:10].upper()
+    return normalized[:60]+"-"+digest
 def rec(rid,cat,title,ctx,stype,sref,content,tags,links=None,status="active"):
     return {"id":rid,"timestamp":NOW,"category":cat,"title":title,"context":ctx,"priority":"P2","status":status,"version":"v1.0.0","source":{"type":stype,"ref":sref,"commit":os.environ.get("GITHUB_SHA","")},"tags":sorted(set(tags)),"links":links or [],"content":content.strip()}
 def main():
