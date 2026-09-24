@@ -1059,7 +1059,10 @@ mod tests {
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         let encoded = hex::encode(block_encode(&genesis));
         std::fs::write(&path, format!("{}\n{}", &encoded[..encoded.len() - 2], encoded)).unwrap();
-        let err = ChainStorage::open(&path).unwrap_err();
+        let err = match ChainStorage::open(&path) {
+            Ok(_) => panic!("torn canonical block journal must be rejected"),
+            Err(err) => err,
+        };
         assert!(err.contains("journal line 1"));
 
         for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
@@ -1109,7 +1112,10 @@ mod tests {
         record.extend_from_slice(&genesis.id);
         let encoded = hex::encode(record);
         std::fs::write(path.with_extension("finality"), format!("{}\n", &encoded[..encoded.len() - 4])).unwrap();
-        let err = ChainStorage::open(&path).unwrap_err();
+        let err = match ChainStorage::open(&path) {
+            Ok(_) => panic!("torn finality journal must be rejected"),
+            Err(err) => err,
+        };
         assert!(err.contains("finality journal line 1"));
 
         for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
@@ -1133,7 +1139,10 @@ mod tests {
         record.extend_from_slice(&0u128.to_be_bytes());
         let encoded = hex::encode(record);
         std::fs::write(path.with_extension("issuance"), format!("{}\n", &encoded[..encoded.len() - 2])).unwrap();
-        let err = ChainStorage::open(&path).unwrap_err();
+        let err = match ChainStorage::open(&path) {
+            Ok(_) => panic!("torn issuance journal must be rejected"),
+            Err(err) => err,
+        };
         assert!(err.contains("invalid issuance") || err.contains("range end index"));
 
         for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
