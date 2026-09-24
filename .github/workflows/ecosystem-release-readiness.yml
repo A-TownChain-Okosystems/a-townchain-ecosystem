@@ -112,6 +112,28 @@ jobs:
 
           echo "Governance control anchors and evidence roots are present."
 
+      - name: Install governance assessment dependencies
+        run: |
+          python3 -m pip install --disable-pip-version-check -q -r components/atc-standards/requirements.txt
+
+      - name: Run Governance-100 Phase 1 assessment
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-evidence/governance
+          python3 components/atc-standards/tools/governance_assessment.py \
+            --phase1-only --strict --json \
+            > .ci-evidence/governance/governance-100-phase1.json
+
+      - name: Publish Governance-100 Phase 1 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: governance-100-phase1-evidence
+          path: .ci-evidence/governance/
+          if-no-files-found: error
+          retention-days: 14
+
   python-projects:
     runs-on: ubuntu-latest
     steps:
