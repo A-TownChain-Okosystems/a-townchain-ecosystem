@@ -459,6 +459,11 @@ impl Node {
                     return Err("conflicting validator snapshot at activation height".into());
                 }
             }
+            if let Some(existing_for_block) = self.consensus.validator_snapshot_for_height(b.height) {
+                if existing_for_block.0 != *validators || existing_for_block.1 != *keys {
+                    return Err("synchronized block conflicts with local validator history".into());
+                }
+            }
             consensus::ConsensusEngine::validator_snapshot_commitment_from(validators, keys)
                 .ok_or("invalid validator snapshot identity set")?;
         }
