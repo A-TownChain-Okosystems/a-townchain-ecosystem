@@ -145,7 +145,14 @@ impl ConsensusEngine {
         VerifyingKey::from_bytes(&public_key).map_err(|_| "invalid validator public key".to_string())?;
         self.validator_keys.lock().map_err(|_| "validator key lock poisoned".to_string())?
             .insert(address.to_owned(), public_key);
-        self.capture_validator_snapshot(self.height())?;
+        let complete = {
+            let validators = self.validators.lock().map_err(|_| "validator lock poisoned".to_string())?;
+            let keys = self.validator_keys.lock().map_err(|_| "validator key lock poisoned".to_string())?;
+            validators.len() == keys.len() && validators.keys().all(|id| keys.contains_key(id))
+        };
+        if complete && self.validator_snapshot_for_height(self.height()).is_none() {
+            self.capture_validator_snapshot(self.height())?;
+        }
         Ok(())
     }
 
