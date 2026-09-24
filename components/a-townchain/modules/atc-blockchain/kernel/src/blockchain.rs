@@ -603,14 +603,21 @@ impl Node {
         let mut n = Self::new(chain_id, proposer);
         n.storage = Arc::new(storage::ChainStorage::open(path)?);
         let recovered_validator_snapshots = n.storage.recover_validator_snapshots()?;
+
+        // Historical snapshots authenticate historical heights. The mutable
+        // registry, however, must represent only the latest durable snapshot;
+        // replaying every historical snapshot into the mutable registry would
+        // resurrect validators that were later unregistered or slashed.
         for (height, (validators, keys)) in &recovered_validator_snapshots {
+            n.consensus.restore_validator_snapshot(*height, validators.clone(), keys.clone())?;
+        }
+        if let Some((_, (validators, keys))) = recovered_validator_snapshots.last_key_value() {
             for (address, stake) in validators {
                 n.consensus.register_validator(address.clone(), *stake)?;
             }
             for (address, public_key) in keys {
                 n.consensus.register_validator_key(address, *public_key)?;
             }
-            n.consensus.restore_validator_snapshot(*height, validators.clone(), keys.clone())?;
         }
         let recovered_state = n.storage.recover_state_with_dao_at_height()?;
         if let Some((_, (snapshot, dao))) = &recovered_state {
@@ -1071,6 +1078,41 @@ mod tests {
 
         for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
             let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn restart_does_not_resurrect_historically_removed_validator() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-restart-unregister-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key = ed25519_dalek::SigningKey::from_bytes(&[71u8; 32]);
+        let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+        node.produce_reward_block(2).unwrap();
+
+        node.unregister_validator("validator-a").unwrap();
+        assert_eq!(node.consensus.validator_stake("validator-a"), 0);
+
+        drop(node);
+        let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        assert_eq!(reopened.consensus.validator_stake("validator-a"), 0);
+        assert!(reopened.consensus.validator_public_key("validator-a").is_none());
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
             let _ = std::fs::remove_file(target);
         }
     }
