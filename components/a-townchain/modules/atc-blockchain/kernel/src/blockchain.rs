@@ -774,31 +774,35 @@ impl Node {
         self.vote_for_block(&b)?;
         Ok(b)
     }
-    fn persist_validator_snapshot(&self) -> Result<(), String> {
+    fn persist_validator_snapshot(&self, activation_height: u64) -> Result<(), String> {
+        let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
+        self.storage.commit_validators(activation_height, &validators, &keys)
+    }
+
+    pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
         let activation_height = if self.consensus.has_validator_snapshot(self.consensus.height()) {
             self.consensus.height().saturating_add(1)
         } else {
             self.consensus.height()
         };
-        let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
-        self.storage
-            .commit_validators(activation_height, &validators, &keys)
-    }
-
-    pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
         self.consensus.register_validator(address, stake)?;
         // Registration and key binding are intentionally separate API operations.
         // Do not persist an incomplete identity snapshot; register_validator_key()
         // commits the complete registry once the Ed25519 key is known.
         if self.consensus.validator_snapshot_with_keys().is_ok() {
-            self.persist_validator_snapshot()?;
+            self.persist_validator_snapshot(activation_height)?;
         }
         Ok(())
     }
 
     pub fn register_validator_key(&self, address: &str, public_key: [u8; 32]) -> Result<(), String> {
+        let activation_height = if self.consensus.has_validator_snapshot(self.consensus.height()) {
+            self.consensus.height().saturating_add(1)
+        } else {
+            self.consensus.height()
+        };
         self.consensus.register_validator_key(address, public_key)?;
-        self.persist_validator_snapshot()
+        self.persist_validator_snapshot(activation_height)
     }
 
     pub fn slash_validator(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
@@ -815,14 +819,15 @@ impl Node {
             evidence.id(),
             applied,
         )?;
-        self.persist_validator_snapshot()?;
+        let activation_height = self.consensus.height().saturating_add(1);
+        self.persist_validator_snapshot(activation_height)?;
         Ok(applied)
     }
 
     pub fn unregister_validator(&self, address: &str) -> Result<(), String> {
         self.consensus.unregister_validator(address);
         let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
-        self.storage.commit_validators(self.consensus.height(), &validators, &keys)
+        self.storage.commit_validators(self.consensus.height().saturating_add(1), &validators, &keys)
     }
 
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
