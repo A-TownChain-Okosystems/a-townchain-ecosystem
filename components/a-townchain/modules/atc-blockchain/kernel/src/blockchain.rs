@@ -1376,7 +1376,10 @@ mod tests {
         )
         .unwrap();
 
-        let err = Node::open_storage(658467, "validator-a".into(), &path).unwrap_err();
+        let err = match Node::open_storage(658467, "validator-a".into(), &path) {
+            Ok(_) => panic!("cross-journal issuance height mismatch must be rejected"),
+            Err(err) => err,
+        };
         assert!(err.contains("recovered issuance height 0 does not match canonical tip 1"));
 
         for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
@@ -1416,7 +1419,10 @@ mod tests {
         )
         .unwrap();
 
-        let err = Node::open_storage(658467, "validator-a".into(), &path).unwrap_err();
+        let err = match Node::open_storage(658467, "validator-a".into(), &path) {
+            Ok(_) => panic!("cross-journal state height mismatch must be rejected"),
+            Err(err) => err,
+        };
         assert!(err.contains("recovered state height 0 does not match canonical tip 1"));
 
         for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
