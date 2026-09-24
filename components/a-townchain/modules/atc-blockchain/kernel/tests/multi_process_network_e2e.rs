@@ -172,7 +172,9 @@ fn run_initial_node_b() {
             break;
         }
         if handle.is_finished() {
-            let result = handle.join().expect("node-b receive loop panicked after vote");
+            let result = handle
+                .join()
+                .expect("node-b receive loop panicked after vote");
             panic!("node-b receive loop exited before height 2: {:?}", result);
         }
         thread::sleep(Duration::from_millis(25));
