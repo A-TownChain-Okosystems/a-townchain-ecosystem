@@ -144,7 +144,19 @@ fn run_initial_node_b() {
         }
     }
     let handle = connected.expect("node-b could not connect to node-a");
-    wait_height(&node, 2);
+    for _ in 0..100 {
+        if node.chain.height() >= 2 {
+            break;
+        }
+        if handle.is_finished() {
+            let result = handle.join().expect("node-b receive loop panicked");
+            panic!("node-b receive loop exited before height 2: {:?}", result);
+        }
+        thread::sleep(Duration::from_millis(25));
+    }
+    if node.chain.height() < 2 {
+        panic!("node-b did not reach height 2; receive loop still running");
+    }
     let block = node.chain.last().unwrap();
     node.submit_vote_and_broadcast(make_vote(block.id, "validator-b", 2))
         .unwrap();
