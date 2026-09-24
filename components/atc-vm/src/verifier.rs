@@ -116,9 +116,6 @@ impl BytecodeVerifier {
                 // existing VM termination behavior. Explicit jump targets
                 // are still checked below by requiring them to be < len.
                 if target == program.len() {
-                    if matches!(program[pc], Op::Jump(_)) {
-                        return Err(VerifyError::InvalidJump { pc, target });
-                    }
                     continue;
                 }
                 if target > program.len() {
@@ -141,6 +138,18 @@ impl BytecodeVerifier {
         depth: usize,
     ) -> Result<(usize, Vec<usize>), VerifyError> {
         let op = &program[pc];
+
+        match op {
+            Op::Jump(target) | Op::JumpIfZero(target) | Op::JumpIfNotZero(target)
+                if *target >= program.len() =>
+            {
+                return Err(VerifyError::InvalidJump {
+                    pc,
+                    target: *target,
+                });
+            }
+            _ => {}
+        }
 
         let (next_depth, successors) = match op {
             Op::Push(_) | Op::Load(_) | Op::Caller => (depth + 1, vec![pc + 1]),
