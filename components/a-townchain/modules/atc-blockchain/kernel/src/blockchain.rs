@@ -280,11 +280,19 @@ impl Node {
     /// Run the canonical Node message loop on an already authenticated TCP peer.
     pub fn serve_tcp_stream(
         self: Arc<Self>,
+        stream: TcpStream,
+    ) -> thread::JoinHandle<Result<(), String>> {
+        self.serve_tcp_stream_with_peer(stream, String::new())
+    }
+
+    pub fn serve_tcp_stream_with_peer(
+        self: Arc<Self>,
         mut stream: TcpStream,
+        peer_id: String,
     ) -> thread::JoinHandle<Result<(), String>> {
         thread::spawn(move || loop {
             match network::read_message(&mut stream)? {
-                Some(message) => self.handle_network_message(message)?,
+                Some(message) => self.handle_network_message_from_peer(message, &peer_id)?,
                 None => return Ok(()),
             }
         })
@@ -306,7 +314,7 @@ impl Node {
             from_height: last.height.saturating_add(1),
             requester_node_id: transport.node_id.clone(),
         })?;
-        Ok(self.clone().serve_tcp_stream(reader))
+        Ok(self.clone().serve_tcp_stream_with_peer(reader, peer_id))
     }
 
     /// Configure the validator identity used by the long-running node consensus loop.
@@ -603,6 +611,10 @@ impl Node {
 
     /// Feed one decoded network message into the canonical Node.
     pub fn handle_network_message(&self, message: NetworkMessage) -> Result<(), String> {
+        self.handle_network_message_from_peer(message, "")
+    }
+
+    fn handle_network_message_from_peer(&self, message: NetworkMessage, peer_id: &str) -> Result<(), String> {
         let _apply_guard = self.network_apply_lock.lock().map_err(|_| "network apply lock poisoned")?;
         match message {
             NetworkMessage::Block(b) => self.import_block(b),
@@ -626,7 +638,10 @@ impl Node {
                 self.submit(tx, 0).map_err(|e| e.to_string())?;
                 Ok(())
             }
-            NetworkMessage::BlockRequest { from_height, requester_node_id } => {
+            NetworkMessage::BlockRequest { from_height } => {
+                if peer_id.is_empty() {
+                    return Err("block sync request has no authenticated peer context".into());
+                }
                 let transport = self.transport.lock().map_err(|_| "transport lock poisoned")?.clone()
                     .ok_or("network transport is not configured")?;
                 for h in from_height..=self.chain.height() {
@@ -634,7 +649,7 @@ impl Node {
                         let (activation_height, validators, validator_keys) = self.consensus
                             .validator_snapshot_with_activation_for_height(h)
                             .ok_or("validator snapshot is unavailable for synchronized block")?;
-                        transport.send_to(&requester_node_id, NetworkMessage::BlockWithValidatorSnapshot {
+                        transport.send_to(peer_id, NetworkMessage::BlockWithValidatorSnapshot {
                             block: b,
                             activation_height,
                             validators,
