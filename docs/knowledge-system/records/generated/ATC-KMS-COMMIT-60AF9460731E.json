@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-60AF9460731E",
-  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "timestamp": "2026-09-24T14:37:46.647254Z",
   "category": "change",
   "title": "Commit: fix(runtime): export canonical chain id for integration",
   "context": "Git commit 60af9460731e613b37f4bb6f656e0ca992e2c9d4 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/60af9460731e613b37f4bb6f656e0ca992e2c9d4",
-    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+    "commit": "565520e5c76d2678a5bb45e624d4ce291551d806"
   },
   "tags": [
     "commit",

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-DOCS-ARCHIVE-WIKI-ATC-CI-WIKI-D7FB162A89",
-  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "timestamp": "2026-09-24T14:37:46.647254Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/docs/archive/wiki/atc-ci-wiki/ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/docs/archive/wiki/atc-ci-wiki/ARCHITECTURE.md",
-    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+    "commit": "565520e5c76d2678a5bb45e624d4ce291551d806"
   },
   "tags": [
     "generated",

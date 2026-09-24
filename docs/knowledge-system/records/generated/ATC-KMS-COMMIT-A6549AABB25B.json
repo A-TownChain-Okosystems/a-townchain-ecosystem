@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-A6549AABB25B",
-  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "timestamp": "2026-09-24T14:37:46.647254Z",
   "category": "change",
   "title": "Commit: ci(l1): add full transaction lifecycle evidence gate",
   "context": "Git commit a6549aabb25b4d9d5a3438422effe1a2a0bdfe3b on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/a6549aabb25b4d9d5a3438422effe1a2a0bdfe3b",
-    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+    "commit": "565520e5c76d2678a5bb45e624d4ce291551d806"
   },
   "tags": [
     "commit",

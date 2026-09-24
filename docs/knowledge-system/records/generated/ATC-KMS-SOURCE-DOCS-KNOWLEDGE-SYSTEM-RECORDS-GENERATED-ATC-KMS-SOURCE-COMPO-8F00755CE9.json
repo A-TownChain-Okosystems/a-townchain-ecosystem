@@ -1,0 +1,21 @@
+{
+  "id": "ATC-KMS-SOURCE-DOCS-KNOWLEDGE-SYSTEM-RECORDS-GENERATED-ATC-KMS-SOURCE-COMPO-8F00755CE9",
+  "timestamp": "2026-09-24T14:37:46.647254Z",
+  "category": "evidence",
+  "title": "Indexed source: docs/knowledge-system/records/generated/ATC-KMS-SOURCE-COMPONENTS-ATC-COMPUTE-ARCHITECTURE-MD-6A26EBBA0A.json",
+  "context": "Repository architecture, release, security, migration, or build source.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "file",
+    "ref": "docs/knowledge-system/records/generated/ATC-KMS-SOURCE-COMPONENTS-ATC-COMPUTE-ARCHITECTURE-MD-6A26EBBA0A.json",
+    "commit": "565520e5c76d2678a5bb45e624d4ce291551d806"
+  },
+  "tags": [
+    "generated",
+    "source"
+  ],
+  "links": [],
+  "content": "Source file present at docs/knowledge-system/records/generated/ATC-KMS-SOURCE-COMPONENTS-ATC-COMPUTE-ARCHITECTURE-MD-6A26EBBA0A.json."
+}
