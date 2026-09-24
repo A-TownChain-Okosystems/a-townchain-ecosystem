@@ -591,8 +591,8 @@ impl Node {
             }
         }
         let recovered_issuance = n.storage.recover_issuance()?;
-        if let Some((_, issued)) = recovered_issuance {
-            n.state.restore_issued_base_units(issued)?;
+        if let Some((_, issued)) = &recovered_issuance {
+            n.state.restore_issued_base_units(*issued)?;
         }
         if let Some(g) = n.storage.block(0) {
             n.state.seal_genesis();
