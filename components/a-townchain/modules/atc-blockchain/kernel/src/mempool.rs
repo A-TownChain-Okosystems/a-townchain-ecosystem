@@ -627,12 +627,40 @@ mod supply_tests {
         let state = StateDb::new();
         state.genesis_credit("genesis", 1_000_000).unwrap();
         let before = state.issued_base_units();
-        assert_eq!(state.apply_block_reward(0, "validator"), Ok(500));
+        assert_eq!(state.apply_block_reward(0, "validator"), Ok(500 * crate::economics::ATC_BASE_UNITS));
         assert_eq!(state.balance("validator"), 500);
+        assert_eq!(state.balance_base_units("validator"), 500 * crate::economics::ATC_BASE_UNITS);
         assert_eq!(
             state.issued_base_units(),
             before + 500 * crate::economics::ATC_BASE_UNITS
         );
+    }
+
+    #[test]
+    fn base_unit_transfer_preserves_sub_atc_dust() {
+        let state = StateDb::new();
+        state.genesis_credit("alice", 1).unwrap();
+        let dust = crate::economics::ATC_BASE_UNITS - 1;
+        let tx = Transaction::new_with_chain_id(
+            658467,
+            TxType::Transfer,
+            "alice".into(),
+            Some("bob".into()),
+            dust,
+            1,
+            1,
+            0,
+            1,
+            Vec::new(),
+            [0; 64],
+            [0; 32],
+            [0; 32],
+        );
+        state.apply(&tx).unwrap();
+        assert_eq!(state.balance_base_units("bob"), dust);
+        assert_eq!(state.balance("bob"), 0);
+        assert_eq!(state.balance_base_units("alice"), crate::economics::ATC_BASE_UNITS - dust);
+        assert_eq!(state.total_supply_base_units(), crate::economics::ATC_BASE_UNITS);
     }
 
     #[test]
