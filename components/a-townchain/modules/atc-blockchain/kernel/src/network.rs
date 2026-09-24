@@ -289,7 +289,7 @@ fn tx_decode(b: &[u8], p: &mut usize) -> Result<Transaction, String> {
         1 => Some(String::from_utf8(take(b, p)?.to_vec()).map_err(|_| "invalid recipient")?),
         _ => return Err("invalid recipient flag".into()),
     };
-    let amount = u64::from_be_bytes(fixed::<8>(b, p)?);
+    let amount = u128::from_be_bytes(fixed::<16>(b, p)?);
     let gas_price = u64::from_be_bytes(fixed::<8>(b, p)?);
     let gas_limit = u64::from_be_bytes(fixed::<8>(b, p)?);
     let nonce = u64::from_be_bytes(fixed::<8>(b, p)?);
