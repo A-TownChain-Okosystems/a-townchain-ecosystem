@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-6AF6AB27ED7B",
-  "timestamp": "2026-09-24T14:39:17.998944Z",
+  "timestamp": "2026-09-24T14:40:02.239905Z",
   "category": "change",
   "title": "Commit: chore: remove conflicting snapshot migration workflow",
   "context": "Git commit 6af6ab27ed7b5db3f605cb8f3c99ff93ecf36a54 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/6af6ab27ed7b5db3f605cb8f3c99ff93ecf36a54",
-    "commit": "78a86617b9947b472e64689bc3ea9a90c4ee1675"
+    "commit": "727739c28cf671ed1dd0fb3eb1a2b7522f11e0fd"
   },
   "tags": [
     "commit",

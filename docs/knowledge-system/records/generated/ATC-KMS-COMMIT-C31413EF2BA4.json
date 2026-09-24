@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-C31413EF2BA4",
-  "timestamp": "2026-09-24T14:39:17.998944Z",
+  "timestamp": "2026-09-24T14:40:02.239905Z",
   "category": "change",
   "title": "Commit: fix(workspace): unify canonical Rust workspace members",
   "context": "Git commit c31413ef2ba4d19cdee8ff66f482e8f839a62332 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/c31413ef2ba4d19cdee8ff66f482e8f839a62332",
-    "commit": "78a86617b9947b472e64689bc3ea9a90c4ee1675"
+    "commit": "727739c28cf671ed1dd0fb3eb1a2b7522f11e0fd"
   },
   "tags": [
     "commit",

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-DOCS-KNOWLEDGE-SYSTEM-RECORDS-GENERATED-ATC-KMS-SOURCE-COMPO-2406CD8E9C",
-  "timestamp": "2026-09-24T14:39:17.998944Z",
+  "timestamp": "2026-09-24T14:40:02.239905Z",
   "category": "evidence",
   "title": "Indexed source: docs/knowledge-system/records/generated/ATC-KMS-SOURCE-COMPONENTS-GLOBUS-OS-DOCS-ARCHITECTURE-GLOBUSOS-PLATFORM-ARC-4B418D62EC.json",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "docs/knowledge-system/records/generated/ATC-KMS-SOURCE-COMPONENTS-GLOBUS-OS-DOCS-ARCHITECTURE-GLOBUSOS-PLATFORM-ARC-4B418D62EC.json",
-    "commit": "78a86617b9947b472e64689bc3ea9a90c4ee1675"
+    "commit": "727739c28cf671ed1dd0fb3eb1a2b7522f11e0fd"
   },
   "tags": [
     "generated",

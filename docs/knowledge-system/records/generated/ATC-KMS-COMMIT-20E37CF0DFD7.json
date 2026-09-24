@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-20E37CF0DFD7",
-  "timestamp": "2026-09-24T14:39:17.998944Z",
+  "timestamp": "2026-09-24T14:40:02.239905Z",
   "category": "change",
   "title": "Commit: test(l1): use canonical node API and durable journal",
   "context": "Git commit 20e37cf0dfd763a69f191b4540c2046e2c046d2d on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/20e37cf0dfd763a69f191b4540c2046e2c046d2d",
-    "commit": "78a86617b9947b472e64689bc3ea9a90c4ee1675"
+    "commit": "727739c28cf671ed1dd0fb3eb1a2b7522f11e0fd"
   },
   "tags": [
     "commit",

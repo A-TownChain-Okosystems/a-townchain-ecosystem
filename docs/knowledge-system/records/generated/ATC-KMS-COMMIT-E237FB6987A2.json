@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-E237FB6987A2",
-  "timestamp": "2026-09-24T14:39:17.998944Z",
+  "timestamp": "2026-09-24T14:40:02.239905Z",
   "category": "change",
   "title": "Commit: test(l1): use canonical chain id in wallet e2e",
   "context": "Git commit e237fb6987a253aa47aafcc08a95aa74b41b70aa on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/e237fb6987a253aa47aafcc08a95aa74b41b70aa",
-    "commit": "78a86617b9947b472e64689bc3ea9a90c4ee1675"
+    "commit": "727739c28cf671ed1dd0fb3eb1a2b7522f11e0fd"
   },
   "tags": [
     "commit",

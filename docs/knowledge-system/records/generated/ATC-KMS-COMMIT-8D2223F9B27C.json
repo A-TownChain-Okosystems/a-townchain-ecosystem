@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-8D2223F9B27C",
-  "timestamp": "2026-09-24T14:39:17.998944Z",
+  "timestamp": "2026-09-24T14:40:02.239905Z",
   "category": "change",
   "title": "Commit: style(ci): apply rustfmt to L1 packages",
   "context": "Git commit 8d2223f9b27c9addb9858adbc9af5a8f1eb08560 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/8d2223f9b27c9addb9858adbc9af5a8f1eb08560",
-    "commit": "78a86617b9947b472e64689bc3ea9a90c4ee1675"
+    "commit": "727739c28cf671ed1dd0fb3eb1a2b7522f11e0fd"
   },
   "tags": [
     "commit",
