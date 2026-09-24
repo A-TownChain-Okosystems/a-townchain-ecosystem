@@ -1079,6 +1079,75 @@ mod tests {
     }
 
     #[test]
+    fn restart_resync_does_not_reconstruct_transient_votes_and_late_vote_restores_finality() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-restart-resync-votes-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+
+        let producer = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+        producer.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&producer, "validator-a");
+        let block = producer.produce_reward_block(2).unwrap();
+
+        // The block is durable, but the in-memory vote is intentionally not.
+        assert_eq!(producer.storage.block(block.height), Some(block.clone()));
+
+        drop(producer);
+
+        let receiver = Node::open_storage(658467, "validator-b".into(), &path).unwrap();
+        assert_eq!(receiver.chain.height(), block.height);
+        assert_eq!(receiver.consensus.finalized(), None);
+
+        // Resync of the already durable block must not manufacture old votes.
+        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap_err();
+        assert_eq!(receiver.consensus.finalized(), None);
+
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut late_vote = Vote {
+            block: block.id,
+            voter: "validator-a".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: key_a.verifying_key().to_bytes(),
+        };
+        late_vote.signature = key_a
+            .sign(&consensus::vote_signing_bytes(658467, &late_vote))
+            .to_bytes();
+
+        // One delayed vote after restart is still insufficient: the node did
+        // not reconstruct a phantom vote from pre-restart memory.
+        receiver.handle_network_message(NetworkMessage::Vote(late_vote)).unwrap();
+        assert_eq!(receiver.consensus.finalized(), None);
+
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
+        let mut second_vote = Vote {
+            block: block.id,
+            voter: "validator-b".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: key_b.verifying_key().to_bytes(),
+        };
+        second_vote.signature = key_b
+            .sign(&consensus::vote_signing_bytes(658467, &second_vote))
+            .to_bytes();
+
+        receiver.handle_network_message(NetworkMessage::Vote(second_vote)).unwrap();
+        assert_eq!(receiver.consensus.finalized(), Some((block.height, block.id)));
+
+        drop(receiver);
+        let reopened = Node::open_storage(658467, "validator-b".into(), &path).unwrap();
+        assert_eq!(reopened.consensus.finalized(), Some((block.height, block.id)));
+        assert_eq!(reopened.storage.recover_finalized().unwrap(), Some((block.height, block.id)));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
     fn genesis_sets_chain_height_and_allows_first_append() {
         let chain = BlockChain::new();
         let genesis = Block::new(
