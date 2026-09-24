@@ -509,14 +509,17 @@ impl Node {
     ) -> Result<Self, String> {
         let mut n = Self::new(chain_id, proposer);
         n.storage = Arc::new(storage::ChainStorage::open(path)?);
-        if let Some((height, validators)) = n.storage.recover_validators()? {
+        for (height, (validators, keys)) in n.storage.recover_validator_snapshots()? {
             if n.storage.block(height).is_none() {
                 return Err("validator snapshot references missing block".into());
             }
-            for (address, (stake, public_key)) in validators {
-                n.consensus.register_validator(address.clone(), stake)?;
-                n.consensus.register_validator_key(&address, public_key)?;
+            for (address, stake) in &validators {
+                n.consensus.register_validator(address.clone(), *stake)?;
             }
+            for (address, public_key) in &keys {
+                n.consensus.register_validator_key(address, *public_key)?;
+            }
+            n.consensus.restore_validator_snapshot(height, validators, keys)?;
         }
         if let Some((snapshot, dao)) = n.storage.recover_state_with_dao()? {
             n.state.restore(snapshot);
@@ -813,14 +816,13 @@ impl Node {
 
     pub fn unregister_validator(&self, address: &str) -> Result<(), String> {
         self.consensus.unregister_validator(address);
-        self.storage.commit_validators(
-            self.consensus.height(),
-            &self.consensus.validators_snapshot(),
-        )
+        let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
+        self.storage.commit_validators(self.consensus.height(), &validators, &keys)
     }
 
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
-        self.consensus.vote(vote)
+        let block = self.storage.block_by_id(vote.block).ok_or("vote references unknown block")?;
+        self.consensus.vote_at_height(vote, block.height)
     }
 
     pub fn finalize_weighted(&self, b: &Block) -> Result<bool, String> {
