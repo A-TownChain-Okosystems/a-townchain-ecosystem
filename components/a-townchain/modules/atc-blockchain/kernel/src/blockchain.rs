@@ -464,13 +464,14 @@ impl Node {
         }
 
         if b.height > 0 {
+            let snapshot_keys;
             let keys = if let Some((_, _, keys)) = sync_snapshot.as_ref() {
                 keys
             } else {
-                &self.consensus
+                snapshot_keys = self.consensus
                     .validator_snapshot_for_height(b.height)
-                    .ok_or("validator snapshot is unavailable for block height")?
-                    .1
+                    .ok_or("validator snapshot is unavailable for block height")?;
+                &snapshot_keys.1
             };
             let public_key = keys
                 .get(&b.proposer)
@@ -583,6 +584,9 @@ impl Node {
             return Err(e);
         }
         self.chain.append(b.clone())?;
+        if let Some((activation_height, validators, keys)) = sync_snapshot {
+            self.consensus.restore_validator_snapshot(activation_height, validators, keys)?;
+        }
         for tx in &b.transactions {
             self.pool.mark_in_block(&tx.id);
         }
