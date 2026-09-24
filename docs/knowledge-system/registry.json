@@ -1,0 +1,12 @@
+{
+  "$schema":"./schema.json",
+  "system":{
+    "id":"ATC-KMS",
+    "version":"v1.0.0",
+    "status":"active",
+    "principle":"No information is lost; everything is captured, structured, versioned, and retrievable."
+  },
+  "categories":["project","module","feature","code","idea","roadmap","decision","change","version","discussion","summary","architecture","evidence"],
+  "records":[],
+  "last_updated":"2026-09-24T16:22:00+02:00"
+}
