@@ -182,6 +182,9 @@ fn run_initial_node_b() {
         thread::sleep(Duration::from_millis(25));
     }
     assert_eq!(node.chain.height(), 2);
+    let block2 = node.chain.last().unwrap();
+    node.submit_vote_and_broadcast(make_vote(block2.id, "validator-b", 2))
+        .unwrap();
     drop(handle);
 }
 
