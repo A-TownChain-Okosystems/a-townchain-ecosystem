@@ -298,14 +298,13 @@ impl Node {
         addr: &str,
     ) -> Result<thread::JoinHandle<Result<(), String>>, String> {
         let last = self.chain.last().ok_or("genesis required")?;
-        let stream = transport.connect_stream(addr, last.height, last.id)?;
+        let (stream, peer_id) = transport.connect_stream_with_peer(addr, last.height, last.id)?;
         let reader = stream.try_clone().map_err(|e| e.to_string())?;
-        transport.register_stream(stream)?;
+        transport.register_stream_with_peer_id(stream, peer_id.clone())?;
         self.set_transport(transport.clone());
-        // Ask the peer for any height we do not have yet. The peer answers
-        // from durable storage; requesting beyond its tip is harmless.
-        transport.broadcast(NetworkMessage::BlockRequest {
+        transport.send_to(&peer_id, NetworkMessage::BlockRequest {
             from_height: last.height.saturating_add(1),
+            requester_node_id: transport.node_id.clone(),
         })?;
         Ok(self.clone().serve_tcp_stream(reader))
     }
@@ -416,6 +415,14 @@ impl Node {
     /// Apply a network block through the same deterministic state transition
     /// rules used by local block production, then persist it.
     pub fn import_block(&self, b: Block) -> Result<(), String> {
+        self.import_block_internal(b, None)
+    }
+
+    fn import_block_internal(
+        &self,
+        b: Block,
+        sync_snapshot: Option<(u64, BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)>,
+    ) -> Result<(), String> {
         if self.chain_id
             != b.transactions
                 .first()
@@ -441,11 +448,30 @@ impl Node {
         }
         self.chain.validate_append(&b)?;
 
+        if let Some((activation_height, validators, keys)) = sync_snapshot.as_ref() {
+            if *activation_height > b.height || *activation_height > self.chain.height().saturating_add(1) {
+                return Err("validator snapshot activation is outside the synchronization boundary".into());
+            }
+            if self.consensus.has_validator_snapshot(*activation_height) {
+                let existing = self.consensus.validator_snapshot_for_height(*activation_height)
+                    .ok_or("existing validator snapshot is unavailable")?;
+                if existing.0 != *validators || existing.1 != *keys {
+                    return Err("conflicting validator snapshot at activation height".into());
+                }
+            }
+            consensus::ConsensusEngine::validator_snapshot_commitment_from(validators, keys)
+                .ok_or("invalid validator snapshot identity set")?;
+        }
+
         if b.height > 0 {
-            let (_, keys) = self
-                .consensus
-                .validator_snapshot_for_height(b.height)
-                .ok_or("validator snapshot is unavailable for block height")?;
+            let keys = if let Some((_, _, keys)) = sync_snapshot.as_ref() {
+                keys
+            } else {
+                &self.consensus
+                    .validator_snapshot_for_height(b.height)
+                    .ok_or("validator snapshot is unavailable for block height")?
+                    .1
+            };
             let public_key = keys
                 .get(&b.proposer)
                 .copied()
@@ -519,7 +545,11 @@ impl Node {
         let expected_state_root = committed_state_root(
             root,
             b.height,
-            self.consensus.validator_snapshot_commitment(b.height),
+            if let Some((_, validators, keys)) = sync_snapshot.as_ref() {
+                consensus::ConsensusEngine::validator_snapshot_commitment_from(validators, keys)
+            } else {
+                self.consensus.validator_snapshot_commitment(b.height)
+            },
         )?;
         if expected_state_root != b.state_root || receipts::root(&receipts) != b.receipt_root {
             self.state.restore(state_snapshot);
@@ -528,12 +558,25 @@ impl Node {
             return Err("network block state/receipt root mismatch".into());
         }
 
-        if let Err(e) = self.storage.commit_block_state_issuance(
-            b.clone(),
-            &self.state.snapshot(),
-            &self.state.dao_snapshot(),
-            self.state.issued_base_units(),
-        ) {
+        let storage_result = if let Some((activation_height, validators, keys)) = sync_snapshot.as_ref() {
+            self.storage.commit_block_state_issuance_with_validator_snapshot(
+                b.clone(),
+                &self.state.snapshot(),
+                &self.state.dao_snapshot(),
+                self.state.issued_base_units(),
+                *activation_height,
+                validators,
+                keys,
+            )
+        } else {
+            self.storage.commit_block_state_issuance(
+                b.clone(),
+                &self.state.snapshot(),
+                &self.state.dao_snapshot(),
+                self.state.issued_base_units(),
+            )
+        };
+        if let Err(e) = storage_result {
             self.state.restore(state_snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
             let _ = self.state.restore_issued_base_units(issued_snapshot);
@@ -554,6 +597,9 @@ impl Node {
         let _apply_guard = self.network_apply_lock.lock().map_err(|_| "network apply lock poisoned")?;
         match message {
             NetworkMessage::Block(b) => self.import_block(b),
+            NetworkMessage::BlockWithValidatorSnapshot { block, activation_height, validators, validator_keys } => {
+                self.import_block_internal(block, Some((activation_height, validators, validator_keys)))
+            }
             NetworkMessage::Vote(v) => {
                 let block_id = v.block;
                 let Some(block) = self.storage.find_block_by_id(block_id) else {
@@ -571,10 +617,20 @@ impl Node {
                 self.submit(tx, 0).map_err(|e| e.to_string())?;
                 Ok(())
             }
-            NetworkMessage::BlockRequest { from_height } => {
+            NetworkMessage::BlockRequest { from_height, requester_node_id } => {
+                let transport = self.transport.lock().map_err(|_| "transport lock poisoned")?.clone()
+                    .ok_or("network transport is not configured")?;
                 for h in from_height..=self.chain.height() {
                     if let Some(b) = self.storage.block(h) {
-                        self.broadcast(NetworkMessage::Block(b))?;
+                        let (activation_height, validators, validator_keys) = self.consensus
+                            .validator_snapshot_with_activation_for_height(h)
+                            .ok_or("validator snapshot is unavailable for synchronized block")?;
+                        transport.send_to(&requester_node_id, NetworkMessage::BlockWithValidatorSnapshot {
+                            block: b,
+                            activation_height,
+                            validators,
+                            validator_keys,
+                        })?;
                     }
                 }
                 Ok(())
