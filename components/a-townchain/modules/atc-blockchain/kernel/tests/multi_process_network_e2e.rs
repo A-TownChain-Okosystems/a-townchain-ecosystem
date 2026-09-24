@@ -145,7 +145,7 @@ fn run_initial_node_b() {
     }
     let handle = connected.expect("node-b could not connect to node-a");
     for _ in 0..100 {
-        if node.chain.height() >= 2 {
+        if node.chain.height() >= 1 {
             break;
         }
         if handle.is_finished() {
@@ -154,14 +154,23 @@ fn run_initial_node_b() {
         }
         thread::sleep(Duration::from_millis(25));
     }
-    if node.chain.height() < 2 {
-        panic!("node-b did not reach height 2; receive loop still running");
+    if node.chain.height() < 1 {
+        panic!("node-b did not receive block 1; receive loop still running");
     }
     let block = node.chain.last().unwrap();
     node.submit_vote_and_broadcast(make_vote(block.id, "validator-b", 2))
         .unwrap();
-    thread::sleep(Duration::from_millis(250));
-    assert_eq!(node.chain.last().unwrap().id, block.id);
+    for _ in 0..100 {
+        if node.chain.height() >= 2 {
+            break;
+        }
+        if handle.is_finished() {
+            let result = handle.join().expect("node-b receive loop panicked after vote");
+            panic!("node-b receive loop exited before height 2: {:?}", result);
+        }
+        thread::sleep(Duration::from_millis(25));
+    }
+    assert_eq!(node.chain.height(), 2);
     drop(handle);
 }
 
