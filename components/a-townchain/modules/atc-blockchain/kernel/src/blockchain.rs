@@ -775,9 +775,14 @@ impl Node {
         Ok(b)
     }
     fn persist_validator_snapshot(&self) -> Result<(), String> {
+        let activation_height = if self.consensus.has_validator_snapshot(self.consensus.height()) {
+            self.consensus.height().saturating_add(1)
+        } else {
+            self.consensus.height()
+        };
         let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
         self.storage
-            .commit_validators(self.consensus.height(), &validators, &keys)
+            .commit_validators(activation_height, &validators, &keys)
     }
 
     pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
