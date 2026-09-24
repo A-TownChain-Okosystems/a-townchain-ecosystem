@@ -118,6 +118,8 @@ fn run_initial_node_a() {
     let block2 = node.produce_reward_block(3).unwrap();
     assert_eq!(block2.height, 2);
     assert_eq!(node.chain.height(), 2);
+    node.submit_vote_and_broadcast(make_vote(block2.id, "validator-a", 1))
+        .unwrap();
     for _ in 0..120 {
         if node.consensus.finalized().map(|x| x.0) == Some(block2.height) {
             break;
