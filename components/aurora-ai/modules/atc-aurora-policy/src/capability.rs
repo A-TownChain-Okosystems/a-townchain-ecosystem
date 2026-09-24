@@ -51,6 +51,7 @@ impl Capability {
     pub fn permits(&self, request: &CapabilityRequest) -> bool {
         self.id == request.capability
             && self.operation == request.operation
+            && self.permission == request.permission
             && resource_matches(&self.resource, &request.resource)
     }
 }
@@ -60,6 +61,7 @@ pub struct CapabilityRequest {
     pub capability: CapabilityId,
     pub operation: String,
     pub resource: String,
+    pub permission: Permission,
 }
 
 impl CapabilityRequest {
@@ -72,7 +74,13 @@ impl CapabilityRequest {
             capability: capability.into(),
             operation: operation.into(),
             resource: resource.into(),
+            permission: Permission::new(""),
         }
+    }
+
+    pub fn with_permission(mut self, permission: impl Into<Permission>) -> Self {
+        self.permission = permission.into();
+        self
     }
 }
 
@@ -104,11 +112,11 @@ mod tests {
             "filesystem.read",
             "read",
             "/workspace/project/src/lib.rs"
-        )));
+        ).with_permission("filesystem.read")));
         assert!(!capability.permits(&CapabilityRequest::new(
             "filesystem.read",
             "read",
             "/etc/passwd"
-        )));
+        ).with_permission("filesystem.read")));
     }
 }
