@@ -499,19 +499,17 @@ impl Node {
             return Err("network block state/receipt root mismatch".into());
         }
 
-        if let Err(e) = self.storage.commit(b.clone()) {
+        if let Err(e) = self.storage.commit_block_state_issuance(
+            b.clone(),
+            &self.state.snapshot(),
+            &self.state.dao_snapshot(),
+            self.state.issued_base_units(),
+        ) {
             self.state.restore(state_snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
             let _ = self.state.restore_issued_base_units(issued_snapshot);
             return Err(e);
         }
-        self.storage.commit_state_with_dao(
-            b.height,
-            &self.state.snapshot(),
-            &self.state.dao_snapshot(),
-        )?;
-        self.storage
-            .commit_issuance(b.height, self.state.issued_base_units())?;
         self.chain.append(b.clone())?;
         for tx in &b.transactions {
             self.pool.mark_in_block(&tx.id);
