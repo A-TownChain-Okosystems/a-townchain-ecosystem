@@ -288,9 +288,18 @@ impl ConsensusEngine {
         simple_hash(&b)
     }
 
-    pub fn vote_at_height(&self, v: Vote, height: u64) -> Result<(), String> {
+    pub fn verify_vote_signature(&self, v: &Vote) -> Result<(), String> {
         let pk = VerifyingKey::from_bytes(&v.public_key)
             .map_err(|_| "invalid vote public key".to_string())?;
+        pk.verify(
+            &vote_signing_bytes(self.chain_id, v),
+            &Signature::from_bytes(&v.signature),
+        )
+        .map_err(|_| "invalid vote signature".to_string())
+    }
+
+    pub fn vote_at_height(&self, v: Vote, height: u64) -> Result<(), String> {
+        self.verify_vote_signature(&v)?;
         pk.verify(
             &vote_signing_bytes(self.chain_id, &v),
             &Signature::from_bytes(&v.signature),
@@ -325,8 +334,12 @@ impl ConsensusEngine {
         self.vote_at_height(v, self.height())
     }
 
-    /// Legacy count-based finality retained for compatibility.
-    pub fn finality(&self, id: &[u8; 32], quorum: usize) -> bool {
+    /// Height-scoped count-based finality. The block height must resolve to a
+    /// validator snapshot before votes can contribute to finality.
+    pub fn finality_at_height(&self, id: &[u8; 32], height: u64, quorum: usize) -> bool {
+        if quorum == 0 || self.validator_snapshot_for_height(height).is_none() {
+            return false;
+        }
         self.votes
             .lock()
             .unwrap()
@@ -340,6 +353,10 @@ impl ConsensusEngine {
                     >= quorum
             })
             .unwrap_or(false)
+    }
+
+    pub fn finality(&self, id: &[u8; 32], quorum: usize) -> bool {
+        self.finality_at_height(id, self.height(), quorum)
     }
 
     /// Canonical L1 finality: at least two thirds of registered validator stake.
