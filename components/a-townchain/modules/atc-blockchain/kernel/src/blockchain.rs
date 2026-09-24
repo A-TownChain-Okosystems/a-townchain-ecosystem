@@ -359,8 +359,14 @@ impl Node {
         self.chain.validate_append(&b)?;
 
         if b.height > 0 {
-            let public_key = self.consensus.validator_public_key(&b.proposer)
-                .ok_or("block proposer has no registered signing key")?;
+            let (_, keys) = self
+                .consensus
+                .validator_snapshot_for_height(b.height)
+                .ok_or("validator snapshot is unavailable for block height")?;
+            let public_key = keys
+                .get(&b.proposer)
+                .copied()
+                .ok_or("block proposer has no signing key at block height")?;
             let key = ed25519_dalek::VerifyingKey::from_bytes(&public_key)
                 .map_err(|_| "invalid proposer public key")?;
             key.verify(
@@ -462,13 +468,11 @@ impl Node {
             NetworkMessage::Block(b) => self.import_block(b),
             NetworkMessage::Vote(v) => {
                 let block_id = v.block;
+                let block = self.storage.find_block_by_id(block_id)
+                    .ok_or("vote references unknown block")?;
                 self.submit_vote(v)?;
-                if self.consensus.weighted_finality(&block_id) {
-                    if let Some(block) = self.chain.last() {
-                        if block.id == block_id {
-                            let _ = self.finalize_weighted(&block)?;
-                        }
-                    }
+                if self.consensus.weighted_finality_at_height(&block_id, block.height) {
+                    let _ = self.finalize_weighted(&block)?;
                 }
                 Ok(())
             }
