@@ -334,8 +334,8 @@ impl ChainStorage {
             for _ in 0..n {
                 let k = String::from_utf8(get(&b, &mut q)?.to_vec())
                     .map_err(|_| "invalid state key")?;
-                let balance = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
-                let staked = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let balance = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
+                let staked = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let nonce = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
                 map.insert(
                     k,
