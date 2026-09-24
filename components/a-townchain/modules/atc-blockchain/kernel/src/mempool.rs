@@ -434,9 +434,7 @@ impl StateDb {
             b.extend_from_slice(&v.nonce.to_be_bytes())
         }
         let account_root = simple_hash(&b);
-        let supply = a.values().fold(0u64, |acc, x| {
-            acc.saturating_add(x.balance).saturating_add(x.staked)
-        });
+        let supply = a.values().try_fold(0u128, |acc, x| acc.checked_add(x.balance)?.checked_add(x.staked)).unwrap_or(u128::MAX);
         let dao_root = self.dao.lock().unwrap().root();
         let mut combined = Vec::from(b"ATC-STATE-V2");
         combined.extend_from_slice(&account_root);
