@@ -96,6 +96,32 @@ impl ValidatorTransition {
     pub fn id(&self) -> [u8; 32] { simple_hash(&self.encode()) }
 }
 
+impl ValidatorTransition {
+    pub fn decode(bytes: &[u8]) -> Result<Self, String> {
+        const MAGIC: &[u8] = b"ATC-VAL-TX-V1";
+        if !bytes.starts_with(MAGIC) { return Err("invalid validator transition magic".into()); }
+        let mut p = MAGIC.len();
+        let tag = *bytes.get(p).ok_or("missing validator transition tag")?; p += 1;
+        let read_u32 = |p: &mut usize| -> Result<u32,String> { if bytes.len() < *p+4 { return Err("truncated u32".into()); } let v=u32::from_be_bytes(bytes[*p..*p+4].try_into().unwrap()); *p+=4; Ok(v) };
+        let read_u64 = |p: &mut usize| -> Result<u64,String> { if bytes.len() < *p+8 { return Err("truncated u64".into()); } let v=u64::from_be_bytes(bytes[*p..*p+8].try_into().unwrap()); *p+=8; Ok(v) };
+        let read_u128 = |p: &mut usize| -> Result<u128,String> { if bytes.len() < *p+16 { return Err("truncated u128".into()); } let v=u128::from_be_bytes(bytes[*p..*p+16].try_into().unwrap()); *p+=16; Ok(v) };
+        let read_address = |p: &mut usize| -> Result<String,String> { let n=read_u32(p)? as usize; if bytes.len()<*p+n {return Err("truncated address".into())}; let s=String::from_utf8(bytes[*p..*p+n].to_vec()).map_err(|_|"invalid validator address")?; *p+=n; Ok(s) };
+        let read_key = |p: &mut usize| -> Result<[u8;32],String> { if bytes.len()<*p+32{return Err("truncated public key".into())}; let k=bytes[*p..*p+32].try_into().unwrap(); *p+=32; Ok(k) };
+        let read_id = |p: &mut usize| -> Result<[u8;32],String> { read_key(p) };
+        let out = match tag {
+            0 => Self::Register { address:read_address(&mut p)?, stake:read_u128(&mut p)?, public_key:read_key(&mut p)?, activation_height:read_u64(&mut p)? },
+            1 => Self::RotateKey { address:read_address(&mut p)?, public_key:read_key(&mut p)?, activation_height:read_u64(&mut p)? },
+            2 => Self::Stake { address:read_address(&mut p)?, amount:read_u128(&mut p)? },
+            3 => Self::Unstake { address:read_address(&mut p)?, amount:read_u128(&mut p)? },
+            4 => Self::Slash { address:read_address(&mut p)?, evidence_id:read_id(&mut p)?, evidence_height:read_u64(&mut p)?, penalty:read_u128(&mut p)?, activation_height:read_u64(&mut p)? },
+            5 => Self::Unregister { address:read_address(&mut p)?, activation_height:read_u64(&mut p)? },
+            _ => return Err("unknown validator transition tag".into()),
+        };
+        if p != bytes.len() { return Err("trailing validator transition bytes".into()); }
+        Ok(out)
+    }
+}
+
 impl ValidatorState {
     pub fn new() -> Self {
         Self { validators: BTreeMap::new() }
