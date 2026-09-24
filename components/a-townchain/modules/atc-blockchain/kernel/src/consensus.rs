@@ -14,6 +14,11 @@ pub struct SlashingEvidence {
     pub height: u64,
     pub block_a: [u8; 32],
     pub block_b: [u8; 32],
+    pub approve_a: bool,
+    pub approve_b: bool,
+    pub public_key: [u8; 32],
+    pub signature_a: [u8; 64],
+    pub signature_b: [u8; 64],
     pub reason: String,
 }
 
@@ -136,6 +141,27 @@ impl ConsensusEngine {
         if evidence.block_a == evidence.block_b || evidence.validator.is_empty() || penalty == 0 {
             return Err("invalid slashing evidence".into());
         }
+        let expected_key = self.validator_public_key(&evidence.validator)
+            .ok_or("validator has no registered signing key")?;
+        if evidence.block_a == evidence.block_b {
+            return Err("slashing evidence blocks must conflict".into());
+        }
+        let verify_evidence = |block: [u8; 32], approve: bool, sig: [u8; 64]| -> Result<(), String> {
+            let key = VerifyingKey::from_bytes(&expected_key).map_err(|_| "invalid validator public key".to_string())?;
+            let mut bytes = Vec::new();
+            bytes.extend_from_slice(b"ATC-SLASH-V1");
+            bytes.extend_from_slice(&self.chain_id.to_be_bytes());
+            bytes.extend_from_slice(&evidence.height.to_be_bytes());
+            bytes.extend_from_slice(&block);
+            bytes.push(approve as u8);
+            bytes.extend_from_slice(&(evidence.validator.len() as u32).to_be_bytes());
+            bytes.extend_from_slice(evidence.validator.as_bytes());
+            key.verify(&bytes, &Signature::from_bytes(&sig))
+                .map_err(|_| "invalid slashing signature".to_string())
+        };
+        verify_evidence(evidence.block_a, evidence.approve_a, evidence.signature_a)?;
+        verify_evidence(evidence.block_b, evidence.approve_b, evidence.signature_b)?;
+
         let mut validators = self
             .validators
             .lock()
@@ -350,6 +376,11 @@ mod tests {
             height: 1,
             block_a: [1; 32],
             block_b: [2; 32],
+            approve_a: true,
+            approve_b: true,
+            public_key: [0; 32],
+            signature_a: [0; 64],
+            signature_b: [0; 64],
             reason: "double-sign".into(),
         };
         assert_eq!(engine.slash(evidence.clone(), 40).unwrap(), 40);
