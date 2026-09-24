@@ -885,6 +885,82 @@ mod tests {
     }
 
     #[test]
+    fn canonical_commit_rejects_conflicting_height_and_parent() {
+        let s = ChainStorage::new();
+        let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        s.commit(genesis.clone()).unwrap();
+
+        let h1 = Block::new(1, genesis.id, "v".into(), 2, Vec::new(), [3; 32], [4; 32], [0; 64]);
+        s.commit(h1.clone()).unwrap();
+        assert!(s.commit(h1.clone()).is_ok());
+        let conflicting = Block::new(1, genesis.id, "v".into(), 3, Vec::new(), [5; 32], [6; 32], [0; 64]);
+        assert!(s.commit(conflicting).is_err());
+        let wrong_parent = Block::new(2, [9; 32], "v".into(), 4, Vec::new(), [7; 32], [8; 32], [0; 64]);
+        assert!(s.commit(wrong_parent).is_err());
+    }
+
+    #[test]
+    fn recovery_rejects_conflicting_canonical_height_in_journal() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-storage-conflicting-height-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        let first = Block::new(1, genesis.id, "v".into(), 2, Vec::new(), [3; 32], [4; 32], [0; 64]);
+        let conflicting = Block::new(1, genesis.id, "v".into(), 3, Vec::new(), [5; 32], [6; 32], [0; 64]);
+        let raw = format!(
+            "{}\n{}\n{}\n",
+            hex::encode(block_encode(&genesis)),
+            hex::encode(block_encode(&first)),
+            hex::encode(block_encode(&conflicting)),
+        );
+        std::fs::write(&path, raw).unwrap();
+
+        let err = ChainStorage::open(&path).unwrap_err();
+        assert!(err.contains("non-sequential block height"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovery_rejects_state_or_issuance_beyond_canonical_tip() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-storage-state-boundary-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        std::fs::write(&path, format!("{}\n", hex::encode(block_encode(&genesis)))).unwrap();
+
+        let state = ChainStorage::open(&path).unwrap();
+        let state_path = path.with_extension("state");
+        let mut state_record = Vec::new();
+        state_record.extend_from_slice(&1u64.to_be_bytes());
+        state_record.extend_from_slice(&0u32.to_be_bytes());
+        put(&mut state_record, &[]);
+        std::fs::write(&state_path, format!("{}\n", hex::encode(state_record))).unwrap();
+        assert!(ChainStorage::open(&path).unwrap().recover_state_with_dao().is_err());
+
+        let issuance_path = path.with_extension("issuance");
+        let mut issuance_record = Vec::new();
+        issuance_record.extend_from_slice(ISSUANCE_MAGIC);
+        issuance_record.extend_from_slice(&1u64.to_be_bytes());
+        issuance_record.extend_from_slice(&0u128.to_be_bytes());
+        std::fs::write(&issuance_path, format!("{}\n", hex::encode(issuance_record))).unwrap();
+        assert!(ChainStorage::open(&path).unwrap().recover_issuance().is_err());
+        drop(state);
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
     fn round_trip() {
         let s = ChainStorage::new();
         let b = Block::new(
