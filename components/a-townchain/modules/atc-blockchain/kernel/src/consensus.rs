@@ -316,6 +316,8 @@ mod tests {
         engine.register_validator("a".into(), 40).unwrap();
         engine.register_validator("b".into(), 35).unwrap();
         engine.register_validator("c".into(), 25).unwrap();
+        engine.register_validator_key("a", a.verifying_key().to_bytes()).unwrap();
+        engine.register_validator_key("b", b.verifying_key().to_bytes()).unwrap();
         let block = [9u8; 32];
         engine
             .vote(signed_vote(&engine, &a, "a", block, true))
@@ -366,5 +368,26 @@ mod tests {
             engine.vote(vote).unwrap_err(),
             "voter is not an active validator"
         );
+    }
+}
+
+#[cfg(test)]
+mod key_binding_regression {
+    use super::*;
+    use ed25519_dalek::{Signer, SigningKey};
+
+    #[test]
+    fn mismatched_vote_key_is_rejected() {
+        let engine = ConsensusEngine::new(658467, "proposer".into());
+        let registered = SigningKey::from_bytes(&[11u8; 32]);
+        let attacker = SigningKey::from_bytes(&[12u8; 32]);
+        engine.register_validator("alice".into(), 100).unwrap();
+        engine.register_validator_key("alice", registered.verifying_key().to_bytes()).unwrap();
+        let mut vote = Vote {
+            block: [1; 32], voter: "alice".into(), approve: true,
+            signature: [0; 64], public_key: attacker.verifying_key().to_bytes(),
+        };
+        vote.signature = attacker.sign(&vote_signing_bytes(engine.chain_id, &vote)).to_bytes();
+        assert_eq!(engine.vote(vote).unwrap_err(), "vote public key does not match validator identity");
     }
 }
