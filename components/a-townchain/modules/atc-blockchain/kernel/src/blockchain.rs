@@ -625,13 +625,20 @@ impl Node {
             if n.state.root() != last.state_root {
                 return Err("recovered state root mismatch".into());
             }
-            n.consensus.set_height(last.height);
-            // A next-height validator snapshot is a valid pending activation
-            // and may legitimately exist before the corresponding block is
-            // committed. Anything farther in the future is corrupt.
-            if recovered_validator_snapshots.keys().any(|h| *h > last.height.saturating_add(1)) {
-                return Err("validator snapshot is beyond the next activation height".into());
+            // Every historical validator activation height must have a
+            // canonical predecessor block. Height H+1 is the only pending
+            // activation allowed without that block existing yet.
+            for height in recovered_validator_snapshots.keys().copied() {
+                if height > last.height.saturating_add(1) {
+                    return Err("validator snapshot is beyond the next activation height".into());
+                }
+                if height > 0 && height <= last.height && n.storage.block(height - 1).is_none() {
+                    return Err("validator snapshot references missing activation predecessor".into());
+                }
             }
+            n.consensus.set_height(last.height);
+        } else if !recovered_validator_snapshots.is_empty() {
+            return Err("validator snapshot exists without a canonical chain".into());
         }
         // Slashing records are durable evidence/audit records. The active
         // validator snapshot is the canonical recovered voting weight, so
@@ -1433,6 +1440,134 @@ mod tests {
             };
             let _ = std::fs::remove_file(target);
         }
+    }
+
+    #[test]
+    fn recovered_pending_validator_snapshot_is_only_usable_for_next_canonical_height() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-pending-activation-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key = ed25519_dalek::SigningKey::from_bytes(&[71u8; 32]);
+
+        {
+            let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+            node.create_genesis_with_proposer(1, "genesis").unwrap();
+            node.register_validator("validator-a".into(), 100).unwrap();
+            node.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+            // The complete validator identity is pending for height 1.
+            assert_eq!(node.consensus.height(), 0);
+            assert!(node.consensus.has_validator_snapshot(1));
+        }
+
+        {
+            let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+            assert!(node.consensus.has_validator_snapshot(1));
+            let block = node.produce_reward_block(2).unwrap();
+            assert_eq!(block.height, 1);
+            assert_eq!(node.chain.last().unwrap().id, block.id);
+        }
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovered_validator_snapshot_without_canonical_chain_is_rejected() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-orphan-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key = ed25519_dalek::SigningKey::from_bytes(&[72u8; 32]);
+
+        // Construct the orphan validator journal directly. There is no
+        // canonical block journal, so the snapshot has no activation anchor.
+        let mut record = Vec::from(b"ATCV2".as_slice());
+        record.extend_from_slice(&1u64.to_be_bytes());
+        record.extend_from_slice(&1u32.to_be_bytes());
+        record.extend_from_slice(&(12u32).to_be_bytes());
+        record.extend_from_slice(b"validator-a");
+        record.extend_from_slice(&100u64.to_be_bytes());
+        record.extend_from_slice(&key.verifying_key().to_bytes());
+        std::fs::write(
+            path.with_extension("validators"),
+            format!("{}\n", hex::encode(record)),
+        )
+        .unwrap();
+
+        let err = match Node::open_storage(658467, "validator-a".into(), &path) {
+            Ok(_) => panic!("orphan validator snapshot must be rejected"),
+            Err(err) => err,
+        };
+        assert!(err.contains("validator snapshot exists without a canonical chain"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn pending_validator_snapshot_does_not_bypass_wrong_parent_rejection() {
+        let node = Node::new(658467, "validator-a".into());
+        node.create_genesis_with_proposer(1, "genesis").unwrap();
+        node.register_validator("validator-a".into(), 100).unwrap();
+        node.register_validator_key(
+            "validator-a",
+            ed25519_dalek::SigningKey::from_bytes(&[73u8; 32]).verifying_key().to_bytes(),
+        ).unwrap();
+
+        let key = ed25519_dalek::SigningKey::from_bytes(&[73u8; 32]);
+        let state = node.state.snapshot();
+        let wrong_parent = [0xabu8; 32];
+        let mut block = Block::new(
+            1,
+            wrong_parent,
+            "validator-a".into(),
+            2,
+            Vec::new(),
+            state.root(),
+            receipts::root(&[]),
+            [0; 64],
+        );
+        let signing = key.sign(&block_signing_bytes(658467, &block));
+        block.signature = signing.to_bytes();
+        block.id = block_id(
+            block.height,
+            block.parent_hash,
+            &block.proposer,
+            block.timestamp,
+            block.tx_root,
+            block.state_root,
+            block.receipt_root,
+            block.signature,
+        );
+
+        let before = node.state.root();
+        assert_eq!(
+            node.import_block(block).unwrap_err(),
+            "parent mismatch"
+        );
+        assert_eq!(node.chain.height(), 0);
+        assert_eq!(node.state.root(), before);
     }
 
     #[test]
