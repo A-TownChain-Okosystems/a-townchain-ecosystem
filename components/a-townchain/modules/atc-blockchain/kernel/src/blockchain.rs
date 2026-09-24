@@ -1219,6 +1219,50 @@ mod tests {
     }
 
     #[test]
+    fn longer_divergent_chain_cannot_reorg_finalized_prefix() {
+        let canonical = Node::new(658467, "validator-a".into());
+        canonical.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&canonical, "validator-a");
+        let canonical_h1 = canonical.produce_reward_block(2).unwrap();
+        let canonical_h2 = canonical.produce_reward_block(3).unwrap();
+
+        let fork = Node::new(658467, "validator-a".into());
+        fork.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&fork, "validator-a");
+        let fork_h1 = fork.produce_reward_block(99).unwrap();
+        let fork_h2 = fork.produce_reward_block(100).unwrap();
+        assert_ne!(canonical_h1.id, fork_h1.id);
+        assert_ne!(canonical_h2.id, fork_h2.id);
+        assert_eq!(fork_h2.parent_hash, fork_h1.id);
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+        receiver.handle_network_message(NetworkMessage::Block(canonical_h1.clone())).unwrap();
+
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut vote_a = Vote { block: canonical_h1.id, voter: "validator-a".into(), approve: true, signature: [0;64], public_key: key_a.verifying_key().to_bytes() };
+        vote_a.signature = key_a.sign(&consensus::vote_signing_bytes(658467, &vote_a)).to_bytes();
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
+        let mut vote_b = Vote { block: canonical_h1.id, voter: "validator-b".into(), approve: true, signature: [0;64], public_key: key_b.verifying_key().to_bytes() };
+        vote_b.signature = key_b.sign(&consensus::vote_signing_bytes(658467, &vote_b)).to_bytes();
+        receiver.handle_network_message(NetworkMessage::Vote(vote_a)).unwrap();
+        receiver.handle_network_message(NetworkMessage::Vote(vote_b)).unwrap();
+        assert_eq!(receiver.consensus.finalized(), Some((canonical_h1.height, canonical_h1.id)));
+
+        assert!(receiver.handle_network_message(NetworkMessage::Block(fork_h1)).is_err());
+        assert!(receiver.handle_network_message(NetworkMessage::Block(fork_h2)).is_err());
+        assert_eq!(receiver.chain.height(), canonical_h1.height);
+        assert_eq!(receiver.chain.last().unwrap().id, canonical_h1.id);
+        assert_eq!(receiver.consensus.finalized(), Some((canonical_h1.height, canonical_h1.id)));
+
+        // The longer canonical continuation remains valid and cannot be
+        // displaced by the rejected fork.
+        receiver.handle_network_message(NetworkMessage::Block(canonical_h2.clone())).unwrap();
+        assert_eq!(receiver.chain.last().unwrap().id, canonical_h2.id);
+    }
+
+    #[test]
     fn late_conflicting_block_after_finality_cannot_replace_canonical_state() {
         let source = Node::new(658467, "validator-a".into());
         source.create_genesis_with_proposer(1, "genesis").unwrap();
