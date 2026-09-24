@@ -649,13 +649,13 @@ impl Node {
             [0; 32],
             [0; 64],
         );
-        self.chain.genesis(b.clone())?;
         self.storage.commit_block_state_issuance(
             b.clone(),
             &self.state.snapshot(),
             &self.state.dao_snapshot(),
             self.state.issued_base_units(),
         )?;
+        self.chain.genesis(b.clone())?;
         self.state.seal_genesis();
         self.consensus.set_height(b.height);
         Ok(b)
@@ -912,8 +912,10 @@ impl Node {
         if b.height > self.chain.height() || self.chain.last().map(|x| x.id) != Some(b.id) {
             return Err("can only finalize the current canonical tip".into());
         }
-        self.consensus.mark_finalized(b.height, b.id)?;
+        // Storage is the durability boundary: never expose finality in memory
+        // before its canonical marker is durably synced.
         self.storage.commit_finalized(b.height, b.id)?;
+        self.consensus.mark_finalized(b.height, b.id)?;
         if let Some(sink) = self.indexer.lock().unwrap().clone() {
             sink.ingest_finalized(b)?
         }
