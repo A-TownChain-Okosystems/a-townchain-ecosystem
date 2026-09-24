@@ -28,6 +28,7 @@ pub enum TxType {
     Stake = 1,
     Unstake = 2,
     Contract = 3,
+    Validator = 4,
 }
 impl TxType {
     pub fn base_gas(self) -> u64 {
@@ -36,6 +37,7 @@ impl TxType {
             Self::Stake => 1200,
             Self::Unstake => 1200,
             Self::Contract => 5000,
+            Self::Validator => 2500,
         }
     }
 }
@@ -531,8 +533,15 @@ impl StateDb {
     pub fn apply_batch(&self, txs: &[Transaction]) -> Result<(), MempoolError> {
         let mut a = self.accounts.lock().unwrap();
         let mut staged = a.clone();
+        let mut validators = self.validator_state.lock().unwrap();
+        let validator_snapshot = validators.snapshot();
         for tx in txs {
             Self::apply_to(&mut staged, tx)?;
+            if tx.tx_type == TxType::Validator {
+                let transition = crate::validator_state::ValidatorTransition::decode(&tx.payload)
+                    .map_err(MempoolError::InvalidValidatorTransition)?;
+                validators.apply(&transition).map_err(MempoolError::InvalidValidatorTransition)?;
+            }
         }
         *a = staged;
         Ok(())
