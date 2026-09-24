@@ -1042,8 +1042,13 @@ mod tests {
         assert_eq!(reopened.chain.last().unwrap().id, h2.id);
         assert_eq!(reopened.consensus.validator_snapshot_for_height(2).unwrap().0.get("validator-b"), Some(&50));
         assert_eq!(
-            reopened.consensus.validator_snapshot_commitment(2),
-            Some(reopened.consensus.validator_snapshot_commitment(2).unwrap())
+            h2.state_root,
+            committed_state_root(
+                reopened.state.root(),
+                2,
+                reopened.consensus.validator_snapshot_commitment(2),
+            )
+            .unwrap()
         );
 
         for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
