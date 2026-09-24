@@ -908,12 +908,16 @@ impl Node {
         } else {
             self.consensus.height()
         };
+        let previous = self.consensus.mutable_validator_state()?;
         self.consensus.register_validator(address, stake)?;
         // Registration and key binding are intentionally separate API operations.
         // Do not persist an incomplete identity snapshot; register_validator_key()
         // commits the complete registry once the Ed25519 key is known.
         if self.consensus.validator_snapshot_with_keys().is_ok() {
-            self.persist_validator_snapshot(activation_height)?;
+            if let Err(e) = self.persist_validator_snapshot(activation_height) {
+                self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
+                return Err(e);
+            }
         }
         Ok(())
     }
@@ -978,9 +982,14 @@ impl Node {
     }
 
     pub fn unregister_validator(&self, address: &str) -> Result<(), String> {
+        let previous = self.consensus.mutable_validator_state()?;
         self.consensus.unregister_validator(address);
         let activation_height = self.consensus.height().saturating_add(1);
-        self.persist_validator_snapshot(activation_height)
+        if let Err(e) = self.persist_validator_snapshot(activation_height) {
+            self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
+            return Err(e);
+        }
+        Ok(())
     }
 
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
