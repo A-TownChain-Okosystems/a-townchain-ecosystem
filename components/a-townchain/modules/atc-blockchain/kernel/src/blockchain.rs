@@ -862,6 +862,43 @@ mod tests {
     use super::*;
 
     #[test]
+    fn validator_public_key_survives_node_restart() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-node-validator-restart-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key = ed25519_dalek::SigningKey::from_bytes(&[19u8; 32]);
+        let public_key = key.verifying_key().to_bytes();
+
+        {
+            let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+            node.create_genesis_with_proposer(0, "atc-genesis").unwrap();
+            node.register_validator("validator-a".into(), 100).unwrap();
+            node.register_validator_key("validator-a", public_key).unwrap();
+            assert_eq!(node.consensus.validator_public_key("validator-a"), Some(public_key));
+        }
+
+        {
+            let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
+            assert_eq!(node.consensus.validator_stake("validator-a"), 100);
+            assert_eq!(node.consensus.validator_public_key("validator-a"), Some(public_key));
+        }
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
     fn genesis_sets_chain_height_and_allows_first_append() {
         let chain = BlockChain::new();
         let genesis = Block::new(
