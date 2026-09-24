@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-21",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #21: fix(atc-blockchain): correct storage recovery syntax",
+  "context": "Pull request 21 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/21",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nFixes the concrete CI compiler error from Ecosystem Integration run 35403022286: unexpected closing delimiter in components/a-townchain/modules/atc-blockchain/kernel/src/storage.rs. The recovery loop had one extra closing brace."
+}

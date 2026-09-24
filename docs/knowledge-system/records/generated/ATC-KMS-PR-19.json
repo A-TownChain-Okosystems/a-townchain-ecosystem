@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-19",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #19: fix(ci): isolate migrated Cargo crates from parent workspace",
+  "context": "Pull request 19 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/19",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nFollow-up CI hardening after the ecosystem migration. The migrated A-TownChain algorithm and SDK manifests are standalone crates but sit below a parent Cargo tree. Adding explicit [workspace] boundaries prevents Cargo from treating them as members of an unrelated ancestor workspace and removes the workspace-membership failure mode seen in the ecosystem audit.\n\nThis change is limited to the two affected manifests and does not alter protocol logic."
+}

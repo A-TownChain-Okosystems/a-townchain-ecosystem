@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-30",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #30: feat: complete canonical L1 timing and workspace integration",
+  "context": "Pull request 30 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/30",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nThis PR brings the canonical Rust L1 kernel into the root workspace so it is actually compiled by ecosystem CI, hardens the canonical genesis configuration, and encodes the 360s / 360,000-block / 36-event ATC emission parameters with boundary tests. It also removes a duplicate lint attribute. Next iteration will close weighted validator finality and network transport once the real CI output confirms this baseline."
+}

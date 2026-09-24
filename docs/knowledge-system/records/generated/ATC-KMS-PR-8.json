@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-8",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #8: fix(ci): recover Node release gates and synchronize remaining dependencies",
+  "context": "Pull request 8 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/8",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nFixes concrete failures from Actions run 35337255468: Node projects with stale lockfiles now regenerate dependencies after a strict npm ci failure; the A-TownChain OS docs TypeScript dependency is aligned to 6.0.3; the ATC Explorer lockfile is synchronized to TypeScript 6.0.3. The workflow still uses npm ci first and only falls back when the lockfile is stale/incompatible."
+}

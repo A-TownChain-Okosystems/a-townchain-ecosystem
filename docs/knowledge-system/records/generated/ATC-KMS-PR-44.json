@@ -1,0 +1,27 @@
+{
+  "id": "ATC-KMS-PR-44",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #44: hackathon(h1): close L1 E2E startup and persistence gaps",
+  "context": "Pull request 44 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/44",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-43"
+    }
+  ],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nHackathon H1 implementation pass. Fixes canonical durable journal path, wallet process E2E node startup configuration, and L1 lifecycle test use of the exported Node API plus durable storage. Driven by actual CI failures from PR #43. Next gate: rerun H1 CI and fix remaining failures before H1 verification."
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-42",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #42: fix(node): use canonical chain id in startup log",
+  "context": "Pull request 42 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/42",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nFixes the canonical atc-node startup path to log NUMERIC_CHAIN_ID, which is the imported canonical chain identity. The previous DEFAULT_CHAIN_ID reference is undefined and can break compilation of the node binary.\n\nThis is a targeted compile/runtime integration fix; no consensus semantics are changed."
+}

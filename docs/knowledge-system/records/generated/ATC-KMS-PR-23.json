@@ -1,0 +1,27 @@
+{
+  "id": "ATC-KMS-PR-23",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #23: fix(ci): finish ecosystem release gates",
+  "context": "Pull request 23 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/23",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-21"
+    }
+  ],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nFollow-up validation branch after PR #21/#22. Concrete CI fixes are applied directly from real GitHub failures: blockchain clippy/default/type-complexity gates, governance return/formatting, VM dead-code policy, explorer TypeScript peer conflict, and docs package manifest JSON. Remaining storage/restart and release-readiness gates are validated by subsequent CI runs."
+}

@@ -1,0 +1,27 @@
+{
+  "id": "ATC-KMS-PR-49",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #49: fix: restore fail-fast base ECS system behavior",
+  "context": "Pull request 49 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/49",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-1"
+    }
+  ],
+  "content": "State: open\nMerged: False\nDraft: True\n\nFollow-up correction to merged PR #1. The base ECS System.update hook must not silently succeed when a concrete system has not overridden it. Restore explicit fail-fast behavior with NotImplementedError. This prevents missing system implementations from being silently accepted."
+}

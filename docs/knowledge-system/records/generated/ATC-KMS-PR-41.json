@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-41",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #41: chore(sync): align all ecosystem component repositories",
+  "context": "Pull request 41 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/41",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: False\n\nErweitert den bestehenden Ecosystem-Subtree-Sync von den bisherigen Kernkomponenten auf alle im `components/`-Baum vorhandenen Repository-Quellen. Damit wird der Umbrella-Stand nach jedem main-Push systematisch gegen die jeweiligen Repository-HEADs synchronisiert. CI muss die tatsächliche Subtree-Kompatibilität und den resultierenden Gesamtstand bestätigen."
+}

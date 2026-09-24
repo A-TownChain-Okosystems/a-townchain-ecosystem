@@ -1,0 +1,31 @@
+{
+  "id": "ATC-KMS-PR-18",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #18: fix: enforce canonical monetary policy across migrated mining components",
+  "context": "Pull request 18 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/18",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-17"
+    },
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-17"
+    }
+  ],
+  "content": "State: closed\nMerged: True\nDraft: False\n\n## Verification follow-up to PR #17\n\nPR #17 centralized issuance in `components/atc-algorithm`, but the post-merge audit found two remaining integration defects:\n\n- `components/a-townchain/consensus/monetary_policy_binding.rs` duplicated monetary-policy constants instead of consuming the canonical crate.\n- `components/a-townchain/components/mining` still contained an independent reward implementation and was not isolated from the root Cargo workspace.\n\nThis PR:\n- converts the consensus binding into an adapter over `atc-algorithm`;\n- connects the migrated nested mining crate to the canonical algorithm;\n- preserves the nested crate as a standalone workspace because the root workspace already contains the canonical `atc-mining` package;\n- carries the canonical subsidy/cap tests into the migrated mining implementation.\n\nThe monetary policy remains:\n360,000,000 ATC / 360 sec target block time / 360,000-block halving / 36 epochs / 500 ATC initial subsidy / height-only issuance."
+}

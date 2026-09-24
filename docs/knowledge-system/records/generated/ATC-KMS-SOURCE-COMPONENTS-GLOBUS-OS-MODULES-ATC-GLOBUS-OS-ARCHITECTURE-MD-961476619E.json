@@ -1,0 +1,21 @@
+{
+  "id": "ATC-KMS-SOURCE-COMPONENTS-GLOBUS-OS-MODULES-ATC-GLOBUS-OS-ARCHITECTURE-MD-961476619E",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "evidence",
+  "title": "Indexed source: components/globus-os/modules/atc-globus-os/ARCHITECTURE.md",
+  "context": "Repository architecture, release, security, migration, or build source.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "file",
+    "ref": "components/globus-os/modules/atc-globus-os/ARCHITECTURE.md",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "source"
+  ],
+  "links": [],
+  "content": "Source file present at components/globus-os/modules/atc-globus-os/ARCHITECTURE.md."
+}

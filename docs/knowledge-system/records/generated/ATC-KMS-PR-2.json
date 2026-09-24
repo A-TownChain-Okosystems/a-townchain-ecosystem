@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-2",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #2: fix: resolve Genesis runtime build gate and unavailable dependency review",
+  "context": "Pull request 2 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/2",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nFixes the actual GitHub gate failures from the previous release-readiness run. GenesisRuntime now constrains its network transport at the struct boundary, resolving the E0277 build error. The dependency-review workflow is removed because GitHub reports Dependency Review is unsupported when the repository Dependency Graph is unavailable; this follows the ecosystem rule to skip that gate when the capability is unavailable. Validate again on this branch before merging to main."
+}

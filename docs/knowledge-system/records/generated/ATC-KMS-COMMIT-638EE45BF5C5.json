@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-638EE45BF5C5",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "Commit: fix(ci): test imported ShivaCore subtree",
+  "context": "Git commit 638ee45bf5c5689dc8ae7b1cfc0c44e26f5790cb on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/638ee45bf5c5689dc8ae7b1cfc0c44e26f5790cb",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(ci): test imported ShivaCore subtree"
+}

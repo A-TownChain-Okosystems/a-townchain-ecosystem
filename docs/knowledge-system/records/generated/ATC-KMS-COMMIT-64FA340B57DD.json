@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-64FA340B57DD",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "Commit: test(state): match fallible reward API",
+  "context": "Git commit 64fa340b57dd75f4d778db443e46bbc7037b6d04 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/64fa340b57dd75f4d778db443e46bbc7037b6d04",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "test(state): match fallible reward API"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-697752429CD7",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "Commit: fix(e2e): align block messages with canonical Block type",
+  "context": "Git commit 697752429cd7b46c36d8014c0609592b22ea28e5 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/697752429cd7b46c36d8014c0609592b22ea28e5",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(e2e): align block messages with canonical Block type"
+}

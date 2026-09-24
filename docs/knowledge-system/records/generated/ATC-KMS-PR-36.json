@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-36",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #36: ci(l1): verify current persistent multi-node consensus runtime",
+  "context": "Pull request 36 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/36",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nRuns the persistent atc-node multi-process gate against the current main implementation, including shared genesis, peer synchronization, validator voting, weighted finality and durable state."
+}

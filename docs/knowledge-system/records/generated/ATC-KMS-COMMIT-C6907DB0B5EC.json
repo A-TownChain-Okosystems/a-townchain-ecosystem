@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-C6907DB0B5EC",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "Commit: fix(launch): align genesis config with canonical L1 economics",
+  "context": "Git commit c6907db0b5ec06f3786a83cba56b00792b963227 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/c6907db0b5ec06f3786a83cba56b00792b963227",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(launch): align genesis config with canonical L1 economics"
+}

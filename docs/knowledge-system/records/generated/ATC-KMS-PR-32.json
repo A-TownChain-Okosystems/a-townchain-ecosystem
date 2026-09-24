@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-32",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #32: fix: make canonical monetary policy single-source",
+  "context": "Pull request 32 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/32",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nThe L1 kernel was duplicating the ATC emission schedule even though atc-algorithm already contains the canonical 360M/360s/360,000-block/36-halving policy. This PR converts kernel economics into an adapter and adds the required local dependency, preventing consensus parameter drift."
+}

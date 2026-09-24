@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-9",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #9: fix(globus-os): resolve TypeScript release gate",
+  "context": "Pull request 9 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/9",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nFix the GlobusOS TypeScript release gate by isolating the production compile from Jest/Node ambient type packages that are not used by the module source. The build remains a real `tsc --noEmit` type-check."
+}

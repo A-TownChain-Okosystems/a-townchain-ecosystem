@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-422A736D6C7A",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "Commit: fix(wallet): enforce canonical L1 chain id 658467",
+  "context": "Git commit 422a736d6c7a3a72d6cb18b0c7481c9580ddebfa on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/422a736d6c7a3a72d6cb18b0c7481c9580ddebfa",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(wallet): enforce canonical L1 chain id 658467"
+}

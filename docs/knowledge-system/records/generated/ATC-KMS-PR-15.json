@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-15",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #15: feat: enforce 360 million ATC L1 supply cap",
+  "context": "Pull request 15 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/15",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\n## Summary\n\nMakes the A-TownChain L1 native coin economics consensus-visible in the executable state machine.\n\n### Implemented\n- canonical native coin symbol: ATC\n- maximum lifetime L1 supply: 360,000,000 ATC\n- genesis-only allocation API with checked supply cap\n- genesis allocation sealing\n- supply included in deterministic L1 state root\n- restart path seals genesis allocations\n- regression tests for cap, sealing, and state-root commitment\n- canonical economics documentation\n\n### Boundary\nThis PR defines the maximum supply only. It does not invent a genesis allocation schedule or distribute ATC to treasury, validators, founders, or other parties.\n\n### Security invariant\nNo post-genesis mint operation exists in the canonical L1 state machine."
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-7",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #7: fix(ci): synchronize GlobusOS lockfile and ATCLang Ruff gate",
+  "context": "Pull request 7 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/7",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nFixes the next concrete failures from Ecosystem Release Readiness run #12. The ATCLang REPL import block now carries the narrowly scoped Ruff I001 suppression required by the repository's actual Ruff configuration, and the GlobusOS package-lock is synchronized from TypeScript 7.0.2 to the declared TypeScript 6.0.3 dependency so npm ci can execute deterministically."
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-4",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #4: fix: resolve release readiness Python and Node dependency gates",
+  "context": "Pull request 4 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/4",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nFixes the concrete GitHub Actions failures from Ecosystem Release Readiness: modernizes Genesis Engine typing/imports to satisfy Ruff, aligns AI Studio Vite with @vitejs/plugin-react, and pins Explorer TypeScript below the ts-jest 29 peer upper bound. Validate all affected gates again before merge."
+}

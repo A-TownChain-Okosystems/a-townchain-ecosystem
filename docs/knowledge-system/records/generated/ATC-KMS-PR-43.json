@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-43",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #43: fix(l1): restore canonical blockchain API integration",
+  "context": "Pull request 43 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/43",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nFixes the concrete CI failures found in the canonical L1 path.\n\nChanges:\n- use the exported `atc_blockchain::Node` API in atc-node and E2E tests\n- update network E2E tests to send `NetworkMessage::Block(Block)`, matching the canonical network API\n- import `PeerTransport` where trait-method broadcast is used\n- update the block-reward unit assertion to the current Result-returning API\n\nThis is driven by actual GitHub Actions failures from L1 Network E2E and Blockchain Core Integration. No consensus rule changes are introduced."
+}

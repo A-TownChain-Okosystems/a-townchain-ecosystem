@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-5",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #5: fix(ci): correct Python discovery and GlobusOS TypeScript gate",
+  "context": "Pull request 5 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/5",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nFixes the next concrete release-gate failures: the Python discovery expression now correctly excludes archived content, and GlobusOS pins TypeScript to a supported 6.x compiler instead of the incompatible 7.x package used by the current build gate. Re-run the complete readiness suite before merging."
+}

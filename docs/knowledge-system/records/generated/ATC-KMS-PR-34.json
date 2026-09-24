@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-34",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #34: feat(l1): connect wallet node RPC and multi-process E2E",
+  "context": "Pull request 34 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/34",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\n## Scope\n- Connect atc-wallet TcpNodeClient to the canonical atc-node JSON-RPC runtime.\n- Route submit_transaction through signature verification, mempool admission, block production, state transition and durable storage.\n- Add wallet -> atc-node process E2E covering transaction identity, block inclusion and state balance.\n- Add CI gates for the wallet/node process test and canonical multi-process network E2E.\n\n## Verification target\nGitHub Actions must provide actual green cargo test evidence before this L1 path is called CI-verified."
+}

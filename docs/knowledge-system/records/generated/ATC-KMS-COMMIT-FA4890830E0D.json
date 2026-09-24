@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-FA4890830E0D",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "Commit: fix(runtime): re-export canonical chain id",
+  "context": "Git commit fa4890830e0d39bb39eb4f7a760eb49ff3beada2 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/fa4890830e0d39bb39eb4f7a760eb49ff3beada2",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(runtime): re-export canonical chain id"
+}

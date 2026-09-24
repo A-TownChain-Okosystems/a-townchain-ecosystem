@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-17",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #17: feat: centralize 360M ATC / 36-halving monetary policy",
+  "context": "Pull request 17 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/17",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\n## Summary\nCentralize the ATC monetary policy in the ecosystem monorepo.\n\n### Canonical consensus\n- 360,000,000 ATC max supply\n- 360-second target block time\n- 360,000-block halving interval\n- 36 halving epochs\n- 500 ATC initial subsidy\n- block-height-only issuance trigger\n- final emission block 12,959,999\n\n### Integrated components\n- `components/atc-algorithm/src/economics.rs` — canonical issuance implementation\n- `components/atc-algorithm/docs/ATC-MONETARY-POLICY-001.md` — specification\n- `components/atc-mining/src/reward.rs` — canonical reward consumption\n- `components/atc-mining/Cargo.toml` — path dependency on canonical algorithm\n- `components/a-townchain/consensus/monetary_policy_binding.rs` — orchestration binding\n- root `Cargo.toml` — algorithm + mining workspace members\n\nThis makes `a-townchain-ecosystem` the integration SSOT for the three components while preserving component boundaries."
+}

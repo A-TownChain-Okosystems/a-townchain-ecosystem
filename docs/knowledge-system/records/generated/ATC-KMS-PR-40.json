@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-40",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #40: fix(l1): repair e2e compile path and canonicalize chain identity",
+  "context": "Pull request 40 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/40",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: False\n\nFixes the CI-discovered Rust import/API errors in the L1 E2E suite and removes duplicated Chain-ID literals from lifecycle/network tests. CI must pass before claiming the wallet→node→block→balance path verified."
+}

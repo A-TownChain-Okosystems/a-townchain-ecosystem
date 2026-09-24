@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-BB6C7D3903E5",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "Commit: refactor(node): consume canonical chain identity",
+  "context": "Git commit bb6c7d3903e5705f6571bc491e68157e0b015a64 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/bb6c7d3903e5705f6571bc491e68157e0b015a64",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "refactor(node): consume canonical chain identity"
+}

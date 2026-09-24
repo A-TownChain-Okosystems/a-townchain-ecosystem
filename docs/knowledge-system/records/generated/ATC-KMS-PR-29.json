@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-29",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #29: fix: put Rust DEX under real workspace CI",
+  "context": "Pull request 29 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/29",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nThe merged DEX Rust core was not a member of the root Cargo workspace, so the normal workspace gates did not compile it. This PR adds the DEX crate to the root workspace and fixes the matcher unit test to instantiate OrderMatcher before calling its method. This makes the DEX code subject to the real Rust workspace CI before the legacy TypeScript core is removed."
+}

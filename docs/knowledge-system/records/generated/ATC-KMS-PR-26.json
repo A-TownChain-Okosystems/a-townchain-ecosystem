@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-26",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #26: ci: enforce real ecosystem integration gates",
+  "context": "Pull request 26 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/26",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nAdds a real pull-request integration gate that runs the full Rust workspace check/tests and the canonical ecosystem integration crate. This is intended to expose concrete build failures before merge."
+}

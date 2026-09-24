@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-31",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #31: feat: enforce validator-weighted L1 finality",
+  "context": "Pull request 31 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/31",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\nCloses the next L1 consensus gap: votes now require registered validators, and canonical finality is stake-weighted at 2/3. The legacy count-based API remains for compatibility; Node exposes finalize_weighted for the canonical path. Includes deterministic tests for threshold and unregistered-vote rejection."
+}

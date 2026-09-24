@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-14",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #14: feat: introduce native A-TownChain Layer 2 architecture",
+  "context": "Pull request 14 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/14",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: False\n\n## Summary\nImplements and documents the first executable ATC-L2 core.\n\n### Implemented\n- deterministic Rust L2 state machine\n- native fungible token lifecycle\n- L1 deposit/withdrawal references with replay protection\n- deterministic state roots\n- deterministic L2 batches and receipts\n- L1 settlement commitment data model\n- workspace integration\n- CI coverage for the new L2 crate\n- architecture and protocol documentation\n\n### Explicit boundary\nThis PR does not claim ZK validity, permissionless sequencing, durable L2 recovery, or final L1 settlement execution. Those are subsequent integration stages.\n\nFlow:\nATCLang -> ATC-VM -> ATC-L2 -> state root -> A-TownChain L1 settlement."
+}

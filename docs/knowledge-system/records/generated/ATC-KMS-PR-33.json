@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-33",
+  "timestamp": "2026-09-24T14:36:38.959307Z",
+  "category": "change",
+  "title": "PR #33: feat(wallet): convert ATC wallet core to Rust L1 signing",
+  "context": "Pull request 33 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/33",
+    "commit": "a94560e27175cab910d7b9f9a0732f4ea7fa8e42"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\n## Scope\n\n- Implements Rust WalletKey with OS CSPRNG and private-key boundary.\n- Implements WAL-ADDR-001 address payload/checksum/Base58 primitives.\n- Replaces the previous wallet transaction preimage with the current L1 kernel ATC-TX-DOMAIN-V2 layout.\n- Uses Ed25519 because the current executable L1 kernel verifier is Ed25519.\n- Adds wallet-specific Rust fmt/check/test CI.\n\n## Important protocol finding\n\nWAL-SIGN-001 is still a SPEC-DRAFT that specifies secp256k1/RFC6979/Low-S, while the current L1 kernel implementation verifies Ed25519. This PR follows the executable L1 path and explicitly documents the conflict instead of introducing a non-functional Ethereum-compatible signer.\n\nConcrete address version bytes are also not hard-coded because WAL-ADDR-001 delegates them to ATC-NETWORK-ID-001 and the current contract does not freeze those values.\n\n## Verification\n\nThe PR CI must provide the actual cargo fmt/check/test evidence before the wallet integration can be considered CI-verified."
+}
