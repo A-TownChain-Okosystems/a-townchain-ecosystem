@@ -821,7 +821,7 @@ impl Node {
     }
 
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
-        let block = self.storage.block_by_id(vote.block).ok_or("vote references unknown block")?;
+        let block = self.storage.find_block_by_id(vote.block).ok_or("vote references unknown block")?;
         self.consensus.vote_at_height(vote, block.height)
     }
 
