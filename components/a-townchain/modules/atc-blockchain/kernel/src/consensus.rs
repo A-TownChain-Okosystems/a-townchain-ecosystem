@@ -57,8 +57,10 @@ pub struct ConsensusEngine {
     height: Mutex<u64>,
     finalized: Mutex<Option<(u64, [u8; 32])>>,
     slashed: Mutex<BTreeMap<String, u64>>,
+    slashing_evidence: Mutex<BTreeSet<[u8; 32]>>,
     votes: Mutex<BTreeMap<[u8; 32], Vec<Vote>>>,
     validators: Mutex<BTreeMap<String, u64>>,
+    validator_keys: Mutex<BTreeMap<String, [u8; 32]>>,
 }
 
 impl ConsensusEngine {
@@ -69,8 +71,10 @@ impl ConsensusEngine {
             height: Mutex::new(0),
             finalized: Mutex::new(None),
             slashed: Mutex::new(BTreeMap::new()),
+            slashing_evidence: Mutex::new(BTreeSet::new()),
             votes: Mutex::new(BTreeMap::new()),
             validators: Mutex::new(BTreeMap::new()),
+            validator_keys: Mutex::new(BTreeMap::new()),
         }
     }
 
@@ -85,8 +89,31 @@ impl ConsensusEngine {
         Ok(())
     }
 
+    pub fn register_validator_with_key(
+        &self,
+        address: String,
+        stake: u64,
+        public_key: [u8; 32],
+    ) -> Result<(), String> {
+        if address.is_empty() || stake == 0 {
+            return Err("validator address and stake are required".into());
+        }
+        VerifyingKey::from_bytes(&public_key)
+            .map_err(|_| "invalid validator public key".to_string())?;
+        self.validators
+            .lock()
+            .map_err(|_| "validator lock poisoned")?
+            .insert(address.clone(), stake);
+        self.validator_keys
+            .lock()
+            .map_err(|_| "validator key lock poisoned")?
+            .insert(address, public_key);
+        Ok(())
+    }
+
     pub fn unregister_validator(&self, address: &str) {
         self.validators.lock().unwrap().remove(address);
+        self.validator_keys.lock().unwrap().remove(address);
     }
 
     pub fn validator_stake(&self, address: &str) -> u64 {
@@ -119,6 +146,7 @@ impl ConsensusEngine {
         if evidence.block_a == evidence.block_b || evidence.validator.is_empty() || penalty == 0 {
             return Err("invalid slashing evidence".into());
         }
+        let evidence_id = evidence.id();
         let mut validators = self
             .validators
             .lock()
@@ -127,10 +155,21 @@ impl ConsensusEngine {
             .get(&evidence.validator)
             .copied()
             .ok_or("validator is not active")?;
+        let mut evidence_seen = self
+            .slashing_evidence
+            .lock()
+            .map_err(|_| "slashing evidence lock poisoned")?;
+        if !evidence_seen.insert(evidence_id) {
+            return Ok(0);
+        }
         let applied = penalty.min(current);
         let remaining = current - applied;
         if remaining == 0 {
             validators.remove(&evidence.validator);
+            self.validator_keys
+                .lock()
+                .map_err(|_| "validator key lock poisoned")?
+                .remove(&evidence.validator);
         } else {
             validators.insert(evidence.validator.clone(), remaining);
         }
@@ -145,6 +184,94 @@ impl ConsensusEngine {
 
     pub fn validators_snapshot(&self) -> BTreeMap<String, u64> {
         self.validators.lock().unwrap().clone()
+    }
+
+    /// Snapshot validator stake together with the authenticated public key.
+    pub fn validator_state_snapshot(&self) -> (
+        BTreeMap<String, (u64, [u8; 32])>,
+        BTreeMap<String, u64>,
+        BTreeSet<[u8; 32]>,
+    ) {
+        (
+            self.validators_with_keys_snapshot(),
+            self.slashed.lock().unwrap().clone(),
+            self.slashing_evidence.lock().unwrap().clone(),
+        )
+    }
+
+    pub fn restore_validator_state(
+        &self,
+        snapshot: (
+            BTreeMap<String, (u64, [u8; 32])>,
+            BTreeMap<String, u64>,
+            BTreeSet<[u8; 32]>,
+        ),
+    ) -> Result<(), String> {
+        self.restore_validators_with_keys(snapshot.0)?;
+        *self.slashed.lock().map_err(|_| "slashed lock poisoned")? = snapshot.1;
+        *self.slashing_evidence.lock().map_err(|_| "slashing evidence lock poisoned")? = snapshot.2;
+        Ok(())
+    }
+
+    pub fn validator_public_key(&self, address: &str) -> Option<[u8; 32]> {
+        self.validator_keys
+            .lock()
+            .ok()
+            .and_then(|keys| keys.get(address).copied())
+    }
+
+    pub fn validators_with_keys_snapshot(&self) -> BTreeMap<String, (u64, [u8; 32])> {
+        let validators = self.validators.lock().unwrap();
+        let keys = self.validator_keys.lock().unwrap();
+        validators
+            .iter()
+            .filter_map(|(address, stake)| {
+                keys.get(address)
+                    .copied()
+                    .map(|key| (address.clone(), (*stake, key)))
+            })
+            .collect()
+    }
+
+    /// Restore a persisted validator snapshot without allowing keyless validators.
+    pub fn restore_validators_with_keys(
+        &self,
+        validators: BTreeMap<String, (u64, [u8; 32])>,
+    ) -> Result<(), String> {
+        let mut stakes = self.validators.lock().map_err(|_| "validator lock poisoned")?;
+        let mut keys = self.validator_keys.lock().map_err(|_| "validator key lock poisoned")?;
+        stakes.clear();
+        keys.clear();
+        for (address, (stake, public_key)) in validators {
+            if address.is_empty() || stake == 0 {
+                return Err("invalid persisted validator record".into());
+            }
+            VerifyingKey::from_bytes(&public_key)
+                .map_err(|_| "invalid persisted validator public key".to_string())?;
+            stakes.insert(address.clone(), stake);
+            keys.insert(address, public_key);
+        }
+        Ok(())
+    }
+
+    pub fn restore_slashing_evidence(&self, evidence_ids: impl IntoIterator<Item = [u8; 32]>) {
+        let mut seen = self.slashing_evidence.lock().unwrap();
+        seen.extend(evidence_ids);
+    }
+
+    pub fn restore_slashing_records(
+        &self,
+        records: impl IntoIterator<Item = (String, [u8; 32], u64)>,
+    ) {
+        let mut seen = self.slashing_evidence.lock().unwrap();
+        let mut slashed = self.slashed.lock().unwrap();
+        for (validator, evidence_id, penalty) in records {
+            seen.insert(evidence_id);
+            slashed
+                .entry(validator)
+                .and_modify(|v| *v = v.saturating_add(penalty))
+                .or_insert(penalty);
+        }
     }
 
     pub fn total_validator_stake(&self) -> u64 {
@@ -183,6 +310,16 @@ impl ConsensusEngine {
             .contains_key(&v.voter)
         {
             return Err("voter is not an active validator".into());
+        }
+        let registered_key = self
+            .validator_keys
+            .lock()
+            .map_err(|_| "validator key lock poisoned".to_string())?
+            .get(&v.voter)
+            .copied()
+            .ok_or("validator has no registered public key")?;
+        if registered_key != v.public_key {
+            return Err("vote public key does not match validator identity".into());
         }
         let mut all = self
             .votes
@@ -293,9 +430,9 @@ mod tests {
         let a = SigningKey::from_bytes(&[1u8; 32]);
         let b = SigningKey::from_bytes(&[2u8; 32]);
         let c = SigningKey::from_bytes(&[3u8; 32]);
-        engine.register_validator("a".into(), 40).unwrap();
-        engine.register_validator("b".into(), 35).unwrap();
-        engine.register_validator("c".into(), 25).unwrap();
+        engine.register_validator_with_key("a".into(), 40, a.verifying_key().to_bytes()).unwrap();
+        engine.register_validator_with_key("b".into(), 35, b.verifying_key().to_bytes()).unwrap();
+        engine.register_validator_with_key("c".into(), 25, c.verifying_key().to_bytes()).unwrap();
         let block = [9u8; 32];
         engine
             .vote(signed_vote(&engine, &a, "a", block, true))
@@ -322,7 +459,7 @@ mod tests {
     #[test]
     fn slashing_reduces_voting_weight_and_is_idempotent_by_state() {
         let engine = ConsensusEngine::new(658467, "proposer".into());
-        engine.register_validator("a".into(), 100).unwrap();
+        engine.register_validator_with_key("a".into(), 100, SigningKey::from_bytes(&[1u8; 32]).verifying_key().to_bytes()).unwrap();
         let evidence = SlashingEvidence {
             validator: "a".into(),
             height: 1,
@@ -333,8 +470,8 @@ mod tests {
         assert_eq!(engine.slash(evidence.clone(), 40).unwrap(), 40);
         assert_eq!(engine.validator_stake("a"), 60);
         assert_eq!(engine.slashed_stake("a"), 40);
-        assert_eq!(engine.slash(evidence, 10).unwrap(), 10);
-        assert_eq!(engine.validator_stake("a"), 50);
+        assert_eq!(engine.slash(evidence, 10).unwrap(), 0);
+        assert_eq!(engine.validator_stake("a"), 60);
     }
 
     #[test]

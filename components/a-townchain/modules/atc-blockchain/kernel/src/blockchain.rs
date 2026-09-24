@@ -15,7 +15,7 @@ pub mod security;
 pub mod storage;
 use consensus::{ConsensusEngine, SlashingEvidence, Vote};
 use crypto::{signing_bytes, Ed25519Verifier, SignatureVerifier};
-use ed25519_dalek::Signer;
+use ed25519_dalek::{Signature, Signer, Verifier, VerifyingKey};
 use execution::{AtcVmExecutor, VmExecutor};
 use mempool::{MemoryPool, MempoolError, StateDb, Transaction};
 use network::{NetworkMessage, PeerTransport};
@@ -67,6 +67,56 @@ impl Block {
         }
     }
 }
+fn block_signing_bytes(
+    h: u64,
+    parent: [u8; 32],
+    proposer: &str,
+    t: u64,
+    tr: [u8; 32],
+    state: [u8; 32],
+    receipt: [u8; 32],
+) -> Vec<u8> {
+    let mut b = Vec::new();
+    b.extend_from_slice(b"ATC-BLOCK-SIGN-V1");
+    b.extend_from_slice(&h.to_be_bytes());
+    b.extend_from_slice(&parent);
+    b.extend_from_slice(&(proposer.len() as u32).to_be_bytes());
+    b.extend_from_slice(proposer.as_bytes());
+    b.extend_from_slice(&t.to_be_bytes());
+    b.extend_from_slice(&tr);
+    b.extend_from_slice(&state);
+    b.extend_from_slice(&receipt);
+    b
+}
+
+fn verify_block_signature(
+    consensus: &ConsensusEngine,
+    b: &Block,
+) -> Result<(), String> {
+    if b.height == 0 {
+        return Ok(());
+    }
+    let key = consensus
+        .validator_public_key(&b.proposer)
+        .ok_or_else(|| "block proposer is not a registered validator".to_string())?;
+    let vk = VerifyingKey::from_bytes(&key)
+        .map_err(|_| "invalid registered proposer public key".to_string())?;
+    let sig = Signature::from_bytes(&b.signature);
+    vk.verify(
+        &block_signing_bytes(
+            b.height,
+            b.parent_hash,
+            &b.proposer,
+            b.timestamp,
+            b.tx_root,
+            b.state_root,
+            b.receipt_root,
+        ),
+        &sig,
+    )
+    .map_err(|_| "invalid block proposer signature".to_string())
+}
+
 fn tx_root(txs: &[Transaction]) -> [u8; 32] {
     let mut b = Vec::new();
     for x in txs {
@@ -276,6 +326,24 @@ impl Node {
 
     /// Configure the validator identity used by the long-running node consensus loop.
     /// The seed is supplied by the operator and is never generated implicitly.
+    fn block_signing_key(&self) -> Result<ed25519_dalek::SigningKey, String> {
+        let Some((validator, seed)) = self.vote_signer.lock().map_err(|_| "vote signer lock poisoned")?.clone() else {
+            return Err("block production requires an authenticated proposer signing key".into());
+        };
+        if validator != self.proposer {
+            return Err("block signer does not match block proposer".into());
+        }
+        let signing = ed25519_dalek::SigningKey::from_bytes(&seed);
+        let registered = self
+            .consensus
+            .validator_public_key(&validator)
+            .ok_or_else(|| "block proposer is not a registered validator".to_string())?;
+        if registered != signing.verifying_key().to_bytes() {
+            return Err("block signer key does not match registered validator identity".into());
+        }
+        Ok(signing)
+    }
+
     pub fn set_vote_signer(&self, validator: impl Into<String>, seed: [u8; 32]) {
         *self.vote_signer.lock().unwrap() = Some((validator.into(), seed));
     }
@@ -322,6 +390,7 @@ impl Node {
             return Err("block transaction chain-id mismatch".into());
         }
         self.chain.validate_append(&b)?;
+        verify_block_signature(&self.consensus, &b)?;
 
         let parent = self.chain.last().ok_or("genesis required")?;
         if b.parent_hash != parent.id || b.height != parent.height.saturating_add(1) {
@@ -349,15 +418,23 @@ impl Node {
                 let _ = self.state.restore_issued_base_units(issued_snapshot);
                 return Err("invalid transaction signature or chain".into());
             }
-            receipts.push(
-                exec.execute(tx, self.state.root())
-                    .map_err(|e| e.to_string())?,
-            );
+            match exec.execute(tx, self.state.root()) {
+                Ok(receipt) => receipts.push(receipt),
+                Err(e) => {
+                    self.state.restore(state_snapshot);
+                    let _ = self.state.restore_dao(&dao_snapshot);
+                    let _ = self.state.restore_issued_base_units(issued_snapshot);
+                    return Err(e.to_string());
+                }
+            }
         }
 
-        self.state
-            .apply_batch(&b.transactions)
-            .map_err(|e| format!("state transition: {e:?}"))?;
+        if let Err(e) = self.state.apply_batch(&b.transactions) {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(format!("state transition: {e:?}"));
+        }
 
         for tx in &b.transactions {
             if !tx.payload.is_empty() {
@@ -394,14 +471,31 @@ impl Node {
             let _ = self.state.restore_issued_base_units(issued_snapshot);
             return Err(e);
         }
-        self.storage.commit_state_with_dao(
+        if let Err(e) = self.storage.commit_state_with_dao(
             b.height,
             &self.state.snapshot(),
             &self.state.dao_snapshot(),
-        )?;
-        self.storage
-            .commit_issuance(b.height, self.state.issued_base_units())?;
-        self.chain.append(b.clone())?;
+        ) {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(e);
+        }
+        if let Err(e) = self
+            .storage
+            .commit_issuance(b.height, self.state.issued_base_units())
+        {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(e);
+        }
+        if let Err(e) = self.chain.append(b.clone()) {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(e);
+        }
         for tx in &b.transactions {
             self.pool.mark_in_block(&tx.id);
         }
@@ -467,9 +561,8 @@ impl Node {
             if n.storage.block(height).is_none() {
                 return Err("validator snapshot references missing block".into());
             }
-            for (address, stake) in validators {
-                n.consensus.register_validator(address, stake)?;
-            }
+            n.consensus.restore_validators_with_keys(validators)?;
+            
         }
         if let Some((snapshot, dao)) = n.storage.recover_state_with_dao()? {
             n.state.restore(snapshot);
@@ -498,7 +591,12 @@ impl Node {
         // Slashing records are durable evidence/audit records. The active
         // validator snapshot is the canonical recovered voting weight, so
         // evidence is not replayed as a second penalty during restart.
-        let _ = n.storage.recover_slashing()?;
+        let slashing_records = n.storage.recover_slashing()?;
+        n.consensus.restore_slashing_records(
+            slashing_records
+                .into_iter()
+                .map(|(_, validator, evidence_id, penalty)| (validator, evidence_id, penalty)),
+        );
         if let Some((height, id)) = n.storage.recover_finalized()? {
             let block = n.storage.block(height).ok_or("finalized block missing")?;
             if block.id != id || height > n.chain.height() {
@@ -582,15 +680,27 @@ impl Node {
         self.state
             .apply_block_reward(height, &self.proposer)
             .map_err(|e| format!("block reward: {e}"))?;
+        let signing = self.block_signing_key()?;
+        let block_proposer = self.proposer.clone();
+        let signing_bytes = block_signing_bytes(
+            height,
+            parent.id,
+            &block_proposer,
+            t,
+            tx_root(&[]),
+            self.state.root(),
+            receipts::root(&[]),
+        );
+        let signature = signing.sign(&signing_bytes).to_bytes();
         let b = Block::new(
             height,
             parent.id,
-            self.proposer.clone(),
+            block_proposer,
             t,
             Vec::new(),
             self.state.root(),
             receipts::root(&[]),
-            [0; 64],
+            signature,
         );
         self.chain.validate_append(&b)?;
         if let Err(e) = self.storage.commit(b.clone()) {
@@ -620,8 +730,12 @@ impl Node {
         }
         self.chain.append(b.clone())?;
         self.consensus.set_height(height);
-        self.broadcast(NetworkMessage::Block(b.clone()))?;
-        self.vote_for_block(&b)?;
+        if let Err(e) = self.broadcast(NetworkMessage::Block(b.clone())) {
+            eprintln!("block broadcast failed after durable commit: {e}");
+        }
+        if let Err(e) = self.vote_for_block(&b) {
+            eprintln!("local vote failed after durable commit: {e}");
+        }
         Ok(b)
     }
 
@@ -686,20 +800,35 @@ impl Node {
             }
         }
         let block_height = parent.height.saturating_add(1);
-        self.state
-            .apply_block_reward(block_height, &self.proposer)
-            .map_err(|e| format!("block reward: {e}"))?;
+        if let Err(e) = self.state.apply_block_reward(block_height, &self.proposer) {
+            self.state.restore(state_snapshot);
+            let _ = self.state.restore_dao(&dao_snapshot);
+            let _ = self.state.restore_issued_base_units(issued_snapshot);
+            return Err(format!("block reward: {e}"));
+        }
         let new_root = self.state.root();
         let receipt_root = receipts::root(&receipts);
+        let signing = self.block_signing_key()?;
+        let block_proposer = self.proposer.clone();
+        let signing_bytes = block_signing_bytes(
+            block_height,
+            parent.id,
+            &block_proposer,
+            t,
+            tx_root(&txs),
+            new_root,
+            receipt_root,
+        );
+        let signature = signing.sign(&signing_bytes).to_bytes();
         let b = Block::new(
             block_height,
             parent.id,
-            self.proposer.clone(),
+            block_proposer,
             t,
             txs,
             new_root,
             receipt_root,
-            [0; 64],
+            signature,
         );
         self.chain.validate_append(&b)?;
         if let Err(e) = self.storage.commit(b.clone()) {
@@ -736,11 +865,30 @@ impl Node {
         self.vote_for_block(&b)?;
         Ok(b)
     }
-    pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
-        self.consensus.register_validator(address, stake)?;
+    pub fn register_validator(&self, _address: String, _stake: u64) -> Result<(), String> {
+        Err("authenticated validator registration requires a public key".into())
+    }
+
+    pub fn register_validator_with_key(
+        &self,
+        address: String,
+        stake: u64,
+        public_key: [u8; 32],
+    ) -> Result<(), String> {
+        let previous = self.consensus.validators_with_keys_snapshot();
+        self.consensus
+            .register_validator_with_key(address, stake, public_key)?;
+        if let Err(e) = self.persist_validator_snapshot() {
+            let _ = self.consensus.restore_validators_with_keys(previous);
+            return Err(e);
+        }
+        Ok(())
+    }
+
+    fn persist_validator_snapshot(&self) -> Result<(), String> {
         self.storage.commit_validators(
             self.consensus.height(),
-            &self.consensus.validators_snapshot(),
+            &self.consensus.validators_with_keys_snapshot(),
         )
     }
 
@@ -748,29 +896,36 @@ impl Node {
         if evidence.height > self.chain.height() {
             return Err("slashing evidence is above current chain height".into());
         }
+        let evidence_id = evidence.id();
+        let validator_snapshot = self.consensus.validator_state_snapshot();
         let applied = self.consensus.slash(evidence.clone(), penalty)?;
         if applied == 0 {
             return Err("slashing penalty is zero".into());
         }
-        self.storage.commit_slashing(
+        if let Err(e) = self.storage.commit_slashing(
             evidence.height,
             &evidence.validator,
-            evidence.id(),
+            evidence_id,
             applied,
-        )?;
-        self.storage.commit_validators(
-            self.consensus.height(),
-            &self.consensus.validators_snapshot(),
-        )?;
+        ) {
+            let _ = self.consensus.restore_validator_state(validator_snapshot);
+            return Err(e);
+        }
+        if let Err(e) = self.persist_validator_snapshot() {
+            let _ = self.consensus.restore_validator_state(validator_snapshot);
+            return Err(e);
+        }
         Ok(applied)
     }
 
     pub fn unregister_validator(&self, address: &str) -> Result<(), String> {
+        let previous = self.consensus.validators_with_keys_snapshot();
         self.consensus.unregister_validator(address);
-        self.storage.commit_validators(
-            self.consensus.height(),
-            &self.consensus.validators_snapshot(),
-        )
+        if let Err(e) = self.persist_validator_snapshot() {
+            let _ = self.consensus.restore_validators_with_keys(previous);
+            return Err(e);
+        }
+        Ok(())
     }
 
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {

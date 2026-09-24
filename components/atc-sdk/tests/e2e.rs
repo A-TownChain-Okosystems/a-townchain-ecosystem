@@ -12,7 +12,9 @@ fn sdk_node_mempool_consensus_vm_state_storage_indexer() {
     node.state
         .genesis_credit("alice", 1_000_000)
         .expect("genesis allocation must respect supply cap");
-    node.register_validator("validator-1".into(), 100).unwrap();
+    let vote_key = SigningKey::from_bytes(&[6u8; 32]);
+    node.register_validator_with_key("validator-1".into(), 100, vote_key.verifying_key().to_bytes()).unwrap();
+    node.set_vote_signer("validator-1", [6u8; 32]);
     node.create_genesis(1).unwrap();
     let key = SigningKey::from_bytes(&[7u8; 32]);
     let tx = TransactionBuilder::transfer(chain_id, "alice", "bob", 100, 1, 1000, 0, 2).sign(&key);
@@ -23,7 +25,6 @@ fn sdk_node_mempool_consensus_vm_state_storage_indexer() {
     assert_eq!(block.transactions[0].id, txid);
     assert_eq!(node.state.balance("bob"), 100);
     assert!(indexer.blocks().is_empty());
-    let vote_key = SigningKey::from_bytes(&[6u8; 32]);
     let voter = "validator-1".to_string();
     let mut vote = atc_blockchain::consensus::Vote {
         block: block.id,

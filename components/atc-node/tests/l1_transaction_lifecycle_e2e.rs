@@ -47,17 +47,14 @@ fn tx_block_reward_state_finality_persistence_recovery() {
     let path = temp_path();
     std::fs::create_dir_all(&path).unwrap();
 
-    let node = Node::open_storage(
-        CHAIN_ID,
-        "validator-a".into(),
-        path.join("chain.journal"),
-    )
-    .unwrap();
+    let node =
+        Node::open_storage(CHAIN_ID, "validator-a".into(), path.join("chain.journal")).unwrap();
     node.state.genesis_credit("alice", GENESIS_BALANCE).unwrap();
     let genesis = node.create_genesis_with_proposer(1, "atc-genesis").unwrap();
 
-    node.register_validator("validator-a".into(), 1).unwrap();
-    node.register_validator("validator-b".into(), 1).unwrap();
+    node.register_validator_with_key("validator-a".into(), 1, SigningKey::from_bytes(&[1u8; 32]).verifying_key().to_bytes()).unwrap();
+    node.register_validator_with_key("validator-b".into(), 1, SigningKey::from_bytes(&[2u8; 32]).verifying_key().to_bytes()).unwrap();
+    node.set_vote_signer("validator-a", [1u8; 32]);
 
     let wallet_key = WalletKey::from_seed([7u8; 32]);
     let wallet_tx = WalletTransaction {
@@ -128,7 +125,8 @@ fn tx_block_reward_state_finality_persistence_recovery() {
 
     drop(node);
 
-    let recovered = Node::open_storage(CHAIN_ID, "validator-a".into(), &path).unwrap();
+    let recovered =
+        Node::open_storage(CHAIN_ID, "validator-a".into(), path.join("chain.journal")).unwrap();
     assert_eq!(recovered.chain.height(), 1);
     assert_eq!(recovered.chain.last().unwrap().id, block.id);
     assert_eq!(

@@ -8,6 +8,8 @@ pub const CHAIN_ID: &str = "atc";
 pub const DEVNET_NETWORK_ID: &str = "devnet";
 pub const PROTOCOL_VERSION: &str = "1.0.0";
 pub const VM_VERSION: &str = "1.0.0";
+pub const NUMERIC_CHAIN_ID: u64 = 658467;
+pub const TX_DOMAIN_V2: &[u8] = b"ATC-TX-DOMAIN-V2";
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ChainIdentity {
@@ -21,6 +23,66 @@ pub struct RuntimeContext {
     pub identity: ChainIdentity,
     pub protocol_version: String,
     pub vm_version: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum IdentityError {
+    EmptyField(&'static str),
+    InvalidChainId(String),
+    InvalidNetworkId(String),
+    InvalidGenesisId(String),
+    GenesisMismatch { configured: String, computed: String },
+    ProtocolMismatch { expected: String, actual: String },
+    VmMismatch { expected: String, actual: String },
+}
+
+impl ChainIdentity {
+    pub fn validate(&self) -> Result<(), IdentityError> {
+        if self.chain_id.is_empty() { return Err(IdentityError::EmptyField("chain_id")); }
+        if self.network_id.is_empty() { return Err(IdentityError::EmptyField("network_id")); }
+        if self.genesis_id.is_empty() { return Err(IdentityError::EmptyField("genesis_id")); }
+        if self.chain_id != CHAIN_ID { return Err(IdentityError::InvalidChainId(self.chain_id.clone())); }
+        if !matches!(self.network_id.as_str(), "devnet" | "testnet" | "mainnet") { return Err(IdentityError::InvalidNetworkId(self.network_id.clone())); }
+        if self.genesis_id.len() != 64 || !self.genesis_id.bytes().all(|b| b.is_ascii_hexdigit()) { return Err(IdentityError::InvalidGenesisId(self.genesis_id.clone())); }
+        Ok(())
+    }
+}
+
+impl RuntimeContext {
+    pub fn validate(&self, expected_protocol: &str, expected_vm: &str) -> Result<(), IdentityError> {
+        self.identity.validate()?;
+        if self.protocol_version != expected_protocol { return Err(IdentityError::ProtocolMismatch { expected: expected_protocol.into(), actual: self.protocol_version.clone() }); }
+        if self.vm_version != expected_vm { return Err(IdentityError::VmMismatch { expected: expected_vm.into(), actual: self.vm_version.clone() }); }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct TransactionDomain {
+    pub chain_id: String,
+    pub network_id: String,
+    pub protocol_version: String,
+    pub transaction_type: String,
+}
+
+impl TransactionDomain {
+    pub fn signing_bytes(&self, nonce: u64, sender: &str, recipient: &str, value: u64, fee: u64, payload: &[u8]) -> Vec<u8> {
+        let mut out = Vec::with_capacity(64 + payload.len());
+        out.extend_from_slice(TX_DOMAIN_V2);
+        out.extend_from_slice(&NUMERIC_CHAIN_ID.to_be_bytes());
+        out.extend_from_slice(&nonce.to_be_bytes());
+        put_bytes(&mut out, sender.as_bytes());
+        put_bytes(&mut out, recipient.as_bytes());
+        out.extend_from_slice(&value.to_be_bytes());
+        out.extend_from_slice(&fee.to_be_bytes());
+        put_bytes(&mut out, payload);
+        out
+    }
+}
+
+fn put_bytes(out: &mut Vec<u8>, value: &[u8]) {
+    out.extend_from_slice(&(value.len() as u32).to_be_bytes());
+    out.extend_from_slice(value);
 }
 
 /// Genesis identity = HASH(CANONICAL_ENCODE(genesis_document)).
