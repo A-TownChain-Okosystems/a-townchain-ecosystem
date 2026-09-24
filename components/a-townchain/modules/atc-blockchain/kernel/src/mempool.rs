@@ -185,6 +185,7 @@ pub enum MempoolError {
     Expired,
     InvalidSignature,
     WrongChain,
+    InvalidValidatorTransition(String),
 }
 
 impl std::fmt::Display for MempoolError {
@@ -204,6 +205,7 @@ impl std::fmt::Display for MempoolError {
             Self::Expired => write!(f, "transaction expired"),
             Self::InvalidSignature => write!(f, "invalid signature"),
             Self::WrongChain => write!(f, "wrong chain"),
+            Self::InvalidValidatorTransition(e) => write!(f, "invalid validator transition: {e}"),
         }
     }
 }
@@ -536,11 +538,19 @@ impl StateDb {
         let mut validators = self.validator_state.lock().unwrap();
         let validator_snapshot = validators.snapshot();
         for tx in txs {
-            Self::apply_to(&mut staged, tx)?;
+            if let Err(e) = Self::apply_to(&mut staged, tx) {
+                validators.restore(validator_snapshot.clone());
+                return Err(e);
+            }
             if tx.tx_type == TxType::Validator {
-                let transition = crate::validator_state::ValidatorTransition::decode(&tx.payload)
-                    .map_err(MempoolError::InvalidValidatorTransition)?;
-                validators.apply(&transition).map_err(MempoolError::InvalidValidatorTransition)?;
+                let transition = match crate::validator_state::ValidatorTransition::decode(&tx.payload) {
+                    Ok(v) => v,
+                    Err(e) => { validators.restore(validator_snapshot.clone()); return Err(MempoolError::InvalidValidatorTransition(e)); }
+                };
+                if let Err(e) = validators.apply(&transition) {
+                    validators.restore(validator_snapshot.clone());
+                    return Err(MempoolError::InvalidValidatorTransition(e));
+                }
             }
         }
         *a = staged;
