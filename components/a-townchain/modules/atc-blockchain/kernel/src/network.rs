@@ -39,7 +39,6 @@ pub enum NetworkMessage {
     Vote(Vote),
     BlockRequest {
         from_height: u64,
-        requester_node_id: String,
     },
     BlockWithValidatorSnapshot {
         block: Block,
@@ -481,10 +480,9 @@ fn encode(m: &NetworkMessage) -> Result<Vec<u8>, String> {
             o.push(3);
             o.extend_from_slice(&vote_encode(v))
         }
-        NetworkMessage::BlockRequest { from_height, requester_node_id } => {
+        NetworkMessage::BlockRequest { from_height } => {
             o.push(4);
-            o.extend_from_slice(&from_height.to_be_bytes());
-            put(&mut o, requester_node_id.as_bytes())
+            o.extend_from_slice(&from_height.to_be_bytes())
         }
         NetworkMessage::BlockWithValidatorSnapshot { block, activation_height, validators, validator_keys } => {
             o.push(7);
@@ -535,7 +533,6 @@ fn decode(b: &[u8]) -> Result<NetworkMessage, String> {
         3 => NetworkMessage::Vote(vote_decode(&b[p..])?),
         4 => NetworkMessage::BlockRequest {
             from_height: u64::from_be_bytes(fixed::<8>(b, &mut p)?),
-            requester_node_id: String::from_utf8(take(b, &mut p)?.to_vec()).map_err(|_| "invalid requester node id")?,
         },
         5 => NetworkMessage::StatusRequest,
         7 => {
