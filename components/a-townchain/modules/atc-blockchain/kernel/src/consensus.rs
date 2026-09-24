@@ -115,6 +115,21 @@ impl ConsensusEngine {
         self.validator_snapshots.lock().ok().map(|s| s.contains_key(&height)).unwrap_or(false)
     }
 
+    /// Deterministic commitment to the validator set that authenticates a block height.
+    /// The lookup intentionally uses the latest activation at or before the target height,
+    /// matching consensus verification semantics while remaining independent of mutable state.
+    pub fn validator_snapshot_commitment(&self, height: u64) -> Option<[u8; 32]> {
+        let (validators, keys) = self.validator_snapshot_for_height(height)?;
+        let mut bytes = Vec::from(b"ATC-VALIDATOR-SET-V1".as_slice());
+        for (address, stake) in &validators {
+            bytes.extend_from_slice(&(address.len() as u32).to_be_bytes());
+            bytes.extend_from_slice(address.as_bytes());
+            bytes.extend_from_slice(&stake.to_be_bytes());
+            bytes.extend_from_slice(keys.get(address)?);
+        }
+        Some(simple_hash(&bytes))
+    }
+
     pub fn validator_snapshot_for_height(
         &self,
         height: u64,
