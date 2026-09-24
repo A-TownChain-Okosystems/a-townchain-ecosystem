@@ -3,7 +3,7 @@
 
 use crate::bootstrap::Genesis;
 use crate::peers::PeerTable;
-use std::io::{BufRead, BufReader};
+use std::io::{BufRead, BufReader, Write};
 use std::net::{TcpListener, TcpStream};
 
 pub struct DevnetRpc {
