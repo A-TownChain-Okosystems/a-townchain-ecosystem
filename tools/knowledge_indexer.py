@@ -47,7 +47,7 @@ def main():
         records.append(rec("ATC-KMS-ISSUE-"+str(n),"discussion","Issue #"+str(n)+": "+issue["title"],"Issue "+str(n)+" in "+REPO+".","issue",issue["html_url"],content,["github","issue","generated"],status=status))
     for c in page("/repos/"+REPO+"/commits",{"sha":"main"}):
         sha=c["sha"]; title=(c.get("commit",{}).get("message") or sha).splitlines()[0]
-        records.append(rec("ATC-KMS-COMMIT-"+sha[:12],"change","Commit: "+title,"Git commit "+sha+" on "+REPO+".","commit",c["html_url"],c.get("commit",{}).get("message",""),["git","commit","generated"]))
+        records.append(rec("ATC-KMS-COMMIT-"+sha[:12].upper(),"change","Commit: "+title,"Git commit "+sha+" on "+REPO+".","commit",c["html_url"],c.get("commit",{}).get("message",""),["git","commit","generated"]))
     ids={r["id"] for r in records}
     for r in records:
         for a,b in re.findall(r"(?:PR|pr)\s*#(\d+)|(?:issue|Issue)\s*#(\d+)",r["content"]):
