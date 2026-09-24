@@ -371,16 +371,23 @@ mod tests {
     fn slashing_reduces_voting_weight_and_is_idempotent_by_state() {
         let engine = ConsensusEngine::new(658467, "proposer".into());
         engine.register_validator("a".into(), 100).unwrap();
+        let key = SigningKey::from_bytes(&[3u8; 32]);
+        let sign_evidence = |block: [u8; 32]| {
+            let mut bytes = Vec::new();
+            bytes.extend_from_slice(b"ATC-SLASH-V1");
+            bytes.extend_from_slice(&engine.chain_id.to_be_bytes());
+            bytes.extend_from_slice(&1u64.to_be_bytes());
+            bytes.extend_from_slice(&block);
+            bytes.push(1);
+            bytes.extend_from_slice(&(1u32).to_be_bytes());
+            bytes.extend_from_slice(b"a");
+            key.sign(&bytes).to_bytes()
+        };
+        engine.register_validator_key("a", key.verifying_key().to_bytes()).unwrap();
         let evidence = SlashingEvidence {
-            validator: "a".into(),
-            height: 1,
-            block_a: [1; 32],
-            block_b: [2; 32],
-            approve_a: true,
-            approve_b: true,
-            public_key: [0; 32],
-            signature_a: [0; 64],
-            signature_b: [0; 64],
+            validator: "a".into(), height: 1, block_a: [1; 32], block_b: [2; 32],
+            approve_a: true, approve_b: true, public_key: key.verifying_key().to_bytes(),
+            signature_a: sign_evidence([1; 32]), signature_b: sign_evidence([2; 32]),
             reason: "double-sign".into(),
         };
         assert_eq!(engine.slash(evidence.clone(), 40).unwrap(), 40);
