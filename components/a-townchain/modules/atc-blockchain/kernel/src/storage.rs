@@ -385,6 +385,44 @@ impl ChainStorage {
     /// exists in the canonical journal necessarily follows durable state/issuance
     /// records, while a crash before the block write leaves those records above the
     /// canonical tip and recovery rejects them.
+    pub fn commit_block_state_issuance_with_validator_snapshot(
+        &self,
+        block: Block,
+        state: &BTreeMap<String, Account>,
+        dao: &[u8],
+        issued_base_units: u128,
+        activation_height: u64,
+        validators: &BTreeMap<String, u64>,
+        validator_keys: &BTreeMap<String, [u8; 32]>,
+    ) -> Result<(), String> {
+        if validators.len() != validator_keys.len()
+            || validators.keys().any(|address| !validator_keys.contains_key(address))
+        {
+            return Err("validator snapshot is incomplete".into());
+        }
+        if activation_height > block.height {
+            return Err("validator snapshot activates after synchronized block".into());
+        }
+        if let Some(existing) = self.blocks.read().unwrap().get(&block.height) {
+            if existing.id == block.id { return Ok(()); }
+            return Err("conflicting block at canonical height".into());
+        }
+        if block.height > 0 {
+            let parent = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
+                .ok_or("cannot commit block without canonical parent")?;
+            if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
+        } else if block.parent_hash != [0; 32] {
+            return Err("invalid genesis parent".into());
+        }
+        if issued_base_units > crate::economics::MAX_SUPPLY {
+            return Err("issued supply cap exceeded".into());
+        }
+        self.append_state_snapshot(block.height, state, dao)?;
+        self.append_issuance_record(block.height, issued_base_units)?;
+        self.commit_validators(activation_height, validators, validator_keys)?;
+        self.append_block_record(&block)
+    }
+
     pub fn commit_block_state_issuance(
         &self,
         block: Block,
