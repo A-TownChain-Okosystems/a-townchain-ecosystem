@@ -33,6 +33,8 @@ impl ToolExecutor {
 
         let tool = self.registry.require(request.capability.id.as_str())?;
         let result = tool.execute(request)?;
+        let mut audit = audit;
+        audit.outcome = atc_aurora_policy::AuditOutcome::Executed;
         Ok((result, audit))
     }
 }
