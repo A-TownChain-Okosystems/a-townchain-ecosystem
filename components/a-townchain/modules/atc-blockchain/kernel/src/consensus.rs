@@ -300,11 +300,6 @@ impl ConsensusEngine {
 
     pub fn vote_at_height(&self, v: Vote, height: u64) -> Result<(), String> {
         self.verify_vote_signature(&v)?;
-        pk.verify(
-            &vote_signing_bytes(self.chain_id, &v),
-            &Signature::from_bytes(&v.signature),
-        )
-        .map_err(|_| "invalid vote signature".to_string())?;
 
         let (validators, keys) = self
             .validator_snapshot_for_height(height)
