@@ -513,17 +513,15 @@ impl Node {
     ) -> Result<Self, String> {
         let mut n = Self::new(chain_id, proposer);
         n.storage = Arc::new(storage::ChainStorage::open(path)?);
-        for (height, (validators, keys)) in n.storage.recover_validator_snapshots()? {
-            if n.storage.block(height).is_none() {
-                return Err("validator snapshot references missing block".into());
-            }
-            for (address, stake) in &validators {
+        let recovered_validator_snapshots = n.storage.recover_validator_snapshots()?;
+        for (height, (validators, keys)) in &recovered_validator_snapshots {
+            for (address, stake) in validators {
                 n.consensus.register_validator(address.clone(), *stake)?;
             }
-            for (address, public_key) in &keys {
+            for (address, public_key) in keys {
                 n.consensus.register_validator_key(address, *public_key)?;
             }
-            n.consensus.restore_validator_snapshot(height, validators, keys)?;
+            n.consensus.restore_validator_snapshot(*height, validators.clone(), keys.clone())?;
         }
         if let Some((snapshot, dao)) = n.storage.recover_state_with_dao()? {
             n.state.restore(snapshot);
@@ -548,6 +546,12 @@ impl Node {
                 return Err("recovered state root mismatch".into());
             }
             n.consensus.set_height(last.height);
+            // A next-height validator snapshot is a valid pending activation
+            // and may legitimately exist before the corresponding block is
+            // committed. Anything farther in the future is corrupt.
+            if recovered_validator_snapshots.keys().any(|h| *h > last.height.saturating_add(1)) {
+                return Err("validator snapshot is beyond the next activation height".into());
+            }
         }
         // Slashing records are durable evidence/audit records. The active
         // validator snapshot is the canonical recovered voting weight, so
