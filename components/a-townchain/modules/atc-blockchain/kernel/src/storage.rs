@@ -234,6 +234,8 @@ impl ChainStorage {
             return Ok(());
         }
         let f = File::open(p).map_err(|e| e.to_string())?;
+        let mut expected_height = 0u64;
+        let mut previous_id = None;
         for (line_no, line) in BufReader::new(f).lines().enumerate() {
             let l = line.map_err(|e| e.to_string())?;
             if l.trim().is_empty() {
@@ -243,16 +245,69 @@ impl ChainStorage {
                 .map_err(|e| format!("journal line {}: invalid hex: {e}", line_no + 1))?;
             let block =
                 block_decode(&bytes).map_err(|e| format!("journal line {}: {e}", line_no + 1))?;
+            if block.height != expected_height {
+                return Err(format!(
+                    "journal line {}: non-sequential block height: expected {}, got {}",
+                    line_no + 1,
+                    expected_height,
+                    block.height
+                ));
+            }
+            if let Some(parent) = previous_id {
+                if block.parent_hash != parent {
+                    return Err(format!(
+                        "journal line {}: canonical parent mismatch at height {}",
+                        line_no + 1,
+                        block.height
+                    ));
+                }
+            } else if block.height != 0 || block.parent_hash != [0; 32] {
+                return Err(format!(
+                    "journal line {}: invalid genesis boundary",
+                    line_no + 1
+                ));
+            }
+            if let Some(existing) = self.blocks.read().unwrap().get(&block.height) {
+                if existing.id != block.id {
+                    return Err(format!(
+                        "journal line {}: conflicting block at canonical height {}",
+                        line_no + 1,
+                        block.height
+                    ));
+                }
+                continue;
+            }
+            previous_id = Some(block.id);
             self.state_roots
                 .write()
                 .unwrap()
                 .insert(block.height, block.state_root);
             self.blocks.write().unwrap().insert(block.height, block);
+            expected_height = expected_height.saturating_add(1);
         }
         Ok(())
     }
 
     pub fn commit(&self, b: Block) -> Result<(), String> {
+        if let Some(existing) = self.blocks.read().unwrap().get(&b.height) {
+            if existing.id == b.id {
+                return Ok(());
+            }
+            return Err("conflicting block at canonical height".into());
+        }
+        if b.height > 0 {
+            let parent = self
+                .blocks
+                .read()
+                .unwrap()
+                .get(&b.height.saturating_sub(1))
+                .ok_or("cannot commit block without canonical parent")?;
+            if b.parent_hash != parent.id {
+                return Err("canonical parent mismatch".into());
+            }
+        } else if b.parent_hash != [0; 32] {
+            return Err("invalid genesis parent".into());
+        }
         if let Some(p) = &self.journal {
             let line = format!("{}\n", hex::encode(block_encode(&b)));
             let mut f = OpenOptions::new()
@@ -321,6 +376,7 @@ impl ChainStorage {
         }
         let f = File::open(p).map_err(|e| e.to_string())?;
         let mut latest = None;
+        let mut previous_height = None;
         for line in BufReader::new(f).lines() {
             let raw = line.map_err(|e| e.to_string())?;
             if raw.trim().is_empty() {
@@ -354,6 +410,15 @@ impl ChainStorage {
             if q != b.len() {
                 return Err("trailing state bytes".into());
             }
+            if let Some(prev) = previous_height {
+                if h < prev {
+                    return Err("state journal height regression".into());
+                }
+            }
+            if self.block(h).is_none() {
+                return Err("state snapshot references missing block".into());
+            }
+            previous_height = Some(h);
             latest = Some((h, (map, dao)));
         }
         Ok(latest.map(|(_, m)| m))
@@ -663,6 +728,7 @@ impl ChainStorage {
         }
         let f = File::open(p).map_err(|e| e.to_string())?;
         let mut latest = None;
+        let mut previous_height = None;
         for line in BufReader::new(f).lines() {
             let raw = line.map_err(|e| e.to_string())?;
             if raw.trim().is_empty() {
@@ -678,11 +744,15 @@ impl ChainStorage {
             if issued > crate::economics::MAX_SUPPLY || q != b.len() {
                 return Err("invalid issuance record".into());
             }
-            if let Some((prev, _)) = latest {
+            if let Some(prev) = previous_height {
                 if h < prev {
                     return Err("issuance height regression".into());
                 }
             }
+            if self.block(h).is_none() {
+                return Err("issuance record references missing block".into());
+            }
+            previous_height = Some(h);
             latest = Some((h, issued));
         }
         Ok(latest)
