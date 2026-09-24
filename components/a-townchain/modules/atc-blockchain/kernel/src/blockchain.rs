@@ -778,6 +778,10 @@ impl Node {
         )
     }
 
+    pub fn register_validator_key(&self, address: &str, public_key: [u8; 32]) -> Result<(), String> {
+        self.consensus.register_validator_key(address, public_key)
+    }
+
     pub fn slash_validator(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
         if evidence.height > self.chain.height() {
             return Err("slashing evidence is above current chain height".into());
