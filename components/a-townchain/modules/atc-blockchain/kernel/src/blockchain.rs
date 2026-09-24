@@ -1141,8 +1141,31 @@ mod tests {
         assert!(!node.consensus.validator_snapshot_for_height(2).unwrap().0.contains_key("validator-b"));
 
         // A slashing transition must produce the same height-scoped live snapshot.
-        let evidence = make_test_slashing_evidence(&node, "validator-a", 1);
         let before = node.consensus.validator_stake("validator-a");
+        let evidence = {
+            let signing = |block: [u8; 32], approve: bool| {
+                let mut bytes = Vec::from(b"ATC-SLASH-V1".as_slice());
+                bytes.extend_from_slice(&node.chain_id.to_be_bytes());
+                bytes.extend_from_slice(&1u64.to_be_bytes());
+                bytes.extend_from_slice(&block);
+                bytes.push(approve as u8);
+                bytes.extend_from_slice(&("validator-a".len() as u32).to_be_bytes());
+                bytes.extend_from_slice(b"validator-a");
+                key_a.sign(&bytes).to_bytes()
+            };
+            SlashingEvidence {
+                validator: "validator-a".into(),
+                height: 1,
+                block_a: [1u8; 32],
+                block_b: [2u8; 32],
+                approve_a: true,
+                approve_b: false,
+                public_key: key_a.verifying_key().to_bytes(),
+                signature_a: signing([1u8; 32], true),
+                signature_b: signing([2u8; 32], false),
+                reason: "conflicting vote".into(),
+            }
+        };
         let applied = node.slash_validator(evidence, 25).unwrap();
         assert_eq!(applied, 25);
         assert_eq!(
