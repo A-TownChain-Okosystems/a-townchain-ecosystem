@@ -154,9 +154,11 @@ impl ConsensusEngine {
             let keys = self.validator_keys.lock().map_err(|_| "validator key lock poisoned".to_string())?;
             validators.len() == keys.len() && validators.keys().all(|id| keys.contains_key(id))
         };
-        if complete && !self.has_validator_snapshot(self.height()) {
-            self.capture_validator_snapshot(self.height())?;
-        }
+        // Validator-key rotation is a state transition, not an immediate
+        // rewrite of the snapshot that authenticated the current height.
+        // Bootstrap/next-height activation is performed explicitly by the
+        // node after the complete validator set has been persisted.
+        let _ = complete;
         Ok(())
     }
 
@@ -437,6 +439,7 @@ mod tests {
             engine.validator_snapshot_for_height(0).unwrap().1.get("alice"),
             Some(&old_key.verifying_key().to_bytes())
         );
+        assert!(engine.validator_snapshot_for_height(1).is_none());
 
         let mut historical = Vote {
             block: [41u8; 32],
@@ -457,6 +460,103 @@ mod tests {
         };
         current.signature = new_key.sign(&vote_signing_bytes(engine.chain_id, &current)).to_bytes();
         assert!(engine.vote_at_height(current, 1).is_ok());
+    }
+
+
+
+    #[test]
+    fn old_key_is_rejected_after_rotation_until_next_height_snapshot() {
+        let engine = ConsensusEngine::new(658467, "proposer".into());
+        let old_key = SigningKey::from_bytes(&[31u8; 32]);
+        let new_key = SigningKey::from_bytes(&[32u8; 32]);
+        engine.register_validator("alice".into(), 100).unwrap();
+        engine.register_validator_key("alice", old_key.verifying_key().to_bytes()).unwrap();
+        engine.set_height(1);
+        engine.register_validator_key("alice", new_key.verifying_key().to_bytes()).unwrap();
+
+        let old_vote = signed_vote(&engine, &old_key, "alice", [51u8; 32], true);
+        assert_eq!(
+            engine.vote_at_height(old_vote, 1).unwrap_err(),
+            "validator snapshot is unavailable for vote height"
+        );
+
+        engine.restore_validator_snapshot(
+            1,
+            engine.validators_snapshot(),
+            [("alice".to_string(), new_key.verifying_key().to_bytes())]
+                .into_iter()
+                .collect(),
+        ).unwrap();
+
+        let old_vote = signed_vote(&engine, &old_key, "alice", [52u8; 32], true);
+        assert_eq!(
+            engine.vote_at_height(old_vote, 1).unwrap_err(),
+            "vote public key does not match validator identity"
+        );
+        let new_vote = signed_vote(&engine, &new_key, "alice", [53u8; 32], true);
+        assert!(engine.vote_at_height(new_vote, 1).is_ok());
+    }
+
+    #[test]
+    fn vote_for_height_cannot_use_future_validator_snapshot() {
+        let engine = ConsensusEngine::new(658467, "proposer".into());
+        let old_key = SigningKey::from_bytes(&[33u8; 32]);
+        let new_key = SigningKey::from_bytes(&[34u8; 32]);
+        engine.register_validator("alice".into(), 100).unwrap();
+        engine.register_validator_key("alice", old_key.verifying_key().to_bytes()).unwrap();
+        engine.restore_validator_snapshot(
+            0,
+            engine.validators_snapshot(),
+            [("alice".to_string(), old_key.verifying_key().to_bytes())].into_iter().collect(),
+        ).unwrap();
+        engine.register_validator_key("alice", new_key.verifying_key().to_bytes()).unwrap();
+        engine.restore_validator_snapshot(
+            2,
+            engine.validators_snapshot(),
+            [("alice".to_string(), new_key.verifying_key().to_bytes())].into_iter().collect(),
+        ).unwrap();
+
+        let vote = signed_vote(&engine, &old_key, "alice", [54u8; 32], true);
+        assert!(engine.vote_at_height(vote.clone(), 0).is_ok());
+        let wrong_height = signed_vote(&engine, &old_key, "alice", [55u8; 32], true);
+        assert!(engine.vote_at_height(wrong_height, 2).is_err());
+    }
+
+    #[test]
+    fn historical_finality_does_not_use_future_validator_weights() {
+        let engine = ConsensusEngine::new(658467, "proposer".into());
+        let a = SigningKey::from_bytes(&[35u8; 32]);
+        let b = SigningKey::from_bytes(&[36u8; 32]);
+        engine.register_validator("a".into(), 60).unwrap();
+        engine.register_validator("b".into(), 40).unwrap();
+        engine.register_validator_key("a", a.verifying_key().to_bytes()).unwrap();
+        engine.register_validator_key("b", b.verifying_key().to_bytes()).unwrap();
+        let keys0 = [(String::from("a"), a.verifying_key().to_bytes()), (String::from("b"), b.verifying_key().to_bytes())].into_iter().collect();
+        engine.restore_validator_snapshot(0, engine.validators_snapshot(), keys0).unwrap();
+        engine.restore_validator_snapshot(1, [("a".to_string(), 100u64)].into_iter().collect(), [("a".to_string(), a.verifying_key().to_bytes())].into_iter().collect());
+
+        let block0 = [56u8; 32];
+        engine.vote_at_height(signed_vote(&engine, &a, "a", block0, true), 0).unwrap();
+        engine.vote_at_height(signed_vote(&engine, &b, "b", block0, true), 0).unwrap();
+        assert!(engine.weighted_finality_at_height(&block0, 0));
+        assert!(!engine.weighted_finality_at_height(&block0, 1));
+    }
+
+    #[test]
+    fn conflicting_votes_across_heights_do_not_cross_authentication_boundaries() {
+        let engine = ConsensusEngine::new(658467, "proposer".into());
+        let key = SigningKey::from_bytes(&[37u8; 32]);
+        engine.register_validator("alice".into(), 100).unwrap();
+        engine.register_validator_key("alice", key.verifying_key().to_bytes()).unwrap();
+        engine.restore_validator_snapshot(0, engine.validators_snapshot(), [("alice".to_string(), key.verifying_key().to_bytes())].into_iter().collect()).unwrap();
+        engine.restore_validator_snapshot(1, engine.validators_snapshot(), [("alice".to_string(), key.verifying_key().to_bytes())].into_iter().collect()).unwrap();
+
+        let a = signed_vote(&engine, &key, "alice", [57u8; 32], true);
+        let b = signed_vote(&engine, &key, "alice", [58u8; 32], false);
+        assert!(engine.vote_at_height(a, 0).is_ok());
+        assert!(engine.vote_at_height(b, 1).is_ok());
+        assert!(engine.weighted_finality_at_height(&[57u8; 32], 0));
+        assert!(!engine.weighted_finality_at_height(&[58u8; 32], 1));
     }
 
     #[test]
@@ -529,7 +629,7 @@ mod tests {
         let vote = signed_vote(&engine, &key, "unknown", [1u8; 32], true);
         assert_eq!(
             engine.vote(vote).unwrap_err(),
-            "voter is not an active validator"
+            "validator snapshot is unavailable for vote height"
         );
     }
 }
