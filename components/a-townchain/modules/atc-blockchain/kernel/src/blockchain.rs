@@ -179,17 +179,6 @@ impl BlockChain {
         if b.height != h.saturating_add(1) {
             return Err("non-sequential height".into());
         }
-        // BlockChain is append-only. A finalized prefix is immutable: a
-        // candidate at or below finalized height must never reach append(),
-        // even if a future caller adds a reorg/fork-choice layer.
-        if let Some((finalized_height, finalized_id)) = self.finalized_boundary() {
-            if b.height <= finalized_height {
-                return Err("cannot replace finalized block".into());
-            }
-            if b.height == finalized_height.saturating_add(1) && b.parent_hash != finalized_id {
-                return Err("candidate would reorg finalized prefix".into());
-            }
-        }
         if self.hashes.lock().unwrap().contains_key(&b.id) {
             return Err("duplicate block".into());
         }
@@ -206,12 +195,6 @@ impl BlockChain {
         }
         Ok(())
     }
-    fn finalized_boundary(&self) -> Option<(u64, [u8; 32])> {
-        // BlockChain itself does not own ConsensusEngine. The canonical Node
-        // enforces the live finality boundary before calling append().
-        None
-    }
-
     pub fn append(&self, b: Block) -> Result<(), String> {
         self.validate_append(&b)?;
         self.hashes.lock().unwrap().insert(b.id, b.height);
@@ -423,6 +406,14 @@ impl Node {
                 .unwrap_or(self.chain_id)
         {
             return Err("block transaction chain-id mismatch".into());
+        }
+        if let Some((finalized_height, finalized_id)) = self.consensus.finalized() {
+            if b.height <= finalized_height {
+                return Err("cannot replace finalized block".into());
+            }
+            if b.height == finalized_height.saturating_add(1) && b.parent_hash != finalized_id {
+                return Err("candidate would reorg finalized prefix".into());
+            }
         }
         self.chain.validate_append(&b)?;
 
