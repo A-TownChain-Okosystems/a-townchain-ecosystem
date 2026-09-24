@@ -976,6 +976,77 @@ mod tests {
         }
     }
 
+    fn configure_two_validator_node(node: &Node, proposer: &str) {
+        node.register_validator("validator-a".into(), 2).unwrap();
+        node.register_validator("validator-b".into(), 1).unwrap();
+        node.register_validator_key("validator-a", ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]).verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-b", ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]).verifying_key().to_bytes()).unwrap();
+        node.set_vote_signer(proposer, if proposer == "validator-a" { [1u8; 32] } else { [2u8; 32] });
+    }
+
+    #[test]
+    fn network_vote_before_block_is_buffered_and_replayed() {
+        let producer = Node::new(658467, "validator-a".into());
+        producer.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&producer, "validator-a");
+        let block = producer.produce_reward_block(2).unwrap();
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+        // Do not let receiver produce its own vote; the delayed vote is from validator-a.
+        let signing = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut vote = Vote {
+            block: block.id,
+            voter: "validator-a".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: signing.verifying_key().to_bytes(),
+        };
+        vote.signature = signing
+            .sign(&consensus::vote_signing_bytes(658467, &vote))
+            .to_bytes();
+
+        // Network reordering: vote arrives before the corresponding block.
+        receiver.handle_network_message(NetworkMessage::Vote(vote.clone())).unwrap();
+        assert_eq!(receiver.consensus.finalized(), None);
+
+        // The later block arrival resolves the canonical height and replays the buffered vote.
+        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap();
+        assert_eq!(receiver.chain.height(), 1);
+        assert_eq!(receiver.consensus.finalized(), Some((1, block.id)));
+    }
+
+    #[test]
+    fn duplicate_network_vote_is_rejected_after_first_acceptance() {
+        let producer = Node::new(658467, "validator-a".into());
+        producer.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&producer, "validator-a");
+        let block = producer.produce_reward_block(2).unwrap();
+
+        let receiver = Node::new(658467, "validator-b".into());
+        receiver.create_genesis_with_proposer(1, "genesis").unwrap();
+        configure_two_validator_node(&receiver, "validator-b");
+        let signing = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
+        let mut vote = Vote {
+            block: block.id,
+            voter: "validator-a".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: signing.verifying_key().to_bytes(),
+        };
+        vote.signature = signing
+            .sign(&consensus::vote_signing_bytes(658467, &vote))
+            .to_bytes();
+
+        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap();
+        receiver.handle_network_message(NetworkMessage::Vote(vote.clone())).unwrap();
+        assert_eq!(
+            receiver.handle_network_message(NetworkMessage::Vote(vote)).unwrap_err(),
+            "duplicate voter"
+        );
+    }
+
     #[test]
     fn genesis_sets_chain_height_and_allows_first_append() {
         let chain = BlockChain::new();
