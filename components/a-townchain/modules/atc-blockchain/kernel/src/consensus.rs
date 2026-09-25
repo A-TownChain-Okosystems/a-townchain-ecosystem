@@ -100,7 +100,7 @@ impl ConsensusEngine {
     pub fn restore_validator_snapshot(
         &self,
         height: u64,
-        validators: BTreeMap<String, u64>,
+        validators: BTreeMap<String, u128>,
         keys: BTreeMap<String, [u8; 32]>,
     ) -> Result<(), String> {
         if validators.len() != keys.len() || validators.keys().any(|id| !keys.contains_key(id)) {
@@ -131,7 +131,7 @@ impl ConsensusEngine {
     }
 
     pub fn validator_snapshot_commitment_from(
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         keys: &BTreeMap<String, [u8; 32]>,
     ) -> Option<[u8; 32]> {
         if validators.len() != keys.len() || validators.keys().any(|address| !keys.contains_key(address)) {
@@ -153,14 +153,14 @@ impl ConsensusEngine {
     pub fn validator_snapshot_for_height(
         &self,
         height: u64,
-    ) -> Option<(BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)> {
+    ) -> Option<(BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>)> {
         self.validator_snapshots.lock().ok()?.range(..=height).next_back().map(|(_, snapshot)| snapshot.clone())
     }
 
     pub fn validator_snapshot_with_activation_for_height(
         &self,
         height: u64,
-    ) -> Option<(u64, BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)> {
+    ) -> Option<(u64, BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>)> {
         self.validator_snapshots
             .lock()
             .ok()?
@@ -217,7 +217,7 @@ impl ConsensusEngine {
         &self,
     ) -> Result<
         (
-            BTreeMap<String, u64>,
+            BTreeMap<String, u128>,
             BTreeMap<String, [u8; 32]>,
             BTreeMap<String, u64>,
         ),
