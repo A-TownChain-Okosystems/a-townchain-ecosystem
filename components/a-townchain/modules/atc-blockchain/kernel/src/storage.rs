@@ -19,7 +19,7 @@ const FINALITY_MAGIC: &[u8] = b"ATCF1";
 const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
-type ValidatorSnapshot = (u64, BTreeMap<String, (u128, [u8; 32])>);
+type ValidatorSnapshot = (BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>);
 type SlashingRecord = (u64, String, [u8; 32], u64);
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
@@ -577,7 +577,7 @@ impl ChainStorage {
         Ok(())
     }
 
-    pub fn recover_validators(&self) -> Result<Option<ValidatorSnapshot>, String> {
+    pub fn recover_validators(&self) -> Result<Option<(u64, BTreeMap<String, (u128, [u8; 32])>)>, String> {
         let Some(p) = &self.validator_journal else {
             return Ok(None);
         };
