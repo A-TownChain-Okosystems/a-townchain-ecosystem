@@ -470,7 +470,7 @@ impl ConsensusEngine {
             .iter()
             .filter(|v| v.approve && seen.insert(v.voter.as_str()))
             .filter_map(|v| validators.get(&v.voter).copied())
-            .fold(0u64, u64::saturating_add);
+            .fold(0u128, u128::saturating_add);
         (approved as u128) * 3 >= (total as u128) * 2
     }
 
