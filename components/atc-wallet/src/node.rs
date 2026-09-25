@@ -146,7 +146,6 @@ fn tx_type_number(tx_type: TxType) -> u8 {
         TxType::Stake => 1,
         TxType::Unstake => 2,
         TxType::Contract => 3,
-        TxType::Validator => 4,
     }
 }
 
