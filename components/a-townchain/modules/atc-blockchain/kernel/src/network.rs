@@ -43,7 +43,7 @@ pub enum NetworkMessage {
     BlockWithValidatorSnapshot {
         block: Block,
         activation_height: u64,
-        validators: BTreeMap<String, u64>,
+        validators: BTreeMap<String, u128>,
         validator_keys: BTreeMap<String, [u8; 32]>,
     },
     StatusRequest,
@@ -382,7 +382,7 @@ fn block_decode(b: &[u8]) -> Result<Block, String> {
 }
 fn validator_snapshot_encode(
     activation_height: u64,
-    validators: &BTreeMap<String, u64>,
+    validators: &BTreeMap<String, u128>,
     keys: &BTreeMap<String, [u8; 32]>,
     o: &mut Vec<u8>,
 ) -> Result<(), String> {
@@ -403,7 +403,7 @@ fn validator_snapshot_encode(
 fn validator_snapshot_decode(
     b: &[u8],
     p: &mut usize,
-) -> Result<(u64, BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>), String> {
+) -> Result<(u64, BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>), String> {
     let activation_height = u64::from_be_bytes(fixed::<8>(b, p)?);
     let n = u32::from_be_bytes(fixed::<4>(b, p)?) as usize;
     if n > MAX_VALIDATORS_PER_SNAPSHOT { return Err("validator snapshot exceeds protocol limit".into()); }
@@ -411,7 +411,7 @@ fn validator_snapshot_decode(
     let mut keys = BTreeMap::new();
     for _ in 0..n {
         let address = String::from_utf8(take(b, p)?.to_vec()).map_err(|_| "invalid validator address")?;
-        let stake = u64::from_be_bytes(fixed::<8>(b, p)?);
+        let stake = u128::from_be_bytes(fixed::<16>(b, p)?);
         let key = fixed::<32>(b, p)?;
         ed25519_dalek::VerifyingKey::from_bytes(&key).map_err(|_| "invalid validator public key")?;
         if address.is_empty() || stake == 0 || validators.insert(address.clone(), stake).is_some() {
