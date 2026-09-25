@@ -62,11 +62,7 @@ impl Vm {
         }
     }
 
-    pub fn with_context(
-        program: Vec<Op>,
-        caller: u64,
-        storage: Vec<u64>,
-    ) -> Result<Self, VmError> {
+    pub fn with_context(program: Vec<Op>, caller: u64, storage: Vec<u64>) -> Result<Self, VmError> {
         let mut vm = Self::new(program)?;
         vm.caller = caller;
         vm.storage = storage;
@@ -210,9 +206,8 @@ mod tests {
 
     #[test]
     fn state_transition_requires_identity_gate() {
-        let mut vm =
-            Vm::with_context(vec![Op::Push(7), Op::Store(0), Op::Halt], 1, vec![])
-                .expect("program must validate");
+        let mut vm = Vm::with_context(vec![Op::Push(7), Op::Store(0), Op::Halt], 1, vec![])
+            .expect("program must validate");
         assert!(vm
             .execute_state_transition(&context(), &"b".repeat(64), "1.0.0", "1.0.0")
             .is_err());
@@ -246,7 +241,8 @@ mod tests {
 
     #[test]
     fn gas_bounds_non_terminating_valid_control_flow() {
-        let mut vm = Vm::new(vec![Op::Push(1), Op::Jump(1)]).expect("program is structurally valid");
+        let mut vm =
+            Vm::new(vec![Op::Push(1), Op::Jump(1)]).expect("program is structurally valid");
         assert_eq!(vm.run(), Err(VmError::GasExhausted));
     }
 }
