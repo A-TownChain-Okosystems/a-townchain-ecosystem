@@ -453,7 +453,8 @@ impl ChainStorage {
                     return Err("canonical parent mismatch".into());
                 }
             } else if block.parent_hash != [0; 32] {
-            return Err("invalid genesis parent".into());
+                return Err("invalid genesis parent".into());
+            }
         }
 
         self.append_state_snapshot(block.height, state, dao)?;
