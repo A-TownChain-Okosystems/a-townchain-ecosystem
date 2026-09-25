@@ -521,10 +521,10 @@ impl StateDb {
                     staked: 0,
                     nonce: 0,
                 });
-                if x.balance < amount {
+                if x.balance < u128::from(amount) {
                     Err("insufficient balance for DAO treasury deposit".into())
                 } else {
-                    x.balance -= amount;
+                    x.balance -= u128::from(amount);
                     Ok(())
                 }
             }
@@ -537,7 +537,7 @@ impl StateDb {
                 });
                 x.balance = x
                     .balance
-                    .checked_add(amount)
+                     .checked_add(u128::from(amount))
                     .ok_or("recipient balance overflow".to_string())?;
                 Ok(())
             }
