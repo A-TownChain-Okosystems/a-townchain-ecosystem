@@ -5,9 +5,8 @@
 //! The EXEC-GATE assembler replaces the former Python production path.
 
 mod assembler;
-mod context;
-mod ops;
-mod vm;
+
+use atc_vm::{ops, vm};
 
 use std::env;
 use std::fs;
@@ -154,7 +153,10 @@ fn run_ops_file(args: &Args, path: &str) -> RunOutcome {
         }
         storage[*idx] = *val;
     }
-    let mut machine = vm::Vm::with_context(program, args.caller, storage);
+    let mut machine = match vm::Vm::with_context(program, args.caller, storage) {
+        Ok(machine) => machine,
+        Err(e) => return RunOutcome::Failed(format!("ERROR: ATVM verification: {e:?}")),
+    };
     let stack = match machine.run() {
         Ok(s) => s,
         Err(e) => return RunOutcome::Failed(format!("ERROR: ATVM: {e:?}")),
