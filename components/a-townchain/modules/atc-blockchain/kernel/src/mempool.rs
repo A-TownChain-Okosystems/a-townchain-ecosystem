@@ -338,7 +338,7 @@ impl StateDb {
             validator_state: Mutex::new(crate::validator_state::ValidatorState::new()),
         }
     }
-    pub fn genesis_credit(&self, id: &str, n: u64) -> Result<(), String> {
+    pub fn genesis_credit(&self, id: &str, n: u128) -> Result<(), String> {
         let n = u128::from(n).checked_mul(crate::economics::ATC_BASE_UNITS).ok_or("genesis allocation overflow".to_string())?;
         if *self.genesis_sealed.lock().unwrap() {
             return Err("genesis allocation is sealed".into());
@@ -415,8 +415,8 @@ impl StateDb {
     pub fn total_supply_base_units(&self) -> u128 {
         self.accounts.lock().unwrap().values().try_fold(0u128, |acc, x| acc.checked_add(x.balance)?.checked_add(x.staked)).unwrap_or(u128::MAX)
     }
-    pub fn total_supply(&self) -> u64 {
-        (self.total_supply_base_units() / crate::economics::ATC_BASE_UNITS).min(u64::MAX as u128) as u64
+    pub fn total_supply(&self) -> u128 {
+        self.total_supply_base_units()
     }
     pub fn balance_base_units(&self, id: &str) -> u128 {
         self.accounts.lock().unwrap().get(id).map(|x| x.balance).unwrap_or(0)
