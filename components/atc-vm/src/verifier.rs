@@ -33,13 +33,38 @@ impl Default for ValidationLimits {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum VerifyError {
     EmptyProgram,
-    ProgramTooLarge { actual: usize, max: usize },
-    InvalidJump { pc: usize, target: usize },
-    StackUnderflow { pc: usize, required: usize, available: usize },
-    StackDepthExceeded { pc: usize, depth: usize, max: usize },
-    InconsistentStackHeight { pc: usize, expected: usize, found: usize },
-    StorageSlotExceeded { pc: usize, slot: usize, max: usize },
-    GasLimitExceeded { required: u64, max: u64 },
+    ProgramTooLarge {
+        actual: usize,
+        max: usize,
+    },
+    InvalidJump {
+        pc: usize,
+        target: usize,
+    },
+    StackUnderflow {
+        pc: usize,
+        required: usize,
+        available: usize,
+    },
+    StackDepthExceeded {
+        pc: usize,
+        depth: usize,
+        max: usize,
+    },
+    InconsistentStackHeight {
+        pc: usize,
+        expected: usize,
+        found: usize,
+    },
+    StorageSlotExceeded {
+        pc: usize,
+        slot: usize,
+        max: usize,
+    },
+    GasLimitExceeded {
+        required: u64,
+        max: u64,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -91,10 +116,7 @@ impl BytecodeVerifier {
 
         while let Some((pc, depth)) = work.pop() {
             if pc >= program.len() {
-                return Err(VerifyError::InvalidJump {
-                    pc,
-                    target: pc,
-                });
+                return Err(VerifyError::InvalidJump { pc, target: pc });
             }
 
             if let Some(expected) = incoming[pc] {
@@ -299,13 +321,7 @@ mod tests {
         let err = BytecodeVerifier::new(limits)
             .verify(vec![Op::Halt, Op::Halt, Op::Halt])
             .expect_err("must reject");
-        assert_eq!(
-            err,
-            VerifyError::ProgramTooLarge {
-                actual: 3,
-                max: 2
-            }
-        );
+        assert_eq!(err, VerifyError::ProgramTooLarge { actual: 3, max: 2 });
     }
 
     #[test]
