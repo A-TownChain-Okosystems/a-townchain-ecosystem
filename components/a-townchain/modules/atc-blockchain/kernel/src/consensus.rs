@@ -63,7 +63,7 @@ pub struct ConsensusEngine {
     finalized: Mutex<Option<(u64, [u8; 32])>>,
     slashed: Mutex<BTreeMap<String, u128>>,
     votes: Mutex<BTreeMap<[u8; 32], Vec<Vote>>>,
-    validators: Mutex<BTreeMap<String, u64>>,
+    validators: Mutex<BTreeMap<String, u128>>,
     validator_keys: Mutex<BTreeMap<String, [u8; 32]>>,
     /// Immutable validator-set snapshots keyed by the height at which the
     /// set became active. Consensus verification never falls back to the
