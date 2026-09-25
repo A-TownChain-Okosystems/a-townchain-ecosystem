@@ -448,7 +448,7 @@ impl Node {
         }
         let parent = self.chain.last().ok_or("genesis required")?;
         let finalized_height = self.consensus.finalized().map(|(height, _)| height);
-        let selected = fork_choice::choose(parent, &b, finalized_height)
+        let selected = fork_choice::choose(&parent, &b, finalized_height)
             .map_err(|_| "fork-choice finality violation")?;
         if selected.id != b.id {
             return Err("candidate rejected by deterministic fork-choice".into());
@@ -1709,6 +1709,11 @@ mod tests {
 
     impl PeerTransport for CaptureTransport {
         fn broadcast(&self, message: NetworkMessage) -> Result<(), String> {
+            self.messages.lock().unwrap().push(message);
+            Ok(())
+        }
+
+        fn send_to(&self, _peer_id: &str, message: NetworkMessage) -> Result<(), String> {
             self.messages.lock().unwrap().push(message);
             Ok(())
         }
