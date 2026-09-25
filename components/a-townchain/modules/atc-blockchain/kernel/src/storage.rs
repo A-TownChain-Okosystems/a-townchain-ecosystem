@@ -309,23 +309,22 @@ impl ChainStorage {
     }
 
     pub fn commit(&self, b: Block) -> Result<(), String> {
-        if let Some(existing) = self.blocks.read().unwrap().get(&b.height) {
-            if existing.id == b.id {
-                return Ok(());
+        {
+            let blocks = self.blocks.read().unwrap();
+            if let Some(existing) = blocks.get(&b.height) {
+                if existing.id == b.id {
+                    return Ok(());
+                }
+                return Err("conflicting block at canonical height".into());
             }
-            return Err("conflicting block at canonical height".into());
-        }
-        if b.height > 0 {
-            let parent = self
-                .blocks
-                .read()
-                .unwrap()
-                .get(&b.height.saturating_sub(1))
-                .ok_or("cannot commit block without canonical parent")?;
-            if b.parent_hash != parent.id {
-                return Err("canonical parent mismatch".into());
-            }
-        } else if b.parent_hash != [0; 32] {
+            if b.height > 0 {
+                let parent = blocks
+                    .get(&b.height.saturating_sub(1))
+                    .ok_or("cannot commit block without canonical parent")?;
+                if b.parent_hash != parent.id {
+                    return Err("canonical parent mismatch".into());
+                }
+            } else if b.parent_hash != [0; 32] {
             return Err("invalid genesis parent".into());
         }
         self.append_block_record(&b)
@@ -403,15 +402,18 @@ impl ChainStorage {
         if activation_height > block.height {
             return Err("validator snapshot activates after synchronized block".into());
         }
-        if let Some(existing) = self.blocks.read().unwrap().get(&block.height) {
-            if existing.id == block.id { return Ok(()); }
-            return Err("conflicting block at canonical height".into());
-        }
-        if block.height > 0 {
-            let parent = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
-                .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
-        } else if block.parent_hash != [0; 32] {
+        {
+            let blocks = self.blocks.read().unwrap();
+            if let Some(existing) = blocks.get(&block.height) {
+                if existing.id == block.id { return Ok(()); }
+                return Err("conflicting block at canonical height".into());
+            }
+            if block.height > 0 {
+                let parent = blocks
+                    .get(&block.height.saturating_sub(1))
+                    .ok_or("cannot commit block without canonical parent")?;
+                if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
+            } else if block.parent_hash != [0; 32] {
             return Err("invalid genesis parent".into());
         }
         if issued_base_units > crate::economics::MAX_SUPPLY {
@@ -433,23 +435,22 @@ impl ChainStorage {
         if issued_base_units > crate::economics::MAX_SUPPLY {
             return Err("issued supply cap exceeded".into());
         }
-        if let Some(existing) = self.blocks.read().unwrap().get(&block.height) {
-            if existing.id == block.id {
-                return Ok(());
+        {
+            let blocks = self.blocks.read().unwrap();
+            if let Some(existing) = blocks.get(&block.height) {
+                if existing.id == block.id {
+                    return Ok(());
+                }
+                return Err("conflicting block at canonical height".into());
             }
-            return Err("conflicting block at canonical height".into());
-        }
-        if block.height > 0 {
-            let parent = self
-                .blocks
-                .read()
-                .unwrap()
-                .get(&block.height.saturating_sub(1))
-                .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id {
-                return Err("canonical parent mismatch".into());
-            }
-        } else if block.parent_hash != [0; 32] {
+            if block.height > 0 {
+                let parent = blocks
+                    .get(&block.height.saturating_sub(1))
+                    .ok_or("cannot commit block without canonical parent")?;
+                if block.parent_hash != parent.id {
+                    return Err("canonical parent mismatch".into());
+                }
+            } else if block.parent_hash != [0; 32] {
             return Err("invalid genesis parent".into());
         }
 
