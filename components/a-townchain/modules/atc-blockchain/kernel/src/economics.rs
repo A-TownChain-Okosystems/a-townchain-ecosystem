@@ -10,7 +10,7 @@ pub use atc_algorithm::economics::{
 };
 
 pub const NATIVE_COIN_SYMBOL: &str = "ATC";
-pub const MAX_ATC_SUPPLY: u64 = 360_000_000;
+pub const MAX_ATC_SUPPLY: u128 = MAX_SUPPLY;
 pub const BLOCK_TIME_SECONDS: u64 = TARGET_BLOCK_TIME_SECS;
 pub const HALVING_EVENTS: u64 = MAX_HALVINGS as u64;
 pub const HALVING_INTERVAL: u64 = HALVING_INTERVAL_BLOCKS;
