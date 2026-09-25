@@ -134,7 +134,7 @@ impl ValidatorState {
     pub fn snapshot(&self) -> BTreeMap<String, ValidatorRecord> {
         self.validators.clone()
     }
-    pub fn consensus_view_at_height(&self, height: u64) -> (BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>) {
+    pub fn consensus_view_at_height(&self, height: u64) -> (BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>) {
         let mut stakes = BTreeMap::new();
         let mut keys = BTreeMap::new();
         for (address, record) in &self.validators {

@@ -15,12 +15,12 @@ pub struct Genesis {
     pub block_time_seconds: u64,
     pub halving_interval_blocks: u64,
     pub halving_events: u64,
-    pub max_supply: u64,
-    pub initial_allocations: Vec<(String, u64)>,
+    pub max_supply: u128,
+    pub initial_allocations: Vec<(String, u128)>,
 }
 
 impl Genesis {
-    pub fn new(chain_id: u64, timestamp: u64, allocations: Vec<(String, u64)>) -> Self {
+    pub fn new(chain_id: u64, timestamp: u64, allocations: Vec<(String, u128)>) -> Self {
         let mut a = allocations;
         a.sort();
         a.dedup_by(|x, y| x.0 == y.0);
@@ -65,7 +65,7 @@ impl Genesis {
         let total = self
             .initial_allocations
             .iter()
-            .try_fold(0u64, |acc, (_, v)| acc.checked_add(*v))
+            .try_fold(0u128, |acc, (_, v)| acc.checked_add(*v))
             .ok_or("genesis allocation overflow".to_string())?;
         if total > self.max_supply {
             return Err("genesis allocations exceed maximum supply".into());

@@ -61,14 +61,14 @@ pub struct ConsensusEngine {
     pub proposer: String,
     height: Mutex<u64>,
     finalized: Mutex<Option<(u64, [u8; 32])>>,
-    slashed: Mutex<BTreeMap<String, u64>>,
+    slashed: Mutex<BTreeMap<String, u128>>,
     votes: Mutex<BTreeMap<[u8; 32], Vec<Vote>>>,
-    validators: Mutex<BTreeMap<String, u64>>,
+    validators: Mutex<BTreeMap<String, u128>>,
     validator_keys: Mutex<BTreeMap<String, [u8; 32]>>,
     /// Immutable validator-set snapshots keyed by the height at which the
     /// set became active. Consensus verification never falls back to the
     /// mutable current registry for historical blocks.
-    validator_snapshots: Mutex<BTreeMap<u64, (BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)>>,
+    validator_snapshots: Mutex<BTreeMap<u64, (BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>)>>,
 }
 
 impl ConsensusEngine {
@@ -100,7 +100,7 @@ impl ConsensusEngine {
     pub fn restore_validator_snapshot(
         &self,
         height: u64,
-        validators: BTreeMap<String, u64>,
+        validators: BTreeMap<String, u128>,
         keys: BTreeMap<String, [u8; 32]>,
     ) -> Result<(), String> {
         if validators.len() != keys.len() || validators.keys().any(|id| !keys.contains_key(id)) {
@@ -131,7 +131,7 @@ impl ConsensusEngine {
     }
 
     pub fn validator_snapshot_commitment_from(
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         keys: &BTreeMap<String, [u8; 32]>,
     ) -> Option<[u8; 32]> {
         if validators.len() != keys.len() || validators.keys().any(|address| !keys.contains_key(address)) {
@@ -153,14 +153,14 @@ impl ConsensusEngine {
     pub fn validator_snapshot_for_height(
         &self,
         height: u64,
-    ) -> Option<(BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)> {
+    ) -> Option<(BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>)> {
         self.validator_snapshots.lock().ok()?.range(..=height).next_back().map(|(_, snapshot)| snapshot.clone())
     }
 
     pub fn validator_snapshot_with_activation_for_height(
         &self,
         height: u64,
-    ) -> Option<(u64, BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)> {
+    ) -> Option<(u64, BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>)> {
         self.validator_snapshots
             .lock()
             .ok()?
@@ -173,7 +173,7 @@ impl ConsensusEngine {
         self.validator_snapshots.lock().ok().map(|s| s.keys().copied().collect()).unwrap_or_default()
     }
 
-    pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
+    pub fn register_validator(&self, address: String, stake: u128) -> Result<(), String> {
         if address.is_empty() || stake == 0 {
             return Err("validator address and stake are required".into());
         }
@@ -217,9 +217,9 @@ impl ConsensusEngine {
         &self,
     ) -> Result<
         (
-            BTreeMap<String, u64>,
+            BTreeMap<String, u128>,
             BTreeMap<String, [u8; 32]>,
-            BTreeMap<String, u64>,
+            BTreeMap<String, u128>,
         ),
         String,
     > {
@@ -241,9 +241,9 @@ impl ConsensusEngine {
 
     pub fn restore_mutable_validator_state(
         &self,
-        validators: BTreeMap<String, u64>,
+        validators: BTreeMap<String, u128>,
         keys: BTreeMap<String, [u8; 32]>,
-        slashed: BTreeMap<String, u64>,
+        slashed: BTreeMap<String, u128>,
     ) -> Result<(), String> {
         if validators.len() != keys.len()
             || validators.keys().any(|address| !keys.contains_key(address))
@@ -256,7 +256,7 @@ impl ConsensusEngine {
         Ok(())
     }
 
-    pub fn validator_stake(&self, address: &str) -> u64 {
+    pub fn validator_stake(&self, address: &str) -> u128 {
         self.validators
             .lock()
             .unwrap()
@@ -273,7 +273,7 @@ impl ConsensusEngine {
         height > 0 && height.is_multiple_of(EPOCH_LENGTH_BLOCKS)
     }
 
-    pub fn slashed_stake(&self, address: &str) -> u64 {
+    pub fn slashed_stake(&self, address: &str) -> u128 {
         self.slashed
             .lock()
             .unwrap()
@@ -282,7 +282,7 @@ impl ConsensusEngine {
             .unwrap_or(0)
     }
 
-    pub fn slash(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
+    pub fn slash(&self, evidence: SlashingEvidence, penalty: u128) -> Result<u128, String> {
         if evidence.block_a == evidence.block_b || evidence.validator.is_empty() || penalty == 0 {
             return Err("invalid slashing evidence".into());
         }
@@ -339,7 +339,7 @@ impl ConsensusEngine {
         Ok(applied)
     }
 
-    pub fn validators_snapshot(&self) -> BTreeMap<String, u64> {
+    pub fn validators_snapshot(&self) -> BTreeMap<String, u128> {
         self.validators.lock().unwrap().clone()
     }
 
@@ -347,7 +347,7 @@ impl ConsensusEngine {
     /// identity binding for durable snapshots.
     pub fn validator_snapshot_with_keys(
         &self,
-    ) -> Result<(BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>), String> {
+    ) -> Result<(BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>), String> {
         let validators = self
             .validators
             .lock()
@@ -366,13 +366,13 @@ impl ConsensusEngine {
         Ok((validators, keys))
     }
 
-    pub fn total_validator_stake(&self) -> u64 {
+    pub fn total_validator_stake(&self) -> u128 {
         self.validators
             .lock()
             .unwrap()
             .values()
             .copied()
-            .fold(0, u64::saturating_add)
+            .fold(0u128, u128::saturating_add)
     }
 
     pub fn propose_id(&self, h: u64, parent: [u8; 32], state: [u8; 32], tx: [u8; 32]) -> [u8; 32] {
@@ -457,7 +457,7 @@ impl ConsensusEngine {
         let Some((validators, _keys)) = self.validator_snapshot_for_height(height) else {
             return false;
         };
-        let total = validators.values().copied().fold(0u64, u64::saturating_add);
+        let total = validators.values().copied().fold(0u128, u128::saturating_add);
         if total == 0 {
             return false;
         }
@@ -470,7 +470,7 @@ impl ConsensusEngine {
             .iter()
             .filter(|v| v.approve && seen.insert(v.voter.as_str()))
             .filter_map(|v| validators.get(&v.voter).copied())
-            .fold(0u64, u64::saturating_add);
+            .fold(0u128, u128::saturating_add);
         (approved as u128) * 3 >= (total as u128) * 2
     }
 
@@ -643,7 +643,7 @@ mod tests {
         engine.register_validator_key("b", b.verifying_key().to_bytes()).unwrap();
         let keys0 = [(String::from("a"), a.verifying_key().to_bytes()), (String::from("b"), b.verifying_key().to_bytes())].into_iter().collect();
         engine.restore_validator_snapshot(0, engine.validators_snapshot(), keys0).unwrap();
-        engine.restore_validator_snapshot(1, [("a".to_string(), 100u64)].into_iter().collect(), [("a".to_string(), a.verifying_key().to_bytes())].into_iter().collect());
+        engine.restore_validator_snapshot(1, [("a".to_string(), 100u128)].into_iter().collect(), [("a".to_string(), a.verifying_key().to_bytes())].into_iter().collect());
 
         let block0 = [56u8; 32];
         engine.vote_at_height(signed_vote(&engine, &a, "a", block0, true), 0).unwrap();

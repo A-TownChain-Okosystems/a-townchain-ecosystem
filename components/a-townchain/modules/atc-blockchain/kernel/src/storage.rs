@@ -13,13 +13,13 @@ use super::{
 };
 
 const MAGIC: &[u8] = b"ATCB1";
-const VALIDATOR_MAGIC: &[u8] = b"ATCV2";
+const VALIDATOR_MAGIC: &[u8] = b"ATCV3";
 const LEGACY_VALIDATOR_MAGIC: &[u8] = b"ATCV1";
 const FINALITY_MAGIC: &[u8] = b"ATCF1";
 const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
-type ValidatorSnapshot = (u64, BTreeMap<String, (u64, [u8; 32])>);
+type ValidatorSnapshot = (BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>);
 type SlashingRecord = (u64, String, [u8; 32], u64);
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
@@ -103,7 +103,7 @@ fn tx_decode(b: &[u8], p: &mut usize) -> Result<Transaction, String> {
     let signature = fixed::<64>(b, p)?;
     let public_key = fixed::<32>(b, p)?;
     let poh = fixed::<32>(b, p)?;
-    Ok(Transaction::new_with_chain_id(
+    Ok(Transaction::new_with_chain_id_base_units(
         chain_id, ty, sender, recipient, amount, gas_price, gas_limit, nonce, timestamp, payload,
         signature, public_key, poh,
     ))
@@ -309,24 +309,24 @@ impl ChainStorage {
     }
 
     pub fn commit(&self, b: Block) -> Result<(), String> {
-        if let Some(existing) = self.blocks.read().unwrap().get(&b.height) {
-            if existing.id == b.id {
-                return Ok(());
+        {
+            let blocks = self.blocks.read().unwrap();
+            if let Some(existing) = blocks.get(&b.height) {
+                if existing.id == b.id {
+                    return Ok(());
+                }
+                return Err("conflicting block at canonical height".into());
             }
-            return Err("conflicting block at canonical height".into());
-        }
-        if b.height > 0 {
-            let parent = self
-                .blocks
-                .read()
-                .unwrap()
-                .get(&b.height.saturating_sub(1))
-                .ok_or("cannot commit block without canonical parent")?;
-            if b.parent_hash != parent.id {
-                return Err("canonical parent mismatch".into());
+            if b.height > 0 {
+                let parent = blocks
+                    .get(&b.height.saturating_sub(1))
+                    .ok_or("cannot commit block without canonical parent")?;
+                if b.parent_hash != parent.id {
+                    return Err("canonical parent mismatch".into());
+                }
+            } else if b.parent_hash != [0; 32] {
+                return Err("invalid genesis parent".into());
             }
-        } else if b.parent_hash != [0; 32] {
-            return Err("invalid genesis parent".into());
         }
         self.append_block_record(&b)
     }
@@ -392,7 +392,7 @@ impl ChainStorage {
         dao: &[u8],
         issued_base_units: u128,
         activation_height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<(), String> {
         if validators.len() != validator_keys.len()
@@ -403,16 +403,20 @@ impl ChainStorage {
         if activation_height > block.height {
             return Err("validator snapshot activates after synchronized block".into());
         }
-        if let Some(existing) = self.blocks.read().unwrap().get(&block.height) {
-            if existing.id == block.id { return Ok(()); }
-            return Err("conflicting block at canonical height".into());
-        }
-        if block.height > 0 {
-            let parent = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
-                .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
-        } else if block.parent_hash != [0; 32] {
-            return Err("invalid genesis parent".into());
+        {
+            let blocks = self.blocks.read().unwrap();
+            if let Some(existing) = blocks.get(&block.height) {
+                if existing.id == block.id { return Ok(()); }
+                return Err("conflicting block at canonical height".into());
+            }
+            if block.height > 0 {
+                let parent = blocks
+                    .get(&block.height.saturating_sub(1))
+                    .ok_or("cannot commit block without canonical parent")?;
+                if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
+            } else if block.parent_hash != [0; 32] {
+                return Err("invalid genesis parent".into());
+            }
         }
         if issued_base_units > crate::economics::MAX_SUPPLY {
             return Err("issued supply cap exceeded".into());
@@ -433,24 +437,24 @@ impl ChainStorage {
         if issued_base_units > crate::economics::MAX_SUPPLY {
             return Err("issued supply cap exceeded".into());
         }
-        if let Some(existing) = self.blocks.read().unwrap().get(&block.height) {
-            if existing.id == block.id {
-                return Ok(());
+        {
+            let blocks = self.blocks.read().unwrap();
+            if let Some(existing) = blocks.get(&block.height) {
+                if existing.id == block.id {
+                    return Ok(());
+                }
+                return Err("conflicting block at canonical height".into());
             }
-            return Err("conflicting block at canonical height".into());
-        }
-        if block.height > 0 {
-            let parent = self
-                .blocks
-                .read()
-                .unwrap()
-                .get(&block.height.saturating_sub(1))
-                .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id {
-                return Err("canonical parent mismatch".into());
+            if block.height > 0 {
+                let parent = blocks
+                    .get(&block.height.saturating_sub(1))
+                    .ok_or("cannot commit block without canonical parent")?;
+                if block.parent_hash != parent.id {
+                    return Err("canonical parent mismatch".into());
+                }
+            } else if block.parent_hash != [0; 32] {
+                return Err("invalid genesis parent".into());
             }
-        } else if block.parent_hash != [0; 32] {
-            return Err("invalid genesis parent".into());
         }
 
         self.append_state_snapshot(block.height, state, dao)?;
@@ -540,7 +544,7 @@ impl ChainStorage {
     pub fn commit_validators(
         &self,
         height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<(), String> {
         let Some(p) = &self.validator_journal else {
@@ -573,7 +577,7 @@ impl ChainStorage {
         Ok(())
     }
 
-    pub fn recover_validators(&self) -> Result<Option<ValidatorSnapshot>, String> {
+    pub fn recover_validators(&self) -> Result<Option<(u64, BTreeMap<String, (u128, [u8; 32])>)>, String> {
         let Some(p) = &self.validator_journal else {
             return Ok(None);
         };
@@ -608,7 +612,7 @@ impl ChainStorage {
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec())
                     .map_err(|_| "invalid validator address")?;
-                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let stake = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let public_key = fixed::<32>(&b, &mut q)?;
                 ed25519_dalek::VerifyingKey::from_bytes(&public_key)
                     .map_err(|_| "invalid validator public key")?;
@@ -656,7 +660,7 @@ impl ChainStorage {
             let mut keys = BTreeMap::new();
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec()).map_err(|_| "invalid validator address")?;
-                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let stake = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let public_key = fixed::<32>(&b, &mut q)?;
                 ed25519_dalek::VerifyingKey::from_bytes(&public_key).map_err(|_| "invalid validator public key")?;
                 if address.is_empty() || stake == 0 { return Err("invalid validator record".into()); }
@@ -681,11 +685,11 @@ impl ChainStorage {
     pub fn validator_snapshot_round_trip_for_restart(
         &self,
         height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<Option<ValidatorSnapshot>, String> {
         self.commit_validators(height, validators, validator_keys)?;
-        self.recover_validators()
+        Ok(self.recover_validators()?.and_then(|(_, snapshots)| snapshots.into_iter().last().map(|(_, v)| v)))
     }
 
     pub fn commit_finalized(&self, height: u64, block: [u8; 32]) -> Result<(), String> {

@@ -1,7 +1,9 @@
 // Copyright (c) 2026 A-TownChain-Okosystems — Apache-2.0
-//! Stack-Maschine with stack/jump safety. State-transition entrypoint is gated by ATC-STD-600.
+//! Stack machine. State-transition execution requires a validated program
+//! and is separately gated by ATC-STD-600 chain context checks.
 
 use crate::context::{execution_gate, ChainContext, ContextError};
+use crate::verifier::{BytecodeVerifier, ValidatedProgram, VerifyError};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Op {
@@ -24,16 +26,17 @@ pub enum Op {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-#[allow(dead_code)]
 pub enum VmError {
+    Verification(VerifyError),
     StackUnderflow,
     InvalidJump(usize),
     DivisionByZero,
+    GasExhausted,
     Context(ContextError),
 }
 
 pub struct Vm {
-    program: Vec<Op>,
+    program: ValidatedProgram,
     stack: Vec<u64>,
     caller: u64,
     storage: Vec<u64>,
@@ -41,7 +44,16 @@ pub struct Vm {
 
 #[allow(dead_code)]
 impl Vm {
-    pub fn new(program: Vec<Op>) -> Self {
+    /// Constructs a VM only after the canonical bytecode verifier accepts the program.
+    pub fn new(program: Vec<Op>) -> Result<Self, VmError> {
+        let validated = BytecodeVerifier::default()
+            .verify(program)
+            .map_err(VmError::Verification)?;
+        Ok(Self::from_validated(validated))
+    }
+
+    /// Constructs a VM from an already verified program.
+    pub fn from_validated(program: ValidatedProgram) -> Self {
         Vm {
             program,
             stack: Vec::new(),
@@ -50,13 +62,11 @@ impl Vm {
         }
     }
 
-    pub fn with_context(program: Vec<Op>, caller: u64, storage: Vec<u64>) -> Self {
-        Vm {
-            program,
-            stack: Vec::new(),
-            caller,
-            storage,
-        }
+    pub fn with_context(program: Vec<Op>, caller: u64, storage: Vec<u64>) -> Result<Self, VmError> {
+        let mut vm = Self::new(program)?;
+        vm.caller = caller;
+        vm.storage = storage;
+        Ok(vm)
     }
 
     pub fn caller(&self) -> u64 {
@@ -79,10 +89,18 @@ impl Vm {
         self.run()
     }
 
+    /// Executes only a program that has already crossed the verifier boundary.
     pub fn run(&mut self) -> Result<Vec<u64>, VmError> {
         let mut pc = 0usize;
-        while pc < self.program.len() {
-            match self.program[pc].clone() {
+        let mut gas_remaining = self.program.gas_limit();
+
+        while pc < self.program.ops().len() {
+            if gas_remaining == 0 {
+                return Err(VmError::GasExhausted);
+            }
+            gas_remaining -= 1;
+
+            match self.program.ops()[pc].clone() {
                 Op::Push(v) => self.stack.push(v),
                 Op::Add => self.binop(|a, b| a.wrapping_add(b))?,
                 Op::Sub => self.binop(|a, b| a.wrapping_sub(b))?,
@@ -150,7 +168,7 @@ impl Vm {
     }
 
     fn valid_jump(&self, t: usize) -> Result<usize, VmError> {
-        if t < self.program.len() {
+        if t < self.program.ops().len() {
             Ok(t)
         } else {
             Err(VmError::InvalidJump(t))
@@ -181,13 +199,15 @@ mod tests {
             Op::Push(4),
             Op::Mul,
             Op::Halt,
-        ]);
+        ])
+        .expect("program must validate");
         assert_eq!(vm.run(), Ok(vec![20]));
     }
 
     #[test]
     fn state_transition_requires_identity_gate() {
-        let mut vm = Vm::with_context(vec![Op::Push(7), Op::Store(0), Op::Halt], 1, vec![]);
+        let mut vm = Vm::with_context(vec![Op::Push(7), Op::Store(0), Op::Halt], 1, vec![])
+            .expect("program must validate");
         assert!(vm
             .execute_state_transition(&context(), &"b".repeat(64), "1.0.0", "1.0.0")
             .is_err());
@@ -202,10 +222,27 @@ mod tests {
     }
 
     #[test]
-    fn underflow_und_invalid_jump() {
-        let mut vm = Vm::new(vec![Op::Add]);
-        assert_eq!(vm.run(), Err(VmError::StackUnderflow));
-        let mut vm = Vm::new(vec![Op::Push(1), Op::Jump(99)]);
-        assert_eq!(vm.run(), Err(VmError::InvalidJump(99)));
+    fn verifier_rejects_invalid_program_without_constructing_vm() {
+        let result = Vm::new(vec![Op::Add, Op::Halt]);
+        assert!(matches!(
+            result,
+            Err(VmError::Verification(VerifyError::StackUnderflow { .. }))
+        ));
+    }
+
+    #[test]
+    fn verifier_rejects_invalid_jump_without_constructing_vm() {
+        let result = Vm::new(vec![Op::Push(1), Op::Jump(99)]);
+        assert!(matches!(
+            result,
+            Err(VmError::Verification(VerifyError::InvalidJump { .. }))
+        ));
+    }
+
+    #[test]
+    fn gas_bounds_non_terminating_valid_control_flow() {
+        let mut vm =
+            Vm::new(vec![Op::Push(1), Op::Jump(1)]).expect("program is structurally valid");
+        assert_eq!(vm.run(), Err(VmError::GasExhausted));
     }
 }

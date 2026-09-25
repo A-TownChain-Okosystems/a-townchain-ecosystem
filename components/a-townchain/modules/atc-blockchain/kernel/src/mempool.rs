@@ -1,5 +1,5 @@
 //! Transactions, mempool and deterministic state transition.
-use crate::{economics::MAX_ATC_SUPPLY, security::simple_hash};
+use crate::security::simple_hash;
 use std::{collections::BTreeMap, sync::Mutex};
 
 mod signature_serde {
@@ -100,6 +100,27 @@ impl Transaction {
         s: String,
         r: Option<String>,
         a: u64,
+        gp: u64,
+        gl: u64,
+        n: u64,
+        ts: u64,
+        p: Vec<u8>,
+        sig: [u8; 64],
+        public_key: [u8; 32],
+        poh: [u8; 32],
+    ) -> Self {
+        Self::new_with_chain_id_base_units(
+            chain_id, t, s, r, u128::from(a), gp, gl, n, ts, p, sig, public_key, poh,
+        )
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub fn new_with_chain_id_base_units(
+        chain_id: u64,
+        t: TxType,
+        s: String,
+        r: Option<String>,
+        a: u128,
         gp: u64,
         gl: u64,
         n: u64,
@@ -237,7 +258,7 @@ impl MemoryPool {
         e.insert(
             id,
             PoolEntry {
-                priority: tx.gas_price.saturating_mul(tx.gas_limit),
+                priority: tx.max_fee(),
                 tx,
                 status: TxStatus::Pending,
                 added_at: now,
@@ -317,7 +338,7 @@ impl StateDb {
             validator_state: Mutex::new(crate::validator_state::ValidatorState::new()),
         }
     }
-    pub fn genesis_credit(&self, id: &str, n: u64) -> Result<(), String> {
+    pub fn genesis_credit(&self, id: &str, n: u128) -> Result<(), String> {
         let n = u128::from(n).checked_mul(crate::economics::ATC_BASE_UNITS).ok_or("genesis allocation overflow".to_string())?;
         if *self.genesis_sealed.lock().unwrap() {
             return Err("genesis allocation is sealed".into());
@@ -335,7 +356,7 @@ impl StateDb {
             .ok_or("supply overflow".to_string())?;
         if new_supply > crate::economics::MAX_SUPPLY {
             return Err(format!(
-                "ATC supply cap exceeded in base units: {new_supply} > {MAX_SUPPLY}"
+                "ATC supply cap exceeded in base units: {new_supply} > {}", crate::economics::MAX_SUPPLY
             ));
         }
         let x = a.entry(id.into()).or_insert(Account {
@@ -394,8 +415,8 @@ impl StateDb {
     pub fn total_supply_base_units(&self) -> u128 {
         self.accounts.lock().unwrap().values().try_fold(0u128, |acc, x| acc.checked_add(x.balance)?.checked_add(x.staked)).unwrap_or(u128::MAX)
     }
-    pub fn total_supply(&self) -> u64 {
-        (self.total_supply_base_units() / crate::economics::ATC_BASE_UNITS).min(u64::MAX as u128) as u64
+    pub fn total_supply(&self) -> u128 {
+        self.total_supply_base_units()
     }
     pub fn balance_base_units(&self, id: &str) -> u128 {
         self.accounts.lock().unwrap().get(id).map(|x| x.balance).unwrap_or(0)
@@ -500,10 +521,10 @@ impl StateDb {
                     staked: 0,
                     nonce: 0,
                 });
-                if x.balance < amount {
+                if x.balance < u128::from(amount) {
                     Err("insufficient balance for DAO treasury deposit".into())
                 } else {
-                    x.balance -= amount;
+                    x.balance -= u128::from(amount);
                     Ok(())
                 }
             }
@@ -516,7 +537,7 @@ impl StateDb {
                 });
                 x.balance = x
                     .balance
-                    .checked_add(amount)
+                     .checked_add(u128::from(amount))
                     .ok_or("recipient balance overflow".to_string())?;
                 Ok(())
             }

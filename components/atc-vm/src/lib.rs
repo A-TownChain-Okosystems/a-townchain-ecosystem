@@ -3,4 +3,5 @@
 
 pub mod context;
 pub mod ops;
+pub mod verifier;
 pub mod vm;
