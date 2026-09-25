@@ -685,11 +685,11 @@ impl ChainStorage {
     pub fn validator_snapshot_round_trip_for_restart(
         &self,
         height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<Option<ValidatorSnapshot>, String> {
         self.commit_validators(height, validators, validator_keys)?;
-        self.recover_validators()
+        Ok(self.recover_validators()?.and_then(|(_, snapshots)| snapshots.into_iter().last().map(|(_, v)| v)))
     }
 
     pub fn commit_finalized(&self, height: u64, block: [u8; 32]) -> Result<(), String> {
