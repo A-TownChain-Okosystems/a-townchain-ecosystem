@@ -316,13 +316,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if b.height > 0 {
-            let parent = self
+            let parent_id = self
                 .blocks
                 .read()
                 .unwrap()
                 .get(&b.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if b.parent_hash != parent.id {
+            if b.parent_hash != parent_id {
                 return Err("canonical parent mismatch".into());
             }
         } else if b.parent_hash != [0; 32] {
@@ -408,9 +409,10 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
+            let parent_id = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
+            if block.parent_hash != parent_id { return Err("canonical parent mismatch".into()); }
         } else if block.parent_hash != [0; 32] {
             return Err("invalid genesis parent".into());
         }
@@ -440,13 +442,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self
+            let parent_id = self
                 .blocks
                 .read()
                 .unwrap()
                 .get(&block.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id {
+            if block.parent_hash != parent_id {
                 return Err("canonical parent mismatch".into());
             }
         } else if block.parent_hash != [0; 32] {
@@ -464,6 +467,11 @@ impl ChainStorage {
         Ok(self
             .recover_state_with_dao_at_height()?
             .map(|(_, x)| x.0))
+    }
+
+    /// Backward-compatible state recovery entry point for existing callers.
+    pub fn recover_state_with_dao(&self) -> Result<Option<BTreeMap<String, Account>>, String> {
+        self.recover_state()
     }
 
     /// Recover the latest durable state snapshot together with the exact
@@ -629,7 +637,7 @@ impl ChainStorage {
 
     /// Recover every durable validator snapshot, preserving historical
     /// height/epoch boundaries rather than only the latest mutable set.
-    pub fn recover_validator_snapshots(&self) -> Result<BTreeMap<u64, ValidatorSnapshot>, String> {
+    pub fn recover_validator_snapshots(&self) -> Result<BTreeMap<u64, (BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)>, String> {
         let Some(p) = &self.validator_journal else {
             return Ok(BTreeMap::new());
         };
@@ -637,7 +645,7 @@ impl ChainStorage {
             return Ok(BTreeMap::new());
         }
         let f = File::open(p).map_err(|e| e.to_string())?;
-        let mut snapshots = BTreeMap::new();
+        let mut snapshots: BTreeMap<u64, (BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)> = BTreeMap::new();
         for (line_no, line) in BufReader::new(f).lines().enumerate() {
             let raw = line.map_err(|e| e.to_string())?;
             if raw.trim().is_empty() { continue; }
@@ -912,16 +920,19 @@ impl ChainStorage {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::sync::atomic::{AtomicU64, Ordering};
+
+    fn test_nonce() -> u64 {
+        static NEXT: AtomicU64 = AtomicU64::new(0);
+        NEXT.fetch_add(1, Ordering::Relaxed)
+    }
 
     #[test]
     fn validator_snapshot_persists_public_keys_across_restart() {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-snapshot-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
         let journal = path.with_extension("journal");
 
@@ -958,7 +969,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-history-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            test_nonce()
         ));
         let key0 = ed25519_dalek::SigningKey::from_bytes(&[41u8; 32]).verifying_key().to_bytes();
         let key1 = ed25519_dalek::SigningKey::from_bytes(&[42u8; 32]).verifying_key().to_bytes();
@@ -995,10 +1006,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-revision-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[51u8; 32]).verifying_key().to_bytes();
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[52u8; 32]).verifying_key().to_bytes();
@@ -1041,10 +1049,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-regression-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[53u8; 32]).verifying_key().to_bytes();
         let mut validators = BTreeMap::new();
@@ -1089,7 +1094,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-finality-idempotence-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            test_nonce()
         ));
         let storage = ChainStorage::open(&path).unwrap();
         let block = Block::new(7, [6u8; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
@@ -1128,7 +1133,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-conflicting-height-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            test_nonce()
         ));
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         let first = Block::new(1, genesis.id, "v".into(), 2, Vec::new(), [3; 32], [4; 32], [0; 64]);
@@ -1158,7 +1163,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-state-boundary-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            test_nonce()
         ));
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         std::fs::write(&path, format!("{}\n", hex::encode(block_encode(&genesis)))).unwrap();
@@ -1191,7 +1196,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-torn-block-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            test_nonce()
         ));
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         let encoded = hex::encode(block_encode(&genesis));
@@ -1213,7 +1218,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-precommit-state-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            test_nonce()
         ));
         let mut state_record = Vec::new();
         state_record.extend_from_slice(&1u64.to_be_bytes());
@@ -1221,7 +1226,7 @@ mod tests {
         put(&mut state_record, &[]);
         std::fs::write(path.with_extension("state"), format!("{}\n", hex::encode(state_record))).unwrap();
 
-        let storage = ChainStorage::new();
+        let mut storage = ChainStorage::new();
         // The same recovery boundary used by open_storage() must fail closed:
         // state cannot become durable merely because its journal line is valid.
         storage.state_journal = Some(path.with_extension("state"));
@@ -1239,7 +1244,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-torn-finality-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            test_nonce()
         ));
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         let storage = ChainStorage::open(&path).unwrap();
@@ -1266,7 +1271,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-torn-issuance-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            test_nonce()
         ));
         let storage = ChainStorage::open(&path).unwrap();
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
