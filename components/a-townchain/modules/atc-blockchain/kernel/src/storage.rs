@@ -316,13 +316,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if b.height > 0 {
-            let parent = self
+            let parent_id = self
                 .blocks
                 .read()
                 .unwrap()
                 .get(&b.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if b.parent_hash != parent.id {
+            if b.parent_hash != parent_id {
                 return Err("canonical parent mismatch".into());
             }
         } else if b.parent_hash != [0; 32] {
@@ -408,9 +409,10 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
+            let parent_id = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
+            if block.parent_hash != parent_id { return Err("canonical parent mismatch".into()); }
         } else if block.parent_hash != [0; 32] {
             return Err("invalid genesis parent".into());
         }
@@ -440,13 +442,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self
+            let parent_id = self
                 .blocks
                 .read()
                 .unwrap()
                 .get(&block.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id {
+            if block.parent_hash != parent_id {
                 return Err("canonical parent mismatch".into());
             }
         } else if block.parent_hash != [0; 32] {
@@ -464,6 +467,11 @@ impl ChainStorage {
         Ok(self
             .recover_state_with_dao_at_height()?
             .map(|(_, x)| x.0))
+    }
+
+    /// Backward-compatible state recovery entry point for existing callers.
+    pub fn recover_state_with_dao(&self) -> Result<Option<BTreeMap<String, Account>>, String> {
+        self.recover_state()
     }
 
     /// Recover the latest durable state snapshot together with the exact
@@ -629,7 +637,7 @@ impl ChainStorage {
 
     /// Recover every durable validator snapshot, preserving historical
     /// height/epoch boundaries rather than only the latest mutable set.
-    pub fn recover_validator_snapshots(&self) -> Result<BTreeMap<u64, ValidatorSnapshot>, String> {
+    pub fn recover_validator_snapshots(&self) -> Result<BTreeMap<u64, (BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)>, String> {
         let Some(p) = &self.validator_journal else {
             return Ok(BTreeMap::new());
         };
@@ -637,7 +645,7 @@ impl ChainStorage {
             return Ok(BTreeMap::new());
         }
         let f = File::open(p).map_err(|e| e.to_string())?;
-        let mut snapshots = BTreeMap::new();
+        let mut snapshots: BTreeMap<u64, (BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)> = BTreeMap::new();
         for (line_no, line) in BufReader::new(f).lines().enumerate() {
             let raw = line.map_err(|e| e.to_string())?;
             if raw.trim().is_empty() { continue; }
