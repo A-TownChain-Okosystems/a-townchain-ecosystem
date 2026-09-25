@@ -1,5 +1,5 @@
 //! Transactions, mempool and deterministic state transition.
-use crate::{economics::MAX_ATC_SUPPLY, security::simple_hash};
+use crate::security::simple_hash;
 use std::{collections::BTreeMap, sync::Mutex};
 
 mod signature_serde {
@@ -356,7 +356,7 @@ impl StateDb {
             .ok_or("supply overflow".to_string())?;
         if new_supply > crate::economics::MAX_SUPPLY {
             return Err(format!(
-                "ATC supply cap exceeded in base units: {new_supply} > {MAX_SUPPLY}"
+                "ATC supply cap exceeded in base units: {new_supply} > {}", crate::economics::MAX_SUPPLY
             ));
         }
         let x = a.entry(id.into()).or_insert(Account {
