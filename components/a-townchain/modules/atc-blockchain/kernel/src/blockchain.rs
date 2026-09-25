@@ -1031,7 +1031,7 @@ impl Node {
         Ok(())
     }
 
-    pub fn slash_validator(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
+    pub fn slash_validator(&self, evidence: SlashingEvidence, penalty: u128) -> Result<u128, String> {
         if evidence.height > self.chain.height() {
             return Err("slashing evidence is above current chain height".into());
         }
