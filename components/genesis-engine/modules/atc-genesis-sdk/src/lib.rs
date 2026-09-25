@@ -124,3 +124,71 @@ mod tests {
         assert_eq!(c.frame(), 1);
     }
 }
+
+
+/// Allow-listed control protocol for external AI agents such as Aurora.
+pub mod control {
+    use std::fmt;
+
+    #[derive(Clone, Debug, PartialEq)]
+    pub enum ControlCommand {
+        Status,
+        Spawn { x: f32, y: f32 },
+        Destroy { entity_id: u64 },
+        SetPosition { entity_id: u64, x: f32, y: f32 },
+        Tick { frames: u32, dt: f32 },
+        Snapshot,
+        Reset,
+        Quit,
+    }
+
+    impl ControlCommand {
+        pub fn encode(&self) -> String {
+            match self {
+                Self::Status => "STATUS".into(),
+                Self::Spawn { x, y } => format!("SPAWN {x} {y}"),
+                Self::Destroy { entity_id } => format!("DESTROY {entity_id}"),
+                Self::SetPosition { entity_id, x, y } => format!("SET_POSITION {entity_id} {x} {y}"),
+                Self::Tick { frames, dt } => format!("TICK {frames} {dt}"),
+                Self::Snapshot => "SNAPSHOT".into(),
+                Self::Reset => "RESET".into(),
+                Self::Quit => "QUIT".into(),
+            }
+        }
+    }
+
+    #[derive(Clone, Debug, PartialEq)]
+    pub struct ControlResponse {
+        pub line: String,
+    }
+
+    impl ControlResponse {
+        pub fn parse(line: impl Into<String>) -> Result<Self, ControlError> {
+            let line = line.into();
+            if line.starts_with("OK ") {
+                Ok(Self { line })
+            } else if line.starts_with("ERR ") {
+                Err(ControlError::Engine(line))
+            } else {
+                Err(ControlError::Protocol(line))
+            }
+        }
+    }
+
+    #[derive(Debug, Clone, PartialEq, Eq)]
+    pub enum ControlError {
+        Engine(String),
+        Protocol(String),
+    }
+
+    impl fmt::Display for ControlError {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            match self {
+                Self::Engine(v) => write!(f, "Genesis Engine rejected command: {v}"),
+                Self::Protocol(v) => write!(f, "Genesis control protocol error: {v}"),
+            }
+        }
+    }
+
+    impl std::error::Error for ControlError {}
+}

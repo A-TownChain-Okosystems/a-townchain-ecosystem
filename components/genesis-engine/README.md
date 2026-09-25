@@ -220,3 +220,19 @@ Apache-2.0 — A-TownChain-Okosystems. Details siehe [`LICENSE`](LICENSE).
 ## Contributing
 ## License
 ## Support
+
+
+## Aurora Control Interface
+
+Aurora-to-Genesis control is implemented at `modules/atc-genesis-engine/engine/control.py`. It owns a persistent MVP world process and exposes a narrow allow-listed command protocol for AI-driven engine control.
+
+Protocol:
+- `STATUS` — inspect engine state
+- `SPAWN x y` — create an entity
+- `DESTROY id` — remove an entity
+- `SET_POSITION id x y` — mutate an entity transform
+- `TICK frames dt` — advance deterministic simulation frames
+- `SNAPSHOT` — inspect entity positions
+- `RESET` — reset the controlled world
+
+The Aurora side is `GenesisEngineControl`, which implements the existing `ChatTool` boundary. Authorization must still be applied through `AuthorizedTool`/capability policy before execution. The bridge does not grant ShivaCore or host authority to the model.
