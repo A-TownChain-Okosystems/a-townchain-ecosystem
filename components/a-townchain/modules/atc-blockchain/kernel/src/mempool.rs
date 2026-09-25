@@ -109,6 +109,27 @@ impl Transaction {
         public_key: [u8; 32],
         poh: [u8; 32],
     ) -> Self {
+        Self::new_with_chain_id_base_units(
+            chain_id, t, s, r, u128::from(a), gp, gl, n, ts, p, sig, public_key, poh,
+        )
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub fn new_with_chain_id_base_units(
+        chain_id: u64,
+        t: TxType,
+        s: String,
+        r: Option<String>,
+        a: u128,
+        gp: u64,
+        gl: u64,
+        n: u64,
+        ts: u64,
+        p: Vec<u8>,
+        sig: [u8; 64],
+        public_key: [u8; 32],
+        poh: [u8; 32],
+    ) -> Self {
         let mut b = Vec::new();
         b.extend_from_slice(b"ATC-TX-ID-V2");
         b.extend_from_slice(&chain_id.to_be_bytes());
@@ -237,7 +258,7 @@ impl MemoryPool {
         e.insert(
             id,
             PoolEntry {
-                priority: tx.gas_price.saturating_mul(tx.gas_limit),
+                priority: tx.max_fee(),
                 tx,
                 status: TxStatus::Pending,
                 added_at: now,
