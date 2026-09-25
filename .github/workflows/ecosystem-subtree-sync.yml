@@ -45,11 +45,32 @@ jobs:
             git subtree pull --prefix="${prefix}" "${repo}" main --no-squash -X theirs -m "sync: ${repo} into ${prefix}"
           }
 
-          sync_subtree "components/atclang" "atclang"
+          sync_subtree "components/a-townchain-os-docs" "a-townchain-os-docs"
+          sync_subtree "components/a-townchain-os" "a-townchain-os"
           sync_subtree "components/a-townchain" "a-townchain"
+          sync_subtree "components/atc-algorithm" "atc-algorithm"
+          sync_subtree "components/atc-compute" "atc-compute"
+          sync_subtree "components/atc-contracts" "atc-contracts"
+          sync_subtree "components/atc-explorer" "atc-explorer"
+          sync_subtree "components/atc-indexer" "atc-indexer"
+          sync_subtree "components/atc-interop" "atc-interop"
+          sync_subtree "components/atc-launchpad" "atc-launchpad"
+          sync_subtree "components/atc-marketplace" "atc-marketplace"
+          sync_subtree "components/atc-mining" "atc-mining"
+          sync_subtree "components/atc-node" "atc-node"
+          sync_subtree "components/atc-oracle" "atc-oracle"
+          sync_subtree "components/atc-sdk" "atc-sdk"
           sync_subtree "components/atc-shivacore" "atc-shivacore"
+          sync_subtree "components/atc-standards" "atc-standards"
+          sync_subtree "components/atc-storage" "atc-storage"
+          sync_subtree "components/atc-vm" "atc-vm"
+          sync_subtree "components/atc-wallet" "atc-wallet"
+          sync_subtree "components/atc-zkp" "atc-zkp"
+          sync_subtree "components/atclang" "atclang"
           sync_subtree "components/aurora-ai" "aurora-ai"
+          sync_subtree "components/genesis-chronicles" "genesis-chronicles"
           sync_subtree "components/genesis-engine" "genesis-engine"
+          sync_subtree "components/globus-os" "globus-os"
 
       - name: Push synchronized state
         run: |
