@@ -1,5 +1,5 @@
 //! Transactions, mempool and deterministic state transition.
-use crate::security::simple_hash;
+use crate::{economics::MAX_ATC_SUPPLY, security::simple_hash};
 use std::{collections::BTreeMap, sync::Mutex};
 
 mod signature_serde {
@@ -494,6 +494,7 @@ impl StateDb {
         let result = match effect {
             None => Ok(()),
             Some(crate::dao_state::DaoEffect::TreasuryDeposit { amount }) => {
+                let amount = u128::from(amount);
                 let mut a = self.accounts.lock().unwrap();
                 let x = a.entry(sender.to_owned()).or_insert(Account {
                     balance: 0,
@@ -508,6 +509,7 @@ impl StateDb {
                 }
             }
             Some(crate::dao_state::DaoEffect::TreasuryPayout { recipient, amount }) => {
+                let amount = u128::from(amount);
                 let mut a = self.accounts.lock().unwrap();
                 let x = a.entry(recipient).or_insert(Account {
                     balance: 0,
