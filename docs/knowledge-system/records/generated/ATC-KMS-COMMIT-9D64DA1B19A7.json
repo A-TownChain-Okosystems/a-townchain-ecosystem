@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-9D64DA1B19A7",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "Commit: test: prove fresh resync reconstructs validator identity",
+  "context": "Git commit 9d64da1b19a7147dbf832ee5ea103f714be674f3 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/9d64da1b19a7147dbf832ee5ea103f714be674f3",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "test: prove fresh resync reconstructs validator identity"
+}

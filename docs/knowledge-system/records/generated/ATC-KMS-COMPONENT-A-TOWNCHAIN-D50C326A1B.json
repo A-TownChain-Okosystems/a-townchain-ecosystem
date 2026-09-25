@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-A-TOWNCHAIN-D50C326A1B",
-  "timestamp": "2026-09-24T16:39:35.974930Z",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
   "category": "module",
   "title": "Component: a-townchain",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain",
-    "commit": "8c937bfa9436efbd270e772776363a3e84ec7ad4"
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
   },
   "tags": [
     "a-townchain",
@@ -23,5 +23,5 @@
       "target": "ATC-KMS-REPOSITORY-STRUCTURE"
     }
   ],
-  "content": "Files: 1013\n\nManifests: components/a-townchain/components/algorithm/Cargo.toml, components/a-townchain/components/explorer/modules/atc-explorer/package.json, components/a-townchain/components/explorer/package.json, components/a-townchain/components/indexer/modules/atc-analytics/package.json, components/a-townchain/components/interop/modules/atc-bridge/Cargo.toml, components/a-townchain/components/mining/Cargo.toml, components/a-townchain/components/node/Cargo.toml, components/a-townchain/components/oracle/Cargo.toml, components/a-townchain/components/sdk/Cargo.toml, components/a-townchain/components/sdk/modules/atc-cli/Cargo.toml, components/a-townchain/components/sdk/modules/atc-sdk/package.json, components/a-townchain/components/sdk/package.json, components/a-townchain/components/sdk/typescript/package.json, components/a-townchain/components/storage/Cargo.toml, components/a-townchain/components/vm/Cargo.toml, components/a-townchain/components/wallet/Cargo.toml, components/a-townchain/components/wallet/modules/atc-wallet/Cargo.toml, components/a-townchain/components/zkp/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-circuits/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-core/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-crypto/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-prover/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-sdk/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-verifier/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-vm/Cargo.toml, components/a-townchain/modules/atc-blockchain/kernel/Cargo.toml, components/a-townchain/modules/atc-blockchain/package.json, components/a-townchain/modules/atc-dns/Cargo.toml, components/a-townchain/modules/atc-governance/Cargo.toml, components/a-townchain/modules/atc-zkp/Cargo.toml"
+  "content": "Files: 1014\n\nManifests: components/a-townchain/components/algorithm/Cargo.toml, components/a-townchain/components/explorer/modules/atc-explorer/package.json, components/a-townchain/components/explorer/package.json, components/a-townchain/components/indexer/modules/atc-analytics/package.json, components/a-townchain/components/interop/modules/atc-bridge/Cargo.toml, components/a-townchain/components/mining/Cargo.toml, components/a-townchain/components/node/Cargo.toml, components/a-townchain/components/oracle/Cargo.toml, components/a-townchain/components/sdk/Cargo.toml, components/a-townchain/components/sdk/modules/atc-cli/Cargo.toml, components/a-townchain/components/sdk/modules/atc-sdk/package.json, components/a-townchain/components/sdk/package.json, components/a-townchain/components/sdk/typescript/package.json, components/a-townchain/components/storage/Cargo.toml, components/a-townchain/components/vm/Cargo.toml, components/a-townchain/components/wallet/Cargo.toml, components/a-townchain/components/wallet/modules/atc-wallet/Cargo.toml, components/a-townchain/components/zkp/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-circuits/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-core/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-crypto/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-prover/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-sdk/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-verifier/Cargo.toml, components/a-townchain/components/zkp/crates/zkp-vm/Cargo.toml, components/a-townchain/modules/atc-blockchain/kernel/Cargo.toml, components/a-townchain/modules/atc-blockchain/package.json, components/a-townchain/modules/atc-dns/Cargo.toml, components/a-townchain/modules/atc-governance/Cargo.toml, components/a-townchain/modules/atc-zkp/Cargo.toml"
 }

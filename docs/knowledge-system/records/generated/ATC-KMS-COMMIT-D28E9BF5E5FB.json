@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-D28E9BF5E5FB",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "Commit: test(storage): align finality test with canonical binding",
+  "context": "Git commit d28e9bf5e5fbfbd62919861ddb76fdb3da05a887 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/d28e9bf5e5fbfbd62919861ddb76fdb3da05a887",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "test(storage): align finality test with canonical binding"
+}

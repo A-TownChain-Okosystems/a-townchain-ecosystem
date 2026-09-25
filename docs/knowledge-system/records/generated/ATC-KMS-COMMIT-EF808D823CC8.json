@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-EF808D823CC8",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "Commit: consensus: expose deterministic validator-set commitment",
+  "context": "Git commit ef808d823cc87ec7542c868e2874b49423d5c7e3 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/ef808d823cc87ec7542c868e2874b49423d5c7e3",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "consensus: expose deterministic validator-set commitment"
+}

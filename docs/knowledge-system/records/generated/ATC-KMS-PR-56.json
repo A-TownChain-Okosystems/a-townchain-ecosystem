@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-56",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "PR #56: audit: establish evidence-first G1-G9 ecosystem audit baseline",
+  "context": "Pull request 56 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "completed",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/56",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\n## Purpose\n\nOperationalize the agreed ecosystem audit path without converting architecture claims into readiness claims.\n\n## Implemented\n\n- G1 Repository Reality audit contract\n- G2 Core Dependency Chain: atc-algorithm → a-townchain → atc-node → atc-vm → atc-storage → atc-indexer\n- G3-G9 gate registry\n- evidence-first / fail-closed status vocabulary\n- machine-readable readiness matrix\n- explicit requirement for source, test, CI and E2E evidence\n- explicit prohibition on treating umbrella/subtree presence as integration proof\n\n## Important\n\nThis PR does not mark any unverified component or edge as integrated or production-ready. Initial G2 entries remain UNKNOWN until concrete evidence is collected.\n\nNext operational step: perform the real G1/G2 source + CI audit and populate the matrix with exact repository HEADs, symbols, tests, workflow runs and E2E evidence."
+}

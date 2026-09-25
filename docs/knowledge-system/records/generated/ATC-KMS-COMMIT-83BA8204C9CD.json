@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-83BA8204C9CD",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "Commit: test: avoid Debug-dependent recovery assertions",
+  "context": "Git commit 83ba8204c9cd727a0b79afb562739b31bd95317b on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/83ba8204c9cd727a0b79afb562739b31bd95317b",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "test: avoid Debug-dependent recovery assertions"
+}

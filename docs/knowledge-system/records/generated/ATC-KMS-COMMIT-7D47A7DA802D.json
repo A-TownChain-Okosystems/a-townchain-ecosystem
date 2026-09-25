@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-7D47A7DA802D",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "Commit: test: reject late conflicting fork after finality",
+  "context": "Git commit 7d47a7da802d552714d9d7e03b11f0ec139f1ae6 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/7d47a7da802d552714d9d7e03b11f0ec139f1ae6",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "test: reject late conflicting fork after finality"
+}

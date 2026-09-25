@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-406ED54C8A12",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "Commit: fix: verify slashing evidence against historical validator key",
+  "context": "Git commit 406ed54c8a1206c84ce203b762beefe43f2a33fb on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/406ed54c8a1206c84ce203b762beefe43f2a33fb",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix: verify slashing evidence against historical validator key"
+}

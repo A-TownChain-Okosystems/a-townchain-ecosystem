@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-A77150F9C7DB",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "Commit: security: bind block sync replies to authenticated peer identity",
+  "context": "Git commit a77150f9c7db2c45cefb09786cc942779554a6a3 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/a77150f9c7db2c45cefb09786cc942779554a6a3",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "security: bind block sync replies to authenticated peer identity"
+}

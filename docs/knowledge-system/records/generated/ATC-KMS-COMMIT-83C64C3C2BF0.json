@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-83C64C3C2BF0",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "Commit: test: verify validator commitment after restart",
+  "context": "Git commit 83c64c3c2bf07868b86594b5a8e0e1d9fd4b53d8 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/83c64c3c2bf07868b86594b5a8e0e1d9fd4b53d8",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "test: verify validator commitment after restart"
+}

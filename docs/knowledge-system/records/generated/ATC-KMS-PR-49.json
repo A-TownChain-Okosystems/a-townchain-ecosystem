@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-49",
-  "timestamp": "2026-09-24T16:39:35.974930Z",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
   "category": "change",
   "title": "PR #49: fix: restore fail-fast base ECS system behavior",
   "context": "Pull request 49 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/49",
-    "commit": "8c937bfa9436efbd270e772776363a3e84ec7ad4"
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
   },
   "tags": [
     "generated",

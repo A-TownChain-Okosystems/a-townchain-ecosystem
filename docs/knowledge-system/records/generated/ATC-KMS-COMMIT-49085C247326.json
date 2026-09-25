@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-49085C247326",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "Commit: fix(node): use atomic block-state-issuance commit on import",
+  "context": "Git commit 49085c24732631c15b0a045f1712cd7f804a7235 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/49085c24732631c15b0a045f1712cd7f804a7235",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(node): use atomic block-state-issuance commit on import"
+}

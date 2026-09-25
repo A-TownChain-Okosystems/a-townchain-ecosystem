@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-DF0103AA185B",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "Commit: fix(storage): bind recovery journals to canonical blocks",
+  "context": "Git commit df0103aa185beaabca8f64461dbb407ec4fcc685 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/df0103aa185beaabca8f64461dbb407ec4fcc685",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(storage): bind recovery journals to canonical blocks"
+}

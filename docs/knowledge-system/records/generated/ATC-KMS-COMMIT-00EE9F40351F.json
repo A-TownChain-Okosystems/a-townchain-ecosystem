@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-00EE9F40351F",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "Commit: test: reject longer chain that forks before finality",
+  "context": "Git commit 00ee9f40351f7dd8874ea282c791c10c77d62dcf on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/00ee9f40351f7dd8874ea282c791c10c77d62dcf",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "test: reject longer chain that forks before finality"
+}

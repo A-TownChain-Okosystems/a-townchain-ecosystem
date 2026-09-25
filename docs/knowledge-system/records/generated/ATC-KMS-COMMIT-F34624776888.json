@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-F34624776888",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "Commit: fix: keep live slash state aligned with durable snapshot",
+  "context": "Git commit f34624776888dde467461123c5559ce2833fdd99 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/f34624776888dde467461123c5559ce2833fdd99",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix: keep live slash state aligned with durable snapshot"
+}

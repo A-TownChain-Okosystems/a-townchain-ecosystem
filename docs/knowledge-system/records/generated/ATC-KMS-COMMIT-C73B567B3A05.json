@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-C73B567B3A05",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "category": "change",
+  "title": "Commit: fix: preserve conflicting pre-block votes for later duplicate/equivocation handling",
+  "context": "Git commit c73b567b3a0558ab899d340f849bda5357c402e2 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/c73b567b3a0558ab899d340f849bda5357c402e2",
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix: preserve conflicting pre-block votes for later duplicate/equivocation handling"
+}

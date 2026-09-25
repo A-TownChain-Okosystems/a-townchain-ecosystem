@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-DOCS-ARCHIVE-MONOREPO-FULL-SR-2120795D8C",
-  "timestamp": "2026-09-24T16:39:35.974930Z",
+  "timestamp": "2026-09-25T00:04:51.567061Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/docs/archive/monorepo-full/src/modules/atc-aistudio/src/components/ArchitectureDependencyGraph.tsx",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/docs/archive/monorepo-full/src/modules/atc-aistudio/src/components/ArchitectureDependencyGraph.tsx",
-    "commit": "8c937bfa9436efbd270e772776363a3e84ec7ad4"
+    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
   },
   "tags": [
     "generated",
