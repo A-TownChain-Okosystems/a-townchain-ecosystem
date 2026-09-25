@@ -103,7 +103,7 @@ fn tx_decode(b: &[u8], p: &mut usize) -> Result<Transaction, String> {
     let signature = fixed::<64>(b, p)?;
     let public_key = fixed::<32>(b, p)?;
     let poh = fixed::<32>(b, p)?;
-    Ok(Transaction::new_with_chain_id(
+    Ok(Transaction::new_with_chain_id_base_units(
         chain_id, ty, sender, recipient, amount, gas_price, gas_limit, nonce, timestamp, payload,
         signature, public_key, poh,
     ))
@@ -608,7 +608,7 @@ impl ChainStorage {
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec())
                     .map_err(|_| "invalid validator address")?;
-                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let stake = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let public_key = fixed::<32>(&b, &mut q)?;
                 ed25519_dalek::VerifyingKey::from_bytes(&public_key)
                     .map_err(|_| "invalid validator public key")?;
