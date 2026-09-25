@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-ATC-STANDARDS-DOCS-ARCHITECTURE-ATC-STANDARDS-LIB-E91A59432B",
-  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "timestamp": "2026-09-25T07:53:43.180822Z",
   "category": "evidence",
   "title": "Indexed source: components/atc-standards/docs/architecture/ATC-STANDARDS-LIBRARY-ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-standards/docs/architecture/ATC-STANDARDS-LIBRARY-ARCHITECTURE.md",
-    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+    "commit": "edac682d5f5773f661571b7ccbbfb340ddd6cc01"
   },
   "tags": [
     "generated",

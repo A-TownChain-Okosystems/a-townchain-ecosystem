@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-4DBE4A51A509",
-  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "timestamp": "2026-09-25T07:53:43.180822Z",
   "category": "change",
   "title": "Commit: consensus: make pending slashing activation crash-safe",
   "context": "Git commit 4dbe4a51a5092c847a3b1a4a690781a325725185 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/4dbe4a51a5092c847a3b1a4a690781a325725185",
-    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+    "commit": "edac682d5f5773f661571b7ccbbfb340ddd6cc01"
   },
   "tags": [
     "commit",

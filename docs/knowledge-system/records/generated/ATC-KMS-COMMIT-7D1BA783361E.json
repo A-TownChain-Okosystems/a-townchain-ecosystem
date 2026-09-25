@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-7D1BA783361E",
-  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "timestamp": "2026-09-25T07:53:43.180822Z",
   "category": "change",
   "title": "Commit: fix(state): preserve legacy root until validator state is populated",
   "context": "Git commit 7d1ba783361e64da61a9227e1767548c7fd139d6 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/7d1ba783361e64da61a9227e1767548c7fd139d6",
-    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+    "commit": "edac682d5f5773f661571b7ccbbfb340ddd6cc01"
   },
   "tags": [
     "commit",

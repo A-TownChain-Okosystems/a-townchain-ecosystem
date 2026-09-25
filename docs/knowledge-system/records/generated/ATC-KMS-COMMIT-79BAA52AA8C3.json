@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-79BAA52AA8C3",
-  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "timestamp": "2026-09-25T07:53:43.180822Z",
   "category": "change",
   "title": "Commit: fix: reject conflicting local validator history during resync",
   "context": "Git commit 79baa52aa8c369f9c03c994942edf3bd86a4580f on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/79baa52aa8c369f9c03c994942edf3bd86a4580f",
-    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+    "commit": "edac682d5f5773f661571b7ccbbfb340ddd6cc01"
   },
   "tags": [
     "commit",

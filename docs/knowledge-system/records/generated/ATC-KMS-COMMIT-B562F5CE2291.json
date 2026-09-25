@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-B562F5CE2291",
-  "timestamp": "2026-09-25T00:04:51.567061Z",
+  "timestamp": "2026-09-25T07:53:43.180822Z",
   "category": "change",
   "title": "Commit: fix: bind validator recovery to canonical activation boundary",
   "context": "Git commit b562f5ce22911c39acfc99bef86e7f051a917a36 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/b562f5ce22911c39acfc99bef86e7f051a917a36",
-    "commit": "59b5492814397ace40dde514ea1de493bfc76ff4"
+    "commit": "edac682d5f5773f661571b7ccbbfb340ddd6cc01"
   },
   "tags": [
     "commit",
