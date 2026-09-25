@@ -219,7 +219,7 @@ impl ConsensusEngine {
         (
             BTreeMap<String, u128>,
             BTreeMap<String, [u8; 32]>,
-            BTreeMap<String, u64>,
+            BTreeMap<String, u128>,
         ),
         String,
     > {
@@ -241,9 +241,9 @@ impl ConsensusEngine {
 
     pub fn restore_mutable_validator_state(
         &self,
-        validators: BTreeMap<String, u64>,
+        validators: BTreeMap<String, u128>,
         keys: BTreeMap<String, [u8; 32]>,
-        slashed: BTreeMap<String, u64>,
+        slashed: BTreeMap<String, u128>,
     ) -> Result<(), String> {
         if validators.len() != keys.len()
             || validators.keys().any(|address| !keys.contains_key(address))
@@ -273,7 +273,7 @@ impl ConsensusEngine {
         height > 0 && height.is_multiple_of(EPOCH_LENGTH_BLOCKS)
     }
 
-    pub fn slashed_stake(&self, address: &str) -> u64 {
+    pub fn slashed_stake(&self, address: &str) -> u128 {
         self.slashed
             .lock()
             .unwrap()
@@ -282,7 +282,7 @@ impl ConsensusEngine {
             .unwrap_or(0)
     }
 
-    pub fn slash(&self, evidence: SlashingEvidence, penalty: u64) -> Result<u64, String> {
+    pub fn slash(&self, evidence: SlashingEvidence, penalty: u128) -> Result<u128, String> {
         if evidence.block_a == evidence.block_b || evidence.validator.is_empty() || penalty == 0 {
             return Err("invalid slashing evidence".into());
         }
@@ -339,7 +339,7 @@ impl ConsensusEngine {
         Ok(applied)
     }
 
-    pub fn validators_snapshot(&self) -> BTreeMap<String, u64> {
+    pub fn validators_snapshot(&self) -> BTreeMap<String, u128> {
         self.validators.lock().unwrap().clone()
     }
 
@@ -347,7 +347,7 @@ impl ConsensusEngine {
     /// identity binding for durable snapshots.
     pub fn validator_snapshot_with_keys(
         &self,
-    ) -> Result<(BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>), String> {
+    ) -> Result<(BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>), String> {
         let validators = self
             .validators
             .lock()
@@ -366,13 +366,13 @@ impl ConsensusEngine {
         Ok((validators, keys))
     }
 
-    pub fn total_validator_stake(&self) -> u64 {
+    pub fn total_validator_stake(&self) -> u128 {
         self.validators
             .lock()
             .unwrap()
             .values()
             .copied()
-            .fold(0, u64::saturating_add)
+            .fold(0u128, u128::saturating_add)
     }
 
     pub fn propose_id(&self, h: u64, parent: [u8; 32], state: [u8; 32], tx: [u8; 32]) -> [u8; 32] {
@@ -457,7 +457,7 @@ impl ConsensusEngine {
         let Some((validators, _keys)) = self.validator_snapshot_for_height(height) else {
             return false;
         };
-        let total = validators.values().copied().fold(0u64, u64::saturating_add);
+        let total = validators.values().copied().fold(0u128, u128::saturating_add);
         if total == 0 {
             return false;
         }
@@ -643,7 +643,7 @@ mod tests {
         engine.register_validator_key("b", b.verifying_key().to_bytes()).unwrap();
         let keys0 = [(String::from("a"), a.verifying_key().to_bytes()), (String::from("b"), b.verifying_key().to_bytes())].into_iter().collect();
         engine.restore_validator_snapshot(0, engine.validators_snapshot(), keys0).unwrap();
-        engine.restore_validator_snapshot(1, [("a".to_string(), 100u64)].into_iter().collect(), [("a".to_string(), a.verifying_key().to_bytes())].into_iter().collect());
+        engine.restore_validator_snapshot(1, [("a".to_string(), 100u128)].into_iter().collect(), [("a".to_string(), a.verifying_key().to_bytes())].into_iter().collect());
 
         let block0 = [56u8; 32];
         engine.vote_at_height(signed_vote(&engine, &a, "a", block0, true), 0).unwrap();
@@ -711,7 +711,7 @@ mod tests {
             let mut bytes = Vec::new();
             bytes.extend_from_slice(b"ATC-SLASH-V1");
             bytes.extend_from_slice(&engine.chain_id.to_be_bytes());
-            bytes.extend_from_slice(&1u64.to_be_bytes());
+            bytes.extend_from_slice(&1u128.to_be_bytes());
             bytes.extend_from_slice(&block);
             bytes.push(1);
             bytes.extend_from_slice(&(1u32).to_be_bytes());
