@@ -281,8 +281,8 @@ mod tests {
         let err = verify(vec![
             Op::Push(1),
             Op::JumpIfZero(4),
-            Op::Push(2),
             Op::Jump(5),
+            Op::Halt,
             Op::Push(3),
             Op::Halt,
         ])
