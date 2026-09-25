@@ -15,7 +15,7 @@ pub struct Genesis {
     pub block_time_seconds: u64,
     pub halving_interval_blocks: u64,
     pub halving_events: u64,
-    pub max_supply: u64,
+    pub max_supply: u128,
     pub initial_allocations: Vec<(String, u64)>,
 }
 
