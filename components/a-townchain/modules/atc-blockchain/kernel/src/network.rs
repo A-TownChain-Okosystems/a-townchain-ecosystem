@@ -323,7 +323,7 @@ fn tx_decode(b: &[u8], p: &mut usize) -> Result<Transaction, String> {
     let sig = fixed::<64>(b, p)?;
     let pk = fixed::<32>(b, p)?;
     let poh = fixed::<32>(b, p)?;
-    Ok(Transaction::new_with_chain_id(
+    Ok(Transaction::new_with_chain_id_base_units(
         chain_id, ty, sender, recipient, amount, gas_price, gas_limit, nonce, timestamp, payload,
         sig, pk, poh,
     ))
