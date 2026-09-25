@@ -981,7 +981,7 @@ impl Node {
             .restore_validator_snapshot(activation_height, validators, keys)
     }
 
-    pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
+    pub fn register_validator(&self, address: String, stake: u128) -> Result<(), String> {
         let activation_height = if self.consensus.has_validator_snapshot(self.consensus.height()) {
             self.consensus.height().saturating_add(1)
         } else {
