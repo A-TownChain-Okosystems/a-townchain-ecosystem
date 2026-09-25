@@ -13,7 +13,7 @@ use super::{
 };
 
 const MAGIC: &[u8] = b"ATCB1";
-const VALIDATOR_MAGIC: &[u8] = b"ATCV2";
+const VALIDATOR_MAGIC: &[u8] = b"ATCV3";
 const LEGACY_VALIDATOR_MAGIC: &[u8] = b"ATCV1";
 const FINALITY_MAGIC: &[u8] = b"ATCF1";
 const SLASH_MAGIC: &[u8] = b"ATCS1";
@@ -392,7 +392,7 @@ impl ChainStorage {
         dao: &[u8],
         issued_base_units: u128,
         activation_height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<(), String> {
         if validators.len() != validator_keys.len()
