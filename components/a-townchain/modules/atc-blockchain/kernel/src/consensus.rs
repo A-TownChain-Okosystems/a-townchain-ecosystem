@@ -711,7 +711,7 @@ mod tests {
             let mut bytes = Vec::new();
             bytes.extend_from_slice(b"ATC-SLASH-V1");
             bytes.extend_from_slice(&engine.chain_id.to_be_bytes());
-            bytes.extend_from_slice(&1u128.to_be_bytes());
+            bytes.extend_from_slice(&1u64.to_be_bytes());
             bytes.extend_from_slice(&block);
             bytes.push(1);
             bytes.extend_from_slice(&(1u32).to_be_bytes());
