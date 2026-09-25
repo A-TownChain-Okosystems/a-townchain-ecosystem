@@ -11,4 +11,4 @@ pub use agent_registry::AgentRegistry;
 pub use aurora_core::AuroraCore;
 pub use config_manager::ConfigManager;
 pub use llm_router::LlmRouter;
-pub use model_hub::ModelHub;
+pub use model_hub::{EchoBackend, InferenceBackend, InferenceError, ModelHub, ModelInfo};
