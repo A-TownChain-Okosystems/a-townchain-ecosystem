@@ -174,7 +174,7 @@ fn main() -> std::io::Result<()> {
     };
 
     for validator in &validators {
-        if let Err(e) = runtime.node.register_validator(validator.id.clone(), validator.stake) {
+        if let Err(e) = runtime.node.register_validator(validator.id.clone(), u128::from(validator.stake)) {
             eprintln!("validator registration failed for {}: {e}", validator.id);
             std::process::exit(1);
         }
