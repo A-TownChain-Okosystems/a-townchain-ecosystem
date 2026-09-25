@@ -1229,7 +1229,7 @@ mod tests {
         put(&mut state_record, &[]);
         std::fs::write(path.with_extension("state"), format!("{}\n", hex::encode(state_record))).unwrap();
 
-        let storage = ChainStorage::new();
+        let mut storage = ChainStorage::new();
         // The same recovery boundary used by open_storage() must fail closed:
         // state cannot become durable merely because its journal line is valid.
         storage.state_journal = Some(path.with_extension("state"));
