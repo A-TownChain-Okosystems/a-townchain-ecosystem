@@ -327,6 +327,305 @@ Quest Rewards sind niemals allein aufgrund einer LLM-Antwort gültig.
 
 ---
 
+
+# Quest AI — Extended System Definition
+
+## Autonomes Quest-System
+
+Quest AI ist eine zentrale Game-Intelligence-Schicht für Game- und World-KI. Sie generiert nicht nur Questtexte, sondern verbindet:
+
+```
+Lore + World + Characters + Creatures + Items + Weapons
++ Levels + Economy + Events + Player State + Factions
+        ↓
+     QUEST AI
+        ↓
+Quest Generation + Planning + Direction + Runtime
+```
+
+Die Quest AI beantwortet systemisch:
+- welche Quest entsteht
+- wann sie entsteht
+- für wen sie entsteht
+- wo sie stattfindet
+- welche NPCs beteiligt sind
+- welche Gegner/Creatures erscheinen
+- welche Items/Waffen/Assets benötigt werden
+- welche Belohnung angemessen ist
+- welche Konsequenzen entstehen
+- ob die Quest Teil eines Quest Graphs bzw. einer größeren Storyline wird
+
+## Quest Director — Reactive World
+
+```
+World State
+    ↓
+Event Detection
+    ↓
+Threat / Opportunity Analysis
+    ↓
+Quest Decision
+    ↓
+Quest Spawn
+    ↓
+Player Interaction
+    ↓
+World Consequence
+```
+
+Ereignisse können dadurch Folgequests wie Fraktionsnachfolge, Vergeltung, Machtverschiebungen oder Einflussquests erzeugen.
+
+## Quest Graph
+
+```
+Quest A
+ ├── Success → Quest B → Quest C
+ └── Failure → Quest D → Quest E
+```
+
+Der Graph unterstützt verzweigte Storylines, alternative Enden, versteckte Quests, Failure Paths, Fraktionskriege und dynamische Kampagnen.
+
+## Erweiterte Quest Runtime State Machine
+
+```
+CREATED
+AVAILABLE
+ACCEPTED
+ACTIVE
+OBJECTIVE_STARTED
+OBJECTIVE_PROGRESS
+OBJECTIVE_COMPLETED
+TURN_IN
+REWARD_PENDING
+COMPLETED
+FAILED
+ABANDONED
+EXPIRED
+LOCKED
+CANCELLED
+```
+
+LOCKED bedeutet: Die Quest-Definition existiert, ist aber durch Prerequisites, Dependencies, World State oder andere autorisierte Bedingungen nicht aktivierbar.
+
+## Game-System Inputs
+
+```
+WORLD STATE
+PLAYER STATE
+LORE / CANON
+NPC STATE
+FACTION STATE
+ECONOMY
+CREATURE / SHIVAMON STATE
+ITEM DATABASE
+WEAPON DATABASE
+LEVEL / PROGRESSION STATE
+EVENT SYSTEM
+```
+
+Diese Inputs sind Kontext-/Read-Modelle. Autoritative Zustandsänderungen erfolgen ausschließlich über die validierte Runtime.
+
+## Dynamic Difficulty
+
+```
+Player Level
++ Equipment
++ Shivamon / Creature Power
++ Player Skill
++ Party Size
++ Previous Performance
++ World Threat
++ Mission Type
++ Quest Importance
+= Recommended Quest Difficulty
+```
+
+Die Runtime kann Recommended Level, Enemy Level, Boss Level, Threat Level, Estimated Duration und Recommended Party Size ableiten.
+
+## Personalized Quest Intelligence
+
+```
+Player Profile
+      ↓
+Playstyle / Progress Analysis
+      ↓
+Quest Recommendation
+```
+
+Personalisierung kann PvE/PvP, Exploration, Lore, Crafting, Boss-, Faction- und Competitive-Spielweisen berücksichtigen, ohne den kanonischen Contract stillschweigend zu verändern.
+
+## Lore / Canon Boundary
+
+```
+Lore Database
+      ↓
+Canon Validator
+      ↓
+Quest Generator
+      ↓
+Lore Validation
+      ↓
+Canon Validation
+      ↓
+World Validation
+      ↓
+Quest Approval
+```
+
+Quest AI darf keinen autoritativen Lore-Canon eigenmächtig ändern.
+
+## NPC- und Faction-Intelligence
+
+```
+Identity
+Personality
+Faction
+Relationships
+Goals
+Fear
+Knowledge
+Secrets
+Current State
+```
+
+Fraktionen besitzen eigene Ziele, Reputation und Zustände. Questketten können NPC- und Faction-State verändern und Folgequests auslösen.
+
+## Multiplayer / Global Quest Layer
+
+Unterstützte Quest-Skalen:
+- Solo Quest
+- Party Quest
+- Guild Quest
+- Alliance Quest
+- World Quest
+- Server Event
+- Global Event
+- Raid Quest
+
+Global Events können server- oder weltweite Fortschrittszustände besitzen. Der Fortschritt wird deterministisch aus validierten Gameplay-Ereignissen berechnet.
+
+## Reward & Economy Control
+
+```
+Difficulty
++ Duration
++ Risk
++ Rarity
++ Player Level
++ Economy State
++ Quest Importance
+        ↓
+Reward Proposal
+        ↓
+Economy Validation
+        ↓
+Reward Execution
+```
+
+Mögliche Reward-Klassen umfassen XP, ATC-/Game-Currencies, Items, Weapons, Mods, Blueprints, Materials, DNA/Creature Assets, Shivamon, Cosmetics, Titles, Badges, Faction/Guild Reputation und Genesis-spezifische Assets.
+
+Tokenisierte bzw. Blockchain-relevante Assets benötigen die vorgesehenen Chain-/VM-Schnittstellen und dürfen nicht direkt durch AI-Inferenz ausgegeben werden.
+
+## Quest Security Intelligence
+
+```
+QUEST AI
+ ├── Economy AI
+ ├── Security AI
+ ├── Anti-Cheat
+ └── Blockchain Security
+```
+
+Zu prüfende Abuse-Klassen:
+- Quest Farming
+- Botting / Automation
+- Multi-Account Farming
+- Reward Loops
+- XP Exploits
+- ATC Farming
+- Item Duplication
+- Objective Manipulation
+- Duplicate Rewards
+
+## Quest Memory
+
+```
+Completed Quests
+Failed Quests
+Important Decisions
+Faction Reputation
+NPC Relationships
+World Changes
+Unlocked Locations
+```
+
+Memory ist kein separater autoritativer World-Canon. Die Quelle bleibt der jeweilige kanonische Game-/World-/Player-State.
+
+## Quest AI Service Boundary
+
+```
+quest-ai/
+├── core/
+│   ├── quest_generator
+│   ├── quest_director
+│   ├── quest_planner
+│   ├── quest_validator
+│   └── quest_runtime
+├── generation/
+│   ├── templates
+│   ├── objectives
+│   ├── narratives
+│   ├── rewards
+│   └── branching
+├── intelligence/
+│   ├── player_model
+│   ├── world_model
+│   ├── faction_model
+│   ├── difficulty_ai
+│   └── recommendation_ai
+├── integration/
+│   ├── world
+│   ├── lore
+│   ├── character
+│   ├── creature
+│   ├── item
+│   ├── weapon
+│   ├── level
+│   ├── economy
+│   └── blockchain
+├── security/
+│   ├── anti_exploit
+│   ├── anti_bot
+│   ├── reward_validation
+│   └── quest_integrity
+└── api/
+    ├── quest_api
+    ├── runtime_api
+    ├── generation_api
+    └── event_api
+```
+
+Diese Struktur ist ein logischer Architekturvertrag, keine Behauptung, dass jedes Modul bereits implementiert ist.
+
+## Zieldefinition
+
+```
+QUEST AI
+= Quest Generation
++ Quest Planning
++ Quest Director
++ Dynamic World Events
++ Narrative Branching
++ Player Personalization
++ Runtime Execution
++ Reward / Economy Control
++ Security / Integrity
+```
+
+Quest AI ist damit eine zentrale Game-Intelligence-Schicht der Genesis-/Shivamon-Welt und nicht lediglich ein Textgenerator.
+
+---
+
 # Quest Data Contract — Canonical
 
 Der folgende Contract ist der **kanonische Quest-Datenvertrag auf Systemebene**. Feldnamen und semantische Gruppen sind Bestandteil des Integrationsvertrags; die konkrete Runtime-Repräsentation und Programmiersprache bleiben Aufgabe der Genesis-Engine-Implementierung.
