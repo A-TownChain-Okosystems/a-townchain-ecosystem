@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-WIKI-MAIN-DOCS-SECURITY-MD-425CE92233",
-  "timestamp": "2026-09-25T07:53:43.180822Z",
+  "timestamp": "2026-09-26T07:47:03.099418Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/wiki/main/docs/SECURITY.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/wiki/main/docs/SECURITY.md",
-    "commit": "edac682d5f5773f661571b7ccbbfb340ddd6cc01"
+    "commit": "e79a56d83fdfaeccd4a15ca32050947033f63bab"
   },
   "tags": [
     "generated",

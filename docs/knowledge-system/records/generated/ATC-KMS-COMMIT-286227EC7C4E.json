@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-286227EC7C4E",
-  "timestamp": "2026-09-25T07:53:43.180822Z",
+  "timestamp": "2026-09-26T07:47:03.099418Z",
   "category": "change",
   "title": "Commit: fix: persist finality before publishing live finalized state",
   "context": "Git commit 286227ec7c4e95d0e6eb3e28937ec326f9be3432 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/286227ec7c4e95d0e6eb3e28937ec326f9be3432",
-    "commit": "edac682d5f5773f661571b7ccbbfb340ddd6cc01"
+    "commit": "e79a56d83fdfaeccd4a15ca32050947033f63bab"
   },
   "tags": [
     "commit",

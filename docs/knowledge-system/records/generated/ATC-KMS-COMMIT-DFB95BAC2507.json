@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-DFB95BAC2507",
-  "timestamp": "2026-09-25T07:53:43.180822Z",
+  "timestamp": "2026-09-26T07:47:03.099418Z",
   "category": "change",
   "title": "Commit: fix: restore only latest mutable validator registry on restart",
   "context": "Git commit dfb95bac250744a04ef5b4da794bfae83273a53a on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/dfb95bac250744a04ef5b4da794bfae83273a53a",
-    "commit": "edac682d5f5773f661571b7ccbbfb340ddd6cc01"
+    "commit": "e79a56d83fdfaeccd4a15ca32050947033f63bab"
   },
   "tags": [
     "commit",
