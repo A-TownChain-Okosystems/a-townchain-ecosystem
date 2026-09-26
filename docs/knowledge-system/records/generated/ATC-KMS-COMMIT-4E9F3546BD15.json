@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-4E9F3546BD15",
-  "timestamp": "2026-09-26T07:47:03.099418Z",
+  "timestamp": "2026-09-26T15:57:37.305633Z",
   "category": "change",
   "title": "Commit: test: bind validator activation to canonical block state",
   "context": "Git commit 4e9f3546bd151ebd6f03a1a41e8a5b3c7523649a on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/4e9f3546bd151ebd6f03a1a41e8a5b3c7523649a",
-    "commit": "e79a56d83fdfaeccd4a15ca32050947033f63bab"
+    "commit": "fbfe353abe817be373ec76256cdf56b317488f5f"
   },
   "tags": [
     "commit",

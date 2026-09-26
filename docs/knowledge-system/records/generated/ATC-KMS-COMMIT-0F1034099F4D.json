@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-0F1034099F4D",
-  "timestamp": "2026-09-26T07:47:03.099418Z",
+  "timestamp": "2026-09-26T15:57:37.305633Z",
   "category": "change",
   "title": "Commit: test: harden fork and finalized-block resync boundaries",
   "context": "Git commit 0f1034099f4d10a837fa358726d380f5f698dce3 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/0f1034099f4d10a837fa358726d380f5f698dce3",
-    "commit": "e79a56d83fdfaeccd4a15ca32050947033f63bab"
+    "commit": "fbfe353abe817be373ec76256cdf56b317488f5f"
   },
   "tags": [
     "commit",
