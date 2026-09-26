@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-29",
-  "timestamp": "2026-09-26T15:57:37.305633Z",
+  "timestamp": "2026-09-26T16:05:05.856372Z",
   "category": "change",
   "title": "PR #29: fix: put Rust DEX under real workspace CI",
   "context": "Pull request 29 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/29",
-    "commit": "fbfe353abe817be373ec76256cdf56b317488f5f"
+    "commit": "53b1637aaa717488101d4145352a8ec872b8db83"
   },
   "tags": [
     "generated",

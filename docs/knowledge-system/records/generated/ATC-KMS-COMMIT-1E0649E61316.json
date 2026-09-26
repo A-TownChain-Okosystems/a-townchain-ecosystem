@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-1E0649E61316",
-  "timestamp": "2026-09-26T15:57:37.305633Z",
+  "timestamp": "2026-09-26T16:05:05.856372Z",
   "category": "change",
   "title": "Commit: fix(state): rollback validator state on failed batch",
   "context": "Git commit 1e0649e613169ee2ac02df614ef8997db0c36d30 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/1e0649e613169ee2ac02df614ef8997db0c36d30",
-    "commit": "fbfe353abe817be373ec76256cdf56b317488f5f"
+    "commit": "53b1637aaa717488101d4145352a8ec872b8db83"
   },
   "tags": [
     "commit",

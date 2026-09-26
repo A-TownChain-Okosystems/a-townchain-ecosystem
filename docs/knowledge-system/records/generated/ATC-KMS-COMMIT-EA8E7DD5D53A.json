@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-EA8E7DD5D53A",
-  "timestamp": "2026-09-26T15:57:37.305633Z",
+  "timestamp": "2026-09-26T16:05:05.856372Z",
   "category": "change",
   "title": "Commit: test: bind slashing evidence to historical key",
   "context": "Git commit ea8e7dd5d53a21d9f1de20d730b4f90b167bf97d on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/ea8e7dd5d53a21d9f1de20d730b4f90b167bf97d",
-    "commit": "fbfe353abe817be373ec76256cdf56b317488f5f"
+    "commit": "53b1637aaa717488101d4145352a8ec872b8db83"
   },
   "tags": [
     "commit",
