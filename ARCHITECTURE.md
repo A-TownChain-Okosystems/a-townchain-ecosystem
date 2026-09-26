@@ -15,10 +15,10 @@
 | Genesis Chronicles / Games / Franchises / User Experiences    |
 +----------------------------------------------------------------+
 | Genesis Engine — L6 Game Platform                             |
-| Runtime / ECS / World / Gameplay / AI / Quest AI / LiveOps   |
+| Runtime / ECS / World / Gameplay / AI / Quest AI / Dialogue / LiveOps |
 +----------------------------------------------------------------+
 | Aurora AI — AI / Agent / Policy Layer                          |
-| Models / Agents / Memory / Tools / Planning / Governance      |
+| Models / Agents / Memory / Tools / Planning / Dialogue / Governance |
 +----------------------------------------------------------------+
 | A-TownChain L1                                                 |
 | Node / Wallet / SDK / VM / Algorithm / State / Storage / ...  |
@@ -816,3 +816,589 @@ Rewards / Reputation / Consequences
         ↓
 Persistent Game State
 ```
+
+
+---
+
+# Dialogue AI — Master Architecture
+
+Dialogue AI ist eine eigenständige, wiederverwendbare **Conversational Intelligence Layer** der Genesis-/Shivamon-Plattform. Sie ist kein reiner Chatbot und kein unkontrollierter LLM-Ausgabekanal. Sie verbindet Character State, Conversation Context, NPC Memory, Quest State, World State, Lore/Canon, Factions, Reputation, Emotion und autorisierte Gameplay-Actions zu validierten Dialog-Interaktionen.
+
+## Positionierung
+
+```
+                         Aurora AI
+                             │
+                 Models / Agents / Planning
+                             │
+                             ▼
+                 ┌─────────────────────────┐
+                 │       DIALOGUE AI       │
+                 ├─────────────────────────┤
+                 │ Dialogue Core           │
+                 │ Context Engine          │
+                 │ Character Intelligence  │
+                 │ Memory                  │
+                 │ Emotion Engine          │
+                 │ Dialogue Planner        │
+                 │ Generator               │
+                 │ Lore / Canon Grounding  │
+                 │ Validator               │
+                 │ Action Interface        │
+                 │ Voice / TTS             │
+                 │ Security / Audit        │
+                 └────────────┬────────────┘
+                              │
+          ┌───────────────────┼───────────────────┐
+          ▼                   ▼                   ▼
+       Quest AI            World AI           Lore AI
+          │                   │                   │
+          └───────────────────┼───────────────────┘
+                              ▼
+                       Genesis Engine
+                              │
+              ┌───────────────┼───────────────┐
+              ▼               ▼               ▼
+             NPCs          Factions          Events
+                              │
+                              ▼
+                           Player
+```
+
+## Dialogue AI Subsysteme
+
+### 1. Dialogue Core
+
+Verantwortlich für:
+
+- Intent Detection
+- Response Generation
+- Context Management
+- Conversation State
+- Dialogue Planning
+- Session Lifecycle
+
+Die Dialogue Core darf keinen autoritativen Game State direkt mutieren.
+
+### 2. Character Intelligence
+
+Jeder NPC kann ein versioniertes Character Profile besitzen:
+
+```
+Character
+├── Identity
+├── Personality
+├── Motivation
+├── Knowledge
+├── Relationships
+├── Emotional State
+├── Memory Policy
+└── Dialogue Policy
+```
+
+Beispiel:
+
+```yaml
+character:
+  id: NPC-0001
+  name: "Arkon"
+  personality:
+    traits: [loyal, suspicious, ambitious]
+  motivation:
+    primary: "protect_the_city"
+    secondary: "discover_the_ur_archive"
+  knowledge:
+    world: true
+    local: true
+    forbidden_lore: false
+  relationships:
+    player: 35
+    faction_guard: 80
+    demon_faction: -90
+  emotional_state:
+    emotion: cautious
+    intensity: 0.72
+  memory:
+    enabled: true
+```
+
+Das Profil definiert Kontext und Constraints; es ist nicht selbst der autoritative World State.
+
+### 3. Context Engine
+
+Vor jeder Antwort wird ein deterministisch zusammengestellter Context aus autorisierten Read-Modellen gebildet:
+
+```
+Player
+  ↓
+Conversation
+  ↓
+NPC Memory
+  ↓
+Quest State
+  ↓
+World State
+  ↓
+Lore / Canon
+  ↓
+Player Reputation
+  ↓
+Faction State
+  ↓
+Current Location
+  ↓
+Time / Event
+  ↓
+Dialogue Planner
+  ↓
+Response Proposal
+```
+
+Context muss versionierbar, nachvollziehbar und auditierbar sein.
+
+### 4. Dialogue State Machine
+
+Dialog-Lifecycle und erlaubte Übergänge werden durch Runtime-/Gameplay-Regeln begrenzt:
+
+```
+START
+ ↓
+GREETING
+ ├── FRIENDLY → INFORMATION
+ ├── HOSTILE  → THREAT
+ └── UNKNOWN  → INVESTIGATION
+                  ↓
+               DECISION
+              /        \
+         ACCEPT        REFUSE
+            ↓             ↓
+          QUEST          EXIT
+```
+
+LLM-Inferenz erzeugt keine frei definierbaren State Transitions. Die Runtime entscheidet, welche Übergänge zulässig sind.
+
+### 5. Dialogue Actions
+
+Dialogue AI kann strukturierte Action-Proposals erzeugen:
+
+```json
+{
+  "speech": "Ich kann dir helfen, aber zuerst musst du mir etwas beweisen.",
+  "emotion": "suspicious",
+  "intent": "quest_offer",
+  "actions": [
+    {
+      "type": "offer_quest",
+      "quest_id": "QUEST-1042"
+    }
+  ]
+}
+```
+
+Unterstützte Action-Klassen können umfassen:
+
+```
+SAY
+ASK
+ANSWER
+OFFER_QUEST
+ACCEPT_QUEST
+DECLINE_QUEST
+START_TRADE
+GIVE_ITEM
+REQUEST_ITEM
+CHANGE_REPUTATION
+CHANGE_RELATIONSHIP
+TRIGGER_EVENT
+START_COMBAT
+END_DIALOGUE
+UNLOCK_LOCATION
+REVEAL_LORE
+```
+
+Actions sind **Vorschläge/Commands**, keine unmittelbaren autoritativen Zustandsänderungen.
+
+### 6. Memory System
+
+Memory wird in drei logische Klassen getrennt:
+
+```
+Short-Term Memory
+├── Conversation ID
+├── Messages
+├── Topics
+├── Current Intent
+└── Current Emotion
+
+Episodic Memory
+├── Important Decisions
+├── Player Interactions
+├── Quest Outcomes
+├── Betrayals / Alliances
+└── Relevant World Events
+
+Semantic Memory
+├── Character Knowledge
+├── Local Knowledge
+├── Faction Knowledge
+├── Lore References
+└── Player Reputation
+```
+
+Memory besitzt eine Importance-/Retention-Policy. Nicht jede Äußerung wird persistent gespeichert.
+
+Persistente Memory darf keinen autoritativen Canon außerhalb der vorgesehenen Quellen erzeugen.
+
+### 7. Emotion Engine
+
+Emotionen sind strukturierte Zustandsdaten:
+
+```
+Emotion
++ Intensity
++ Duration / Decay
++ Trigger
+```
+
+Beispiel:
+
+```yaml
+emotion:
+  type: anger
+  intensity: 0.86
+  trigger: player_betrayal
+  decay: 0.04
+```
+
+Emotion kann Text, Voice, Animation und NPC-Reaktionsparameter beeinflussen, darf aber keine nicht autorisierte Gameplay-Mutation auslösen.
+
+### 8. Quest AI Integration
+
+Dialogue AI und Quest AI bilden eine gekoppelte Intelligence-Schicht:
+
+```
+QUEST AI
+    │
+    ├── Quest Generation
+    ├── Quest State
+    ├── Objectives
+    └── Rewards
+          │
+          ▼
+    DIALOGUE AI
+          │
+          ├── Quest Introduction
+          ├── Quest Discussion
+          ├── Dynamic Hints
+          ├── Negotiation
+          └── Quest Completion
+```
+
+Quest AI bleibt für Quest-Verträge und Quest-Runtime verantwortlich. Dialogue AI stellt die konversationelle Interaktionsschicht bereit.
+
+### 9. Lore / Canon Integration
+
+Dialogue AI darf keine beliebigen Lore-Fakten als Canon etablieren:
+
+```
+Player Question
+      ↓
+Lore Database / Knowledge Graph
+      ↓
+RAG / Retrieval
+      ↓
+Canon Validation
+      ↓
+Dialogue Generation
+      ↓
+Response Validation
+      ↓
+Dialogue Response
+```
+
+Dialogue AI darf den autoritativen Lore-Canon nur über einen autorisierten Change-Prozess verändern.
+
+### 10. World / Gameplay Integration
+
+Dialogue AI kann Kontext aus folgenden Domänen konsumieren:
+
+```
+World State
+Quest State
+NPC State
+Faction State
+Player State
+Reputation
+Items
+Weapons
+Trading
+Crafting
+Combat
+Events
+Locations
+Timeline
+```
+
+Autoritative Mutationen erfolgen ausschließlich über Genesis Engine Runtime bzw. die jeweils zuständige kanonische Systemgrenze.
+
+### 11. Voice Dialogue
+
+Voice ist eine nachgelagerte Darstellungsschicht:
+
+```
+Dialogue Response
+      ↓
+Emotion
+      ↓
+Voice Profile
+      ↓
+TTS
+      ↓
+Audio
+      ↓
+Lip Sync
+      ↓
+NPC Animation
+```
+
+Voice/TTS ist austauschbar und darf die deterministische Gameplay-Runtime nicht ersetzen.
+
+### 12. Multilingual Dialogue
+
+Die semantische Dialogue Representation bleibt sprachneutral:
+
+```
+Player Language
+      ↓
+Intent / Context
+      ↓
+Language-Neutral Dialogue Representation
+      ↓
+Response Planning
+      ↓
+Target Language
+      ↓
+TTS
+```
+
+Zielsprachen können u. a. Deutsch, Englisch, Französisch, Spanisch, Italienisch, Portugiesisch, Japanisch, Koreanisch und Chinesisch umfassen. Sprachunterstützung ist ein Capability-Ziel; konkrete Sprachabdeckung muss durch Evidence nachgewiesen werden.
+
+### 13. Dialogue Validation
+
+Jede generierte Response bzw. Action Proposal wird geprüft:
+
+```
+Dialogue Proposal
+      ↓
+Schema Validation
+      ↓
+Character Consistency
+      ↓
+Lore / Canon Validation
+      ↓
+Quest Consistency
+      ↓
+World-State Validation
+      ↓
+Content / Policy Validation
+      ↓
+Action Authorization
+      ↓
+Runtime
+```
+
+Zusätzliche Qualitätsprüfungen:
+
+- Repetition Detection
+- Anachronism Detection
+- Canon Conflict Detection
+- Personality Drift Detection
+- Quest Logic Validation
+- Prompt / Injection Resistance
+- Provenance Tracking
+
+Fail-closed für ungültige oder nicht autorisierte Actions.
+
+## Deterministic Dialogue Boundary
+
+Für alle produktiven Dialogue-AI-Pfade gilt:
+
+```
+AI / Model Inference
+        ↓
+Dialogue Proposal
+        ↓
+Schema + Policy Validation
+        ↓
+Authorized Action / Response
+        ↓
+Genesis Engine Runtime
+        ↓
+Deterministic State Change
+        ↓
+Persistent Game State
+```
+
+Dialogue AI darf insbesondere nicht:
+
+- direkt ECS-State mutieren
+- Quest-State außerhalb der Quest-Runtime verändern
+- Economy-Rewards selbst vergeben
+- Blockchain-/ATC-State direkt verändern
+- Lore-Canon ohne autorisierten Change verändern
+- Sicherheits- oder Policy-Gates umgehen
+
+## Dialogue AI Service Boundary
+
+Logische Architektur:
+
+```
+dialogue-ai/
+├── core/
+│   ├── dialogue_core
+│   ├── context_engine
+│   ├── dialogue_planner
+│   ├── dialogue_runtime
+│   └── dialogue_state
+├── intelligence/
+│   ├── character
+│   ├── personality
+│   ├── motivation
+│   ├── relationship
+│   ├── emotion
+│   └── memory
+├── generation/
+│   ├── response
+│   ├── branching
+│   ├── multilingual
+│   └── templates
+├── integration/
+│   ├── quest
+│   ├── world
+│   ├── lore
+│   ├── faction
+│   ├── item
+│   ├── combat
+│   ├── economy
+│   └── events
+├── voice/
+│   ├── tts
+│   ├── voice_profiles
+│   ├── emotion
+│   └── lipsync
+├── validation/
+│   ├── schema
+│   ├── canon
+│   ├── character
+│   ├── world_state
+│   └── policy
+├── security/
+│   ├── prompt_security
+│   ├── action_authorization
+│   ├── provenance
+│   └── audit
+├── eval/
+│   ├── dialogue_quality
+│   ├── consistency
+│   ├── regression
+│   └── determinism_boundary
+└── api/
+    ├── session_api
+    ├── message_api
+    ├── response_api
+    ├── action_api
+    ├── memory_api
+    └── validation_api
+```
+
+Diese Struktur ist ein logischer Architekturvertrag und keine Behauptung, dass die genannten Module bereits implementiert sind.
+
+## Dialogue Runtime API Contract
+
+Logische Schnittstellen:
+
+```
+POST /dialogue/session
+POST /dialogue/message
+POST /dialogue/response
+POST /dialogue/action
+GET  /dialogue/state
+GET  /dialogue/memory
+POST /dialogue/memory
+POST /dialogue/generate
+POST /dialogue/validate
+```
+
+Die konkrete Transporttechnologie und Runtime-Implementierung bleiben Aufgabe der zuständigen Implementierungs-Repositories.
+
+## Repository Ownership
+
+| Capability | Canonical Owner |
+|---|---|
+| Dialogue AI architecture / canonical Dialogue Data Contract | a-townchain-ecosystem |
+| Dialogue runtime / NPC & gameplay integration | genesis-engine |
+| Models / agents / planning / inference orchestration | aurora-ai |
+| Character / NPC / world state | genesis-engine |
+| Quest contracts / Quest runtime | genesis-engine / a-townchain-ecosystem architecture |
+| Lore / canon source | zuständiges kanonisches Lore-/Content-System |
+| Voice / TTS adapters | Genesis Engine / AI capability implementation |
+| Standards / governance | atc-standards |
+| Documentation / architecture knowledge base | a-townchain-os-docs |
+
+## SSOT-Regel
+
+Die Master Architecture definiert **Systemgrenzen, Verantwortlichkeiten, Datenverträge und Integrationsregeln**. Implementierungen bleiben in den jeweiligen kanonischen Source-Repositories.
+
+## Evidence & Governance
+
+Dialogue AI gilt erst als implementiert, wenn entsprechende Evidence vorliegt:
+
+- Quellcode
+- Unit-/Integration-Tests
+- Schema-/Contract-Tests
+- Character-Consistency-Tests
+- Lore-/Canon-Tests
+- Action Authorization Tests
+- Memory Tests
+- Security-/Prompt-Injection-Tests
+- Runtime-/Integration-Tests
+- CI Evidence
+- Provenance / Audit Trail
+
+Architektur, geplante Komponenten und tatsächlich implementierte Features sind strikt getrennt zu dokumentieren.
+
+## Integration Target
+
+Der vollständige Game-Intelligence- und Dialogue-Pfad ist:
+
+```
+Player / World Event
+        ↓
+World State
+        ↓
+Aurora AI Context
+        ↓
+┌─────────────────────────────┐
+│ Dialogue AI                  │
+│  Context → Plan → Generate  │
+│  → Validate → Action         │
+└──────────────┬──────────────┘
+               │
+        ┌──────┴──────┐
+        ▼             ▼
+     Quest AI      Lore / World AI
+        │             │
+        └──────┬──────┘
+               ▼
+        Genesis Engine
+               ↓
+       Deterministic Runtime
+               ↓
+    World / Player / NPC State
+               ↓
+ Rewards / Reputation / Consequences
+               ↓
+       Persistent Game State
+```
+
+Dialogue AI ist damit eine eigenständige Intelligence Capability innerhalb der Master Architecture und kein Ersatz für Genesis Runtime, Quest Runtime, Lore SSOT oder autoritative Game-State-Systeme.
