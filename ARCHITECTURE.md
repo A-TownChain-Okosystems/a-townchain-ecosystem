@@ -327,40 +327,104 @@ Quest Rewards sind niemals allein aufgrund einer LLM-Antwort gültig.
 
 ---
 
-# Quest Data Contract
+# Quest Data Contract — Canonical
 
-Eine Quest wird als versionierte, validierbare Definition modelliert:
+Der folgende Contract ist der **kanonische Quest-Datenvertrag auf Systemebene**. Feldnamen und semantische Gruppen sind Bestandteil des Integrationsvertrags; die konkrete Runtime-Repräsentation und Programmiersprache bleiben Aufgabe der Genesis-Engine-Implementierung.
 
 ```
 Quest
-├── id
-├── version
-├── type
-├── category
-├── title
-├── description
-├── lore_reference
-├── prerequisites
-├── objectives[]
-├── npc_refs[]
-├── faction_refs[]
-├── location_refs[]
-├── enemy_refs[]
-├── boss_ref
-├── difficulty
-├── level_range
-├── time_limit
-├── rewards
-├── reputation
-├── consequences
-├── branches[]
-├── dependencies[]
-├── state
-├── provenance
-└── security_metadata
+├── ID
+├── Version
+├── Type
+├── Category
+├── Title
+├── Description
+├── Lore
+├── Prerequisites
+├── Objectives
+├── NPCs
+├── Locations
+├── Enemies
+├── Boss
+├── Difficulty
+├── LevelRange
+├── TimeLimit
+├── Rewards
+├── Reputation
+├── Consequences
+├── Branches
+├── Dependencies
+├── State
+├── AI Metadata
+└── Security Metadata
 ```
 
-Die konkrete Runtime-Repräsentation gehört zur Genesis-Engine-Implementierung; der Integrationsvertrag gehört in diese Master Architecture.
+### Contract-Semantik
+
+| Feld | Systemische Bedeutung |
+|---|---|
+| **ID** | Eindeutige Quest-Identität |
+| **Version** | Versionierter Contract / kompatible Quest-Definition |
+| **Type** | Quest-Klasse bzw. Lifecycle-/Gameplay-Typ |
+| **Category** | Fachliche Gameplay-/Narrativ-Kategorie |
+| **Title** | Spieler-facing Questtitel |
+| **Description** | Spieler-facing Questbeschreibung |
+| **Lore** | Kanonischer narrativer Kontext und Lore-Referenzen |
+| **Prerequisites** | Bedingungen für Verfügbarkeit/Aktivierung |
+| **Objectives** | Deterministisch prüfbare Questziele |
+| **NPCs** | Referenzen auf beteiligte NPCs |
+| **Locations** | Referenzen auf relevante Weltorte |
+| **Enemies** | Gegner-/Encounter-Referenzen |
+| **Boss** | Optionaler Boss-/Boss-Encounter-Referenz |
+| **Difficulty** | Basis- und/oder dynamische Schwierigkeit |
+| **LevelRange** | Zulässiger bzw. empfohlener Spielerlevelbereich |
+| **TimeLimit** | Zeitfenster und Ablaufbedingungen |
+| **Rewards** | Validierte Belohnungsvorschläge/-definitionen |
+| **Reputation** | Fraktions-/Guild-/sonstige Reputationsänderungen |
+| **Consequences** | Welt-, NPC-, Faction- und Folgequest-Konsequenzen |
+| **Branches** | Verzweigungen, Bedingungen und Outcomes |
+| **Dependencies** | Abhängigkeiten von Quests, Events, Systemen oder World State |
+| **State** | Deterministischer Quest-Lifecycle |
+| **AI Metadata** | Herkunft, Generierung, Planung, Personalisierung und Validierungsmetadaten |
+| **Security Metadata** | Provenance, Integritäts-, Anti-Exploit- und Auditdaten |
+
+### AI Metadata
+
+AI Metadata beschreibt die Herkunft und Verarbeitung einer Quest, nicht ihren autoritativen Spielzustand.
+
+Mögliche Felder:
+
+```
+AI Metadata
+├── GeneratedBy
+├── Model
+├── PromptVersion
+├── GenerationSeed
+├── Confidence
+├── ValidationStatus
+├── Personalization
+├── DifficultyAdjustment
+└── AIProvenance
+```
+
+### Security Metadata
+
+Security Metadata unterstützt Integrität, Nachvollziehbarkeit und Abuse Prevention:
+
+```
+Security Metadata
+├── QuestHash
+├── SchemaVersion
+├── Provenance
+├── ValidationProof
+├── RewardIntegrity
+├── AntiExploit
+├── DuplicateDetection
+├── FarmingDetection
+└── AuditTrail
+```
+
+AI Metadata und Security Metadata dürfen keine Umgehung der deterministischen Quest-Runtime ermöglichen.
 
 ---
 
@@ -396,7 +460,7 @@ AI darf insbesondere nicht:
 
 | Capability | Canonical Owner |
 |---|---|
-| Quest AI architecture | a-townchain-ecosystem |
+| Quest AI architecture / canonical Quest Data Contract | a-townchain-ecosystem |
 | Quest runtime / gameplay integration | genesis-engine |
 | AI models / agents / planning / tools | aurora-ai |
 | World / ECS / simulation | genesis-engine |
