@@ -203,7 +203,7 @@ fn decode_transaction(params: &Value) -> Result<Transaction, (i64, String)> {
         .get("recipient_did")
         .and_then(Value::as_str)
         .map(str::to_owned);
-    let amount = u64_param(params, "amount")?;
+    let amount = u128_param(params, "amount")?;
     let gas_price = u64_param(params, "gas_price")?;
     let gas_limit = u64_param(params, "gas_limit")?;
     let nonce = u64_param(params, "nonce")?;
@@ -238,7 +238,7 @@ fn string_param(params: &Value, key: &str) -> Result<String, (i64, String)> {
         .ok_or((-32602, format!("missing params.{key}")))
 }
 
-fn u64_param(params: &Value, key: &str) -> Result<u64, (i64, String)> {
+fn u128_param(params: &Value, key: &str) -> Result<u128, (i64, String)> {\n    params\n        .get(key)\n        .and_then(Value::as_u64)\n        .map(u128::from)\n        .ok_or((-32602, format!("missing params.{key}")))\n}\n\nfn u64_param(params: &Value, key: &str) -> Result<u64, (i64, String)> {
     params
         .get(key)
         .and_then(Value::as_u64)
