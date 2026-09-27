@@ -1402,3 +1402,274 @@ Aurora AI Context
 ```
 
 Dialogue AI ist damit eine eigenständige Intelligence Capability innerhalb der Master Architecture und kein Ersatz für Genesis Runtime, Quest Runtime, Lore SSOT oder autoritative Game-State-Systeme.
+
+
+---
+
+# Decentralized Federation Architecture
+
+## Status and Scope
+
+This section defines the normative **System-of-Systems decentralization model** for the A-TownChain Ecosystem.
+
+The ecosystem is designed as a **federated decentralized system**, but decentralization is not an implicit property of every subsystem. Each domain retains its canonical ownership, data authority, runtime boundaries, and implementation repository.
+
+### Core Principle
+
+> **Nodes own their data and capabilities. Federation connects independently operated nodes. A-TownChain provides verifiable trust primitives where required. No subsystem becomes decentralized merely by architectural declaration; decentralization must be demonstrated through contracts, implementation, interoperability, and evidence.**
+
+Decentralization is therefore a **system property**, not a mandatory property of every individual module.
+
+## Target System Topology
+
+```
+                    A-TOWNCHAIN ECOSYSTEM
+                              │
+       ┌──────────────────────┼──────────────────────┐
+       ▼                      ▼                      ▼
+ A-TOWNCHAIN               GLOBUS OS              AURORA AI
+  Trust / L1             Device Layer           Intelligence
+       │                      │                      │
+       ▼                      ▼                      ▼
+ Ledger / Consensus      Identity / Capability   Memory / Models
+ Settlement / Proof      Policy / Device         Agents / RAG
+       │                      │                      │
+       └──────────────────────┼──────────────────────┘
+                              ▼
+                    FEDERATION PROTOCOL
+                              │
+       ┌──────────────────────┼──────────────────────┐
+       ▼                      ▼                      ▼
+    GENESIS               KNOWLEDGE              SERVICES
+     WORLDS                  / RAG                  / APPS
+```
+
+## Domain Responsibilities
+
+| Domain | Decentralization role |
+|---|---|
+| **A-TownChain** | Decentralized ledger, consensus, settlement, proof, and chain-level identity primitives |
+| **GlobusOS** | Distributed device/node infrastructure, identity, capabilities, policy, and local data authority |
+| **Aurora AI** | Federated AI, memory nodes, model-provider abstraction, agents, policy, and capability orchestration |
+| **Genesis** | Federatable world/game nodes, multiplayer state, creator systems, and world/game intelligence |
+| **Federation** | Protocol layer connecting independently operated nodes under explicit authorization |
+| **A-TownChain trust layer** | Verifiable identity, ownership, integrity, proof, and settlement where required |
+
+A subsystem does not need to implement its own consensus mechanism or blockchain to participate in the decentralized ecosystem.
+
+## Data Authority and On-Chain Boundary
+
+**On-chain does not mean decentralized, and decentralized does not mean on-chain.**
+
+Large or private datasets remain in their authoritative domain-specific storage:
+
+| Data | Primary authority |
+|---|---|
+| Blockchain state | A-TownChain |
+| Transactions | A-TownChain |
+| Consensus evidence | A-TownChain / Evidence Layer |
+| Identity proofs | Chain and authorized Identity Nodes |
+| Personal memory | Memory Nodes |
+| AI models | Model Providers / Model Nodes |
+| Documents and knowledge | Knowledge Nodes |
+| Genesis world data | World Nodes |
+| Files and assets | Storage Nodes |
+| Device data | GlobusOS Devices |
+
+A-TownChain may anchor a **hash, identifier, ownership proof, capability proof, integrity proof, provenance reference, or settlement record** without storing the underlying payload on-chain.
+
+The canonical source of a payload remains the responsible node or domain.
+
+## Federation Model
+
+Federation connects independent nodes without transferring global authority to a central service.
+
+```
+              ┌───────────────────────────┐
+              │       A-TownChain          │
+              │ Trust / Proof / Settlement │
+              └─────────────┬─────────────┘
+                            │
+                 verifiable references
+                            │
+        ┌───────────────────┼───────────────────┐
+        ▼                   ▼                   ▼
+   GlobusOS Node       Aurora Node         Genesis Node
+        │                   │                   │
+     Device              Memory              World
+      Data               Data               State
+        │                   │                   │
+        └────────────────── Federation ─────────┘
+```
+
+A federation interaction MUST establish, as applicable:
+
+- node identity
+- authorization
+- capability scope
+- canonical representation
+- integrity
+- protocol/version compatibility
+- deterministic accept/reject behavior
+- persistence semantics
+- provenance/audit information
+
+Federation MUST NOT imply unrestricted data replication or unrestricted capability delegation.
+
+## Decentralization Evidence Rule
+
+A decentralization claim progresses through the following evidence gates:
+
+```
+ARCHITECTURE CLAIM
+        │
+        ▼
+CONTRACT
+        │
+        ▼
+IMPLEMENTATION
+        │
+        ▼
+TEST EVIDENCE
+        │
+        ▼
+CI EVIDENCE
+        │
+        ▼
+E2E EVIDENCE
+        │
+        ▼
+FEDERATION EVIDENCE
+        │
+        ▼
+VERIFIED CAPABILITY
+```
+
+The following status vocabulary is normative:
+
+| Status | Meaning |
+|---|---|
+| **ARCHITECTED** | Capability is part of the target architecture |
+| **CONTRACT DEFINED** | Interfaces, schemas, invariants, and protocol rules are defined |
+| **IMPLEMENTED** | Functional implementation exists in the canonical source repository |
+| **UNIT/INTEGRATION TESTED** | Relevant local and cross-component tests pass |
+| **CI VERIFIED** | A specific commit has passing CI evidence |
+| **E2E VERIFIED** | The complete relevant system path has been exercised and evidenced |
+| **FEDERATION VERIFIED** | Independent nodes interoperate according to the canonical federation contract |
+| **PRODUCTION READY** | Required security, reliability, governance, operational, and release gates are satisfied |
+
+A file, interface, architectural diagram, or placeholder MUST NOT be treated as implementation evidence by itself.
+
+## Federation Verified
+
+**FEDERATION VERIFIED** does not mean that two instances can merely establish a network connection.
+
+The minimum conceptual verification path is:
+
+```
+Independent Node A
+       │
+       │ authenticated / authorized
+       ▼
+Federation Protocol
+       │
+       │ canonical exchange
+       ▼
+Independent Node B
+       │
+       ├── verify identity
+       ├── verify authorization
+       ├── verify integrity
+       ├── verify canonical representation
+       ├── verify protocol compatibility
+       ├── accept/reject deterministically
+       └── persist according to contract
+```
+
+A federation capability MUST therefore have evidence for the protocol contract, interoperability behavior, negative/error paths, security boundaries, and persistence semantics relevant to that capability.
+
+## MEMORY-001 as Federation Foundation
+
+**MEMORY-001** is a foundational contract for the Aurora/GlobusOS federation architecture.
+
+Before a distributed Memory Runtime is treated as a verified capability, the Memory contract MUST define at minimum:
+
+```
+MEMORY-001
+   │
+   ├── Canonical Record
+   ├── Canonical Serialization
+   ├── Hash / Identity
+   ├── Authorization
+   ├── Node Handshake
+   ├── Exchange Protocol
+   ├── Conflict Rules
+   ├── Replication Rules
+   ├── Persistence
+   ├── Security Tests
+   ├── Determinism Tests
+   └── Federation E2E
+```
+
+The objective is that independently implemented nodes can serialize, hash, authorize, exchange, validate, and persist the same Memory Record according to one canonical contract.
+
+MEMORY-001 MUST NOT be considered federation-complete merely because a Memory API or local Memory implementation exists.
+
+## Architecture / Implementation / Verification Separation
+
+The Master Architecture MUST distinguish:
+
+```
+TARGET ARCHITECTURE
+        ≠
+IMPLEMENTED SYSTEM
+        ≠
+VERIFIED SYSTEM
+```
+
+Consequently, statements such as:
+
+> "Aurora supports decentralized Memory Nodes"
+
+MUST NOT be interpreted as:
+
+> "Aurora is federation-verified and decentralized in production."
+
+The latter requires implementation and evidence through the defined gates.
+
+## Federation Roadmap
+
+The canonical dependency direction is:
+
+```
+MEMORY-001
+      ↓
+Federation Protocol
+      ↓
+GlobusOS / Aurora Node Architecture
+      ↓
+Genesis Federation
+      ↓
+Ecosystem-wide Federation
+```
+
+Each stage retains the **Standalone First, Ecosystem Second** principle: domain repositories remain authoritative for their own source, build, tests, release, API/ABI, and runtime contracts. The ecosystem repository defines integration boundaries and evidence requirements rather than becoming a replacement source of truth.
+
+## Governance Rule
+
+No decentralized capability may be promoted from architectural intent to a verified capability without corresponding evidence.
+
+Evidence MUST identify, where applicable:
+
+- canonical repository
+- exact commit SHA
+- contract/schema version
+- test suite and results
+- CI workflow/run
+- E2E scenario
+- participating node identities or test fixtures
+- federation protocol/version
+- security and authorization checks
+- provenance/audit information
+
+This section is an architectural governance contract. It does not claim that every listed ecosystem capability is currently implemented or federation-verified.
