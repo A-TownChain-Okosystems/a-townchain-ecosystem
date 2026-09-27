@@ -13,8 +13,8 @@ use super::{
 };
 
 const MAGIC: &[u8] = b"ATCB1";
-const VALIDATOR_MAGIC: &[u8] = b"ATCV2";
-const LEGACY_VALIDATOR_MAGIC: &[u8] = b"ATCV1";
+const VALIDATOR_MAGIC: &[u8] = b"ATCV3";
+const LEGACY_VALIDATOR_MAGIC: &[u8] = b"ATCV2";
 const FINALITY_MAGIC: &[u8] = b"ATCF1";
 const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
@@ -392,7 +392,7 @@ impl ChainStorage {
         dao: &[u8],
         issued_base_units: u128,
         activation_height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<(), String> {
         if validators.len() != validator_keys.len()
@@ -489,7 +489,7 @@ impl ChainStorage {
             }
             let b = hex::decode(raw.trim()).map_err(|e| e.to_string())?;
             let mut q = 0usize;
-            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let h = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
             let n = u32::from_be_bytes(fixed::<4>(&b, &mut q)?) as usize;
             let mut map = BTreeMap::new();
             for _ in 0..n {
@@ -497,7 +497,7 @@ impl ChainStorage {
                     .map_err(|_| "invalid state key")?;
                 let balance = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let staked = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
-                let nonce = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let nonce = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 map.insert(
                     k,
                     Account {
@@ -540,7 +540,7 @@ impl ChainStorage {
     pub fn commit_validators(
         &self,
         height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<(), String> {
         let Some(p) = &self.validator_journal else {
@@ -602,13 +602,13 @@ impl ChainStorage {
                 ));
             }
             let mut q = VALIDATOR_MAGIC.len();
-            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let h = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
             let n = u32::from_be_bytes(fixed::<4>(&b, &mut q)?) as usize;
             let mut validators = BTreeMap::new();
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec())
                     .map_err(|_| "invalid validator address")?;
-                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let stake = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let public_key = fixed::<32>(&b, &mut q)?;
                 ed25519_dalek::VerifyingKey::from_bytes(&public_key)
                     .map_err(|_| "invalid validator public key")?;
@@ -650,13 +650,13 @@ impl ChainStorage {
                 return Err(format!("validator journal line {}: invalid magic", line_no + 1));
             }
             let mut q = VALIDATOR_MAGIC.len();
-            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let h = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
             let n = u32::from_be_bytes(fixed::<4>(&b, &mut q)?) as usize;
             let mut validators = BTreeMap::new();
             let mut keys = BTreeMap::new();
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec()).map_err(|_| "invalid validator address")?;
-                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let stake = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let public_key = fixed::<32>(&b, &mut q)?;
                 ed25519_dalek::VerifyingKey::from_bytes(&public_key).map_err(|_| "invalid validator public key")?;
                 if address.is_empty() || stake == 0 { return Err("invalid validator record".into()); }
@@ -681,7 +681,7 @@ impl ChainStorage {
     pub fn validator_snapshot_round_trip_for_restart(
         &self,
         height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<Option<ValidatorSnapshot>, String> {
         self.commit_validators(height, validators, validator_keys)?;
@@ -744,7 +744,7 @@ impl ChainStorage {
                 ));
             }
             let mut q = FINALITY_MAGIC.len();
-            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let h = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
             let id = fixed::<32>(&b, &mut q)?;
             if q != b.len() {
                 return Err("trailing finality bytes".into());
@@ -815,11 +815,11 @@ impl ChainStorage {
                 ));
             }
             let mut q = SLASH_MAGIC.len();
-            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let h = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
             let validator = String::from_utf8(get(&b, &mut q)?.to_vec())
                 .map_err(|_| "invalid slashing validator")?;
             let evidence_id = fixed::<32>(&b, &mut q)?;
-            let penalty = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let penalty = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
             if validator.is_empty() || penalty == 0 || q != b.len() {
                 return Err("invalid slashing record".into());
             }
@@ -874,7 +874,7 @@ impl ChainStorage {
                 return Err("invalid issuance magic".into());
             }
             let mut q = ISSUANCE_MAGIC.len();
-            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let h = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
             let issued = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
             if issued > crate::economics::MAX_SUPPLY || q != b.len() {
                 return Err("invalid issuance record".into());
@@ -929,7 +929,7 @@ mod tests {
             .verifying_key()
             .to_bytes();
         let mut validators = BTreeMap::new();
-        validators.insert("validator-a".to_string(), 100u64);
+        validators.insert("validator-a".to_string(), 100u128);
         let mut keys = BTreeMap::new();
         keys.insert("validator-a".to_string(), key);
 
@@ -1004,12 +1004,12 @@ mod tests {
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[52u8; 32]).verifying_key().to_bytes();
 
         let mut first = BTreeMap::new();
-        first.insert("alice".to_string(), 100u64);
+        first.insert("alice".to_string(), 100u128);
         let mut first_keys = BTreeMap::new();
         first_keys.insert("alice".to_string(), key_a);
 
         let mut second = first.clone();
-        second.insert("bob".to_string(), 50u64);
+        second.insert("bob".to_string(), 50u128);
         let mut second_keys = first_keys.clone();
         second_keys.insert("bob".to_string(), key_b);
 
@@ -1048,7 +1048,7 @@ mod tests {
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[53u8; 32]).verifying_key().to_bytes();
         let mut validators = BTreeMap::new();
-        validators.insert("alice".to_string(), 100u64);
+        validators.insert("alice".to_string(), 100u128);
         let mut keys = BTreeMap::new();
         keys.insert("alice".to_string(), key);
 
@@ -1078,7 +1078,7 @@ mod tests {
     fn incomplete_validator_snapshot_is_rejected() {
         let storage = ChainStorage::new();
         let mut validators = BTreeMap::new();
-        validators.insert("validator-a".to_string(), 100u64);
+        validators.insert("validator-a".to_string(), 100u128);
         let keys = BTreeMap::new();
         let err = storage.commit_validators(1, &validators, &keys).unwrap_err();
         assert!(err.contains("every validator needs a public key"));
