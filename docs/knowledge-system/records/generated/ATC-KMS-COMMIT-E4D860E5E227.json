@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-E4D860E5E227",
-  "timestamp": "2026-09-27T08:15:49.652216Z",
+  "timestamp": "2026-09-27T18:45:28.428299Z",
   "category": "change",
   "title": "Commit: fix: register accepted peers for targeted sync",
   "context": "Git commit e4d860e5e227937f203e26e8859ba70a1bbb4d82 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/e4d860e5e227937f203e26e8859ba70a1bbb4d82",
-    "commit": "d23e26afdd5368e6d9f2bb06856f5ad360b101e9"
+    "commit": "1875962e0af5483d3c3a07d2ad37a89e518a6e5e"
   },
   "tags": [
     "commit",

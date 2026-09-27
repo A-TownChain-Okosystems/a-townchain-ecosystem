@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-0D84D9D91C30",
-  "timestamp": "2026-09-27T08:15:49.652216Z",
+  "timestamp": "2026-09-27T18:45:28.428299Z",
   "category": "change",
   "title": "Commit: fix: remove untrusted requester id from sync protocol",
   "context": "Git commit 0d84d9d91c305c1253a60ed0ad1c43efa3eafae9 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/0d84d9d91c305c1253a60ed0ad1c43efa3eafae9",
-    "commit": "d23e26afdd5368e6d9f2bb06856f5ad360b101e9"
+    "commit": "1875962e0af5483d3c3a07d2ad37a89e518a6e5e"
   },
   "tags": [
     "commit",

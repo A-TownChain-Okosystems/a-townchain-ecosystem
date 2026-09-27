@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-58",
+  "timestamp": "2026-09-27T18:45:28.428299Z",
+  "category": "change",
+  "title": "PR #58: docs: extend Master Architecture component coverage",
+  "context": "Pull request 58 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/58",
+    "commit": "1875962e0af5483d3c3a07d2ad37a89e518a6e5e"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: False\n\n## Summary\nExtends `ARCHITECTURE.md` with the missing component domains required by the current ecosystem architecture.\n\n### Added\n- GlobusOS platform/service layer\n- Aurora AI ModelHub, Agent Loop, RAG, Memory, Multimodal, Tool/Policy and AI intelligence domains\n- Genesis Engine Character, Creature, Item, Weapon, Level, Economy, World/Event, Multiplayer, Mod, LiveOps, Scripting and Security boundaries\n- Genesis production / Franchise Factory capabilities\n- A-TownChain infrastructure coverage\n- ATC IDE / creator / developer surfaces\n- explicit AI/game deterministic boundary\n- explicit evidence/readiness classification\n- canonical master integration flow\n\n### Governance\nThis is an architecture/documentation change only. It does not claim implementation of any listed capability. Existing SSOT and evidence rules remain authoritative.\n\nBase: main\nHead: arch/add-master-architecture-components-2026-09-27"
+}
