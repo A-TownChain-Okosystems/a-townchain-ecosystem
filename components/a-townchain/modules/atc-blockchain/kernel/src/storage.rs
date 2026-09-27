@@ -316,13 +316,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if b.height > 0 {
-            let parent = self
+            let parent_id = self
                 .blocks
                 .read()
                 .unwrap()
                 .get(&b.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if b.parent_hash != parent.id {
+            if b.parent_hash != parent_id {
                 return Err("canonical parent mismatch".into());
             }
         } else if b.parent_hash != [0; 32] {
@@ -408,9 +409,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
+            let parent_id = self
+                .blocks
+                .read()
+                .unwrap()
+                .get(&block.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
+            if block.parent_hash != parent_id { return Err("canonical parent mismatch".into()); }
         } else if block.parent_hash != [0; 32] {
             return Err("invalid genesis parent".into());
         }
@@ -440,13 +446,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self
+            let parent_id = self
                 .blocks
                 .read()
                 .unwrap()
                 .get(&block.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id {
+            if block.parent_hash != parent_id {
                 return Err("canonical parent mismatch".into());
             }
         } else if block.parent_hash != [0; 32] {
