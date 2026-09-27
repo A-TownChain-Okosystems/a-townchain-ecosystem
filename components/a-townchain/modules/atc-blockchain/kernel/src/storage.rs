@@ -13,8 +13,8 @@ use super::{
 };
 
 const MAGIC: &[u8] = b"ATCB1";
-const VALIDATOR_MAGIC: &[u8] = b"ATCV2";
-const LEGACY_VALIDATOR_MAGIC: &[u8] = b"ATCV1";
+const VALIDATOR_MAGIC: &[u8] = b"ATCV3";
+const LEGACY_VALIDATOR_MAGIC: &[u8] = b"ATCV2";
 const FINALITY_MAGIC: &[u8] = b"ATCF1";
 const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
@@ -316,13 +316,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if b.height > 0 {
-            let parent = self
+            let parent_id = self
                 .blocks
                 .read()
                 .unwrap()
                 .get(&b.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if b.parent_hash != parent.id {
+            if b.parent_hash != parent_id {
                 return Err("canonical parent mismatch".into());
             }
         } else if b.parent_hash != [0; 32] {
@@ -392,7 +393,7 @@ impl ChainStorage {
         dao: &[u8],
         issued_base_units: u128,
         activation_height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<(), String> {
         if validators.len() != validator_keys.len()
@@ -408,9 +409,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
+            let parent_id = self
+                .blocks
+                .read()
+                .unwrap()
+                .get(&block.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
+            if block.parent_hash != parent_id { return Err("canonical parent mismatch".into()); }
         } else if block.parent_hash != [0; 32] {
             return Err("invalid genesis parent".into());
         }
@@ -440,13 +446,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self
+            let parent_id = self
                 .blocks
                 .read()
                 .unwrap()
                 .get(&block.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id {
+            if block.parent_hash != parent_id {
                 return Err("canonical parent mismatch".into());
             }
         } else if block.parent_hash != [0; 32] {
@@ -540,7 +547,7 @@ impl ChainStorage {
     pub fn commit_validators(
         &self,
         height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<(), String> {
         let Some(p) = &self.validator_journal else {
@@ -608,7 +615,7 @@ impl ChainStorage {
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec())
                     .map_err(|_| "invalid validator address")?;
-                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let stake = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let public_key = fixed::<32>(&b, &mut q)?;
                 ed25519_dalek::VerifyingKey::from_bytes(&public_key)
                     .map_err(|_| "invalid validator public key")?;
@@ -656,7 +663,7 @@ impl ChainStorage {
             let mut keys = BTreeMap::new();
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec()).map_err(|_| "invalid validator address")?;
-                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let stake = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let public_key = fixed::<32>(&b, &mut q)?;
                 ed25519_dalek::VerifyingKey::from_bytes(&public_key).map_err(|_| "invalid validator public key")?;
                 if address.is_empty() || stake == 0 { return Err("invalid validator record".into()); }
@@ -681,7 +688,7 @@ impl ChainStorage {
     pub fn validator_snapshot_round_trip_for_restart(
         &self,
         height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<Option<ValidatorSnapshot>, String> {
         self.commit_validators(height, validators, validator_keys)?;
@@ -929,7 +936,7 @@ mod tests {
             .verifying_key()
             .to_bytes();
         let mut validators = BTreeMap::new();
-        validators.insert("validator-a".to_string(), 100u64);
+        validators.insert("validator-a".to_string(), 100u128);
         let mut keys = BTreeMap::new();
         keys.insert("validator-a".to_string(), key);
 
@@ -1004,12 +1011,12 @@ mod tests {
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[52u8; 32]).verifying_key().to_bytes();
 
         let mut first = BTreeMap::new();
-        first.insert("alice".to_string(), 100u64);
+        first.insert("alice".to_string(), 100u128);
         let mut first_keys = BTreeMap::new();
         first_keys.insert("alice".to_string(), key_a);
 
         let mut second = first.clone();
-        second.insert("bob".to_string(), 50u64);
+        second.insert("bob".to_string(), 50u128);
         let mut second_keys = first_keys.clone();
         second_keys.insert("bob".to_string(), key_b);
 
@@ -1048,7 +1055,7 @@ mod tests {
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[53u8; 32]).verifying_key().to_bytes();
         let mut validators = BTreeMap::new();
-        validators.insert("alice".to_string(), 100u64);
+        validators.insert("alice".to_string(), 100u128);
         let mut keys = BTreeMap::new();
         keys.insert("alice".to_string(), key);
 
@@ -1078,7 +1085,7 @@ mod tests {
     fn incomplete_validator_snapshot_is_rejected() {
         let storage = ChainStorage::new();
         let mut validators = BTreeMap::new();
-        validators.insert("validator-a".to_string(), 100u64);
+        validators.insert("validator-a".to_string(), 100u128);
         let keys = BTreeMap::new();
         let err = storage.commit_validators(1, &validators, &keys).unwrap_err();
         assert!(err.contains("every validator needs a public key"));
@@ -1170,7 +1177,7 @@ mod tests {
         put(&mut state_record, &[]);
         std::fs::write(&state_path, format!("{}\n", hex::encode(state_record))).unwrap();
         let recovered = ChainStorage::open(&path).unwrap();
-        assert!(recovered.recover_state_with_dao().is_err());
+        assert!(recovered.recover_state_with_dao_at_height().is_err());
 
         let issuance_path = path.with_extension("issuance");
         let mut issuance_record = Vec::new();
@@ -1225,7 +1232,7 @@ mod tests {
         // The same recovery boundary used by open_storage() must fail closed:
         // state cannot become durable merely because its journal line is valid.
         storage.state_journal = Some(path.with_extension("state"));
-        let err = storage.recover_state_with_dao().unwrap_err();
+        let err = storage.recover_state_with_dao_at_height().unwrap_err();
         assert!(err.contains("missing block"));
 
         for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
