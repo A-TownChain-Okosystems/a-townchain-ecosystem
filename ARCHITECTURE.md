@@ -1402,3 +1402,147 @@ Aurora AI Context
 ```
 
 Dialogue AI ist damit eine eigenständige Intelligence Capability innerhalb der Master Architecture und kein Ersatz für Genesis Runtime, Quest Runtime, Lore SSOT oder autoritative Game-State-Systeme.
+
+
+---
+
+# Aurora AI — Canonical GlobusOS Control / Intelligence Plane
+
+Aurora AI is the **AI Control / Intelligence Plane of GlobusOS**. It is not the operating-system kernel and does not own blockchain consensus authority.
+
+## Canonical OS Boundary
+
+```text
+AURORA AI
+    │
+    │ Intelligence / Planning / Agent Execution
+    ▼
+GLOBUS OS
+    │
+    │ OS Services / IPC / Resource Management
+    ▼
+SHIVACORE
+    │
+    │ Kernel / TCB / Capabilities / Isolation
+    ▼
+HARDWARE
+```
+
+- **Aurora:** models, agents, planning, skills, tools, memory/RAG, multimodal processing, domain intelligence, automation and evidence.
+- **GlobusOS:** operating-system services, IPC, resource/device integration, userspace and OS-level policy boundaries.
+- **ShivaCore:** trusted kernel/TCB, isolation, capabilities, scheduling, memory and hardware boundary.
+
+These are architectural responsibilities, not implementation claims. Actual Aurora capability status is determined by **AURORA-001 — Platform Completeness & Authority Gate** in the `aurora-ai` repository.
+
+## Canonical Authority Contract
+
+```text
+MODEL
+  │ proposes
+  ▼
+AGENT
+  │ requests
+  ▼
+CAPABILITY
+  │ checked by
+  ▼
+POLICY
+  │ may require
+  ▼
+APPROVAL
+  │ authorizes
+  ▼
+TOOL
+  │ executes
+  ▼
+GLOBUS OS
+  │ capability + IPC
+  ▼
+SHIVACORE
+```
+
+The following are architectural invariants:
+
+- AI models have no implicit execution authority.
+- Agents cannot bypass capability checks.
+- Capabilities are subject to policy evaluation.
+- Sensitive operations may require explicit approval.
+- Tools execute only through authorized interfaces.
+- Aurora has no direct kernel authority.
+- Aurora has no direct blockchain consensus authority.
+- Privileged execution must be auditable.
+
+## A-TownChain Integration Boundary
+
+```text
+AURORA
+   │ request
+   ▼
+A-TownChain Interface
+   ▼
+Node
+   ▼
+Consensus
+   ▼
+ATC-VM
+   ▼
+State
+```
+
+Aurora may propose, plan and request blockchain operations. Consensus, VM execution and authoritative state transitions remain under the deterministic A-TownChain components.
+
+## Aurora Platform Planes
+
+The canonical Aurora target architecture consists of:
+
+1. **Model Plane** — ModelHub, provider adapters, registry, versioning, model policy.
+2. **Runtime Plane** — scheduler, context engine, agent runtime, planner, execution, event bridge.
+3. **Agent Plane** — registry, lifecycle, roles, planning, skills, multi-agent coordination.
+4. **Authority Plane** — capabilities, policy engine, approval, human gate, authorization.
+5. **Tool Plane** — tool registry, adapters, execution and sandboxing.
+6. **Memory / Knowledge Plane** — working, episodic, semantic and federated memory, RAG, retrieval, knowledge graph and provenance.
+7. **Multimodal Plane** — text, speech, audio, vision, image, video and documents.
+8. **Domain Intelligence** — Dialogue, Quest, World, Character, Creature, Faction and Security AI.
+9. **Governance / Evidence** — audit, provenance, telemetry, evaluation and evidence.
+10. **Integration Plane** — GlobusOS IPC, Genesis interface, A-TownChain interface and external services.
+
+The plane list defines the canonical target architecture. It does not assert that every plane or component is already implemented.
+
+## AURORA-001 Evidence Rule
+
+Aurora component status follows:
+
+```text
+ARCHITECTURE_ONLY
+      ↓
+SPECIFIED
+      ↓
+IMPLEMENTED
+      ↓
+TESTED
+      ↓
+CI_VERIFIED
+      ↓
+INTEGRATED
+      ↓
+E2E_VERIFIED
+```
+
+Exceptional states are `MISSING`, `BLOCKED`, `DUPLICATE` and `DISCONNECTED`.
+
+A file, directory or architecture statement is not implementation evidence. CI evidence is valid only when tied to the exact source commit under assessment.
+
+## Repository Ownership
+
+| Capability | Canonical Owner |
+|---|---|
+| Aurora AI implementation | `aurora-ai` |
+| Aurora platform architecture / AURORA-001 evidence | `aurora-ai` |
+| Ecosystem system boundaries and integration contract | `a-townchain-ecosystem` |
+| GlobusOS | `globus-os` |
+| Kernel / TCB / capabilities | `atc-shivacore` |
+| Genesis runtime | `genesis-engine` |
+| Blockchain / VM | A-TownChain canonical L1 / VM repositories |
+| Standards / governance | `atc-standards` |
+
+The ecosystem repository remains the integration/master-architecture SSOT; component implementations remain in their canonical repositories.
