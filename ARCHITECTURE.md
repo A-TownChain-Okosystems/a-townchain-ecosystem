@@ -1546,3 +1546,778 @@ A file, directory or architecture statement is not implementation evidence. CI e
 | Standards / governance | `atc-standards` |
 
 The ecosystem repository remains the integration/master-architecture SSOT; component implementations remain in their canonical repositories.
+
+---
+
+# MASTER-ARCH-001 — System-of-Systems Master Contracts
+
+**Status:** ARCHITECTURE CONTRACT / NOT AN IMPLEMENTATION CLAIM  
+**Scope:** Entire A-TownChain Ecosystem  
+**Canonical Owner:** `a-townchain-ecosystem`  
+**Implementation SSOT:** Each domain remains authoritative for its own implementation, tests, build, release and CI evidence.
+
+MASTER-ARCH-001 closes the system-of-systems architecture layer. It defines the cross-domain contracts required to operate the ecosystem as a decentralized system without transferring implementation ownership to the ecosystem repository.
+
+## 01. Vision & System Boundaries
+
+The ecosystem is composed of independently authoritative domains connected through explicit contracts:
+
+```
+ShivaCore / Hardware
+        │
+        ▼
+GlobusOS
+        │
+        ├──────── Aurora AI
+        ├──────── A-TownChain Node
+        ├──────── Genesis Runtime
+        └──────── System Services
+                 │
+                 ▼
+        Decentralized Network
+                 │
+        ┌────────┼────────┐
+        ▼        ▼        ▼
+     Nodes    Storage   Indexers
+        │
+        ▼
+ A-TownChain Consensus / VM / State
+```
+
+Architectural invariants:
+
+- No component obtains authority merely by being connected.
+- Every cross-domain mutation crosses an explicit interface and authorization boundary.
+- Consensus authority remains within the canonical A-TownChain consensus boundary.
+- VM execution remains within the canonical ATC-VM boundary.
+- Kernel/TCB authority remains within ShivaCore.
+- Game state authority remains within the Genesis runtime.
+- AI inference produces proposals, not implicit authority.
+- Memory is not equivalent to consensus state or world canon.
+- Architecture statements do not constitute implementation evidence.
+
+## 02. Layer Architecture
+
+The master layers are:
+
+1. Hardware / TCB
+2. Kernel / OS
+3. Network / Transport
+4. Consensus / Blockchain
+5. VM / Execution
+6. State / Storage
+7. AI / Agent / Authority
+8. Game / World Runtime
+9. Applications / Experiences
+10. Governance / Evidence
+
+Cross-layer access is contract-mediated. Direct bypasses are architectural violations unless explicitly defined by the owning domain.
+
+## 03. Repository / SSOT Ownership
+
+The ecosystem repository owns system boundaries, canonical integration contracts and master architecture.
+
+Domain repositories own their implementation truth:
+
+| Domain | Canonical implementation authority |
+|---|---|
+| Standards / governance | `atc-standards` |
+| Blockchain / node / protocol | canonical A-TownChain repositories |
+| VM | `atc-vm` / canonical VM boundary |
+| SDK / wallet | respective canonical repositories |
+| Aurora AI | `aurora-ai` |
+| GlobusOS | `globus-os` |
+| Kernel / TCB | `atc-shivacore` |
+| Genesis Engine / runtime | `genesis-engine` |
+| Documentation / architecture KB | `a-townchain-os-docs` |
+| Ecosystem integration architecture | `a-townchain-ecosystem` |
+
+The ecosystem repository must not become a hidden implementation SSOT.
+
+## 04. Authority & Trust Architecture
+
+Canonical authority chain:
+
+```
+Identity
+   ↓
+Credential
+   ↓
+Capability
+   ↓
+Policy
+   ↓
+Approval (when required)
+   ↓
+Authorized Interface
+   ↓
+Runtime / Service
+   ↓
+Evidence
+```
+
+No model, agent, tool, service, node or game subsystem receives authority solely from identity.
+
+### Global Authority Matrix
+
+| Domain | Read | Propose | Execute | Final authority |
+|---|---:|---:|---:|---|
+| Aurora | Yes | Yes | Bounded | Policy / authorized runtime |
+| Genesis | Yes | Yes | Yes | Genesis runtime |
+| A-TownChain | Yes | Yes | Yes | Consensus / protocol rules |
+| ATC-VM | Yes | Yes | Yes | VM rules |
+| GlobusOS | Yes | Yes | Yes | OS policy |
+| ShivaCore | Yes | Bounded | Yes | Kernel / TCB |
+| Governance | Yes | Yes | Contract-defined | Governance contract |
+
+This table defines architectural responsibility, not implementation status.
+
+## 05. Identity & Trust
+
+System identity domains:
+
+```
+Human
+ └── Identity / Account
+      ├── DID / credential identity
+      ├── Device identity
+      ├── Node identity
+      ├── Agent identity
+      ├── Service identity
+      └── Game identity
+              ↓
+         Credentials
+              ↓
+         Capabilities
+              ↓
+            Policy
+              ↓
+        Authorization
+```
+
+Identity, authentication, authorization and capability are separate concepts.
+
+Required contract properties:
+
+- stable identifier semantics
+- key binding
+- credential lifecycle
+- issuance / verification rules
+- revocation
+- rotation
+- expiration
+- delegation
+- provenance
+- auditability
+- replay protection
+
+Concrete DID/credential technology remains a domain implementation decision unless standardized by `atc-standards`.
+
+## 06. Decentralized Network / P2P
+
+The canonical network architecture is:
+
+```
+NETWORK
+├── Peer Identity
+├── Peer Discovery
+├── P2P Transport
+├── Gossip
+├── Block Propagation
+├── Transaction Propagation
+├── Consensus Messaging
+├── State Sync
+├── Snapshot Sync
+├── NAT / Connectivity
+├── Peer Scoring
+├── Sybil Resistance
+├── Network Partition Handling
+└── Network Recovery
+```
+
+Each network message must have:
+
+- source identity
+- destination / routing context where applicable
+- protocol version
+- message type
+- sequence / nonce where required
+- payload
+- integrity/authentication data
+- replay policy
+- timeout / retry semantics
+
+Network topology must not imply consensus authority. Peer connectivity is not authorization.
+
+## 07. State & Data Ownership
+
+Canonical state domains:
+
+```
+SYSTEM STATE
+├── Consensus State
+├── Blockchain State
+├── VM State
+├── Node State
+├── Identity State
+├── OS State
+├── AI State
+├── Memory State
+├── World State
+├── Player State
+├── NPC State
+├── Lore State
+└── Economy State
+```
+
+Every state domain must define:
+
+| Property | Required contract |
+|---|---|
+| Owner | authoritative domain |
+| Authority | mutation authority |
+| Read API | canonical read interface |
+| Write API | canonical mutation interface |
+| Serialization | canonical representation |
+| Version | state/schema version |
+| Persistence | durable-storage rules |
+| Replication | replication rules |
+| Consistency | consistency model |
+| Recovery | recovery source/procedure |
+| Audit | evidence/provenance requirements |
+
+A read model must not silently become an authority boundary.
+
+## 08. Decentralized Memory Federation
+
+Memory Federation is a distinct subsystem:
+
+```
+MEMORY FEDERATION
+├── Identity
+├── Canonical Memory Record
+├── Canonical Serialization
+├── Content Hash
+├── Provenance
+├── Authorization
+├── Replication
+├── Federation Handshake
+├── Conflict Resolution
+├── Versioning
+├── Retention
+├── Revocation
+└── Audit
+```
+
+Invariants:
+
+- Memory ≠ World Canon.
+- Memory ≠ Consensus State.
+- Memory ≠ unrestricted AI authority.
+- A memory record is accepted only under its canonical schema and authorization rules.
+- Federation does not imply mutual trust.
+- Conflict resolution must be deterministic or explicitly policy-governed.
+- Retention and revocation rules are part of the contract.
+
+MEMORY-001 remains the detailed implementation gate for the memory contract.
+
+## 09. Canonical Interfaces, APIs & Events
+
+The master interface contract consists of:
+
+```
+MASTER INTERFACE CONTRACT
+├── Identity API
+├── Capability API
+├── Policy API
+├── Memory API
+├── AI API
+├── Blockchain API
+├── VM API
+├── OS IPC API
+├── Game Runtime API
+├── Event API
+├── Storage API
+└── Evidence API
+```
+
+Each interface must define:
+
+- authority boundary
+- request schema
+- response schema
+- errors
+- authentication / authorization
+- versioning
+- idempotency
+- replay semantics
+- timeout semantics
+- compatibility rules
+- provenance
+- evidence requirements
+
+The transport protocol is not part of the contract unless explicitly standardized by the owning domain.
+
+### Global Event Contract
+
+```
+EVENT
+├── Event ID
+├── Source
+├── Type
+├── Version
+├── Timestamp
+├── Sequence
+├── Payload
+├── Causality
+├── Authorization
+├── Signature / Integrity
+├── Provenance
+└── Replay Policy
+```
+
+Example flow:
+
+```
+Blockchain Event
+      ↓
+Aurora Event Bridge
+      ↓
+Quest AI / Dialogue AI
+      ↓
+Genesis Runtime
+      ↓
+Validated World-State Change
+```
+
+Events are not automatically commands. Command execution requires the relevant authority boundary.
+
+## 10. Security Architecture
+
+Canonical security chain:
+
+```
+IDENTITY
+   ↓
+CRYPTOGRAPHY
+   ↓
+CAPABILITY
+   ↓
+POLICY
+   ↓
+AUTHORIZATION
+   ↓
+EXECUTION
+   ↓
+AUDIT
+   ↓
+EVIDENCE
+```
+
+System-wide security controls include:
+
+- secure boot
+- supply-chain security
+- key management
+- key rotation
+- secret handling
+- attestation
+- sandboxing
+- isolation
+- anti-replay
+- anti-Sybil controls
+- rate limiting
+- abuse detection
+- incident response
+- provenance
+- evidence retention
+
+Security controls must fail closed at trust boundaries where continued execution could violate authority or integrity.
+
+## 11. Consensus / Blockchain / VM Boundary
+
+The authoritative chain remains:
+
+```
+Transaction
+   ↓
+Signature / Authorization
+   ↓
+Mempool
+   ↓
+Consensus
+   ↓
+Block
+   ↓
+ATC-VM
+   ↓
+State Transition
+   ↓
+Storage
+   ↓
+Indexer / Read Models
+```
+
+Aurora, Genesis and external services may request or observe operations but cannot bypass consensus or VM validation.
+
+## 12. AI / Aurora / Agents
+
+Aurora remains the intelligence and control plane described above.
+
+Global AI invariant:
+
+```
+Model
+ ↓
+Agent
+ ↓
+Proposal / Plan
+ ↓
+Capability
+ ↓
+Policy
+ ↓
+Approval if required
+ ↓
+Authorized Tool / Interface
+ ↓
+Deterministic Runtime
+ ↓
+Evidence
+```
+
+No LLM output is itself authoritative state.
+
+## 13. OS / GlobusOS / ShivaCore
+
+Canonical boundary:
+
+```
+Aurora
+  ↓
+GlobusOS services / IPC / policy
+  ↓
+ShivaCore capabilities / TCB
+  ↓
+Hardware
+```
+
+Aurora is not the kernel. GlobusOS is not the TCB. ShivaCore does not inherit application-level authority merely because an application is hosted above it.
+
+## 14. Genesis / World / Game Intelligence
+
+Genesis owns authoritative game simulation and world-state mutation.
+
+```
+AI Proposal
+   ↓
+Schema Validation
+   ↓
+Policy / Authority Validation
+   ↓
+Genesis Runtime
+   ↓
+Deterministic Simulation
+   ↓
+Persistent World / Player State
+   ↓
+Evidence
+```
+
+Quest AI and Dialogue AI remain intelligence capabilities; they do not become alternative authoritative runtimes.
+
+## 15. Interoperability
+
+Cross-system interoperability must define:
+
+- domain IDs
+- message formats
+- cross-domain references
+- proofs
+- replay protection
+- finality assumptions
+- trust boundaries
+- timeout behavior
+- failure semantics
+- asset/state ownership
+
+External chains and systems are untrusted by default until an explicit trust/verification contract says otherwise.
+
+## 16. Deployment / Topology
+
+Canonical deployment roles:
+
+```
+DEVICE
+  ↓
+ShivaCore
+  ↓
+GlobusOS
+  ├── Aurora
+  ├── A-TownChain Node
+  ├── Genesis Runtime
+  └── Services
+  ↓
+P2P Network
+  ↓
+Distributed Ecosystem
+```
+
+Supported logical node roles may include:
+
+- Full Node
+- Validator
+- RPC Node
+- AI Node
+- Game Server
+- Storage Node
+- Indexer
+- Oracle
+- Compute Node
+- Edge Device
+- Offline / intermittently connected Node
+
+Role assignment is capability-based and does not by itself confer final authority.
+
+## 17. Observability / Evidence
+
+Technical evidence pipeline:
+
+```
+Runtime
+ ↓
+Telemetry
+ ↓
+Logs / Metrics / Traces
+ ↓
+Events
+ ↓
+Evidence Artifact
+ ↓
+Source / Commit SHA
+ ↓
+CI Run
+ ↓
+Audit
+```
+
+Evidence must be attributable to the exact source revision under assessment.
+
+The existing governance principle **No Evidence, No Trust** therefore applies to runtime claims as well as repository claims.
+
+## 18. Upgrade / Migration
+
+Canonical lifecycle:
+
+```
+Proposal
+ ↓
+Compatibility Check
+ ↓
+Validation
+ ↓
+Governance
+ ↓
+Release
+ ↓
+Rollout
+ ↓
+Activation Height / Version
+ ↓
+Migration
+ ↓
+Verification
+ ↓
+Rollback / Recovery where supported
+```
+
+Scope includes:
+
+- protocol upgrades
+- consensus upgrades
+- VM upgrades
+- state migrations
+- schema migrations
+- API/ABI migrations
+- AI model migrations
+- memory schema migrations
+- game-world migrations
+- OS/kernel updates
+
+No migration is complete until the resulting state is validated against the new canonical schema/rules.
+
+## 19. Failure / Recovery Architecture
+
+Failure domains:
+
+```
+Failure Domain
+├── AI failure
+├── Agent failure
+├── Tool failure
+├── Node failure
+├── Peer failure
+├── Consensus failure
+├── Storage corruption
+├── State divergence
+├── Network partition
+├── VM failure
+├── OS failure
+├── Kernel failure
+└── Game runtime failure
+```
+
+Canonical recovery lifecycle:
+
+```
+Detect
+ ↓
+Isolate
+ ↓
+Validate
+ ↓
+Recover
+ ↓
+Resync
+ ↓
+Verify
+ ↓
+Resume
+```
+
+Recovery must preserve authority boundaries and must not silently promote a recovered replica into an authority.
+
+State divergence requires explicit detection and reconciliation rules. Consensus-critical divergence is resolved by canonical protocol rules, not by AI inference.
+
+## 20. Governance
+
+Governance remains anchored in `atc-standards`.
+
+Architecture lifecycle:
+
+```
+IDEA
+ ↓
+DRAFT
+ ↓
+REVIEW
+ ↓
+APPROVED
+ ↓
+STABLE
+```
+
+Architecture contracts must reference the applicable standards and define ownership, review authority and evidence requirements.
+
+The ecosystem architecture cannot override a canonical domain standard merely by documenting a different behavior.
+
+## 21. Compatibility / Lifecycle
+
+Every cross-domain component/interface must be addressable by:
+
+| Dimension | Required |
+|---|---|
+| Component Version | Yes |
+| Protocol Version | Yes |
+| Schema Version | Yes |
+| API Version | Yes |
+| ABI Version | Where applicable |
+| VM Version | Where applicable |
+| State Version | Where applicable |
+| Minimum Compatible Version | Yes |
+| Maximum Compatible Version | Where bounded |
+| Migration Required | Yes/No + procedure |
+
+Canonical pipeline:
+
+```
+ATCLang
+   ↓
+ATC-IR / ABI
+   ↓
+ATC Bytecode
+   ↓
+ATC-VM
+   ↓
+State
+```
+
+Each transition requires explicit compatibility rules.
+
+## 22. Resource / Compute Architecture
+
+Although resource economics is P2, the master architecture defines the boundary now:
+
+```
+RESOURCE
+├── CPU
+├── GPU
+├── NPU
+├── Memory
+├── Storage
+├── Network
+└── AI Inference
+```
+
+Canonical control chain:
+
+```
+Resource
+ ↓
+Capability
+ ↓
+Policy
+ ↓
+Quota
+ ↓
+Allocation
+ ↓
+Usage
+ ↓
+Metering
+ ↓
+Settlement
+```
+
+Resource availability never implies permission to consume the resource.
+
+## 23. Disaster Recovery / Business Continuity
+
+The ecosystem must distinguish:
+
+- backup
+- replica
+- snapshot
+- checkpoint
+- cold recovery
+- warm recovery
+- resynchronization
+- rebuild from canonical source
+- emergency read-only mode
+
+Recovery objectives are domain-specific and must be defined by the owning repository. The master architecture defines the cross-domain recovery contract, not unsupported RTO/RPO claims.
+
+## MASTER-ARCH-001 Gate
+
+The master architecture is structurally complete only when each contract below has a canonical owner, schema/semantic definition, authority boundary, versioning rule and evidence path:
+
+- [ ] Authority Matrix
+- [ ] Identity / Trust
+- [ ] Network / P2P
+- [ ] State Ownership
+- [ ] Memory Federation
+- [ ] Interface Contract
+- [ ] Event Contract
+- [ ] Failure / Recovery
+- [ ] Security Boundary
+- [ ] Upgrade / Migration
+- [ ] Compatibility Matrix
+- [ ] Deployment / Topology
+- [ ] Observability / Evidence
+- [ ] Interoperability
+- [ ] Disaster Recovery / Continuity
+- [ ] Resource / Compute
+
+**Important:** A checked architecture item means that the contract is defined here. It does **not** mean that the underlying implementation exists, is tested, CI-verified or E2E-verified.
+
+Implementation status remains subject to the owning repository's source, tests and exact-commit CI evidence.
