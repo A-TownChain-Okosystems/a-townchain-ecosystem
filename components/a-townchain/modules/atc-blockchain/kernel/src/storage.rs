@@ -489,7 +489,7 @@ impl ChainStorage {
             }
             let b = hex::decode(raw.trim()).map_err(|e| e.to_string())?;
             let mut q = 0usize;
-            let h = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
+            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
             let n = u32::from_be_bytes(fixed::<4>(&b, &mut q)?) as usize;
             let mut map = BTreeMap::new();
             for _ in 0..n {
@@ -497,7 +497,7 @@ impl ChainStorage {
                     .map_err(|_| "invalid state key")?;
                 let balance = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let staked = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
-                let nonce = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
+                let nonce = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
                 map.insert(
                     k,
                     Account {
@@ -602,7 +602,7 @@ impl ChainStorage {
                 ));
             }
             let mut q = VALIDATOR_MAGIC.len();
-            let h = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
+            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
             let n = u32::from_be_bytes(fixed::<4>(&b, &mut q)?) as usize;
             let mut validators = BTreeMap::new();
             for _ in 0..n {
@@ -650,7 +650,7 @@ impl ChainStorage {
                 return Err(format!("validator journal line {}: invalid magic", line_no + 1));
             }
             let mut q = VALIDATOR_MAGIC.len();
-            let h = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
+            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
             let n = u32::from_be_bytes(fixed::<4>(&b, &mut q)?) as usize;
             let mut validators = BTreeMap::new();
             let mut keys = BTreeMap::new();
@@ -744,7 +744,7 @@ impl ChainStorage {
                 ));
             }
             let mut q = FINALITY_MAGIC.len();
-            let h = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
+            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
             let id = fixed::<32>(&b, &mut q)?;
             if q != b.len() {
                 return Err("trailing finality bytes".into());
@@ -815,11 +815,11 @@ impl ChainStorage {
                 ));
             }
             let mut q = SLASH_MAGIC.len();
-            let h = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
+            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
             let validator = String::from_utf8(get(&b, &mut q)?.to_vec())
                 .map_err(|_| "invalid slashing validator")?;
             let evidence_id = fixed::<32>(&b, &mut q)?;
-            let penalty = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
+            let penalty = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
             if validator.is_empty() || penalty == 0 || q != b.len() {
                 return Err("invalid slashing record".into());
             }
@@ -874,7 +874,7 @@ impl ChainStorage {
                 return Err("invalid issuance magic".into());
             }
             let mut q = ISSUANCE_MAGIC.len();
-            let h = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
+            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
             let issued = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
             if issued > crate::economics::MAX_SUPPLY || q != b.len() {
                 return Err("invalid issuance record".into());
