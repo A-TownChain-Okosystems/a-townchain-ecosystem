@@ -1177,7 +1177,7 @@ mod tests {
         put(&mut state_record, &[]);
         std::fs::write(&state_path, format!("{}\n", hex::encode(state_record))).unwrap();
         let recovered = ChainStorage::open(&path).unwrap();
-        assert!(recovered.recover_state_with_dao().is_err());
+        assert!(recovered.recover_state_with_dao_at_height().is_err());
 
         let issuance_path = path.with_extension("issuance");
         let mut issuance_record = Vec::new();
@@ -1232,7 +1232,7 @@ mod tests {
         // The same recovery boundary used by open_storage() must fail closed:
         // state cannot become durable merely because its journal line is valid.
         storage.state_journal = Some(path.with_extension("state"));
-        let err = storage.recover_state_with_dao().unwrap_err();
+        let err = storage.recover_state_with_dao_at_height().unwrap_err();
         assert!(err.contains("missing block"));
 
         for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
