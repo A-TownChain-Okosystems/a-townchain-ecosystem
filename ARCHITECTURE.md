@@ -55,6 +55,198 @@ Die Engine bleibt außerhalb des Konsens-Kernels. On-chain relevante Zustandsän
 
 ---
 
+
+# Master Architecture — Missing Component Coverage
+
+This section extends the System-of-Systems architecture with capabilities that are required by the current ecosystem direction but were not explicitly represented in the master component map. These entries are **architecture contracts**, not implementation claims.
+
+## 1. GlobusOS Platform Layer
+
+Canonical owner: `globus-os`
+
+- Identity / Authentication / Sessions
+- Wallet integration boundary
+- IPC and capability authorization
+- Process / service lifecycle
+- VFS / storage
+- Network / sockets / device isolation
+- Graphics / compositor / GPU boundary
+- Audio
+- Package management
+- A/B update / rollback
+- Recovery / diagnostics
+- Developer SDK and system integration
+
+Trust rule: GlobusOS remains userspace/platform infrastructure above ShivaCore. AI and blockchain semantics do not become ShivaCore TCB authority.
+
+## 2. Aurora AI Platform
+
+Canonical owner: `aurora-ai`
+
+- ModelHub / model-provider abstraction
+- Agent Runtime / Agent Loop
+- Planning / orchestration
+- Conversation / Dialogue Intelligence
+- Memory and Context
+- RAG / Knowledge Retrieval
+- Tool / Capability Gateway
+- Policy / Approval / Audit
+- Multimodal AI
+- Evaluation / observability
+- Provenance / AI security
+- Character Intelligence
+- World Intelligence
+- Creature / Companion Intelligence
+- Quest Intelligence
+- Content / Script Intelligence
+
+Authority rule: Aurora produces proposals, artifacts or authorized commands. It does not directly mutate authoritative chain, kernel or deterministic game state.
+
+## 3. Genesis Engine — Game Capability Matrix
+
+Canonical owner: `genesis-engine`
+
+The master architecture explicitly reserves these generic game-platform boundaries:
+
+| Capability | Role |
+|---|---|
+| Core Runtime / ECS | Deterministic game execution foundation |
+| World / Simulation / Streaming | World state, spatial simulation and streaming |
+| Character / NPC | Character state, behavior and interaction |
+| Creature / Shivamon | Creature lifecycle, combat, breeding and companion systems |
+| Items / Inventory / Equipment | Item definitions, ownership and equipment |
+| Weapons / Combat | Weapon, combat and damage systems |
+| Levels / Progression | Level, progression, unlock and advancement systems |
+| Economy / Trading / Rewards | Economy, commerce, rewards and sinks/sources |
+| Quest AI / Quest Runtime | Dynamic quest generation, planning and execution |
+| Dialogue AI / Conversation Runtime | Contextual NPC dialogue and validated actions |
+| World AI / Event Director | Reactive world events and state-driven orchestration |
+| Faction / Reputation | Faction relationships, reputation and consequences |
+| Multiplayer / Networking | Session, replication and multiplayer authority |
+| Mod / Extension System | Sandboxed extensibility and versioned mods |
+| LiveOps / Seasonal Events | Events, seasons, schedules and content rollout |
+| Scripting / Script Runtime | Authoritative gameplay scripting boundary |
+| Asset / Rendering / Animation / Audio | Content and presentation systems |
+| Security / Anti-Cheat / Integrity | Abuse prevention and runtime integrity |
+| Telemetry / Analytics / Replay | Observability, metrics and reproducibility |
+| Editor / SDK / Build / Packaging | Developer and production toolchain |
+| Deterministic Runtime Boundary | Final validation and state mutation boundary |
+
+## 4. Genesis Production / Franchise Layer
+
+Canonical production architecture:
+
+- Franchise Registry and Lifecycle Manager
+- World Factory
+- Character Factory
+- Lore / Canon Engine
+- Quest / Narrative Factory
+- Economy / Gameplay Factory
+- Asset Intelligence
+- AI Content Pipeline
+- Multiplayer / Creator Workflows
+- Publishing
+- Commerce
+- Community
+- Analytics
+- LiveOps
+- Security / QA / Validation
+- Provenance / Evidence
+- Game Factory / Release Orchestration
+
+The Franchise Factory remains a production/orchestration layer and must not make a flagship game a technical dependency of the generic engine.
+
+## 5. Cross-Cutting AI/Game Intelligence
+
+The following intelligence domains are now first-class architectural capabilities:
+
+- World AI
+- Character AI
+- Creature AI
+- Quest AI
+- Dialogue AI
+- Economy AI
+- Event / LiveOps AI
+- Content / Script AI
+- Recommendation / Personalization
+- Security / Anti-Exploit AI
+- Lore / Canon grounding
+- Player modeling
+
+Each AI domain follows the same boundary:
+
+AI inference → proposal → schema/policy validation → authoritative runtime → deterministic state change.
+
+## 6. A-TownChain Infrastructure Coverage
+
+The L1 architecture explicitly covers:
+
+- Node / networking
+- Consensus
+- State transition
+- Storage
+- Indexer
+- Explorer
+- Wallet / SDK
+- Contracts
+- ATCLang
+- ATC-VM
+- Algorithm / Economics
+- Mining
+- Oracle
+- ZKP
+- Interoperability
+- Compute
+- Marketplace / Launchpad integration
+
+The canonical on-chain execution path remains:
+
+ATCLang → ATC-IR / ABI → ATC Bytecode → verifier → ATC-VM → A-TownChain state transition.
+
+## 7. Developer / Creator Surface
+
+The master architecture also includes:
+
+- ATC IDE
+- Genesis Editor
+- Engine SDK
+- OS SDK
+- ATCLang tooling
+- VM simulator
+- Documentation / compliance tooling
+- Workspace generators
+- CI/CD and evidence tooling
+- Creator / mod tooling
+
+These are developer surfaces, not authority layers.
+
+## 8. Evidence Contract
+
+Every component above must remain classified independently:
+
+Architecture Defined → Source Present → Implemented → Tested → CI-Verified → E2E-Verified → Audited → Release-Ready.
+
+A repository/file/module existing is not sufficient evidence of implementation. CI evidence is valid only for the exact evaluated commit SHA.
+
+## 9. Master Integration Flow
+
+User / Developer
+→ GlobusOS / Applications
+→ Aurora AI / Agents / Tools
+→ Genesis Engine / Production Platform
+→ Deterministic Game Runtime
+→ Chain Integration where required
+→ ATC-VM
+→ A-TownChain
+
+In parallel:
+
+GlobusOS → capability/IPC boundary → ShivaCore
+
+The Game, AI, OS and Chain layers remain separately authoritative. No layer may bypass another layer's defined security, policy, consensus or deterministic-runtime boundary.
+
+---
+
 # Quest AI — Master Architecture
 
 Quest AI ist ein eigenständiger, wiederverwendbarer Game-Intelligence-Dienst innerhalb der Genesis-Plattform. Sie ist **kein reiner Textgenerator**, sondern verarbeitet World State, Player State, NPC-/Faction-State, Lore, Economy, Events und Gameplay-Systeme zu validierten Quest-Instanzen.
