@@ -227,3 +227,126 @@ entries:
     pattern: "random-Modul"
     justification: "Duplikatbaum modules/ — identische Stelle wie components/wallet/src/wallet.py:71"
     scr: "SCR-0126"
+
+  # Test-only filesystem-isolation timestamps in inline #[cfg(test)] modules.
+  # These do not enter production consensus, serialization, signing, or state transition code.
+  - file: modules/atc-blockchain/kernel/src/storage.rs
+    line: 921
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/storage.rs
+    line: 961
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/storage.rs
+    line: 998
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/storage.rs
+    line: 1044
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/storage.rs
+    line: 1092
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/storage.rs
+    line: 1131
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/storage.rs
+    line: 1161
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/storage.rs
+    line: 1194
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/storage.rs
+    line: 1216
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/storage.rs
+    line: 1242
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/storage.rs
+    line: 1269
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/blockchain.rs
+    line: 1133
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/blockchain.rs
+    line: 1183
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/blockchain.rs
+    line: 1246
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/blockchain.rs
+    line: 1281
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/blockchain.rs
+    line: 1330
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/blockchain.rs
+    line: 1405
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/blockchain.rs
+    line: 1574
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/blockchain.rs
+    line: 1673
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/blockchain.rs
+    line: 1819
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/blockchain.rs
+    line: 2078
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/blockchain.rs
+    line: 2120
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/blockchain.rs
+    line: 2163
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
+  - file: modules/atc-blockchain/kernel/src/blockchain.rs
+    line: 2202
+    pattern: "Wall-Clock"
+    justification: "Test-only unique temporary storage path"
+    scr: "RED-CHECK-2026-09-27"
