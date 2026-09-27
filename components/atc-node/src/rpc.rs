@@ -238,7 +238,22 @@ fn string_param(params: &Value, key: &str) -> Result<String, (i64, String)> {
         .ok_or((-32602, format!("missing params.{key}")))
 }
 
-fn u128_param(params: &Value, key: &str) -> Result<u128, (i64, String)> {\n    params\n        .get(key)\n        .and_then(Value::as_u64)\n        .map(u128::from)\n        .ok_or((-32602, format!("missing params.{key}")))\n}\n\nfn u64_param(params: &Value, key: &str) -> Result<u64, (i64, String)> {
+fn u128_param(params: &Value, key: &str) -> Result<u128, (i64, String)> {
+    let value = params
+        .get(key)
+        .ok_or((-32602, format!("missing params.{key}")))?;
+    if let Some(v) = value.as_u64() {
+        return Ok(u128::from(v));
+    }
+    if let Some(v) = value.as_str() {
+        return v
+            .parse::<u128>()
+            .map_err(|_| (-32602, format!("invalid params.{key}: expected u128 decimal")));
+    }
+    Err((-32602, format!("invalid params.{key}: expected u128 decimal")))
+}
+
+fn u64_param(params: &Value, key: &str) -> Result<u64, (i64, String)> {
     params
         .get(key)
         .and_then(Value::as_u64)
