@@ -19,7 +19,7 @@ impl SignatureVerifier for Ed25519Verifier {
 }
 fn put_bytes(out: &mut Vec<u8>, v: &[u8]) {
     out.extend_from_slice(&(v.len() as u32).to_be_bytes());
-    out.extend_from_slice(v)
+    out.extend_from_slice(v);
 }
 pub fn signing_bytes(tx: &Transaction) -> Vec<u8> {
     let mut b = Vec::new();
@@ -30,7 +30,7 @@ pub fn signing_bytes(tx: &Transaction) -> Vec<u8> {
     match &tx.recipient_did {
         Some(v) => {
             b.push(1);
-            put_bytes(&mut b, v.as_bytes())
+            put_bytes(&mut b, v.as_bytes());
         }
         None => b.push(0),
     }
