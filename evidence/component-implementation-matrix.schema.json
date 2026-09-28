@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/blob/main/evidence/component-implementation-matrix.schema.json",
+  "title": "COMPONENT-001 Implementation Evidence Matrix",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "matrix_id",
+    "generated_at",
+    "repository",
+    "status_vocabulary",
+    "rule",
+    "rows"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "matrix_id": {
+      "const": "COMPONENT-001"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "repository": {
+      "type": "string"
+    },
+    "status_vocabulary": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rule": {
+      "type": "string"
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/row"
+      }
+    }
+  },
+  "$defs": {
+    "evidenceRef": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Traceable repository URL, path+SHA, test identifier, workflow/job/log reference, or E2E/release artifact."
+    },
+    "row": {
+      "type": "object",
+      "required": [
+        "id",
+        "domain",
+        "component",
+        "function",
+        "status",
+        "evidence",
+        "notes"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "component": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "PRESENT",
+            "SPECIFIED",
+            "IMPLEMENTED",
+            "UNIT_TESTED",
+            "INTEGRATION_TESTED",
+            "EXACT_SHA_CI_VERIFIED",
+            "E2E_VERIFIED",
+            "RELEASE_VERIFIED",
+            "BLOCKED",
+            "UNASSESSED"
+          ]
+        },
+        "evidence": {
+          "type": "object",
+          "required": [
+            "spec",
+            "source",
+            "unit_test",
+            "integration_test",
+            "ci_exact_sha",
+            "e2e",
+            "release"
+          ],
+          "properties": {
+            "spec": {
+              "$ref": "#/$defs/evidenceRef"
+            },
+            "source": {
+              "$ref": "#/$defs/evidenceRef"
+            },
+            "unit_test": {
+              "$ref": "#/$defs/evidenceRef"
+            },
+            "integration_test": {
+              "$ref": "#/$defs/evidenceRef"
+            },
+            "ci_exact_sha": {
+              "$ref": "#/$defs/evidenceRef"
+            },
+            "e2e": {
+              "$ref": "#/$defs/evidenceRef"
+            },
+            "release": {
+              "$ref": "#/$defs/evidenceRef"
+            }
+          }
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}
