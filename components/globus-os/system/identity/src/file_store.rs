@@ -148,17 +148,16 @@ fn temporary_path(path: &Path) -> PathBuf {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::{
-        env,
-        time::{SystemTime, UNIX_EPOCH},
-    };
+    use std::{env, sync::atomic::{AtomicU64, Ordering}};
+
+    static TEST_PATH_COUNTER: AtomicU64 = AtomicU64::new(1);
 
     fn path() -> PathBuf {
-        let n = SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .unwrap()
-            .as_nanos();
-        env::temp_dir().join(format!("globus-identity-{n}.blob"))
+        let id = TEST_PATH_COUNTER.fetch_add(1, Ordering::Relaxed);
+        env::temp_dir().join(format!(
+            "globus-identity-{}-{id}.blob",
+            std::process::id()
+        ))
     }
 
     #[test]
