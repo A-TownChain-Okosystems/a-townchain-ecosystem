@@ -451,7 +451,9 @@ Difficulty
 + Quest Importance
 → Reward Proposal
 → Economy Validation
-→ Reward
+→ Authorized Reward Command
+→ Genesis / authoritative Economy Runtime
+→ Committed Reward State
 ```
 
 Unterstützte Reward-Klassen:
@@ -1687,27 +1689,21 @@ The plane list defines the canonical target architecture. It does not assert tha
 
 ## AURORA-001 Evidence Rule
 
-Aurora component status follows:
+Aurora component evidence uses the same independent dimensions as the master architecture:
 
 ```text
-ARCHITECTURE_ONLY
-      ↓
-SPECIFIED
-      ↓
-IMPLEMENTED
-      ↓
-TESTED
-      ↓
-CI_VERIFIED
-      ↓
-INTEGRATED
-      ↓
-E2E_VERIFIED
+ARCHITECTURE CONTRACT
+        │
+        ├── Implementation: PRESENT / MISSING / BLOCKED
+        ├── Tests: TESTED / NOT_TESTED
+        ├── CI: CI_VERIFIED only for exact SHA
+        ├── Integration: INTEGRATED / NOT_INTEGRATED
+        └── E2E: E2E_VERIFIED / NOT_E2E_VERIFIED
 ```
 
 Exceptional states are `MISSING`, `BLOCKED`, `DUPLICATE` and `DISCONNECTED`.
 
-A file, directory or architecture statement is not implementation evidence. CI evidence is valid only when tied to the exact source commit under assessment.
+These are evidence dimensions, not a required implementation sequence. A file, directory or architecture statement is not implementation evidence. CI evidence is valid only when tied to the exact source commit under assessment.
 
 ## Repository Ownership
 
