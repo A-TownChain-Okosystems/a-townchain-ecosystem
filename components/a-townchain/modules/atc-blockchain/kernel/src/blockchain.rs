@@ -1794,7 +1794,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-restart-resync-votes-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            TEST_PATH_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
         ));
 
         let producer = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
