@@ -1723,3 +1723,77 @@ A file, directory or architecture statement is not implementation evidence. CI e
 | Standards / governance | `atc-standards` |
 
 The ecosystem repository remains the integration/master-architecture SSOT; component implementations remain in their canonical repositories.
+
+
+---
+
+# Master Capability Evidence Contract
+
+The Master Architecture is accompanied by a machine-auditable capability evidence contract in:
+
+- `docs/audit/MASTER_CAPABILITY_EVIDENCE_AUDIT.md`
+- `docs/audit/STATUS_SEMANTICS.md`
+- `audit/capability-manifest.json`
+
+## Evidence Freshness / SHA Binding
+
+A capability assessed at source commit `S` may only be classified `CI_VERIFIED` when the CI run and its evidence are attributable to exactly `S`.
+
+```text
+source SHA S
+    │
+    ├── tests
+    ├── exact-SHA CI run
+    └── evidence artifact
+            │
+            └── commit == S
+```
+
+If an evidence record points to an older commit, its status is `EVIDENCE_STALE`. Historical PASS results must never be promoted to current-main verification.
+
+## Capability Evidence Dimensions
+
+Every audited capability is evaluated independently across:
+
+`Architecture → Source → Contract → Dependency → Call Path → Tests → Exact-SHA CI → Evidence Binding → Integration → E2E → Duplicate/Drift`.
+
+A capability being implemented does not imply that its integration edge or system E2E path is implemented.
+
+## Critical Path Audit Requirement
+
+The following paths are canonical audit paths, not implementation claims:
+
+```text
+SDK → Node → Mempool → Signature/Authorization → Consensus → ATC-VM
+    → State Transition → Canonical State → Storage → Indexer
+
+ATCLang → ATC-IR → ABI → Bytecode → Verifier → ATC-VM → State Transition
+
+Model → Aurora Runtime → Capability → Policy → Approval → Tool → Authorized Resource
+
+Quest/Dialogue → Runtime → Aurora/Agent → Validation
+    → Deterministic Game State Mutation → Persistence
+```
+
+Each edge requires concrete dependency/call-path evidence before the corresponding capability can be classified `INTEGRATED`.
+
+## Fix Gate
+
+The audit is completed before corrective implementation begins. The mandatory sequence is:
+
+```text
+CURRENT MAIN SHA
+ → SOURCE
+ → CONTRACT
+ → DEPENDENCY
+ → CALL PATH
+ → TEST
+ → EVIDENCE
+ → SHA BINDING
+ → INTEGRATION
+ → E2E
+ → DUPLICATE / DRIFT
+ → ROOT CAUSE
+ → MINIMAL FIX
+ → RERUN
+```
