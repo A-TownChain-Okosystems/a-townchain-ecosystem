@@ -99,7 +99,7 @@ impl Transaction {
         t: TxType,
         s: String,
         r: Option<String>,
-        a: u64,
+        a: u128,
         gp: u64,
         gl: u64,
         n: u64,
