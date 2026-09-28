@@ -3385,3 +3385,610 @@ Operations / Security / Resilience / Verification
 ~~~
 
 These contracts remain architectural SSOTs. Implementation status MUST still be established from component repositories and exact-SHA evidence.
+
+ 
+---
+ 
+# ARCH-004 — Functional Operating System Architecture
+ 
+ARCH-004 defines the minimum functional contract for a real bootable and usable GlobusOS/ShivaCore operating system. It closes the distinction between kernel architecture, OS architecture and an actually functioning OS.
+ 
+ARCH-004 is an architecture contract only. It MUST NOT be interpreted as implementation, test, CI, hardware or release evidence.
+ 
+## 1. Boot-to-Userspace Contract
+ 
+The canonical minimum OS path is:
+ 
+~~~text
+Firmware / UEFI
+  ↓
+Bootloader
+  ↓
+Kernel Image Verification / Load
+  ↓
+ShivaCore Entry
+  ↓
+CPU / Exception / Interrupt Initialization
+  ↓
+Physical + Virtual Memory
+  ↓
+Timer + Scheduler
+  ↓
+Kernel Objects / Capabilities
+  ↓
+Syscall Boundary
+  ↓
+Userspace Address Space
+  ↓
+ELF / Program Loader
+  ↓
+Initial Userspace Process
+  ↓
+PID 1 / Init
+  ↓
+Service Manager
+  ↓
+Core GlobusOS Services
+  ↓
+Shell / Application
+~~~
+ 
+A platform MUST NOT be described as a functioning general-purpose OS until this path is implemented and verified for its declared target environment.
+ 
+## 2. CPU and Architecture Contract
+ 
+ShivaCore MUST explicitly define per supported architecture:
+ 
+- boot protocol;
+- CPU initialization;
+- privilege levels;
+- exception vectors;
+- interrupt model;
+- timer source;
+- context-switch mechanism;
+- atomic/synchronization primitives;
+- SMP initialization;
+- CPU topology;
+- architecture-specific memory-management behavior;
+- shutdown/reboot semantics.
+ 
+Architecture support MUST be tracked independently. Code existing for one architecture MUST NOT imply support for another.
+ 
+## 3. Interrupt, Exception and Timer Contract
+ 
+The kernel MUST provide:
+ 
+- exception dispatch;
+- interrupt routing;
+- interrupt masking/unmasking;
+- timer interrupts;
+- syscall entry;
+- page-fault handling;
+- fatal-fault handling;
+- interrupt-safe synchronization rules;
+- timer ownership and cancellation semantics.
+ 
+Fatal kernel faults MUST have a defined evidence-producing failure path such as panic, crash record or controlled halt.
+ 
+## 4. Memory Management Contract
+ 
+Memory management MUST define:
+ 
+~~~text
+Physical Memory
+  ↓
+Frame / Page Allocator
+  ↓
+Page Tables / MMU
+  ↓
+Kernel Address Space
+  ↓
+User Address Spaces
+  ↓
+Heap / Allocator
+~~~
+ 
+The contract MUST cover:
+ 
+- physical allocation;
+- virtual mapping;
+- page permissions;
+- user/kernel isolation;
+- page faults;
+- shared memory;
+- memory ownership;
+- mapping lifetime;
+- allocator failure;
+- out-of-memory behavior;
+- memory accounting;
+- SMP synchronization.
+ 
+Kernel and userspace memory MUST have explicit protection boundaries.
+ 
+## 5. Scheduling and Process Contract
+ 
+The kernel MUST define:
+ 
+- process;
+- thread;
+- task;
+- scheduler;
+- runnable/blocked/sleeping states;
+- context switching;
+- priorities or scheduling classes;
+- timer-driven wakeup;
+- process termination;
+- thread termination;
+- parent/child semantics;
+- CPU affinity where SMP applies.
+ 
+A scheduler contract MUST define behavior under CPU saturation and resource exhaustion.
+ 
+## 6. Userspace and Program Loading Contract
+ 
+A general-purpose OS MUST define a real userspace execution boundary:
+ 
+~~~text
+Kernel
+  ↓
+Address Space Creation
+  ↓
+ELF / Program Validation
+  ↓
+Executable Mapping
+  ↓
+User Stack / Initial Runtime State
+  ↓
+Ring-3 / User Privilege
+  ↓
+Program Execution
+~~~
+ 
+The program loader MUST validate executable format, memory ranges, permissions and entry conditions before transfer of control.
+ 
+Userspace MUST NOT obtain kernel authority by merely controlling executable input.
+ 
+## 7. Syscall ABI Contract
+ 
+The kernel/userspace boundary MUST define a versioned syscall ABI including:
+ 
+- syscall numbering;
+- calling convention;
+- argument validation;
+- pointer validation;
+- object/capability references;
+- return values;
+- error model;
+- interruption/cancellation;
+- ABI versioning;
+- compatibility/deprecation rules.
+ 
+Syscalls MUST be treated as hostile input boundaries.
+ 
+## 8. IPC and Capability Contract
+ 
+The microkernel communication path MUST be:
+ 
+~~~text
+Process A
+  ↓
+Capability / Endpoint Authorization
+  ↓
+IPC Message Validation
+  ↓
+Kernel IPC
+  ↓
+Process B
+~~~
+ 
+IPC MUST define:
+ 
+- endpoints;
+- send/receive/reply;
+- synchronous/asynchronous semantics;
+- message limits;
+- timeout;
+- cancellation;
+- shared-memory transfer where applicable;
+- capability transfer;
+- object lifetime;
+- failure behavior;
+- replay/idempotency semantics where required.
+ 
+Capability checks MUST be enforced by the kernel, not only by userspace convention.
+ 
+## 9. Device, Driver and HAL Contract
+ 
+Hardware access MUST follow:
+ 
+~~~text
+Hardware
+  ↓
+Architecture HAL
+  ↓
+Bus / Device Discovery
+  ↓
+Driver
+  ↓
+Kernel / Driver Interface
+  ↓
+OS Service
+  ↓
+Userspace API
+~~~
+ 
+At minimum the declared boot target SHOULD provide working paths for:
+ 
+- console/serial;
+- timer;
+- interrupt controller;
+- storage;
+- network;
+- input;
+- display/framebuffer where a graphical target is claimed.
+ 
+Optional hardware such as TPM, TEE, GPU, NPU, USB or Bluetooth MUST be separately capability- and hardware-verified.
+ 
+## 10. Storage and VFS Contract
+ 
+A usable OS MUST define:
+ 
+~~~text
+Block Device
+  ↓
+Block Layer
+  ↓
+Filesystem
+  ↓
+VFS
+  ↓
+File Descriptor / Handle API
+  ↓
+Userspace
+~~~
+ 
+The contract MUST cover:
+ 
+- device discovery;
+- partitions;
+- filesystem format;
+- mount/unmount;
+- files/directories;
+- handles/descriptors;
+- permissions;
+- concurrent access;
+- crash consistency;
+- corruption detection/recovery;
+- fsck or equivalent;
+- persistence guarantees.
+ 
+## 11. Init and Service Lifecycle Contract
+ 
+After userspace starts:
+ 
+~~~text
+Kernel
+  ↓
+Initial Process
+  ↓
+PID 1 / Init
+  ↓
+Service Dependency Resolution
+  ↓
+Service Start
+  ↓
+Health Check
+  ↓
+RUNNING
+~~~
+ 
+PID 1/service management MUST define:
+ 
+- dependency ordering;
+- startup failure;
+- restart policy;
+- health checks;
+- shutdown ordering;
+- signal/event handling;
+- service isolation;
+- capability assignment;
+- resource limits;
+- boot failure reporting.
+ 
+## 12. Core GlobusOS Services Contract
+ 
+A minimal functional GlobusOS service set SHOULD include:
+ 
+- process/service manager;
+- identity/authentication;
+- capability/policy service;
+- storage service;
+- device manager;
+- network manager;
+- time service;
+- logging/audit service;
+- configuration service;
+- update/recovery service;
+- IPC/service registry.
+ 
+Each service MUST have a declared owner, interface, state model, capability requirements, lifecycle and recovery semantics.
+ 
+## 13. Networking and Socket Contract
+ 
+A network-capable OS MUST define:
+ 
+~~~text
+NIC
+  ↓
+Driver
+  ↓
+Link / Network Stack
+  ↓
+IP / Transport
+  ↓
+Socket API
+  ↓
+Userspace Service
+~~~
+ 
+The contract MUST define interface lifecycle, addressing, routing, sockets, DNS where applicable, firewall/policy boundaries, error behavior, resource limits and network service isolation.
+ 
+Protocol implementations MUST NOT be treated as available merely because a library or source file exists.
+ 
+## 14. Identity, Authentication and Authorization Contract
+ 
+The OS identity path MUST be:
+ 
+~~~text
+Principal
+  ↓
+Identity
+  ↓
+Authentication
+  ↓
+Session / Workload Identity
+  ↓
+Authorization
+  ↓
+Capability
+  ↓
+Resource / Service
+~~~
+ 
+Credential storage, session lifecycle, key purpose, revocation, recovery and audit MUST be explicit.
+ 
+GlobusOS identity MUST NOT silently inherit blockchain, wallet, Aurora or Genesis authority.
+ 
+## 15. Secure Boot and Trusted Boot Contract
+ 
+Where secure boot is claimed:
+ 
+~~~text
+Firmware
+  ↓
+Boot Policy
+  ↓
+Bootloader Verification
+  ↓
+Kernel Verification
+  ↓
+Measured / Attested State where supported
+  ↓
+ShivaCore
+~~~
+ 
+Secure Boot, measured boot, TPM and TEE MUST remain distinct claims. Each requires its own implementation and hardware evidence.
+ 
+## 16. Update, Recovery and A/B Contract
+ 
+System updates MUST define:
+ 
+~~~text
+Artifact
+  ↓
+Signature / Provenance Verification
+  ↓
+Compatibility Check
+  ↓
+Inactive Slot
+  ↓
+Install
+  ↓
+Reboot
+  ↓
+Health Validation
+  ↓
+Commit
+~~~
+ 
+Failure MUST lead to a defined rollback/recovery boundary. An update mechanism MUST NOT leave an ambiguous partially activated system state.
+ 
+## 17. Userspace Runtime and Standard Services
+ 
+A usable userspace SHOULD provide stable libraries/APIs for:
+ 
+- process creation;
+- memory allocation;
+- threads/synchronization;
+- filesystem;
+- networking;
+- IPC;
+- time;
+- logging;
+- cryptography;
+- configuration;
+- environment/session management.
+ 
+The API surface MUST consume versioned OS contracts rather than private kernel implementation details.
+ 
+## 18. Display, Input, Audio and Desktop Contract
+ 
+A graphical OS target additionally requires:
+ 
+~~~text
+Display / GPU
+  ↓
+Graphics Driver / HAL
+  ↓
+Compositor / Display Server
+  ↓
+Window / Session Manager
+  ↓
+Input
+  ↓
+Desktop Shell
+  ↓
+Applications
+~~~
+ 
+Rendering MUST remain separate from authoritative system state. Input MUST cross explicit authorization and event boundaries. Audio, camera, GPU and other peripheral access MUST be capability-controlled.
+ 
+## 19. OS Resource and Isolation Contract
+ 
+Every process/service SHOULD have explicit accounting and policy for:
+ 
+- CPU;
+- memory;
+- storage;
+- network;
+- file handles;
+- IPC objects;
+- device access;
+- GPU/NPU resources where applicable.
+ 
+Resource exhaustion MUST be isolated so that an untrusted service cannot trivially destabilize the kernel or unrelated services.
+ 
+## 20. Observability and Diagnostics Contract
+ 
+A functioning OS MUST expose enough diagnostics to establish whether boot and runtime contracts are working.
+ 
+Minimum evidence SHOULD include:
+ 
+- boot stage;
+- kernel version/build identity;
+- hardware/architecture identity;
+- process/thread lifecycle;
+- memory state;
+- service state;
+- IPC failures;
+- device discovery;
+- storage/network state;
+- security events;
+- crash/panic information;
+- update/rollback state.
+ 
+Diagnostics MUST NOT leak secrets or unrestricted credentials.
+ 
+## 21. OS Test Pyramid and Boot Gates
+ 
+The OS verification chain MUST include, where applicable:
+ 
+~~~text
+Static Analysis
+  ↓
+Kernel Unit Tests
+  ↓
+Architecture / ABI Tests
+  ↓
+Userspace Tests
+  ↓
+IPC / Capability Tests
+  ↓
+Driver Tests
+  ↓
+Service Integration
+  ↓
+QEMU Boot Smoke
+  ↓
+QEMU Functional Boot
+  ↓
+Hardware Boot
+  ↓
+Hardware Functional Tests
+  ↓
+Long-Run / Fault / Recovery Tests
+~~~
+ 
+The canonical minimum QEMU gate SHOULD prove:
+ 
+1. bootloader starts;
+2. ShivaCore starts;
+3. memory initializes;
+4. interrupts/timer work;
+5. scheduler runs;
+6. userspace starts;
+7. PID 1 starts;
+8. at least one service reaches READY/RUNNING;
+9. a userspace program performs a syscall;
+10. at least one IPC transaction succeeds;
+11. controlled shutdown/reboot succeeds.
+ 
+A hardware-backed capability MUST NOT be marked verified by QEMU-only evidence.
+ 
+## 22. OS Evidence Contract
+ 
+OS status MUST use independent evidence dimensions:
+ 
+PRESENT · SPECIFIED · IMPLEMENTED · TESTED · CI_VERIFIED · QEMU_VERIFIED · HARDWARE_VERIFIED · INTEGRATED · E2E_VERIFIED · RELEASED · DEPLOYED · OPERATIONAL
+ 
+Exact-SHA CI rules from ARCH-001 remain mandatory.
+ 
+A kernel boot log, source file, README statement or architecture diagram alone MUST NOT establish full OS functionality.
+ 
+## 23. OS Completeness Gate
+ 
+The minimum functional OS gate is:
+ 
+~~~text
+Firmware
+  ↓
+Bootloader
+  ↓
+ShivaCore
+  ↓
+Memory
+  ↓
+Interrupts / Timer
+  ↓
+Scheduler
+  ↓
+Userspace
+  ↓
+Syscalls
+  ↓
+IPC / Capabilities
+  ↓
+PID 1
+  ↓
+Service Manager
+  ↓
+Storage
+  ↓
+Network
+  ↓
+Identity
+  ↓
+Shell / Application
+~~~
+ 
+A target profile MAY omit desktop, networking, storage or other optional subsystems only when that profile explicitly declares the omission and its supported use case. A general-purpose GlobusOS profile MUST NOT omit the mandatory path above.
+ 
+## 24. OS Architecture Gap Closure
+ 
+ARCH-004 extends the previous contracts:
+ 
+~~~text
+ARCH-001
+Authority / Evidence
+      ↓
+ARCH-002
+System / Domain / Interface
+      ↓
+ARCH-003
+Operations / Security / Resilience / Verification
+      ↓
+ARCH-004
+Functional Operating System / Boot-to-Userspace
+~~~
+ 
+The component repositories remain the implementation SSOTs. The ecosystem architecture defines the cross-repository acceptance contract; it does not claim that the acceptance gate has already passed.
