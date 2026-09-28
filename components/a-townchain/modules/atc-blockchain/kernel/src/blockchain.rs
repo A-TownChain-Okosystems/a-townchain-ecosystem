@@ -1688,6 +1688,11 @@ mod tests {
             self.messages.lock().unwrap().push(message);
             Ok(())
         }
+
+        fn send_to(&self, _peer_id: &str, message: NetworkMessage) -> Result<(), String> {
+            self.messages.lock().unwrap().push(message);
+            Ok(())
+        }
     }
 
     fn configure_two_validator_node(node: &Node, proposer: &str) {
