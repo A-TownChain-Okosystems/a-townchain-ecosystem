@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-74",
+  "timestamp": "2026-09-28T16:43:31.823180Z",
+  "category": "change",
+  "title": "PR #74: docs: separate master architecture from canonical specification",
+  "context": "Pull request 74 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/74",
+    "commit": "7f31ca5c661865413630aea2413cc3c7e9957c21"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\n## Separation\n\n- Adds top-level `SPECIFICATION.md` as the system-level normative contract surface.\n- Moves the clearly normative Quest data contract, deterministic AI boundary, Dialogue Runtime API contract, and AURORA-001 evidence-state contract out of `ARCHITECTURE.md`.\n- Keeps architecture responsible for system topology, boundaries, ownership and placement.\n- Keeps implementation/evidence semantics explicit: specification does not imply implementation.\n\n## Constraint\n\nNo component implementation is moved into the ecosystem repository. Component source remains owned by its canonical repository.\n\nThis PR is documentation/specification separation only; implementation status must continue to be established from source, tests, exact-SHA CI and E2E evidence."
+}

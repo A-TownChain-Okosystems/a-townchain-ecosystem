@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-73",
+  "timestamp": "2026-09-28T16:43:31.823180Z",
+  "category": "change",
+  "title": "PR #73: docs: establish canonical Aurora AI compute platform architecture",
+  "context": "Pull request 73 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/73",
+    "commit": "7f31ca5c661865413630aea2413cc3c7e9957c21"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\n## Purpose\nEstablish the canonical Aurora AI / ATC AI Compute Platform architecture and preserve Standalone First, Ecosystem Second.\n\n## Boundaries\n- Aurora is not the ShivaCore TCB or blockchain consensus authority.\n- Aurora Runtime is distinct from ATC AI Runtime.\n- CPU/GPU/NPU are explicit compute backends.\n- NPU is not a trust domain by default.\n- TPM, secure processor and TEE remain distinct.\n- Hardware architecture is manufacturer- and product-neutral.\n- No external platform AI runtime is a normative dependency.\n\n## Evidence\nThis PR adds architecture/specification/governance documentation only. It does not claim implementation, testing, CI verification, integration or E2E verification.\n\nNo Evidence, No Trust."
+}

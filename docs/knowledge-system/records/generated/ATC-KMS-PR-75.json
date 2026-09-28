@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-75",
+  "timestamp": "2026-09-28T16:43:31.823180Z",
+  "category": "change",
+  "title": "PR #75: audit: add machine-readable component implementation evidence matrix",
+  "context": "Pull request 75 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/75",
+    "commit": "7f31ca5c661865413630aea2413cc3c7e9957c21"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\n## COMPONENT-001 — Machine-readable implementation/evidence matrix\n\nAdds the canonical audit matrix for the component/function inventory.\n\n### Contents\n- `evidence/component-implementation-matrix.json`\n  - **801 individual function rows**\n  - 410 original canonical component functions\n  - 391 Standard Functions\n  - canonical status vocabulary\n  - evidence slots for specification, source, unit/integration tests, exact-SHA CI, E2E and release\n- `evidence/component-implementation-matrix.schema.json`\n  - JSON Schema validation contract\n- `evidence/README.md`\n  - status and evidence rules\n\n### Standard Functions\n\nThe Standard Functions domain now covers reusable primitives across:\n- kernel primitives, memory, IPC, capabilities and kernel security\n- operating-system process, memory, filesystem, device, networking, services and package/update functions\n- AI tensor/math/runtime, agents, safety, RAG and multimodal functions\n- programming-language lexer, parser, semantic analysis, IR, compiler, runtime, package and tooling functions\n- plus the existing primitive, collection, text, byte, numeric, math, encoding, cryptographic, serialization, time, validation, identifier, error, resource, determinism and contract-runtime functions\n\n### Verification rule\n\nRows start at `UNASSESSED`. No function is promoted based on documentation, filenames, issue text, or historical CI. Promotion requires traceable evidence from the relevant source/test/CI/E2E artifact.\n\nThis PR establishes the audit instrument; it does not claim implementation completeness."
+}

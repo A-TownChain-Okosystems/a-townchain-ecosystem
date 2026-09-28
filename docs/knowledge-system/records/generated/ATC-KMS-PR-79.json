@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-79",
+  "timestamp": "2026-09-28T16:43:31.823180Z",
+  "category": "change",
+  "title": "PR #79: docs: make all Markdown machine-readable",
+  "context": "Pull request 79 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/79",
+    "commit": "7f31ca5c661865413630aea2413cc3c7e9957c21"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\nIntroduces ATC-MD-001. Every tracked Markdown file is represented exactly once in a machine-readable registry with path, exact blob SHA, deterministic document type and lifecycle. Adds JSON Schema, contract documentation and a CI gate that fails on missing/stale/duplicate Markdown registry entries. Current corpus: 4,139 Markdown files. This is metadata/evidence infrastructure and does not imply implementation or release status."
+}
