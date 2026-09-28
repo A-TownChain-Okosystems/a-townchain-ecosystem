@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-BDFAC66AAAA4",
-  "timestamp": "2026-09-28T16:53:25.962936Z",
+  "timestamp": "2026-09-28T16:56:05.754181Z",
   "category": "change",
   "title": "Commit: fix: allow ordered validator snapshot revisions at one activation height",
   "context": "Git commit bdfac66aaaa4c7a2d142e5bbc2e569c839633df7 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/bdfac66aaaa4c7a2d142e5bbc2e569c839633df7",
-    "commit": "d9a0bf58c093f4ced5ce619145cee532bd359830"
+    "commit": "4e9a8812ed806c072e07e231958a395d5869271e"
   },
   "tags": [
     "commit",

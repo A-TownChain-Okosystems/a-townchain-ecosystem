@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-DOCS-MONOREPO-LEGACY-DOCS-ARC-AEB8D5099F",
-  "timestamp": "2026-09-28T16:53:25.962936Z",
+  "timestamp": "2026-09-28T16:56:05.754181Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/docs/monorepo-legacy/docs/ARCHITECTURE_TREES.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/docs/monorepo-legacy/docs/ARCHITECTURE_TREES.md",
-    "commit": "d9a0bf58c093f4ced5ce619145cee532bd359830"
+    "commit": "4e9a8812ed806c072e07e231958a395d5869271e"
   },
   "tags": [
     "generated",

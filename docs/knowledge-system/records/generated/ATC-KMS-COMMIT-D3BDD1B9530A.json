@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-D3BDD1B9530A",
-  "timestamp": "2026-09-28T16:53:25.962936Z",
+  "timestamp": "2026-09-28T16:56:05.754181Z",
   "category": "change",
   "title": "Commit: test: reject mismatched recovered journal heights",
   "context": "Git commit d3bdd1b9530a86ccdb0abe0c7b4cfa2b02e25fb9 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/d3bdd1b9530a86ccdb0abe0c7b4cfa2b02e25fb9",
-    "commit": "d9a0bf58c093f4ced5ce619145cee532bd359830"
+    "commit": "4e9a8812ed806c072e07e231958a395d5869271e"
   },
   "tags": [
     "commit",

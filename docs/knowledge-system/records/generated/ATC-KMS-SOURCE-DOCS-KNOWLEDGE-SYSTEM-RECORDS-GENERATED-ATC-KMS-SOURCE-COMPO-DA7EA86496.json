@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-DOCS-KNOWLEDGE-SYSTEM-RECORDS-GENERATED-ATC-KMS-SOURCE-COMPO-DA7EA86496",
-  "timestamp": "2026-09-28T16:53:25.962936Z",
+  "timestamp": "2026-09-28T16:56:05.754181Z",
   "category": "evidence",
   "title": "Indexed source: docs/knowledge-system/records/generated/ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-MODULES-ATC-TESTNET-ARCHITECTURE-MD-C7047879CD.json",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "docs/knowledge-system/records/generated/ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-MODULES-ATC-TESTNET-ARCHITECTURE-MD-C7047879CD.json",
-    "commit": "d9a0bf58c093f4ced5ce619145cee532bd359830"
+    "commit": "4e9a8812ed806c072e07e231958a395d5869271e"
   },
   "tags": [
     "generated",

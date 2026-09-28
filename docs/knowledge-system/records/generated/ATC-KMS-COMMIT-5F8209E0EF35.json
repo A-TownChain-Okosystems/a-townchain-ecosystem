@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-5F8209E0EF35",
-  "timestamp": "2026-09-28T16:53:25.962936Z",
+  "timestamp": "2026-09-28T16:56:05.754181Z",
   "category": "change",
   "title": "Commit: feat(state): apply validator transactions during canonical batch replay",
   "context": "Git commit 5f8209e0ef35e4096a65490052b7e57b6e521a1b on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/5f8209e0ef35e4096a65490052b7e57b6e521a1b",
-    "commit": "d9a0bf58c093f4ced5ce619145cee532bd359830"
+    "commit": "4e9a8812ed806c072e07e231958a395d5869271e"
   },
   "tags": [
     "commit",

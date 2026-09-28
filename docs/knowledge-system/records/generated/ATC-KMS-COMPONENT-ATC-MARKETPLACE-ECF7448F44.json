@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-ATC-MARKETPLACE-ECF7448F44",
-  "timestamp": "2026-09-28T16:53:25.962936Z",
+  "timestamp": "2026-09-28T16:56:05.754181Z",
   "category": "module",
   "title": "Component: atc-marketplace",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-marketplace",
-    "commit": "d9a0bf58c093f4ced5ce619145cee532bd359830"
+    "commit": "4e9a8812ed806c072e07e231958a395d5869271e"
   },
   "tags": [
     "atc-marketplace",
