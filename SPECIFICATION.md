@@ -109,8 +109,6 @@ AI Metadata und Security Metadata dürfen keine Umgehung der deterministischen Q
 
 ---
 
----
-
 # Deterministic AI Boundary
 
 Für alle Quest-AI-Pfade gilt:
@@ -136,8 +134,6 @@ AI darf insbesondere nicht:
 - ATC-VM-State umgehen
 - Rewards ohne Runtime-Validierung vergeben
 - Lore-Canon ohne autorisierten Change verändern
-
----
 
 ---
 
