@@ -1007,6 +1007,32 @@ impl Node {
         let height = self.consensus.height();
         let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
 
+        // Recovery may already contain a durable pending activation above the
+        // current chain height. Finalization must not append a lower snapshot:
+        // that would make the append-only validator journal regress on restart.
+        if let Some(latest_height) = self.consensus.validator_snapshot_heights().last().copied() {
+            if latest_height > height {
+                let (existing_validators, existing_keys) = self
+                    .consensus
+                    .validator_snapshot_for_height(latest_height)
+                    .ok_or("latest validator snapshot is unavailable")?;
+                if existing_validators != validators || existing_keys != keys {
+                    return Err("mutable validator registry conflicts with pending validator snapshot".into());
+                }
+                return Ok(());
+            }
+            if latest_height == height {
+                let (existing_validators, existing_keys) = self
+                    .consensus
+                    .validator_snapshot_for_height(height)
+                    .ok_or("current validator snapshot is unavailable")?;
+                if existing_validators != validators || existing_keys != keys {
+                    return Err("conflicting validator snapshot at current height".into());
+                }
+                return Ok(());
+            }
+        }
+
         // Durable-first: finalizing the bootstrap snapshot must use the same
         // persistence boundary as every other validator mutation. If storage
         // rejects the snapshot, consensus must not expose a revision that will
