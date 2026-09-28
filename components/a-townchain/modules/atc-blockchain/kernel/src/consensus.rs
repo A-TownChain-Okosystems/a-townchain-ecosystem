@@ -643,7 +643,7 @@ mod tests {
         engine.register_validator_key("b", b.verifying_key().to_bytes()).unwrap();
         let keys0 = [(String::from("a"), a.verifying_key().to_bytes()), (String::from("b"), b.verifying_key().to_bytes())].into_iter().collect();
         engine.restore_validator_snapshot(0, engine.validators_snapshot(), keys0).unwrap();
-        engine.restore_validator_snapshot(1, [("a".to_string(), 100u64)].into_iter().collect(), [("a".to_string(), a.verifying_key().to_bytes())].into_iter().collect());
+        engine.restore_validator_snapshot(1, [("a".to_string(), 100u128)].into_iter().collect(), [("a".to_string(), a.verifying_key().to_bytes())].into_iter().collect());
 
         let block0 = [56u8; 32];
         engine.vote_at_height(signed_vote(&engine, &a, "a", block0, true), 0).unwrap();
