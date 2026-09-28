@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-5E1F90C085E9",
-  "timestamp": "2026-09-28T16:43:31.823180Z",
+  "timestamp": "2026-09-28T16:45:50.171606Z",
   "category": "change",
   "title": "Commit: audit: establish ecosystem G1-G9 audit contract",
   "context": "Git commit 5e1f90c085e9524d464ab25f6388753bcce16ef1 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/5e1f90c085e9524d464ab25f6388753bcce16ef1",
-    "commit": "7f31ca5c661865413630aea2413cc3c7e9957c21"
+    "commit": "a9b073ef3c94720dec3a0b33b9c16758fc888d13"
   },
   "tags": [
     "commit",
