@@ -321,6 +321,7 @@ impl ChainStorage {
                 .read()
                 .unwrap()
                 .get(&b.height.saturating_sub(1))
+                .cloned()
                 .ok_or("cannot commit block without canonical parent")?;
             if b.parent_hash != parent.id {
                 return Err("canonical parent mismatch".into());
@@ -409,6 +410,7 @@ impl ChainStorage {
         }
         if block.height > 0 {
             let parent = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
+                .cloned()
                 .ok_or("cannot commit block without canonical parent")?;
             if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
         } else if block.parent_hash != [0; 32] {
@@ -445,6 +447,7 @@ impl ChainStorage {
                 .read()
                 .unwrap()
                 .get(&block.height.saturating_sub(1))
+                .cloned()
                 .ok_or("cannot commit block without canonical parent")?;
             if block.parent_hash != parent.id {
                 return Err("canonical parent mismatch".into());
