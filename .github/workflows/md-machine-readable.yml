@@ -1,0 +1,32 @@
+name: Markdown Machine Readability
+
+on:
+  push:
+    paths:
+      - '**/*.md'
+      - 'evidence/markdown-registry.json'
+      - 'evidence/markdown-registry.schema.json'
+      - 'scripts/validate-markdown-registry.py'
+      - 'docs/MD-001-MACHINE-READABLE.md'
+      - '.github/workflows/md-machine-readable.yml'
+  pull_request:
+    paths:
+      - '**/*.md'
+      - 'evidence/markdown-registry.json'
+      - 'evidence/markdown-registry.schema.json'
+      - 'scripts/validate-markdown-registry.py'
+      - 'docs/MD-001-MACHINE-READABLE.md'
+      - '.github/workflows/md-machine-readable.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  md-001:
+    name: MD-001 Markdown registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate Markdown registry
+        run: python3 scripts/validate-markdown-registry.py
