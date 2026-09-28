@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-A-TOWNCHAIN-OS-DOCS-C0EC4E01A1",
-  "timestamp": "2026-09-28T17:01:19.134308Z",
+  "timestamp": "2026-09-28T17:42:57.030009Z",
   "category": "module",
   "title": "Component: a-townchain-os-docs",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs",
-    "commit": "5ccbcd6c142ebf18daf4243df98df437a2560a88"
+    "commit": "7289aef8a68977390ae90f0553a5db1f42229ec0"
   },
   "tags": [
     "a-townchain-os-docs",

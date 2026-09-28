@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-ATC-WALLET-ARCHITECTURE-MD-DADCCB462F",
-  "timestamp": "2026-09-28T17:01:19.134308Z",
+  "timestamp": "2026-09-28T17:42:57.030009Z",
   "category": "evidence",
   "title": "Indexed source: components/atc-wallet/ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-wallet/ARCHITECTURE.md",
-    "commit": "5ccbcd6c142ebf18daf4243df98df437a2560a88"
+    "commit": "7289aef8a68977390ae90f0553a5db1f42229ec0"
   },
   "tags": [
     "generated",

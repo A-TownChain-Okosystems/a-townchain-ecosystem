@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-51",
-  "timestamp": "2026-09-28T17:01:19.134308Z",
+  "timestamp": "2026-09-28T17:42:57.030009Z",
   "category": "change",
   "title": "PR #51: governance: enforce evidence and preserve release diagnostics",
   "context": "Pull request 51 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/51",
-    "commit": "5ccbcd6c142ebf18daf4243df98df437a2560a88"
+    "commit": "7289aef8a68977390ae90f0553a5db1f42229ec0"
   },
   "tags": [
     "generated",
