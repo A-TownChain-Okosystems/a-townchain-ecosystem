@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-5650AF3A6A01",
-  "timestamp": "2026-09-28T16:59:04.186359Z",
+  "timestamp": "2026-09-28T17:01:19.134308Z",
   "category": "change",
   "title": "Commit: feat: expose validator snapshot activation for network sync",
   "context": "Git commit 5650af3a6a01b8cc92030f168782fe9bea5b1646 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/5650af3a6a01b8cc92030f168782fe9bea5b1646",
-    "commit": "c08effe87eaee40327afed99c1c562e833484dc5"
+    "commit": "5ccbcd6c142ebf18daf4243df98df437a2560a88"
   },
   "tags": [
     "commit",
