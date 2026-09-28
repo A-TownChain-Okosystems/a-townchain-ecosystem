@@ -470,7 +470,7 @@ impl ChainStorage {
 
     pub fn recover_state(&self) -> Result<Option<BTreeMap<String, Account>>, String> {
         Ok(self
-            .recover_state_with_dao_at_height()?
+            .recover_state_at_height()?
             .map(|(_, x)| x.0))
     }
 
@@ -478,7 +478,7 @@ impl ChainStorage {
     /// canonical height it belongs to. The height is intentionally exposed
     /// so startup can reject cross-journal combinations that were never one
     /// committed block state.
-    pub fn recover_state_with_dao_at_height(
+    pub fn recover_state_at_height(
         &self,
     ) -> Result<Option<(u64, DaoStateSnapshot)>, String> {
         let Some(p) = &self.state_journal else {
@@ -1169,7 +1169,7 @@ mod tests {
         put(&mut state_record, &[]);
         std::fs::write(&state_path, format!("{}\n", hex::encode(state_record))).unwrap();
         let recovered = ChainStorage::open(&path).unwrap();
-        assert!(recovered.recover_state_with_dao().is_err());
+        assert!(recovered.recover_state().is_err());
 
         let issuance_path = path.with_extension("issuance");
         let mut issuance_record = Vec::new();
@@ -1224,7 +1224,7 @@ mod tests {
         // The same recovery boundary used by open_storage() must fail closed:
         // state cannot become durable merely because its journal line is valid.
         storage.state_journal = Some(path.with_extension("state"));
-        let err = storage.recover_state_with_dao().unwrap_err();
+        let err = storage.recover_state().unwrap_err();
         assert!(err.contains("missing block"));
 
         for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
