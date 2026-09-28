@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-65",
+  "timestamp": "2026-09-28T11:59:52.852119Z",
+  "category": "change",
+  "title": "PR #65: fix(node): sync identity implementation with atc-node SSOT",
+  "context": "Pull request 65 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/65",
+    "commit": "d81ede36d2044a22c8001d0d417b0ee3ea11ad29"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: False\n\nSynchronize the migrated a-townchain node mirror with the canonical atc-node/src/identity.rs. This restores IdentityError and ChainIdentity::validate() in the CI workspace without changing the atc-node SSOT itself."
+}

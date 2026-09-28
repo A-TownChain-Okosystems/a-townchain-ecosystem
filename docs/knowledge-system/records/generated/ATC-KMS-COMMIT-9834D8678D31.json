@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-9834D8678D31",
-  "timestamp": "2026-09-28T08:44:27.441237Z",
+  "timestamp": "2026-09-28T11:59:52.852119Z",
   "category": "change",
   "title": "Commit: Merge pull request #50 from A-TownChain-Okosystems/audit/2026-09-24-systematic-fixes",
   "context": "Git commit 9834d8678d31d9a5967d429a7d5ead21f5bf66cb on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/9834d8678d31d9a5967d429a7d5ead21f5bf66cb",
-    "commit": "6577fb7dd54f358a40385845c78a9222e7633f45"
+    "commit": "d81ede36d2044a22c8001d0d417b0ee3ea11ad29"
   },
   "tags": [
     "commit",

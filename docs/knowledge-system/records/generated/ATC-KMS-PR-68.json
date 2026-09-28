@@ -1,0 +1,27 @@
+{
+  "id": "ATC-KMS-PR-68",
+  "timestamp": "2026-09-28T11:59:52.852119Z",
+  "category": "change",
+  "title": "PR #68: fix(l1): align wallet and RPC transaction types",
+  "context": "Pull request 68 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/68",
+    "commit": "d81ede36d2044a22c8001d0d417b0ee3ea11ad29"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-67"
+    }
+  ],
+  "content": "State: open\nMerged: False\nDraft: False\n\nFollow-up to PR #67. Aligns atc-node RPC transaction amount with canonical u128 economics and removes the obsolete atc-wallet TxType::Validator match arm. No gate weakening and no architecture changes."
+}

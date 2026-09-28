@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-66",
+  "timestamp": "2026-09-28T11:59:52.852119Z",
+  "category": "change",
+  "title": "PR #66: test(determinism): remove wall-clock test paths",
+  "context": "Pull request 66 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/66",
+    "commit": "d81ede36d2044a22c8001d0d417b0ee3ea11ad29"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: False\n\nRemove all 24 CI-reported Rust wall-clock findings from the atc-blockchain test suite. Test-only temporary path uniqueness now uses an atomic counter plus process id; no determinism allowlist entries are added or weakened."
+}

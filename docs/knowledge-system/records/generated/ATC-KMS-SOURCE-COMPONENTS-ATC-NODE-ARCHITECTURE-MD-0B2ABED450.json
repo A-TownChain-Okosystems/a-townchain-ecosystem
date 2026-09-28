@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-ATC-NODE-ARCHITECTURE-MD-0B2ABED450",
-  "timestamp": "2026-09-28T08:44:27.441237Z",
+  "timestamp": "2026-09-28T11:59:52.852119Z",
   "category": "evidence",
   "title": "Indexed source: components/atc-node/ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-node/ARCHITECTURE.md",
-    "commit": "6577fb7dd54f358a40385845c78a9222e7633f45"
+    "commit": "d81ede36d2044a22c8001d0d417b0ee3ea11ad29"
   },
   "tags": [
     "generated",
