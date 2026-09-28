@@ -158,13 +158,15 @@ The layer model and runtime flow must not be conflated.
 L2 Blockchain Core
     │
     ├── Transaction / Mempool
-    ├── Block Proposal / Validation
-    └── Consensus / Finality
+    └── Block Proposal / Validation
              │
              ▼
 L3 Deterministic Execution
     │
     └── ATC-VM / candidate State Transition
+             │
+             ▼
+L2 Consensus / Validator Voting
              │
              ▼
 L2 Finality / Commit
@@ -174,9 +176,9 @@ L1 Canonical State Persistence
     │
     ├── Durable Storage
     └── Read Models / Indexing
-
-The execution result is a candidate until accepted by the applicable consensus/finality rules. L1 persists committed state; it does not determine protocol finality.
 ```
+
+The VM result is a candidate until accepted by the applicable consensus/finality rules. L1 persists committed state; it does not determine protocol finality.
 
 Application and intelligence paths connect through defined interfaces rather than becoming part of the consensus/VM execution boundary:
 
