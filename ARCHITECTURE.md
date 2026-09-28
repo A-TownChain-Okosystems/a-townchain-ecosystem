@@ -46,9 +46,9 @@ X — Cross-Layer Control Plane
 | Layer | Authority | Determinism | State authority |
 |---|---|---|---|
 | L0 | System / kernel / network boundary | deterministic where specified | No canonical chain state |
-| L1 | Data / persistence | deterministic persistence rules | Canonical state storage / history |
+| L1 | Data / persistence | deterministic persistence rules | Persistence of state committed by L2/L3; no protocol authority |
 | L2 | Blockchain protocol | deterministic | Chain authority / consensus |
-| L3 | ATC-VM execution | deterministic | Authorized state transitions |
+| L3 | ATC-VM execution | deterministic | Computes deterministic state transitions under L2 protocol authority |
 | L4 | Execution/scaling domain | domain-contract dependent | Only explicitly authorized domain state |
 | L5 | Protocol/economic domain | contract/policy defined | Authorized protocol state |
 | L6 | AI / intelligence | not a consensus authority | No direct canonical chain authority |
@@ -59,7 +59,7 @@ X — Cross-Layer Control Plane
 
 ## Canonical Deterministic Trust Boundary
 
-The authoritative blockchain transition path is:
+The authoritative blockchain path separates candidate execution from protocol finality:
 
 ```text
 Transaction
@@ -68,20 +68,20 @@ Signature / Authorization
     ↓
 Mempool
     ↓
-Consensus
+Block Proposal / Validation
     ↓
-ATC-VM
+ATC-VM — deterministic candidate state transition
     ↓
-State Transition
+Consensus / Validator Voting
+    ↓
+Finality / Commit
     ↓
 Canonical State
     ↓
-Storage / Persistence
-    ↓
-Finality
+Durable Storage / Read Models
 ```
 
-This is a trust-boundary and authority path, not a statement that every operation is implemented by a single process.
+This diagram defines authority and commit semantics, not a single-process implementation. Execution may occur before finality as a candidate transition; only finalized protocol state becomes canonical.
 
 ### Boundary Invariants
 
@@ -111,7 +111,7 @@ AI/model inference can produce proposals, commands or requests. Authoritative st
 
 ## Cross-Layer Control Plane
 
-X is a cross-cutting authority and security plane. It does not replace L0–L7 and does not independently execute blockchain state transitions.
+X is a cross-cutting control-plane model for identity, capability, authorization, policy, governance, security and evidence. It does not replace L0–L7, does not become a runtime execution layer, and does not independently execute blockchain state transitions. Normative standards remain owned by `atc-standards`; runtime enforcement remains with the responsible domain.
 
 ```text
                  CROSS-LAYER CONTROL PLANE — X
@@ -157,23 +157,25 @@ The layer model and runtime flow must not be conflated.
 ```text
 L2 Blockchain Core
     │
-    ├── Transaction
-    ├── Mempool
-    └── Consensus
+    ├── Transaction / Mempool
+    ├── Block Proposal / Validation
+    └── Consensus / Finality
              │
              ▼
 L3 Deterministic Execution
     │
-    └── ATC-VM / State Transition
+    └── ATC-VM / candidate State Transition
              │
              ▼
-L1 Canonical State / Storage
-             │
-             ├── Persistence
-             └── Read Models / Indexing
+L2 Finality / Commit
              │
              ▼
-          Finality
+L1 Canonical State Persistence
+    │
+    ├── Durable Storage
+    └── Read Models / Indexing
+
+The execution result is a candidate until accepted by the applicable consensus/finality rules. L1 persists committed state; it does not determine protocol finality.
 ```
 
 Application and intelligence paths connect through defined interfaces rather than becoming part of the consensus/VM execution boundary:
@@ -1516,7 +1518,7 @@ Die konkrete Transporttechnologie und Runtime-Implementierung bleiben Aufgabe de
 | Dialogue runtime / NPC & gameplay integration | genesis-engine |
 | Models / agents / planning / inference orchestration | aurora-ai |
 | Character / NPC / world state | genesis-engine |
-| Quest contracts / Quest runtime | genesis-engine / a-townchain-ecosystem architecture |
+| Quest contracts / Quest runtime | `genesis-engine` |
 | Lore / canon source | zuständiges kanonisches Lore-/Content-System |
 | Voice / TTS adapters | Genesis Engine / AI capability implementation |
 | Standards / governance | atc-standards |
@@ -1723,3 +1725,47 @@ A file, directory or architecture statement is not implementation evidence. CI e
 | Standards / governance | `atc-standards` |
 
 The ecosystem repository remains the integration/master-architecture SSOT; component implementations remain in their canonical repositories.
+
+
+---
+
+## Architecture Consistency Gate — ARCH-001
+
+The following invariants are normative and resolve cross-section ambiguity:
+
+### A. Authority vs. persistence
+- L2 owns consensus/finality authority.
+- L3 computes deterministic state transitions under L2 protocol authority.
+- L1 persists committed state and serves history/read models; storage cannot finalize protocol state.
+- Indexers and explorers are derived/read models and cannot become canonical state authorities.
+
+### B. Execution vs. finality
+- VM execution may produce a candidate transition before consensus finality.
+- Only a finalized/committed transition becomes canonical protocol state.
+- Durable persistence follows the commit contract; recovery must validate the committed state before serving it as canonical.
+
+### C. Aurora / AI authority
+- Aurora, agents and models are never implicit super-authorities.
+- AI output is a proposal/request unless a target domain's deterministic authorization contract accepts it.
+- Aurora does not replace Chain, Genesis, GlobusOS or ShivaCore authority.
+
+### D. ShivaCore / GlobusOS / ATC-VM boundary
+- ShivaCore is the kernel/TCB boundary.
+- GlobusOS is the OS/service boundary above ShivaCore.
+- ATC-VM is the deterministic contract-execution boundary and is not the kernel.
+- Hardware-backed security claims require separate hardware evidence.
+
+### E. SSOT and evidence
+- `atc-standards` is normative standards/governance SSOT.
+- `a-townchain-ecosystem` owns system architecture, boundaries and integration evidence aggregation.
+- Component repositories own implementation, tests, release and API/ABI SSOT.
+- Architecture text, repository/file existence, PR state and historical CI runs are not current implementation evidence.
+- CI verification is valid only for the exact source SHA under assessment.
+
+### F. State domains
+Every state domain must have exactly one authoritative owner for writes/commit semantics. Read replicas, caches, indexes, memories and projections may consume state but cannot silently become authoritative.
+
+### G. Interface and event discipline
+All cross-domain writes must cross a declared, versioned interface with authentication/authorization, schema validation, replay/idempotency rules and audit semantics. Events are transport/integration artifacts unless their target domain explicitly defines them as authoritative inputs.
+
+This gate is an architecture consistency contract. It does not claim that the listed contracts are implemented or CI/E2E verified.
