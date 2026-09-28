@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-1A855D728C7B",
-  "timestamp": "2026-09-28T20:23:53.946264Z",
+  "timestamp": "2026-09-28T20:28:02.274697Z",
   "category": "change",
   "title": "Commit: docs(architecture): align evidence and game-state execution ordering",
   "context": "Git commit 1a855d728c7b84eb80e5ac27034bdec736a8c4c7 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/1a855d728c7b84eb80e5ac27034bdec736a8c4c7",
-    "commit": "f02307194acc5b0726579879f3a6904a7057075d"
+    "commit": "be1fbfdeaf2f0fa41720d9553f00098944c526f8"
   },
   "tags": [
     "commit",

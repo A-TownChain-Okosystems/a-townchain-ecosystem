@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-DOCS-ARCHIVE-MONOREPO-FULL-SR-D7BB0A3FD9",
-  "timestamp": "2026-09-28T20:23:53.946264Z",
+  "timestamp": "2026-09-28T20:28:02.274697Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/docs/archive/monorepo-full/src/modules/atc-drivers/Cargo.toml",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/docs/archive/monorepo-full/src/modules/atc-drivers/Cargo.toml",
-    "commit": "f02307194acc5b0726579879f3a6904a7057075d"
+    "commit": "be1fbfdeaf2f0fa41720d9553f00098944c526f8"
   },
   "tags": [
     "generated",
