@@ -937,7 +937,7 @@ mod tests {
             .verifying_key()
             .to_bytes();
         let mut validators = BTreeMap::new();
-        validators.insert("validator-a".to_string(), 100u64);
+        validators.insert("validator-a".to_string(), 100u128);
         let mut keys = BTreeMap::new();
         keys.insert("validator-a".to_string(), key);
 
@@ -975,8 +975,8 @@ mod tests {
         let mut k0 = BTreeMap::new();
         k0.insert("alice".to_string(), key0);
         let mut v1 = BTreeMap::new();
-        v1.insert("alice".to_string(), 60u64);
-        v1.insert("bob".to_string(), 40u64);
+        v1.insert("alice".to_string(), 60u128);
+        v1.insert("bob".to_string(), 40u128);
         let mut k1 = BTreeMap::new();
         k1.insert("alice".to_string(), key1);
         k1.insert("bob".to_string(), ed25519_dalek::SigningKey::from_bytes(&[43u8; 32]).verifying_key().to_bytes());
@@ -1014,7 +1014,7 @@ mod tests {
         first_keys.insert("alice".to_string(), key_a);
 
         let mut second = first.clone();
-        second.insert("bob".to_string(), 50u64);
+        second.insert("bob".to_string(), 50u128);
         let mut second_keys = first_keys.clone();
         second_keys.insert("bob".to_string(), key_b);
 
@@ -1223,7 +1223,7 @@ mod tests {
         put(&mut state_record, &[]);
         std::fs::write(path.with_extension("state"), format!("{}\n", hex::encode(state_record))).unwrap();
 
-        let storage = ChainStorage::new();
+        let mut storage = ChainStorage::new();
         // The same recovery boundary used by open_storage() must fail closed:
         // state cannot become durable merely because its journal line is valid.
         storage.state_journal = Some(path.with_extension("state"));
