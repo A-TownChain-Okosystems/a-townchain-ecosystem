@@ -61,7 +61,7 @@ pub struct ConsensusEngine {
     pub proposer: String,
     height: Mutex<u64>,
     finalized: Mutex<Option<(u64, [u8; 32])>>,
-    slashed: Mutex<BTreeMap<String, u64>>,
+    slashed: Mutex<BTreeMap<String, u128>>,
     votes: Mutex<BTreeMap<[u8; 32], Vec<Vote>>>,
     validators: Mutex<BTreeMap<String, u64>>,
     validator_keys: Mutex<BTreeMap<String, [u8; 32]>>,
@@ -173,7 +173,7 @@ impl ConsensusEngine {
         self.validator_snapshots.lock().ok().map(|s| s.keys().copied().collect()).unwrap_or_default()
     }
 
-    pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
+    pub fn register_validator(&self, address: String, stake: u128) -> Result<(), String> {
         if address.is_empty() || stake == 0 {
             return Err("validator address and stake are required".into());
         }
