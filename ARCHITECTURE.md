@@ -5687,3 +5687,520 @@ Requirement
 ~~~
  
 ARCH-008 is satisfied only at the architecture level when the affected contracts are explicit. Implementation and verification remain separate gates.
+
+
+---
+
+# ARCH-009 — System Lifecycle, Operational Semantics, Federation and Long-Term Evolution
+
+ARCH-009 closes remaining architecture gaps around system lifecycle, federation, operational semantics, governance of change, compatibility, observability, human factors and long-term evolution. It is an architecture contract and does not imply implementation.
+
+## 1. System-of-Systems Lifecycle
+
+The complete ecosystem lifecycle MUST be defined as:
+
+Plan → Specify → Implement → Verify → Integrate → Release → Deploy → Operate → Observe → Maintain → Upgrade → Migrate → Decommission → Archive.
+
+Each stage MUST have an owner, entry criteria, exit criteria, evidence and rollback/recovery boundary.
+
+## 2. Environment Promotion Contract
+
+Artifacts MUST progress through controlled promotion:
+
+Build → Verification → Development → Integration → Devnet/Testnet → Release Candidate → Production.
+
+Promotion MUST preserve artifact identity and provenance. Production artifacts MUST NOT be rebuilt implicitly during deployment.
+
+## 3. Release Train and Compatibility Window
+
+Every release MUST define:
+- source commit;
+- artifact identity;
+- protocol/schema/API versions;
+- dependency versions;
+- supported environments;
+- compatibility window;
+- migration requirements;
+- rollback boundary;
+- security status;
+- evidence package.
+
+## 4. Backward/Forward Compatibility
+
+Interfaces MUST explicitly classify compatibility as:
+- backward compatible;
+- forward compatible;
+- conditionally compatible;
+- breaking.
+
+Compatibility MUST be evaluated separately for protocol, storage, network, API, ABI, contract bytecode, OS services, Aurora models and Genesis saves/content.
+
+## 5. Deprecation and Removal Lifecycle
+
+Deprecated interfaces MUST follow:
+
+Announce → Compatibility Period → Migration Path → Warning/Telemetry → Removal Gate → Verification.
+
+Removal MUST NOT occur while a declared supported dependency still requires the interface unless an explicit migration contract exists.
+
+## 6. Feature Lifecycle
+
+Features MUST have:
+
+Proposal → Design → Experimental → Enabled → Stable → Deprecated → Removed.
+
+Experimental functionality MUST NOT silently become consensus-critical, security-critical or authoritative.
+
+## 7. Runtime Capability Negotiation
+
+Peers, services, clients and plugins MUST negotiate supported capabilities explicitly. Capability discovery MUST NOT itself grant permission to invoke a capability.
+
+## 8. Plugin and Extension Architecture
+
+Plugins/extensions MUST have:
+- identity;
+- version;
+- declared capabilities;
+- dependency constraints;
+- sandbox boundary;
+- resource limits;
+- lifecycle;
+- compatibility;
+- provenance;
+- signature/verification where required;
+- revocation/removal semantics.
+
+This applies to OS drivers/services, Aurora tools/providers, Genesis modules/mods and developer extensions.
+
+## 9. Federation and Trust-Domain Interoperability
+
+Federated domains MUST define:
+- trust anchor;
+- identity mapping;
+- credential validation;
+- authorization translation;
+- data classification;
+- revocation;
+- clock/freshness;
+- failure behavior;
+- audit;
+- trust termination.
+
+Trust MUST NOT be transitive merely because two domains trust the same intermediary.
+
+## 10. External Dependency Contract
+
+Every external dependency MUST declare:
+- owner/provider;
+- purpose;
+- interface;
+- version;
+- availability expectation;
+- data exchanged;
+- trust level;
+- failure mode;
+- fallback;
+- timeout;
+- security boundary;
+- replacement strategy.
+
+External availability MUST NOT become implicit protocol authority.
+
+## 11. Dependency Failure and Circuit Isolation
+
+Dependencies MUST define:
+- timeout;
+- retry budget;
+- circuit breaker;
+- bulkhead;
+- fallback;
+- degraded mode;
+- recovery;
+- dependency health.
+
+Failure of an optional dependency MUST NOT unnecessarily disable an unrelated authoritative domain.
+
+## 12. Data Lineage and Provenance
+
+Critical data MUST be traceable:
+
+Source → Ingestion → Transformation → Validation → Storage → Derivation → Publication.
+
+Lineage MUST identify source identity, version, transformation, timestamp/epoch, validation status and downstream consumers where applicable.
+
+## 13. Deterministic Replay Architecture
+
+Consensus, VM, Genesis authoritative simulation and critical workflows SHOULD support deterministic replay from declared inputs.
+
+Replay MUST define:
+- input set;
+- protocol/version;
+- configuration;
+- randomness source;
+- time source;
+- dependency versions;
+- expected state/output;
+- divergence detection.
+
+## 14. Auditability and Non-Repudiation
+
+Security-, financial-, governance- and protocol-critical actions MUST have attributable evidence.
+
+Audit records SHOULD bind:
+- principal/workload;
+- action;
+- target;
+- authorization;
+- timestamp/epoch;
+- request identity;
+- result;
+- source/artifact version.
+
+Audit evidence MUST be protected against unauthorized modification.
+
+## 15. Legal/Policy Data Boundary
+
+Where legal, regulatory or organizational policy affects operation, the architecture MUST separate policy metadata from canonical protocol semantics.
+
+Policy restrictions MAY constrain an application or deployment without silently changing consensus rules.
+
+## 16. Governance Parameter Registry
+
+Governed parameters MUST have:
+- parameter ID;
+- owner;
+- current value;
+- units;
+- valid range;
+- activation rule;
+- version;
+- approval;
+- effective scope;
+- migration;
+- audit.
+
+No undocumented parameter may silently affect canonical behavior.
+
+## 17. Emergency Change and Break-Glass Contract
+
+Emergency changes MUST define:
+- trigger;
+- authorized principal;
+- scope;
+- maximum duration;
+- approval requirements;
+- affected components;
+- evidence capture;
+- recovery;
+- expiry;
+- post-event review.
+
+Break-glass access MUST be separately auditable and MUST expire.
+
+## 18. Incident Command and Operational Roles
+
+Operational incidents MUST define roles such as:
+- incident commander;
+- technical lead;
+- security lead;
+- communications lead;
+- evidence custodian;
+- recovery authority.
+
+Operational role assignment MUST NOT alter protocol/domain authority.
+
+## 19. Runbook and Operational Procedure Contract
+
+Critical services MUST have versioned runbooks for:
+- startup;
+- shutdown;
+- upgrade;
+- rollback;
+- backup/restore;
+- key compromise;
+- validator failure;
+- storage corruption;
+- network partition;
+- dependency outage;
+- security incident.
+
+Runbooks SHOULD reference exact commands, expected evidence and stop conditions.
+
+## 20. SLO/SLA and Error-Budget Separation
+
+The architecture MUST distinguish:
+- protocol safety/liveness;
+- service SLO;
+- contractual SLA;
+- user experience objectives.
+
+A service SLO breach MUST NOT be interpreted as protocol failure without evidence.
+
+## 21. Availability and Consistency Classification
+
+Each distributed subsystem MUST explicitly classify its consistency requirement:
+- strongly consistent;
+- consensus-consistent;
+- eventually consistent;
+- causal;
+- session;
+- best effort.
+
+The classification MUST state what correctness means for that subsystem.
+
+## 22. Readiness, Liveness and Startup Semantics
+
+Services MUST distinguish:
+- process alive;
+- dependency-ready;
+- serving-ready;
+- degraded;
+- draining;
+- stopped.
+
+A process reporting alive MUST NOT imply it is safe to serve canonical state.
+
+## 23. Graceful Shutdown and Draining
+
+Stateful services MUST define:
+- stop admission;
+- drain in-flight work;
+- persist/commit safe state;
+- release leases;
+- close sessions;
+- flush audit;
+- terminate;
+- restart recovery.
+
+Shutdown MUST NOT produce ambiguous ownership or partial canonical transitions.
+
+## 24. Safe Startup and State Validation
+
+Startup MUST validate:
+- binary/artifact identity;
+- configuration;
+- protocol version;
+- schema version;
+- cryptographic material;
+- persistent state integrity;
+- dependency compatibility;
+- required invariants.
+
+A service MUST NOT serve authoritative state before startup validation completes.
+
+## 25. Data Lifecycle and Deletion Semantics
+
+Mutable data domains MUST define:
+Create → Classify → Use → Retain → Archive → Delete/Tombstone.
+
+Deletion MUST distinguish logical deletion, physical deletion, cryptographic erasure and immutable retention requirements.
+
+## 26. Backup Classification and Restore Authority
+
+Backups MUST identify:
+- source state;
+- point-in-time;
+- integrity;
+- encryption;
+- retention;
+- restore target;
+- restore authority.
+
+A backup is recovery input, not canonical authority until validation and protocol/domain acceptance succeed.
+
+## 27. Cross-Domain Transaction Identity
+
+Every cross-domain workflow SHOULD carry a stable correlation/transaction identity through:
+Request → Authorization → Domain Commands → Events → Projections → Audit → Recovery.
+
+Correlation identifiers MUST NOT themselves grant authority.
+
+## 28. Distributed Lock and Lease Ownership
+
+Where locks or leases are required, the architecture MUST define:
+- owner;
+- fencing token;
+- expiration;
+- renewal;
+- stale-owner handling;
+- recovery;
+- split-brain prevention.
+
+A lock MUST NOT be treated as proof of domain authorization unless explicitly bound to that authority.
+
+## 29. Quorum and Split-Brain Protection
+
+Any clustered service using quorum MUST define:
+- quorum rule;
+- membership;
+- leader/term;
+- fencing;
+- stale-node behavior;
+- recovery;
+- membership changes.
+
+Availability mechanisms MUST NOT create competing canonical writers.
+
+## 30. Human Factors and Operational Safety
+
+Critical operations SHOULD minimize operator ambiguity through:
+- explicit preconditions;
+- dry-run;
+- confirmation;
+- blast-radius display;
+- reversible steps;
+- evidence capture;
+- two-person approval where required;
+- post-action verification.
+
+Human error prevention is part of the architecture for critical operations.
+
+## 31. Observability Control Loop
+
+Operational observability MUST form:
+
+Telemetry → Detection → Classification → Decision → Action → Verification → Evidence.
+
+Automated remediation MUST have bounded scope, identity, policy, rate limits, rollback and audit.
+
+## 32. Autonomous Remediation Boundary
+
+Automation MAY remediate explicitly delegated operational faults but MUST NOT autonomously change:
+- consensus rules;
+- canonical monetary parameters;
+- domain ownership;
+- security policy;
+- cryptographic trust roots;
+- irreversible state
+
+unless an explicit governance contract authorizes that transition.
+
+## 33. Model/Data/Code Co-Versioning
+
+AI models, retrieval indexes, prompts/policies, tool schemas, application code and relevant data schemas MUST have explicit compatibility relationships where their behavior depends on each other.
+
+Runtime combinations MUST be identifiable and reproducible.
+
+## 34. Reproducible Execution Environment
+
+Critical builds/tests/replays MUST identify:
+- source SHA;
+- dependency lock state;
+- compiler/toolchain;
+- OS/image;
+- hardware/architecture;
+- configuration;
+- environment variables where relevant;
+- deterministic seed/randomness;
+- expected outputs.
+
+## 35. Architecture Drift Detection
+
+The ecosystem SHOULD continuously compare:
+Architecture Contract ↔ Repository Structure ↔ Interface Registry ↔ Dependency Graph ↔ Test Matrix ↔ CI Evidence ↔ Deployment Inventory.
+
+Drift MUST be classified as:
+- documentation drift;
+- implementation drift;
+- interface drift;
+- dependency drift;
+- evidence drift;
+- deployment drift;
+- authority drift.
+
+## 36. Master System Inventory
+
+The master architecture SHOULD maintain one canonical inventory for:
+- repositories;
+- components;
+- services;
+- processes;
+- APIs;
+- protocols;
+- schemas;
+- state stores;
+- keys;
+- identities;
+- environments;
+- deployment targets;
+- test gates;
+- evidence artifacts.
+
+Duplicate inventories MUST have explicit ownership or be derived from the master inventory.
+
+## 37. Architecture Quality Gates
+
+Architecture changes SHOULD be evaluated against:
+- correctness;
+- consistency;
+- security;
+- determinism;
+- availability;
+- recoverability;
+- operability;
+- maintainability;
+- scalability;
+- compatibility;
+- observability;
+- evidence;
+- simplicity.
+
+A feature that adds capability while weakening a canonical invariant MUST be rejected or redesigned.
+
+## 38. Complexity and Coupling Budget
+
+Cross-domain dependencies SHOULD have explicit budgets. New coupling MUST identify:
+- reason;
+- owner;
+- direction;
+- failure propagation;
+- test impact;
+- release coupling;
+- migration cost.
+
+Architecture SHOULD prefer one-way dependency flow and avoid cyclic authority dependencies.
+
+## 39. Canonical Reference Stack
+
+The optimized reference stack is:
+
+Hardware/Firmware
+→ Boot/Trusted Platform
+→ ShivaCore
+→ GlobusOS
+→ Identity/Capability
+→ Network/Storage Services
+→ A-TownChain Node
+→ Consensus/Finality
+→ Canonical State
+→ ATC-VM
+→ Protocol/Economic Domains
+→ Indexer/Interop/Oracle
+→ Aurora/Genesis/Application Domains
+→ Experience/API/Desktop
+
+Cross-cutting Governance, Security, Evidence and Control Planes intersect every layer without owning their state by default.
+
+## 40. ARCH-009 Gate
+
+Architecture acceptance MUST now evaluate:
+
+Scope
+→ Authority
+→ State Ownership
+→ Interface
+→ Security Boundary
+→ Resource Boundary
+→ Lifecycle
+→ Compatibility
+→ Failure / Recovery
+→ Observability
+→ Migration
+→ Implementation Mapping
+→ Test Mapping
+→ Exact-SHA CI
+→ Integration
+→ E2E
+→ Operational Evidence
+
+ARCH-009 is an architecture-level completeness and optimization gate; implementation status remains independently verified.
