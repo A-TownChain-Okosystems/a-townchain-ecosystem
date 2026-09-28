@@ -1,5 +1,5 @@
 //! Transactions, mempool and deterministic state transition.
-use crate::{economics::MAX_ATC_SUPPLY, security::simple_hash};
+use crate::security::simple_hash;
 use std::{collections::BTreeMap, sync::Mutex};
 
 mod signature_serde {
