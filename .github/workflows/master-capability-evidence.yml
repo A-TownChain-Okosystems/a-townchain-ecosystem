@@ -72,4 +72,4 @@ jobs:
           grep -q 'Master Capability Evidence Contract' ARCHITECTURE.md
           grep -q 'EVIDENCE_STALE' ARCHITECTURE.md
           grep -q 'CURRENT MAIN SHA' docs/audit/MASTER_CAPABILITY_EVIDENCE_AUDIT.md
-          grep -q 'Evidence Freshness / SHA Binding' docs/audit/STATUS_SEMANTICS.md
+          grep -q 'EVIDENCE_STALE' docs/audit/STATUS_SEMANTICS.md
