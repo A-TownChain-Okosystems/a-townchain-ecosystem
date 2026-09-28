@@ -13,13 +13,14 @@ use super::{
 };
 
 const MAGIC: &[u8] = b"ATCB1";
-const VALIDATOR_MAGIC: &[u8] = b"ATCV2";
-const LEGACY_VALIDATOR_MAGIC: &[u8] = b"ATCV1";
+const VALIDATOR_MAGIC: &[u8] = b"ATCV3";
+const LEGACY_VALIDATOR_MAGIC: &[u8] = b"ATCV2";
 const FINALITY_MAGIC: &[u8] = b"ATCF1";
 const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
-type ValidatorSnapshot = (u64, BTreeMap<String, (u64, [u8; 32])>);
+type ValidatorSnapshot = (u64, BTreeMap<String, (u128, [u8; 32])>);
+type ValidatorSnapshotSet = (BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>);
 type SlashingRecord = (u64, String, [u8; 32], u64);
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
@@ -316,13 +317,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if b.height > 0 {
-            let parent = self
+            let parent_id = self
                 .blocks
                 .read()
                 .unwrap()
                 .get(&b.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if b.parent_hash != parent.id {
+            if b.parent_hash != parent_id {
                 return Err("canonical parent mismatch".into());
             }
         } else if b.parent_hash != [0; 32] {
@@ -392,7 +394,7 @@ impl ChainStorage {
         dao: &[u8],
         issued_base_units: u128,
         activation_height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<(), String> {
         if validators.len() != validator_keys.len()
@@ -408,9 +410,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
+            let parent_id = self
+                .blocks
+                .read()
+                .unwrap()
+                .get(&block.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
+            if block.parent_hash != parent_id { return Err("canonical parent mismatch".into()); }
         } else if block.parent_hash != [0; 32] {
             return Err("invalid genesis parent".into());
         }
@@ -629,7 +636,7 @@ impl ChainStorage {
 
     /// Recover every durable validator snapshot, preserving historical
     /// height/epoch boundaries rather than only the latest mutable set.
-    pub fn recover_validator_snapshots(&self) -> Result<BTreeMap<u64, ValidatorSnapshot>, String> {
+    pub fn recover_validator_snapshots(&self) -> Result<BTreeMap<u64, ValidatorSnapshotSet>, String> {
         let Some(p) = &self.validator_journal else {
             return Ok(BTreeMap::new());
         };
