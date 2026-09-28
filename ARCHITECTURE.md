@@ -63,7 +63,7 @@ Events are emitted only from accepted transitions. Consumers must tolerate dupli
 
 ### 4. Deterministic boundary
 
-The consensus-critical path is:
+The consensus-critical execution path is:
 
 ```text
 Input
@@ -78,12 +78,14 @@ Deterministic execution (ATC-VM)
  ↓
 State transition validation
  ↓
-Canonical state commit
+Canonical state transition
+ ↓
+Consensus / block commitment
  ├──→ Durable persistence
- └──→ Finality evidence
+ └──→ Finality evidence when the consensus rule is satisfied
 ```
 
-Finality is a **consensus property**, not a side effect of writing data to storage. Storage durability and finality evidence therefore remain separately testable dimensions.
+Finality is a **consensus property**, not a side effect of writing data to storage. A persisted block/state snapshot may exist before finality and must not be treated as final solely because it is durable.
 
 ### 5. Failure semantics
 
@@ -586,9 +588,9 @@ World Context
 
 Daraus entstehen kontextabhängige Questketten, Fraktionskonflikte und langfristige Konsequenzen.
 
-### 10. Reward Engine
+### 10. Reward Proposal / Validation
 
-Rewards werden anhand von Quest-Kontext und Economy-State validiert:
+Quest AI may calculate reward proposals from quest context and economy inputs, but Genesis Engine owns authoritative reward validation and application. Rewards werden anhand von Quest-Kontext und Economy-State validiert:
 
 ```
 Difficulty
@@ -1661,11 +1663,13 @@ Die konkrete Transporttechnologie und Runtime-Implementierung bleiben Aufgabe de
 
 | Capability | Canonical Owner |
 |---|---|
-| Dialogue AI architecture / canonical Dialogue Data Contract | a-townchain-ecosystem |
+| Dialogue AI architecture / integration boundary | a-townchain-ecosystem |
+| Dialogue Data Contract / normative schema | system specification SSOT |
 | Dialogue runtime / NPC & gameplay integration | genesis-engine |
 | Models / agents / planning / inference orchestration | aurora-ai |
 | Character / NPC / world state | genesis-engine |
-| Quest contracts / Quest runtime | genesis-engine / a-townchain-ecosystem architecture |
+| Quest contracts / normative schema | system specification SSOT |
+| Quest runtime / gameplay integration | genesis-engine |
 | Lore / canon source | zuständiges kanonisches Lore-/Content-System |
 | Voice / TTS adapters | Genesis Engine / AI capability implementation |
 | Standards / governance | atc-standards |
