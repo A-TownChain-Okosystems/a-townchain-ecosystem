@@ -868,7 +868,16 @@ impl Node {
         }
         self.chain.append(b.clone())?;
         self.consensus.set_height(height);
-        self.broadcast(NetworkMessage::Block(b.clone()))?;
+        let (activation_height, validators, validator_keys) = self
+            .consensus
+            .validator_snapshot_with_activation_for_height(height)
+            .ok_or("validator snapshot is unavailable for block broadcast")?;
+        self.broadcast(NetworkMessage::BlockWithValidatorSnapshot {
+            block: b.clone(),
+            activation_height,
+            validators,
+            validator_keys,
+        })?;
         self.vote_for_block(&b)?;
         Ok(b)
     }
@@ -964,7 +973,16 @@ impl Node {
             self.pool.mark_in_block(&tx.id)
         }
         self.consensus.set_height(b.height);
-        self.broadcast(NetworkMessage::Block(b.clone()))?;
+        let (activation_height, validators, validator_keys) = self
+            .consensus
+            .validator_snapshot_with_activation_for_height(b.height)
+            .ok_or("validator snapshot is unavailable for block broadcast")?;
+        self.broadcast(NetworkMessage::BlockWithValidatorSnapshot {
+            block: b.clone(),
+            activation_height,
+            validators,
+            validator_keys,
+        })?;
         self.vote_for_block(&b)?;
         Ok(b)
     }
