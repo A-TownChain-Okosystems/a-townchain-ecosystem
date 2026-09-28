@@ -3992,3 +3992,430 @@ Functional Operating System / Boot-to-Userspace
 ~~~
  
 The component repositories remain the implementation SSOTs. The ecosystem architecture defines the cross-repository acceptance contract; it does not claim that the acceptance gate has already passed.
+
+ 
+---
+ 
+# ARCH-005 — Production Operating System, Hardware, Security, Desktop and Aurora Gates
+ 
+ARCH-005 extends ARCH-004 from a functional bootable OS to a production-capable GlobusOS platform. It defines hardware, trusted boot, storage hardening, network hardening, desktop, Aurora integration, target profiles and final operational gates.
+ 
+ARCH-005 is an acceptance architecture contract. It does not establish implementation, CI, QEMU, hardware, security or operational evidence.
+ 
+## 1. OS Target Profiles
+ 
+GlobusOS MUST distinguish at least:
+ 
+- **OS-Core Profile** — boot, kernel, userspace, syscall, IPC, capabilities and core services;
+- **General-Purpose Profile** — OS-Core plus storage, networking, identity and standard user services;
+- **Desktop Profile** — General-Purpose plus graphics, input, audio, session and desktop services;
+- **Secure Hardware Profile** — declared physical hardware, secure/measured boot and hardware-backed security features;
+- **Aurora Platform Profile** — declared Aurora runtime, model, agent, capability, policy, tool and audit integration.
+ 
+Passing one profile MUST NOT imply passing another.
+ 
+## 2. Hardware Verification Gate
+ 
+The canonical physical platform path is:
+ 
+~~~text
+Firmware
+  ↓
+CPU / SMP
+  ↓
+RAM
+  ↓
+Interrupt Controller
+  ↓
+Timer
+  ↓
+PCI / PCIe / Bus Discovery
+  ↓
+Storage
+  ↓
+Network
+  ↓
+Input / Display where applicable
+  ↓
+ShivaCore
+~~~
+ 
+Every supported hardware target MUST have an explicit hardware profile containing architecture, CPU, memory, firmware, bootloader, devices, drivers, known limitations and test procedure.
+ 
+QEMU verification MUST NOT establish hardware verification.
+ 
+Hardware support status MUST be tracked independently per target. Supporting x86_64 MUST NOT imply aarch64 support, and supporting one physical machine MUST NOT imply support for another.
+ 
+## 3. Secure Boot and Trusted Hardware Gate
+ 
+Where claimed, the trusted boot chain is:
+ 
+~~~text
+UEFI / Firmware
+  ↓
+Platform Boot Policy
+  ↓
+Bootloader Signature Verification
+  ↓
+Kernel Signature Verification
+  ↓
+Measured Boot
+  ↓
+TPM / Hardware Root of Trust where supported
+  ↓
+ShivaCore
+  ↓
+GlobusOS
+~~~
+ 
+The architecture MUST separately identify:
+ 
+- Secure Boot;
+- measured boot;
+- TPM;
+- TEE;
+- hardware-backed key storage;
+- attestation;
+- rollback protection.
+ 
+Each capability requires implementation and appropriate hardware evidence. QEMU-only evidence MUST NOT be upgraded to hardware-backed verification.
+ 
+Key lifecycle MUST cover enrollment, binding, use, rotation, revocation, recovery and compromise response.
+ 
+## 4. Storage Hardening Gate
+ 
+The hardened storage path is:
+ 
+~~~text
+Device Driver
+  ↓
+Block Layer
+  ↓
+Filesystem
+  ↓
+VFS
+  ↓
+Permission / Capability Enforcement
+  ↓
+Userspace
+~~~
+ 
+Storage verification MUST include, where applicable:
+ 
+- malformed filesystem handling;
+- permission isolation;
+- path traversal;
+- symlink and TOCTOU behavior;
+- crash consistency;
+- journal/recovery;
+- corruption detection;
+- fsck/recovery;
+- disk exhaustion;
+- inode/file exhaustion;
+- quota/resource limits;
+- concurrent access;
+- power-loss recovery;
+- encrypted storage;
+- secure deletion semantics where technically applicable;
+- update/rollback interaction.
+ 
+Recovered storage state MUST NOT be treated as trusted until integrity and required invariants have been verified.
+ 
+## 5. Network Hardening Gate
+ 
+The hardened network path is:
+ 
+~~~text
+Untrusted Network
+  ↓
+NIC / Driver
+  ↓
+Network Stack
+  ↓
+Firewall / Policy
+  ↓
+Socket / Service Boundary
+  ↓
+Capability / Identity
+  ↓
+Target Service
+~~~
+ 
+Verification MUST cover, where applicable:
+ 
+- malformed packets;
+- oversized packets;
+- connection exhaustion;
+- rate limiting;
+- protocol abuse;
+- authentication failure;
+- certificate validation;
+- DNS security;
+- routing isolation;
+- service isolation;
+- privilege escalation;
+- peer identity;
+- P2P Sybil/eclipsing resistance;
+- network partition/recovery;
+- DoS/resource exhaustion;
+- retry/backoff;
+- observability.
+ 
+Network reachability MUST NOT grant authority.
+ 
+## 6. Device and Peripheral Security
+ 
+Device access MUST be capability-controlled and explicitly assigned to a principal/service.
+ 
+The architecture MUST define isolation for:
+ 
+- storage;
+- network;
+- USB;
+- camera;
+- microphone;
+- audio;
+- GPU;
+- NPU;
+- display;
+- input;
+- TPM/TEE.
+ 
+A device driver compromise MUST have a defined containment boundary. A peripheral MUST NOT automatically obtain kernel-equivalent authority.
+ 
+## 7. Desktop Platform Gate
+ 
+The canonical desktop path is:
+ 
+~~~text
+GPU / Display Hardware
+  ↓
+Graphics Driver / HAL
+  ↓
+Display Server / Compositor
+  ↓
+Session Manager
+  ↓
+Window Manager / Desktop Shell
+  ↓
+Input / Audio / Clipboard / Notification Services
+  ↓
+Applications
+~~~
+ 
+Desktop verification MUST cover:
+ 
+- display initialization;
+- compositor isolation;
+- input routing;
+- keyboard/mouse/touch;
+- audio;
+- clipboard;
+- notifications;
+- application lifecycle;
+- session creation/termination;
+- crash isolation;
+- accessibility;
+- sandboxing;
+- GPU resource isolation.
+ 
+Rendering MUST NOT mutate authoritative OS, blockchain or Genesis state directly.
+ 
+## 8. Aurora Platform Gate
+ 
+Aurora MUST remain a userspace intelligence/control platform above GlobusOS:
+ 
+~~~text
+ShivaCore
+  ↓
+GlobusOS
+  ↓
+System Services
+  ↓
+Aurora Runtime
+  ↓
+Model / Agent
+  ↓
+Capability Check
+  ↓
+Policy
+  ↓
+Approval where required
+  ↓
+Tool Sandbox
+  ↓
+Target Service
+  ↓
+Target-Domain Validation
+  ↓
+Commit
+  ↓
+Audit / Evidence
+~~~
+ 
+Aurora MUST NOT receive implicit root, kernel, blockchain, Genesis or hardware authority.
+ 
+Aurora verification MUST cover:
+ 
+- workload identity;
+- capability assignment;
+- policy enforcement;
+- tool authorization;
+- sandboxing;
+- resource budgets;
+- model provenance/version;
+- input validation;
+- untrusted tool-output handling;
+- memory provenance and isolation;
+- prompt/input boundary;
+- action limits;
+- timeout/cancellation;
+- runaway/recursion limits;
+- audit;
+- failure isolation;
+- rollback/recovery.
+ 
+Aurora output remains a proposal/request until the authoritative target domain validates and commits it.
+ 
+## 9. OS Resource and Fault Isolation Gate
+ 
+Production verification MUST demonstrate that failures in a userspace service, driver, desktop application or Aurora tool do not automatically compromise unrelated services or the kernel.
+ 
+The architecture MUST define:
+ 
+- CPU quotas;
+- memory limits;
+- storage quotas;
+- network quotas;
+- IPC limits;
+- file-handle limits;
+- device access limits;
+- GPU/NPU budgets;
+- process/service restart;
+- fault containment;
+- cancellation;
+- timeout;
+- degraded-mode behavior.
+ 
+## 10. Update and Recovery Gate
+ 
+Production update verification MUST cover:
+ 
+~~~text
+Signed Artifact
+  ↓
+Provenance Verification
+  ↓
+Compatibility / Policy Check
+  ↓
+Inactive Slot
+  ↓
+Install
+  ↓
+Reboot
+  ↓
+Boot Verification
+  ↓
+Health Validation
+  ↓
+Commit or Rollback
+~~~
+ 
+Required failure scenarios SHOULD include interrupted update, invalid artifact, incompatible version, failed boot, failed service startup, corrupted state and repeated rollback.
+ 
+## 11. Hardware / Secure Boot / Storage / Network / Desktop / Aurora Gate Matrix
+ 
+The master acceptance matrix is:
+ 
+| Gate | Minimum proof | Evidence class |
+|---|---|---|
+| OS-Core | Boot → Userspace → Syscall → IPC | QEMU/target |
+| Hardware | Physical target boots and exercises declared devices | HARDWARE_VERIFIED |
+| Secure Boot | Invalid/untrusted boot artifact rejected | SECURE/HARDWARE evidence |
+| Storage | Crash/corruption/permission/resource tests | TESTED + target evidence |
+| Network | Adversarial protocol/resource tests | TESTED + target evidence |
+| Desktop | Session/display/input/application path | DESKTOP profile |
+| Aurora | Capability → Policy → Tool → Target validation → Audit | AURORA profile |
+| Recovery | Fault → recovery/rollback → verified state | RECOVERY evidence |
+| Operational | Long-run + update + monitoring | OPERATIONAL |
+ 
+Passing a row MUST NOT imply passing another row.
+ 
+## 12. Full Production OS Gate
+ 
+The complete declared production path is:
+ 
+~~~text
+G0 Architecture
+ ↓
+G1 Firmware / Bootloader
+ ↓
+G2 ShivaCore
+ ↓
+G3 Memory / Interrupt / Scheduler
+ ↓
+G4 Userspace / Syscall / IPC
+ ↓
+G5 PID 1 / Core Services
+ ↓
+G6 Storage
+ ↓
+G7 Network
+ ↓
+G8 Identity / Capability Security
+ ↓
+G9 QEMU Functional OS
+ ↓
+G10 Physical Hardware
+ ↓
+G11 Secure / Trusted Boot
+ ↓
+G12 Storage Hardening
+ ↓
+G13 Network Hardening
+ ↓
+G14 Device / Fault Isolation
+ ↓
+G15 Desktop Profile
+ ↓
+G16 Aurora Runtime
+ ↓
+G17 Aurora Capability / Policy / Tool Gate
+ ↓
+G18 Full OS + Aurora E2E
+ ↓
+G19 Update / Recovery / Long-Run
+ ↓
+G20 Release / Operational
+~~~
+ 
+G15 and G16-G18 are profile-dependent. A headless server profile MAY stop before the Desktop/Aurora gates. A declared General-Purpose Desktop + Aurora platform MUST pass them.
+ 
+## 13. Final OS Evidence Contract
+ 
+The OS evidence state MUST distinguish:
+ 
+PRESENT · SPECIFIED · IMPLEMENTED · TESTED · CI_VERIFIED · QEMU_VERIFIED · HARDWARE_VERIFIED · SECURE_BOOT_VERIFIED · STORAGE_HARDENED · NETWORK_HARDENED · DESKTOP_VERIFIED · AURORA_VERIFIED · E2E_VERIFIED · RECOVERY_VERIFIED · RELEASED · DEPLOYED · OPERATIONAL
+ 
+No source file, README, architecture diagram, PR state or historical CI run may substitute for the evidence required by the corresponding gate.
+ 
+## 14. Relationship to Previous Architecture Contracts
+ 
+~~~text
+ARCH-001
+Authority / Evidence
+      ↓
+ARCH-002
+System / Domain / Interface / Lifecycle
+      ↓
+ARCH-003
+Operations / Security / Resilience / Verification
+      ↓
+ARCH-004
+Functional OS / Boot-to-Userspace
+      ↓
+ARCH-005
+Hardware / Trusted Boot / Hardening / Desktop / Aurora / Production
+~~~
+ 
+The component repositories remain implementation SSOTs. The ecosystem repository defines the cross-repository acceptance contract and evidence aggregation only.
