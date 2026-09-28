@@ -991,7 +991,11 @@ Deterministic Runtime
         ↓
 World / Player State
         ↓
-Rewards / Reputation / Consequences
+Genesis Authoritative Runtime
+        ↓
+Validated Rewards / Reputation / Consequences
+        ↓
+Committed Game State
         ↓
 Persistent Game State
 ```
