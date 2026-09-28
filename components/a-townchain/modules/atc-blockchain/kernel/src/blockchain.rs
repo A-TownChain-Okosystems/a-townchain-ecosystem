@@ -428,7 +428,7 @@ impl Node {
     fn import_block_internal(
         &self,
         b: Block,
-        sync_snapshot: Option<(u64, BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>)>,
+        sync_snapshot: Option<(u64, BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>)>,
     ) -> Result<(), String> {
         if self.chain_id
             != b.transactions
@@ -448,7 +448,7 @@ impl Node {
         }
         let parent = self.chain.last().ok_or("genesis required")?;
         let finalized_height = self.consensus.finalized().map(|(height, _)| height);
-        let selected = fork_choice::choose(parent, &b, finalized_height)
+        let selected = fork_choice::choose(&parent, &b, finalized_height)
             .map_err(|_| "fork-choice finality violation")?;
         if selected.id != b.id {
             return Err("candidate rejected by deterministic fork-choice".into());
@@ -981,7 +981,7 @@ impl Node {
             .restore_validator_snapshot(activation_height, validators, keys)
     }
 
-    pub fn register_validator(&self, address: String, stake: u64) -> Result<(), String> {
+    pub fn register_validator(&self, address: String, stake: u128) -> Result<(), String> {
         let activation_height = if self.consensus.has_validator_snapshot(self.consensus.height()) {
             self.consensus.height().saturating_add(1)
         } else {
