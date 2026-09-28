@@ -7,51 +7,228 @@
 **Prinzip:** SSOT je Domäne, zentrale Integrationsarchitektur im Ecosystem  
 **Quest AI:** als kanonische Game-Intelligence-Funktion in Aurora/Genesis integriert
 
-## Schichtenmodell
+> **Canonical architecture rule:** L0–L7 are architectural responsibility domains, not a mandatory runtime ordering. **X** is a cross-layer control plane, not an additional execution layer. Architecture, implementation, testing, CI evidence and E2E evidence are separate status dimensions.
 
+## Canonical Layer Model
+
+```text
+L0 — System & Network
+     Hardware / HAL / GlobusOS / ShivaCore / networking / transport / node runtime
+
+L1 — Data & Storage
+     Canonical persistence / state storage / history / read models / indexing
+
+L2 — Blockchain Core & Consensus
+     Transactions / authorization entry / mempool / blocks / consensus / finality / economics
+
+L3 — Deterministic Execution / ATC-VM
+     ATCLang / ATC-IR / ABI / bytecode / verifier / ATC-VM / deterministic state transition
+
+L4 — Scaling & Execution Domains
+     Rollups / validity domains / specialized execution / future scaling and settlement domains
+
+L5 — Protocol & Economic Domains
+     Identity / assets / oracle / compute / interoperability / marketplace / launchpad / protocol contracts
+
+L6 — AI & Intelligence
+     Aurora / agents / RAG / memory / Quest AI / Dialogue AI / World / Character / domain intelligence
+
+L7 — Applications & User Experience
+     Genesis Engine / games / worlds / franchises / wallet UX / explorer / user-facing applications
+
+X — Cross-Layer Control Plane
+     Identity / capability / authorization / policy / governance / cryptography /
+     audit & evidence / observability / interoperability / versioning & compatibility
 ```
-+----------------------------------------------------------------+
-| Applications                                                  |
-| Genesis Chronicles / Games / Franchises / User Experiences    |
-+----------------------------------------------------------------+
-| Genesis Engine — L6 Game Platform                             |
-| Runtime / ECS / World / Gameplay / AI / Quest AI / Dialogue / LiveOps |
-+----------------------------------------------------------------+
-| Aurora AI — AI / Agent / Policy Layer                          |
-| Models / Agents / Memory / Tools / Planning / Dialogue / Governance |
-+----------------------------------------------------------------+
-| A-TownChain L1                                                 |
-| Node / Wallet / SDK / VM / Algorithm / State / Storage / ...  |
-+----------------------------------------------------------------+
-| ATCLang                                                       |
-| On-chain programs / contracts / deterministic artifacts       |
-+----------------------------------------------------------------+
-| ShivaCore Kernel — TCB                                         |
-| Hardware / HAL / memory / IPC / scheduling / security         |
-+----------------------------------------------------------------+
-```
 
-## System Integration
+### Layer Semantics
 
-Der kanonische Daten- und Kontrollfluss lautet:
+| Layer | Authority | Determinism | State authority |
+|---|---|---|---|
+| L0 | System / kernel / network boundary | deterministic where specified | No canonical chain state |
+| L1 | Data / persistence | deterministic persistence rules | Canonical state storage / history |
+| L2 | Blockchain protocol | deterministic | Chain authority / consensus |
+| L3 | ATC-VM execution | deterministic | Authorized state transitions |
+| L4 | Execution/scaling domain | domain-contract dependent | Only explicitly authorized domain state |
+| L5 | Protocol/economic domain | contract/policy defined | Authorized protocol state |
+| L6 | AI / intelligence | not a consensus authority | No direct canonical chain authority |
+| L7 | Application / UX | runtime/user dependent | No direct canonical chain authority |
+| X | Governance / security / control | policy/contract defined | Controls authorization and access |
 
-```
-ShivaCore
+**Layer ordering is conceptual.** L1 being numbered below L2 does not mean storage executes before consensus. The runtime data path is defined separately below.
+
+## Canonical Deterministic Trust Boundary
+
+The authoritative blockchain transition path is:
+
+```text
+Transaction
     ↓
-ATCLang
+Signature / Authorization
+    ↓
+Mempool
+    ↓
+Consensus
     ↓
 ATC-VM
     ↓
-A-TownChain L1
+State Transition
     ↓
-Aurora AI
+Canonical State
     ↓
-Genesis Engine
+Storage / Persistence
     ↓
-Games / Worlds / Franchises
+Finality
 ```
 
-Die Engine bleibt außerhalb des Konsens-Kernels. On-chain relevante Zustandsänderungen passieren ausschließlich über die definierte Chain/VM-Grenze.
+This is a trust-boundary and authority path, not a statement that every operation is implemented by a single process.
+
+### Boundary Invariants
+
+```text
+Aurora
+  ≠ Consensus
+  ≠ ATC-VM
+  ≠ canonical blockchain state
+
+Genesis
+  ≠ Blockchain Core
+
+GlobusOS / ShivaCore
+  ≠ ATC-VM
+
+Indexer
+  ≠ Source of Truth
+
+Explorer
+  ≠ Source of Truth
+
+AI Memory
+  ≠ canonical blockchain state
+```
+
+AI/model inference can produce proposals, commands or requests. Authoritative state changes require the responsible deterministic runtime and applicable authorization/policy checks.
+
+## Cross-Layer Control Plane
+
+X is a cross-cutting authority and security plane. It does not replace L0–L7 and does not independently execute blockchain state transitions.
+
+```text
+                 CROSS-LAYER CONTROL PLANE — X
+ ┌──────────────────────────────────────────────────────────────┐
+ │ Identity                                                     │
+ │ Capability / Authorization                                   │
+ │ Policy                                                      │
+ │ Governance                                                   │
+ │ Cryptography                                                 │
+ │ Audit / Evidence                                             │
+ │ Observability                                                │
+ │ Interoperability                                             │
+ │ Versioning / Compatibility                                   │
+ └───────────────────────────┬──────────────────────────────────┘
+                             │
+             ┌───────────────┼───────────────┐
+             ▼               ▼               ▼
+            L0              L1              L2 ... L7
+```
+
+## Primary Repository / Subsystem Mapping
+
+A repository may span more than one architectural layer; the table identifies its primary responsibility and does not override repository-level SSOT.
+
+| Layer | Primary repositories / subsystems |
+|---|---|
+| L0 | `atc-shivacore`, `globus-os`, `atc-node` network/runtime boundary |
+| L1 | `atc-storage`, `atc-indexer` read models, `atc-explorer` presentation/read model |
+| L2 | `a-townchain`, `atc-node`, `atc-algorithm`, `atc-mining`, `atc-wallet` transaction interface |
+| L3 | `atc-vm`, `atclang`, `atc-contracts` |
+| L4 | `atc-zkp`, future scaling/execution-domain components |
+| L5 | `atc-interop`, `atc-oracle`, `atc-compute`, `atc-marketplace`, `atc-launchpad`, protocol/asset/identity domains |
+| L6 | `aurora-ai`, Quest AI, Dialogue AI and other domain-intelligence capabilities |
+| L7 | `genesis-engine`, `genesis-chronicles`, `genesis-franchise-factory`, `atc-wallet` UX, `atc-explorer` UX, `atc-ide` |
+| X | `atc-standards`, security/cryptography/identity/policy/audit capabilities across the ecosystem |
+
+This mapping is architectural only. It does not assert implementation, test, CI or E2E status. Cross-layer repositories remain governed by their own canonical source-of-truth contracts.
+
+## Canonical Runtime / Data-Flow Separation
+
+The layer model and runtime flow must not be conflated.
+
+```text
+L2 Blockchain Core
+    │
+    ├── Transaction
+    ├── Mempool
+    └── Consensus
+             │
+             ▼
+L3 Deterministic Execution
+    │
+    └── ATC-VM / State Transition
+             │
+             ▼
+L1 Canonical State / Storage
+             │
+             ├── Persistence
+             └── Read Models / Indexing
+             │
+             ▼
+          Finality
+```
+
+Application and intelligence paths connect through defined interfaces rather than becoming part of the consensus/VM execution boundary:
+
+```text
+L6 Aurora / AI
+      │
+      ├── Proposal / Command / Request
+      ▼
+X Authorization / Policy / Capability
+      │
+      ▼
+L7 Genesis / Application Runtime
+      │
+      ├── deterministic local state changes
+      └── authorized L5/L2/L3 integration when required
+```
+
+## Canonical Ownership Rules
+
+1. **Standalone First, Ecosystem Second:** each core repository owns its implementation SSOT, build, tests, release and API/ABI contracts.
+2. `a-townchain-ecosystem` owns system-level boundaries, integration architecture and evidence aggregation; it does not replace component implementation SSOTs.
+3. `atc-standards` remains the standards/governance SSOT.
+4. Architecture text is not implementation evidence.
+5. A file or directory existing is not evidence that a capability is implemented.
+6. CI evidence is valid only when tied to the exact source commit under assessment.
+7. Indexers and explorers are read/presentation models and are not canonical state authorities.
+8. AI memory is not canonical blockchain state unless an explicit deterministic protocol contract makes a state representation authoritative.
+9. L4 is a target architectural domain where components may be future/partial; its presence here is not an implementation claim.
+
+## Architecture Status Semantics
+
+Architecture statements must remain separate from implementation evidence:
+
+```text
+ARCHITECTURE_ONLY
+      ↓
+SPECIFIED
+      ↓
+IMPLEMENTED
+      ↓
+TESTED
+      ↓
+CI_VERIFIED
+      ↓
+INTEGRATED
+      ↓
+E2E_VERIFIED
+```
+
+Exceptional states may include:
+
+`MISSING` · `BLOCKED` · `DUPLICATE` · `DISCONNECTED`
+
+The remainder of this document defines Quest AI, Dialogue AI and Aurora/GlobusOS architecture within the canonical layer model. Existing boundary contracts are retained below and must not be interpreted as implementation claims.
 
 ---
 
