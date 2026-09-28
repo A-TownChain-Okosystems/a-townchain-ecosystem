@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-ATC-CONTRACTS-CHANGELOG-MD-2906E92DC0",
-  "timestamp": "2026-09-28T16:45:50.171606Z",
+  "timestamp": "2026-09-28T16:47:47.394848Z",
   "category": "evidence",
   "title": "Indexed source: components/atc-contracts/CHANGELOG.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-contracts/CHANGELOG.md",
-    "commit": "a9b073ef3c94720dec3a0b33b9c16758fc888d13"
+    "commit": "17385af50028a2929041991214f185c7fa0dd97a"
   },
   "tags": [
     "generated",

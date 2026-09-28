@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-0FA5B2856E9A",
-  "timestamp": "2026-09-28T16:45:50.171606Z",
+  "timestamp": "2026-09-28T16:47:47.394848Z",
   "category": "change",
   "title": "Commit: feat: support atomic validator state rollback",
   "context": "Git commit 0fa5b2856e9a71bb3f24e447e8622986b8041073 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/0fa5b2856e9a71bb3f24e447e8622986b8041073",
-    "commit": "a9b073ef3c94720dec3a0b33b9c16758fc888d13"
+    "commit": "17385af50028a2929041991214f185c7fa0dd97a"
   },
   "tags": [
     "commit",
