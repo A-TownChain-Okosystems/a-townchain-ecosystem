@@ -4419,3 +4419,598 @@ Hardware / Trusted Boot / Hardening / Desktop / Aurora / Production
 ~~~
  
 The component repositories remain implementation SSOTs. The ecosystem repository defines the cross-repository acceptance contract and evidence aggregation only.
+
+ 
+---
+ 
+# ARCH-006 — Protocol, Data, Execution, Economics and System Completeness Architecture
+ 
+ARCH-006 closes the remaining cross-system architecture gaps that are not fully covered by ARCH-001 through ARCH-005. It defines protocol data availability, canonical encoding, concurrency, node roles, topology, threat assumptions, economics, proofs, light clients, interoperability, deployment environments, governance of parameters, and system-level completeness.
+ 
+ARCH-006 is an architecture and acceptance contract. It does not constitute implementation or verification evidence.
+ 
+## 1. Canonical Serialization, Encoding and ABI
+ 
+Every consensus-, execution-, identity- and interoperability-critical data structure MUST have one canonical encoding.
+ 
+The contract MUST define:
+ 
+- canonical serialization;
+- field ordering;
+- integer encoding and widths;
+- signed/unsigned representation;
+- byte order;
+- optional/default field semantics;
+- enum representation;
+- string/byte encoding;
+- length encoding;
+- domain separation;
+- versioning;
+- canonical hashing;
+- canonical signing preimage;
+- ABI compatibility;
+- wire encoding;
+- rejection of non-canonical representations.
+ 
+Consensus-critical code MUST NOT accept multiple encodings that can represent different byte sequences as the same logical object unless canonicalization is explicitly defined.
+ 
+## 2. Transaction and Signing-Domain Contract
+ 
+The transaction contract MUST define the complete signing and verification preimage, including protocol version, numeric chain identifier, transaction fields, serialization and domain separation.
+ 
+Legacy signing domains MUST NOT remain valid merely because legacy code or fixtures still exist.
+ 
+The transaction contract MUST define:
+ 
+- signer identity;
+- signing algorithm;
+- signature encoding;
+- chain/domain separation;
+- nonce semantics;
+- fee semantics;
+- validity interval;
+- replay protection;
+- authorization;
+- canonical serialization;
+- verification failure behavior;
+- version migration.
+ 
+## 3. Monetary and Economic Protocol Contract
+ 
+The canonical economic contract MUST explicitly define:
+ 
+- maximum supply: 360,000,000 ATC;
+- 36 halvings;
+- target block time: 360 seconds;
+- halving interval: 360,000 blocks;
+- base denomination: 10^-18 ATC;
+- economic values as u128;
+- protocol counters such as height, nonce, timestamp and epoch as u64;
+- chain identifier: 658467;
+- block reward derivation;
+- issuance schedule;
+- supply conservation;
+- treasury/reward/slashing semantics;
+- rounding and overflow behavior;
+- genesis allocation;
+- fee treatment;
+- economic parameter activation and migration.
+ 
+All monetary calculations MUST be deterministic and overflow-safe.
+ 
+No wallet, UI, indexer or explorer may independently redefine canonical monetary semantics.
+ 
+## 4. Data Availability and Archive Contract
+ 
+Consensus finality MUST be distinguished from data availability.
+ 
+The architecture MUST define:
+ 
+~~~text
+Block Commitment
+  ↓
+Data Publication
+  ↓
+Availability Sampling / Retrieval
+  ↓
+Availability Verification
+  ↓
+Consensus / Finality
+  ↓
+Canonical Archive
+~~~
+ 
+The contract MUST define block/body availability, retention, pruning, archival nodes, snapshot boundaries, retrieval proofs, missing-data behavior and recovery.
+ 
+A finalized header MUST NOT automatically imply that every required body/data object remains locally available.
+ 
+## 5. Light Client and Proof Verification
+ 
+The system MUST define a light-client trust path:
+ 
+~~~text
+Untrusted Header / Proof
+  ↓
+Cryptographic Verification
+  ↓
+Consensus / Finality Proof
+  ↓
+State / Inclusion Proof
+  ↓
+Policy Validation
+  ↓
+Trusted Result
+~~~
+ 
+Light clients MUST NOT become canonical state authorities.
+ 
+Proof types, commitment format, verification rules, trust assumptions, freshness and replay protection MUST be versioned.
+ 
+## 6. Concurrency, Ordering and Parallel Execution
+ 
+The architecture MUST explicitly distinguish:
+ 
+- deterministic sequential execution;
+- independent parallel execution;
+- speculative execution;
+- conflict detection;
+- dependency ordering;
+- transaction ordering;
+- state access sets;
+- deterministic merge;
+- rollback;
+- retry;
+- commit ordering.
+ 
+Any parallel execution MUST produce the same canonical result as the declared reference execution model.
+ 
+Nondeterministic thread scheduling MUST NOT affect consensus state.
+ 
+## 7. Mempool, Admission and Transaction Lifecycle
+ 
+The transaction lifecycle MUST explicitly distinguish:
+ 
+~~~text
+Constructed
+ → Signed
+ → Submitted
+ → Authenticated
+ → Syntax Valid
+ → Policy Valid
+ → Admitted
+ → Mempool
+ → Selected
+ → Proposed
+ → Executed
+ → Finalized
+ → Committed
+ → Persisted
+ → Indexed
+~~~
+ 
+The contract MUST define duplicate handling, replacement, expiration, fee policy, nonce conflicts, resource limits, fairness policy, eviction, persistence/restart behavior and observability.
+ 
+Mempool state MUST NOT be confused with canonical chain state.
+ 
+## 8. Node Roles and Operational Topology
+ 
+The architecture MUST distinguish at least:
+ 
+- validator;
+- full node;
+- archive node;
+- light client;
+- RPC/API node;
+- indexer;
+- explorer service;
+- bootstrapping/state-sync node;
+- bridge/interop gateway;
+- oracle service where applicable;
+- development/local node.
+ 
+For each role the architecture MUST define stored state, authority, network exposure, keys, capabilities, resource requirements, failure behavior and synchronization responsibilities.
+ 
+No operational role receives protocol authority merely through deployment topology.
+ 
+## 9. Network and Environment Topology
+ 
+The system MUST define separate environments:
+ 
+~~~text
+Development
+  ↓
+Local / Integration
+  ↓
+Devnet
+  ↓
+Testnet
+  ↓
+Staging / Release Candidate
+  ↓
+Mainnet
+~~~
+ 
+Each environment MUST have explicit chain identity, genesis, keys, endpoints, artifact policy, upgrade policy, data reset policy and evidence expectations.
+ 
+Mainnet state or credentials MUST NOT be silently reused in lower environments.
+ 
+## 10. Threat Model and Trust Assumptions
+ 
+Each security-critical domain MUST declare:
+ 
+- assets;
+- trust boundaries;
+- trusted components;
+- untrusted inputs;
+- adversary capabilities;
+- compromise assumptions;
+- attack surfaces;
+- security invariants;
+- detection mechanisms;
+- containment;
+- recovery;
+- residual risk.
+ 
+The master threat model MUST cover at least:
+ 
+- malicious validators;
+- Byzantine peers;
+- Sybil/eclipse attacks;
+- replay;
+- key compromise;
+- malicious contracts;
+- resource exhaustion;
+- corrupted storage;
+- compromised drivers;
+- compromised services;
+- malicious AI/model/tool output;
+- supply-chain compromise;
+- insider/emergency authority abuse;
+- physical compromise where hardware security is claimed.
+ 
+Security claims MUST identify their trust assumptions.
+ 
+## 11. ZKP and Proof-System Boundary
+ 
+Zero-knowledge and cryptographic proof systems MUST have an explicit boundary:
+ 
+~~~text
+Statement / Witness
+  ↓
+Circuit / Constraint System
+  ↓
+Proof Generation
+  ↓
+Proof Artifact
+  ↓
+Verifier
+  ↓
+Protocol / Application Acceptance
+~~~
+ 
+The architecture MUST define proving/verifying authority, circuit/version identity, trusted setup assumptions where applicable, proof encoding, verification cost, recursion/composition, key lifecycle and upgrade compatibility.
+ 
+A valid cryptographic proof MUST NOT bypass protocol authorization or state ownership.
+ 
+## 12. Oracle Architecture
+ 
+External information MUST follow:
+ 
+~~~text
+External Source
+  ↓
+Provider Identity
+  ↓
+Attestation / Signature
+  ↓
+Validation
+  ↓
+Freshness / Quorum
+  ↓
+Canonical Oracle State
+  ↓
+Consumer
+~~~
+ 
+The architecture MUST define provider trust, freshness, quorum/aggregation, fallback, stale data, conflicting data, manipulation, outage and rollback semantics.
+ 
+External data MUST NOT become canonical solely because an oracle service emitted it.
+ 
+## 13. Bridge and Cross-Chain Interoperability
+ 
+Cross-chain state MUST follow:
+ 
+~~~text
+External Chain
+  ↓
+External Finality
+  ↓
+Proof / Attestation
+  ↓
+Verification
+  ↓
+Interop Gateway
+  ↓
+Replay / Nonce Protection
+  ↓
+Policy
+  ↓
+Canonical Command
+  ↓
+Target Domain Commit
+~~~
+ 
+Asset bridges MUST additionally define lock/mint/burn/release semantics, representation, supply conservation, timeouts, circuit breakers, recovery and reconciliation.
+ 
+## 14. Canonical State Transition and Reference Execution
+ 
+Every consensus-critical state transition MUST have:
+ 
+- a normative specification;
+- canonical input/output schema;
+- reference implementation;
+- deterministic test vectors;
+- property tests;
+- fuzz/differential tests;
+- exact-SHA CI evidence;
+- migration vectors where applicable.
+ 
+A production implementation MUST NOT become canonical merely because it is the first implementation.
+ 
+## 15. Protocol Upgrade and Parameter Governance
+ 
+Protocol parameters MUST have:
+ 
+~~~text
+Proposal
+ → Specification
+ → Review
+ → Approval
+ → Compatibility Analysis
+ → Activation Rule
+ → Deployment
+ → Activation
+ → Verification
+ → Monitoring
+~~~
+ 
+This includes consensus, monetary, VM, network, cryptographic and OS-integrated protocol parameters.
+ 
+Activation MUST be deterministic and replayable. Governance metadata MUST NOT silently alter consensus semantics outside the declared activation mechanism.
+ 
+## 16. State Migration and Schema Evolution
+ 
+Every persistent or consensus-relevant schema MUST define:
+ 
+- version;
+- owner;
+- compatibility;
+- migration direction;
+- migration trigger;
+- transformation;
+- validation;
+- rollback/recovery boundary;
+- mixed-version behavior;
+- evidence.
+ 
+Migration MUST be idempotent where applicable and MUST NOT silently discard canonical state.
+ 
+## 17. Snapshot and State-Sync Contract
+ 
+The canonical recovery path is:
+ 
+~~~text
+Snapshot
+ → Metadata / Commitment
+ → Source Authentication
+ → Download
+ → Integrity Verification
+ → Restore
+ → Replay Missing Range
+ → Canonical-State Verification
+ → Serve
+~~~
+ 
+Snapshots MUST NOT be treated as canonical merely because they were downloaded from a trusted-looking endpoint.
+ 
+## 18. Governance, Emergency and Human Approval
+ 
+The architecture MUST distinguish:
+ 
+- protocol governance;
+- repository governance;
+- release authority;
+- operational authority;
+- emergency authority;
+- domain authority;
+- human approval;
+- automated policy decisions.
+ 
+Emergency powers MUST be scoped, time-bounded, auditable and unable to silently become permanent authority.
+ 
+AI approval MUST NOT replace protocol or domain authorization.
+ 
+## 19. Privacy, Data Classification and Immutable-State Boundary
+ 
+Data MUST be classified as applicable:
+ 
+PUBLIC · PRIVATE · CONFIDENTIAL · SECRET · SENSITIVE · DERIVED · EPHEMERAL · CANONICAL
+ 
+The architecture MUST distinguish immutable protocol data from mutable off-chain data, AI memory, retrieval indexes, logs and caches.
+ 
+Sensitive information MUST NOT be written to immutable public state merely because a service can access it.
+ 
+Retention, deletion/tombstone behavior, provenance and access policy MUST be defined per data domain.
+ 
+## 20. Observability, SLO and Operational Evidence
+ 
+Production domains MUST define:
+ 
+- metrics;
+- logs;
+- traces;
+- audit events;
+- health/readiness;
+- SLI/SLO where applicable;
+- alert conditions;
+- error budgets where applicable;
+- incident correlation;
+- evidence retention.
+ 
+Observability MUST NOT mutate canonical state or grant authority.
+ 
+## 21. Supply Chain and Artifact Trust
+ 
+The complete artifact path is:
+ 
+~~~text
+Source
+ → Dependency Resolution
+ → Dependency Verification
+ → Build
+ → SBOM / Provenance
+ → Artifact Signing
+ → Verification
+ → Release
+ → Deployment
+ → Runtime Verification
+~~~
+ 
+The architecture MUST distinguish artifact integrity from functional correctness.
+ 
+Build reproducibility, dependency pinning, provenance, signatures, SBOM, vulnerability policy and compromised-dependency response MUST be defined.
+ 
+## 22. Capacity, Performance and Backpressure
+ 
+Every production subsystem MUST define applicable:
+ 
+- latency;
+- throughput;
+- queue limits;
+- memory/CPU budget;
+- storage growth;
+- bandwidth;
+- concurrency;
+- saturation;
+- admission control;
+- backpressure;
+- degradation;
+- recovery.
+ 
+Performance claims MUST identify workload, environment, version and measurement method.
+ 
+## 23. Chaos, Fault Injection and Recovery
+ 
+Critical systems MUST define controlled failure scenarios covering:
+ 
+- process crash;
+- node restart;
+- network partition;
+- packet loss;
+- delayed messages;
+- corrupted storage;
+- disk exhaustion;
+- key rotation;
+- invalid artifacts;
+- failed updates;
+- unavailable dependencies;
+- validator failure;
+- service failure;
+- Aurora tool failure;
+- hardware faults where applicable.
+ 
+Recovery MUST return to a verified state, not merely a running state.
+ 
+## 24. Developer Platform Contract
+ 
+The architecture MUST define versioned developer interfaces for:
+ 
+- SDKs;
+- CLI;
+- RPC clients;
+- ATCLang compiler/tooling;
+- IR/ABI tooling;
+- wallet tooling;
+- debugger;
+- simulator;
+- local network;
+- test environment;
+- deployment tooling;
+- proof/ZKP tooling;
+- Genesis tooling;
+- Aurora tool development.
+ 
+Developer tooling MUST consume canonical versioned contracts and MUST NOT redefine protocol semantics.
+ 
+## 25. Canonical Dependency and Version Matrix
+ 
+The ecosystem MUST maintain a machine-checkable mapping of:
+ 
+- component;
+- owner;
+- repository;
+- SSOT;
+- interface/API/ABI;
+- dependency direction;
+- protocol version;
+- schema version;
+- supported environments;
+- supported hardware;
+- evidence level;
+- release compatibility.
+ 
+Dependency diagrams are informative unless the corresponding dependency contract explicitly grants authority.
+ 
+## 26. System Completeness Contract
+ 
+The complete master architecture MUST be evaluated across these dimensions:
+ 
+~~~text
+Foundation
+Boot / Kernel / OS
+Protocol / Consensus
+Execution / VM
+State / Storage
+Networking / P2P
+Identity / Cryptography
+Economics
+Data Availability
+Interoperability / Oracle / Bridge
+Proof / ZKP
+AI / Aurora
+Genesis / Applications
+Desktop / UX
+Security / Threat Model
+Supply Chain
+Testing / Verification
+Observability
+Performance / Capacity
+Recovery / Disaster
+Upgrade / Migration
+Governance
+Developer Platform
+Release / Deployment
+Operational Runtime
+~~~
+ 
+A component is not considered architecturally complete solely because a repository, directory, module or document exists.
+ 
+## 27. Master Architecture Gate Chain
+ 
+The complete gate chain is:
+ 
+~~~text
+ARCH-001 Authority / Evidence
+        ↓
+ARCH-002 System / Domain / Interface
+        ↓
+ARCH-003 Operations / Security / Resilience
+        ↓
+ARCH-004 Functional OS
+        ↓
+ARCH-005 Production OS / Hardware / Desktop / Aurora
+        ↓
+ARCH-006 Protocol / Data / Economics / Proof / Topology / Completeness
+~~~
+ 
+ARCH-006 closes architecture-level gaps. Implementation status remains subject to component-level verification and exact-SHA evidence.
