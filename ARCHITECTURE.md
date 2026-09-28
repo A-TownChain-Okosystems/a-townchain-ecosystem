@@ -2585,3 +2585,803 @@ A diagram MUST NOT override a normative authority or state-ownership rule.
 Authority follows the canonical state owner and its declared commit contract.
 
 Execution, intelligence, storage, indexing and presentation remain subordinate to that authority boundary.
+
+ 
+---
+
+# ARCH-003 — System Operational Architecture
+
+ARCH-003 closes the remaining operational architecture gaps identified by the master architecture review. It defines contracts for determinism, randomness, cryptography, networking, upgrades, bootstrap, interoperability, privacy, supply-chain security, resilience, testing, performance, configuration, external exposure, emergency control and multiplayer/runtime authority.
+
+ARCH-003 is normative at the architecture-contract level. It does not claim implementation or verification.
+
+## 1. Time and Determinism Contract
+
+Every deterministic subsystem MUST declare its authoritative time source.
+
+Time classes are distinct:
+
+~~~text
+Wall Clock
+   |
+Monotonic Clock
+   |
+Consensus / Block Time
+   |
+Application Time
+   |
+Simulation Time
+~~~
+
+Rules:
+- Consensus state MUST NOT depend on an uncontrolled wall clock.
+- VM execution MUST use only explicitly deterministic time inputs.
+- Genesis simulation MUST define tick and time-step semantics.
+- Timeout semantics MUST identify the clock used.
+- Replay MUST reproduce the same state transition for the same canonical inputs.
+- Clock drift, timestamp validity and acceptable ranges MUST be protocol-defined where consensus-relevant.
+
+## 2. Randomness and Entropy Contract
+
+Randomness classes MUST remain separate:
+
+~~~text
+Cryptographic Entropy
+   !=
+Consensus Randomness
+   !=
+Deterministic PRNG
+   !=
+Game Randomness
+   !=
+AI Sampling
+~~~
+
+Consensus- or protocol-relevant randomness MUST define its source, commitment/derivation, verification and replay semantics.
+
+Game randomness MUST NOT silently become protocol randomness.
+
+AI sampling MUST NOT be treated as authoritative randomness.
+
+## 3. Cryptographic and Key Lifecycle Contract
+
+Security-sensitive keys MUST have a lifecycle:
+
+~~~text
+Generate
+  ↓
+Register / Bind Identity
+  ↓
+Store
+  ↓
+Use
+  ↓
+Rotate
+  ↓
+Revoke
+  ↓
+Recover / Retire
+~~~
+
+The contract MUST define:
+- algorithm;
+- key purpose;
+- signing domain;
+- storage boundary;
+- authorization;
+- rotation;
+- revocation;
+- compromise response;
+- recovery;
+- audit.
+
+Transaction signing MUST use the canonical domain-separation contract, including the network/chain identity and canonical transaction encoding.
+
+Validator, node, wallet, service, agent, tool and hardware-backed keys MUST NOT share implicit authority.
+
+## 4. Networking and P2P Contract
+
+Network lifecycle:
+
+~~~text
+Discovery
+  ↓
+Handshake
+  ↓
+Identity Authentication
+  ↓
+Protocol / Capability Negotiation
+  ↓
+Connection Policy
+  ↓
+Message Validation
+  ↓
+Propagation
+  ↓
+Peer Scoring
+  ↓
+Disconnect / Restrict
+~~~
+
+The network contract MUST define:
+- peer identity;
+- protocol versions;
+- message schemas;
+- maximum message size;
+- connection limits;
+- rate limits;
+- peer scoring;
+- Sybil resistance;
+- eclipse resistance;
+- DoS protection;
+- gossip rules;
+- partition behavior;
+- retry/backoff;
+- observability.
+
+A network peer is not automatically trusted because it is reachable.
+
+## 5. Protocol Upgrade and Migration Contract
+
+Protocol changes MUST follow an explicit lifecycle:
+
+~~~text
+Proposal
+  ↓
+Specification
+  ↓
+Technical / Security / Architecture Review
+  ↓
+Approval
+  ↓
+Compatibility Analysis
+  ↓
+Activation Condition
+  ↓
+Deployment
+  ↓
+Activation
+  ↓
+Verification
+  ↓
+Post-Activation Monitoring
+~~~
+
+Every breaking change MUST define:
+- affected state;
+- version;
+- activation condition;
+- compatibility window;
+- migration;
+- rollback boundary;
+- recovery;
+- evidence.
+
+Rollback MUST NOT create an invalid or ambiguous canonical state.
+
+Emergency protocol changes require explicit emergency authority and separate evidence.
+
+## 6. Bootstrap, Genesis and State-Sync Contract
+
+Canonical bootstrap:
+
+~~~text
+Network Identity
+  ↓
+Genesis Configuration
+  ↓
+Genesis Hash
+  ↓
+Protocol Version
+  ↓
+Initial State
+  ↓
+Initial Validator / Authority Set
+  ↓
+Bootstrap Verification
+  ↓
+Network Start
+~~~
+
+State synchronization:
+
+~~~text
+Snapshot
+  ↓
+Metadata / Commitment
+  ↓
+Source Authentication
+  ↓
+Download
+  ↓
+Integrity Verification
+  ↓
+Restore
+  ↓
+Replay Missing Range
+  ↓
+Canonical-State Verification
+  ↓
+Serve
+~~~
+
+A node MUST NOT serve an unverified recovered state as canonical.
+
+Genesis configuration MUST define chain identity, initial protocol parameters, initial economic state and reproducibility requirements.
+
+## 7. Interoperability, Oracle and Bridge Contract
+
+Interop, Oracle and Bridge are distinct domains.
+
+### Oracle
+
+~~~text
+External Data
+  ↓
+Provider
+  ↓
+Attestation
+  ↓
+Validation
+  ↓
+Aggregation
+  ↓
+Freshness Check
+  ↓
+Canonical Oracle State
+~~~
+
+### Cross-Chain Interop
+
+~~~text
+External Chain
+  ↓
+Proof / Attestation
+  ↓
+Verification
+  ↓
+Interop Gateway
+  ↓
+Policy
+  ↓
+Canonical Command
+  ↓
+Target Domain
+~~~
+
+### Bridge
+
+A bridge MUST additionally define:
+- asset representation;
+- lock/mint or burn/release semantics;
+- message nonce;
+- replay protection;
+- external finality requirement;
+- timeout;
+- pause/circuit breaker;
+- recovery;
+- reconciliation.
+
+External data MUST NOT become canonical merely because an oracle or bridge reports it.
+
+## 8. Data, Privacy and Retention Contract
+
+Data classes MUST be explicit:
+
+~~~text
+Public
+Private
+Confidential
+Secret
+Sensitive
+Derived
+Canonical
+Ephemeral
+~~~
+
+Data lifecycle:
+
+~~~text
+Collection
+  ↓
+Classification
+  ↓
+Purpose / Authorization
+  ↓
+Processing
+  ↓
+Storage
+  ↓
+Retention
+  ↓
+Deletion / Tombstone where applicable
+  ↓
+Audit
+~~~
+
+On-chain immutable data MUST be treated differently from mutable off-chain data.
+
+AI memory, retrieval indexes and derived knowledge MUST carry provenance and access policy where required.
+
+Secrets MUST NOT be stored in ordinary application state.
+
+## 9. Secrets Management Contract
+
+Secrets lifecycle:
+
+~~~text
+Provision
+  ↓
+Bind to Workload Identity
+  ↓
+Inject
+  ↓
+Use
+  ↓
+Rotate
+  ↓
+Revoke
+  ↓
+Destroy
+~~~
+
+Secrets MUST be:
+- least-privilege;
+- scoped;
+- auditable;
+- non-loggable;
+- rotatable;
+- revocable.
+
+Aurora tools and external service credentials MUST execute under explicit workload identities.
+
+## 10. Supply-Chain and Artifact Security Contract
+
+Release chain:
+
+~~~text
+Source
+  ↓
+Dependency Resolution
+  ↓
+Dependency Verification
+  ↓
+Build
+  ↓
+SBOM / Provenance
+  ↓
+Artifact Signing
+  ↓
+Verification
+  ↓
+Release
+  ↓
+Deployment
+~~~
+
+Critical artifacts SHOULD support:
+- reproducible builds where applicable;
+- pinned dependencies;
+- dependency provenance;
+- SBOM;
+- artifact signatures;
+- source/build provenance;
+- vulnerability policy;
+- compromised dependency response.
+
+A signed artifact proves integrity/authenticity of the signing boundary; it does not prove functional correctness.
+
+## 11. Backup, Disaster Recovery and Incident Contract
+
+Backup:
+
+~~~text
+State
+  ↓
+Snapshot / Backup
+  ↓
+Integrity Verification
+  ↓
+Protected Storage
+  ↓
+Restore Test
+~~~
+
+Disaster recovery MUST define:
+- RPO;
+- RTO;
+- backup frequency;
+- retention;
+- geographic redundancy;
+- immutable backup where required;
+- corruption detection;
+- restore verification.
+
+Incident lifecycle:
+
+~~~text
+Detection
+  ↓
+Classification
+  ↓
+Containment
+  ↓
+Evidence Preservation
+  ↓
+Mitigation
+  ↓
+Recovery
+  ↓
+Verification
+  ↓
+Post-Incident Review
+  ↓
+Corrective Architecture / Standard Change
+~~~
+
+## 12. Configuration Contract
+
+Configuration classes are distinct:
+
+- static configuration;
+- environment configuration;
+- protocol configuration;
+- runtime configuration;
+- governance configuration;
+- feature configuration;
+- secret configuration.
+
+Configuration lifecycle:
+
+~~~text
+Source
+  ↓
+Schema Validation
+  ↓
+Default Resolution
+  ↓
+Policy Validation
+  ↓
+Activation
+  ↓
+Audit
+~~~
+
+Configuration MUST NOT silently override protocol semantics.
+
+Protocol-relevant configuration MUST be versioned and governed.
+
+## 13. Resource Governance Contract
+
+Resource classes include:
+
+- CPU;
+- memory;
+- storage;
+- network;
+- I/O;
+- GPU;
+- AI inference;
+- tool execution;
+- disk quota;
+- bandwidth.
+
+Admission:
+
+~~~text
+Resource Request
+  ↓
+Identity / Capability
+  ↓
+Quota
+  ↓
+Policy
+  ↓
+Admission
+  ↓
+Execution
+  ↓
+Accounting
+  ↓
+Limit / Reclaim
+~~~
+
+Resource exhaustion MUST have explicit failure and degradation semantics.
+
+## 14. Testing and Verification Architecture
+
+The verification hierarchy is:
+
+~~~text
+Static Analysis
+   ↓
+Unit Tests
+   ↓
+Property Tests
+   ↓
+Fuzz Tests
+   ↓
+Component Integration
+   ↓
+Cross-Repository Integration
+   ↓
+Network Tests
+   ↓
+Fault Injection
+   ↓
+E2E
+   ↓
+Soak / Load
+   ↓
+Recovery / Chaos
+~~~
+
+Blockchain-specific verification SHOULD include:
+- deterministic state-transition vectors;
+- serialization vectors;
+- signing vectors;
+- consensus vectors;
+- fork tests;
+- replay tests;
+- migration tests.
+
+Critical invariants SHOULD be represented as executable properties. Formal verification MAY be applied where the assurance requirement justifies it.
+
+No lower-level test substitutes for an E2E requirement.
+
+## 15. Performance and Capacity Contract
+
+Every critical subsystem SHOULD define:
+
+- latency;
+- throughput;
+- resource budget;
+- queue limits;
+- saturation point;
+- backpressure;
+- graceful degradation;
+- recovery behavior.
+
+Capacity lifecycle:
+
+~~~text
+Capacity Model
+  ↓
+Load Model
+  ↓
+Scaling Boundary
+  ↓
+Admission / Backpressure
+  ↓
+Degradation
+  ↓
+Recovery
+~~~
+
+Performance claims MUST identify workload, environment, version and measurement method.
+
+## 16. External Exposure Contract
+
+External interfaces MUST be classified:
+
+- internal API;
+- authenticated API;
+- public RPC;
+- developer API;
+- administrative API;
+- governance API;
+- indexer API;
+- AI tool API.
+
+Every exposed interface MUST define authentication, authorization, rate limits, quotas, abuse protection, versioning, compatibility and audit semantics.
+
+Administrative interfaces MUST NOT inherit authority merely from network reachability.
+
+## 17. Emergency Authority Contract
+
+Emergency authority is distinct from normal authority.
+
+~~~text
+Detection
+  ↓
+Emergency Authority
+  ↓
+Scope Verification
+  ↓
+Required Approval
+  ↓
+Pause / Restrict / Contain
+  ↓
+Evidence
+  ↓
+Recovery
+  ↓
+Verification
+  ↓
+Resume
+~~~
+
+Emergency controls MUST define:
+- authorized principals;
+- permitted scope;
+- trigger conditions;
+- approval requirements;
+- maximum duration;
+- audit;
+- recovery;
+- expiry.
+
+Emergency authority MUST NOT become an undocumented permanent superuser.
+
+## 18. AI Security Contract
+
+### Model Security
+
+Models SHOULD have:
+- provenance;
+- version identity;
+- integrity verification;
+- policy classification;
+- rollback capability.
+
+### Agent Security
+
+Agents MUST have:
+- identity;
+- explicit capabilities;
+- delegation boundary;
+- action budget;
+- recursion/runaway limits;
+- audit identity.
+
+### Tool Security
+
+~~~text
+Agent
+  ↓
+Tool Request
+  ↓
+Schema Validation
+  ↓
+Capability
+  ↓
+Policy
+  ↓
+Sandbox
+  ↓
+Execution
+  ↓
+Result Validation
+  ↓
+Audit
+~~~
+
+Tool output MUST be treated as untrusted input unless the tool contract explicitly establishes a trusted result boundary.
+
+### AI Memory Security
+
+Memory SHOULD support:
+- provenance;
+- trust classification;
+- authorization;
+- poisoning resistance;
+- tenant isolation where applicable;
+- retention;
+- deletion semantics.
+
+## 19. Genesis Simulation and Multiplayer Contract
+
+Genesis separates authoritative simulation from presentation.
+
+~~~text
+Client Input
+  ↓
+Network
+  ↓
+Authoritative Simulation
+  ↓
+Rules / Systems
+  ↓
+State Transition
+  ↓
+Commit
+  ↓
+Replication
+  ↓
+Client Presentation
+~~~
+
+Client prediction is not authoritative state.
+
+Genesis MUST define, where multiplayer applies:
+- tick model;
+- simulation time;
+- authoritative server/domain;
+- client prediction;
+- reconciliation;
+- rollback;
+- replication;
+- entity ownership;
+- shard/world ownership;
+- persistence.
+
+Rendering MUST NOT mutate authoritative gameplay state.
+
+## 20. Developer Platform Contract
+
+Developer-facing architecture includes:
+
+- SDK;
+- CLI;
+- RPC clients;
+- contract compiler/toolchain;
+- ATCLang tooling;
+- ABI tooling;
+- wallet tooling;
+- debugger;
+- simulator;
+- local network/test environment;
+- deployment tooling.
+
+Developer tools MUST consume versioned contracts rather than undocumented internal structures.
+
+## 21. Formal Invariant Contract
+
+Critical invariants SHOULD be mapped to executable verification artifacts.
+
+~~~text
+Invariant
+  ↓
+Formal Property / Test Vector
+  ↓
+Reference Implementation
+  ↓
+Property Test
+  ↓
+Fuzz / Differential Test
+  ↓
+Exact-SHA CI
+  ↓
+E2E Evidence where applicable
+~~~
+
+Examples include monetary supply, transaction validity, signing-domain correctness, VM safety, capability isolation and state-transition determinism.
+
+## 22. Additional Cross-System Invariants
+
+16. Consensus-relevant time is deterministic and explicitly defined.
+17. Protocol randomness has a verifiable source and replay semantics.
+18. Key purpose and signing domain are explicit.
+19. External data is not canonical without verification and target-domain acceptance.
+20. Recovered state is not canonical until integrity and protocol invariants are verified.
+21. Configuration cannot silently change protocol semantics.
+22. Resource exhaustion has defined failure behavior.
+23. External APIs cannot acquire authority from network reachability.
+24. Emergency authority is scoped, auditable and non-permanent.
+25. AI memory is not canonical domain state by default.
+26. Client prediction is not authoritative Genesis state.
+27. Artifact integrity does not equal functional correctness.
+28. Performance claims require reproducible measurement context.
+29. Critical invariants map to executable verification evidence.
+30. Upgrade activation requires explicit compatibility and recovery semantics.
+
+## 23. Architecture Gap Closure Rule
+
+ARCH-001 defines authority and evidence consistency.
+ARCH-002 defines detailed system boundaries and lifecycle.
+ARCH-003 defines operational, security, resilience and verification contracts.
+
+Together:
+
+~~~text
+ARCH-001
+Authority / Evidence
+      ↓
+ARCH-002
+System / Domain / Interface
+      ↓
+ARCH-003
+Operations / Security / Resilience / Verification
+~~~
+
+These contracts remain architectural SSOTs. Implementation status MUST still be established from component repositories and exact-SHA evidence.
