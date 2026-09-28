@@ -15,7 +15,7 @@ use std::{
 
 const CHAIN_ID: u64 = atc_blockchain::chain_identity::NUMERIC_CHAIN_ID;
 const GENESIS_BALANCE: u64 = 1_000_000;
-const TRANSFER_AMOUNT: u64 = 1_000;
+const TRANSFER_AMOUNT: u128 = 1_000;
 const GAS_PRICE: u64 = 1;
 const GAS_LIMIT: u64 = 1_000;
 
