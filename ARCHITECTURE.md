@@ -1767,3 +1767,821 @@ Every state domain must have exactly one authoritative owner for writes/commit s
 All cross-domain writes must cross a declared, versioned interface with authentication/authorization, schema validation, replay/idempotency rules and audit semantics. Events are transport/integration artifacts unless their target domain explicitly defines them as authoritative inputs.
 
 This gate is an architecture consistency contract. It does not claim that the listed contracts are implemented or CI/E2E verified.
+
+---
+
+# ARCH-002 — Detailed System Architecture Contract
+
+This section expands the master architecture into explicit layers, planes, domains, authority boundaries, lifecycle stages, interfaces, state ownership, failure handling, security, observability, deployment and evidence rules.
+
+It is a normative target-architecture and boundary contract. It does not imply that every described component is implemented.
+
+## 1. Architecture Model
+
+The system is organized across four orthogonal dimensions:
+
+1. Layers — architectural responsibility and dependency direction.
+2. Planes — cross-cutting capabilities.
+3. Domains — authoritative ownership boundaries.
+4. Evidence — independent proof dimensions.
+
+These dimensions MUST NOT be conflated.
+
+~~~text
+SYSTEM ARCHITECTURE
+        |
+  +-----+------+----------------+
+  |            |                |
+LAYERS       PLANES           DOMAINS
+  |            |                |
+responsibility cross-cutting   state/authority
+  +------------+----------------+
+               |
+       INTERFACE CONTRACTS
+               |
+         EVIDENCE CONTRACT
+~~~
+
+## 2. Canonical Layer Contract
+
+### L0 — Foundation / Host / Network
+
+Owns host assumptions, transport, platform capabilities and hardware-facing interfaces. L0 MUST NOT define application semantics.
+
+### L1 — Data / Persistence
+
+Owns durable storage, committed-state persistence, snapshots, journals, recovery, historical reads and derived read models. L1 MUST NOT decide blockchain finality.
+
+### L2 — Blockchain / Protocol / Consensus
+
+Owns transactions, authorization, mempool admission, block proposal, validation, peer protocol, validator participation, consensus and finality. L2 owns blockchain finality authority.
+
+### L3 — Deterministic Execution / ATC-VM
+
+Owns bytecode verification, deterministic execution, resource accounting, contract state-transition calculation, host interfaces, limits and execution receipts. L3 produces candidate transitions and MUST NOT independently finalize blockchain state.
+
+### L4 — Scaling / Execution Domains
+
+Owns execution domains, partitioned/parallel execution where defined, domain-local ordering and settlement interfaces. Every L4 domain MUST define its relationship to L2 canonical state.
+
+### L5 — Protocol / Economic Domains
+
+Owns monetary policy implementation, rewards, staking, slashing, treasury and protocol economic services. Economic state MUST define its authoritative owner, units and numeric types.
+
+### L6 — Intelligence / AI
+
+Owns models, inference, planning, retrieval, agents, multimodal processing and domain intelligence. L6 output is non-authoritative by default.
+
+### L7 — Applications / Experience
+
+Owns wallets, explorers, Genesis applications, editor UX, developer tooling and presentation. L7 MUST NOT bypass lower-layer authority boundaries.
+
+## 3. Cross-Layer X Plane
+
+X is a cross-cutting control plane, not an execution layer.
+
+~~~text
+Identity
+  |
+Authentication
+  |
+Authorization
+  |
+Capability
+  |
+Policy
+  |
+Approval
+  |
+Audit / Evidence
+~~~
+
+X may constrain or authorize operations in L1-L7 but MUST NOT silently become owner of another domain's canonical state.
+
+## 4. Authority Model
+
+Authority follows canonical state ownership, not UI position, model capability or orchestration centrality.
+
+~~~text
+Human / Governance
+        |
+Policy / Approval
+        |
+Target Domain Authority
+   +----+-----+-------+-------+
+   |          |       |       |
+ Chain       VM    Genesis    OS
+ consensus execution runtime services
+   |          |       |       |
+ finality  transition state   policy
+~~~
+
+Aurora MAY propose and orchestrate actions but MUST NOT become an implicit global authority.
+
+## 5. Canonical Blockchain Lifecycle
+
+~~~text
+Construct Transaction
+        |
+Canonical Encoding
+        |
+Signature / Authorization
+        |
+Admission / Validation
+        |
+Mempool
+        |
+Block Proposal
+        |
+Block Validation
+        |
+ATC-VM Candidate Execution
+        |
+Execution Receipt
+        |
+Consensus / Validator Voting
+        |
+Finality / Commit
+        |
+Canonical State Update
+        |
+Durable Persistence
+        |
+Indexing / Read Models
+        |
+External Observation
+~~~
+
+A mempool transaction is not final. A VM result is not final. A persisted candidate is not canonical protocol state unless the commit contract establishes it as such.
+
+## 6. Canonical Block Lifecycle
+
+~~~text
+RECEIVED
+   |
+VALIDATING
+   |
+VALID
+   |
+PROPOSED
+   |
+VOTING
+   |
+FINALIZED
+   |
+COMMITTED
+   |
+PERSISTED
+   |
+INDEXED
+~~~
+
+Rejected or failed blocks MUST NOT transition to FINALIZED.
+
+## 7. State Machine Contract
+
+Every authoritative state domain MUST define:
+
+- state identifier;
+- owner;
+- version;
+- schema;
+- allowed transitions;
+- transition authority;
+- invariants;
+- persistence boundary;
+- recovery rule;
+- migration rule;
+- event contract;
+- audit requirements.
+
+Canonical transition:
+
+~~~text
+Previous State
+      |
+Authorized Input
+      |
+Validation
+      |
+Deterministic Transition
+      |
+Invariant Check
+      |
+Commit Decision
+      |
+New Canonical State
+~~~
+
+No component may mutate another domain's canonical state through an undocumented side channel.
+
+## 8. State Ownership
+
+| State | Authoritative owner | Consumers |
+|---|---|---|
+| Consensus state | Chain / L2 | nodes, indexers, explorers |
+| Contract execution state | protocol-defined chain/VM state owner | nodes, contracts |
+| Persistent chain data | L1 storage | nodes, indexers |
+| Economic protocol state | designated L5/chain domain | chain, wallets, applications |
+| Wallet local state | wallet | user applications |
+| Genesis world state | Genesis Engine | Aurora, clients, tools |
+| Quest state | Genesis/Quest runtime | Quest AI, UI |
+| Dialogue context | Dialogue subsystem | Aurora/agents |
+| AI working memory | Aurora/runtime | agents |
+| OS service state | GlobusOS | services/applications |
+| Kernel state | ShivaCore | GlobusOS |
+| Index state | indexer | explorer/API |
+| Cache state | owning service | consumers |
+
+Derived state MUST remain subordinate to its authoritative source.
+
+## 9. Event Architecture
+
+Events are not automatically authoritative.
+
+~~~text
+Authoritative State Transition
+          |
+        Commit
+          |
+    Canonical Event
+          |
+       Transport
+          |
+       Consumers
+          |
+ Derived State / Actions
+~~~
+
+Cross-domain events SHOULD define event ID, type, schema version, source domain, source entity, source state version, sequence information, correlation ID, causation ID, authorization context and integrity metadata.
+
+Consumers MUST implement the applicable replay, deduplication and idempotency contract.
+
+## 10. Command vs Event
+
+~~~text
+COMMAND = requested state transition
+        |
+ Authorization
+        |
+ Validation
+        |
+ Execution
+        |
+ Commit
+        |
+EVENT = accepted transition occurred
+~~~
+
+A command is intent. An event is evidence of an accepted transition. An event MUST NOT become authorization merely because it exists.
+
+## 11. Interface Contract
+
+Every cross-domain interface MUST define owner, consumer, version, transport, schema, authentication, authorization, capabilities, timeout, retry semantics, idempotency, ordering, error model, compatibility, deprecation, observability and security requirements.
+
+Supported interface classes include synchronous API, asynchronous command, event stream, IPC, P2P protocol, storage contract, ABI and developer interface.
+
+No integration MAY depend on undocumented internal implementation details of another repository.
+
+## 12. Dependency Direction
+
+The numeric layer order is NOT a runtime execution sequence.
+
+Dependency direction is:
+
+~~~text
+Foundation
+    ^
+Kernel / OS
+    ^
+Protocol / Chain
+    ^
+Execution
+    ^
+Domain Services
+    ^
+Applications
+    ^
+Experience
+~~~
+
+The arrow means dependency on the lower boundary.
+
+Forbidden authority cycles include:
+- Genesis depending on Aurora as state authority.
+- Aurora depending on Genesis as global authority.
+- Chain depending on Explorer.
+- Explorer becoming Chain authority.
+- Storage becoming Consensus authority.
+- UI becoming protocol authority.
+- Indexer becoming canonical state owner.
+
+## 13. ATC-VM Boundary
+
+Canonical contract path:
+
+~~~text
+ATCLang
+   |
+ATC-IR / ABI
+   |
+ATC Bytecode
+   |
+Verifier
+   |
+ATC-VM
+   |
+Deterministic Host Interface
+   |
+Candidate State Transition
+~~~
+
+The VM contract MUST define bytecode validity, instruction limits, stack/memory/storage limits, gas/resource limits, deterministic host calls, rollback semantics, error semantics and execution receipts.
+
+ShivaCore MUST NOT be treated as a substitute for the canonical contract VM.
+
+## 14. Genesis Engine Boundary
+
+Genesis owns authoritative Genesis application/game state.
+
+~~~text
+Input / Player Action
+        |
+Command Validation
+        |
+Game Rules
+        |
+Simulation
+        |
+Quest / Dialogue / World Systems
+        |
+State Transition
+        |
+Invariant Validation
+        |
+Committed Game State
+        |
+Persistence
+        |
+Events / Replication / Presentation
+~~~
+
+AI operates around the runtime:
+
+~~~text
+Aurora / AI
+   |
+propose / plan / generate
+   |
+Genesis Authority
+   |
+validate
+   |
+execute
+   |
+commit
+~~~
+
+AI MUST NOT directly mutate canonical Genesis state without the declared runtime authority boundary.
+
+## 15. Aurora Authority Flow
+
+~~~text
+Model Output
+    |
+Agent Intent
+    |
+Capability Check
+    |
+Policy Evaluation
+    |
+Approval if required
+    |
+Tool Authorization
+    |
+Tool Execution
+    |
+Target Domain Validation
+    |
+Target Domain Commit
+    |
+Audit / Evidence
+~~~
+
+Model output MUST be treated as untrusted input to the authority plane.
+
+## 16. Memory Contract
+
+Memory classes are distinct:
+
+1. Working memory.
+2. Episodic memory.
+3. Semantic memory.
+4. Retrieval index.
+5. Knowledge graph.
+6. Provenance.
+7. Canonical domain state.
+
+Only the target domain's canonical state is authoritative by default. AI memory MUST NOT silently overwrite Chain, Genesis, OS or kernel state.
+
+## 17. Security Architecture
+
+~~~text
+Hardware / Root of Trust
+        |
+Boot / Platform Integrity
+        |
+ShivaCore Isolation
+        |
+GlobusOS Policy / IPC
+        |
+Identity
+        |
+Capability
+        |
+Authorization
+        |
+Protocol / Application Validation
+        |
+Audit / Evidence
+~~~
+
+Security controls MUST follow least privilege. Capabilities MUST be explicit. Ambient authority MUST NOT be assumed. Hardware-backed claims require hardware-specific evidence.
+
+## 18. Identity Architecture
+
+Security-sensitive principals MAY include human, user, organization, service, node, validator, wallet, contract, agent, model, tool, device and kernel/service principals.
+
+Identity does not grant authority.
+
+~~~text
+Identity
+  |
+Authentication
+  |
+Principal Resolution
+  |
+Capability
+  |
+Policy
+  |
+Authorization
+  |
+Action
+  |
+Audit
+~~~
+
+## 19. Failure and Recovery
+
+Every authoritative domain MUST define behavior for invalid input, authorization failure, execution failure, timeout, transport failure, partial failure, storage failure, consensus failure, dependency failure, replay, duplicate delivery, version mismatch and corrupted state.
+
+Recovery:
+
+~~~text
+Detect Failure
+    |
+Stop Unsafe Progress
+    |
+Recover / Replay
+    |
+Validate Invariants
+    |
+Re-establish Canonical State
+    |
+Resume
+    |
+Emit Evidence
+~~~
+
+Recovery MUST NOT silently promote unverified state to canonical state.
+
+## 20. Observability
+
+Critical transitions SHOULD carry correlated request ID, transaction ID, block ID, state version, event ID, command ID, agent run ID, tool invocation ID, trace ID, source SHA and deployment/version ID where applicable.
+
+Observability distinguishes:
+
+- logs;
+- metrics;
+- traces;
+- audit;
+- provenance;
+- test evidence;
+- CI evidence;
+- E2E evidence.
+
+Operational telemetry is not a substitute for correctness evidence.
+
+## 21. Versioning and Compatibility
+
+Externally consumed contracts MUST define compatibility policy.
+
+Versioned artifacts include APIs, ABIs, transaction encoding, signing domains, event schemas, state schemas, VM bytecode formats, network protocols, IPC contracts and tool schemas.
+
+Breaking changes MUST define migration, compatibility window, rollback strategy, activation condition and evidence requirement.
+
+## 22. Deployment Lifecycle
+
+~~~text
+Source
+  |
+Build
+  |
+Artifact
+  |
+Verification
+  |
+Release
+  |
+Deployment
+  |
+Health Validation
+  |
+Operational Evidence
+~~~
+
+Every release artifact MUST identify its source revision. Deployment success does not prove protocol correctness.
+
+## 23. Repository Architecture
+
+Standalone First, Ecosystem Second:
+
+~~~text
+Component Repository
+        |
+ Source / Build / Tests / Release / API-ABI
+        |
+        v
+Ecosystem Integration
+        |
+        v
+System-Level Evidence
+~~~
+
+Core repositories MUST retain their own implementation, build, tests, release and API/ABI SSOT.
+
+The ecosystem repository MUST NOT become a hidden build dependency of a core repository.
+
+## 24. Governance Architecture
+
+~~~text
+atc-standards
+      |
+Standards / Contracts
+      |
+Component Implementation
+      |
+Component Verification
+      |
+Ecosystem Integration
+      |
+System Evidence
+~~~
+
+Governance, security, architecture, implementation and release authority SHOULD remain separated where required by the applicable standards.
+
+## 25. Evidence Architecture
+
+Evidence dimensions are independent:
+
+| Dimension | Meaning |
+|---|---|
+| PRESENT | artifact exists |
+| SPECIFIED | contract is defined |
+| IMPLEMENTED | source matches contract |
+| TESTED | relevant tests exist and pass |
+| CI_VERIFIED | required CI passed for exact SHA |
+| INTEGRATED | declared interface is connected |
+| E2E_VERIFIED | declared end-to-end path passed |
+| RELEASED | release gate passed |
+| DEPLOYED | artifact deployed |
+| OPERATIONAL | runtime evidence demonstrates operation |
+
+Thus:
+
+~~~text
+File exists
+   != Implementation
+   != Tested
+   != Exact-SHA CI
+   != E2E
+   != Released
+   != Operational
+~~~
+
+## 26. Canonical End-to-End Paths
+
+### Blockchain
+
+~~~text
+SDK
+ |
+Wallet / Signing
+ |
+Node
+ |
+Mempool
+ |
+Validation
+ |
+Consensus
+ |
+ATC-VM
+ |
+State Transition
+ |
+Finality
+ |
+Storage
+ |
+Indexer
+ |
+Explorer / API
+~~~
+
+### AI Action
+
+~~~text
+User / Event
+ |
+Aurora Context
+ |
+Model
+ |
+Agent
+ |
+Plan
+ |
+Capability
+ |
+Policy
+ |
+Approval
+ |
+Tool
+ |
+Target Domain
+ |
+Validation
+ |
+Commit
+ |
+Audit
+~~~
+
+### Genesis
+
+~~~text
+Player / World Event
+ |
+Genesis Input
+ |
+Simulation / Rules
+ |
+AI Proposal where applicable
+ |
+Validation
+ |
+Authoritative Runtime
+ |
+Committed Game State
+ |
+Persistence
+ |
+Events
+ |
+Presentation
+~~~
+
+### OS
+
+~~~text
+Application
+ |
+GlobusOS Service
+ |
+IPC / Capability
+ |
+Policy
+ |
+ShivaCore
+ |
+Hardware
+~~~
+
+## 27. Cross-System Invariants
+
+1. Exactly one authoritative owner per canonical state domain.
+2. No AI component receives implicit super-authority.
+3. No UI component becomes protocol authority.
+4. No indexer becomes canonical state authority.
+5. No storage component decides consensus finality.
+6. No VM execution result is final without the applicable finality/commit rule.
+7. No cross-domain write bypasses its declared interface.
+8. No event is treated as authorization without an explicit contract.
+9. No implementation claim is inferred from architecture text.
+10. No CI claim is valid without exact-SHA association.
+11. No E2E claim is valid without exercising the declared path.
+12. No hardware-backed claim is valid without hardware evidence.
+13. No core repository silently depends on the ecosystem repository.
+14. No duplicate implementation silently becomes a second SSOT.
+15. Canonical state migrations MUST define compatibility and recovery.
+
+## 28. Architecture Change Gate
+
+~~~text
+Proposal
+  |
+Affected Domains
+  |
+Authority Analysis
+  |
+SSOT Analysis
+  |
+Dependency Analysis
+  |
+State / Migration Analysis
+  |
+Security Analysis
+  |
+Interface / Compatibility Analysis
+  |
+Implementation Plan
+  |
+Tests
+  |
+Exact-SHA CI
+  |
+Integration
+  |
+E2E where applicable
+  |
+Architecture Evidence
+~~~
+
+Documentation-only changes MUST NOT be presented as implementation changes.
+
+## 29. Architectural Completeness
+
+A domain contract is complete when it defines, at minimum:
+
+Identity, Purpose, Scope, Owner, Authority, SSOT, State, Inputs, Outputs, Interfaces, Events, Security, Capabilities, Policies, Failure, Recovery, Versioning, Migration, Observability, Lifecycle and Evidence.
+
+Architectural completeness does not imply implementation completeness.
+
+## 30. Master Dependency View
+
+~~~text
+                         HUMAN / GOVERNANCE
+                                |
+                         Policy / Approval
+                                |
+          +---------------------+---------------------+
+          |                     |                     |
+       AURORA                GENESIS               CHAIN
+    Intelligence          Game Runtime          L2 Protocol
+          |                     |              +-----+-----+
+          |                     |              |           |
+          |                     |          Consensus      L3 VM
+          |                     |              |           |
+          |                     |              +-----+-----+
+          |                     |                    |
+          |                     |                 Finality
+          |                     |                    |
+          |                     |              Canonical State
+          |                     |                    |
+          |                     |                L1 Storage
+          |                     |
+          v                     v
+      GlobusOS            Genesis State
+          |                     |
+          v                     v
+      ShivaCore           Persistence
+          |
+          v
+       Hardware
+~~~
+
+This diagram describes authority/dependency boundaries, not a claim that every arrow is a direct runtime call.
+
+## 31. Conflict Resolution Precedence
+
+When architecture sections appear to conflict, resolution MUST follow:
+
+1. Explicit authority contract.
+2. State ownership contract.
+3. Canonical interface / ABI contract.
+4. Layer responsibility.
+5. Domain runtime contract.
+6. Integration contract.
+7. Descriptive diagram.
+8. Non-normative example.
+
+A diagram MUST NOT override a normative authority or state-ownership rule.
+
+## 32. Master Rule
+
+Authority follows the canonical state owner and its declared commit contract.
+
+Execution, intelligence, storage, indexing and presentation remain subordinate to that authority boundary.
