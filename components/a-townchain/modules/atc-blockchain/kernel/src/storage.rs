@@ -19,7 +19,7 @@ const FINALITY_MAGIC: &[u8] = b"ATCF1";
 const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
-type ValidatorSnapshot = (u64, BTreeMap<String, (u128, [u8; 32])>);
+type ValidatorSnapshot = (BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>);
 type SlashingRecord = (u64, String, [u8; 32], u128);
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
@@ -608,6 +608,7 @@ impl ChainStorage {
             let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
             let n = u32::from_be_bytes(fixed::<4>(&b, &mut q)?) as usize;
             let mut validators = BTreeMap::new();
+            let mut keys = BTreeMap::new();
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec())
                     .map_err(|_| "invalid validator address")?;
@@ -618,14 +619,15 @@ impl ChainStorage {
                 if address.is_empty() || stake == 0 {
                     return Err("invalid validator record".into());
                 }
-                if validators.insert(address, (stake, public_key)).is_some() {
+                if validators.insert(address.clone(), stake).is_some() {
                     return Err("duplicate validator record".into());
                 }
+                keys.insert(address, public_key);
             }
             if q != b.len() {
                 return Err("trailing validator bytes".into());
             }
-            latest = Some((h, validators));
+            latest = Some((h, (validators, keys)));
         }
         Ok(latest)
     }
@@ -659,11 +661,16 @@ impl ChainStorage {
             let mut keys = BTreeMap::new();
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec()).map_err(|_| "invalid validator address")?;
-                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let stake = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let public_key = fixed::<32>(&b, &mut q)?;
-                ed25519_dalek::VerifyingKey::from_bytes(&public_key).map_err(|_| "invalid validator public key")?;
-                if address.is_empty() || stake == 0 { return Err("invalid validator record".into()); }
-                if validators.insert(address.clone(), stake).is_some() { return Err("duplicate validator record".into()); }
+                ed25519_dalek::VerifyingKey::from_bytes(&public_key)
+                    .map_err(|_| "invalid validator public key")?;
+                if address.is_empty() || stake == 0 {
+                    return Err("invalid validator record".into());
+                }
+                if validators.insert(address.clone(), stake).is_some() {
+                    return Err("duplicate validator record".into());
+                }
                 keys.insert(address, public_key);
             }
             if q != b.len() { return Err("trailing validator bytes".into()); }
