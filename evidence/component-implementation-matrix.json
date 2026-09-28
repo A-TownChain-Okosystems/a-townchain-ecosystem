@@ -1,5 +1,5 @@
 {
-  "schema_version": "AICP-001.2",
+  "schema_version": "AICP-001.3",
   "matrix_id": "COMPONENT-001",
   "generated_at": "2026-09-28",
   "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -8505,6 +8505,5123 @@
       "domain": "Standard Functions",
       "component": "Contract Runtime",
       "function": "ABI Return Decode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.CPU-CONTEXT",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "CPU Context",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.REGISTER-CONTEXT",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Register Context",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.PRIVILEGE-LEVEL",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Privilege Level",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.INTERRUPT-MASK",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Interrupt Mask",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.INTERRUPT-DISPATCH",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Interrupt Dispatch",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.EXCEPTION-DISPATCH",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Exception Dispatch",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.SYSTEM-CALL-ENTRY",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "System Call Entry",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.SYSTEM-CALL-RETURN",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "System Call Return",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.SCHEDULER-YIELD",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Scheduler Yield",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.THREAD-SWITCH",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Thread Switch",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.ATOMIC-OPERATION",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Atomic Operation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.SPINLOCK",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Spinlock",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.MUTEX",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Mutex",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.READ-WRITE-LOCK",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Read Write Lock",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.WAIT-QUEUE",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Wait Queue",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.TIMER-QUEUE",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Timer Queue",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.CPU-AFFINITY",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "CPU Affinity",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.PREEMPTION-CONTROL",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Preemption Control",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.KERNEL-PANIC",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Kernel Panic",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-PRIMITIVES.KERNEL-ASSERTION",
+      "domain": "Standard Functions",
+      "component": "Kernel Primitives",
+      "function": "Kernel Assertion",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.PAGE-ALLOCATE",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "Page Allocate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.PAGE-FREE",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "Page Free",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.PAGE-MAP",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "Page Map",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.PAGE-UNMAP",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "Page Unmap",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.PAGE-PROTECT",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "Page Protect",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.ADDRESS-SPACE-CREATE",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "Address Space Create",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.ADDRESS-SPACE-DESTROY",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "Address Space Destroy",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.VIRTUAL-ADDRESS-VALIDATE",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "Virtual Address Validate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.PHYSICAL-ADDRESS-VALIDATE",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "Physical Address Validate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.MEMORY-ZERO",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "Memory Zero",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.MEMORY-COPY",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "Memory Copy",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.DMA-MAPPING",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "DMA Mapping",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.CACHE-FLUSH",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "Cache Flush",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.TLB-INVALIDATE",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "TLB Invalidate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-MEMORY.GUARD-PAGE",
+      "domain": "Standard Functions",
+      "component": "Kernel Memory",
+      "function": "Guard Page",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-IPC.CHANNEL-CREATE",
+      "domain": "Standard Functions",
+      "component": "Kernel IPC",
+      "function": "Channel Create",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-IPC.CHANNEL-CLOSE",
+      "domain": "Standard Functions",
+      "component": "Kernel IPC",
+      "function": "Channel Close",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-IPC.MESSAGE-SEND",
+      "domain": "Standard Functions",
+      "component": "Kernel IPC",
+      "function": "Message Send",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-IPC.MESSAGE-RECEIVE",
+      "domain": "Standard Functions",
+      "component": "Kernel IPC",
+      "function": "Message Receive",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-IPC.MESSAGE-PEEK",
+      "domain": "Standard Functions",
+      "component": "Kernel IPC",
+      "function": "Message Peek",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-IPC.ENDPOINT-BIND",
+      "domain": "Standard Functions",
+      "component": "Kernel IPC",
+      "function": "Endpoint Bind",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-IPC.ENDPOINT-UNBIND",
+      "domain": "Standard Functions",
+      "component": "Kernel IPC",
+      "function": "Endpoint Unbind",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-IPC.SHARED-MEMORY-MAP",
+      "domain": "Standard Functions",
+      "component": "Kernel IPC",
+      "function": "Shared Memory Map",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-IPC.CAPABILITY-TRANSFER",
+      "domain": "Standard Functions",
+      "component": "Kernel IPC",
+      "function": "Capability Transfer",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-IPC.IPC-TIMEOUT",
+      "domain": "Standard Functions",
+      "component": "Kernel IPC",
+      "function": "IPC Timeout",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-IPC.IPC-CANCELLATION",
+      "domain": "Standard Functions",
+      "component": "Kernel IPC",
+      "function": "IPC Cancellation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-IPC.IPC-BACKPRESSURE",
+      "domain": "Standard Functions",
+      "component": "Kernel IPC",
+      "function": "IPC Backpressure",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-CAPABILITY.CAPABILITY-CREATE",
+      "domain": "Standard Functions",
+      "component": "Kernel Capability",
+      "function": "Capability Create",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-CAPABILITY.CAPABILITY-DERIVE",
+      "domain": "Standard Functions",
+      "component": "Kernel Capability",
+      "function": "Capability Derive",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-CAPABILITY.CAPABILITY-RESTRICT",
+      "domain": "Standard Functions",
+      "component": "Kernel Capability",
+      "function": "Capability Restrict",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-CAPABILITY.CAPABILITY-REVOKE",
+      "domain": "Standard Functions",
+      "component": "Kernel Capability",
+      "function": "Capability Revoke",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-CAPABILITY.CAPABILITY-VALIDATE",
+      "domain": "Standard Functions",
+      "component": "Kernel Capability",
+      "function": "Capability Validate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-CAPABILITY.OBJECT-REFERENCE",
+      "domain": "Standard Functions",
+      "component": "Kernel Capability",
+      "function": "Object Reference",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-CAPABILITY.HANDLE-ALLOCATE",
+      "domain": "Standard Functions",
+      "component": "Kernel Capability",
+      "function": "Handle Allocate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-CAPABILITY.HANDLE-CLOSE",
+      "domain": "Standard Functions",
+      "component": "Kernel Capability",
+      "function": "Handle Close",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-CAPABILITY.AUTHORITY-CHECK",
+      "domain": "Standard Functions",
+      "component": "Kernel Capability",
+      "function": "Authority Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-CAPABILITY.NAMESPACE-ISOLATION",
+      "domain": "Standard Functions",
+      "component": "Kernel Capability",
+      "function": "Namespace Isolation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-SECURITY.SECURE-RANDOM",
+      "domain": "Standard Functions",
+      "component": "Kernel Security",
+      "function": "Secure Random",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-SECURITY.CONSTANT-TIME-OPERATION",
+      "domain": "Standard Functions",
+      "component": "Kernel Security",
+      "function": "Constant Time Operation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-SECURITY.STACK-CANARY-CHECK",
+      "domain": "Standard Functions",
+      "component": "Kernel Security",
+      "function": "Stack Canary Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-SECURITY.CONTROL-FLOW-VALIDATION",
+      "domain": "Standard Functions",
+      "component": "Kernel Security",
+      "function": "Control Flow Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-SECURITY.MEMORY-ISOLATION-CHECK",
+      "domain": "Standard Functions",
+      "component": "Kernel Security",
+      "function": "Memory Isolation Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-SECURITY.PRIVILEGE-BOUNDARY-CHECK",
+      "domain": "Standard Functions",
+      "component": "Kernel Security",
+      "function": "Privilege Boundary Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-SECURITY.SECURE-CONTEXT-SWITCH",
+      "domain": "Standard Functions",
+      "component": "Kernel Security",
+      "function": "Secure Context Switch",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-SECURITY.KEY-HANDLE-PROTECTION",
+      "domain": "Standard Functions",
+      "component": "Kernel Security",
+      "function": "Key Handle Protection",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-SECURITY.ZEROIZE-SENSITIVE-MEMORY",
+      "domain": "Standard Functions",
+      "component": "Kernel Security",
+      "function": "Zeroize Sensitive Memory",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.KERNEL-SECURITY.FAULT-ISOLATION",
+      "domain": "Standard Functions",
+      "component": "Kernel Security",
+      "function": "Fault Isolation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PROCESS.PROCESS-CREATE",
+      "domain": "Standard Functions",
+      "component": "OS Process",
+      "function": "Process Create",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PROCESS.PROCESS-TERMINATE",
+      "domain": "Standard Functions",
+      "component": "OS Process",
+      "function": "Process Terminate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PROCESS.PROCESS-SUSPEND",
+      "domain": "Standard Functions",
+      "component": "OS Process",
+      "function": "Process Suspend",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PROCESS.PROCESS-RESUME",
+      "domain": "Standard Functions",
+      "component": "OS Process",
+      "function": "Process Resume",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PROCESS.THREAD-CREATE",
+      "domain": "Standard Functions",
+      "component": "OS Process",
+      "function": "Thread Create",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PROCESS.THREAD-TERMINATE",
+      "domain": "Standard Functions",
+      "component": "OS Process",
+      "function": "Thread Terminate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PROCESS.THREAD-JOIN",
+      "domain": "Standard Functions",
+      "component": "OS Process",
+      "function": "Thread Join",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PROCESS.PROCESS-WAIT",
+      "domain": "Standard Functions",
+      "component": "OS Process",
+      "function": "Process Wait",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PROCESS.PROCESS-SIGNAL",
+      "domain": "Standard Functions",
+      "component": "OS Process",
+      "function": "Process Signal",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PROCESS.PROCESS-ENVIRONMENT",
+      "domain": "Standard Functions",
+      "component": "OS Process",
+      "function": "Process Environment",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-MEMORY.HEAP-ALLOCATE",
+      "domain": "Standard Functions",
+      "component": "OS Memory",
+      "function": "Heap Allocate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-MEMORY.HEAP-FREE",
+      "domain": "Standard Functions",
+      "component": "OS Memory",
+      "function": "Heap Free",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-MEMORY.VIRTUAL-MEMORY-ALLOCATE",
+      "domain": "Standard Functions",
+      "component": "OS Memory",
+      "function": "Virtual Memory Allocate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-MEMORY.VIRTUAL-MEMORY-FREE",
+      "domain": "Standard Functions",
+      "component": "OS Memory",
+      "function": "Virtual Memory Free",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-MEMORY.MEMORY-MAPPING",
+      "domain": "Standard Functions",
+      "component": "OS Memory",
+      "function": "Memory Mapping",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-MEMORY.MEMORY-UNMAPPING",
+      "domain": "Standard Functions",
+      "component": "OS Memory",
+      "function": "Memory Unmapping",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-MEMORY.COPY-FROM-USER",
+      "domain": "Standard Functions",
+      "component": "OS Memory",
+      "function": "Copy From User",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-MEMORY.COPY-TO-USER",
+      "domain": "Standard Functions",
+      "component": "OS Memory",
+      "function": "Copy To User",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-MEMORY.USER-BUFFER-VALIDATION",
+      "domain": "Standard Functions",
+      "component": "OS Memory",
+      "function": "User Buffer Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-MEMORY.MEMORY-PRESSURE-HANDLING",
+      "domain": "Standard Functions",
+      "component": "OS Memory",
+      "function": "Memory Pressure Handling",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.FILE-OPEN",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "File Open",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.FILE-CLOSE",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "File Close",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.FILE-READ",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "File Read",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.FILE-WRITE",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "File Write",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.FILE-SEEK",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "File Seek",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.FILE-STAT",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "File Stat",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.FILE-RENAME",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "File Rename",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.FILE-DELETE",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "File Delete",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.DIRECTORY-OPEN",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "Directory Open",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.DIRECTORY-READ",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "Directory Read",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.DIRECTORY-CREATE",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "Directory Create",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.PATH-NORMALIZE",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "Path Normalize",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.PATH-RESOLVE",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "Path Resolve",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.PERMISSION-CHECK",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "Permission Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-FILESYSTEM.FILE-LOCK",
+      "domain": "Standard Functions",
+      "component": "OS Filesystem",
+      "function": "File Lock",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-DEVICE.DEVICE-DISCOVER",
+      "domain": "Standard Functions",
+      "component": "OS Device",
+      "function": "Device Discover",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-DEVICE.DEVICE-OPEN",
+      "domain": "Standard Functions",
+      "component": "OS Device",
+      "function": "Device Open",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-DEVICE.DEVICE-CLOSE",
+      "domain": "Standard Functions",
+      "component": "OS Device",
+      "function": "Device Close",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-DEVICE.DEVICE-READ",
+      "domain": "Standard Functions",
+      "component": "OS Device",
+      "function": "Device Read",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-DEVICE.DEVICE-WRITE",
+      "domain": "Standard Functions",
+      "component": "OS Device",
+      "function": "Device Write",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-DEVICE.DEVICE-CONTROL",
+      "domain": "Standard Functions",
+      "component": "OS Device",
+      "function": "Device Control",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-DEVICE.DEVICE-INTERRUPT",
+      "domain": "Standard Functions",
+      "component": "OS Device",
+      "function": "Device Interrupt",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-DEVICE.DEVICE-DMA",
+      "domain": "Standard Functions",
+      "component": "OS Device",
+      "function": "Device DMA",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-DEVICE.DEVICE-POWER-STATE",
+      "domain": "Standard Functions",
+      "component": "OS Device",
+      "function": "Device Power State",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-NETWORKING.SOCKET-CREATE",
+      "domain": "Standard Functions",
+      "component": "OS Networking",
+      "function": "Socket Create",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-NETWORKING.SOCKET-BIND",
+      "domain": "Standard Functions",
+      "component": "OS Networking",
+      "function": "Socket Bind",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-NETWORKING.SOCKET-LISTEN",
+      "domain": "Standard Functions",
+      "component": "OS Networking",
+      "function": "Socket Listen",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-NETWORKING.SOCKET-ACCEPT",
+      "domain": "Standard Functions",
+      "component": "OS Networking",
+      "function": "Socket Accept",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-NETWORKING.SOCKET-CONNECT",
+      "domain": "Standard Functions",
+      "component": "OS Networking",
+      "function": "Socket Connect",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-NETWORKING.SOCKET-SEND",
+      "domain": "Standard Functions",
+      "component": "OS Networking",
+      "function": "Socket Send",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-NETWORKING.SOCKET-RECEIVE",
+      "domain": "Standard Functions",
+      "component": "OS Networking",
+      "function": "Socket Receive",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-NETWORKING.SOCKET-CLOSE",
+      "domain": "Standard Functions",
+      "component": "OS Networking",
+      "function": "Socket Close",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-NETWORKING.DNS-RESOLVE",
+      "domain": "Standard Functions",
+      "component": "OS Networking",
+      "function": "DNS Resolve",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-NETWORKING.ROUTE-LOOKUP",
+      "domain": "Standard Functions",
+      "component": "OS Networking",
+      "function": "Route Lookup",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-NETWORKING.NETWORK-INTERFACE-QUERY",
+      "domain": "Standard Functions",
+      "component": "OS Networking",
+      "function": "Network Interface Query",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-NETWORKING.PACKET-VALIDATION",
+      "domain": "Standard Functions",
+      "component": "OS Networking",
+      "function": "Packet Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-SERVICES.SERVICE-START",
+      "domain": "Standard Functions",
+      "component": "OS Services",
+      "function": "Service Start",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-SERVICES.SERVICE-STOP",
+      "domain": "Standard Functions",
+      "component": "OS Services",
+      "function": "Service Stop",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-SERVICES.SERVICE-RESTART",
+      "domain": "Standard Functions",
+      "component": "OS Services",
+      "function": "Service Restart",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-SERVICES.SERVICE-HEALTH-CHECK",
+      "domain": "Standard Functions",
+      "component": "OS Services",
+      "function": "Service Health Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-SERVICES.SERVICE-DEPENDENCY-RESOLVE",
+      "domain": "Standard Functions",
+      "component": "OS Services",
+      "function": "Service Dependency Resolve",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-SERVICES.CONFIGURATION-LOAD",
+      "domain": "Standard Functions",
+      "component": "OS Services",
+      "function": "Configuration Load",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-SERVICES.CONFIGURATION-RELOAD",
+      "domain": "Standard Functions",
+      "component": "OS Services",
+      "function": "Configuration Reload",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-SERVICES.SYSTEM-EVENT-DISPATCH",
+      "domain": "Standard Functions",
+      "component": "OS Services",
+      "function": "System Event Dispatch",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-SERVICES.SYSTEM-SHUTDOWN",
+      "domain": "Standard Functions",
+      "component": "OS Services",
+      "function": "System Shutdown",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-SERVICES.SYSTEM-REBOOT",
+      "domain": "Standard Functions",
+      "component": "OS Services",
+      "function": "System Reboot",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PACKAGE-UPDATE.PACKAGE-PARSE",
+      "domain": "Standard Functions",
+      "component": "OS Package Update",
+      "function": "Package Parse",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PACKAGE-UPDATE.PACKAGE-VERIFY",
+      "domain": "Standard Functions",
+      "component": "OS Package Update",
+      "function": "Package Verify",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PACKAGE-UPDATE.PACKAGE-INSTALL",
+      "domain": "Standard Functions",
+      "component": "OS Package Update",
+      "function": "Package Install",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PACKAGE-UPDATE.PACKAGE-REMOVE",
+      "domain": "Standard Functions",
+      "component": "OS Package Update",
+      "function": "Package Remove",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PACKAGE-UPDATE.DEPENDENCY-RESOLVE",
+      "domain": "Standard Functions",
+      "component": "OS Package Update",
+      "function": "Dependency Resolve",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PACKAGE-UPDATE.UPDATE-STAGE",
+      "domain": "Standard Functions",
+      "component": "OS Package Update",
+      "function": "Update Stage",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PACKAGE-UPDATE.UPDATE-VERIFY",
+      "domain": "Standard Functions",
+      "component": "OS Package Update",
+      "function": "Update Verify",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PACKAGE-UPDATE.UPDATE-ACTIVATE",
+      "domain": "Standard Functions",
+      "component": "OS Package Update",
+      "function": "Update Activate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PACKAGE-UPDATE.ROLLBACK",
+      "domain": "Standard Functions",
+      "component": "OS Package Update",
+      "function": "Rollback",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.OS-PACKAGE-UPDATE.SLOT-HEALTH-CHECK",
+      "domain": "Standard Functions",
+      "component": "OS Package Update",
+      "function": "Slot Health Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-CORE.TENSOR-ALLOCATE",
+      "domain": "Standard Functions",
+      "component": "AI Core",
+      "function": "Tensor Allocate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-CORE.TENSOR-DEALLOCATE",
+      "domain": "Standard Functions",
+      "component": "AI Core",
+      "function": "Tensor Deallocate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-CORE.TENSOR-SHAPE-VALIDATE",
+      "domain": "Standard Functions",
+      "component": "AI Core",
+      "function": "Tensor Shape Validate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-CORE.TENSOR-RESHAPE",
+      "domain": "Standard Functions",
+      "component": "AI Core",
+      "function": "Tensor Reshape",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-CORE.TENSOR-SLICE",
+      "domain": "Standard Functions",
+      "component": "AI Core",
+      "function": "Tensor Slice",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-CORE.TENSOR-CONCATENATE",
+      "domain": "Standard Functions",
+      "component": "AI Core",
+      "function": "Tensor Concatenate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-CORE.TENSOR-BROADCAST",
+      "domain": "Standard Functions",
+      "component": "AI Core",
+      "function": "Tensor Broadcast",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-CORE.TENSOR-TYPE-CONVERT",
+      "domain": "Standard Functions",
+      "component": "AI Core",
+      "function": "Tensor Type Convert",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-CORE.TENSOR-DEVICE-TRANSFER",
+      "domain": "Standard Functions",
+      "component": "AI Core",
+      "function": "Tensor Device Transfer",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-CORE.TENSOR-SYNCHRONIZE",
+      "domain": "Standard Functions",
+      "component": "AI Core",
+      "function": "Tensor Synchronize",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MATH.MATRIX-MULTIPLY",
+      "domain": "Standard Functions",
+      "component": "AI Math",
+      "function": "Matrix Multiply",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MATH.VECTOR-OPERATION",
+      "domain": "Standard Functions",
+      "component": "AI Math",
+      "function": "Vector Operation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MATH.REDUCTION",
+      "domain": "Standard Functions",
+      "component": "AI Math",
+      "function": "Reduction",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MATH.NORMALIZATION",
+      "domain": "Standard Functions",
+      "component": "AI Math",
+      "function": "Normalization",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MATH.SOFTMAX",
+      "domain": "Standard Functions",
+      "component": "AI Math",
+      "function": "Softmax",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MATH.ACTIVATION",
+      "domain": "Standard Functions",
+      "component": "AI Math",
+      "function": "Activation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MATH.ATTENTION",
+      "domain": "Standard Functions",
+      "component": "AI Math",
+      "function": "Attention",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MATH.EMBEDDING-LOOKUP",
+      "domain": "Standard Functions",
+      "component": "AI Math",
+      "function": "Embedding Lookup",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MATH.SAMPLING",
+      "domain": "Standard Functions",
+      "component": "AI Math",
+      "function": "Sampling",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MATH.TOP-K",
+      "domain": "Standard Functions",
+      "component": "AI Math",
+      "function": "Top K",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MATH.TOP-P",
+      "domain": "Standard Functions",
+      "component": "AI Math",
+      "function": "Top P",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MATH.LOGITS-PROCESSING",
+      "domain": "Standard Functions",
+      "component": "AI Math",
+      "function": "Logits Processing",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MODEL-RUNTIME.MODEL-LOAD",
+      "domain": "Standard Functions",
+      "component": "AI Model Runtime",
+      "function": "Model Load",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MODEL-RUNTIME.MODEL-UNLOAD",
+      "domain": "Standard Functions",
+      "component": "AI Model Runtime",
+      "function": "Model Unload",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MODEL-RUNTIME.MODEL-VALIDATE",
+      "domain": "Standard Functions",
+      "component": "AI Model Runtime",
+      "function": "Model Validate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MODEL-RUNTIME.MODEL-SELECT",
+      "domain": "Standard Functions",
+      "component": "AI Model Runtime",
+      "function": "Model Select",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MODEL-RUNTIME.MODEL-ROUTE",
+      "domain": "Standard Functions",
+      "component": "AI Model Runtime",
+      "function": "Model Route",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MODEL-RUNTIME.CONTEXT-WINDOW-CHECK",
+      "domain": "Standard Functions",
+      "component": "AI Model Runtime",
+      "function": "Context Window Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MODEL-RUNTIME.PROMPT-TOKENIZE",
+      "domain": "Standard Functions",
+      "component": "AI Model Runtime",
+      "function": "Prompt Tokenize",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MODEL-RUNTIME.TOKEN-DETOKENIZE",
+      "domain": "Standard Functions",
+      "component": "AI Model Runtime",
+      "function": "Token Detokenize",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MODEL-RUNTIME.INFERENCE-STEP",
+      "domain": "Standard Functions",
+      "component": "AI Model Runtime",
+      "function": "Inference Step",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MODEL-RUNTIME.INFERENCE-STREAM",
+      "domain": "Standard Functions",
+      "component": "AI Model Runtime",
+      "function": "Inference Stream",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MODEL-RUNTIME.BATCH-REQUESTS",
+      "domain": "Standard Functions",
+      "component": "AI Model Runtime",
+      "function": "Batch Requests",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MODEL-RUNTIME.KV-CACHE-MANAGE",
+      "domain": "Standard Functions",
+      "component": "AI Model Runtime",
+      "function": "KV Cache Manage",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MODEL-RUNTIME.MODEL-ADAPTER-LOAD",
+      "domain": "Standard Functions",
+      "component": "AI Model Runtime",
+      "function": "Model Adapter Load",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-AGENT.GOAL-PARSE",
+      "domain": "Standard Functions",
+      "component": "AI Agent",
+      "function": "Goal Parse",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-AGENT.PLAN-CREATE",
+      "domain": "Standard Functions",
+      "component": "AI Agent",
+      "function": "Plan Create",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-AGENT.PLAN-VALIDATE",
+      "domain": "Standard Functions",
+      "component": "AI Agent",
+      "function": "Plan Validate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-AGENT.ACTION-SELECT",
+      "domain": "Standard Functions",
+      "component": "AI Agent",
+      "function": "Action Select",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-AGENT.TOOL-SELECT",
+      "domain": "Standard Functions",
+      "component": "AI Agent",
+      "function": "Tool Select",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-AGENT.OBSERVATION-INGEST",
+      "domain": "Standard Functions",
+      "component": "AI Agent",
+      "function": "Observation Ingest",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-AGENT.STATE-UPDATE",
+      "domain": "Standard Functions",
+      "component": "AI Agent",
+      "function": "State Update",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-AGENT.MEMORY-READ",
+      "domain": "Standard Functions",
+      "component": "AI Agent",
+      "function": "Memory Read",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-AGENT.MEMORY-WRITE",
+      "domain": "Standard Functions",
+      "component": "AI Agent",
+      "function": "Memory Write",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-AGENT.REFLECTION-STEP",
+      "domain": "Standard Functions",
+      "component": "AI Agent",
+      "function": "Reflection Step",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-AGENT.TERMINATION-CHECK",
+      "domain": "Standard Functions",
+      "component": "AI Agent",
+      "function": "Termination Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-AGENT.LOOP-BUDGET-CHECK",
+      "domain": "Standard Functions",
+      "component": "AI Agent",
+      "function": "Loop Budget Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-SAFETY.INPUT-POLICY-CHECK",
+      "domain": "Standard Functions",
+      "component": "AI Safety",
+      "function": "Input Policy Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-SAFETY.OUTPUT-POLICY-CHECK",
+      "domain": "Standard Functions",
+      "component": "AI Safety",
+      "function": "Output Policy Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-SAFETY.TOOL-POLICY-CHECK",
+      "domain": "Standard Functions",
+      "component": "AI Safety",
+      "function": "Tool Policy Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-SAFETY.CAPABILITY-CHECK",
+      "domain": "Standard Functions",
+      "component": "AI Safety",
+      "function": "Capability Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-SAFETY.PROMPT-BOUNDARY-CHECK",
+      "domain": "Standard Functions",
+      "component": "AI Safety",
+      "function": "Prompt Boundary Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-SAFETY.CONTENT-CLASSIFICATION",
+      "domain": "Standard Functions",
+      "component": "AI Safety",
+      "function": "Content Classification",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-SAFETY.PII-DETECTION",
+      "domain": "Standard Functions",
+      "component": "AI Safety",
+      "function": "PII Detection",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-SAFETY.INJECTION-DETECTION",
+      "domain": "Standard Functions",
+      "component": "AI Safety",
+      "function": "Injection Detection",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-SAFETY.SAFETY-DECISION",
+      "domain": "Standard Functions",
+      "component": "AI Safety",
+      "function": "Safety Decision",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-SAFETY.HUMAN-ESCALATION",
+      "domain": "Standard Functions",
+      "component": "AI Safety",
+      "function": "Human Escalation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-RAG.DOCUMENT-INGEST",
+      "domain": "Standard Functions",
+      "component": "AI RAG",
+      "function": "Document Ingest",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-RAG.DOCUMENT-NORMALIZE",
+      "domain": "Standard Functions",
+      "component": "AI RAG",
+      "function": "Document Normalize",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-RAG.CHUNK-CREATE",
+      "domain": "Standard Functions",
+      "component": "AI RAG",
+      "function": "Chunk Create",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-RAG.CHUNK-VALIDATE",
+      "domain": "Standard Functions",
+      "component": "AI RAG",
+      "function": "Chunk Validate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-RAG.EMBEDDING-GENERATE",
+      "domain": "Standard Functions",
+      "component": "AI RAG",
+      "function": "Embedding Generate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-RAG.INDEX-INSERT",
+      "domain": "Standard Functions",
+      "component": "AI RAG",
+      "function": "Index Insert",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-RAG.INDEX-DELETE",
+      "domain": "Standard Functions",
+      "component": "AI RAG",
+      "function": "Index Delete",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-RAG.VECTOR-SEARCH",
+      "domain": "Standard Functions",
+      "component": "AI RAG",
+      "function": "Vector Search",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-RAG.KEYWORD-SEARCH",
+      "domain": "Standard Functions",
+      "component": "AI RAG",
+      "function": "Keyword Search",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-RAG.HYBRID-SEARCH",
+      "domain": "Standard Functions",
+      "component": "AI RAG",
+      "function": "Hybrid Search",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-RAG.RESULT-RANK",
+      "domain": "Standard Functions",
+      "component": "AI RAG",
+      "function": "Result Rank",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-RAG.CONTEXT-ASSEMBLE",
+      "domain": "Standard Functions",
+      "component": "AI RAG",
+      "function": "Context Assemble",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-RAG.CITATION-BIND",
+      "domain": "Standard Functions",
+      "component": "AI RAG",
+      "function": "Citation Bind",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MULTIMODAL.IMAGE-DECODE",
+      "domain": "Standard Functions",
+      "component": "AI Multimodal",
+      "function": "Image Decode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MULTIMODAL.IMAGE-ENCODE",
+      "domain": "Standard Functions",
+      "component": "AI Multimodal",
+      "function": "Image Encode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MULTIMODAL.AUDIO-DECODE",
+      "domain": "Standard Functions",
+      "component": "AI Multimodal",
+      "function": "Audio Decode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MULTIMODAL.AUDIO-ENCODE",
+      "domain": "Standard Functions",
+      "component": "AI Multimodal",
+      "function": "Audio Encode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MULTIMODAL.VIDEO-DECODE",
+      "domain": "Standard Functions",
+      "component": "AI Multimodal",
+      "function": "Video Decode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MULTIMODAL.VIDEO-ENCODE",
+      "domain": "Standard Functions",
+      "component": "AI Multimodal",
+      "function": "Video Encode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MULTIMODAL.MODALITY-DETECT",
+      "domain": "Standard Functions",
+      "component": "AI Multimodal",
+      "function": "Modality Detect",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MULTIMODAL.CROSS-MODAL-ALIGNMENT",
+      "domain": "Standard Functions",
+      "component": "AI Multimodal",
+      "function": "Cross Modal Alignment",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.AI-MULTIMODAL.MULTIMODAL-CONTEXT-MERGE",
+      "domain": "Standard Functions",
+      "component": "AI Multimodal",
+      "function": "Multimodal Context Merge",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-LEXER.SOURCE-READ",
+      "domain": "Standard Functions",
+      "component": "Programming Language Lexer",
+      "function": "Source Read",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-LEXER.UNICODE-TOKENIZE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Lexer",
+      "function": "Unicode Tokenize",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-LEXER.IDENTIFIER-TOKENIZE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Lexer",
+      "function": "Identifier Tokenize",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-LEXER.KEYWORD-TOKENIZE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Lexer",
+      "function": "Keyword Tokenize",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-LEXER.LITERAL-TOKENIZE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Lexer",
+      "function": "Literal Tokenize",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-LEXER.OPERATOR-TOKENIZE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Lexer",
+      "function": "Operator Tokenize",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-LEXER.DELIMITER-TOKENIZE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Lexer",
+      "function": "Delimiter Tokenize",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-LEXER.COMMENT-HANDLING",
+      "domain": "Standard Functions",
+      "component": "Programming Language Lexer",
+      "function": "Comment Handling",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-LEXER.WHITESPACE-HANDLING",
+      "domain": "Standard Functions",
+      "component": "Programming Language Lexer",
+      "function": "Whitespace Handling",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-LEXER.LEXER-ERROR-RECOVERY",
+      "domain": "Standard Functions",
+      "component": "Programming Language Lexer",
+      "function": "Lexer Error Recovery",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PARSER.TOKEN-STREAM",
+      "domain": "Standard Functions",
+      "component": "Programming Language Parser",
+      "function": "Token Stream",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PARSER.EXPRESSION-PARSE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Parser",
+      "function": "Expression Parse",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PARSER.STATEMENT-PARSE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Parser",
+      "function": "Statement Parse",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PARSER.DECLARATION-PARSE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Parser",
+      "function": "Declaration Parse",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PARSER.TYPE-PARSE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Parser",
+      "function": "Type Parse",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PARSER.PATTERN-PARSE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Parser",
+      "function": "Pattern Parse",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PARSER.MODULE-PARSE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Parser",
+      "function": "Module Parse",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PARSER.ATTRIBUTE-PARSE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Parser",
+      "function": "Attribute Parse",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PARSER.GENERIC-PARSE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Parser",
+      "function": "Generic Parse",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PARSER.SYNTAX-ERROR-RECOVERY",
+      "domain": "Standard Functions",
+      "component": "Programming Language Parser",
+      "function": "Syntax Error Recovery",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-SEMANTIC.NAME-RESOLUTION",
+      "domain": "Standard Functions",
+      "component": "Programming Language Semantic",
+      "function": "Name Resolution",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-SEMANTIC.SCOPE-RESOLUTION",
+      "domain": "Standard Functions",
+      "component": "Programming Language Semantic",
+      "function": "Scope Resolution",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-SEMANTIC.TYPE-CHECK",
+      "domain": "Standard Functions",
+      "component": "Programming Language Semantic",
+      "function": "Type Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-SEMANTIC.TYPE-INFERENCE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Semantic",
+      "function": "Type Inference",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-SEMANTIC.TRAIT-RESOLUTION",
+      "domain": "Standard Functions",
+      "component": "Programming Language Semantic",
+      "function": "Trait Resolution",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-SEMANTIC.OVERLOAD-RESOLUTION",
+      "domain": "Standard Functions",
+      "component": "Programming Language Semantic",
+      "function": "Overload Resolution",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-SEMANTIC.CONSTANT-EVALUATION",
+      "domain": "Standard Functions",
+      "component": "Programming Language Semantic",
+      "function": "Constant Evaluation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-SEMANTIC.EXHAUSTIVENESS-CHECK",
+      "domain": "Standard Functions",
+      "component": "Programming Language Semantic",
+      "function": "Exhaustiveness Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-SEMANTIC.BORROW-OWNERSHIP-CHECK",
+      "domain": "Standard Functions",
+      "component": "Programming Language Semantic",
+      "function": "Borrow/Ownership Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-SEMANTIC.EFFECT-CHECK",
+      "domain": "Standard Functions",
+      "component": "Programming Language Semantic",
+      "function": "Effect Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-SEMANTIC.VISIBILITY-CHECK",
+      "domain": "Standard Functions",
+      "component": "Programming Language Semantic",
+      "function": "Visibility Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-IR.AST-LOWERING",
+      "domain": "Standard Functions",
+      "component": "Programming Language IR",
+      "function": "AST Lowering",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-IR.IR-CONSTRUCTION",
+      "domain": "Standard Functions",
+      "component": "Programming Language IR",
+      "function": "IR Construction",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-IR.IR-VALIDATION",
+      "domain": "Standard Functions",
+      "component": "Programming Language IR",
+      "function": "IR Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-IR.BASIC-BLOCK-CONSTRUCTION",
+      "domain": "Standard Functions",
+      "component": "Programming Language IR",
+      "function": "Basic Block Construction",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-IR.CONTROL-FLOW-GRAPH",
+      "domain": "Standard Functions",
+      "component": "Programming Language IR",
+      "function": "Control Flow Graph",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-IR.DATA-FLOW-ANALYSIS",
+      "domain": "Standard Functions",
+      "component": "Programming Language IR",
+      "function": "Data Flow Analysis",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-IR.SSA-CONSTRUCTION",
+      "domain": "Standard Functions",
+      "component": "Programming Language IR",
+      "function": "SSA Construction",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-IR.IR-OPTIMIZATION",
+      "domain": "Standard Functions",
+      "component": "Programming Language IR",
+      "function": "IR Optimization",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-IR.IR-SERIALIZATION",
+      "domain": "Standard Functions",
+      "component": "Programming Language IR",
+      "function": "IR Serialization",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-IR.IR-DESERIALIZATION",
+      "domain": "Standard Functions",
+      "component": "Programming Language IR",
+      "function": "IR Deserialization",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-COMPILER.SOURCE-COMPILE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Compiler",
+      "function": "Source Compile",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-COMPILER.INCREMENTAL-COMPILE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Compiler",
+      "function": "Incremental Compile",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-COMPILER.DEPENDENCY-COMPILE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Compiler",
+      "function": "Dependency Compile",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-COMPILER.CODE-GENERATION",
+      "domain": "Standard Functions",
+      "component": "Programming Language Compiler",
+      "function": "Code Generation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-COMPILER.BYTECODE-GENERATION",
+      "domain": "Standard Functions",
+      "component": "Programming Language Compiler",
+      "function": "Bytecode Generation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-COMPILER.NATIVE-CODE-GENERATION",
+      "domain": "Standard Functions",
+      "component": "Programming Language Compiler",
+      "function": "Native Code Generation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-COMPILER.DEBUG-INFORMATION",
+      "domain": "Standard Functions",
+      "component": "Programming Language Compiler",
+      "function": "Debug Information",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-COMPILER.COMPILE-DIAGNOSTICS",
+      "domain": "Standard Functions",
+      "component": "Programming Language Compiler",
+      "function": "Compile Diagnostics",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-COMPILER.DETERMINISTIC-BUILD",
+      "domain": "Standard Functions",
+      "component": "Programming Language Compiler",
+      "function": "Deterministic Build",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-RUNTIME.RUNTIME-INIT",
+      "domain": "Standard Functions",
+      "component": "Programming Language Runtime",
+      "function": "Runtime Init",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-RUNTIME.MODULE-LOAD",
+      "domain": "Standard Functions",
+      "component": "Programming Language Runtime",
+      "function": "Module Load",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-RUNTIME.FUNCTION-CALL",
+      "domain": "Standard Functions",
+      "component": "Programming Language Runtime",
+      "function": "Function Call",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-RUNTIME.ARGUMENT-BIND",
+      "domain": "Standard Functions",
+      "component": "Programming Language Runtime",
+      "function": "Argument Bind",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-RUNTIME.RETURN-HANDLE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Runtime",
+      "function": "Return Handle",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-RUNTIME.EXCEPTION-HANDLING",
+      "domain": "Standard Functions",
+      "component": "Programming Language Runtime",
+      "function": "Exception Handling",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-RUNTIME.GARBAGE-COLLECTION-HOOK",
+      "domain": "Standard Functions",
+      "component": "Programming Language Runtime",
+      "function": "Garbage Collection Hook",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-RUNTIME.FOREIGN-FUNCTION-CALL",
+      "domain": "Standard Functions",
+      "component": "Programming Language Runtime",
+      "function": "Foreign Function Call",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-RUNTIME.RUNTIME-REFLECTION",
+      "domain": "Standard Functions",
+      "component": "Programming Language Runtime",
+      "function": "Runtime Reflection",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-RUNTIME.RUNTIME-SHUTDOWN",
+      "domain": "Standard Functions",
+      "component": "Programming Language Runtime",
+      "function": "Runtime Shutdown",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PACKAGE.MODULE-RESOLVE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Package",
+      "function": "Module Resolve",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PACKAGE.PACKAGE-MANIFEST-PARSE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Package",
+      "function": "Package Manifest Parse",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PACKAGE.DEPENDENCY-LOCK",
+      "domain": "Standard Functions",
+      "component": "Programming Language Package",
+      "function": "Dependency Lock",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PACKAGE.PACKAGE-FETCH",
+      "domain": "Standard Functions",
+      "component": "Programming Language Package",
+      "function": "Package Fetch",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PACKAGE.PACKAGE-VERIFY",
+      "domain": "Standard Functions",
+      "component": "Programming Language Package",
+      "function": "Package Verify",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PACKAGE.PACKAGE-BUILD",
+      "domain": "Standard Functions",
+      "component": "Programming Language Package",
+      "function": "Package Build",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PACKAGE.PACKAGE-PUBLISH",
+      "domain": "Standard Functions",
+      "component": "Programming Language Package",
+      "function": "Package Publish",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PACKAGE.PACKAGE-CACHE",
+      "domain": "Standard Functions",
+      "component": "Programming Language Package",
+      "function": "Package Cache",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-PACKAGE.VERSION-CONSTRAINT-CHECK",
+      "domain": "Standard Functions",
+      "component": "Programming Language Package",
+      "function": "Version Constraint Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-TOOLING.FORMATTER",
+      "domain": "Standard Functions",
+      "component": "Programming Language Tooling",
+      "function": "Formatter",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-TOOLING.LINTER",
+      "domain": "Standard Functions",
+      "component": "Programming Language Tooling",
+      "function": "Linter",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-TOOLING.LANGUAGE-SERVER",
+      "domain": "Standard Functions",
+      "component": "Programming Language Tooling",
+      "function": "Language Server",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-TOOLING.CODE-COMPLETION",
+      "domain": "Standard Functions",
+      "component": "Programming Language Tooling",
+      "function": "Code Completion",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-TOOLING.GO-TO-DEFINITION",
+      "domain": "Standard Functions",
+      "component": "Programming Language Tooling",
+      "function": "Go To Definition",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-TOOLING.FIND-REFERENCES",
+      "domain": "Standard Functions",
+      "component": "Programming Language Tooling",
+      "function": "Find References",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-TOOLING.RENAME-SYMBOL",
+      "domain": "Standard Functions",
+      "component": "Programming Language Tooling",
+      "function": "Rename Symbol",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-TOOLING.DOCUMENTATION-LOOKUP",
+      "domain": "Standard Functions",
+      "component": "Programming Language Tooling",
+      "function": "Documentation Lookup",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-TOOLING.SYNTAX-HIGHLIGHTING",
+      "domain": "Standard Functions",
+      "component": "Programming Language Tooling",
+      "function": "Syntax Highlighting",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PROGRAMMING-LANGUAGE-TOOLING.REFACTORING",
+      "domain": "Standard Functions",
+      "component": "Programming Language Tooling",
+      "function": "Refactoring",
       "status": "UNASSESSED",
       "evidence": {
         "spec": null,
