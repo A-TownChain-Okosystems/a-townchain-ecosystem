@@ -20,7 +20,7 @@ const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
 type ValidatorSnapshot = (u64, BTreeMap<String, (u128, [u8; 32])>);
-type SlashingRecord = (u64, String, [u8; 32], u64);
+type SlashingRecord = (u64, String, [u8; 32], u128);
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
     out.extend_from_slice(&(b.len() as u32).to_be_bytes());
@@ -774,7 +774,7 @@ impl ChainStorage {
         height: u64,
         validator: &str,
         evidence_id: [u8; 32],
-        penalty: u64,
+        penalty: u128,
     ) -> Result<(), String> {
         let Some(p) = &self.slashing_journal else {
             return Ok(());
@@ -822,7 +822,7 @@ impl ChainStorage {
             let validator = String::from_utf8(get(&b, &mut q)?.to_vec())
                 .map_err(|_| "invalid slashing validator")?;
             let evidence_id = fixed::<32>(&b, &mut q)?;
-            let penalty = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let penalty = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
             if validator.is_empty() || penalty == 0 || q != b.len() {
                 return Err("invalid slashing record".into());
             }
