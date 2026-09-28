@@ -9,6 +9,159 @@
 
 > **Canonical architecture rule:** L0–L7 are architectural responsibility domains, not a mandatory runtime ordering. **X** is a cross-layer control plane, not an additional execution layer. Architecture, implementation, testing, CI evidence and E2E evidence are separate status dimensions.
 
+
+## Architecture Kernel — Authority, State, Data and Failure Model
+
+The Master Architecture is optimized around four independent concerns: **authority**, **state ownership**, **data flow** and **evidence**. A layer number never grants authority by itself.
+
+### 1. Authority model
+
+```text
+Human / External Actor
+        ↓
+Interface / API
+        ↓
+Identity + Authentication
+        ↓
+Capability + Authorization
+        ↓
+Policy / Governance
+        ↓
+Deterministic Runtime
+        ↓
+Authoritative State Transition
+```
+
+No AI component, UI, indexer, cache, read model or integration adapter may acquire authority merely by being connected to a higher-trust subsystem.
+
+### 2. Canonical state ownership
+
+| State class | Canonical owner | Allowed writers |
+|---|---|---|
+| Blockchain consensus state | L2 / deterministic L3 execution boundary | authorized consensus/runtime paths only |
+| Durable chain persistence | L1 | canonical blockchain persistence path |
+| Protocol/economic state | responsible L2/L3/L5 contract | authorized deterministic contract/runtime |
+| Kernel/OS state | L0 / ShivaCore / GlobusOS | kernel and authorized OS services |
+| Game world/ECS state | Genesis Engine | Genesis authoritative runtime |
+| AI working/episodic/semantic memory | Aurora / domain owner | memory subsystem through policy |
+| Search/index/read models | Indexer / query subsystem | projection pipeline only |
+| UI/session state | application/client | application runtime |
+
+**Persistence is not authority.** L1 stores authoritative state; it does not independently decide state transitions.
+
+### 3. Command, query and event separation
+
+All cross-subsystem interfaces use one of three semantic categories:
+
+```text
+COMMAND → requests an authorized state transition
+QUERY   → reads an existing state or projection
+EVENT   → announces a committed fact; never grants write authority
+```
+
+Events are emitted only from accepted transitions. Consumers must tolerate duplicate delivery and preserve idempotency where required. Queries never mutate canonical state.
+
+### 4. Deterministic boundary
+
+The consensus-critical path is:
+
+```text
+Input
+ ↓
+Decode / Validate
+ ↓
+Authenticate / Authorize
+ ↓
+Consensus admission
+ ↓
+Deterministic execution (ATC-VM)
+ ↓
+State transition validation
+ ↓
+Canonical state commit
+ ↓
+Durable persistence
+ ↓
+Finality evidence
+```
+
+Finality is a **consensus property**, not a side effect of writing data to storage. Storage durability and finality evidence therefore remain separately testable dimensions.
+
+### 5. Failure semantics
+
+Every inter-layer boundary must define:
+
+```text
+Timeout → bounded retry or fail-closed
+Invalid input → reject
+Unauthorized command → reject
+Malformed event → reject/quarantine
+Duplicate event → idempotent handling
+Unavailable dependency → explicit BLOCKED/DEGRADED state
+Partial commit → recovery protocol; never silent success
+Corrupt canonical data → fail closed and require recovery/audit
+```
+
+No subsystem may silently convert an authorization, integrity or consensus failure into success.
+
+### 6. Version and compatibility boundary
+
+Every cross-repository contract must expose:
+
+- contract/schema identifier
+- version
+- compatibility policy
+- canonical serialization
+- migration/deprecation policy
+- provenance/source ownership
+
+Breaking changes require an explicit version transition; compatibility adapters must not create a second source of truth.
+
+### 7. Trust hierarchy
+
+```text
+CANONICAL STATE / CONSENSUS
+        ↑
+DETERMINISTIC RUNTIME
+        ↑
+AUTHORIZED COMMANDS / POLICY
+        ↑
+INTEGRATION SERVICES / PROJECTIONS
+        ↑
+AI PROPOSALS / USER INTERACTION
+```
+
+Higher placement in this diagram means greater authority, not greater software complexity. AI and presentation systems remain untrusted with respect to canonical state until a responsible deterministic boundary accepts their output.
+
+### 8. Architecture optimization rules
+
+1. One canonical owner per state domain.
+2. One canonical contract per cross-domain interface.
+3. One implementation SSOT per component.
+4. Commands are explicit; queries are side-effect free; events are facts, not commands.
+5. Control-plane checks precede privileged execution.
+6. Deterministic computation is isolated from model inference and wall-clock/randomness where consensus or reproducibility requires it.
+7. Read models may lag canonical state and must expose freshness/version information where consumers depend on recency.
+8. Recovery paths are first-class architecture, not test-only behavior.
+9. Architecture, specification, implementation, tests, CI and E2E remain independently evidenced.
+10. Duplicate implementations are treated as architectural defects until one canonical owner is established.
+
+### 9. Canonical integration pattern
+
+```text
+PRODUCER
+  │
+  ├── QUERY ───────────────→ READ MODEL / STATE
+  │
+  ├── COMMAND → X → AUTHORIZED RUNTIME → STATE COMMIT
+  │                                      │
+  └──────────────────── EVENT ←──────────┘
+
+X = Identity + Capability + Policy + Governance + Audit
+```
+
+This pattern applies across L0–L7. The concrete transport (local call, IPC, RPC, TCP, message bus or other mechanism) is an implementation detail of the owning repository and must not change authority semantics.
+
 ## Canonical Layer Model
 
 ```text
@@ -66,22 +219,20 @@ Transaction
     ↓
 Signature / Authorization
     ↓
-Mempool
+Mempool / Admission
     ↓
 Consensus
     ↓
-ATC-VM
+ATC-VM / Deterministic Execution
     ↓
-State Transition
+State Transition Validation
     ↓
-Canonical State
-    ↓
-Storage / Persistence
-    ↓
-Finality
+Canonical State Commit
+    ├──→ Durable Persistence (L1)
+    └──→ Finality Evidence (Consensus)
 ```
 
-This is a trust-boundary and authority path, not a statement that every operation is implemented by a single process.
+This separates **state commitment, persistence durability and finality evidence**. It is a trust-boundary model, not a statement that every operation is implemented by a single process.
 
 ### Boundary Invariants
 
