@@ -79,10 +79,8 @@ Deterministic execution (ATC-VM)
 State transition validation
  ↓
 Canonical state commit
- ↓
-Durable persistence
- ↓
-Finality evidence
+ ├──→ Durable persistence
+ └──→ Finality evidence
 ```
 
 Finality is a **consensus property**, not a side effect of writing data to storage. Storage durability and finality evidence therefore remain separately testable dimensions.
@@ -668,7 +666,7 @@ Lore + World + Characters + Creatures + Items + Weapons
         ↓
      QUEST AI
         ↓
-Quest Generation + Planning + Direction + Runtime
+Quest Generation + Planning + Direction → Genesis Engine Runtime
 ```
 
 Die Quest AI beantwortet systemisch:
@@ -1422,7 +1420,7 @@ QUEST AI
           └── Quest Completion
 ```
 
-Quest AI bleibt für Quest-Verträge und Quest-Runtime verantwortlich. Dialogue AI stellt die konversationelle Interaktionsschicht bereit.
+Quest AI remains responsible for quest contracts, generation, planning and proposals. Genesis Engine owns the authoritative quest runtime and gameplay state transitions. Dialogue AI provides the conversational interaction layer.
 
 ### 9. Lore / Canon Integration
 
