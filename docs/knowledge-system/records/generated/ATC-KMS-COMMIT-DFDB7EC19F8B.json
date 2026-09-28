@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-DFDB7EC19F8B",
-  "timestamp": "2026-09-28T16:56:05.754181Z",
+  "timestamp": "2026-09-28T16:59:04.186359Z",
   "category": "change",
   "title": "Commit: style: avoid boolean comparison in sync test",
   "context": "Git commit dfdb7ec19f8bad3cb55135c2988f8ae22e9cc6ed on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/dfdb7ec19f8bad3cb55135c2988f8ae22e9cc6ed",
-    "commit": "4e9a8812ed806c072e07e231958a395d5869271e"
+    "commit": "c08effe87eaee40327afed99c1c562e833484dc5"
   },
   "tags": [
     "commit",

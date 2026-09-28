@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-337868ADED76",
-  "timestamp": "2026-09-28T16:56:05.754181Z",
+  "timestamp": "2026-09-28T16:59:04.186359Z",
   "category": "change",
   "title": "Commit: feat(state): commit canonical validator state into StateDb root",
   "context": "Git commit 337868aded7657ef0d1a8057fc16e2fc3ce54d7c on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/337868aded7657ef0d1a8057fc16e2fc3ce54d7c",
-    "commit": "4e9a8812ed806c072e07e231958a395d5869271e"
+    "commit": "c08effe87eaee40327afed99c1c562e833484dc5"
   },
   "tags": [
     "commit",

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-4E6A78315093",
-  "timestamp": "2026-09-28T16:56:05.754181Z",
+  "timestamp": "2026-09-28T16:59:04.186359Z",
   "category": "change",
   "title": "Commit: feat(protocol): decode validator transaction type",
   "context": "Git commit 4e6a78315093b2a45f041cd8d900e378ede0200a on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/4e6a78315093b2a45f041cd8d900e378ede0200a",
-    "commit": "4e9a8812ed806c072e07e231958a395d5869271e"
+    "commit": "c08effe87eaee40327afed99c1c562e833484dc5"
   },
   "tags": [
     "commit",

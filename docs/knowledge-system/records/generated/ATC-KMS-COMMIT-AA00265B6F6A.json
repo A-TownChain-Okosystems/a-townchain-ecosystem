@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-AA00265B6F6A",
-  "timestamp": "2026-09-28T16:56:05.754181Z",
+  "timestamp": "2026-09-28T16:59:04.186359Z",
   "category": "change",
   "title": "Commit: fix: make validator bootstrap finalization durable-first",
   "context": "Git commit aa00265b6f6ab8b87b69b3c6957b1765df6a8dd6 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/aa00265b6f6ab8b87b69b3c6957b1765df6a8dd6",
-    "commit": "4e9a8812ed806c072e07e231958a395d5869271e"
+    "commit": "c08effe87eaee40327afed99c1c562e833484dc5"
   },
   "tags": [
     "commit",
