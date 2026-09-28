@@ -688,7 +688,11 @@ impl Node {
         // replaying every historical snapshot into the mutable registry would
         // resurrect validators that were later unregistered or slashed.
         for (height, (validators, keys)) in &recovered_validator_snapshots {
-            n.consensus.restore_validator_snapshot(*height, validators.clone(), keys.clone())?;
+            n.consensus.restore_validator_snapshot(
+                *height,
+                validators.clone(),
+                keys.clone(),
+            )?;
         }
         if let Some((_, (validators, keys))) = recovered_validator_snapshots.last_key_value() {
             for (address, stake) in validators {
