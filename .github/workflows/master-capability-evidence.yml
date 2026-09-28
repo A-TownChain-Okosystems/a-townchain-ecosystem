@@ -1,0 +1,75 @@
+name: Master Capability Evidence Contract
+
+on:
+  pull_request:
+    paths:
+      - 'ARCHITECTURE.md'
+      - 'docs/audit/**'
+      - 'audit/**'
+  push:
+    branches: [main]
+    paths:
+      - 'ARCHITECTURE.md'
+      - 'docs/audit/**'
+      - 'audit/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate machine-readable audit manifest
+        run: python3 -m json.tool audit/capability-manifest.json >/dev/null
+
+      - name: Validate canonical audit vocabulary and paths
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          manifest = json.loads(Path("audit/capability-manifest.json").read_text())
+          required = {
+              "ARCHITECTURE_ONLY",
+              "SPECIFIED",
+              "IMPLEMENTED",
+              "TESTED",
+              "EVIDENCE_STALE",
+              "CI_VERIFIED",
+              "INTEGRATED",
+              "E2E_VERIFIED",
+              "MISSING",
+              "BLOCKED",
+              "DUPLICATE",
+              "DISCONNECTED",
+              "CONTRACT_DRIFT",
+          }
+          actual = set(manifest["status_vocabulary"])
+          missing = sorted(required - actual)
+          if missing:
+              raise SystemExit(f"missing status vocabulary: {missing}")
+
+          for key in ("blockchain", "execution", "aurora_authority", "genesis_intelligence"):
+              if not manifest["critical_paths"].get(key):
+                  raise SystemExit(f"critical path missing: {key}")
+
+          for cap in manifest["capabilities"]:
+              for field in ("id", "owner", "layer", "source_paths", "tests", "evidence"):
+                  if field not in cap:
+                      raise SystemExit(f"{cap.get('id','<unknown>')}: missing {field}")
+
+          print(f"validated {len(manifest['capabilities'])} capability records")
+          PY
+
+      - name: Validate architecture contract markers
+        run: |
+          set -euo pipefail
+          grep -q 'Master Capability Evidence Contract' ARCHITECTURE.md
+          grep -q 'EVIDENCE_STALE' ARCHITECTURE.md
+          grep -q 'CURRENT MAIN SHA' docs/audit/MASTER_CAPABILITY_EVIDENCE_AUDIT.md
+          grep -q 'Evidence Freshness / SHA Binding' docs/audit/STATUS_SEMANTICS.md
