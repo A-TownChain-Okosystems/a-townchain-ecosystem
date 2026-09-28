@@ -308,8 +308,7 @@ The layer model and runtime flow must not be conflated.
 ```text
 L2 Blockchain Core
     │
-    ├── Transaction
-    ├── Mempool
+    ├── Transaction / Admission
     └── Consensus
              │
              ▼
@@ -318,13 +317,14 @@ L3 Deterministic Execution
     └── ATC-VM / State Transition
              │
              ▼
-L1 Canonical State / Storage
-             │
-             ├── Persistence
-             └── Read Models / Indexing
-             │
-             ▼
-          Finality
+        Canonical State
+         ┌────┴────┐
+         ▼         ▼
+L1 Persistence   Finality Evidence
+         │         │
+         └────┬────┘
+              ▼
+       Read Models / Indexing
 ```
 
 Application and intelligence paths connect through defined interfaces rather than becoming part of the consensus/VM execution boundary:
