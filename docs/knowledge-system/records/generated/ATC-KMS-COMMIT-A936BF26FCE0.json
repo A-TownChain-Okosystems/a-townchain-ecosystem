@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-A936BF26FCE0",
-  "timestamp": "2026-09-28T16:47:47.394848Z",
+  "timestamp": "2026-09-28T16:53:25.962936Z",
   "category": "change",
   "title": "Commit: fix(state): account for validator transaction fees and nonce",
   "context": "Git commit a936bf26fce034f9c8ab055332188d312ccf2fe9 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/a936bf26fce034f9c8ab055332188d312ccf2fe9",
-    "commit": "17385af50028a2929041991214f185c7fa0dd97a"
+    "commit": "d9a0bf58c093f4ced5ce619145cee532bd359830"
   },
   "tags": [
     "commit",

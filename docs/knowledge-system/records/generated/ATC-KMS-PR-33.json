@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-33",
-  "timestamp": "2026-09-28T16:47:47.394848Z",
+  "timestamp": "2026-09-28T16:53:25.962936Z",
   "category": "change",
   "title": "PR #33: feat(wallet): convert ATC wallet core to Rust L1 signing",
   "context": "Pull request 33 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/33",
-    "commit": "17385af50028a2929041991214f185c7fa0dd97a"
+    "commit": "d9a0bf58c093f4ced5ce619145cee532bd359830"
   },
   "tags": [
     "generated",
