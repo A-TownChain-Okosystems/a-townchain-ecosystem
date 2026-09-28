@@ -1,5 +1,5 @@
 {
-  "schema_version": "AICP-001.1",
+  "schema_version": "AICP-001.2",
   "matrix_id": "COMPONENT-001",
   "generated_at": "2026-09-28",
   "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -6975,6 +6975,1536 @@
       "domain": "Cross-cutting",
       "component": "Documentation",
       "function": "Operations",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PRIMITIVE-FUNCTIONS.EQUALITY",
+      "domain": "Standard Functions",
+      "component": "Primitive Functions",
+      "function": "Equality",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PRIMITIVE-FUNCTIONS.COMPARISON",
+      "domain": "Standard Functions",
+      "component": "Primitive Functions",
+      "function": "Comparison",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PRIMITIVE-FUNCTIONS.CLONE-COPY",
+      "domain": "Standard Functions",
+      "component": "Primitive Functions",
+      "function": "Clone/Copy",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PRIMITIVE-FUNCTIONS.DEFAULT-CONSTRUCTION",
+      "domain": "Standard Functions",
+      "component": "Primitive Functions",
+      "function": "Default Construction",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PRIMITIVE-FUNCTIONS.CONVERSION",
+      "domain": "Standard Functions",
+      "component": "Primitive Functions",
+      "function": "Conversion",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PRIMITIVE-FUNCTIONS.OPTION-HANDLING",
+      "domain": "Standard Functions",
+      "component": "Primitive Functions",
+      "function": "Option Handling",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.PRIMITIVE-FUNCTIONS.RESULT-HANDLING",
+      "domain": "Standard Functions",
+      "component": "Primitive Functions",
+      "function": "Result Handling",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.COLLECTIONS.VECTOR-LIST",
+      "domain": "Standard Functions",
+      "component": "Collections",
+      "function": "Vector/List",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.COLLECTIONS.MAP",
+      "domain": "Standard Functions",
+      "component": "Collections",
+      "function": "Map",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.COLLECTIONS.SET",
+      "domain": "Standard Functions",
+      "component": "Collections",
+      "function": "Set",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.COLLECTIONS.QUEUE",
+      "domain": "Standard Functions",
+      "component": "Collections",
+      "function": "Queue",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.COLLECTIONS.STACK",
+      "domain": "Standard Functions",
+      "component": "Collections",
+      "function": "Stack",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.COLLECTIONS.ITERATOR",
+      "domain": "Standard Functions",
+      "component": "Collections",
+      "function": "Iterator",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.COLLECTIONS.SORTING",
+      "domain": "Standard Functions",
+      "component": "Collections",
+      "function": "Sorting",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.COLLECTIONS.FILTERING",
+      "domain": "Standard Functions",
+      "component": "Collections",
+      "function": "Filtering",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.COLLECTIONS.SEARCHING",
+      "domain": "Standard Functions",
+      "component": "Collections",
+      "function": "Searching",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.TEXT.STRING-CONSTRUCTION",
+      "domain": "Standard Functions",
+      "component": "Text",
+      "function": "String Construction",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.TEXT.UTF-8-VALIDATION",
+      "domain": "Standard Functions",
+      "component": "Text",
+      "function": "UTF-8 Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.TEXT.STRING-SPLIT-JOIN",
+      "domain": "Standard Functions",
+      "component": "Text",
+      "function": "String Split/Join",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.TEXT.NORMALIZATION",
+      "domain": "Standard Functions",
+      "component": "Text",
+      "function": "Normalization",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.TEXT.FORMATTING",
+      "domain": "Standard Functions",
+      "component": "Text",
+      "function": "Formatting",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.TEXT.PARSING",
+      "domain": "Standard Functions",
+      "component": "Text",
+      "function": "Parsing",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.BYTES.BYTE-BUFFER",
+      "domain": "Standard Functions",
+      "component": "Bytes",
+      "function": "Byte Buffer",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.BYTES.SLICE-RANGE",
+      "domain": "Standard Functions",
+      "component": "Bytes",
+      "function": "Slice/Range",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.BYTES.CONCATENATION",
+      "domain": "Standard Functions",
+      "component": "Bytes",
+      "function": "Concatenation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.BYTES.HEX-ENCODING",
+      "domain": "Standard Functions",
+      "component": "Bytes",
+      "function": "Hex Encoding",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.BYTES.BYTE-LENGTH",
+      "domain": "Standard Functions",
+      "component": "Bytes",
+      "function": "Byte Length",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.BYTES.CONSTANT-TIME-COMPARISON",
+      "domain": "Standard Functions",
+      "component": "Bytes",
+      "function": "Constant-Time Comparison",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.NUMERIC.CHECKED-ADD",
+      "domain": "Standard Functions",
+      "component": "Numeric",
+      "function": "Checked Add",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.NUMERIC.CHECKED-SUBTRACT",
+      "domain": "Standard Functions",
+      "component": "Numeric",
+      "function": "Checked Subtract",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.NUMERIC.CHECKED-MULTIPLY",
+      "domain": "Standard Functions",
+      "component": "Numeric",
+      "function": "Checked Multiply",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.NUMERIC.CHECKED-DIVIDE",
+      "domain": "Standard Functions",
+      "component": "Numeric",
+      "function": "Checked Divide",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.NUMERIC.CHECKED-MODULO",
+      "domain": "Standard Functions",
+      "component": "Numeric",
+      "function": "Checked Modulo",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.NUMERIC.SATURATING-ARITHMETIC",
+      "domain": "Standard Functions",
+      "component": "Numeric",
+      "function": "Saturating Arithmetic",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.NUMERIC.INTEGER-CONVERSION",
+      "domain": "Standard Functions",
+      "component": "Numeric",
+      "function": "Integer Conversion",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.NUMERIC.DECIMAL-CONVERSION",
+      "domain": "Standard Functions",
+      "component": "Numeric",
+      "function": "Decimal Conversion",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.MATH.MIN-MAX",
+      "domain": "Standard Functions",
+      "component": "Math",
+      "function": "Min/Max",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.MATH.CLAMP",
+      "domain": "Standard Functions",
+      "component": "Math",
+      "function": "Clamp",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.MATH.ABSOLUTE-VALUE",
+      "domain": "Standard Functions",
+      "component": "Math",
+      "function": "Absolute Value",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.MATH.POWER",
+      "domain": "Standard Functions",
+      "component": "Math",
+      "function": "Power",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.MATH.SQUARE-ROOT",
+      "domain": "Standard Functions",
+      "component": "Math",
+      "function": "Square Root",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.MATH.ROUNDING",
+      "domain": "Standard Functions",
+      "component": "Math",
+      "function": "Rounding",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.ENCODING.BASE-ENCODING",
+      "domain": "Standard Functions",
+      "component": "Encoding",
+      "function": "Base Encoding",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.ENCODING.CANONICAL-INTEGER-ENCODING",
+      "domain": "Standard Functions",
+      "component": "Encoding",
+      "function": "Canonical Integer Encoding",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.ENCODING.CANONICAL-ADDRESS-ENCODING",
+      "domain": "Standard Functions",
+      "component": "Encoding",
+      "function": "Canonical Address Encoding",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.ENCODING.CANONICAL-IDENTIFIER-ENCODING",
+      "domain": "Standard Functions",
+      "component": "Encoding",
+      "function": "Canonical Identifier Encoding",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.HASHING-CRYPTOGRAPHY.HASH",
+      "domain": "Standard Functions",
+      "component": "Hashing/Cryptography",
+      "function": "Hash",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.HASHING-CRYPTOGRAPHY.DOMAIN-SEPARATED-HASH",
+      "domain": "Standard Functions",
+      "component": "Hashing/Cryptography",
+      "function": "Domain-Separated Hash",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.HASHING-CRYPTOGRAPHY.SIGNATURE-VERIFY",
+      "domain": "Standard Functions",
+      "component": "Hashing/Cryptography",
+      "function": "Signature Verify",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.HASHING-CRYPTOGRAPHY.SIGNATURE-SIGN",
+      "domain": "Standard Functions",
+      "component": "Hashing/Cryptography",
+      "function": "Signature Sign",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.HASHING-CRYPTOGRAPHY.KEY-DERIVATION",
+      "domain": "Standard Functions",
+      "component": "Hashing/Cryptography",
+      "function": "Key Derivation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.HASHING-CRYPTOGRAPHY.COMMITMENT",
+      "domain": "Standard Functions",
+      "component": "Hashing/Cryptography",
+      "function": "Commitment",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.SERIALIZATION.CANONICAL-ENCODE",
+      "domain": "Standard Functions",
+      "component": "Serialization",
+      "function": "Canonical Encode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.SERIALIZATION.CANONICAL-DECODE",
+      "domain": "Standard Functions",
+      "component": "Serialization",
+      "function": "Canonical Decode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.SERIALIZATION.SCHEMA-VALIDATION",
+      "domain": "Standard Functions",
+      "component": "Serialization",
+      "function": "Schema Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.SERIALIZATION.VERSIONED-DECODE",
+      "domain": "Standard Functions",
+      "component": "Serialization",
+      "function": "Versioned Decode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.SERIALIZATION.CANONICAL-ORDERING",
+      "domain": "Standard Functions",
+      "component": "Serialization",
+      "function": "Canonical Ordering",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.TIME.TIMESTAMP-VALIDATION",
+      "domain": "Standard Functions",
+      "component": "Time",
+      "function": "Timestamp Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.TIME.DURATION-ARITHMETIC",
+      "domain": "Standard Functions",
+      "component": "Time",
+      "function": "Duration Arithmetic",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.TIME.DEADLINE-EXPIRY",
+      "domain": "Standard Functions",
+      "component": "Time",
+      "function": "Deadline/Expiry",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.TIME.MONOTONIC-ORDERING",
+      "domain": "Standard Functions",
+      "component": "Time",
+      "function": "Monotonic Ordering",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.VALIDATION.REQUIRE",
+      "domain": "Standard Functions",
+      "component": "Validation",
+      "function": "Require",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.VALIDATION.ASSERT",
+      "domain": "Standard Functions",
+      "component": "Validation",
+      "function": "Assert",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.VALIDATION.INVARIANT-CHECK",
+      "domain": "Standard Functions",
+      "component": "Validation",
+      "function": "Invariant Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.VALIDATION.RANGE-CHECK",
+      "domain": "Standard Functions",
+      "component": "Validation",
+      "function": "Range Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.VALIDATION.LENGTH-CHECK",
+      "domain": "Standard Functions",
+      "component": "Validation",
+      "function": "Length Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.VALIDATION.FORMAT-CHECK",
+      "domain": "Standard Functions",
+      "component": "Validation",
+      "function": "Format Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.IDENTIFIERS.ID-GENERATION",
+      "domain": "Standard Functions",
+      "component": "Identifiers",
+      "function": "ID Generation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.IDENTIFIERS.ID-VALIDATION",
+      "domain": "Standard Functions",
+      "component": "Identifiers",
+      "function": "ID Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.IDENTIFIERS.NAMESPACE-VALIDATION",
+      "domain": "Standard Functions",
+      "component": "Identifiers",
+      "function": "Namespace Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.IDENTIFIERS.VERSION-VALIDATION",
+      "domain": "Standard Functions",
+      "component": "Identifiers",
+      "function": "Version Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.ERROR-CONTROL.ERROR-CONSTRUCTION",
+      "domain": "Standard Functions",
+      "component": "Error/Control",
+      "function": "Error Construction",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.ERROR-CONTROL.ERROR-MAPPING",
+      "domain": "Standard Functions",
+      "component": "Error/Control",
+      "function": "Error Mapping",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.ERROR-CONTROL.ERROR-PROPAGATION",
+      "domain": "Standard Functions",
+      "component": "Error/Control",
+      "function": "Error Propagation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.ERROR-CONTROL.RECOVERY-CLASSIFICATION",
+      "domain": "Standard Functions",
+      "component": "Error/Control",
+      "function": "Recovery Classification",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.ERROR-CONTROL.ABORT-REVERT",
+      "domain": "Standard Functions",
+      "component": "Error/Control",
+      "function": "Abort/Revert",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.RESOURCE-FUNCTIONS.QUOTA-CHECK",
+      "domain": "Standard Functions",
+      "component": "Resource Functions",
+      "function": "Quota Check",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.RESOURCE-FUNCTIONS.RESOURCE-ACCOUNTING",
+      "domain": "Standard Functions",
+      "component": "Resource Functions",
+      "function": "Resource Accounting",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.RESOURCE-FUNCTIONS.LIMIT-ENFORCEMENT",
+      "domain": "Standard Functions",
+      "component": "Resource Functions",
+      "function": "Limit Enforcement",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.RESOURCE-FUNCTIONS.METERING",
+      "domain": "Standard Functions",
+      "component": "Resource Functions",
+      "function": "Metering",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.DETERMINISTIC-UTILITIES.DETERMINISTIC-ORDERING",
+      "domain": "Standard Functions",
+      "component": "Deterministic Utilities",
+      "function": "Deterministic Ordering",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.DETERMINISTIC-UTILITIES.DETERMINISTIC-SEED-DERIVATION",
+      "domain": "Standard Functions",
+      "component": "Deterministic Utilities",
+      "function": "Deterministic Seed Derivation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.DETERMINISTIC-UTILITIES.REPRODUCIBLE-SELECTION",
+      "domain": "Standard Functions",
+      "component": "Deterministic Utilities",
+      "function": "Reproducible Selection",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.DETERMINISTIC-UTILITIES.CANONICAL-COMPARISON",
+      "domain": "Standard Functions",
+      "component": "Deterministic Utilities",
+      "function": "Canonical Comparison",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.CONTRACT-RUNTIME.EVENT-EMIT",
+      "domain": "Standard Functions",
+      "component": "Contract Runtime",
+      "function": "Event Emit",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.CONTRACT-RUNTIME.EVENT-DECODE",
+      "domain": "Standard Functions",
+      "component": "Contract Runtime",
+      "function": "Event Decode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.CONTRACT-RUNTIME.CALL-DISPATCH",
+      "domain": "Standard Functions",
+      "component": "Contract Runtime",
+      "function": "Call Dispatch",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.CONTRACT-RUNTIME.RETURN-ENCODING",
+      "domain": "Standard Functions",
+      "component": "Contract Runtime",
+      "function": "Return Encoding",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.CONTRACT-RUNTIME.ABI-ARGUMENT-DECODE",
+      "domain": "Standard Functions",
+      "component": "Contract Runtime",
+      "function": "ABI Argument Decode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "STANDARD-FUNCTIONS.CONTRACT-RUNTIME.ABI-RETURN-DECODE",
+      "domain": "Standard Functions",
+      "component": "Contract Runtime",
+      "function": "ABI Return Decode",
       "status": "UNASSESSED",
       "evidence": {
         "spec": null,
