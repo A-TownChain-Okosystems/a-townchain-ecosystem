@@ -1,0 +1,6991 @@
+{
+  "schema_version": "AICP-001.1",
+  "matrix_id": "COMPONENT-001",
+  "generated_at": "2026-09-28",
+  "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+  "status_vocabulary": [
+    "PRESENT",
+    "SPECIFIED",
+    "IMPLEMENTED",
+    "UNIT_TESTED",
+    "INTEGRATION_TESTED",
+    "EXACT_SHA_CI_VERIFIED",
+    "E2E_VERIFIED",
+    "RELEASE_VERIFIED",
+    "BLOCKED",
+    "UNASSESSED"
+  ],
+  "rule": "A status may only be promoted when its required evidence is directly traceable to the exact repository source/commit and relevant test/CI/E2E artifact. Documentation alone never establishes IMPLEMENTED.",
+  "rows": [
+    {
+      "id": "L1.BLOCKCHAIN-CORE.BLOCK",
+      "domain": "L1",
+      "component": "Blockchain Core",
+      "function": "Block",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.BLOCKCHAIN-CORE.HEADER",
+      "domain": "L1",
+      "component": "Blockchain Core",
+      "function": "Header",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.BLOCKCHAIN-CORE.TRANSACTION",
+      "domain": "L1",
+      "component": "Blockchain Core",
+      "function": "Transaction",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.BLOCKCHAIN-CORE.STATE-TRANSITION",
+      "domain": "L1",
+      "component": "Blockchain Core",
+      "function": "State Transition",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.BLOCKCHAIN-CORE.FINALITY",
+      "domain": "L1",
+      "component": "Blockchain Core",
+      "function": "Finality",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.NODE.PEER-MANAGEMENT",
+      "domain": "L1",
+      "component": "Node",
+      "function": "Peer Management",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.NODE.NETWORKING",
+      "domain": "L1",
+      "component": "Node",
+      "function": "Networking",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.NODE.SYNC",
+      "domain": "L1",
+      "component": "Node",
+      "function": "Sync",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.NODE.RPC",
+      "domain": "L1",
+      "component": "Node",
+      "function": "RPC",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.NODE.VALIDATOR",
+      "domain": "L1",
+      "component": "Node",
+      "function": "Validator",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.CONSENSUS.VALIDATOR-SET",
+      "domain": "L1",
+      "component": "Consensus",
+      "function": "Validator Set",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.CONSENSUS.VOTING",
+      "domain": "L1",
+      "component": "Consensus",
+      "function": "Voting",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.CONSENSUS.FINALITY",
+      "domain": "L1",
+      "component": "Consensus",
+      "function": "Finality",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.CONSENSUS.ROTATION",
+      "domain": "L1",
+      "component": "Consensus",
+      "function": "Rotation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.CONSENSUS.SLASHING",
+      "domain": "L1",
+      "component": "Consensus",
+      "function": "Slashing",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.MEMPOOL.ADMISSION",
+      "domain": "L1",
+      "component": "Mempool",
+      "function": "Admission",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.MEMPOOL.VALIDATION",
+      "domain": "L1",
+      "component": "Mempool",
+      "function": "Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.MEMPOOL.ORDERING",
+      "domain": "L1",
+      "component": "Mempool",
+      "function": "Ordering",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.MEMPOOL.EXPIRY",
+      "domain": "L1",
+      "component": "Mempool",
+      "function": "Expiry",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.MEMPOOL.REPLACEMENT",
+      "domain": "L1",
+      "component": "Mempool",
+      "function": "Replacement",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ALGORITHM.ECONOMICS",
+      "domain": "L1",
+      "component": "Algorithm",
+      "function": "Economics",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ALGORITHM.HALVING",
+      "domain": "L1",
+      "component": "Algorithm",
+      "function": "Halving",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ALGORITHM.REWARD",
+      "domain": "L1",
+      "component": "Algorithm",
+      "function": "Reward",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ALGORITHM.DIFFICULTY",
+      "domain": "L1",
+      "component": "Algorithm",
+      "function": "Difficulty",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ALGORITHM.DETERMINISM",
+      "domain": "L1",
+      "component": "Algorithm",
+      "function": "Determinism",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.MINING.REWARD",
+      "domain": "L1",
+      "component": "Mining",
+      "function": "Reward",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.MINING.WORK-PRODUCTION",
+      "domain": "L1",
+      "component": "Mining",
+      "function": "Work/Production",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.MINING.VALIDATION",
+      "domain": "L1",
+      "component": "Mining",
+      "function": "Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.MINING.ACCOUNTING",
+      "domain": "L1",
+      "component": "Mining",
+      "function": "Accounting",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.STORAGE.BLOCK-STORE",
+      "domain": "L1",
+      "component": "Storage",
+      "function": "Block Store",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.STORAGE.STATE-STORE",
+      "domain": "L1",
+      "component": "Storage",
+      "function": "State Store",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.STORAGE.TRANSACTION-STORE",
+      "domain": "L1",
+      "component": "Storage",
+      "function": "Transaction Store",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.STORAGE.SNAPSHOTS",
+      "domain": "L1",
+      "component": "Storage",
+      "function": "Snapshots",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.INDEXER.BLOCKS",
+      "domain": "L1",
+      "component": "Indexer",
+      "function": "Blocks",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.INDEXER.TRANSACTIONS",
+      "domain": "L1",
+      "component": "Indexer",
+      "function": "Transactions",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.INDEXER.ACCOUNTS",
+      "domain": "L1",
+      "component": "Indexer",
+      "function": "Accounts",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.INDEXER.EVENTS",
+      "domain": "L1",
+      "component": "Indexer",
+      "function": "Events",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.INDEXER.SEARCH",
+      "domain": "L1",
+      "component": "Indexer",
+      "function": "Search",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.EXPLORER.BLOCK-APIS",
+      "domain": "L1",
+      "component": "Explorer",
+      "function": "Block APIs",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.EXPLORER.TRANSACTION-APIS",
+      "domain": "L1",
+      "component": "Explorer",
+      "function": "Transaction APIs",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.EXPLORER.ACCOUNT-APIS",
+      "domain": "L1",
+      "component": "Explorer",
+      "function": "Account APIs",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.EXPLORER.CONTRACT-APIS",
+      "domain": "L1",
+      "component": "Explorer",
+      "function": "Contract APIs",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.EXPLORER.UI",
+      "domain": "L1",
+      "component": "Explorer",
+      "function": "UI",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.SDK.TRANSACTION-BUILDER",
+      "domain": "L1",
+      "component": "SDK",
+      "function": "Transaction Builder",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.SDK.SIGNING",
+      "domain": "L1",
+      "component": "SDK",
+      "function": "Signing",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.SDK.RPC-CLIENT",
+      "domain": "L1",
+      "component": "SDK",
+      "function": "RPC Client",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.SDK.SERIALIZATION",
+      "domain": "L1",
+      "component": "SDK",
+      "function": "Serialization",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.WALLET.KEYS",
+      "domain": "L1",
+      "component": "Wallet",
+      "function": "Keys",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.WALLET.ADDRESS",
+      "domain": "L1",
+      "component": "Wallet",
+      "function": "Address",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.WALLET.SIGNING",
+      "domain": "L1",
+      "component": "Wallet",
+      "function": "Signing",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.WALLET.BALANCE",
+      "domain": "L1",
+      "component": "Wallet",
+      "function": "Balance",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.WALLET.HISTORY",
+      "domain": "L1",
+      "component": "Wallet",
+      "function": "History",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.WALLET.KEYSTORE",
+      "domain": "L1",
+      "component": "Wallet",
+      "function": "Keystore",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.WALLET.HD",
+      "domain": "L1",
+      "component": "Wallet",
+      "function": "HD",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.WALLET.MULTISIG",
+      "domain": "L1",
+      "component": "Wallet",
+      "function": "Multisig",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.WALLET.BROADCAST",
+      "domain": "L1",
+      "component": "Wallet",
+      "function": "Broadcast",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.CONTRACTS.CONTRACT-ABI",
+      "domain": "L1",
+      "component": "Contracts",
+      "function": "Contract ABI",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.CONTRACTS.DEPLOYMENT",
+      "domain": "L1",
+      "component": "Contracts",
+      "function": "Deployment",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.CONTRACTS.CALLS",
+      "domain": "L1",
+      "component": "Contracts",
+      "function": "Calls",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.CONTRACTS.EVENTS",
+      "domain": "L1",
+      "component": "Contracts",
+      "function": "Events",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.CONTRACTS.METADATA",
+      "domain": "L1",
+      "component": "Contracts",
+      "function": "Metadata",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATC-VM.BYTECODE",
+      "domain": "L1",
+      "component": "ATC-VM",
+      "function": "Bytecode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATC-VM.VERIFIER",
+      "domain": "L1",
+      "component": "ATC-VM",
+      "function": "Verifier",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATC-VM.GAS",
+      "domain": "L1",
+      "component": "ATC-VM",
+      "function": "Gas",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATC-VM.STACK",
+      "domain": "L1",
+      "component": "ATC-VM",
+      "function": "Stack",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATC-VM.MEMORY",
+      "domain": "L1",
+      "component": "ATC-VM",
+      "function": "Memory",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATC-VM.STORAGE",
+      "domain": "L1",
+      "component": "ATC-VM",
+      "function": "Storage",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATC-VM.STATE-TRANSITION",
+      "domain": "L1",
+      "component": "ATC-VM",
+      "function": "State Transition",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATCLANG.LEXER",
+      "domain": "L1",
+      "component": "ATCLang",
+      "function": "Lexer",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATCLANG.PARSER",
+      "domain": "L1",
+      "component": "ATCLang",
+      "function": "Parser",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATCLANG.AST",
+      "domain": "L1",
+      "component": "ATCLang",
+      "function": "AST",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATCLANG.TYPE-SYSTEM",
+      "domain": "L1",
+      "component": "ATCLang",
+      "function": "Type System",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATCLANG.COMPILER",
+      "domain": "L1",
+      "component": "ATCLang",
+      "function": "Compiler",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATCLANG.IR",
+      "domain": "L1",
+      "component": "ATCLang",
+      "function": "IR",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATCLANG.ABI",
+      "domain": "L1",
+      "component": "ATCLang",
+      "function": "ABI",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ATCLANG.BYTECODE",
+      "domain": "L1",
+      "component": "ATCLang",
+      "function": "Bytecode",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ZKP.PROOF-GENERATION",
+      "domain": "L1",
+      "component": "ZKP",
+      "function": "Proof Generation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ZKP.VERIFICATION",
+      "domain": "L1",
+      "component": "ZKP",
+      "function": "Verification",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ZKP.CIRCUITS",
+      "domain": "L1",
+      "component": "ZKP",
+      "function": "Circuits",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ZKP.COMMITMENT",
+      "domain": "L1",
+      "component": "ZKP",
+      "function": "Commitment",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ZKP.SERIALIZATION",
+      "domain": "L1",
+      "component": "ZKP",
+      "function": "Serialization",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.INTEROP.CROSS-CHAIN-MESSAGES",
+      "domain": "L1",
+      "component": "Interop",
+      "function": "Cross-chain Messages",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.INTEROP.PROOFS",
+      "domain": "L1",
+      "component": "Interop",
+      "function": "Proofs",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.INTEROP.RELAYERS",
+      "domain": "L1",
+      "component": "Interop",
+      "function": "Relayers",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.INTEROP.VERIFICATION",
+      "domain": "L1",
+      "component": "Interop",
+      "function": "Verification",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ORACLE.DATA-SOURCES",
+      "domain": "L1",
+      "component": "Oracle",
+      "function": "Data Sources",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ORACLE.AGGREGATION",
+      "domain": "L1",
+      "component": "Oracle",
+      "function": "Aggregation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ORACLE.ATTESTATION",
+      "domain": "L1",
+      "component": "Oracle",
+      "function": "Attestation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ORACLE.FRESHNESS",
+      "domain": "L1",
+      "component": "Oracle",
+      "function": "Freshness",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.ORACLE.VERIFICATION",
+      "domain": "L1",
+      "component": "Oracle",
+      "function": "Verification",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.COMPUTE.JOB-SCHEDULING",
+      "domain": "L1",
+      "component": "Compute",
+      "function": "Job Scheduling",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.COMPUTE.EXECUTION",
+      "domain": "L1",
+      "component": "Compute",
+      "function": "Execution",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.COMPUTE.VERIFICATION",
+      "domain": "L1",
+      "component": "Compute",
+      "function": "Verification",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.COMPUTE.REWARDS",
+      "domain": "L1",
+      "component": "Compute",
+      "function": "Rewards",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.MARKETPLACE.ASSETS",
+      "domain": "L1",
+      "component": "Marketplace",
+      "function": "Assets",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.MARKETPLACE.ORDERS",
+      "domain": "L1",
+      "component": "Marketplace",
+      "function": "Orders",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.MARKETPLACE.SETTLEMENT",
+      "domain": "L1",
+      "component": "Marketplace",
+      "function": "Settlement",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.MARKETPLACE.FEES",
+      "domain": "L1",
+      "component": "Marketplace",
+      "function": "Fees",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.LAUNCHPAD.PROJECTS",
+      "domain": "L1",
+      "component": "Launchpad",
+      "function": "Projects",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.LAUNCHPAD.ALLOCATION",
+      "domain": "L1",
+      "component": "Launchpad",
+      "function": "Allocation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.LAUNCHPAD.SALE",
+      "domain": "L1",
+      "component": "Launchpad",
+      "function": "Sale",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "L1.LAUNCHPAD.VESTING",
+      "domain": "L1",
+      "component": "Launchpad",
+      "function": "Vesting",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.IDENTITY.IDENTITY-ID",
+      "domain": "Identity / Authority / Security",
+      "component": "Identity",
+      "function": "Identity ID",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.IDENTITY.KEY-BINDING",
+      "domain": "Identity / Authority / Security",
+      "component": "Identity",
+      "function": "Key Binding",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.IDENTITY.AUTHENTICATION",
+      "domain": "Identity / Authority / Security",
+      "component": "Identity",
+      "function": "Authentication",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.IDENTITY.RECOVERY",
+      "domain": "Identity / Authority / Security",
+      "component": "Identity",
+      "function": "Recovery",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.IDENTITY.DELEGATION",
+      "domain": "Identity / Authority / Security",
+      "component": "Identity",
+      "function": "Delegation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.AUTHORITY.CAPABILITY",
+      "domain": "Identity / Authority / Security",
+      "component": "Authority",
+      "function": "Capability",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.AUTHORITY.POLICY",
+      "domain": "Identity / Authority / Security",
+      "component": "Authority",
+      "function": "Policy",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.AUTHORITY.SCOPE",
+      "domain": "Identity / Authority / Security",
+      "component": "Authority",
+      "function": "Scope",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.AUTHORITY.APPROVAL",
+      "domain": "Identity / Authority / Security",
+      "component": "Authority",
+      "function": "Approval",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.AUTHORITY.REVOCATION",
+      "domain": "Identity / Authority / Security",
+      "component": "Authority",
+      "function": "Revocation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.ACCESS-CONTROL.RBAC-ABAC",
+      "domain": "Identity / Authority / Security",
+      "component": "Access Control",
+      "function": "RBAC/ABAC",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.ACCESS-CONTROL.CAPABILITY-CHECKS",
+      "domain": "Identity / Authority / Security",
+      "component": "Access Control",
+      "function": "Capability Checks",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.ACCESS-CONTROL.RESOURCE-PERMISSIONS",
+      "domain": "Identity / Authority / Security",
+      "component": "Access Control",
+      "function": "Resource Permissions",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.KEY-MANAGEMENT.GENERATION",
+      "domain": "Identity / Authority / Security",
+      "component": "Key Management",
+      "function": "Generation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.KEY-MANAGEMENT.ROTATION",
+      "domain": "Identity / Authority / Security",
+      "component": "Key Management",
+      "function": "Rotation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.KEY-MANAGEMENT.REVOCATION",
+      "domain": "Identity / Authority / Security",
+      "component": "Key Management",
+      "function": "Revocation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.KEY-MANAGEMENT.SECURE-STORAGE",
+      "domain": "Identity / Authority / Security",
+      "component": "Key Management",
+      "function": "Secure Storage",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.ATTESTATION.DEVICE-RUNTIME-ATTESTATION",
+      "domain": "Identity / Authority / Security",
+      "component": "Attestation",
+      "function": "Device/Runtime Attestation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.ATTESTATION.EVIDENCE",
+      "domain": "Identity / Authority / Security",
+      "component": "Attestation",
+      "function": "Evidence",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.ATTESTATION.VERIFICATION",
+      "domain": "Identity / Authority / Security",
+      "component": "Attestation",
+      "function": "Verification",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.AUDIT.IMMUTABLE-EVENTS",
+      "domain": "Identity / Authority / Security",
+      "component": "Audit",
+      "function": "Immutable Events",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.AUDIT.ACTOR",
+      "domain": "Identity / Authority / Security",
+      "component": "Audit",
+      "function": "Actor",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.AUDIT.CAPABILITY",
+      "domain": "Identity / Authority / Security",
+      "component": "Audit",
+      "function": "Capability",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.AUDIT.DECISION",
+      "domain": "Identity / Authority / Security",
+      "component": "Audit",
+      "function": "Decision",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.AUDIT.RESULT",
+      "domain": "Identity / Authority / Security",
+      "component": "Audit",
+      "function": "Result",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.SECURITY.THREAT-MODEL",
+      "domain": "Identity / Authority / Security",
+      "component": "Security",
+      "function": "Threat Model",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.SECURITY.SECURE-DEFAULTS",
+      "domain": "Identity / Authority / Security",
+      "component": "Security",
+      "function": "Secure Defaults",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.SECURITY.ISOLATION",
+      "domain": "Identity / Authority / Security",
+      "component": "Security",
+      "function": "Isolation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.SECURITY.LIMITS",
+      "domain": "Identity / Authority / Security",
+      "component": "Security",
+      "function": "Limits",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.GOVERNANCE.STANDARDS",
+      "domain": "Identity / Authority / Security",
+      "component": "Governance",
+      "function": "Standards",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.GOVERNANCE.LIFECYCLE",
+      "domain": "Identity / Authority / Security",
+      "component": "Governance",
+      "function": "Lifecycle",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.GOVERNANCE.ROLES",
+      "domain": "Identity / Authority / Security",
+      "component": "Governance",
+      "function": "Roles",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.GOVERNANCE.APPROVAL",
+      "domain": "Identity / Authority / Security",
+      "component": "Governance",
+      "function": "Approval",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "IDENTITY-AUTHORITY-SECURITY.GOVERNANCE.EVIDENCE",
+      "domain": "Identity / Authority / Security",
+      "component": "Governance",
+      "function": "Evidence",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.SHIVACORE-KERNEL.SCHEDULER",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "ShivaCore Kernel",
+      "function": "Scheduler",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.SHIVACORE-KERNEL.MEMORY",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "ShivaCore Kernel",
+      "function": "Memory",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.SHIVACORE-KERNEL.IPC",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "ShivaCore Kernel",
+      "function": "IPC",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.SHIVACORE-KERNEL.CAPABILITY-SYSTEM",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "ShivaCore Kernel",
+      "function": "Capability System",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.SHIVACORE-KERNEL.INTERRUPTS",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "ShivaCore Kernel",
+      "function": "Interrupts",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.HAL.CPU",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "HAL",
+      "function": "CPU",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.HAL.MEMORY",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "HAL",
+      "function": "Memory",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.HAL.TIMER",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "HAL",
+      "function": "Timer",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.HAL.INTERRUPT-CONTROLLER",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "HAL",
+      "function": "Interrupt Controller",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.HAL.DEVICES",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "HAL",
+      "function": "Devices",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.BOOT.BIOS-UEFI",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Boot",
+      "function": "BIOS/UEFI",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.BOOT.BOOTLOADER",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Boot",
+      "function": "Bootloader",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.BOOT.KERNEL-LOADING",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Boot",
+      "function": "Kernel Loading",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.SECURE-BOOT.SIGNATURE-VERIFICATION",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Secure Boot",
+      "function": "Signature Verification",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.SECURE-BOOT.TRUST-CHAIN",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Secure Boot",
+      "function": "Trust Chain",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.TPM-TEE.KEY-PROTECTION",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "TPM/TEE",
+      "function": "Key Protection",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.TPM-TEE.ATTESTATION",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "TPM/TEE",
+      "function": "Attestation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.TPM-TEE.SEALING",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "TPM/TEE",
+      "function": "Sealing",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.PROCESS-MODEL.PROCESS-THREAD",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Process Model",
+      "function": "Process/Thread",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.PROCESS-MODEL.ISOLATION",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Process Model",
+      "function": "Isolation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.PROCESS-MODEL.LIFECYCLE",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Process Model",
+      "function": "Lifecycle",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.MEMORY-MANAGER.VIRTUAL-MEMORY",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Memory Manager",
+      "function": "Virtual Memory",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.MEMORY-MANAGER.ALLOCATION",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Memory Manager",
+      "function": "Allocation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.MEMORY-MANAGER.PROTECTION",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Memory Manager",
+      "function": "Protection",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.IPC.CHANNELS",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "IPC",
+      "function": "Channels",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.IPC.MESSAGES",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "IPC",
+      "function": "Messages",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.IPC.CAPABILITY-TRANSFER",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "IPC",
+      "function": "Capability Transfer",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.DRIVER-LAYER.STORAGE",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Driver Layer",
+      "function": "Storage",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.DRIVER-LAYER.NETWORK",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Driver Layer",
+      "function": "Network",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.DRIVER-LAYER.INPUT",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Driver Layer",
+      "function": "Input",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.DRIVER-LAYER.DISPLAY",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Driver Layer",
+      "function": "Display",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.FILESYSTEM.VFS",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Filesystem",
+      "function": "VFS",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.FILESYSTEM.FILESYSTEMS",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Filesystem",
+      "function": "Filesystems",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.FILESYSTEM.PERMISSIONS",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Filesystem",
+      "function": "Permissions",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.PACKAGE-SYSTEM.GPKG",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Package System",
+      "function": ".gpkg",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.PACKAGE-SYSTEM.MANIFEST",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Package System",
+      "function": "Manifest",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.PACKAGE-SYSTEM.SIGNATURE",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Package System",
+      "function": "Signature",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.PACKAGE-SYSTEM.DEPENDENCY",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Package System",
+      "function": "Dependency",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.UPDATE-SYSTEM.A-B-SLOTS",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Update System",
+      "function": "A/B Slots",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.UPDATE-SYSTEM.VERIFICATION",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Update System",
+      "function": "Verification",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.UPDATE-SYSTEM.ROLLBACK",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Update System",
+      "function": "Rollback",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.SYSTEM-SERVICES.NETWORK",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "System Services",
+      "function": "Network",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.SYSTEM-SERVICES.STORAGE",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "System Services",
+      "function": "Storage",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.SYSTEM-SERVICES.IDENTITY",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "System Services",
+      "function": "Identity",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.SYSTEM-SERVICES.POLICY",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "System Services",
+      "function": "Policy",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.RUNTIME-SANDBOX.ISOLATION",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Runtime Sandbox",
+      "function": "Isolation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.RUNTIME-SANDBOX.RESOURCE-LIMITS",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Runtime Sandbox",
+      "function": "Resource Limits",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "SHIVACORE-GLOBUSOS.RUNTIME-SANDBOX.CAPABILITY-BOUNDARY",
+      "domain": "ShivaCore / GlobusOS",
+      "component": "Runtime Sandbox",
+      "function": "Capability Boundary",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.AURORA-RUNTIME.SESSIONS",
+      "domain": "Aurora AI",
+      "component": "Aurora Runtime",
+      "function": "Sessions",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.AURORA-RUNTIME.EXECUTION-CONTEXT",
+      "domain": "Aurora AI",
+      "component": "Aurora Runtime",
+      "function": "Execution Context",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.AURORA-RUNTIME.LIFECYCLE",
+      "domain": "Aurora AI",
+      "component": "Aurora Runtime",
+      "function": "Lifecycle",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.MODELHUB.MODEL-REGISTRY",
+      "domain": "Aurora AI",
+      "component": "ModelHub",
+      "function": "Model Registry",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.MODELHUB.ROUTING",
+      "domain": "Aurora AI",
+      "component": "ModelHub",
+      "function": "Routing",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.MODELHUB.ADAPTER",
+      "domain": "Aurora AI",
+      "component": "ModelHub",
+      "function": "Adapter",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.MODELHUB.PROVIDER-ABSTRACTION",
+      "domain": "Aurora AI",
+      "component": "ModelHub",
+      "function": "Provider Abstraction",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.CONVERSATION.SESSIONS",
+      "domain": "Aurora AI",
+      "component": "Conversation",
+      "function": "Sessions",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.CONVERSATION.MESSAGES",
+      "domain": "Aurora AI",
+      "component": "Conversation",
+      "function": "Messages",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.CONVERSATION.CONTEXT",
+      "domain": "Aurora AI",
+      "component": "Conversation",
+      "function": "Context",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.MEMORY.SHORT-TERM-MEMORY",
+      "domain": "Aurora AI",
+      "component": "Memory",
+      "function": "Short-Term Memory",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.MEMORY.LONG-TERM-MEMORY",
+      "domain": "Aurora AI",
+      "component": "Memory",
+      "function": "Long-Term Memory",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.MEMORY.SCHEMA",
+      "domain": "Aurora AI",
+      "component": "Memory",
+      "function": "Schema",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.MEMORY.FEDERATION",
+      "domain": "Aurora AI",
+      "component": "Memory",
+      "function": "Federation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.MEMORY.RETRIEVAL",
+      "domain": "Aurora AI",
+      "component": "Memory",
+      "function": "Retrieval",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.RAG.INGESTION",
+      "domain": "Aurora AI",
+      "component": "RAG",
+      "function": "Ingestion",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.RAG.CHUNKING",
+      "domain": "Aurora AI",
+      "component": "RAG",
+      "function": "Chunking",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.RAG.EMBEDDING",
+      "domain": "Aurora AI",
+      "component": "RAG",
+      "function": "Embedding",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.RAG.RETRIEVAL",
+      "domain": "Aurora AI",
+      "component": "RAG",
+      "function": "Retrieval",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.RAG.RANKING",
+      "domain": "Aurora AI",
+      "component": "RAG",
+      "function": "Ranking",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.AGENT-LOOP.PLAN",
+      "domain": "Aurora AI",
+      "component": "Agent Loop",
+      "function": "Plan",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.AGENT-LOOP.ACT",
+      "domain": "Aurora AI",
+      "component": "Agent Loop",
+      "function": "Act",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.AGENT-LOOP.OBSERVE",
+      "domain": "Aurora AI",
+      "component": "Agent Loop",
+      "function": "Observe",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.AGENT-LOOP.REFLECT",
+      "domain": "Aurora AI",
+      "component": "Agent Loop",
+      "function": "Reflect",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.AGENT-LOOP.TERMINATE",
+      "domain": "Aurora AI",
+      "component": "Agent Loop",
+      "function": "Terminate",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.TOOL-SYSTEM.TOOL-REGISTRY",
+      "domain": "Aurora AI",
+      "component": "Tool System",
+      "function": "Tool Registry",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.TOOL-SYSTEM.INVOCATION",
+      "domain": "Aurora AI",
+      "component": "Tool System",
+      "function": "Invocation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.TOOL-SYSTEM.SCHEMA-VALIDATION",
+      "domain": "Aurora AI",
+      "component": "Tool System",
+      "function": "Schema Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.CAPABILITY-SYSTEM.CAPABILITY-GRANT",
+      "domain": "Aurora AI",
+      "component": "Capability System",
+      "function": "Capability Grant",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.CAPABILITY-SYSTEM.SCOPE",
+      "domain": "Aurora AI",
+      "component": "Capability System",
+      "function": "Scope",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.CAPABILITY-SYSTEM.EXPIRY",
+      "domain": "Aurora AI",
+      "component": "Capability System",
+      "function": "Expiry",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.CAPABILITY-SYSTEM.REVOCATION",
+      "domain": "Aurora AI",
+      "component": "Capability System",
+      "function": "Revocation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.POLICY-ENGINE.POLICY-EVALUATION",
+      "domain": "Aurora AI",
+      "component": "Policy Engine",
+      "function": "Policy Evaluation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.POLICY-ENGINE.ALLOW-DENY",
+      "domain": "Aurora AI",
+      "component": "Policy Engine",
+      "function": "Allow/Deny",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.POLICY-ENGINE.CONSTRAINTS",
+      "domain": "Aurora AI",
+      "component": "Policy Engine",
+      "function": "Constraints",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.APPROVAL-SYSTEM.HUMAN-APPROVAL",
+      "domain": "Aurora AI",
+      "component": "Approval System",
+      "function": "Human Approval",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.APPROVAL-SYSTEM.APPROVAL-TOKENS",
+      "domain": "Aurora AI",
+      "component": "Approval System",
+      "function": "Approval Tokens",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.APPROVAL-SYSTEM.ESCALATION",
+      "domain": "Aurora AI",
+      "component": "Approval System",
+      "function": "Escalation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.TOOL-AUDIT.REQUEST",
+      "domain": "Aurora AI",
+      "component": "Tool Audit",
+      "function": "Request",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.TOOL-AUDIT.DECISION",
+      "domain": "Aurora AI",
+      "component": "Tool Audit",
+      "function": "Decision",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.TOOL-AUDIT.EXECUTION",
+      "domain": "Aurora AI",
+      "component": "Tool Audit",
+      "function": "Execution",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.TOOL-AUDIT.RESULT",
+      "domain": "Aurora AI",
+      "component": "Tool Audit",
+      "function": "Result",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.MULTIMODAL.TEXT",
+      "domain": "Aurora AI",
+      "component": "Multimodal",
+      "function": "Text",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.MULTIMODAL.IMAGE",
+      "domain": "Aurora AI",
+      "component": "Multimodal",
+      "function": "Image",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.MULTIMODAL.AUDIO",
+      "domain": "Aurora AI",
+      "component": "Multimodal",
+      "function": "Audio",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.MULTIMODAL.VIDEO",
+      "domain": "Aurora AI",
+      "component": "Multimodal",
+      "function": "Video",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.INFERENCE.STREAMING",
+      "domain": "Aurora AI",
+      "component": "Inference",
+      "function": "Streaming",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.INFERENCE.BATCHING",
+      "domain": "Aurora AI",
+      "component": "Inference",
+      "function": "Batching",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.INFERENCE.CONTEXT-MANAGEMENT",
+      "domain": "Aurora AI",
+      "component": "Inference",
+      "function": "Context Management",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.SAFETY-BOUNDARY.INPUT-OUTPUT-CONTROLS",
+      "domain": "Aurora AI",
+      "component": "Safety Boundary",
+      "function": "Input/Output Controls",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.SAFETY-BOUNDARY.POLICY-ENFORCEMENT",
+      "domain": "Aurora AI",
+      "component": "Safety Boundary",
+      "function": "Policy Enforcement",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.GLOBUSOS-INTEGRATION.IPC",
+      "domain": "Aurora AI",
+      "component": "GlobusOS Integration",
+      "function": "IPC",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.GLOBUSOS-INTEGRATION.CAPABILITIES",
+      "domain": "Aurora AI",
+      "component": "GlobusOS Integration",
+      "function": "Capabilities",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "AURORA-AI.GLOBUSOS-INTEGRATION.SECURE-RUNTIME-ACCESS",
+      "domain": "Aurora AI",
+      "component": "GlobusOS Integration",
+      "function": "Secure Runtime Access",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.GENESIS-RUNTIME.GAME-LOOP",
+      "domain": "Genesis Engine",
+      "component": "Genesis Runtime",
+      "function": "Game Loop",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.GENESIS-RUNTIME.TICK",
+      "domain": "Genesis Engine",
+      "component": "Genesis Runtime",
+      "function": "Tick",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.GENESIS-RUNTIME.SCHEDULING",
+      "domain": "Genesis Engine",
+      "component": "Genesis Runtime",
+      "function": "Scheduling",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.GENESIS-RUNTIME.LIFECYCLE",
+      "domain": "Genesis Engine",
+      "component": "Genesis Runtime",
+      "function": "Lifecycle",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ENTITY-COMPONENT-SYSTEM.ENTITY",
+      "domain": "Genesis Engine",
+      "component": "Entity/Component System",
+      "function": "Entity",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ENTITY-COMPONENT-SYSTEM.COMPONENT",
+      "domain": "Genesis Engine",
+      "component": "Entity/Component System",
+      "function": "Component",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ENTITY-COMPONENT-SYSTEM.SYSTEM",
+      "domain": "Genesis Engine",
+      "component": "Entity/Component System",
+      "function": "System",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ENTITY-COMPONENT-SYSTEM.QUERIES",
+      "domain": "Genesis Engine",
+      "component": "Entity/Component System",
+      "function": "Queries",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.WORLD-SYSTEM.WORLDS",
+      "domain": "Genesis Engine",
+      "component": "World System",
+      "function": "Worlds",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.WORLD-SYSTEM.REGIONS",
+      "domain": "Genesis Engine",
+      "component": "World System",
+      "function": "Regions",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.WORLD-SYSTEM.STREAMING",
+      "domain": "Genesis Engine",
+      "component": "World System",
+      "function": "Streaming",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.WORLD-SYSTEM.PERSISTENCE",
+      "domain": "Genesis Engine",
+      "component": "World System",
+      "function": "Persistence",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.CHARACTER-SYSTEM.CHARACTER",
+      "domain": "Genesis Engine",
+      "component": "Character System",
+      "function": "Character",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.CHARACTER-SYSTEM.ATTRIBUTES",
+      "domain": "Genesis Engine",
+      "component": "Character System",
+      "function": "Attributes",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.CHARACTER-SYSTEM.SKILLS",
+      "domain": "Genesis Engine",
+      "component": "Character System",
+      "function": "Skills",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.CHARACTER-SYSTEM.PROGRESSION",
+      "domain": "Genesis Engine",
+      "component": "Character System",
+      "function": "Progression",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.IDENTITY-DOMAIN.SPECIES",
+      "domain": "Genesis Engine",
+      "component": "Identity Domain",
+      "function": "Species",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.IDENTITY-DOMAIN.CULTURE",
+      "domain": "Genesis Engine",
+      "component": "Identity Domain",
+      "function": "Culture",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.IDENTITY-DOMAIN.LINEAGE",
+      "domain": "Genesis Engine",
+      "component": "Identity Domain",
+      "function": "Lineage",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.IDENTITY-DOMAIN.CHARACTER-IDENTITY",
+      "domain": "Genesis Engine",
+      "component": "Identity Domain",
+      "function": "Character Identity",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.COMBAT.DAMAGE",
+      "domain": "Genesis Engine",
+      "component": "Combat",
+      "function": "Damage",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.COMBAT.DEFENSE",
+      "domain": "Genesis Engine",
+      "component": "Combat",
+      "function": "Defense",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.COMBAT.STATUS",
+      "domain": "Genesis Engine",
+      "component": "Combat",
+      "function": "Status",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.COMBAT.ABILITIES",
+      "domain": "Genesis Engine",
+      "component": "Combat",
+      "function": "Abilities",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.AI.NPC",
+      "domain": "Genesis Engine",
+      "component": "AI",
+      "function": "NPC",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.AI.BEHAVIOR",
+      "domain": "Genesis Engine",
+      "component": "AI",
+      "function": "Behavior",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.AI.PLANNING",
+      "domain": "Genesis Engine",
+      "component": "AI",
+      "function": "Planning",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.AI.PERCEPTION",
+      "domain": "Genesis Engine",
+      "component": "AI",
+      "function": "Perception",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.DIALOGUE-AI.DIALOGUE-GRAPH",
+      "domain": "Genesis Engine",
+      "component": "Dialogue AI",
+      "function": "Dialogue Graph",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.DIALOGUE-AI.CONTEXT",
+      "domain": "Genesis Engine",
+      "component": "Dialogue AI",
+      "function": "Context",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.DIALOGUE-AI.STATE",
+      "domain": "Genesis Engine",
+      "component": "Dialogue AI",
+      "function": "State",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.DIALOGUE-AI.GENERATION",
+      "domain": "Genesis Engine",
+      "component": "Dialogue AI",
+      "function": "Generation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.QUEST-SYSTEM.QUEST-DEFINITION",
+      "domain": "Genesis Engine",
+      "component": "Quest System",
+      "function": "Quest Definition",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.QUEST-SYSTEM.OBJECTIVES",
+      "domain": "Genesis Engine",
+      "component": "Quest System",
+      "function": "Objectives",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.QUEST-SYSTEM.STATE",
+      "domain": "Genesis Engine",
+      "component": "Quest System",
+      "function": "State",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.QUEST-SYSTEM.REWARDS",
+      "domain": "Genesis Engine",
+      "component": "Quest System",
+      "function": "Rewards",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ANIMATION.SKELETON",
+      "domain": "Genesis Engine",
+      "component": "Animation",
+      "function": "Skeleton",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ANIMATION.ANIMATION-STATE",
+      "domain": "Genesis Engine",
+      "component": "Animation",
+      "function": "Animation State",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ANIMATION.BLEND",
+      "domain": "Genesis Engine",
+      "component": "Animation",
+      "function": "Blend",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ANIMATION.IK",
+      "domain": "Genesis Engine",
+      "component": "Animation",
+      "function": "IK",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.PHYSICS.COLLISION",
+      "domain": "Genesis Engine",
+      "component": "Physics",
+      "function": "Collision",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.PHYSICS.RIGID-BODY",
+      "domain": "Genesis Engine",
+      "component": "Physics",
+      "function": "Rigid Body",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.PHYSICS.CONSTRAINTS",
+      "domain": "Genesis Engine",
+      "component": "Physics",
+      "function": "Constraints",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.INVENTORY.ITEMS",
+      "domain": "Genesis Engine",
+      "component": "Inventory",
+      "function": "Items",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.INVENTORY.CONTAINERS",
+      "domain": "Genesis Engine",
+      "component": "Inventory",
+      "function": "Containers",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.INVENTORY.EQUIPMENT",
+      "domain": "Genesis Engine",
+      "component": "Inventory",
+      "function": "Equipment",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.CRAFTING.RECIPES",
+      "domain": "Genesis Engine",
+      "component": "Crafting",
+      "function": "Recipes",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.CRAFTING.MATERIALS",
+      "domain": "Genesis Engine",
+      "component": "Crafting",
+      "function": "Materials",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.CRAFTING.PRODUCTION",
+      "domain": "Genesis Engine",
+      "component": "Crafting",
+      "function": "Production",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ECONOMY.CURRENCY",
+      "domain": "Genesis Engine",
+      "component": "Economy",
+      "function": "Currency",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ECONOMY.TRADE",
+      "domain": "Genesis Engine",
+      "component": "Economy",
+      "function": "Trade",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ECONOMY.MARKET",
+      "domain": "Genesis Engine",
+      "component": "Economy",
+      "function": "Market",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ECONOMY.PRICING",
+      "domain": "Genesis Engine",
+      "component": "Economy",
+      "function": "Pricing",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.NETWORKING.REPLICATION",
+      "domain": "Genesis Engine",
+      "component": "Networking",
+      "function": "Replication",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.NETWORKING.PREDICTION",
+      "domain": "Genesis Engine",
+      "component": "Networking",
+      "function": "Prediction",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.NETWORKING.AUTHORITY",
+      "domain": "Genesis Engine",
+      "component": "Networking",
+      "function": "Authority",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.NETWORKING.SYNC",
+      "domain": "Genesis Engine",
+      "component": "Networking",
+      "function": "Sync",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.PERSISTENCE.SAVE-LOAD",
+      "domain": "Genesis Engine",
+      "component": "Persistence",
+      "function": "Save/Load",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.PERSISTENCE.SERIALIZATION",
+      "domain": "Genesis Engine",
+      "component": "Persistence",
+      "function": "Serialization",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.PERSISTENCE.VERSIONING",
+      "domain": "Genesis Engine",
+      "component": "Persistence",
+      "function": "Versioning",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.MOD-SYSTEM.MODS",
+      "domain": "Genesis Engine",
+      "component": "Mod System",
+      "function": "Mods",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.MOD-SYSTEM.DEPENDENCIES",
+      "domain": "Genesis Engine",
+      "component": "Mod System",
+      "function": "Dependencies",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.MOD-SYSTEM.SANDBOXING",
+      "domain": "Genesis Engine",
+      "component": "Mod System",
+      "function": "Sandboxing",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.MOD-SYSTEM.VERSIONING",
+      "domain": "Genesis Engine",
+      "component": "Mod System",
+      "function": "Versioning",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.EDITOR.WORLD-EDITOR",
+      "domain": "Genesis Engine",
+      "component": "Editor",
+      "function": "World Editor",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.EDITOR.ENTITY-EDITOR",
+      "domain": "Genesis Engine",
+      "component": "Editor",
+      "function": "Entity Editor",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.EDITOR.ASSET-EDITOR",
+      "domain": "Genesis Engine",
+      "component": "Editor",
+      "function": "Asset Editor",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.EDITOR.SCRIPT-EDITOR",
+      "domain": "Genesis Engine",
+      "component": "Editor",
+      "function": "Script Editor",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.EDITOR.QUEST-EDITOR",
+      "domain": "Genesis Engine",
+      "component": "Editor",
+      "function": "Quest Editor",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ASSET-PIPELINE.IMPORT",
+      "domain": "Genesis Engine",
+      "component": "Asset Pipeline",
+      "function": "Import",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ASSET-PIPELINE.BUILD",
+      "domain": "Genesis Engine",
+      "component": "Asset Pipeline",
+      "function": "Build",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ASSET-PIPELINE.VALIDATION",
+      "domain": "Genesis Engine",
+      "component": "Asset Pipeline",
+      "function": "Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.ASSET-PIPELINE.PACKAGING",
+      "domain": "Genesis Engine",
+      "component": "Asset Pipeline",
+      "function": "Packaging",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.SDK.RUNTIME-API",
+      "domain": "Genesis Engine",
+      "component": "SDK",
+      "function": "Runtime API",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.SDK.PLUGIN-API",
+      "domain": "Genesis Engine",
+      "component": "SDK",
+      "function": "Plugin API",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-ENGINE.SDK.MOD-API",
+      "domain": "Genesis Engine",
+      "component": "SDK",
+      "function": "Mod API",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.CAMPAIGN.STORY",
+      "domain": "Genesis Chronicles",
+      "component": "Campaign",
+      "function": "Story",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.CAMPAIGN.CHAPTERS",
+      "domain": "Genesis Chronicles",
+      "component": "Campaign",
+      "function": "Chapters",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.CAMPAIGN.PROGRESSION",
+      "domain": "Genesis Chronicles",
+      "component": "Campaign",
+      "function": "Progression",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.WORLDS-1-50.WORLD-DEFINITIONS",
+      "domain": "Genesis Chronicles",
+      "component": "Worlds 1–50",
+      "function": "World Definitions",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.WORLDS-1-50.CONTENT",
+      "domain": "Genesis Chronicles",
+      "component": "Worlds 1–50",
+      "function": "Content",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.WORLDS-1-50.RULES",
+      "domain": "Genesis Chronicles",
+      "component": "Worlds 1–50",
+      "function": "Rules",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.UR-GENESIS.CANONICAL-ORIGIN-WORLD",
+      "domain": "Genesis Chronicles",
+      "component": "Ur-Genesis",
+      "function": "Canonical Origin World",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.WORLD-51.SPECIAL-META-WORLD",
+      "domain": "Genesis Chronicles",
+      "component": "World 51",
+      "function": "Special/Meta World",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.CHARACTERS.PLAYER",
+      "domain": "Genesis Chronicles",
+      "component": "Characters",
+      "function": "Player",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.CHARACTERS.NPC",
+      "domain": "Genesis Chronicles",
+      "component": "Characters",
+      "function": "NPC",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.CHARACTERS.COMPANIONS",
+      "domain": "Genesis Chronicles",
+      "component": "Characters",
+      "function": "Companions",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.DIALOGUE.CHARACTER-CONTEXT",
+      "domain": "Genesis Chronicles",
+      "component": "Dialogue",
+      "function": "Character Context",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.DIALOGUE.DIALOGUE-AI",
+      "domain": "Genesis Chronicles",
+      "component": "Dialogue",
+      "function": "Dialogue AI",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.QUESTS.MAIN-QUESTS",
+      "domain": "Genesis Chronicles",
+      "component": "Quests",
+      "function": "Main Quests",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.QUESTS.SIDE-QUESTS",
+      "domain": "Genesis Chronicles",
+      "component": "Quests",
+      "function": "Side Quests",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.QUESTS.DYNAMIC-QUESTS",
+      "domain": "Genesis Chronicles",
+      "component": "Quests",
+      "function": "Dynamic Quests",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.COMBAT.ENCOUNTERS",
+      "domain": "Genesis Chronicles",
+      "component": "Combat",
+      "function": "Encounters",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.COMBAT.BOSSES",
+      "domain": "Genesis Chronicles",
+      "component": "Combat",
+      "function": "Bosses",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.COMBAT.ABILITIES",
+      "domain": "Genesis Chronicles",
+      "component": "Combat",
+      "function": "Abilities",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.ITEMS.LOOT",
+      "domain": "Genesis Chronicles",
+      "component": "Items",
+      "function": "Loot",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.ITEMS.EQUIPMENT",
+      "domain": "Genesis Chronicles",
+      "component": "Items",
+      "function": "Equipment",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.ITEMS.CRAFTING",
+      "domain": "Genesis Chronicles",
+      "component": "Items",
+      "function": "Crafting",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.SAVE-SYSTEM.CAMPAIGN-STATE",
+      "domain": "Genesis Chronicles",
+      "component": "Save System",
+      "function": "Campaign State",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.SAVE-SYSTEM.CHARACTER-STATE",
+      "domain": "Genesis Chronicles",
+      "component": "Save System",
+      "function": "Character State",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-CHRONICLES.MOD-INTEGRATION.ENGINE-MOD-API",
+      "domain": "Genesis Chronicles",
+      "component": "Mod Integration",
+      "function": "Engine Mod API",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.FRANCHISE-DEFINITION.UNIVERSE",
+      "domain": "Genesis Franchise Factory",
+      "component": "Franchise Definition",
+      "function": "Universe",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.FRANCHISE-DEFINITION.RULES",
+      "domain": "Genesis Franchise Factory",
+      "component": "Franchise Definition",
+      "function": "Rules",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.FRANCHISE-DEFINITION.CANON",
+      "domain": "Genesis Franchise Factory",
+      "component": "Franchise Definition",
+      "function": "Canon",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.WORLD-GENERATOR.PROCEDURAL-WORLDS",
+      "domain": "Genesis Franchise Factory",
+      "component": "World Generator",
+      "function": "Procedural Worlds",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.WORLD-GENERATOR.TEMPLATE-WORLDS",
+      "domain": "Genesis Franchise Factory",
+      "component": "World Generator",
+      "function": "Template Worlds",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.CHARACTER-GENERATOR.SPECIES",
+      "domain": "Genesis Franchise Factory",
+      "component": "Character Generator",
+      "function": "Species",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.CHARACTER-GENERATOR.CULTURE",
+      "domain": "Genesis Franchise Factory",
+      "component": "Character Generator",
+      "function": "Culture",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.CHARACTER-GENERATOR.LINEAGE",
+      "domain": "Genesis Franchise Factory",
+      "component": "Character Generator",
+      "function": "Lineage",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.CHARACTER-GENERATOR.TRAITS",
+      "domain": "Genesis Franchise Factory",
+      "component": "Character Generator",
+      "function": "Traits",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.QUEST-GENERATOR.TEMPLATES",
+      "domain": "Genesis Franchise Factory",
+      "component": "Quest Generator",
+      "function": "Templates",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.QUEST-GENERATOR.OBJECTIVES",
+      "domain": "Genesis Franchise Factory",
+      "component": "Quest Generator",
+      "function": "Objectives",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.QUEST-GENERATOR.REWARDS",
+      "domain": "Genesis Franchise Factory",
+      "component": "Quest Generator",
+      "function": "Rewards",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.DIALOGUE-GENERATOR.DIALOGUE-STRUCTURES",
+      "domain": "Genesis Franchise Factory",
+      "component": "Dialogue Generator",
+      "function": "Dialogue Structures",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.ASSET-GENERATOR.CONTENT-PIPELINE",
+      "domain": "Genesis Franchise Factory",
+      "component": "Asset Generator",
+      "function": "Content Pipeline",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.GAME-CONFIGURATION.RULESETS",
+      "domain": "Genesis Franchise Factory",
+      "component": "Game Configuration",
+      "function": "Rulesets",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.GAME-CONFIGURATION.BALANCE",
+      "domain": "Genesis Franchise Factory",
+      "component": "Game Configuration",
+      "function": "Balance",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.GAME-CONFIGURATION.CONTENT",
+      "domain": "Genesis Franchise Factory",
+      "component": "Game Configuration",
+      "function": "Content",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.EXPORT.GENESIS-ENGINE-PACKAGE",
+      "domain": "Genesis Franchise Factory",
+      "component": "Export",
+      "function": "Genesis Engine Package",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.VALIDATION.CANON",
+      "domain": "Genesis Franchise Factory",
+      "component": "Validation",
+      "function": "Canon",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.VALIDATION.SCHEMA",
+      "domain": "Genesis Franchise Factory",
+      "component": "Validation",
+      "function": "Schema",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.VALIDATION.DEPENDENCY",
+      "domain": "Genesis Franchise Factory",
+      "component": "Validation",
+      "function": "Dependency",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "GENESIS-FRANCHISE-FACTORY.VALIDATION.COMPATIBILITY",
+      "domain": "Genesis Franchise Factory",
+      "component": "Validation",
+      "function": "Compatibility",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.SERIALIZATION.CANONICAL-ENCODING",
+      "domain": "Cross-cutting",
+      "component": "Serialization",
+      "function": "Canonical Encoding",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.SERIALIZATION.CANONICAL-DECODING",
+      "domain": "Cross-cutting",
+      "component": "Serialization",
+      "function": "Canonical Decoding",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.SCHEMA-REGISTRY.VERSIONED-DATA-MODELS",
+      "domain": "Cross-cutting",
+      "component": "Schema Registry",
+      "function": "Versioned Data Models",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.EVENT-SYSTEM.EVENT-DEFINITION",
+      "domain": "Cross-cutting",
+      "component": "Event System",
+      "function": "Event Definition",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.EVENT-SYSTEM.DISPATCH",
+      "domain": "Cross-cutting",
+      "component": "Event System",
+      "function": "Dispatch",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.EVENT-SYSTEM.PERSISTENCE",
+      "domain": "Cross-cutting",
+      "component": "Event System",
+      "function": "Persistence",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.CONFIGURATION.TYPED-CONFIG",
+      "domain": "Cross-cutting",
+      "component": "Configuration",
+      "function": "Typed Config",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.CONFIGURATION.VALIDATION",
+      "domain": "Cross-cutting",
+      "component": "Configuration",
+      "function": "Validation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.CONFIGURATION.ENVIRONMENT",
+      "domain": "Cross-cutting",
+      "component": "Configuration",
+      "function": "Environment",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.TELEMETRY.METRICS",
+      "domain": "Cross-cutting",
+      "component": "Telemetry",
+      "function": "Metrics",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.TELEMETRY.TRACES",
+      "domain": "Cross-cutting",
+      "component": "Telemetry",
+      "function": "Traces",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.TELEMETRY.DIAGNOSTICS",
+      "domain": "Cross-cutting",
+      "component": "Telemetry",
+      "function": "Diagnostics",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.LOGGING.STRUCTURED-LOGS",
+      "domain": "Cross-cutting",
+      "component": "Logging",
+      "function": "Structured Logs",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.LOGGING.AUDIT-LOGS",
+      "domain": "Cross-cutting",
+      "component": "Logging",
+      "function": "Audit Logs",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.ERROR-MODEL.TYPED-ERRORS",
+      "domain": "Cross-cutting",
+      "component": "Error Model",
+      "function": "Typed Errors",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.ERROR-MODEL.CODES",
+      "domain": "Cross-cutting",
+      "component": "Error Model",
+      "function": "Codes",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.ERROR-MODEL.RECOVERY",
+      "domain": "Cross-cutting",
+      "component": "Error Model",
+      "function": "Recovery",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.VERSIONING.PROTOCOL-VERSION",
+      "domain": "Cross-cutting",
+      "component": "Versioning",
+      "function": "Protocol Version",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.VERSIONING.API-VERSION",
+      "domain": "Cross-cutting",
+      "component": "Versioning",
+      "function": "API Version",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.VERSIONING.SCHEMA-VERSION",
+      "domain": "Cross-cutting",
+      "component": "Versioning",
+      "function": "Schema Version",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.VERSIONING.STATE-VERSION",
+      "domain": "Cross-cutting",
+      "component": "Versioning",
+      "function": "State Version",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.MIGRATION.STATE-MIGRATION",
+      "domain": "Cross-cutting",
+      "component": "Migration",
+      "function": "State Migration",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.MIGRATION.DATA-MIGRATION",
+      "domain": "Cross-cutting",
+      "component": "Migration",
+      "function": "Data Migration",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.MIGRATION.SCHEMA-MIGRATION",
+      "domain": "Cross-cutting",
+      "component": "Migration",
+      "function": "Schema Migration",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.PLUGIN-SYSTEM.DISCOVERY",
+      "domain": "Cross-cutting",
+      "component": "Plugin System",
+      "function": "Discovery",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.PLUGIN-SYSTEM.LOADING",
+      "domain": "Cross-cutting",
+      "component": "Plugin System",
+      "function": "Loading",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.PLUGIN-SYSTEM.LIFECYCLE",
+      "domain": "Cross-cutting",
+      "component": "Plugin System",
+      "function": "Lifecycle",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.PLUGIN-SYSTEM.ISOLATION",
+      "domain": "Cross-cutting",
+      "component": "Plugin System",
+      "function": "Isolation",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.DEPENDENCY-MANAGEMENT.GRAPH",
+      "domain": "Cross-cutting",
+      "component": "Dependency Management",
+      "function": "Graph",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.DEPENDENCY-MANAGEMENT.VERSION-CONSTRAINTS",
+      "domain": "Cross-cutting",
+      "component": "Dependency Management",
+      "function": "Version Constraints",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.DEPENDENCY-MANAGEMENT.COMPATIBILITY",
+      "domain": "Cross-cutting",
+      "component": "Dependency Management",
+      "function": "Compatibility",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.TESTING.UNIT",
+      "domain": "Cross-cutting",
+      "component": "Testing",
+      "function": "Unit",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.TESTING.INTEGRATION",
+      "domain": "Cross-cutting",
+      "component": "Testing",
+      "function": "Integration",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.TESTING.PROPERTY",
+      "domain": "Cross-cutting",
+      "component": "Testing",
+      "function": "Property",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.TESTING.NEGATIVE",
+      "domain": "Cross-cutting",
+      "component": "Testing",
+      "function": "Negative",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.TESTING.FUZZ",
+      "domain": "Cross-cutting",
+      "component": "Testing",
+      "function": "Fuzz",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.DETERMINISM.REPRODUCIBILITY",
+      "domain": "Cross-cutting",
+      "component": "Determinism",
+      "function": "Reproducibility",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.DETERMINISM.CANONICAL-SERIALIZATION",
+      "domain": "Cross-cutting",
+      "component": "Determinism",
+      "function": "Canonical Serialization",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.CI-CD.BUILD",
+      "domain": "Cross-cutting",
+      "component": "CI/CD",
+      "function": "Build",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.CI-CD.TEST",
+      "domain": "Cross-cutting",
+      "component": "CI/CD",
+      "function": "Test",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.CI-CD.SECURITY",
+      "domain": "Cross-cutting",
+      "component": "CI/CD",
+      "function": "Security",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.CI-CD.EVIDENCE",
+      "domain": "Cross-cutting",
+      "component": "CI/CD",
+      "function": "Evidence",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.EVIDENCE.SOURCE-TEST",
+      "domain": "Cross-cutting",
+      "component": "Evidence",
+      "function": "Source → Test",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.EVIDENCE.TEST-CI",
+      "domain": "Cross-cutting",
+      "component": "Evidence",
+      "function": "Test → CI",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.EVIDENCE.CI-E2E",
+      "domain": "Cross-cutting",
+      "component": "Evidence",
+      "function": "CI → E2E",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.DOCUMENTATION.ARCHITECTURE",
+      "domain": "Cross-cutting",
+      "component": "Documentation",
+      "function": "Architecture",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.DOCUMENTATION.SPECIFICATION",
+      "domain": "Cross-cutting",
+      "component": "Documentation",
+      "function": "Specification",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.DOCUMENTATION.API",
+      "domain": "Cross-cutting",
+      "component": "Documentation",
+      "function": "API",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    },
+    {
+      "id": "CROSS-CUTTING.DOCUMENTATION.OPERATIONS",
+      "domain": "Cross-cutting",
+      "component": "Documentation",
+      "function": "Operations",
+      "status": "UNASSESSED",
+      "evidence": {
+        "spec": null,
+        "source": null,
+        "unit_test": null,
+        "integration_test": null,
+        "ci_exact_sha": null,
+        "e2e": null,
+        "release": null
+      },
+      "notes": null
+    }
+  ]
+}
