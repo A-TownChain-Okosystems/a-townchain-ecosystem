@@ -447,13 +447,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self
+            let parent_id = self
                 .blocks
                 .read()
                 .unwrap()
                 .get(&block.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id {
+            if block.parent_hash != parent_id {
                 return Err("canonical parent mismatch".into());
             }
         } else if block.parent_hash != [0; 32] {
@@ -547,7 +548,7 @@ impl ChainStorage {
     pub fn commit_validators(
         &self,
         height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<(), String> {
         let Some(p) = &self.validator_journal else {
@@ -615,7 +616,7 @@ impl ChainStorage {
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec())
                     .map_err(|_| "invalid validator address")?;
-                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let stake = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let public_key = fixed::<32>(&b, &mut q)?;
                 ed25519_dalek::VerifyingKey::from_bytes(&public_key)
                     .map_err(|_| "invalid validator public key")?;
