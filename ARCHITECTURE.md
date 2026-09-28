@@ -602,7 +602,7 @@ Difficulty
 + Quest Importance
 → Reward Proposal
 → Economy Validation
-→ Reward
+→ Authorized Reward
 ```
 
 Unterstützte Reward-Klassen:
