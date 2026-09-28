@@ -5014,3 +5014,109 @@ ARCH-006 Protocol / Data / Economics / Proof / Topology / Completeness
 ~~~
  
 ARCH-006 closes architecture-level gaps. Implementation status remains subject to component-level verification and exact-SHA evidence.
+
+ 
+---
+ 
+# ARCH-007 — Domain Subsystem Completeness and Cross-Domain Control Architecture
+ 
+ARCH-007 defines additional subsystem contracts required to make the master architecture operationally complete across blockchain, OS, AI, Genesis, developer, commercial and user-facing domains. It complements ARCH-001 through ARCH-006 and does not imply implementation.
+ 
+## 1. Blockchain State Model and Transaction Semantics
+The protocol MUST explicitly define its canonical state model: account/state-object or UTXO model; ownership; nonce semantics; contract storage ownership; state-root construction; transaction ordering; fee payer/signer relationships; expiration; replay protection; failed-transaction effects; storage economics where applicable; pruning/archive behavior; canonical state commitment.
+ 
+## 2. Fee Market and Transaction Resource Economics
+The protocol MUST define base/dynamic fees where applicable, priority fees, minimum admission fees, resource pricing, gas/execution accounting, block and transaction resource limits, fee distribution/burning/treasury/validator treatment, failed-execution fee semantics, congestion behavior and anti-spam economics.
+ 
+## 3. Validator Lifecycle, Staking and Slashing
+Validator operation MUST cover Identity → Registration → Stake/Bond → Eligibility → Active Set → Proposal/Voting → Rewards → Performance Accounting → Slashing/Restriction → Exit/Unbond → Withdrawal. It MUST define activation delays, downtime/equivocation evidence, reward accounting, key rotation and governance boundaries.
+ 
+## 4. Consensus Safety and Liveness
+Consensus MUST define safety, liveness assumptions, synchrony, quorum, validator-set changes, proposer selection, voting phases, equivocation, duplicate votes, conflicting blocks, fork choice where applicable, finality proofs, timeout/view-change and restart/resynchronization behavior.
+ 
+## 5. Reorganization and Canonicality Handling
+Non-finalized consumers MUST define behavior for forks, reorgs, reverted transactions/receipts, mempool reinsertion, index rollback, explorer/API visibility, notification invalidation and cache invalidation. Finalized state MUST have an explicit irreversibility contract.
+ 
+## 6. Indexer, Explorer and Read-Model Consistency
+The canonical read path is Commit → Event/Change Feed → Indexer → Derived Read Model → API → Explorer/Application. Ordering, replay, idempotency, reindexing, rollback, schema versioning, lag, missing events, corruption detection and rebuild-from-canonical-state MUST be defined.
+ 
+## 7. RPC, API Gateway and External Interfaces
+Every external API MUST declare owner, version, authentication, authorization, capability, rate limits, quotas, schemas, pagination, idempotency, timeout/cancellation, errors, compatibility, abuse controls, audit and deprecation. Reachability MUST NOT confer authority.
+ 
+## 8. Service Discovery and Internal Control Plane
+Internal services MUST define service identity, discovery/registration, endpoint ownership, health/readiness, capability advertisement, version negotiation, certificate/key lifecycle, timeout/retry, circuit breaking, dependency policy and graceful degradation.
+ 
+## 9. Distributed Configuration and Feature Flags
+Build-time, deployment-time, runtime, protocol, governance, feature-flag and secret configuration MUST be distinct. Source authority, precedence, validation, rollout, consistency, rollback and audit MUST be defined. Feature flags MUST NOT silently alter consensus or security semantics.
+ 
+## 10. Identity Federation and Trust Domains
+Human, device, workload, service and cryptographic identities MUST have explicit relationships. Blockchain accounts, wallet keys, OS principals, Aurora agents, Genesis users and external identities remain distinct unless an explicit binding exists. Delegation, impersonation, session binding, revocation and recovery MUST be defined.
+ 
+## 11. Key Custody, Wallet and Recovery
+Wallet architecture MUST define entropy, key generation/derivation, signing, secure storage, hardware wallet/HSM integration where applicable, backup, recovery, rotation, revocation, compromise response and signing-domain enforcement. Wallets MUST consume canonical protocol semantics.
+ 
+## 12. Smart-Contract Lifecycle and Governance
+Contract lifecycle MUST cover Author → Compile → Canonical IR/ABI → Bytecode → Analysis → Verification → Deployment Authorization → On-Chain Deployment → Versioned Execution → Upgrade/Migration/Retirement. Upgrade authority, timelocks, storage compatibility, code identity and emergency handling MUST be explicit.
+ 
+## 13. VM Resource and Determinism Governance
+VM architecture MUST define resource/gas costs, stack/heap/storage limits, recursion/call depth, memory, timeout, deterministic host functions, forbidden nondeterminism, rollback, errors and receipts. Limits MUST be enforced at the authoritative execution boundary.
+ 
+## 14. Protocol Randomness and Selection
+Protocol randomness MUST define entropy, commitment/reveal, derivation, epoch/validator binding, bias resistance, manipulation resistance, verification, replay and recovery. Game randomness and AI sampling MUST remain separate.
+ 
+## 15. Storage Engine and Database Consistency
+Persistent services MUST define storage ownership, atomicity, durability, consistency, concurrency, WAL/journaling, compaction, corruption detection, checksums, snapshots, recovery, schema migration, disk exhaustion and repair/rebuild. Database success MUST NOT equal protocol finality.
+ 
+## 16. Event Bus and Messaging Semantics
+Messages MUST distinguish command, canonical event, integration event, telemetry, audit event and notification. Schema/version, ordering, delivery, duplication, replay, retention, dead-letter handling, authorization and provenance MUST be defined.
+ 
+## 17. Search, Knowledge and Retrieval
+Canonical Source → Ingestion → Normalization → Index → Retrieval → Ranking → Presentation MUST preserve provenance. AI retrieval, blockchain indexing and Genesis knowledge systems MUST distinguish retrieved evidence from canonical state and support rebuild where applicable.
+ 
+## 18. Aurora Model and Agent Lifecycle
+Aurora MUST define Model Artifact → Provenance/Integrity → Registration → Capability Profile → Runtime → Context → Agent Session → Planning → Policy/Approval → Tool Execution → Result Validation → Memory Update → Audit → Termination. Model versioning, rollback, budgets, identity, delegation, recursion limits, tool isolation, routing, evaluation and memory trust levels MUST be explicit.
+ 
+## 19. AI Evaluation and Release Gate
+Aurora models/agents MUST follow Scenario/Dataset → Evaluation → Security/Robustness → Capability Assessment → Regression → Approval → Release → Monitoring → Rollback. Results MUST identify model/version, scenarios, environment and methodology.
+ 
+## 20. Genesis Authoritative Simulation and Persistence
+Genesis MUST separate input, authoritative simulation, entity/component state, physics, combat, inventory, economy, quests, dialogue, world state, multiplayer replication, persistence, replay and presentation. The canonical path is Input → Validation → Simulation → State Transition → Invariant Validation → Commit → Persistence → Replication → Presentation. AI-generated behavior/content MUST pass authoritative validation before mutation.
+ 
+## 21. Genesis Content, Asset and Mod Lifecycle
+Content MUST have identity, version, dependencies, provenance, compatibility, validation, signing where required, sandboxing, load/unload lifecycle, save compatibility, migration and rollback. Mods MUST NOT obtain unrestricted engine/OS/network authority through content loading.
+ 
+## 22. Multiplayer, Matchmaking and Session Authority
+Multiplayer MUST define session identity, world/shard ownership, matchmaking, lobby/session lifecycle, authoritative server/domain, prediction, reconciliation, anti-cheat boundary, replication, reconnect, migration, persistence and failure handling.
+ 
+## 23. Marketplace, Launchpad and Economic Application Boundary
+Commercial domains MUST define catalog authority, product/asset identity, ownership, pricing, order lifecycle, payment, settlement, refunds, inventory, fraud/abuse, disputes, treasury boundary and blockchain settlement. Application commerce MUST NOT redefine protocol monetary semantics.
+ 
+## 24. Notification and User-Interaction Services
+Notifications MUST define event source, authorization, delivery channel, priority, deduplication, ordering, retry, expiration, preferences, privacy and audit. Notifications are derived effects, not authoritative state by delivery alone.
+ 
+## 25. Accessibility, Internationalization and Localization
+Desktop, Aurora, Genesis and developer applications SHOULD define locale/timezone, number/date formatting, text direction, accessibility, keyboard navigation, assistive technology, captions, color-independent state communication and input abstraction. Presentation localization MUST NOT alter canonical semantics.
+ 
+## 26. Secrets and External Integration Boundary
+Credentials MUST follow Provision → Bind Identity → Scoped Capability → Use → Audit → Rotate → Revoke → Destroy. Credentials MUST NOT be embedded in source, logs, model context, immutable chain state or untrusted tool output.
+ 
+## 27. Multi-Tenancy and Isolation
+Shared services MUST define tenant identity, isolation, authorization, data partitioning, quotas, encryption boundary, noisy-neighbor controls, audit, deletion and cross-tenant access prevention. Tenant IDs alone are not authorization.
+ 
+## 28. Telemetry and Audit Separation
+Canonical state, metrics, logs, traces, security audit, economic audit, model telemetry and gameplay telemetry MUST be separate data classes with explicit retention and access policies.
+ 
+## 29. Geographic and Physical Failure Domains
+Critical services MUST define process, host, rack, zone, region, network-segment, storage and operator failure domains. Recovery MUST account for correlated failures and independent recovery sources where required.
+ 
+## 30. System Boundary and Authority Non-Transitivity
+Authority MUST NOT propagate implicitly across Human, AI, Wallet, OS, Kernel, Blockchain, Genesis, Marketplace, Indexer, Explorer, Oracle or Bridge domains. Every target domain MUST validate authority at its own commit boundary.
+ 
+## 31. Architecture Completeness Matrix
+The master architecture SHOULD maintain a machine-checkable matrix:
+Domain | Component | Owner | SSOT | State Owner | Authority | Interface | Schema | Security | Test | CI | Integration | E2E | Release | Operational
+ 
+Missing cells are explicit architecture/evidence gaps, not assumptions.
+ 
+## 32. Extended Master Gate Chain
+ARCH-001 Authority/Evidence → ARCH-002 System/Domain/Interface → ARCH-003 Operations/Security/Resilience → ARCH-004 Functional OS → ARCH-005 Production OS/Hardware/Aurora → ARCH-006 Protocol/Data/Economics/Proof/Topology → ARCH-007 Domain Subsystems/Cross-Domain Control/Completeness
