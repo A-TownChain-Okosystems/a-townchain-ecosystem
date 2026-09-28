@@ -213,19 +213,15 @@ L7 Genesis / Application Runtime
 Architecture statements must remain separate from implementation evidence:
 
 ```text
-ARCHITECTURE_ONLY
-      ↓
-SPECIFIED
-      ↓
-IMPLEMENTED
-      ↓
-TESTED
-      ↓
-CI_VERIFIED
-      ↓
-INTEGRATED
-      ↓
-E2E_VERIFIED
+ARCHITECTURE CONTRACT
+        │
+        ├── Implementation: PRESENT / MISSING / BLOCKED
+        ├── Tests: TESTED / NOT_TESTED
+        ├── CI: CI_VERIFIED only for exact SHA
+        ├── Integration: INTEGRATED / NOT_INTEGRATED
+        └── E2E: E2E_VERIFIED / NOT_E2E_VERIFIED
+
+These are independent evidence dimensions, not a required implementation sequence.
 ```
 
 Exceptional states may include:
