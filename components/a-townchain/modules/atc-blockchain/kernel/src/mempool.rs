@@ -1,5 +1,5 @@
 //! Transactions, mempool and deterministic state transition.
-use crate::{economics::MAX_ATC_SUPPLY, security::simple_hash};
+use crate::{economics::{MAX_ATC_SUPPLY, MAX_SUPPLY}, security::simple_hash};
 use std::{collections::BTreeMap, sync::Mutex};
 
 mod signature_serde {
@@ -65,7 +65,7 @@ impl Transaction {
         t: TxType,
         s: String,
         r: Option<String>,
-        a: u64,
+        a: u128,
         gp: u64,
         gl: u64,
         n: u64,
@@ -81,7 +81,7 @@ impl Transaction {
         t: TxType,
         s: String,
         r: Option<String>,
-        a: u64,
+        a: u128,
         gp: u64,
         gl: u64,
         n: u64,
@@ -99,7 +99,7 @@ impl Transaction {
         t: TxType,
         s: String,
         r: Option<String>,
-        a: u64,
+        a: u128,
         gp: u64,
         gl: u64,
         n: u64,
@@ -237,7 +237,7 @@ impl MemoryPool {
         e.insert(
             id,
             PoolEntry {
-                priority: tx.gas_price.saturating_mul(tx.gas_limit),
+                priority: u128::from(tx.gas_price).saturating_mul(u128::from(tx.gas_limit)),
                 tx,
                 status: TxStatus::Pending,
                 added_at: now,
@@ -500,6 +500,7 @@ impl StateDb {
                     staked: 0,
                     nonce: 0,
                 });
+                let amount = u128::from(amount);
                 if x.balance < amount {
                     Err("insufficient balance for DAO treasury deposit".into())
                 } else {
@@ -509,6 +510,7 @@ impl StateDb {
             }
             Some(crate::dao_state::DaoEffect::TreasuryPayout { recipient, amount }) => {
                 let mut a = self.accounts.lock().unwrap();
+                let amount = u128::from(amount);
                 let x = a.entry(recipient).or_insert(Account {
                     balance: 0,
                     staked: 0,

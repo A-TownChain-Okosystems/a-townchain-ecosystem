@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "architecture": "L0-L7+X",
+  "status_vocabulary": [
+    "ARCHITECTURE_ONLY",
+    "SPECIFIED",
+    "IMPLEMENTED",
+    "TESTED",
+    "EVIDENCE_STALE",
+    "CI_VERIFIED",
+    "INTEGRATED",
+    "E2E_VERIFIED",
+    "MISSING",
+    "BLOCKED",
+    "DUPLICATE",
+    "DISCONNECTED",
+    "CONTRACT_DRIFT"
+  ],
+  "critical_paths": {
+    "blockchain": [
+      "SDK",
+      "Node",
+      "Mempool",
+      "SignatureAuthorization",
+      "Consensus",
+      "ATC-VM",
+      "StateTransition",
+      "CanonicalState",
+      "Storage",
+      "Indexer"
+    ],
+    "execution": [
+      "ATCLang",
+      "ATC-IR",
+      "ABI",
+      "Bytecode",
+      "Verifier",
+      "ATC-VM",
+      "StateTransition"
+    ],
+    "aurora_authority": [
+      "Model",
+      "AuroraRuntime",
+      "Capability",
+      "Policy",
+      "Approval",
+      "ToolExecutor",
+      "AuthorizedResource"
+    ],
+    "genesis_intelligence": [
+      "QuestDialogueDefinition",
+      "Runtime",
+      "AuroraAgentInterface",
+      "Validation",
+      "DeterministicGameStateMutation",
+      "Persistence"
+    ]
+  },
+  "capabilities": [
+    {"id":"L3-ATC-VM","owner":"A-TownChain-Okosystems/atc-vm","layer":"L3","source_paths":["src/vm.rs","src/ops.rs","src/context.rs"],"tests":["tests/exec_chain_e2e.rs"],"evidence":[".atc/evidence/evidence.yaml"]},
+    {"id":"L3-ATCLANG-IR","owner":"A-TownChain-Okosystems/atclang","layer":"L3","source_paths":["specs/ir/SPEC.md","crates/atc-core/src"],"tests":[],"evidence":[".atc/evidence/evidence.yaml"]},
+    {"id":"L3-ABI","owner":"A-TownChain-Okosystems/atclang","layer":"L3","source_paths":["specs/abi/SPEC.md"],"tests":[],"evidence":[".atc/evidence/evidence.yaml"]},
+    {"id":"X-AURORA-CAPABILITY","owner":"A-TownChain-Okosystems/aurora-ai","layer":"X","source_paths":["docs/specs/ATC-AI-CAP-001-CAPABILITY-TOKENS.md","modules/atc-aurora-ai/runtime/tool_executor.atc"],"tests":[],"evidence":[".atc/evidence/evidence.yaml"]},
+    {"id":"L6-AURORA-RUNTIME","owner":"A-TownChain-Okosystems/aurora-ai","layer":"L6","source_paths":["modules/atc-aurora-ai/runtime/agent_runtime.atc","modules/atc-aurora-ai/runtime/llm_router.atc"],"tests":[],"evidence":[".atc/evidence/evidence.yaml"]},
+    {"id":"L7-GENESIS-ENGINE","owner":"A-TownChain-Okosystems/genesis-engine","layer":"L7","source_paths":["src"],"tests":["tests"],"evidence":[".atc/evidence/evidence.yaml"]}
+  ]
+}
