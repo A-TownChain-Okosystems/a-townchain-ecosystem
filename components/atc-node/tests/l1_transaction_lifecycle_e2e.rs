@@ -8,10 +8,9 @@ use atc_wallet::{
     tx::{Transaction as WalletTransaction, TxType as WalletTxType},
 };
 use ed25519_dalek::{Signer, SigningKey};
-use std::{
-    path::PathBuf,
-    time::{SystemTime, UNIX_EPOCH},
-};
+use std::{path::PathBuf, sync::atomic::{AtomicU64, Ordering}};
+
+static TEST_PATH_COUNTER: AtomicU64 = AtomicU64::new(1);
 
 const CHAIN_ID: u64 = atc_blockchain::chain_identity::NUMERIC_CHAIN_ID;
 const GENESIS_BALANCE: u64 = 1_000_000;
@@ -20,11 +19,12 @@ const GAS_PRICE: u64 = 1;
 const GAS_LIMIT: u64 = 1_000;
 
 fn temp_path() -> PathBuf {
-    let now = SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .unwrap()
-        .as_nanos();
-    std::env::temp_dir().join(format!("atc-l1-tx-lifecycle-{now}"))
+    let id = TEST_PATH_COUNTER.fetch_add(1, Ordering::Relaxed);
+    std::env::temp_dir().join(format!(
+        "atc-l1-tx-lifecycle-{}-{}",
+        std::process::id(),
+        id
+    ))
 }
 
 fn signed_vote(block: [u8; 32], voter: &str, seed: [u8; 32]) -> Vote {
