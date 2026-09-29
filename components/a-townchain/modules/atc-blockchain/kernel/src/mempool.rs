@@ -477,7 +477,7 @@ impl StateDb {
     ) -> Result<(), String> {
         let account_snapshot = self.snapshot();
         let dao_snapshot = self.dao_snapshot();
-        let voting_power = self.staked(sender);
+        let voting_power = self.staked_base_units(sender);
         let effect = self
             .dao
             .lock()
