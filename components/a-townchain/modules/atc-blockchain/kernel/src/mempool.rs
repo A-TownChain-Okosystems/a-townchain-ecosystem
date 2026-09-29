@@ -395,13 +395,13 @@ impl StateDb {
         self.accounts.lock().unwrap().values().try_fold(0u128, |acc, x| acc.checked_add(x.balance)?.checked_add(x.staked)).unwrap_or(u128::MAX)
     }
     pub fn total_supply(&self) -> u128 {
-        self.total_supply_base_units()
+        self.total_supply_base_units() / crate::economics::ATC_BASE_UNITS
     }
     pub fn balance_base_units(&self, id: &str) -> u128 {
         self.accounts.lock().unwrap().get(id).map(|x| x.balance).unwrap_or(0)
     }
     pub fn balance(&self, id: &str) -> u128 {
-        self.balance_base_units(id)
+        self.balance_base_units(id) / crate::economics::ATC_BASE_UNITS
     }
     pub fn nonce(&self, id: &str) -> u64 {
         self.accounts
@@ -443,7 +443,7 @@ impl StateDb {
         self.accounts.lock().unwrap().get(id).map(|x| x.staked).unwrap_or(0)
     }
     pub fn staked(&self, id: &str) -> u128 {
-        self.staked_base_units(id)
+        self.staked_base_units(id) / crate::economics::ATC_BASE_UNITS
     }
     pub fn root(&self) -> [u8; 32] {
         let a = self.accounts.lock().unwrap();
