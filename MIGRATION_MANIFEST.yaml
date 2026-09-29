@@ -1,8 +1,10 @@
 # MIGRATION_MANIFEST — a-townchain-ecosystem
 # Ecosystem-Ueberfuehrung (SCR-0127): 5 Komponenten-Repos als components/<name>
 # per git subtree OHNE --squash (volle Historie), am 2026-09-17.
-# Die Quell-Repos bleiben kanonische SSOTs ihrer Domaene; der Umbrella ist die
-# System-of-Systems-Integrationsebene. Sync via `git subtree pull`.
+# Die jeweiligen kanonischen Quell-Repos bleiben SSOT ihrer Domaene. Fuer VM und
+# Algorithmus liegt die Implementierungs-SSOT nach SCR-0127 im a-townchain
+# L1-Monorepo; die frueheren standalone Imports sind historische Migrationen.
+# Der Umbrella ist ausschliesslich System-of-Systems-Integrationsebene.
 umbrella: a-townchain-ecosystem
 created: "2026-09-17"
 systems:
