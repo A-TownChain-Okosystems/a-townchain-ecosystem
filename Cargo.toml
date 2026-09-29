@@ -2,9 +2,8 @@
 resolver = "2"
 members = [
   "integration",
-  # Canonical implementations live in the a-townchain L1 monorepo.
-  "components/a-townchain/components/algorithm",
-  "components/a-townchain/components/vm",
+  # Canonical L1 packages are consumed through their own standalone workspaces.
+  # The ecosystem validates them through explicit manifest/CI targets.
   "components/a-townchain/modules/atc-blockchain/kernel",
   "components/atc-marketplace/modules/atc-dex",
   "components/atc-mining",
@@ -19,6 +18,8 @@ members = [
 exclude = [
   "components/atc-algorithm",
   "components/atc-vm",
+  "components/a-townchain/components/algorithm",
+  "components/a-townchain/components/vm",
 ]
 
 [workspace.package]
