@@ -2,8 +2,9 @@
 resolver = "2"
 members = [
   "integration",
-  "components/atc-algorithm",
-  "components/atc-vm",
+  # Canonical implementations live in the a-townchain L1 monorepo.
+  "components/a-townchain/components/algorithm",
+  "components/a-townchain/components/vm",
   "components/a-townchain/modules/atc-blockchain/kernel",
   "components/atc-marketplace/modules/atc-dex",
   "components/atc-mining",
