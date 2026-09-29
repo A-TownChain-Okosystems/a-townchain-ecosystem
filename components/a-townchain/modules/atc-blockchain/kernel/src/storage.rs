@@ -656,7 +656,7 @@ impl ChainStorage {
             let mut keys = BTreeMap::new();
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec()).map_err(|_| "invalid validator address")?;
-                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let stake = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let public_key = fixed::<32>(&b, &mut q)?;
                 ed25519_dalek::VerifyingKey::from_bytes(&public_key).map_err(|_| "invalid validator public key")?;
                 if address.is_empty() || stake == 0 { return Err("invalid validator record".into()); }
