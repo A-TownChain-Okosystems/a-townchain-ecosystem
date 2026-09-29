@@ -14,6 +14,13 @@ members = [
   "components/atc-wallet",
 ]
 
+# Legacy standalone imports are historical migration copies and must not be
+# auto-discovered as workspace members; canonical implementations are in a-townchain.
+exclude = [
+  "components/atc-algorithm",
+  "components/atc-vm",
+]
+
 [workspace.package]
 edition = "2021"
 license = "Apache-2.0"
