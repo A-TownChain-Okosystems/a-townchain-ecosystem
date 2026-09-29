@@ -9,7 +9,7 @@ path = "src/blockchain.rs"
 [dependencies]
 sha2 = "0.10"
 ed25519-dalek = { version = "2", features = ["rand_core"] }
-atc-algorithm = { path = "../../../../atc-algorithm" }
-atc-vm = { path = "../../../../atc-vm" }
+atc-algorithm = { path = "../../../components/algorithm" }
+atc-vm = { path = "../../../components/vm" }
 hex = "0.4"
 serde = { version = "1", features = ["derive"] }
