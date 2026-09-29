@@ -13,8 +13,9 @@ use super::{
 };
 
 const MAGIC: &[u8] = b"ATCB1";
-const VALIDATOR_MAGIC: &[u8] = b"ATCV2";
-const LEGACY_VALIDATOR_MAGIC: &[u8] = b"ATCV1";
+const VALIDATOR_MAGIC: &[u8] = b"ATCV3";
+const LEGACY_VALIDATOR_MAGIC: &[u8] = b"ATCV2";
+const LEGACY_VALIDATOR_MAGIC_V1: &[u8] = b"ATCV1";
 const FINALITY_MAGIC: &[u8] = b"ATCF1";
 const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
@@ -587,7 +588,7 @@ impl ChainStorage {
             }
             let b = hex::decode(raw.trim())
                 .map_err(|e| format!("validator journal line {}: invalid hex: {e}", line_no + 1))?;
-            if b.starts_with(LEGACY_VALIDATOR_MAGIC) {
+            if b.starts_with(LEGACY_VALIDATOR_MAGIC) || b.starts_with(LEGACY_VALIDATOR_MAGIC_V1) {
                 return Err(format!(
                     "validator journal line {}: legacy validator snapshot has no public keys;                      migration is required before restart",
                     line_no + 1
@@ -606,7 +607,7 @@ impl ChainStorage {
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec())
                     .map_err(|_| "invalid validator address")?;
-                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let stake = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let public_key = fixed::<32>(&b, &mut q)?;
                 ed25519_dalek::VerifyingKey::from_bytes(&public_key)
                     .map_err(|_| "invalid validator public key")?;
@@ -641,7 +642,7 @@ impl ChainStorage {
             if raw.trim().is_empty() { continue; }
             let b = hex::decode(raw.trim())
                 .map_err(|e| format!("validator journal line {}: invalid hex: {e}", line_no + 1))?;
-            if b.starts_with(LEGACY_VALIDATOR_MAGIC) {
+            if b.starts_with(LEGACY_VALIDATOR_MAGIC) || b.starts_with(LEGACY_VALIDATOR_MAGIC_V1) {
                 return Err(format!("validator journal line {}: legacy validator snapshot has no public keys; migration is required before restart", line_no + 1));
             }
             if !b.starts_with(VALIDATOR_MAGIC) {
