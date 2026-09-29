@@ -28,10 +28,19 @@ kanonischen Quell-Repos statt (SSOT-Disziplin, ATC-STD-000).
 
 ## Architecture
 
-Schichten (unten → oben): ShivaCore-Kernel (TCB) → ATCLang → ATC-VM →
-ATC-Algorithm/Node (A-TownChain L1) → Aurora AI (Policy/Agent-Ebene) →
-Genesis Engine (Game-Plattform) → Anwendungen (Genesis Chronicles, Flagship).
-Details: `ARCHITECTURE.md`.
+The canonical architecture uses **L0–L7** plus the cross-layer control plane **X**. These are architectural responsibility domains, not a runtime execution order. The authoritative definitions are in `ARCHITECTURE.md`.
+
+- **L0 — System & Network:** Hardware/HAL, GlobusOS, ShivaCore, transport and node runtime boundary
+- **L1 — Data & Storage:** canonical persistence, state storage, history and indexing
+- **L2 — Blockchain Core & Consensus:** transactions, mempool, blocks, consensus, finality and economics
+- **L3 — Deterministic Execution:** ATCLang, ATC-IR/ABI, bytecode, verifier and ATC-VM
+- **L4 — Scaling & Execution Domains:** rollups, validity domains and specialized execution
+- **L5 — Protocol & Economic Domains:** identity, assets, oracle, compute, interoperability and protocol applications
+- **L6 — AI & Intelligence:** Aurora and domain-intelligence services
+- **L7 — Applications & UX:** Genesis, wallet/explorer UX and user-facing applications
+- **X — Cross-Layer Control Plane:** governance, security, identity, capability, policy, cryptography, audit and evidence
+
+The layer model does not replace repository-level SSOT. Component implementation, build, tests, releases and API/ABI contracts remain owned by the canonical source repository; this repository performs system integration and evidence aggregation.
 
 ## Features
 
