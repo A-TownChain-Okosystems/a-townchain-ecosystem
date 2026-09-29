@@ -931,7 +931,7 @@ mod tests {
             .verifying_key()
             .to_bytes();
         let mut validators = BTreeMap::new();
-        validators.insert("validator-a".to_string(), 100u64);
+        validators.insert("validator-a".to_string(), 100u128);
         let mut keys = BTreeMap::new();
         keys.insert("validator-a".to_string(), key);
 
@@ -965,12 +965,12 @@ mod tests {
         let key0 = ed25519_dalek::SigningKey::from_bytes(&[41u8; 32]).verifying_key().to_bytes();
         let key1 = ed25519_dalek::SigningKey::from_bytes(&[42u8; 32]).verifying_key().to_bytes();
         let mut v0 = BTreeMap::new();
-        v0.insert("alice".to_string(), 100u64);
+        v0.insert("alice".to_string(), 100u128);
         let mut k0 = BTreeMap::new();
         k0.insert("alice".to_string(), key0);
         let mut v1 = BTreeMap::new();
-        v1.insert("alice".to_string(), 60u64);
-        v1.insert("bob".to_string(), 40u64);
+        v1.insert("alice".to_string(), 60u128);
+        v1.insert("bob".to_string(), 40u128);
         let mut k1 = BTreeMap::new();
         k1.insert("alice".to_string(), key1);
         k1.insert("bob".to_string(), ed25519_dalek::SigningKey::from_bytes(&[43u8; 32]).verifying_key().to_bytes());
@@ -1003,12 +1003,12 @@ mod tests {
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[52u8; 32]).verifying_key().to_bytes();
 
         let mut first = BTreeMap::new();
-        first.insert("alice".to_string(), 100u64);
+        first.insert("alice".to_string(), 100u128);
         let mut first_keys = BTreeMap::new();
         first_keys.insert("alice".to_string(), key_a);
 
         let mut second = first.clone();
-        second.insert("bob".to_string(), 50u64);
+        second.insert("bob".to_string(), 50u128);
         let mut second_keys = first_keys.clone();
         second_keys.insert("bob".to_string(), key_b);
 
@@ -1044,7 +1044,7 @@ mod tests {
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[53u8; 32]).verifying_key().to_bytes();
         let mut validators = BTreeMap::new();
-        validators.insert("alice".to_string(), 100u64);
+        validators.insert("alice".to_string(), 100u128);
         let mut keys = BTreeMap::new();
         keys.insert("alice".to_string(), key);
 
@@ -1074,7 +1074,7 @@ mod tests {
     fn incomplete_validator_snapshot_is_rejected() {
         let storage = ChainStorage::new();
         let mut validators = BTreeMap::new();
-        validators.insert("validator-a".to_string(), 100u64);
+        validators.insert("validator-a".to_string(), 100u128);
         let keys = BTreeMap::new();
         let err = storage.commit_validators(1, &validators, &keys).unwrap_err();
         assert!(err.contains("every validator needs a public key"));
