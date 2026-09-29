@@ -316,10 +316,8 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if b.height > 0 {
-            let parent = self
-                .blocks
-                .read()
-                .unwrap()
+            let blocks = self.blocks.read().unwrap();
+            let parent = blocks
                 .get(&b.height.saturating_sub(1))
                 .ok_or("cannot commit block without canonical parent")?;
             if b.parent_hash != parent.id {
