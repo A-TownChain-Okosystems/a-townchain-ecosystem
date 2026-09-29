@@ -417,7 +417,6 @@ impl StateDb {
         }
         let mut a = self.accounts.lock().unwrap();
         let x = a.get_mut(id).ok_or("validator account not found")?;
-        let amount = amount.checked_mul(crate::economics::ATC_BASE_UNITS).ok_or("slash amount overflow")?;
         let applied = amount.min(x.staked);
         x.staked -= applied;
         Ok(applied / crate::economics::ATC_BASE_UNITS)
