@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-65",
-  "timestamp": "2026-09-28T20:28:02.274697Z",
+  "timestamp": "2026-09-29T08:36:28.223077Z",
   "category": "change",
   "title": "PR #65: fix(node): sync identity implementation with atc-node SSOT",
   "context": "Pull request 65 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/65",
-    "commit": "be1fbfdeaf2f0fa41720d9553f00098944c526f8"
+    "commit": "7e04d46de65400daa111b445fef0c9f8e920d9df"
   },
   "tags": [
     "generated",
