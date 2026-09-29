@@ -14,8 +14,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - name: atc-algorithm
+            manifest: components/a-townchain/components/algorithm/Cargo.toml
           - name: atc-vm
-            manifest: components/atc-vm/Cargo.toml
+            manifest: components/a-townchain/components/vm/Cargo.toml
           - name: atc-blockchain
             manifest: components/a-townchain/modules/atc-blockchain/kernel/Cargo.toml
           - name: atc-sdk
