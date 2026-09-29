@@ -1,0 +1,172 @@
+{
+  "schema_version": "P0-MONETARY-CONTRACT-INVENTORY-V1",
+  "scope": "canonical-l1",
+  "contract": {
+    "monetary_types": [
+      "amount",
+      "balance",
+      "stake",
+      "supply",
+      "reward",
+      "slashing",
+      "treasury",
+      "allocation",
+      "payout",
+      "voting_power"
+    ],
+    "monetary_type": "u128",
+    "counter_types": [
+      "height",
+      "nonce",
+      "timestamp",
+      "epoch",
+      "gas_limit",
+      "gas_price"
+    ],
+    "counter_type": "u64",
+    "wire": {
+      "u128_width_bytes": 16,
+      "byte_order": "big-endian"
+    },
+    "transaction_signing_domain": "ATC-TX-DOMAIN-V2",
+    "chain_id": 658467
+  },
+  "boundaries": [
+    [
+      "Transaction.amount",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/mempool.rs",
+      "u128",
+      "MONETARY",
+      "canonical transaction"
+    ],
+    [
+      "StateDb.balance",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/mempool.rs",
+      "u128",
+      "MONETARY",
+      "state read API"
+    ],
+    [
+      "StateDb.staked",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/mempool.rs",
+      "u128",
+      "MONETARY",
+      "state read API"
+    ],
+    [
+      "StateDb.issued_base_units",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/mempool.rs",
+      "u128",
+      "MONETARY",
+      "supply"
+    ],
+    [
+      "ValidatorRecord.stake",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/validator_state.rs",
+      "u128",
+      "MONETARY",
+      "validator state"
+    ],
+    [
+      "ValidatorRecord.slashed_base_units",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/validator_state.rs",
+      "u128",
+      "MONETARY",
+      "slashing accounting"
+    ],
+    [
+      "ConsensusEngine.validators",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/consensus.rs",
+      "BTreeMap<String,u128>",
+      "MONETARY",
+      "consensus registry"
+    ],
+    [
+      "ConsensusEngine.slashed",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/consensus.rs",
+      "BTreeMap<String,u128>",
+      "MONETARY",
+      "slashing accounting"
+    ],
+    [
+      "Consensus validator snapshots",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/consensus.rs",
+      "BTreeMap<String,u128>",
+      "MONETARY",
+      "historical consensus"
+    ],
+    [
+      "Storage validator snapshots",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/storage.rs",
+      "BTreeMap<String,(u128,[u8;32])>",
+      "MONETARY",
+      "durable snapshot"
+    ],
+    [
+      "Network validator snapshots",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/network.rs",
+      "BTreeMap<String,u128>",
+      "MONETARY",
+      "network wire"
+    ],
+    [
+      "Slashing journal penalty",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/storage.rs",
+      "u128",
+      "MONETARY",
+      "durable audit journal"
+    ],
+    [
+      "DAO treasury",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/dao_state.rs",
+      "u128",
+      "MONETARY",
+      "DAO state"
+    ],
+    [
+      "DAO proposal action_amount",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/dao_state.rs",
+      "u128",
+      "MONETARY",
+      "treasury payout"
+    ],
+    [
+      "DAO voting_power",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/dao_state.rs",
+      "u128",
+      "MONETARY",
+      "governance weight"
+    ],
+    [
+      "DAO allocations",
+      "components/a-townchain/modules/atc-blockchain/kernel/src/dao_state.rs",
+      "BTreeMap<String,u128>",
+      "MONETARY",
+      "DAO allocation"
+    ],
+    [
+      "SDK TransactionBuilder.amount",
+      "components/atc-sdk/src/lib.rs",
+      "u128",
+      "MONETARY",
+      "SDK boundary"
+    ],
+    [
+      "SDK DAO action_amount",
+      "components/atc-sdk/src/lib.rs",
+      "u128",
+      "MONETARY",
+      "SDK DAO boundary"
+    ],
+    [
+      "Node RPC amount",
+      "components/atc-node/src/rpc.rs",
+      "u128",
+      "MONETARY",
+      "RPC boundary"
+    ]
+  ],
+  "status": "ANALYZED",
+  "exact_sha_required": true,
+  "note": "Inventory is a contract gate, not CI evidence. VERIFIED requires exact-SHA CI and passing required gates."
+}
