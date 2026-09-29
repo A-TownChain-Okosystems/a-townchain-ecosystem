@@ -2,7 +2,7 @@
 use crate::security::simple_hash;
 use std::collections::BTreeMap;
 
-pub const MAGIC: &[u8] = b"ATC-DAO-V2";
+pub const MAGIC: &[u8] = b"ATC-DAO-V3";
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Status {
     Pending,
@@ -22,29 +22,29 @@ pub struct Proposal {
     pub start: u64,
     pub end: u64,
     pub status: Status,
-    pub yes: u64,
-    pub no: u64,
-    pub abstain: u64,
+    pub yes: u128,
+    pub no: u128,
+    pub abstain: u128,
     pub action_recipient: Option<String>,
-    pub action_amount: u64,
+    pub action_amount: u128,
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum DaoEffect {
-    TreasuryDeposit { amount: u64 },
-    TreasuryPayout { recipient: String, amount: u64 },
+    TreasuryDeposit { amount: u128 },
+    TreasuryPayout { recipient: String, amount: u128 },
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct DaoState {
     pub proposals: BTreeMap<u64, Proposal>,
-    pub votes: BTreeMap<(u64, String), (u8, u64)>,
-    pub treasury: u64,
-    pub allocations: BTreeMap<String, u64>,
+    pub votes: BTreeMap<(u64, String), (u8, u128)>,
+    pub treasury: u128,
+    pub allocations: BTreeMap<String, u128>,
     pub timelocks: BTreeMap<u64, u64>,
-    pub quorum: u64,
+    pub quorum: u128,
     pub approval_bps: u16,
 }
 impl DaoState {
-    pub fn new(quorum: u64, approval_bps: u16) -> Result<Self, String> {
+    pub fn new(quorum: u128, approval_bps: u16) -> Result<Self, String> {
         if quorum == 0 || approval_bps > 10_000 {
             return Err("invalid DAO parameters".into());
         }
@@ -119,9 +119,9 @@ impl DaoState {
             return Err("invalid DAO snapshot".into());
         }
         let mut q = MAGIC.len();
-        let quorum = get_u64(bytes, &mut q)?;
+        let quorum = get_u128(bytes, &mut q)?;
         let approval = get_u16(bytes, &mut q)?;
-        let treasury = get_u64(bytes, &mut q)?;
+        let treasury = get_u128(bytes, &mut q)?;
         let pn = get_u32(bytes, &mut q)? as usize;
         let mut proposals = BTreeMap::new();
         for _ in 0..pn {
@@ -141,15 +141,15 @@ impl DaoState {
             let proposer = get_str(bytes, &mut q)?;
             let start = get_u64(bytes, &mut q)?;
             let end = get_u64(bytes, &mut q)?;
-            let yes = get_u64(bytes, &mut q)?;
-            let no = get_u64(bytes, &mut q)?;
-            let abstain = get_u64(bytes, &mut q)?;
+            let yes = get_u128(bytes, &mut q)?;
+            let no = get_u128(bytes, &mut q)?;
+            let abstain = get_u128(bytes, &mut q)?;
             let action_recipient = match get1(bytes, &mut q)? {
                 0 => None,
                 1 => Some(get_str(bytes, &mut q)?),
                 _ => return Err("invalid DAO action recipient flag".into()),
             };
-            let action_amount = get_u64(bytes, &mut q)?;
+            let action_amount = get_u128(bytes, &mut q)?;
             proposals.insert(
                 id,
                 Proposal {
@@ -174,14 +174,14 @@ impl DaoState {
             let id = get_u64(bytes, &mut q)?;
             let voter = get_str(bytes, &mut q)?;
             let kind = get1(bytes, &mut q)?;
-            let weight = get_u64(bytes, &mut q)?;
+            let weight = get_u128(bytes, &mut q)?;
             votes.insert((id, voter), (kind, weight));
         }
         let an = get_u32(bytes, &mut q)? as usize;
         let mut allocations = BTreeMap::new();
         for _ in 0..an {
             let k = get_str(bytes, &mut q)?;
-            let v = get_u64(bytes, &mut q)?;
+            let v = get_u128(bytes, &mut q)?;
             allocations.insert(k, v);
         }
         let tn = get_u32(bytes, &mut q)? as usize;
@@ -207,7 +207,7 @@ impl DaoState {
         payload: &[u8],
         block: u64,
         sender: &str,
-        voting_power: u64,
+        voting_power: u128,
     ) -> Result<Option<DaoEffect>, String> {
         if !payload.starts_with(MAGIC) {
             return Ok(None);
@@ -231,7 +231,7 @@ impl DaoState {
                     1 => Some(get_str(payload, &mut q)?),
                     _ => return Err("invalid DAO action recipient flag".into()),
                 };
-                let action_amount = get_u64(payload, &mut q)?;
+                let action_amount = get_u128(payload, &mut q)?;
                 if action_amount > 0 && action_recipient.is_none() {
                     return Err("treasury action requires recipient".into());
                 }
@@ -293,8 +293,8 @@ impl DaoState {
                 let decided = p.yes.saturating_add(p.no);
                 p.status = if participation >= self.quorum
                     && decided > 0
-                    && p.yes.saturating_mul(10_000)
-                        >= decided.saturating_mul(self.approval_bps as u64)
+                    && p.yes.saturating_mul(10_000u128)
+                        >= decided.saturating_mul(self.approval_bps as u128)
                 {
                     Status::Queued
                 } else {
@@ -337,7 +337,7 @@ impl DaoState {
                 }
             }
             4 => {
-                let amount = get_u64(payload, &mut q)?;
+                let amount = get_u128(payload, &mut q)?;
                 if amount == 0 {
                     return Err("treasury deposit must be non-zero".into());
                 }
@@ -399,6 +399,14 @@ fn get_u64(b: &[u8], p: &mut usize) -> Result<u64, String> {
     }
     let v = u64::from_be_bytes(b[*p..*p + 8].try_into().unwrap());
     *p += 8;
+    Ok(v)
+}
+fn get_u128(b: &[u8], p: &mut usize) -> Result<u128, String> {
+    if *p + 16 > b.len() {
+        return Err("truncated DAO u128".into());
+    }
+    let v = u128::from_be_bytes(b[*p..*p + 16].try_into().unwrap());
+    *p += 16;
     Ok(v)
 }
 fn get_str(b: &[u8], p: &mut usize) -> Result<String, String> {
