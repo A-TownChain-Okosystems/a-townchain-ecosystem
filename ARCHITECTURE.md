@@ -140,8 +140,8 @@ A repository may span more than one architectural layer; the table identifies it
 |---|---|
 | L0 | `atc-shivacore`, `globus-os`, `atc-node` network/runtime boundary |
 | L1 | `atc-storage`, `atc-indexer` read models, `atc-explorer` presentation/read model |
-| L2 | `a-townchain`, `atc-node`, `atc-algorithm`, `atc-mining`, `atc-wallet` transaction interface |
-| L3 | `atc-vm`, `atclang`, `atc-contracts` |
+| L2 | `a-townchain` (including `components/algorithm`), `atc-node`, `atc-mining`, `atc-wallet` transaction interface |
+| L3 | `atclang`, `a-townchain/components/vm`, `atc-contracts` execution/bytecode boundary |
 | L4 | `atc-zkp`, future scaling/execution-domain components |
 | L5 | `atc-interop`, `atc-oracle`, `atc-compute`, `atc-marketplace`, `atc-launchpad`, protocol/asset/identity domains |
 | L6 | `aurora-ai`, Quest AI, Dialogue AI and other domain-intelligence capabilities |
