@@ -26,7 +26,7 @@ fn field(o: &mut Vec<u8>, v: &[u8]) {
 }
 
 fn dao(op: u8, body: impl FnOnce(&mut Vec<u8>)) -> Vec<u8> {
-    let mut o = Vec::from(b"ATC-DAO-V2".as_slice());
+    let mut o = Vec::from(b"ATC-DAO-V3".as_slice());
     o.push(op);
     body(&mut o);
     o
@@ -42,7 +42,7 @@ impl TransactionBuilder {
         title: &str,
         description: &str,
         action_recipient: Option<&str>,
-        action_amount: u64,
+        action_amount: u128,
         gas_price: u64,
         gas_limit: u64,
         nonce: u64,
