@@ -17,7 +17,8 @@ const VALIDATOR_MAGIC: &[u8] = b"ATCV3";
 const LEGACY_VALIDATOR_MAGIC: &[u8] = b"ATCV2";
 const LEGACY_VALIDATOR_MAGIC_V1: &[u8] = b"ATCV1";
 const FINALITY_MAGIC: &[u8] = b"ATCF1";
-const SLASH_MAGIC: &[u8] = b"ATCS1";
+const SLASH_MAGIC: &[u8] = b"ATCS2";
+const LEGACY_SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
 type ValidatorSnapshot = (u64, BTreeMap<String, (u128, [u8; 32])>);
@@ -807,18 +808,23 @@ impl ChainStorage {
             }
             let b = hex::decode(raw.trim())
                 .map_err(|e| format!("slashing journal line {}: invalid hex: {e}", line_no + 1))?;
-            if !b.starts_with(SLASH_MAGIC) {
+            let legacy = b.starts_with(LEGACY_SLASH_MAGIC);
+            if !legacy && !b.starts_with(SLASH_MAGIC) {
                 return Err(format!(
                     "slashing journal line {}: invalid magic",
                     line_no + 1
                 ));
             }
-            let mut q = SLASH_MAGIC.len();
+            let mut q = if legacy { LEGACY_SLASH_MAGIC.len() } else { SLASH_MAGIC.len() };
             let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
             let validator = String::from_utf8(get(&b, &mut q)?.to_vec())
                 .map_err(|_| "invalid slashing validator")?;
             let evidence_id = fixed::<32>(&b, &mut q)?;
-            let penalty = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
+            let penalty = if legacy {
+                u128::from(u64::from_be_bytes(fixed::<8>(&b, &mut q)?))
+            } else {
+                u128::from_be_bytes(fixed::<16>(&b, &mut q)?)
+            };
             if validator.is_empty() || penalty == 0 || q != b.len() {
                 return Err("invalid slashing record".into());
             }
