@@ -1,0 +1,86 @@
+{
+  "document_id": "ATC-SECURITY-BOUNDARY-SUBSYSTEM-MATRIX-001",
+  "parent_matrix": "ATC-SECURITY-BOUNDARY-001",
+  "status": "ARCHITECTURE CONTRACT",
+  "machine_readable": true,
+  "entry_count": 8,
+  "required_fields": [
+    "id",
+    "domain",
+    "name",
+    "owner",
+    "responsibility",
+    "inputs",
+    "outputs",
+    "state",
+    "events",
+    "interfaces",
+    "dependencies",
+    "security_boundary",
+    "authority",
+    "capability",
+    "policy",
+    "approval",
+    "source",
+    "tests",
+    "workflow",
+    "exact_sha",
+    "run",
+    "job",
+    "step",
+    "exit_code",
+    "log",
+    "verification",
+    "residual"
+  ],
+  "entries": [
+    {
+      "id": "SUB-SEC-01",
+      "domain": "core_lifecycle",
+      "name": "Security Boundary subsystem 1",
+      "status": "ARCHITECTURE CONTRACT"
+    },
+    {
+      "id": "SUB-SEC-02",
+      "domain": "contract_schema",
+      "name": "Security Boundary subsystem 2",
+      "status": "ARCHITECTURE CONTRACT"
+    },
+    {
+      "id": "SUB-SEC-03",
+      "domain": "source_implementation",
+      "name": "Security Boundary subsystem 3",
+      "status": "ARCHITECTURE CONTRACT"
+    },
+    {
+      "id": "SUB-SEC-04",
+      "domain": "state_data",
+      "name": "Security Boundary subsystem 4",
+      "status": "ARCHITECTURE CONTRACT"
+    },
+    {
+      "id": "SUB-SEC-05",
+      "domain": "event_flow",
+      "name": "Security Boundary subsystem 5",
+      "status": "ARCHITECTURE CONTRACT"
+    },
+    {
+      "id": "SUB-SEC-06",
+      "domain": "integration_interface",
+      "name": "Security Boundary subsystem 6",
+      "status": "ARCHITECTURE CONTRACT"
+    },
+    {
+      "id": "SUB-SEC-07",
+      "domain": "security_authority",
+      "name": "Security Boundary subsystem 7",
+      "status": "ARCHITECTURE CONTRACT"
+    },
+    {
+      "id": "SUB-SEC-08",
+      "domain": "testing_evidence_verification",
+      "name": "Security Boundary subsystem 8",
+      "status": "ARCHITECTURE CONTRACT"
+    }
+  ]
+}
