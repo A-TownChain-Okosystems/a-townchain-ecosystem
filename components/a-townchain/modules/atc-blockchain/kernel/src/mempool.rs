@@ -1,5 +1,5 @@
 //! Transactions, mempool and deterministic state transition.
-use crate::{economics::MAX_ATC_SUPPLY, security::simple_hash};
+use crate::security::simple_hash;
 use std::{collections::BTreeMap, sync::Mutex};
 
 mod signature_serde {
@@ -317,8 +317,8 @@ impl StateDb {
             validator_state: Mutex::new(crate::validator_state::ValidatorState::new()),
         }
     }
-    pub fn genesis_credit(&self, id: &str, n: u64) -> Result<(), String> {
-        let n = u128::from(n).checked_mul(crate::economics::ATC_BASE_UNITS).ok_or("genesis allocation overflow".to_string())?;
+    pub fn genesis_credit(&self, id: &str, n: u128) -> Result<(), String> {
+        let n = n.checked_mul(crate::economics::ATC_BASE_UNITS).ok_or("genesis allocation overflow".to_string())?;
         if *self.genesis_sealed.lock().unwrap() {
             return Err("genesis allocation is sealed".into());
         }
@@ -690,7 +690,7 @@ impl StateDb {
 #[cfg(test)]
 mod supply_tests {
     use super::*;
-    use crate::economics::{MAX_ATC_SUPPLY, ATC_BASE_UNITS};
+    use crate::economics::MAX_ATC_SUPPLY;
 
     #[test]
     fn genesis_supply_cannot_exceed_360_million_atc() {
