@@ -750,7 +750,109 @@ Vision
 
 The matrix is architectural. Existing validator/staking architecture does not by itself establish complete implementation or current-main verification.
 
-## 16. Repository Ownership
+## 16. Wallet — Canonical Function Matrix
+
+**Existing-First baseline:** repository discovery confirms wallet/account, nonce, transaction-signing and key-management concepts exist across the ecosystem. This matrix defines the canonical wallet boundary; existing source is not treated as proof of complete implementation.
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| WAL-01 | Wallet Lifecycle | create, initialize, import, export, lock, unlock, close and recovery lifecycle |
+| WAL-02 | Account Model | account identity, account metadata, address binding and account state |
+| WAL-03 | Key Generation | secure key generation, entropy requirements and supported key types |
+| WAL-04 | Key Storage | encrypted-at-rest private-key storage, keystore format and secure persistence |
+| WAL-05 | Key Import / Export | controlled import/export, format validation and explicit authorization |
+| WAL-06 | Key Derivation | deterministic derivation paths, domain separation and derivation compatibility |
+| WAL-07 | Address Generation | canonical public-key-to-address derivation and encoding |
+| WAL-08 | Address Validation | checksum, format, network/chain identity and canonical address validation |
+| WAL-09 | Transaction Construction | canonical transaction fields, types, serialization and preimage construction |
+| WAL-10 | Transaction Signing | secp256k1 signing, RFC6979 determinism, low-S enforcement and domain separation |
+| WAL-11 | Signature Verification | local signature validation, canonical encoding and rejection of invalid/high-S signatures |
+| WAL-12 | Transaction Encoding | byte-identical canonical wire encoding across Wallet, SDK and L1 |
+| WAL-13 | Nonce / Replay Protection | nonce acquisition, monotonicity, replay protection and replacement semantics |
+| WAL-14 | Fee / Gas Handling | fee calculation, limits, balance checks and canonical fee encoding |
+| WAL-15 | Balance / State Queries | account balance, nonce, staking and transaction-state queries |
+| WAL-16 | Send / Broadcast | transaction submission, node/RPC interaction, response validation and retry boundaries |
+| WAL-17 | Transaction Lifecycle | created, signed, submitted, pending, included, finalized, failed and rejected states |
+| WAL-18 | Staking Interface | stake, delegation, rewards, unbonding and withdrawal requests through explicit contracts |
+| WAL-19 | Security / Authorization | lock state, signing authorization, phishing-resistant confirmation and capability boundaries |
+| WAL-20 | Backup / Recovery | backup creation, restore, recovery validation and failure-safe behavior |
+| WAL-21 | Multi-Account / Multi-Key | multiple accounts, key rotation, account selection and explicit signing identity |
+| WAL-22 | Hardware / Secure Enclave | hardware-backed keys, TPM/TEE/secure-enclave integration where supported and evidenced |
+| WAL-23 | SDK / OS / Aurora Integration | explicit interfaces to SDK, GlobusOS, GateToHell and Aurora without implicit authority |
+| WAL-24 | Privacy | secret isolation, metadata minimization, address reuse controls and sensitive-data handling |
+| WAL-25 | Observability / Audit | non-secret signing events, transaction audit records, diagnostics and telemetry |
+| WAL-26 | Testing / Determinism | canonical vectors, Rust↔TypeScript↔Wallet byte-identity tests and negative cases |
+| WAL-27 | Release / Verification | workflow gates, Exact-SHA evidence, verification status and residual tracking |
+
+### 16.1 Canonical Wallet Pipeline
+
+```text
+User / Authorized Application
+  ↓
+Wallet / Account Selection
+  ↓
+Key / Capability Authorization
+  ↓
+Transaction Construction
+  ↓
+Canonical Preimage / Wire Encoding
+  ↓
+secp256k1 Signing
+  ↓
+Local Signature Validation
+  ↓
+Nonce / Replay Checks
+  ↓
+Node / RPC Submission
+  ↓
+Mempool → Consensus → State Transition
+  ↓
+Inclusion / Finality
+  ↓
+Wallet State Update
+```
+
+### 16.2 Wallet Cryptographic Contract
+
+- Transaction/account signing uses the canonical **secp256k1** contract.
+- RFC6979 deterministic signing is required.
+- High-S signatures are rejected; canonical low-S form is required.
+- Hashing uses the canonical SHA-256 transaction contract.
+- Transaction domain is **ATC-TX-DOMAIN-V2** with chain ID **658467**.
+- Legacy transaction domains are forbidden for canonical transactions.
+- Monetary values use **u128** where the transaction contract requires economic amounts.
+- Rust, TypeScript SDK and Wallet must produce byte-identical canonical preimages/wire encodings.
+- Optional fields, integer widths, field order and domain encoding are protocol contracts, not implementation details.
+- Private keys/secrets never enter logs, telemetry or ordinary evidence artifacts.
+
+### 16.3 Wallet Security Invariants
+
+- UI presence is not signing authorization.
+- No transaction is signed without explicit authorization from the wallet's signing boundary.
+- Network responses, AI output, browser content and external applications cannot silently authorize signing.
+- Key material remains isolated from ordinary application memory where the platform permits.
+- Wallet state is not the canonical blockchain state; it reflects chain state obtained through authenticated interfaces.
+- Staking actions remain explicit wallet requests and do not grant wallet authority to validators, Aurora or applications.
+- Error Evidence ≠ Finding Evidence ≠ Verification Evidence.
+- Architecture ≠ Implementation ≠ Test ≠ CI Evidence ≠ Verification.
+
+### 16.4 Wallet Traceability
+
+```text
+Vision
+→ Wallet Domain
+→ Account / Key / Signing Component
+→ Function / API
+→ Transaction / Crypto Contract
+→ Source
+→ Test / Canonical Vector
+→ Workflow
+→ Exact-SHA Evidence
+→ Verification
+→ Residual
+```
+
+## 17. Repository Ownership
 
 - **OS implementation SSOT:** `a-townchain-os` / relevant ShivaCore repositories
 - **Blockchain implementation SSOT:** responsible L1 repositories such as `a-townchain`, `atc-algorithm`, `atc-vm`, `atc-wallet`, etc.
