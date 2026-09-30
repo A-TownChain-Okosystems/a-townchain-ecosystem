@@ -15481,12 +15481,126 @@
       "matrix_id": "ATC-CROSS-BOUNDARY-STATE-EVENT-MATRIX-001",
       "slug": "CROSS-BOUNDARY-STATE-EVENT",
       "parent_markdown": "docs/architecture/CROSS-BOUNDARY-STATE-EVENT-MATRIX.md",
-      "entry_count": 1,
+      "entry_count": 20,
       "entries": [
         {
           "id": "CBE-001",
           "fields": [],
           "source_line": 20,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-002",
+          "fields": [],
+          "source_line": 21,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-003",
+          "fields": [],
+          "source_line": 22,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-004",
+          "fields": [],
+          "source_line": 23,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-005",
+          "fields": [],
+          "source_line": 24,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-006",
+          "fields": [],
+          "source_line": 25,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-007",
+          "fields": [],
+          "source_line": 26,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-008",
+          "fields": [],
+          "source_line": 27,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-009",
+          "fields": [],
+          "source_line": 28,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-010",
+          "fields": [],
+          "source_line": 29,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-011",
+          "fields": [],
+          "source_line": 30,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-012",
+          "fields": [],
+          "source_line": 31,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-013",
+          "fields": [],
+          "source_line": 32,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-014",
+          "fields": [],
+          "source_line": 33,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-015",
+          "fields": [],
+          "source_line": 34,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-016",
+          "fields": [],
+          "source_line": 35,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-017",
+          "fields": [],
+          "source_line": 36,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-018",
+          "fields": [],
+          "source_line": 37,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-019",
+          "fields": [],
+          "source_line": 38,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "CBE-020",
+          "fields": [],
+          "source_line": 39,
           "status": "UNANALYZED"
         }
       ]
