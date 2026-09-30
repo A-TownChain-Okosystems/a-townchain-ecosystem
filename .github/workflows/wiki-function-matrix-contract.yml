@@ -1,0 +1,32 @@
+name: Wiki Function Matrix — Exact SHA Contract
+on:
+  workflow_dispatch:
+  push:
+    paths: ['docs/architecture/WIKI-FUNCTION-MATRIX.md','schemas/wiki-function-matrix.schema.json']
+  pull_request:
+    paths: ['docs/architecture/WIKI-FUNCTION-MATRIX.md','schemas/wiki-function-matrix.schema.json']
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 1}
+      - name: Assert exact SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Validate matrix
+        shell: python
+        run: |
+          import re
+          from pathlib import Path
+          p=Path('docs/architecture/WIKI-FUNCTION-MATRIX.md').read_text()
+          ids=re.findall(r'^\\| (WIKI-[0-9]{3}) \\|',p,re.M)
+          assert ids == [f'WIKI-{i:03d}' for i in range(1,65)]
+          for x in ['ARCHITECTURE','SPECIFIED','IMPLEMENTED','TESTED','VERIFIED','RESIDUAL','Exact-SHA']:
+              assert x in p
+          print('validated',len(ids),'Wiki functions')
+      - name: Evidence summary
+        run: |
+          echo "Exact SHA: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+          echo "Wiki functions: 64" >> "$GITHUB_STEP_SUMMARY"
