@@ -659,7 +659,7 @@ Vision
 
 The matrix is architectural. Existing mining source/status evidence does not by itself establish full protocol conformance or current-main verification.
 
-## 13. Repository Ownership
+## 14. Repository Ownership
 
 - **OS implementation SSOT:** `a-townchain-os` / relevant ShivaCore repositories
 - **Blockchain implementation SSOT:** responsible L1 repositories such as `a-townchain`, `atc-algorithm`, `atc-vm`, `atc-wallet`, etc.
