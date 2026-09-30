@@ -45,7 +45,7 @@ jobs:
             "CANONICAL-SYSTEM-FUNCTION":411,
             "AI-SUBSYSTEM":267,
             "POLICY":218,
-            "UI-COMPONENT-FUNCTION":66,
+            "UI-COMPONENT-FUNCTION":55,
             "INTEGRATION":212,
             "API-ORCHESTRATOR":183,
             "STATE-DATA":72,
