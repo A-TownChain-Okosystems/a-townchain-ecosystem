@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "required": [
+    "document_id",
+    "status",
+    "entry_count",
+    "entries"
+  ],
+  "properties": {
+    "document_id": {
+      "const": "ATC-WIKI-FUNCTION-MATRIX-001"
+    },
+    "status": {
+      "const": "ARCHITECTURE CONTRACT"
+    },
+    "entry_count": {
+      "const": 64
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 64,
+      "maxItems": 64
+    }
+  }
+}
