@@ -1,0 +1,70 @@
+name: AI Subsystem Matrix — Exact SHA Contract
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/architecture/AI-SUBSYSTEM-MATRIX.md'
+      - 'schemas/ai-subsystem.schema.yaml'
+      - '.github/workflows/ai-subsystem-matrix-contract.yml'
+  pull_request:
+    paths:
+      - 'docs/architecture/AI-SUBSYSTEM-MATRIX.md'
+      - 'schemas/ai-subsystem.schema.yaml'
+      - '.github/workflows/ai-subsystem-matrix-contract.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Assert exact SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          expected="${GITHUB_SHA}"
+          test "${actual}" = "${expected}"
+
+      - name: Validate subsystem contract
+        shell: python
+        run: |
+          from pathlib import Path
+          import re, sys
+          p = Path("docs/architecture/AI-SUBSYSTEM-MATRIX.md")
+          text = p.read_text(encoding="utf-8")
+          ids = re.findall(r"\| (AI-SUB-\d{3}) \|", text)
+          expected = [f"AI-SUB-{i:03d}" for i in range(1, 268)]
+          if ids != expected:
+              print("Subsystem IDs are missing, duplicated, reordered, or malformed.")
+              print(f"found={len(ids)} expected={len(expected)}")
+              sys.exit(1)
+          if text.count("Architecture presence does not imply implementation") != 1:
+              sys.exit(1)
+          required = [
+              "Model → Agent → Capability → Policy → Approval → Tool → GlobusOS → ShivaCore → Hardware",
+              "Error Evidence ≠ Finding Evidence ≠ Verification Evidence",
+              "Aurora → Capability → Policy → Approval → Wallet → Explicit Signature → SDK/RPC → A-TownChain",
+          ]
+          for marker in required:
+              if marker not in text:
+                  print("Missing contract marker:", marker)
+                  sys.exit(1)
+          print(f"validated {len(ids)} canonical AI subsystems")
+
+      - name: Contract summary
+        run: |
+          {
+            echo "## AI Subsystem Contract"
+            echo "- Exact SHA: `$GITHUB_SHA`"
+            echo "- Subsystems: 267"
+            echo "- Architecture status: CONTRACT"
+            echo "- Implementation status: evaluated separately"
+          } >> "$GITHUB_STEP_SUMMARY"
