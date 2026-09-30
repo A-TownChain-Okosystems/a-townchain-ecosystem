@@ -1,0 +1,41 @@
+name: Cross-Boundary State & Event Matrix — Exact SHA Contract
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/architecture/CROSS-BOUNDARY-STATE-EVENT-MATRIX.md'
+      - 'schemas/cross-boundary-state-event-matrix.schema.json'
+  pull_request:
+    paths:
+      - 'docs/architecture/CROSS-BOUNDARY-STATE-EVENT-MATRIX.md'
+      - 'schemas/cross-boundary-state-event-matrix.schema.json'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Assert exact SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Validate canonical boundary IDs
+        shell: python
+        run: |
+          import re
+          from pathlib import Path
+          p=Path("docs/architecture/CROSS-BOUNDARY-STATE-EVENT-MATRIX.md").read_text(encoding="utf-8")
+          ids=re.findall(r'^\\| (CBE-[0-9]{3}) \\|',p,re.M)
+          expected=[f"CBE-{i:03d}" for i in range(1,21)]
+          assert ids==expected, (ids[:3], ids[-3:], len(ids))
+          required=["State Domain","Event Domain","Authority","Capability","Policy","Approval","Exact-SHA","Verification","Residual"]
+          assert all(x in p for x in required)
+          print("validated",len(ids),"CBE entries")
+      - name: Evidence summary
+        run: |
+          echo "## Cross-Boundary State & Event Matrix" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Exact SHA: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Boundaries: 20" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Architecture contract only; implementation verification remains separate" >> "$GITHUB_STEP_SUMMARY"
