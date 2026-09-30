@@ -629,7 +629,7 @@ impl ChainStorage {
 
     /// Recover every durable validator snapshot, preserving historical
     /// height/epoch boundaries rather than only the latest mutable set.
-    pub fn recover_validator_snapshots(&self) -> Result<BTreeMap<u64, ValidatorSnapshot>, String> {
+    pub fn recover_validator_snapshots(&self) -> Result<BTreeMap<u64, (BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>)>, String> {
         let Some(p) = &self.validator_journal else {
             return Ok(BTreeMap::new());
         };
