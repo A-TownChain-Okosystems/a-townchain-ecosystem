@@ -362,7 +362,96 @@ Hardware
 
 Model output is **not** an authorization source. Blockchain actions require the applicable capability/policy/approval path.
 
-## 8. Cross-System Integration Contracts
+## 8. Genesis Engine — Canonical Function Matrix
+
+**Scope:** general-purpose Genesis Engine/editor/runtime/SDK and the Genesis Chronicles content platform. This matrix covers engine capabilities and their contracts; it does not claim that all gameplay, tooling or runtime functions are implemented.
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| GEN-01 | Engine Core | engine lifecycle, initialization, shutdown, main loop, subsystem orchestration |
+| GEN-02 | ECS / World Model | entities, components, systems, archetypes, queries, world state and deterministic updates |
+| GEN-03 | Scene / World Management | scenes, worlds, loading, streaming, portals, world transitions and world persistence |
+| GEN-04 | Rendering | renderer abstraction, materials, meshes, lighting, shadows, post-processing, cameras and render graph |
+| GEN-05 | Physics | collision, rigid bodies, character controllers, constraints, raycasts, triggers and deterministic physics boundaries |
+| GEN-06 | Animation | skeletal animation, state machines, blending, IK, facial animation and animation events |
+| GEN-07 | Audio | music, ambience, SFX, spatial audio, mixing, buses, dialogue and adaptive audio |
+| GEN-08 | Input / Interaction | keyboard, mouse, controller, touch, action mapping, interaction prompts and accessibility input |
+| GEN-09 | UI / UX | HUD, menus, inventory, dialogue UI, settings, accessibility and UI framework |
+| GEN-10 | Gameplay Framework | quests, dialogue, combat, abilities, progression, factions, items, crafting and gameplay state |
+| GEN-11 | AI / NPC Systems | NPC behavior, navigation, perception, behavior trees/state machines, schedules and encounter logic |
+| GEN-12 | Networking / Multiplayer | transport abstraction, replication, authority, prediction, synchronization, sessions and multiplayer state |
+| GEN-13 | Save / Persistence | save slots, serialization, checkpoints, profiles, world state, migration and recovery |
+| GEN-14 | Scripting / Modding | gameplay scripting, extension APIs, sandboxing, mod lifecycle, dependency/version compatibility |
+| GEN-15 | Asset Pipeline | import, conversion, validation, dependency graphs, caching, packaging and asset versioning |
+| GEN-16 | Resource / Package System | content manifests, bundles, virtual filesystem, streaming resources and runtime package resolution |
+| GEN-17 | Editor / Tooling | world editor, scene editor, entity/component inspector, terrain, material, animation and quest tooling |
+| GEN-18 | Build / Release Pipeline | deterministic builds, platform packaging, content cooking, artifact signing and release channels |
+| GEN-19 | Platform / Hardware Abstraction | CPU/GPU, input, storage, audio, display, OS APIs and platform-specific adapters |
+| GEN-20 | Simulation / Time | game clock, ticks, timers, scheduling, pause/slow-motion and deterministic simulation time |
+| GEN-21 | Testing / Verification | unit, integration, gameplay, physics, rendering, networking, replay, determinism and regression tests |
+| GEN-22 | Developer SDK / APIs | engine API, gameplay API, plugin API, asset API, editor API, runtime API and documentation |
+| GEN-23 | Observability / Diagnostics | logging, profiling, telemetry, crash diagnostics, debug overlays and replay diagnostics |
+| GEN-24 | Security / Trust Boundary | sandboxing, content validation, network trust, signed assets, anti-tamper boundaries and permission enforcement |
+| GEN-25 | Genesis Chronicles | 50-world structure, Ur-Genesis content model, World 51 / Inner War progression, lore, species, quests and premium showcase integration |
+
+### 8.1 Canonical Genesis Engine Pipeline
+
+```text
+Project / Assets
+  ↓
+Asset Import & Validation
+  ↓
+Content / Package System
+  ↓
+Editor / Tooling
+  ↓
+Build / Cook / Package
+  ↓
+Genesis Runtime
+  ↓
+ECS / World / Scene
+  ↓
+Gameplay / AI / Physics / Animation / Audio
+  ↓
+Rendering / UI / Input
+  ↓
+Persistence / Networking
+  ↓
+Platform / OS / Hardware
+```
+
+### 8.2 Genesis Engine Invariants
+
+- Engine subsystems communicate through explicit contracts; hidden global state is not a canonical integration mechanism.
+- Simulation state, render state and persistent state are distinct concerns.
+- Deterministic simulation must not depend on wall-clock time, uncontrolled randomness or nondeterministic host behavior.
+- Network authority and replication rules must be explicit before multiplayer state is treated as canonical.
+- Asset identity, versioning and dependency resolution must be reproducible.
+- Mods/extensions execute within explicit capability and trust boundaries.
+- Save migration must be versioned and backwards/forwards compatibility must be defined where supported.
+- Editor output must use the same canonical asset/content contracts consumed by runtime.
+- AI-generated quests/dialogue/content remain content inputs; runtime authority stays within engine gameplay and security contracts.
+- Genesis Chronicles is a product/content layer on the Genesis Engine and must not become an implicit replacement for the general engine architecture.
+
+### 8.3 Genesis Engine Traceability
+
+```text
+Vision
+→ Genesis Domain
+→ Engine Component
+→ Function / API
+→ Contract
+→ Source
+→ Test / Replay / Vector
+→ Workflow
+→ Exact-SHA Evidence
+→ Verification
+→ Residual
+```
+
+Genesis Engine coverage here is architectural. Full function coverage requires repository-level AST/symbol inventory and implementation evidence.
+
+## 9. Cross-System Integration Contracts
 
 The three domains are connected through explicit contracts, not implicit authority:
 
