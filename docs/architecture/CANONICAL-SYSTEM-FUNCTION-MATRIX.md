@@ -1242,3 +1242,19 @@ The integration boundary is:
 `Component/API → Integration Contract → API Orchestrator → Capability → Policy → Approval → Domain Service → Authoritative State → Evidence → Verification`.
 
 Neither integration nor orchestration creates authority. Domain ownership, capability boundaries, policy, approval, wallet signing, ShivaCore enforcement and canonical blockchain/OS state remain authoritative.
+
+
+## State, Event, Security & Dependency Contract Layers
+
+The next canonical cross-system layers are now defined as machine-checkable architecture contracts:
+
+- `docs/architecture/STATE-DATA.md` — `ATC-STATE-DATA-MATRIX-001`, 72 state/data contracts.
+- `docs/architecture/EVENT-MATRIX.md` — `ATC-EVENT-MATRIX-001`, 72 event contracts.
+- `docs/architecture/SECURITY-BOUNDARY-MATRIX.md` — `ATC-SECURITY-BOUNDARY-MATRIX-001`, 72 security-boundary contracts.
+- `docs/architecture/DEPENDENCY-MATRIX.md` — `ATC-DEPENDENCY-MATRIX-001`, 64 dependency contracts.
+
+Canonical cross-layer chain:
+
+`Function/API → Data/State Contract → Event Contract → Integration → API Orchestrator → Capability → Policy → Approval → Domain Service → Security Boundary → Dependency Graph → Authoritative State → Evidence → Verification`
+
+These layers do not imply implementation. Their corresponding Exact-SHA workflows validate architectural contract integrity only; repository-level source, tests, integration and E2E evidence remain required for VERIFIED status.
