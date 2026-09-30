@@ -182,6 +182,222 @@
           "status": "UNANALYZED"
         },
         {
+          "id": "L1-01",
+          "fields": [
+            "Protocol & Chain Identity",
+            "chain/network identity, protocol versioning, genesis, domain separation"
+          ],
+          "source_line": "| L1-01 | Protocol & Chain Identity | chain/network identity, protocol versioning, genesis, domain separation |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-02",
+          "fields": [
+            "Transaction Layer",
+            "transaction format, nonce, encoding, hashing, signatures, validation, replay protection"
+          ],
+          "source_line": "| L1-02 | Transaction Layer | transaction format, nonce, encoding, hashing, signatures, validation, replay protection |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-03",
+          "fields": [
+            "Account & State Model",
+            "accounts, addresses, balances, nonces, state roots, state transitions"
+          ],
+          "source_line": "| L1-03 | Account & State Model | accounts, addresses, balances, nonces, state roots, state transitions |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-04",
+          "fields": [
+            "Wallet & Key Management",
+            "key lifecycle, signing, secp256k1, RFC6979, low-S, rotation/recovery"
+          ],
+          "source_line": "| L1-04 | Wallet & Key Management | key lifecycle, signing, secp256k1, RFC6979, low-S, rotation/recovery |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-05",
+          "fields": [
+            "Cryptography",
+            "hashes, signatures, key encoding, Merkle structures, parameters, algorithm versions"
+          ],
+          "source_line": "| L1-05 | Cryptography | hashes, signatures, key encoding, Merkle structures, parameters, algorithm versions |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-06",
+          "fields": [
+            "Consensus",
+            "validator set, proposer selection, voting, finality, epochs, rotation, slashing, recovery"
+          ],
+          "source_line": "| L1-06 | Consensus | validator set, proposer selection, voting, finality, epochs, rotation, slashing, recovery |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-07",
+          "fields": [
+            "Block Layer",
+            "headers, bodies, parent hash, height, timestamp, roots, block validation/propagation"
+          ],
+          "source_line": "| L1-07 | Block Layer | headers, bodies, parent hash, height, timestamp, roots, block validation/propagation |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-08",
+          "fields": [
+            "Economics & Monetary Policy",
+            "supply, rewards, halving, fees, treasury, staking, slashing, invariants"
+          ],
+          "source_line": "| L1-08 | Economics & Monetary Policy | supply, rewards, halving, fees, treasury, staking, slashing, invariants |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-09",
+          "fields": [
+            "Mempool",
+            "admission, signature/nonce/fee checks, duplicates, ordering, limits, recovery"
+          ],
+          "source_line": "| L1-09 | Mempool | admission, signature/nonce/fee checks, duplicates, ordering, limits, recovery |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-10",
+          "fields": [
+            "P2P / Network",
+            "discovery, identity, handshake, propagation, peer scoring, anti-Sybil, recovery"
+          ],
+          "source_line": "| L1-10 | P2P / Network | discovery, identity, handshake, propagation, peer scoring, anti-Sybil, recovery |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-11",
+          "fields": [
+            "Storage",
+            "block/state/tx/validator stores, WAL, snapshots, pruning, indexes, crash recovery"
+          ],
+          "source_line": "| L1-11 | Storage | block/state/tx/validator stores, WAL, snapshots, pruning, indexes, crash recovery |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-12",
+          "fields": [
+            "State Transition Engine",
+            "deterministic validation → execution → transition → state-root pipeline"
+          ],
+          "source_line": "| L1-12 | State Transition Engine | deterministic validation → execution → transition → state-root pipeline |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-13",
+          "fields": [
+            "Smart Contracts / ATC-VM",
+            "ATCLang, AST/IR/ABI, bytecode, verifier, VM, typed values, state, determinism"
+          ],
+          "source_line": "| L1-13 | Smart Contracts / ATC-VM | ATCLang, AST/IR/ABI, bytecode, verifier, VM, typed values, state, determinism |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-14",
+          "fields": [
+            "Execution & Gas",
+            "instruction/resource accounting, memory/storage/call limits, deterministic failures"
+          ],
+          "source_line": "| L1-14 | Execution & Gas | instruction/resource accounting, memory/storage/call limits, deterministic failures |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-15",
+          "fields": [
+            "RPC / Node API",
+            "transaction, block, account, state, contract, event, mempool, validator and health APIs"
+          ],
+          "source_line": "| L1-15 | RPC / Node API | transaction, block, account, state, contract, event, mempool, validator and health APIs |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-16",
+          "fields": [
+            "Node Runtime",
+            "initialization, config, networking, mempool, consensus, execution, storage, RPC, restart"
+          ],
+          "source_line": "| L1-16 | Node Runtime | initialization, config, networking, mempool, consensus, execution, storage, RPC, restart |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-17",
+          "fields": [
+            "Synchronization",
+            "initial/block/state/snapshot sync, recovery, reorg/finality handling, resume"
+          ],
+          "source_line": "| L1-17 | Synchronization | initial/block/state/snapshot sync, recovery, reorg/finality handling, resume |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-18",
+          "fields": [
+            "Indexer / Explorer",
+            "blocks, transactions, addresses, contracts, events, validators, balances, history, API"
+          ],
+          "source_line": "| L1-18 | Indexer / Explorer | blocks, transactions, addresses, contracts, events, validators, balances, history, API |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-19",
+          "fields": [
+            "Governance / Protocol Upgrades",
+            "proposals, voting, parameters, upgrades, compatibility, migration, emergency procedures"
+          ],
+          "source_line": "| L1-19 | Governance / Protocol Upgrades | proposals, voting, parameters, upgrades, compatibility, migration, emergency procedures |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-20",
+          "fields": [
+            "Security",
+            "threat model, Sybil/DoS/replay/double-spend defense, contract/resource/state security"
+          ],
+          "source_line": "| L1-20 | Security | threat model, Sybil/DoS/replay/double-spend defense, contract/resource/state security |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-21",
+          "fields": [
+            "Observability / Operations",
+            "logs, metrics, tracing, health, diagnostics, alerts, crash reports"
+          ],
+          "source_line": "| L1-21 | Observability / Operations | logs, metrics, tracing, health, diagnostics, alerts, crash reports |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-22",
+          "fields": [
+            "Testing & Determinism",
+            "unit/property/fuzz/vector/E2E, cross-language, consensus/VM/state determinism, recovery"
+          ],
+          "source_line": "| L1-22 | Testing & Determinism | unit/property/fuzz/vector/E2E, cross-language, consensus/VM/state determinism, recovery |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-23",
+          "fields": [
+            "Release & Evidence",
+            "reproducible build, hashes, SBOM, Exact-SHA CI, artifacts, RCA, rerun, verification"
+          ],
+          "source_line": "| L1-23 | Release & Evidence | reproducible build, hashes, SBOM, Exact-SHA CI, artifacts, RCA, rerun, verification |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-24",
+          "fields": [
+            "Developer Ecosystem",
+            "Rust/TypeScript/wallet SDKs, CLI, contract tooling, local node, devnet/testnet, docs"
+          ],
+          "source_line": "| L1-24 | Developer Ecosystem | Rust/TypeScript/wallet SDKs, CLI, contract tooling, local node, devnet/testnet, docs |",
+          "status": "UNANALYZED"
+        },
+        {
           "id": "LANG-01",
           "fields": [
             "Language Specification",
@@ -2123,6 +2339,78 @@
             "package signatures, provenance, trust roots, artifact integrity and installation policy"
           ],
           "source_line": "| OS-27 | Software Trust / Provenance | package signatures, provenance, trust roots, artifact integrity and installation policy |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-25",
+          "fields": [
+            "Genesis / Bootstrap",
+            "genesis state, bootstrap configuration, initial validators/accounts and chain initialization"
+          ],
+          "source_line": "| L1-25 | Genesis / Bootstrap | genesis state, bootstrap configuration, initial validators/accounts and chain initialization |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-26",
+          "fields": [
+            "Token / Asset Layer",
+            "native and fungible assets, asset state, issuance and canonical asset contracts"
+          ],
+          "source_line": "| L1-26 | Token / Asset Layer | native and fungible assets, asset state, issuance and canonical asset contracts |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-27",
+          "fields": [
+            "Oracle / External Data",
+            "authenticated external data, freshness, source identity and deterministic consumption boundaries"
+          ],
+          "source_line": "| L1-27 | Oracle / External Data | authenticated external data, freshness, source identity and deterministic consumption boundaries |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-28",
+          "fields": [
+            "Interoperability / Bridge",
+            "cross-domain/chain messaging, lock/mint/burn/release, replay protection and finality proofs"
+          ],
+          "source_line": "| L1-28 | Interoperability / Bridge | cross-domain/chain messaging, lock/mint/burn/release, replay protection and finality proofs |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-29",
+          "fields": [
+            "Light Client / Proof Client",
+            "header verification, proof verification, partial-state clients and trust-minimized reads"
+          ],
+          "source_line": "| L1-29 | Light Client / Proof Client | header verification, proof verification, partial-state clients and trust-minimized reads |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-30",
+          "fields": [
+            "Fee Market / Pricing",
+            "fee policy, minimum fees, congestion pricing, priority and deterministic fee calculation"
+          ],
+          "source_line": "| L1-30 | Fee Market / Pricing | fee policy, minimum fees, congestion pricing, priority and deterministic fee calculation |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-31",
+          "fields": [
+            "Treasury",
+            "protocol treasury, controlled inflows/outflows, accounting and governance authorization"
+          ],
+          "source_line": "| L1-31 | Treasury | protocol treasury, controlled inflows/outflows, accounting and governance authorization |",
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "L1-32",
+          "fields": [
+            "Archive / Disaster Recovery",
+            "archival state, restore points, recovery procedures and continuity validation"
+          ],
+          "source_line": "| L1-32 | Archive / Disaster Recovery | archival state, restore points, recovery procedures and continuity validation |",
           "status": "UNANALYZED"
         },
         {
@@ -8026,7 +8314,7 @@
       "matrix_id": "ATC-UI-COMPONENT-FUNCTION-MATRIX-001",
       "slug": "UI-COMPONENT-FUNCTION",
       "parent_markdown": "docs/architecture/UI-COMPONENT-FUNCTION-MATRIX.md",
-      "entry_count": 66,
+      "entry_count": 55,
       "entries": [
         {
           "id": "UI-01",
