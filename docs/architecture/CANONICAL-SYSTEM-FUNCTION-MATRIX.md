@@ -1220,3 +1220,12 @@ Exact-SHA CI is commit-specific. Historical CI runs do not establish verificatio
 5. Blockchain consensus, VM, wallet/SDK, and state-transition claims require implementation-level evidence.
 6. Aurora provider/runtime/RAG/multimodal/agent E2E capabilities remain subject to their own implementation gates.
 7. Login/registration and identity claims require actual source-level identity evidence.
+## Policy Matrix Integration
+
+The canonical policy layer is defined in `docs/architecture/POLICY-MATRIX.md` as `ATC-POLICY-MATRIX-001` with 218 policy subsystems. Its machine-readable contract is `schemas/policy-matrix.schema.json`; exact-SHA validation is enforced by `.github/workflows/policy-matrix-contract.yml`.
+
+Policy authority remains separate from capability, approval, orchestration and domain execution:
+
+`Identity → Capability → Policy → Approval → API Orchestrator → Domain Service → Authoritative State → Evidence → Verification`
+
+Architecture presence of a policy does not constitute implementation, enforcement or verification evidence.
