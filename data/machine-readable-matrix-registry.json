@@ -13665,706 +13665,1011 @@
       "matrix_id": "ATC-EVENT-MATRIX-001",
       "slug": "EVENT",
       "parent_markdown": "docs/architecture/EVENT-MATRIX.md",
-      "entry_count": 70,
+      "entry_count": 201,
       "entries": [
         {
-          "id": "EVT-001",
-          "fields": [
-            "Event Core",
-            "Event Identity",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-001 | Event Core | Event Identity | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 1,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-002",
-          "fields": [
-            "Event Core",
-            "Event Type",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-002 | Event Core | Event Type | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 1,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-003",
-          "fields": [
-            "Event Core",
-            "Event Version",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-003 | Event Core | Event Version | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 2,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-004",
-          "fields": [
-            "Event Core",
-            "Event Schema",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-004 | Event Core | Event Schema | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 3,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-005",
-          "fields": [
-            "Event Core",
-            "Event Producer",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-005 | Event Core | Event Producer | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 3,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-006",
-          "fields": [
-            "Event Core",
-            "Event Consumer",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-006 | Event Core | Event Consumer | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 4,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-007",
-          "fields": [
-            "Blockchain Events",
-            "Event Authority",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-007 | Blockchain Events | Event Authority | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 4,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-008",
-          "fields": [
-            "Blockchain Events",
-            "Event Envelope",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-008 | Blockchain Events | Event Envelope | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 5,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-009",
-          "fields": [
-            "Blockchain Events",
-            "Event Timestamp",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-009 | Blockchain Events | Event Timestamp | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 5,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-012",
-          "fields": [
-            "Blockchain Events",
-            "Event Payload",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-012 | Blockchain Events | Event Payload | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 6,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-013",
-          "fields": [
-            "OS Events",
-            "Event Validation",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-013 | OS Events | Event Validation | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 7,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-014",
-          "fields": [
-            "OS Events",
-            "Event Serialization",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-014 | OS Events | Event Serialization | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 7,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-015",
-          "fields": [
-            "OS Events",
-            "Event Deserialization",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-015 | OS Events | Event Deserialization | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 8,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-016",
-          "fields": [
-            "OS Events",
-            "Event Bus",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-016 | OS Events | Event Bus | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 9,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-017",
-          "fields": [
-            "OS Events",
-            "Event Router",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-017 | OS Events | Event Router | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 9,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-018",
-          "fields": [
-            "OS Events",
-            "Event Filter",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-018 | OS Events | Event Filter | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 10,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-019",
-          "fields": [
-            "Aurora Events",
-            "Event Subscription",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-019 | Aurora Events | Event Subscription | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 11,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-020",
-          "fields": [
-            "Aurora Events",
-            "Event Dispatch",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-020 | Aurora Events | Event Dispatch | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 11,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-021",
-          "fields": [
-            "Aurora Events",
-            "Event Delivery",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-021 | Aurora Events | Event Delivery | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 12,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-022",
-          "fields": [
-            "Aurora Events",
-            "At-Least-Once",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-022 | Aurora Events | At-Least-Once | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 13,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-023",
-          "fields": [
-            "Aurora Events",
-            "At-Most-Once",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-023 | Aurora Events | At-Most-Once | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 13,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-024",
-          "fields": [
-            "Aurora Events",
-            "Exactly-Once Boundary",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-024 | Aurora Events | Exactly-Once Boundary | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 14,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-025",
-          "fields": [
-            "Application Events",
-            "Ordering",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-025 | Application Events | Ordering | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 15,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-026",
-          "fields": [
-            "Application Events",
-            "Sequence Number",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-026 | Application Events | Sequence Number | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 15,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-027",
-          "fields": [
-            "Application Events",
-            "Partition",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-027 | Application Events | Partition | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 16,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-028",
-          "fields": [
-            "Application Events",
-            "Replay",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-028 | Application Events | Replay | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 17,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-029",
-          "fields": [
-            "Application Events",
-            "Checkpoint",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-029 | Application Events | Checkpoint | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 17,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-030",
-          "fields": [
-            "Application Events",
-            "Offset",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-030 | Application Events | Offset | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 18,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-031",
-          "fields": [
-            "Event Transport",
-            "Retry",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-031 | Event Transport | Retry | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 19,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-032",
-          "fields": [
-            "Event Transport",
-            "Dead Letter",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-032 | Event Transport | Dead Letter | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 19,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-033",
-          "fields": [
-            "Event Transport",
-            "Backoff",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-033 | Event Transport | Backoff | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 20,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-034",
-          "fields": [
-            "Event Transport",
-            "Deduplication",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-034 | Event Transport | Deduplication | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 20,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-035",
-          "fields": [
-            "Event Transport",
-            "Idempotency",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-035 | Event Transport | Idempotency | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 21,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-036",
-          "fields": [
-            "Event Transport",
-            "Correlation",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-036 | Event Transport | Correlation | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 21,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-037",
-          "fields": [
-            "Ordering",
-            "Aggregation",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-037 | Ordering | Aggregation | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 22,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-038",
-          "fields": [
-            "Ordering",
-            "Projection",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-038 | Ordering | Projection | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 22,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-039",
-          "fields": [
-            "Ordering",
-            "State Trigger",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-039 | Ordering | State Trigger | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 23,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-040",
-          "fields": [
-            "Ordering",
-            "State Change",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-040 | Ordering | State Change | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 23,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-041",
-          "fields": [
-            "Ordering",
-            "Block Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-041 | Ordering | Block Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 24,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-042",
-          "fields": [
-            "Ordering",
-            "Transaction Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-042 | Ordering | Transaction Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 24,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-043",
-          "fields": [
-            "Delivery",
-            "Consensus Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-043 | Delivery | Consensus Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 25,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-044",
-          "fields": [
-            "Delivery",
-            "Validator Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-044 | Delivery | Validator Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 25,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-045",
-          "fields": [
-            "Delivery",
-            "Mempool Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-045 | Delivery | Mempool Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 26,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-046",
-          "fields": [
-            "Delivery",
-            "VM Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-046 | Delivery | VM Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 26,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-047",
-          "fields": [
-            "Delivery",
-            "Contract Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-047 | Delivery | Contract Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 27,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-048",
-          "fields": [
-            "Delivery",
-            "Wallet Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-048 | Delivery | Wallet Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 27,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-049",
-          "fields": [
-            "Replay",
-            "Identity Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-049 | Replay | Identity Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 28,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-050",
-          "fields": [
-            "Replay",
-            "Policy Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-050 | Replay | Policy Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 28,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-051",
-          "fields": [
-            "Replay",
-            "Approval Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-051 | Replay | Approval Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 29,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-052",
-          "fields": [
-            "Replay",
-            "Aurora Agent Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-052 | Replay | Aurora Agent Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 29,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-053",
-          "fields": [
-            "Replay",
-            "Tool Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-053 | Replay | Tool Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 30,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-054",
-          "fields": [
-            "Replay",
-            "OS Process Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-054 | Replay | OS Process Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 30,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-055",
-          "fields": [
-            "Security",
-            "Device Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-055 | Security | Device Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 31,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-056",
-          "fields": [
-            "Security",
-            "Update Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-056 | Security | Update Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 31,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-057",
-          "fields": [
-            "Security",
-            "Recovery Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-057 | Security | Recovery Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 32,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-058",
-          "fields": [
-            "Security",
-            "Genesis Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-058 | Security | Genesis Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 32,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-059",
-          "fields": [
-            "Security",
-            "Marketplace Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-059 | Security | Marketplace Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 33,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-060",
-          "fields": [
-            "Security",
-            "NFT Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-060 | Security | NFT Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 33,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-061",
-          "fields": [
-            "Observability",
-            "Indexer Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-061 | Observability | Indexer Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 34,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-062",
-          "fields": [
-            "Observability",
-            "Audit Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-062 | Observability | Audit Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 34,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-063",
-          "fields": [
-            "Observability",
-            "Security Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-063 | Observability | Security Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 35,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-064",
-          "fields": [
-            "Observability",
-            "Incident Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-064 | Observability | Incident Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 35,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-065",
-          "fields": [
-            "Observability",
-            "Telemetry Event",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-065 | Observability | Telemetry Event | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 36,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-066",
-          "fields": [
-            "Observability",
-            "Event Authorization",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-066 | Observability | Event Authorization | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 36,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-067",
-          "fields": [
-            "Testing",
-            "Event Integrity",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-067 | Testing | Event Integrity | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 37,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-068",
-          "fields": [
-            "Testing",
-            "Event Provenance",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-068 | Testing | Event Provenance | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 37,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-069",
-          "fields": [
-            "Testing",
-            "Event Retention",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-069 | Testing | Event Retention | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 38,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-070",
-          "fields": [
-            "Testing",
-            "Event Privacy",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-070 | Testing | Event Privacy | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 38,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-071",
-          "fields": [
-            "Testing",
-            "Event Testing",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-071 | Testing | Event Testing | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 39,
           "status": "UNANALYZED"
         },
         {
-          "id": "EVT-072",
-          "fields": [
-            "Testing",
-            "Event Determinism",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| EVT-072 | Testing | Event Determinism | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 39,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 40,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 40,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 41,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 41,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 42,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 42,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 43,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 43,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 44,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 44,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 45,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 45,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 46,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 46,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 47,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 47,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 48,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 48,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 49,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 49,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 50,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 50,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 51,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 51,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 52,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 52,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 53,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 53,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 54,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 54,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 55,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 55,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 56,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 56,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 57,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 57,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 58,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 58,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 59,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 59,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 60,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 60,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 61,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 61,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 62,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 62,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 63,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 63,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 64,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 64,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 65,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 65,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 66,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 66,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 67,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 67,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 68,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 68,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 69,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 69,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 70,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 70,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 71,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 71,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 72,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 72,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 73,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 73,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 74,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 74,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 75,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 75,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 76,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 76,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 77,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 77,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 78,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 78,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 79,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 79,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 80,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 80,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 81,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 81,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 82,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 82,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 83,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 83,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 84,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 84,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 85,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 85,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 86,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 86,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 87,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 87,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 88,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 88,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 89,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 89,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 90,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 90,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 91,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 91,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 92,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 92,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 93,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 94,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 94,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 95,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 96,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 96,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 97,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 97,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 98,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 98,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 99,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 99,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 100,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 100,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 101,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 101,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 102,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 102,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 103,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 104,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 104,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 105,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 106,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 106,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 107,
           "status": "UNANALYZED"
         }
       ]
@@ -15749,171 +16054,576 @@
       "matrix_id": "ATC-CROSS-BOUNDARY-STATE-EVENT-MATRIX-001",
       "slug": "CROSS-BOUNDARY-STATE-EVENT",
       "parent_markdown": "docs/architecture/CROSS-BOUNDARY-STATE-EVENT-MATRIX.md",
-      "entry_count": 1,
+      "entry_count": 114,
       "entries": [
         {
-          "id": "CBE-001",
-          "fields": [
-            "Aurora ↔ GlobusOS",
-            "Aurora request",
-            "OS state",
-            "OS event",
-            "IPC",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-002",
-            "GlobusOS ↔ ShivaCore",
-            "service request",
-            "kernel state",
-            "kernel event",
-            "syscall/IPC",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-003",
-            "ShivaCore ↔ Hardware",
-            "hardware operation",
-            "device state",
-            "hardware event",
-            "HAL",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-004",
-            "Aurora ↔ A-TownChain",
-            "transaction intent",
-            "chain state",
-            "transaction/finality event",
-            "RPC",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-005",
-            "Wallet ↔ Node",
-            "signed transaction",
-            "mempool state",
-            "accept/reject event",
-            "RPC",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-006",
-            "SDK ↔ Node/API",
-            "API request",
-            "API/session state",
-            "response/event",
-            "RPC/HTTP",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-007",
-            "Mempool ↔ Consensus",
-            "candidate transaction",
-            "mempool/consensus state",
-            "proposal/vote event",
-            "internal protocol",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-008",
-            "Consensus ↔ State",
-            "commit decision",
-            "canonical chain state",
-            "commit/finality event",
-            "state transition",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-009",
-            "ATC-VM ↔ Blockchain State",
-            "VM execution",
-            "contract/state storage",
-            "VM/state event",
-            "execution host ABI",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-010",
-            "ATCLang/Compiler ↔ VM",
-            "compiled artifact",
-            "artifact/runtime state",
-            "deployment/validation event",
-            "bytecode/ABI",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-011",
-            "Frontend ↔ Backend",
-            "user request",
-            "session/application state",
-            "API/domain event",
-            "HTTPS/RPC",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-012",
-            "Browser ↔ Ecosystem",
-            "navigation/action",
-            "browser/app state",
-            "navigation/security event",
-            "HTTPS/gth",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-013",
-            "Genesis ↔ Blockchain",
-            "game transaction",
-            "game/canonical state",
-            "game/blockchain event",
-            "SDK/RPC",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-014",
-            "Marketplace ↔ Blockchain",
-            "order/settlement",
-            "market state",
-            "order/settlement event",
-            "SDK/RPC",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-015",
-            "NFT ↔ Blockchain",
-            "token operation",
-            "token ownership state",
-            "mint/transfer event",
-            "SDK/RPC",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-016",
-            "Aurora ↔ API Orchestrator",
-            "agent intent",
-            "workflow state",
-            "workflow event",
-            "API",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-017",
-            "Policy ↔ Execution",
-            "policy decision",
-            "authorization state",
-            "decision event",
-            "orchestrator",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-018",
-            "Event Bus ↔ Consumers",
-            "published event",
-            "consumer checkpoint",
-            "delivery/replay event",
-            "event transport",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-019",
-            "Indexer ↔ Applications",
-            "indexed update",
-            "derived index state",
-            "index event",
-            "query/API",
-            "ARCHITECTURE CONTRACT",
-            "\\n",
-            "CBE-020",
-            "Evidence ↔ Verification",
-            "execution evidence",
-            "verification state",
-            "verification event",
-            "evidence pipeline",
-            "ARCHITECTURE CONTRACT"
-          ],
-          "source_line": "| CBE-001 | Aurora ↔ GlobusOS | Aurora request | OS state | OS event | IPC | ARCHITECTURE CONTRACT |\\n| CBE-002 | GlobusOS ↔ ShivaCore | service request | kernel state | kernel event | syscall/IPC | ARCHITECTURE CONTRACT |\\n| CBE-003 | ShivaCore ↔ Hardware | hardware operation | device state | hardware event | HAL | ARCHITECTURE CONTRACT |\\n| CBE-004 | Aurora ↔ A-TownChain | transaction intent | chain state | transaction/finality event | RPC | ARCHITECTURE CONTRACT |\\n| CBE-005 | Wallet ↔ Node | signed transaction | mempool state | accept/reject event | RPC | ARCHITECTURE CONTRACT |\\n| CBE-006 | SDK ↔ Node/API | API request | API/session state | response/event | RPC/HTTP | ARCHITECTURE CONTRACT |\\n| CBE-007 | Mempool ↔ Consensus | candidate transaction | mempool/consensus state | proposal/vote event | internal protocol | ARCHITECTURE CONTRACT |\\n| CBE-008 | Consensus ↔ State | commit decision | canonical chain state | commit/finality event | state transition | ARCHITECTURE CONTRACT |\\n| CBE-009 | ATC-VM ↔ Blockchain State | VM execution | contract/state storage | VM/state event | execution host ABI | ARCHITECTURE CONTRACT |\\n| CBE-010 | ATCLang/Compiler ↔ VM | compiled artifact | artifact/runtime state | deployment/validation event | bytecode/ABI | ARCHITECTURE CONTRACT |\\n| CBE-011 | Frontend ↔ Backend | user request | session/application state | API/domain event | HTTPS/RPC | ARCHITECTURE CONTRACT |\\n| CBE-012 | Browser ↔ Ecosystem | navigation/action | browser/app state | navigation/security event | HTTPS/gth | ARCHITECTURE CONTRACT |\\n| CBE-013 | Genesis ↔ Blockchain | game transaction | game/canonical state | game/blockchain event | SDK/RPC | ARCHITECTURE CONTRACT |\\n| CBE-014 | Marketplace ↔ Blockchain | order/settlement | market state | order/settlement event | SDK/RPC | ARCHITECTURE CONTRACT |\\n| CBE-015 | NFT ↔ Blockchain | token operation | token ownership state | mint/transfer event | SDK/RPC | ARCHITECTURE CONTRACT |\\n| CBE-016 | Aurora ↔ API Orchestrator | agent intent | workflow state | workflow event | API | ARCHITECTURE CONTRACT |\\n| CBE-017 | Policy ↔ Execution | policy decision | authorization state | decision event | orchestrator | ARCHITECTURE CONTRACT |\\n| CBE-018 | Event Bus ↔ Consumers | published event | consumer checkpoint | delivery/replay event | event transport | ARCHITECTURE CONTRACT |\\n| CBE-019 | Indexer ↔ Applications | indexed update | derived index state | index event | query/API | ARCHITECTURE CONTRACT |\\n| CBE-020 | Evidence ↔ Verification | execution evidence | verification state | verification event | evidence pipeline | ARCHITECTURE CONTRACT |",
+          "fields": [],
+          "source_line": 1,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 1,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 2,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 3,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 3,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 4,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 4,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 5,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 6,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 6,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 7,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 8,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 8,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 9,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 10,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 10,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 11,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 12,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 12,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 13,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 14,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 14,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 15,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 16,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 16,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 17,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 18,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 18,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 19,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 19,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 20,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 20,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 21,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 22,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 22,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 23,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 24,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 24,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 25,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 26,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 26,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 27,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 27,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 28,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 28,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 29,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 29,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 30,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 30,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 31,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 31,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 32,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 32,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 33,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 33,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 34,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 34,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 35,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 35,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 36,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 36,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 37,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 37,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 38,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 38,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 39,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 39,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 40,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 40,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 41,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 41,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 42,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 42,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 43,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 43,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 44,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 44,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 45,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 45,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 46,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 46,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 47,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 48,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 48,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 49,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 50,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 50,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 51,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 51,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 52,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 52,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 53,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 53,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 54,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 54,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 55,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 55,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 56,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 56,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 57,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 57,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 58,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 59,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 59,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 60,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 61,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 61,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 62,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 63,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 63,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 64,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 65,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 65,
+          "status": "UNANALYZED"
+        },
+        {
+          "fields": [],
+          "source_line": 66,
           "status": "UNANALYZED"
         }
       ]
