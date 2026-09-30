@@ -1258,3 +1258,14 @@ Canonical cross-layer chain:
 `Function/API → Data/State Contract → Event Contract → Integration → API Orchestrator → Capability → Policy → Approval → Domain Service → Security Boundary → Dependency Graph → Authoritative State → Evidence → Verification`
 
 These layers do not imply implementation. Their corresponding Exact-SHA workflows validate architectural contract integrity only; repository-level source, tests, integration and E2E evidence remain required for VERIFIED status.
+
+
+## Cross-Boundary State & Event Flow
+
+`ATC-CROSS-BOUNDARY-STATE-EVENT-MATRIX-001` formalizes the state and event flows crossing system boundaries. It defines source/target state ownership, mutation authority, event producer/consumer, payload, ordering, replay, idempotency, security controls, and evidence requirements for 20 canonical boundaries.
+
+Canonical flow:
+
+`Source → State → Mutation/Trigger → Event → Payload → Transport → Target → Target State → Authority → Capability → Policy → Approval → Evidence → Verification`
+
+An event does not itself authorize or constitute an authoritative state transition. Canonical state remains owned by its designated authority; derived/indexed state cannot override it.
