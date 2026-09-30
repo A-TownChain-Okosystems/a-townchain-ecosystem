@@ -1229,3 +1229,16 @@ Policy authority remains separate from capability, approval, orchestration and d
 `Identity → Capability → Policy → Approval → API Orchestrator → Domain Service → Authoritative State → Evidence → Verification`
 
 Architecture presence of a policy does not constitute implementation, enforcement or verification evidence.
+
+
+## Integration & API Orchestration
+
+The ecosystem integration layer is canonically defined by:
+
+- `docs/architecture/INTEGRATION-MATRIX.md` — `ATC-INTEGRATION-MATRIX-001`, 212 integrations.
+- `docs/architecture/API-ORCHESTRATOR-MATRIX.md` — `ATC-API-ORCHESTRATOR-MATRIX-001`, 183 orchestrator subsystems.
+
+The integration boundary is:
+`Component/API → Integration Contract → API Orchestrator → Capability → Policy → Approval → Domain Service → Authoritative State → Evidence → Verification`.
+
+Neither integration nor orchestration creates authority. Domain ownership, capability boundaries, policy, approval, wallet signing, ShivaCore enforcement and canonical blockchain/OS state remain authoritative.
