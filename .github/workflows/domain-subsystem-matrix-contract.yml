@@ -5,6 +5,7 @@ on:
     paths:
       - 'docs/architecture/DOMAIN-SUBSYSTEM-MATRIX.md'
       - 'schemas/domain-subsystem-matrix-registry.schema.json'
+      - 'data/domain-subsystem-matrix-registry.json'
       - '.github/workflows/domain-subsystem-matrix-contract.yml'
   pull_request:
     paths:
