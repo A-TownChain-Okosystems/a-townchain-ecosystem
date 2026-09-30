@@ -4,96 +4,28 @@
   "type": "object",
   "required": [
     "document_id",
-    "parent_matrix",
     "status",
-    "machine_readable",
-    "entry_count",
-    "required_fields",
-    "entries"
+    "source_matrix",
+    "orchestrator_count",
+    "subsystem_entries"
   ],
   "properties": {
     "document_id": {
       "const": "ATC-API-ORCHESTRATOR-SUBSYSTEM-MATRIX-001"
     },
-    "parent_matrix": {
-      "const": "ATC-API-ORCHESTRATOR-001"
-    },
     "status": {
       "const": "ARCHITECTURE CONTRACT"
     },
-    "machine_readable": {
-      "const": true
+    "source_matrix": {
+      "const": "ATC-API-ORCHESTRATOR-MATRIX-001"
     },
-    "entry_count": {
-      "const": 8
+    "orchestrator_count": {
+      "const": 183
     },
-    "required_fields": {
-      "const": [
-        "id",
-        "domain",
-        "name",
-        "owner",
-        "responsibility",
-        "inputs",
-        "outputs",
-        "state",
-        "events",
-        "interfaces",
-        "dependencies",
-        "security_boundary",
-        "authority",
-        "capability",
-        "policy",
-        "approval",
-        "source",
-        "tests",
-        "workflow",
-        "exact_sha",
-        "run",
-        "job",
-        "step",
-        "exit_code",
-        "log",
-        "verification",
-        "residual"
-      ]
-    },
-    "entries": {
+    "subsystem_entries": {
       "type": "array",
-      "minItems": 8,
-      "maxItems": 8,
-      "items": {
-        "type": "object",
-        "required": [
-          "id",
-          "domain",
-          "name",
-          "owner",
-          "responsibility",
-          "inputs",
-          "outputs",
-          "state",
-          "events",
-          "interfaces",
-          "dependencies",
-          "security_boundary",
-          "authority",
-          "capability",
-          "policy",
-          "approval",
-          "source",
-          "tests",
-          "workflow",
-          "exact_sha",
-          "run",
-          "job",
-          "step",
-          "exit_code",
-          "log",
-          "verification",
-          "residual"
-        ]
-      }
+      "minItems": 183,
+      "maxItems": 183
     }
   }
 }
