@@ -574,7 +574,7 @@ Vision
 → Residual
 ```
 
-## 11. Repository Ownership
+## 12. Repository Ownership
 
 - **OS implementation SSOT:** `a-townchain-os` / relevant ShivaCore repositories
 - **Blockchain implementation SSOT:** responsible L1 repositories such as `a-townchain`, `atc-algorithm`, `atc-vm`, `atc-wallet`, etc.
