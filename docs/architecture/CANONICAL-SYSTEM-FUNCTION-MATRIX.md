@@ -659,7 +659,98 @@ Vision
 
 The matrix is architectural. Existing mining source/status evidence does not by itself establish full protocol conformance or current-main verification.
 
-## 14. Repository Ownership
+## 14. Staking — Canonical Function Matrix
+
+**Existing-First baseline:** the master architecture already defines the validator lifecycle boundary as **Identity → Registration → Stake/Bond → Eligibility → Active Set → Proposal/Voting → Rewards → Performance Accounting → Slashing/Restriction → Exit/Unbond → Withdrawal**. The staking matrix makes these responsibilities explicit without conflating staking with consensus itself.
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| STK-01 | Staking Lifecycle | stake creation, lifecycle state, activation, active, restricted and exit states |
+| STK-02 | Validator Identity | validator identity, consensus key binding, operator identity and key-rotation boundaries |
+| STK-03 | Registration | validator registration, metadata, commission parameters and registration validation |
+| STK-04 | Stake / Bond | self-bond, delegated stake, minimum stake, bond creation and canonical accounting |
+| STK-05 | Delegation | delegation creation, increase, decrease, redelegation and delegation ownership |
+| STK-06 | Eligibility | stake thresholds, validator eligibility, eligibility transitions and admission rules |
+| STK-07 | Active Set | active validator set construction, set membership, effective stake and activation delays |
+| STK-08 | Proposal / Voting Weight | stake-weighted proposal/voting inputs and explicit boundary to consensus |
+| STK-09 | Rewards | validator rewards, delegator rewards, commission, reward accrual and deterministic distribution |
+| STK-10 | Performance Accounting | participation, uptime/downtime accounting, missed duties and performance records |
+| STK-11 | Slashing | equivocation/double-sign evidence, slash calculation, penalties and deterministic application |
+| STK-12 | Restriction / Jail | validator restriction, suspension, jail state, reactivation conditions and safety limits |
+| STK-13 | Unbonding | unbond requests, unbonding period, pending exits and deterministic state transitions |
+| STK-14 | Withdrawal | matured stake withdrawal, payout destination, authorization and settlement |
+| STK-15 | Lockups / Escrow | lock periods, escrowed stake, withdrawal constraints and lifecycle invariants |
+| STK-16 | Delegation Accounting | per-validator/per-delegator balances, shares, reward debt and accounting invariants |
+| STK-17 | Economic Parameters | minimum stake, reward parameters, commission bounds, unbonding period and penalty parameters |
+| STK-18 | Security / Evidence | signed evidence, equivocation proofs, replay protection, authorization and audit records |
+| STK-19 | Validator / Node Integration | integration with node runtime, validator services, consensus inputs and state transition |
+| STK-20 | Governance Boundary | governance-controlled parameter changes, validator-set policy and explicit authority separation |
+| STK-21 | Storage / State | canonical staking state, indexes, persistence, recovery and deterministic state reconstruction |
+| STK-22 | Testing / Determinism | staking vectors, reward/slashing vectors, lifecycle tests, property tests and deterministic replay |
+| STK-23 | Observability | staking events, validator performance, reward/slash events, metrics and audit telemetry |
+| STK-24 | Release / Verification | workflow gates, Exact-SHA evidence, verification status and residual tracking |
+
+### 14.1 Canonical Staking Pipeline
+
+```text
+Validator Identity
+  ↓
+Registration
+  ↓
+Stake / Bond
+  ↓
+Eligibility
+  ↓
+Active Validator Set
+  ↓
+Proposal / Voting Inputs
+  ↓
+Rewards / Performance Accounting
+  ↓
+Slashing / Restriction
+  ↓
+Exit / Unbond
+  ↓
+Withdrawal
+  ↓
+Canonical Blockchain State
+```
+
+### 14.2 Staking Invariants
+
+- Staking state is canonical blockchain state; wallets, explorers and UI views are not authoritative.
+- Validator identity, operator identity, consensus key and payout identity remain explicitly bound rather than implicitly interchangeable.
+- Stake amounts use the canonical monetary width (`u128`) where applicable.
+- Validator eligibility and active-set transitions are deterministic and height/epoch governed.
+- Consensus owns proposal/voting/finality rules; staking supplies explicitly defined economic/eligibility inputs and does not redefine consensus.
+- Rewards and commissions are deterministic and use checked arithmetic.
+- Slashing requires verifiable evidence and deterministic penalty rules; telemetry alone is never slash authority.
+- Unbonding and withdrawal are distinct states; immature stake cannot be withdrawn.
+- Delegation accounting must preserve conservation and prevent double-crediting, double-withdrawal and replay.
+- Key rotation, revocation and validator exit must have explicit lifecycle semantics.
+- Governance may control parameters only through the canonical governance authority; local validator configuration cannot silently override protocol rules.
+- Error Evidence ≠ Finding Evidence ≠ Verification Evidence.
+- Architecture ≠ Implementation ≠ Test ≠ CI Evidence ≠ Verification.
+
+### 14.3 Staking Traceability
+
+```text
+Vision
+→ Staking Domain
+→ Validator / Delegation Component
+→ Function / API
+→ Economic / Consensus / Governance Contract
+→ Source
+→ Test / Vector
+→ Workflow
+→ Exact-SHA Evidence
+→ Verification
+→ Residual
+```
+
+The matrix is architectural. Existing validator/staking architecture does not by itself establish complete implementation or current-main verification.
+
+## 15. Repository Ownership
 
 - **OS implementation SSOT:** `a-townchain-os` / relevant ShivaCore repositories
 - **Blockchain implementation SSOT:** responsible L1 repositories such as `a-townchain`, `atc-algorithm`, `atc-vm`, `atc-wallet`, etc.
