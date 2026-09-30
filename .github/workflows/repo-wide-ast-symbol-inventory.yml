@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout inventory controller
         uses: actions/checkout@v4
+      - name: Assert exact SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
       - name: Install AST parsers
         run: |
           python -m pip install --upgrade pip
