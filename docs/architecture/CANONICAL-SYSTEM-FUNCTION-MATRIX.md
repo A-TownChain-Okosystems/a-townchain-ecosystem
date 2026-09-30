@@ -852,7 +852,93 @@ Vision
 → Residual
 ```
 
-## 17. Repository Ownership
+## 17. Fungible Token / Asset — Canonical Function Matrix
+
+**Existing-First baseline:** GitHub contains the canonical **ATC-11 Fungible Asset Standard**, ATC-89/ATC-8300 token artifacts and documented ERC-20-equivalent functions including balance, transfer, approve and allowance. Existing documentation also identifies additional token lifecycle functions such as mint/burn/pause/snapshot; those artifacts are not by themselves proof of complete current-main implementation or verification.
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| FTA-01 | Token Lifecycle | creation, active, paused, frozen and terminal lifecycle states |
+| FTA-02 | Token Identity | token/asset identity, symbol, name, decimals and canonical contract binding |
+| FTA-03 | Supply | total supply, issuance limits, supply invariants and accounting |
+| FTA-04 | Minting | authorized issuance, mint limits and deterministic supply updates |
+| FTA-05 | Burning | authorized destruction and deterministic supply reduction |
+| FTA-06 | Balance | canonical balance-of state and balance queries |
+| FTA-07 | Transfer | authorized token transfer and atomic balance updates |
+| FTA-08 | Allowance / Approval | spender allowances, increase/decrease, approval and revocation |
+| FTA-09 | Operator / Delegated Transfer | explicit delegated transfer authority and scope |
+| FTA-10 | Pause / Freeze | emergency pause, account/token restrictions and controlled reactivation |
+| FTA-11 | Decimals / Units | canonical decimal precision, base units and conversion rules |
+| FTA-12 | Metadata | token metadata, URI/reference data and schema validation |
+| FTA-13 | Ownership / Administration | contract administration, role boundaries and ownership transfer |
+| FTA-14 | Access Control | mint/burn/pause/admin authorization and capability enforcement |
+| FTA-15 | Fees / Taxation | transfer fees or protocol charges where explicitly defined by contract |
+| FTA-16 | Staking Integration | token-based staking, lockups, delegation and reward interfaces |
+| FTA-17 | Marketplace Integration | token payments, listings, offers and settlement integration |
+| FTA-18 | NFT / Asset Interoperability | explicit interaction with NFTs and other asset standards |
+| FTA-19 | Wallet / SDK Integration | balance, transfer, approval and transaction-signing interfaces |
+| FTA-20 | Governance Integration | governance voting power, treasury and parameter-control boundaries |
+| FTA-21 | Events / History | transfer, mint, burn, approval and administrative event history |
+| FTA-22 | Storage / Indexing | canonical token state, indexes, snapshots and recovery |
+| FTA-23 | Security | overflow protection, authorization, replay/resource safety and invariant enforcement |
+| FTA-24 | Privacy | sensitive metadata, holder privacy and access boundaries |
+| FTA-25 | Testing / Determinism | transfer/mint/burn/allowance vectors, negative cases and deterministic replay |
+| FTA-26 | Standards / Compatibility | ATC token standards, ABI compatibility, versioning and migration |
+| FTA-27 | Release / Verification | workflow gates, Exact-SHA evidence, verification status and residual tracking |
+
+### 17.1 Canonical Fungible-Asset Pipeline
+
+```text
+Token / Asset Definition
+  ↓
+Contract + Metadata Validation
+  ↓
+Supply / Authorization Rules
+  ↓
+Mint / Initial Distribution
+  ↓
+Balance State
+  ↓
+Transfer / Approval / Allowance
+  ↓
+Staking / Marketplace / Governance / Wallet Integration
+  ↓
+Canonical Blockchain State + Events
+  ↓
+Indexer / Application Views
+```
+
+### 17.2 Fungible-Asset Invariants
+
+- Token balances and total supply are canonical blockchain state.
+- Minting and burning require explicit authorization and preserve supply invariants.
+- Transfers are atomic and cannot create or destroy value outside the canonical supply rules.
+- Allowances are explicit delegated authority and cannot silently become unrestricted spending authority.
+- Monetary/token amounts use the contract-defined integer width; canonical ATC economic amounts remain `u128` where applicable.
+- Decimal display precision does not change base-unit accounting.
+- Pause/freeze mechanisms cannot silently bypass governance or authorization contracts.
+- Marketplace, staking and governance integrations consume token contracts through explicit interfaces.
+- Token metadata/indexes are derived unless the contract explicitly makes a field canonical.
+- Error Evidence ≠ Finding Evidence ≠ Verification Evidence.
+- Architecture ≠ Implementation ≠ Test ≠ CI Evidence ≠ Verification.
+
+### 17.3 Fungible-Asset Traceability
+
+```text
+Vision
+→ Fungible Asset Domain
+→ Token Contract / Wallet / Integration Component
+→ Function / API
+→ Token / Accounting / Authorization Contract
+→ Source
+→ Test / Canonical Vector
+→ Workflow
+→ Exact-SHA Evidence
+→ Verification
+→ Residual
+```
+
+## 18. Repository Ownership
 
 - **OS implementation SSOT:** `a-townchain-os` / relevant ShivaCore repositories
 - **Blockchain implementation SSOT:** responsible L1 repositories such as `a-townchain`, `atc-algorithm`, `atc-vm`, `atc-wallet`, etc.
@@ -862,7 +948,7 @@ Vision
 
 This document must never replace component-level source, tests, release evidence, or repository contracts.
 
-## 11. Verification Boundary
+## 19. Verification Boundary
 
 A domain/function may only move from architectural coverage to verified status when the evidence chain exists:
 
@@ -883,7 +969,7 @@ Run
 
 Exact-SHA CI is commit-specific. Historical CI runs do not establish verification for a different source SHA.
 
-## 12. Residuals
+## 20. Residuals
 
 1. This matrix is an architecture/traceability contract; it does not claim all functions are implemented.
 2. Full function coverage requires repository-specific AST/symbol inventory.
