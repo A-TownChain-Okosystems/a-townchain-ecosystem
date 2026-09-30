@@ -6,10 +6,12 @@ on:
     paths:
       - 'docs/architecture/CROSS-BOUNDARY-STATE-EVENT-MATRIX.md'
       - 'schemas/cross-boundary-state-event-matrix.schema.json'
+      - '.github/workflows/cross-boundary-state-event-matrix-contract.yml'
   pull_request:
     paths:
       - 'docs/architecture/CROSS-BOUNDARY-STATE-EVENT-MATRIX.md'
       - 'schemas/cross-boundary-state-event-matrix.schema.json'
+      - '.github/workflows/cross-boundary-state-event-matrix-contract.yml'
 permissions:
   contents: read
 jobs:
