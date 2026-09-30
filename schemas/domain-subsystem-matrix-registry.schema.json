@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ATC-DOMAIN-SUBSYSTEM-MATRIX-REGISTRY-001",
+  "type": "object",
+  "required": [
+    "document_id",
+    "status",
+    "machine_readable",
+    "domain_count",
+    "subsystem_matrix_count",
+    "subsystems_per_domain",
+    "domains"
+  ],
+  "properties": {
+    "document_id": {
+      "const": "ATC-DOMAIN-SUBSYSTEM-MATRIX-REGISTRY-001"
+    },
+    "status": {
+      "const": "ARCHITECTURE CONTRACT"
+    },
+    "machine_readable": {
+      "const": true
+    },
+    "domain_count": {
+      "const": 411
+    },
+    "subsystem_matrix_count": {
+      "const": 411
+    },
+    "subsystems_per_domain": {
+      "const": 8
+    },
+    "domains": {
+      "type": "array",
+      "minItems": 411,
+      "maxItems": 411,
+      "items": {
+        "type": "object",
+        "required": [
+          "matrix_id",
+          "domain_id",
+          "domain",
+          "status",
+          "machine_readable",
+          "subsystem_count",
+          "subsystems"
+        ],
+        "properties": {
+          "matrix_id": {
+            "type": "string"
+          },
+          "domain_id": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string"
+          },
+          "status": {
+            "const": "ARCHITECTURE CONTRACT"
+          },
+          "machine_readable": {
+            "const": true
+          },
+          "subsystem_count": {
+            "const": 8
+          },
+          "subsystems": {
+            "type": "array",
+            "minItems": 8,
+            "maxItems": 8,
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "domain_layer",
+                "verification",
+                "residual"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
