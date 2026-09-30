@@ -5,6 +5,7 @@ on:
     paths:
       - 'docs/architecture/API-ORCHESTRATOR-SUBSYSTEM-MATRIX.md'
       - 'schemas/api-orchestrator-subsystem-matrix.schema.json'
+      - 'data/api-orchestrator-subsystem-matrix.json'
       - '.github/workflows/api-orchestrator-subsystem-matrix-contract.yml'
   pull_request:
     paths:
