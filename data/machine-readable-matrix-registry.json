@@ -13665,8 +13665,441 @@
       "matrix_id": "ATC-EVENT-MATRIX-001",
       "slug": "EVENT",
       "parent_markdown": "docs/architecture/EVENT-MATRIX.md",
-      "entry_count": 0,
-      "entries": []
+      "entry_count": 72,
+      "entries": [
+        {
+          "id": "EVT-001",
+          "fields": [],
+          "source_line": 21,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-002",
+          "fields": [],
+          "source_line": 22,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-003",
+          "fields": [],
+          "source_line": 23,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-004",
+          "fields": [],
+          "source_line": 24,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-005",
+          "fields": [],
+          "source_line": 25,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-006",
+          "fields": [],
+          "source_line": 26,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-007",
+          "fields": [],
+          "source_line": 27,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-008",
+          "fields": [],
+          "source_line": 28,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-009",
+          "fields": [],
+          "source_line": 29,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-010",
+          "fields": [],
+          "source_line": 30,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-011",
+          "fields": [],
+          "source_line": 31,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-012",
+          "fields": [],
+          "source_line": 32,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-013",
+          "fields": [],
+          "source_line": 33,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-014",
+          "fields": [],
+          "source_line": 34,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-015",
+          "fields": [],
+          "source_line": 35,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-016",
+          "fields": [],
+          "source_line": 36,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-017",
+          "fields": [],
+          "source_line": 37,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-018",
+          "fields": [],
+          "source_line": 38,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-019",
+          "fields": [],
+          "source_line": 39,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-020",
+          "fields": [],
+          "source_line": 40,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-021",
+          "fields": [],
+          "source_line": 41,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-022",
+          "fields": [],
+          "source_line": 42,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-023",
+          "fields": [],
+          "source_line": 43,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-024",
+          "fields": [],
+          "source_line": 44,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-025",
+          "fields": [],
+          "source_line": 45,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-026",
+          "fields": [],
+          "source_line": 46,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-027",
+          "fields": [],
+          "source_line": 47,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-028",
+          "fields": [],
+          "source_line": 48,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-029",
+          "fields": [],
+          "source_line": 49,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-030",
+          "fields": [],
+          "source_line": 50,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-031",
+          "fields": [],
+          "source_line": 51,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-032",
+          "fields": [],
+          "source_line": 52,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-033",
+          "fields": [],
+          "source_line": 53,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-034",
+          "fields": [],
+          "source_line": 54,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-035",
+          "fields": [],
+          "source_line": 55,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-036",
+          "fields": [],
+          "source_line": 56,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-037",
+          "fields": [],
+          "source_line": 57,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-038",
+          "fields": [],
+          "source_line": 58,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-039",
+          "fields": [],
+          "source_line": 59,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-040",
+          "fields": [],
+          "source_line": 60,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-041",
+          "fields": [],
+          "source_line": 61,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-042",
+          "fields": [],
+          "source_line": 62,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-043",
+          "fields": [],
+          "source_line": 63,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-044",
+          "fields": [],
+          "source_line": 64,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-045",
+          "fields": [],
+          "source_line": 65,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-046",
+          "fields": [],
+          "source_line": 66,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-047",
+          "fields": [],
+          "source_line": 67,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-048",
+          "fields": [],
+          "source_line": 68,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-049",
+          "fields": [],
+          "source_line": 69,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-050",
+          "fields": [],
+          "source_line": 70,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-051",
+          "fields": [],
+          "source_line": 71,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-052",
+          "fields": [],
+          "source_line": 72,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-053",
+          "fields": [],
+          "source_line": 73,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-054",
+          "fields": [],
+          "source_line": 74,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-055",
+          "fields": [],
+          "source_line": 75,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-056",
+          "fields": [],
+          "source_line": 76,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-057",
+          "fields": [],
+          "source_line": 77,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-058",
+          "fields": [],
+          "source_line": 78,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-059",
+          "fields": [],
+          "source_line": 79,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-060",
+          "fields": [],
+          "source_line": 80,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-061",
+          "fields": [],
+          "source_line": 81,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-062",
+          "fields": [],
+          "source_line": 82,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-063",
+          "fields": [],
+          "source_line": 83,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-064",
+          "fields": [],
+          "source_line": 84,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-065",
+          "fields": [],
+          "source_line": 85,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-066",
+          "fields": [],
+          "source_line": 86,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-067",
+          "fields": [],
+          "source_line": 87,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-068",
+          "fields": [],
+          "source_line": 88,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-069",
+          "fields": [],
+          "source_line": 89,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-070",
+          "fields": [],
+          "source_line": 90,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-071",
+          "fields": [],
+          "source_line": 91,
+          "status": "UNANALYZED"
+        },
+        {
+          "id": "EVT-072",
+          "fields": [],
+          "source_line": 92,
+          "status": "UNANALYZED"
+        }
+      ]
     },
     {
       "matrix_id": "ATC-SECURITY-BOUNDARY-MATRIX-001",
@@ -15048,8 +15481,15 @@
       "matrix_id": "ATC-CROSS-BOUNDARY-STATE-EVENT-MATRIX-001",
       "slug": "CROSS-BOUNDARY-STATE-EVENT",
       "parent_markdown": "docs/architecture/CROSS-BOUNDARY-STATE-EVENT-MATRIX.md",
-      "entry_count": 0,
-      "entries": []
+      "entry_count": 1,
+      "entries": [
+        {
+          "id": "CBE-001",
+          "fields": [],
+          "source_line": 20,
+          "status": "UNANALYZED"
+        }
+      ]
     },
     {
       "matrix_id": "ATC-WIKI-FUNCTION-MATRIX-001",
