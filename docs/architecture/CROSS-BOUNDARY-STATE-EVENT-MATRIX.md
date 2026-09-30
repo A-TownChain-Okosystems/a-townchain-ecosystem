@@ -17,7 +17,26 @@ This matrix defines which state crosses each system boundary, which events repre
 
 | ID | Boundary | Trigger / Operation | State Domain | Event Domain | Transport | Status |
 |---|---|---|---|---|---|---|
-| CBE-001 | Aurora ↔ GlobusOS | Aurora request | OS state | OS event | IPC | ARCHITECTURE CONTRACT |\n| CBE-002 | GlobusOS ↔ ShivaCore | service request | kernel state | kernel event | syscall/IPC | ARCHITECTURE CONTRACT |\n| CBE-003 | ShivaCore ↔ Hardware | hardware operation | device state | hardware event | HAL | ARCHITECTURE CONTRACT |\n| CBE-004 | Aurora ↔ A-TownChain | transaction intent | chain state | transaction/finality event | RPC | ARCHITECTURE CONTRACT |\n| CBE-005 | Wallet ↔ Node | signed transaction | mempool state | accept/reject event | RPC | ARCHITECTURE CONTRACT |\n| CBE-006 | SDK ↔ Node/API | API request | API/session state | response/event | RPC/HTTP | ARCHITECTURE CONTRACT |\n| CBE-007 | Mempool ↔ Consensus | candidate transaction | mempool/consensus state | proposal/vote event | internal protocol | ARCHITECTURE CONTRACT |\n| CBE-008 | Consensus ↔ State | commit decision | canonical chain state | commit/finality event | state transition | ARCHITECTURE CONTRACT |\n| CBE-009 | ATC-VM ↔ Blockchain State | VM execution | contract/state storage | VM/state event | execution host ABI | ARCHITECTURE CONTRACT |\n| CBE-010 | ATCLang/Compiler ↔ VM | compiled artifact | artifact/runtime state | deployment/validation event | bytecode/ABI | ARCHITECTURE CONTRACT |\n| CBE-011 | Frontend ↔ Backend | user request | session/application state | API/domain event | HTTPS/RPC | ARCHITECTURE CONTRACT |\n| CBE-012 | Browser ↔ Ecosystem | navigation/action | browser/app state | navigation/security event | HTTPS/gth | ARCHITECTURE CONTRACT |\n| CBE-013 | Genesis ↔ Blockchain | game transaction | game/canonical state | game/blockchain event | SDK/RPC | ARCHITECTURE CONTRACT |\n| CBE-014 | Marketplace ↔ Blockchain | order/settlement | market state | order/settlement event | SDK/RPC | ARCHITECTURE CONTRACT |\n| CBE-015 | NFT ↔ Blockchain | token operation | token ownership state | mint/transfer event | SDK/RPC | ARCHITECTURE CONTRACT |\n| CBE-016 | Aurora ↔ API Orchestrator | agent intent | workflow state | workflow event | API | ARCHITECTURE CONTRACT |\n| CBE-017 | Policy ↔ Execution | policy decision | authorization state | decision event | orchestrator | ARCHITECTURE CONTRACT |\n| CBE-018 | Event Bus ↔ Consumers | published event | consumer checkpoint | delivery/replay event | event transport | ARCHITECTURE CONTRACT |\n| CBE-019 | Indexer ↔ Applications | indexed update | derived index state | index event | query/API | ARCHITECTURE CONTRACT |\n| CBE-020 | Evidence ↔ Verification | execution evidence | verification state | verification event | evidence pipeline | ARCHITECTURE CONTRACT |
+| CBE-001 | Aurora ↔ GlobusOS | Aurora request | OS state | OS event | IPC | ARCHITECTURE CONTRACT |
+| CBE-002 | GlobusOS ↔ ShivaCore | service request | kernel state | kernel event | syscall/IPC | ARCHITECTURE CONTRACT |
+| CBE-003 | ShivaCore ↔ Hardware | hardware operation | device state | hardware event | HAL | ARCHITECTURE CONTRACT |
+| CBE-004 | Aurora ↔ A-TownChain | transaction intent | chain state | transaction/finality event | RPC | ARCHITECTURE CONTRACT |
+| CBE-005 | Wallet ↔ Node | signed transaction | mempool state | accept/reject event | RPC | ARCHITECTURE CONTRACT |
+| CBE-006 | SDK ↔ Node/API | API request | API/session state | response/event | RPC/HTTP | ARCHITECTURE CONTRACT |
+| CBE-007 | Mempool ↔ Consensus | candidate transaction | mempool/consensus state | proposal/vote event | internal protocol | ARCHITECTURE CONTRACT |
+| CBE-008 | Consensus ↔ State | commit decision | canonical chain state | commit/finality event | state transition | ARCHITECTURE CONTRACT |
+| CBE-009 | ATC-VM ↔ Blockchain State | VM execution | contract/state storage | VM/state event | execution host ABI | ARCHITECTURE CONTRACT |
+| CBE-010 | ATCLang/Compiler ↔ VM | compiled artifact | artifact/runtime state | deployment/validation event | bytecode/ABI | ARCHITECTURE CONTRACT |
+| CBE-011 | Frontend ↔ Backend | user request | session/application state | API/domain event | HTTPS/RPC | ARCHITECTURE CONTRACT |
+| CBE-012 | Browser ↔ Ecosystem | navigation/action | browser/app state | navigation/security event | HTTPS/gth | ARCHITECTURE CONTRACT |
+| CBE-013 | Genesis ↔ Blockchain | game transaction | game/canonical state | game/blockchain event | SDK/RPC | ARCHITECTURE CONTRACT |
+| CBE-014 | Marketplace ↔ Blockchain | order/settlement | market state | order/settlement event | SDK/RPC | ARCHITECTURE CONTRACT |
+| CBE-015 | NFT ↔ Blockchain | token operation | token ownership state | mint/transfer event | SDK/RPC | ARCHITECTURE CONTRACT |
+| CBE-016 | Aurora ↔ API Orchestrator | agent intent | workflow state | workflow event | API | ARCHITECTURE CONTRACT |
+| CBE-017 | Policy ↔ Execution | policy decision | authorization state | decision event | orchestrator | ARCHITECTURE CONTRACT |
+| CBE-018 | Event Bus ↔ Consumers | published event | consumer checkpoint | delivery/replay event | event transport | ARCHITECTURE CONTRACT |
+| CBE-019 | Indexer ↔ Applications | indexed update | derived index state | index event | query/API | ARCHITECTURE CONTRACT |
+| CBE-020 | Evidence ↔ Verification | execution evidence | verification state | verification event | evidence pipeline | ARCHITECTURE CONTRACT |
 
 ## Mandatory cross-boundary contract
 
