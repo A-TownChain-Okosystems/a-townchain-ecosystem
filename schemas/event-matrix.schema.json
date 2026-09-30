@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ATC-EVENT-MATRIX-001",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "document_id",
+    "status",
+    "entry_count",
+    "entries"
+  ],
+  "properties": {
+    "document_id": {
+      "const": "ATC-EVENT-MATRIX-001"
+    },
+    "status": {
+      "const": "ARCHITECTURE CONTRACT"
+    },
+    "entry_count": {
+      "const": 72
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 72,
+      "maxItems": 72,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "domain",
+          "name",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^EVT-[0-9]{3}$"
+          },
+          "domain": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "UNANALYZED",
+              "ANALYZED",
+              "FIXED",
+              "RERUNNING",
+              "VERIFIED",
+              "RESIDUAL"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
