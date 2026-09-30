@@ -487,7 +487,94 @@ Interface
 
 A connection listed in this document is an architectural requirement, not proof that the connection is currently implemented.
 
-## 10. Repository Ownership
+## 10. GateToHell Browser — Canonical Browser Function Matrix
+
+**Existing-First baseline:** GateToHell Browser is already represented in the ecosystem/Aurora AI Studio sources as a browser component, including the `GateToHellBrowser` UI component, marketplace registration and ecosystem visualization. This matrix defines the canonical capability contract; existing UI presence does not establish production browser/runtime implementation.
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| GTH-01 | Browser Shell | window lifecycle, tabs, navigation chrome, menus, browser state |
+| GTH-02 | Navigation | back/forward, reload, history, navigation lifecycle and error pages |
+| GTH-03 | Address / Search Bar | URL entry, search dispatch, normalization, validation and display |
+| GTH-04 | Protocol Handler | HTTP(S), canonical `gth://` scheme, protocol registration and routing |
+| GTH-05 | Page / Document Runtime | document lifecycle, DOM/page state, script execution boundary and page isolation |
+| GTH-06 | Rendering Engine | HTML/CSS rendering, compositing, fonts, media and graphics integration |
+| GTH-07 | JavaScript / Web Runtime | script runtime, Web APIs, workers and deterministic security boundaries |
+| GTH-08 | Networking | DNS, HTTP(S), connections, proxy configuration, caching and network policy |
+| GTH-09 | TLS / Certificate Trust | certificate validation, trust stores, secure transport policy and failure handling |
+| GTH-10 | Origin / Site Isolation | origin model, process/site isolation, same-origin enforcement and cross-origin policy |
+| GTH-11 | Permissions / Capabilities | camera, microphone, location, notifications, storage, clipboard and other capability grants |
+| GTH-12 | Identity / Sessions | browser identity, login/session state, credential handling and session isolation |
+| GTH-13 | Wallet / Blockchain | wallet integration, chain state queries, transaction construction, signing and approval boundaries |
+| GTH-14 | Aurora AI Integration | AI-assisted navigation, page understanding, search, summarization and tool invocation through explicit capabilities |
+| GTH-15 | GateToHell Service Discovery | `gth://` services, registered applications, system resources and service resolution |
+| GTH-16 | Marketplace / Applications | app discovery, launch, metadata, lifecycle, package/install integration and trust metadata |
+| GTH-17 | Downloads / Uploads | transfer lifecycle, destination policy, file validation, progress, cancellation and quarantine |
+| GTH-18 | Storage / Cache | cookies, local/session storage, HTTP cache, indexed data and encrypted browser state |
+| GTH-19 | Privacy / Tracking Protection | cookie policy, storage partitioning, tracker controls, permissions and privacy modes |
+| GTH-20 | Content Security | sandboxing, CSP/security headers, content validation, malicious-content isolation and exploit boundaries |
+| GTH-21 | Extensions / Web Apps | extension APIs, web-app lifecycle, permissions, signing and compatibility |
+| GTH-22 | Developer Tools | inspector, console, network diagnostics, storage inspection, profiling and debugging |
+| GTH-23 | Accessibility / UX | keyboard navigation, screen-reader semantics, scaling, contrast and accessible controls |
+| GTH-24 | Observability / Audit | browser events, security decisions, navigation diagnostics, errors and auditable privileged actions |
+| GTH-25 | Testing / Verification | protocol, navigation, rendering, security, permissions, wallet/AI integration, regression and Exact-SHA evidence |
+| GTH-26 | Platform / OS Integration | GlobusOS APIs, filesystem, network, graphics, identity, capability enforcement and ShivaCore boundary |
+
+### 10.1 Canonical GateToHell Browser Pipeline
+
+```text
+User
+  ↓
+Browser Shell / Address Bar
+  ↓
+Navigation / Protocol Resolution
+  ↓
+Security / Identity / Capability Checks
+  ↓
+Network or gth:// Service Resolution
+  ↓
+Page / Application Runtime
+  ↓
+Rendering / Interaction
+  ↓
+Storage / Downloads / Extensions
+  ↓
+Aurora AI / Wallet / Blockchain (when explicitly authorized)
+  ↓
+GlobusOS
+  ↓
+ShivaCore / Hardware
+```
+
+### 10.2 GateToHell Security Invariants
+
+- A page, script or model output is never an authorization source for privileged OS or blockchain actions.
+- Browser capabilities are deny-by-default and granted through explicit identity, permission and policy contracts.
+- `gth://` services require explicit registration, routing and trust semantics; the protocol itself does not imply privilege.
+- Wallet signing requires the canonical wallet/transaction contract and an explicit user or policy approval boundary.
+- Aurora AI actions follow `Model → Agent → Capability → Policy → Approval → Tool → GlobusOS → ShivaCore`; browser content cannot bypass this chain.
+- Cross-origin and site-isolation rules are explicit security contracts, not UI behavior.
+- Downloads, extensions and web applications require content/package validation and trust metadata before privileged integration.
+- Browser storage and credentials are isolated by defined identity/origin boundaries.
+- Browser implementation status is determined by source/test/CI evidence, not by the existence of the current `GateToHellBrowser` component.
+
+### 10.3 GateToHell Traceability
+
+```text
+Vision
+→ Browser Domain
+→ Component
+→ Function / API
+→ Security / Runtime Contract
+→ Source
+→ Test
+→ Workflow
+→ Exact-SHA Evidence
+→ Verification
+→ Residual
+```
+
+## 11. Repository Ownership
 
 - **OS implementation SSOT:** `a-townchain-os` / relevant ShivaCore repositories
 - **Blockchain implementation SSOT:** responsible L1 repositories such as `a-townchain`, `atc-algorithm`, `atc-vm`, `atc-wallet`, etc.
