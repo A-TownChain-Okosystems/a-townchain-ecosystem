@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ATC-MACHINE-READABLE-MATRIX-REGISTRY-001",
+  "type": "object",
+  "required": [
+    "document_id",
+    "status",
+    "machine_readable",
+    "matrix_count",
+    "matrices"
+  ],
+  "properties": {
+    "document_id": {
+      "const": "ATC-MACHINE-READABLE-MATRIX-REGISTRY-001"
+    },
+    "status": {
+      "const": "ARCHITECTURE CONTRACT"
+    },
+    "machine_readable": {
+      "const": true
+    },
+    "matrix_count": {
+      "const": 12
+    },
+    "matrices": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": [
+          "matrix_id",
+          "slug",
+          "parent_markdown",
+          "entry_count",
+          "entries"
+        ],
+        "properties": {
+          "matrix_id": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "parent_markdown": {
+            "type": "string"
+          },
+          "entry_count": {
+            "type": "integer"
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "fields",
+                "source_line",
+                "status"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
