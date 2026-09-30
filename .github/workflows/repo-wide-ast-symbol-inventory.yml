@@ -1,0 +1,57 @@
+name: Repo-Wide AST Symbol Inventory
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "tools/ast_symbol_inventory.py"
+      - ".github/workflows/repo-wide-ast-symbol-inventory.yml"
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout inventory controller
+        uses: actions/checkout@v4
+      - name: Install AST parsers
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install tree-sitter tree-sitter-rust tree-sitter-python tree-sitter-javascript tree-sitter-typescript tree-sitter-go
+      - name: Enumerate organization repositories
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh repo list A-TownChain-Okosystems --limit 100 --json name,defaultBranchRef,isArchived --jq '.[] | select(.isArchived == false) | [.name, .defaultBranchRef.name] | @tsv' > repo-manifest.tsv
+          test -s repo-manifest.tsv
+      - name: Checkout repository fleet
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p inventory/repos
+          while IFS=$'\t' read -r name ref; do
+            git clone --depth 1 --branch "$ref" "https://x-access-token:${GH_TOKEN}@github.com/A-TownChain-Okosystems/$name.git" "inventory/repos/$name"
+          done < repo-manifest.tsv
+      - name: Build AST symbol inventory
+        run: |
+          mkdir -p inventory/output
+          while IFS=$'\t' read -r name ref; do
+            python tools/ast_symbol_inventory.py "inventory/repos/$name" > "inventory/output/$name.symbols.jsonl"
+          done < repo-manifest.tsv
+      - name: Generate deterministic manifest
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          files=[]
+          for p in sorted(Path("inventory/output").glob("*.jsonl")):
+              data=p.read_bytes()
+              files.append({"file":p.name,"sha256":hashlib.sha256(data).hexdigest(),"bytes":len(data)})
+          Path("inventory/output/manifest.json").write_text(json.dumps({"schema_version":1,"files":files},indent=2)+"\n")
+          PY
+      - name: Upload inventory evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-wide-ast-symbol-inventory
+          path: |
+            repo-manifest.tsv
+            inventory/output/
