@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ATC-CROSS-BOUNDARY-STATE-EVENT-MATRIX-001",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "document_id",
+    "status",
+    "entry_count",
+    "entries"
+  ],
+  "properties": {
+    "document_id": {
+      "const": "ATC-CROSS-BOUNDARY-STATE-EVENT-MATRIX-001"
+    },
+    "status": {
+      "const": "ARCHITECTURE CONTRACT"
+    },
+    "entry_count": {
+      "const": 20
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 20,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "boundary",
+          "trigger",
+          "state_domain",
+          "event_domain",
+          "transport",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^CBE-[0-9]{3}$"
+          },
+          "boundary": {
+            "type": "string"
+          },
+          "trigger": {
+            "type": "string"
+          },
+          "state_domain": {
+            "type": "string"
+          },
+          "event_domain": {
+            "type": "string"
+          },
+          "transport": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "UNANALYZED",
+              "ANALYZED",
+              "FIXED",
+              "RERUNNING",
+              "VERIFIED",
+              "RESIDUAL"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
