@@ -938,7 +938,249 @@ Vision
 → Residual
 ```
 
-## 18. Repository Ownership
+
+## 18. Completeness Expansion — Missing Domains Per Area
+
+This P0 completeness pass adds domains identified by reviewing the current canonical matrix against the system boundaries and existing ecosystem concepts. These additions are architecture coverage, not implementation claims.
+
+### 18.1 Operating System — Additional Domains
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| OS-20 | Power / Thermal / Energy | power states, thermal limits, battery/energy policy and safe throttling |
+| OS-21 | Device / Peripheral Management | USB, PCIe, Bluetooth, cameras, sensors, hotplug and device lifecycle |
+| OS-22 | Virtualization / Containers | VMs, containers, isolation profiles and resource boundaries |
+| OS-23 | Init / Service Manager | boot targets, service dependencies, startup/shutdown and supervision |
+| OS-24 | Time / Clock Services | monotonic time, wall clock, synchronization and secure time boundaries |
+| OS-25 | Backup / Migration | system backup, restore, data migration, version transitions and recovery validation |
+| OS-26 | Accessibility / Internationalization | accessibility APIs, input assistance, localization, locale and text/format services |
+| OS-27 | Software Trust / Provenance | package signatures, provenance, trust roots, artifact integrity and installation policy |
+
+### 18.2 A-TownChain L1 — Additional Domains
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| L1-25 | Genesis / Bootstrap | genesis state, bootstrap configuration, initial validators/accounts and chain initialization |
+| L1-26 | Token / Asset Layer | native and fungible assets, asset state, issuance and canonical asset contracts |
+| L1-27 | Oracle / External Data | authenticated external data, freshness, source identity and deterministic consumption boundaries |
+| L1-28 | Interoperability / Bridge | cross-domain/chain messaging, lock/mint/burn/release, replay protection and finality proofs |
+| L1-29 | Light Client / Proof Client | header verification, proof verification, partial-state clients and trust-minimized reads |
+| L1-30 | Fee Market / Pricing | fee policy, minimum fees, congestion pricing, priority and deterministic fee calculation |
+| L1-31 | Treasury | protocol treasury, controlled inflows/outflows, accounting and governance authorization |
+| L1-32 | Archive / Disaster Recovery | archival state, restore points, recovery procedures and continuity validation |
+
+### 18.3 ATCLang — Additional Domains
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| LANG-20 | Modules / Packages | module boundaries, package manifests, dependency resolution and visibility |
+| LANG-21 | Generics / Traits | generic types, trait/interface constraints and deterministic dispatch rules |
+| LANG-22 | Imports / Interfaces | import semantics, interface compatibility and dependency contracts |
+| LANG-23 | Macros / Metaprogramming | controlled compile-time generation with deterministic expansion |
+| LANG-24 | Formatter / Linter | canonical formatting, static analysis and style-independent semantic checks |
+| LANG-25 | Debug / Source Mapping | source-to-bytecode maps, debug symbols and deterministic diagnostic mapping |
+| LANG-26 | Package / Registry Lifecycle | toolchain package distribution, version pinning, integrity and compatibility |
+| LANG-27 | Cross-Contract Language Semantics | calls, callbacks, return/error propagation and ABI-level composition semantics |
+
+### 18.4 ATC-VM — Additional Domains
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| VM-18 | Events / Logs | deterministic event emission, topics, payload encoding and receipt semantics |
+| VM-19 | Error / Trap Semantics | canonical exceptions, traps, revert behavior and failure propagation |
+| VM-20 | Cross-Contract Calls | contract-to-contract invocation, ABI validation, call depth and result handling |
+| VM-21 | Reentrancy / Call Safety | reentrancy boundaries, state ordering, call permissions and recursive call controls |
+| VM-22 | Transaction Context | sender, origin, chain ID, block context, nonce and authorized execution metadata |
+| VM-23 | Snapshot / Rollback | transactional state isolation, rollback, failure atomicity and nested execution |
+| VM-24 | Syscall / Host ABI | canonical host-call interface, syscall validation and deterministic host results |
+| VM-25 | Debug / Execution Trace | diagnostic traces and reproducible execution inspection without changing consensus state |
+
+### 18.5 Aurora AI — Additional Domains
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| AI-24 | Human Approval / Oversight | approval gates, human-in-the-loop actions, escalation and override boundaries |
+| AI-25 | Model Training / Fine-Tuning | training datasets, fine-tuning, adapters, checkpoints and provenance |
+| AI-26 | Knowledge Graph / Structured Memory | entities, relationships, graph retrieval and consistency management |
+| AI-27 | Privacy / Consent | consent, retention, deletion, sensitive-data boundaries and privacy policy enforcement |
+| AI-28 | Adversarial / Red-Team Security | jailbreak, prompt injection, tool abuse, model extraction and adversarial evaluation |
+| AI-29 | Cost / Budget / Quota | token budgets, compute quotas, rate limits, spend controls and resource authorization |
+| AI-30 | Human Feedback / Preference Learning | feedback capture, preference datasets, evaluation linkage and safe update boundaries |
+| AI-31 | AI Governance / Model Risk | model cards, risk classification, approval lifecycle, retirement and incident governance |
+
+### 18.6 Genesis Engine — Additional Domains
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| GEN-26 | Terrain / Procedural World Generation | terrain, biomes, procedural generation, deterministic seeds and world generation pipelines |
+| GEN-27 | Particles / VFX | particle systems, visual effects, GPU effects and deterministic gameplay-facing effects boundaries |
+| GEN-28 | Cinematics / Sequencing | cutscenes, timeline sequencing, camera choreography and gameplay handoff |
+| GEN-29 | Localization | multilingual text, dialogue, subtitles, fonts, locale data and fallback behavior |
+| GEN-30 | Progression / Achievements | progression, achievements, unlocks, rewards and persistent player milestones |
+| GEN-31 | Economy / Rewards | currencies, loot, crafting economy, rewards and authoritative transaction boundaries |
+| GEN-32 | Anti-Cheat / Trust | client trust, server authority, tamper detection and multiplayer integrity |
+| GEN-33 | Mod Distribution / Workshop | mod discovery, packaging, versioning, dependency resolution, signatures and safe distribution |
+
+### 18.7 GateToHell Browser — Additional Domains
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| GTH-27 | Tabs / Window / Session Management | tabs, windows, session restore, crash recovery and lifecycle |
+| GTH-28 | Bookmarks / History | bookmarks, history, search history and user-controlled retention |
+| GTH-29 | Cookies / Site Data | cookie isolation, site data policies, partitioning and deletion |
+| GTH-30 | Credentials / Autofill | credential storage boundary, autofill, password/passkey integration and user authorization |
+| GTH-31 | Download / Upload Security | download validation, quarantine, content classification and upload controls |
+| GTH-32 | Web Storage / Cache | origin storage, cache lifecycle, quota and eviction |
+| GTH-33 | Notifications / Background Execution | notifications, background tasks, service-worker-like execution and permission boundaries |
+| GTH-34 | Accessibility / Localization | accessibility tree, keyboard navigation, screen-reader APIs and locale support |
+| GTH-35 | Browser Profile / Sync | profiles, settings, identity-bound sync and conflict handling |
+| GTH-36 | Privacy Controls | tracker protection, fingerprinting controls, permissions reset and privacy telemetry |
+
+### 18.8 ATC Mining — Additional Domains
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| MIN-21 | Mining Job / Pool Coordination | work distribution, job lifecycle, stale-job handling and coordination |
+| MIN-22 | Payout / Accounting | miner balances, payout calculation, settlement records and conservation |
+| MIN-23 | Hashrate / Performance | throughput, work rate, performance measurement and diagnostic metrics |
+| MIN-24 | Resource / Energy Policy | CPU/GPU resource limits, energy constraints and mining scheduling |
+| MIN-25 | Failover / Recovery | worker restart, interrupted jobs, recovery and duplicate prevention |
+| MIN-26 | Miner Identity / Authorization | miner identity, payout binding, authorization and revocation |
+| MIN-27 | Share / Work Accounting | accepted/rejected work, share accounting and deterministic reconciliation |
+| MIN-28 | Mining Infrastructure Security | worker authentication, job integrity, anti-abuse controls and secret isolation |
+
+### 18.9 Staking — Additional Domains
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| STK-25 | Commission Lifecycle | commission changes, activation delays, bounds and historical accounting |
+| STK-26 | Redelegation | redelegation rules, cooldowns, source/destination validation and accounting |
+| STK-27 | Reward Claim / Queue | claim lifecycle, payout queues, batching and replay-safe settlement |
+| STK-28 | Validator Metadata | endpoint/identity metadata, commission information, capability and status records |
+| STK-29 | Key Rotation / Revocation | consensus/payout/operator key lifecycle and safe transition |
+| STK-30 | Evidence Verification | slash evidence validation, provenance, quorum/authority and deterministic acceptance |
+| STK-31 | Delegation Limits | per-validator/delegator limits, concentration rules and policy constraints |
+| STK-32 | Governance Proposal Integration | parameter proposal inputs, voting boundary and activation scheduling |
+
+### 18.10 Wallet — Additional Domains
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| WAL-28 | Multisignature / Shared Control | multi-key authorization, threshold signing and signer coordination |
+| WAL-29 | DApp / Application Connection | explicit application sessions, capability grants and connection revocation |
+| WAL-30 | QR / Deep-Link Transport | safe transaction/address exchange, validation and phishing-resistant confirmation |
+| WAL-31 | Transaction Simulation | pre-sign simulation, expected state effects, failure prediction and user review |
+| WAL-32 | Address Book / Contacts | trusted addresses, labels, verification and change history |
+| WAL-33 | Token / NFT Asset View | canonical asset discovery, balances, NFT ownership and derived presentation |
+| WAL-34 | Notifications / Transaction Alerts | pending/finalized/rejected alerts without secret leakage |
+| WAL-35 | Device / Session Security | trusted devices, session expiration, biometric unlock and remote revocation |
+
+### 18.11 Fungible Token / Asset — Additional Domains
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| FTA-28 | Token Factory | controlled creation, template/version management and factory authorization |
+| FTA-29 | Permit / Meta-Transaction | signed approvals, delegated execution and replay-safe authorization |
+| FTA-30 | Vesting / Lock Schedules | time/height-based vesting, cliffs, releases and revocation rules |
+| FTA-31 | Airdrop / Distribution | deterministic allocation, claims, eligibility proofs and duplicate-claim protection |
+| FTA-32 | Snapshot | historical balance snapshots, voting/airdrop snapshots and deterministic capture |
+| FTA-33 | Delegation / Voting Power | token delegation, voting power calculation and governance interfaces |
+| FTA-34 | Compliance / Transfer Restrictions | policy restrictions, allow/deny rules and authorization evidence |
+| FTA-35 | Bridge / Wrapped Asset | lock/mint/burn/release semantics, representation binding and replay protection |
+
+### 18.12 Marketplace — Canonical Function Matrix
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| MKT-01 | Marketplace Lifecycle | deployment, configuration, pause, migration and shutdown |
+| MKT-02 | Asset Registry | canonical asset registration, identity and provenance |
+| MKT-03 | Listing | create, update, cancel, expire and validate listings |
+| MKT-04 | Discovery / Search | indexed discovery, filters, sorting and availability |
+| MKT-05 | Seller | seller identity, ownership and authorization |
+| MKT-06 | Buyer | buyer identity, wallet and purchase authorization |
+| MKT-07 | Orders / Purchase | order creation, acceptance, execution and lifecycle |
+| MKT-08 | Offers / Bids | offers, bids, expiration, acceptance, rejection and cancellation |
+| MKT-09 | Pricing | fixed, dynamic, auction and quote-based pricing |
+| MKT-10 | Escrow / Settlement | atomic settlement, escrow state and release conditions |
+| MKT-11 | Payments | native/fungible token payment and payment validation |
+| MKT-12 | Fees / Royalty Split | platform fees, creator royalties and deterministic accounting |
+| MKT-13 | Ownership / Entitlement Transfer | asset ownership, license and entitlement transfer after settlement |
+| MKT-14 | Collections / Catalog | collections, categories, metadata and catalog lifecycle |
+| MKT-15 | AI Model / Service Marketplace | model/service registration, versions, licensing and capability boundaries |
+| MKT-16 | Licensing / Usage Rights | usage rights, subscriptions, licenses and expiration |
+| MKT-17 | Content Validation | artifact, metadata, provenance and integrity validation |
+| MKT-18 | Wallet / Blockchain Integration | signing, transaction submission and canonical chain state |
+| MKT-19 | Identity / Access | seller/buyer authorization, roles and capability checks |
+| MKT-20 | Fraud / Abuse / Dispute | abuse controls, dispute lifecycle, evidence and resolution |
+| MKT-21 | Security / Trust | reentrancy, replay, authorization and settlement safety |
+| MKT-22 | Privacy | personal data, payment metadata and privacy boundaries |
+| MKT-23 | Storage / Indexing | listings, orders, events, metadata and derived indexes |
+| MKT-24 | Observability / Audit | order/settlement history, audit trails and diagnostics |
+| MKT-25 | Testing / Determinism | settlement vectors, failure cases, replay and invariant tests |
+| MKT-26 | Governance / Policy | marketplace rules, fees, restricted assets and policy changes |
+| MKT-27 | Subscriptions / Recurring Entitlements | recurring billing, renewal, cancellation and entitlement state |
+| MKT-28 | Refunds / Chargeback / Reversal | authorized refunds, failed settlement and reversible lifecycle states |
+| MKT-29 | Reputation / Reviews | reviews, seller/buyer reputation and anti-manipulation rules |
+| MKT-30 | Release / Verification | workflow gates, Exact-SHA evidence, verification and residuals |
+
+### 18.13 NFT — Canonical Function Matrix
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| NFT-01 | NFT Lifecycle | creation, active, transferred, frozen and burned states |
+| NFT-02 | Collection | collection identity, configuration and lifecycle |
+| NFT-03 | Token Identity | unique token identity and collection binding |
+| NFT-04 | Minting | authorized mint, supply rules and token ID assignment |
+| NFT-05 | Burn | authorized destruction and terminal state |
+| NFT-06 | Ownership | canonical owner state |
+| NFT-07 | Transfer | owner/operator authorization and atomic transfer |
+| NFT-08 | Approvals / Operators | delegated NFT transfer authority |
+| NFT-09 | Soulbound | non-transferability and explicit soulbound semantics |
+| NFT-10 | Metadata | token metadata, schemas and validation |
+| NFT-11 | Token URI / Content URI | content references and canonical URI semantics |
+| NFT-12 | Provenance | creation provenance, content identity and immutable evidence |
+| NFT-13 | Attributes / Traits | canonical versus presentation attributes |
+| NFT-14 | Evolution | contract-defined token evolution and state transitions |
+| NFT-15 | Genesis / Game Integration | player/world/asset integration and authoritative ownership boundaries |
+| NFT-16 | AI / Agent Assets | AI-generated or agent-linked assets with explicit authority boundaries |
+| NFT-17 | Licensing / Rights | ownership, usage rights and licensing semantics |
+| NFT-18 | Royalties | deterministic royalty calculation and settlement |
+| NFT-19 | Marketplace Integration | listing/offer/sale interfaces without ownership authority leakage |
+| NFT-20 | Wallet Integration | ownership, metadata and signing interfaces |
+| NFT-21 | Blockchain / Contract Integration | canonical contract calls, state and event boundaries |
+| NFT-22 | Cross-Chain / Bridge | lock/mint/burn/release and replay-safe representation |
+| NFT-23 | Fractionalization | fractional ownership contracts and entitlement accounting |
+| NFT-24 | Security | authorization, replay, reentrancy and invariant protection |
+| NFT-25 | Privacy | sensitive metadata and owner-data boundaries |
+| NFT-26 | Storage / Indexing | token state, metadata, events and derived indexes |
+| NFT-27 | Events / History | mint, transfer, approval, evolution and burn history |
+| NFT-28 | Testing / Determinism | lifecycle vectors, negative cases and deterministic replay |
+| NFT-29 | Governance / Standards | standard versions, parameter governance and compatibility |
+| NFT-30 | Release / Verification | workflow gates, Exact-SHA evidence, verification and residuals |
+
+### 18.14 Cross-System Integration — Additional Contracts
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| INT-01 | Identity Federation | identity continuity across OS, Aurora, Wallet, Browser and L1 |
+| INT-02 | Capability Federation | capability issuance, delegation, revocation and scope across boundaries |
+| INT-03 | Policy / Approval Federation | consistent approval semantics for AI, OS, browser, wallet and blockchain actions |
+| INT-04 | Event / Audit Federation | canonical event correlation without conflating audit evidence with verification evidence |
+| INT-05 | Data / Schema Interoperability | versioned schemas, serialization and compatibility across repositories |
+| INT-06 | Time / Clock Contract | shared time semantics and explicit trusted/untrusted clock boundaries |
+| INT-07 | Resource / Quota Contract | CPU/GPU/NPU/storage/network quotas across AI and OS services |
+| INT-08 | Secret / Key Boundary | explicit key ownership, custody and non-disclosure across applications |
+| INT-09 | Artifact / Provenance Federation | hashes, provenance, signatures and artifact identity across build systems |
+| INT-10 | Recovery / Continuity Contract | restart, resync, rollback and state-recovery boundaries across systems |
+
+### 18.15 Completeness Rule
+
+A domain is not considered complete merely because a component, document or function exists. Each newly added domain follows:
+
+Vision → Domain → Component → Function/API → Contract → Source → Test → Workflow → Exact-SHA Evidence → Verification → Residual
+
+Architecture coverage ≠ implementation ≠ verification.
+## 19. Repository Ownership
 
 - **OS implementation SSOT:** `a-townchain-os` / relevant ShivaCore repositories
 - **Blockchain implementation SSOT:** responsible L1 repositories such as `a-townchain`, `atc-algorithm`, `atc-vm`, `atc-wallet`, etc.
@@ -948,7 +1190,7 @@ Vision
 
 This document must never replace component-level source, tests, release evidence, or repository contracts.
 
-## 19. Verification Boundary
+## 20. Verification Boundary
 
 A domain/function may only move from architectural coverage to verified status when the evidence chain exists:
 
@@ -969,7 +1211,7 @@ Run
 
 Exact-SHA CI is commit-specific. Historical CI runs do not establish verification for a different source SHA.
 
-## 20. Residuals
+## 21. Residuals
 
 1. This matrix is an architecture/traceability contract; it does not claim all functions are implemented.
 2. Full function coverage requires repository-specific AST/symbol inventory.
