@@ -574,7 +574,92 @@ Vision
 → Residual
 ```
 
-## 12. Repository Ownership
+## 12. ATC Mining — Canonical Function Matrix
+
+**Existing-First baseline:** the ecosystem already contains `components/atc-mining` with execution, deterministic hashing, bounded reward primitives, architecture/status/roadmap documentation and ATC-MIN specifications. Mining explicitly does not own consensus; canonical consensus remains in `atc-algorithm`. Reward settlement remains separated from mining where the contract boundary requires it.
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| MIN-01 | Mining Lifecycle | miner initialization, start/stop, lifecycle state and controlled execution |
+| MIN-02 | Work / Candidate Generation | deterministic work generation, block candidate inputs and candidate lifecycle |
+| MIN-03 | Hashing Engine | canonical mining hash function, input construction, digest calculation and deterministic hashing |
+| MIN-04 | Nonce Search | bounded nonce iteration, overflow handling, search limits and deterministic candidate search |
+| MIN-05 | Proof-of-Work | target comparison, proof validity and canonical PoW acceptance criteria |
+| MIN-06 | Difficulty / Target | difficulty/target representation, adjustment inputs and boundary conditions |
+| MIN-07 | Block Candidate | header/body assembly, commitment inputs, timestamp/height constraints and candidate validation |
+| MIN-08 | Reward Calculation | block reward calculation, height-based emission schedule and checked arithmetic |
+| MIN-09 | Monetary / Supply Bounds | hard supply ceiling, remaining emission, u128 monetary values and overflow/underflow protection |
+| MIN-10 | Reward Claim / Settlement | reward claim construction, settlement interface and double-claim prevention |
+| MIN-11 | Miner Identity / Payout | miner identity, payout destination, authorization and reward attribution |
+| MIN-12 | Consensus Boundary | explicit separation from proposer selection, validator consensus and finality owned by `atc-algorithm` |
+| MIN-13 | Chain / Economic Parameters | chain ID, block interval, target block time, halving schedule and canonical economic constants |
+| MIN-14 | Execution Queue | deterministic FIFO work execution, concurrency boundaries and cancellation semantics |
+| MIN-15 | Telemetry / Miner Events | structured mining, reward, difficulty and lifecycle events for observability/audit |
+| MIN-16 | Security / Anti-Abuse | replay/double-claim protection, invalid-proof rejection, resource bounds and fail-closed behavior |
+| MIN-17 | Storage / Evidence | mining evidence artifacts, run metadata, proof records and reproducible evidence references |
+| MIN-18 | Testing / Determinism | hash vectors, reward vectors, boundary tests, property tests, deterministic replay and regression tests |
+| MIN-19 | Integration / Node Interface | integration with block production, node runtime, mempool/consensus boundaries and downstream settlement |
+| MIN-20 | Release / Verification | workflow validation, Exact-SHA evidence, release gates, verification and residual tracking |
+
+### 12.1 Canonical ATC Mining Pipeline
+
+```text
+Economic / Consensus Parameters
+  ↓
+Mining Work Input
+  ↓
+Candidate Generation
+  ↓
+Deterministic Hashing
+  ↓
+Nonce Search
+  ↓
+Proof-of-Work Validation
+  ↓
+Valid Block Candidate
+  ↓
+Consensus / Proposer Boundary
+  ↓
+Reward Calculation
+  ↓
+Reward Settlement / State Transition
+  ↓
+Canonical Blockchain State
+```
+
+### 12.2 ATC Mining Invariants
+
+- Mining does **not** redefine consensus; proposer selection, validator voting and finality remain owned by the consensus layer.
+- Monetary values use the canonical economic width (`u128`) where applicable; counters such as height/nonce/timestamp remain explicitly typed.
+- Reward calculation is deterministic and height-based; no wall-clock-dependent emission logic.
+- Supply limits are hard bounds; checked arithmetic must reject overflow/underflow rather than wrap.
+- Mining work, nonce search and proof validation must be deterministic for identical canonical inputs.
+- Invalid proofs never create valid reward entitlement.
+- Reward claims require explicit settlement semantics and protection against duplicate/replay claims.
+- Difficulty/target changes must be governed by the canonical consensus/economic contract rather than an independent mining interpretation.
+- Mining telemetry is observability/evidence; telemetry does not authorize state transitions.
+- Historical documentation mentioning legacy economics (for example 21M ATC) is not treated as current canonical economics; the current canonical architecture uses the established 360M ATC / 18-decimal economics.
+- Proof-of-AI concepts remain separate from the canonical mining validity path unless and until a normative protocol contract explicitly integrates them.
+
+### 12.3 ATC Mining Traceability
+
+```text
+Vision
+→ Mining Domain
+→ Mining Component
+→ Function / API
+→ Economic / Consensus Contract
+→ Source
+→ Test / Vector
+→ Workflow
+→ Exact-SHA Evidence
+→ Verification
+→ Residual
+```
+
+The matrix is architectural. Existing mining source/status evidence does not by itself establish full protocol conformance or current-main verification.
+
+## 13. Repository Ownership
 
 - **OS implementation SSOT:** `a-townchain-os` / relevant ShivaCore repositories
 - **Blockchain implementation SSOT:** responsible L1 repositories such as `a-townchain`, `atc-algorithm`, `atc-vm`, `atc-wallet`, etc.
