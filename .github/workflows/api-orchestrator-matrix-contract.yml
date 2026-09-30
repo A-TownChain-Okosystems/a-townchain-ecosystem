@@ -6,12 +6,12 @@ on:
     paths:
       - 'docs/architecture/API-ORCHESTRATOR-MATRIX.md'
       - 'schemas/api-orchestrator-matrix.schema.json'
-      - '.github/workflows/api-orchestrator-contract.yml'
+      - '.github/workflows/api-orchestrator-matrix-contract.yml'
   pull_request:
     paths:
       - 'docs/architecture/API-ORCHESTRATOR-MATRIX.md'
       - 'schemas/api-orchestrator-matrix.schema.json'
-      - '.github/workflows/api-orchestrator-contract.yml'
+      - '.github/workflows/api-orchestrator-matrix-contract.yml'
 
 permissions:
   contents: read
