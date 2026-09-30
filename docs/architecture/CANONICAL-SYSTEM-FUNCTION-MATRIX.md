@@ -276,7 +276,7 @@ Hardware
 
 Model output is **not** an authorization source. Blockchain actions require the applicable capability/policy/approval path.
 
-## 6. Cross-System Integration Contracts
+## 7. Cross-System Integration Contracts
 
 The three domains are connected through explicit contracts, not implicit authority:
 
@@ -312,7 +312,7 @@ Interface
 
 A connection listed in this document is an architectural requirement, not proof that the connection is currently implemented.
 
-## 7. Repository Ownership
+## 8. Repository Ownership
 
 - **OS implementation SSOT:** `a-townchain-os` / relevant ShivaCore repositories
 - **Blockchain implementation SSOT:** responsible L1 repositories such as `a-townchain`, `atc-algorithm`, `atc-vm`, `atc-wallet`, etc.
@@ -322,7 +322,7 @@ A connection listed in this document is an architectural requirement, not proof 
 
 This document must never replace component-level source, tests, release evidence, or repository contracts.
 
-## 8. Verification Boundary
+## 9. Verification Boundary
 
 A domain/function may only move from architectural coverage to verified status when the evidence chain exists:
 
@@ -343,7 +343,7 @@ Run
 
 Exact-SHA CI is commit-specific. Historical CI runs do not establish verification for a different source SHA.
 
-## 9. Residuals
+## 10. Residuals
 
 1. This matrix is an architecture/traceability contract; it does not claim all functions are implemented.
 2. Full function coverage requires repository-specific AST/symbol inventory.
