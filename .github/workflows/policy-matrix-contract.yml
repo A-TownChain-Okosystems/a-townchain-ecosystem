@@ -1,0 +1,69 @@
+name: Policy Matrix — Exact SHA Contract
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/architecture/POLICY-MATRIX.md'
+      - 'schemas/policy-matrix.schema.json'
+      - '.github/workflows/policy-matrix-contract.yml'
+  pull_request:
+    paths:
+      - 'docs/architecture/POLICY-MATRIX.md'
+      - 'schemas/policy-matrix.schema.json'
+      - '.github/workflows/policy-matrix-contract.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  policy-matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact SHA
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Assert exact SHA
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+
+      - name: Validate policy matrix
+        shell: python
+        run: |
+          import re
+          from pathlib import Path
+
+          p = Path("docs/architecture/POLICY-MATRIX.md").read_text(encoding="utf-8")
+          ids = re.findall(r'^\| (POL-[0-9]{3}) \|', p, flags=re.M)
+          expected = [f"POL-{i:03d}" for i in range(1, 218+1)]
+
+          assert ids == expected, f"Policy IDs invalid: {len(ids)} entries"
+          assert "ATC-POLICY-MATRIX-001" in p
+          assert "Error Evidence ≠ Finding Evidence ≠ Verification Evidence." in p
+          assert "Model → Agent → Capability → Policy → Approval → Tool" in p
+          assert "Exact-SHA" in p
+
+          print(f"Validated {len(ids)} canonical policy subsystems.")
+
+      - name: Validate schema
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          schema = json.loads(Path("schemas/policy-matrix.schema.json").read_text(encoding="utf-8"))
+          assert schema["properties"]["policy_count"]["const"] == 218
+          assert schema["properties"]["document_id"]["const"] == "ATC-POLICY-MATRIX-001"
+
+      - name: Evidence summary
+        run: |
+          {
+            echo "## Policy Matrix"
+            echo "- Exact SHA: $GITHUB_SHA"
+            echo "- Policy subsystems: 218"
+            echo "- Architecture status: ARCHITECTURE CONTRACT"
+            echo "- Implementation status is evaluated separately."
+            echo "- Architecture presence is not implementation or verification evidence."
+          } >> "$GITHUB_STEP_SUMMARY"
