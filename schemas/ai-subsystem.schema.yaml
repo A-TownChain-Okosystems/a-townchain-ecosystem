@@ -1,0 +1,38 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://a-townchain.org/schemas/ai-subsystem.schema.yaml"
+title: "ATC AI Subsystem Contract"
+type: object
+additionalProperties: false
+required:
+  - document_id
+  - status
+  - subsystem_count
+  - subsystems
+properties:
+  document_id:
+    const: "ATC-AI-SUBSYSTEM-MATRIX-001"
+  status:
+    enum: [ARCHITECTURE CONTRACT]
+  subsystem_count:
+    const: 267
+  subsystems:
+    type: array
+    minItems: 267
+    maxItems: 267
+    uniqueItems: true
+    items:
+      type: object
+      additionalProperties: false
+      required: [id, domain, subsystem, status]
+      properties:
+        id:
+          type: string
+          pattern: "^AI-SUB-[0-9]{3}$"
+        domain:
+          type: string
+          minLength: 1
+        subsystem:
+          type: string
+          minLength: 1
+        status:
+          enum: [UNANALYZED, ANALYZED, FIXED, RERUNNING, VERIFIED, RESIDUAL]
