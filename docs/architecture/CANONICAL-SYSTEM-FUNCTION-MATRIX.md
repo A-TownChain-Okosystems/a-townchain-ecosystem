@@ -750,7 +750,7 @@ Vision
 
 The matrix is architectural. Existing validator/staking architecture does not by itself establish complete implementation or current-main verification.
 
-## 15. Repository Ownership
+## 16. Repository Ownership
 
 - **OS implementation SSOT:** `a-townchain-os` / relevant ShivaCore repositories
 - **Blockchain implementation SSOT:** responsible L1 repositories such as `a-townchain`, `atc-algorithm`, `atc-vm`, `atc-wallet`, etc.
