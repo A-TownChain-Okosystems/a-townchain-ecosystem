@@ -135,7 +135,93 @@ A-TOWNCHAIN L1
     Security / Observability / Testing / Release / Evidence
 ```
 
-## 5. ATC-VM — Canonical Function Matrix
+## 5. ATCLang — Canonical Language / Compiler Matrix
+
+**Scope:** canonical smart-contract language from source text through lexical/syntactic analysis, semantics, ATC-IR, optimization, code generation and ATCA artifact production.
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| LANG-01 | Language Specification | grammar, keywords, literals, operators, statements, declarations, types and normative semantics |
+| LANG-02 | Lexer | source tokenization, literals, identifiers, comments, source spans and lexical diagnostics |
+| LANG-03 | Parser / AST | grammar parsing, AST construction, source locations and syntax diagnostics |
+| LANG-04 | Type System | primitive/compound types, U64/U128/U256, arrays, maps, structs, option/result semantics and type compatibility |
+| LANG-05 | Name / Symbol Resolution | scopes, declarations, imports, namespaces, overload rules and symbol diagnostics |
+| LANG-06 | Semantic Analysis | type checking, ownership/validity rules, control flow, unreachable code and contract invariants |
+| LANG-07 | Contract Model | contract declarations, entry points, state, events, errors, interfaces and lifecycle semantics |
+| LANG-08 | Standard Library | canonical math, crypto, encoding, collections, string, wallet, chain and I/O APIs with deterministic semantics |
+| LANG-09 | Deterministic Semantics | forbidden nondeterminism, canonical integer behavior, evaluation order and deterministic host boundaries |
+| LANG-10 | Security / Safety Rules | unsafe constructs, resource limits, recursion/depth constraints, capability boundaries and compile-time rejection |
+| LANG-11 | ATC-IR Generation | typed canonical IR generation, normalization, validation and IR invariants |
+| LANG-12 | Optimization | deterministic optimization passes that preserve observable contract semantics |
+| LANG-13 | Code Generation | ATC-IR → canonical bytecode/ATCA encoding with reproducible output |
+| LANG-14 | Diagnostics | structured errors, warnings, source spans, error codes and machine-readable diagnostics |
+| LANG-15 | ABI Generation | function/interface schemas, argument/return types, events, errors and compatibility metadata |
+| LANG-16 | Artifact Generation | canonical ATCA package/artifact, metadata, versioning, hashes and reproducible artifact layout |
+| LANG-17 | Toolchain / CLI | compiler CLI, formatter/linter, build/check commands, artifact inspection and developer workflow |
+| LANG-18 | Conformance / Compatibility | language-version compatibility, golden files, cross-implementation conformance and migration rules |
+| LANG-19 | Testing / Verification | parser/type/semantic/compiler tests, negative tests, fuzzing, golden vectors, determinism and Exact-SHA evidence |
+
+### 5.1 Canonical ATCLang Pipeline
+
+```text
+ATCLang Source
+  ↓
+Lexer / Tokens
+  ↓
+Parser / AST
+  ↓
+Name & Symbol Resolution
+  ↓
+Type / Semantic Analysis
+  ↓
+Contract & Safety Validation
+  ↓
+ATC-IR
+  ↓
+Deterministic Optimization
+  ↓
+Code Generation
+  ↓
+Bytecode / ATCA Artifact
+  ↓
+Independent VM Verifier
+  ↓
+ATC-VM Execution
+  ↓
+Canonical State Transition
+```
+
+### 5.2 ATCLang Canonical Invariants
+
+- The language specification is normative; implementation behavior must conform to the canonical grammar and semantics.
+- Numeric widths and conversions are explicit; implicit narrowing or lossy conversion is forbidden unless the language contract explicitly defines it.
+- Contract compilation must be deterministic for identical source, compiler version and canonical inputs.
+- Standard-library functions exposed to contracts must have deterministic, specified behavior and explicit host boundaries.
+- Compiler acceptance does not imply VM execution validity; generated artifacts require independent verification.
+- ABI output must be canonical and compatible with the transaction/contract interface contract.
+- Diagnostics are evidence of compiler behavior, not VM verification evidence.
+- Language changes require versioning, compatibility analysis, tests and Exact-SHA evidence.
+- Python/reference implementations may support specification/conformance work but do not silently replace the canonical Rust-first compiler decision.
+
+### 5.3 ATCLang Traceability
+
+```text
+Vision
+→ Language Domain
+→ Grammar / Compiler Component
+→ Function / Syntax / Type / API
+→ Language Contract
+→ Source
+→ Test / Golden Vector
+→ Workflow
+→ Exact-SHA Evidence
+→ Verification
+→ Residual
+```
+
+ATCLang architecture does not claim that every compiler stage is implemented or verified. Independent verifier acceptance, complete Rust-first compiler coverage, canonical ABI/artifact validation and cross-implementation determinism require repository-level evidence.
+
+## 6. ATC-VM — Canonical Function Matrix
 
 **Scope:** deterministic smart-contract execution from ATCLang source through ATC-IR/ABI, bytecode verification, ATCA artifacts, ATC-VM execution and canonical state transition.
 
