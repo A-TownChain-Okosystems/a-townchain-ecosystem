@@ -12,7 +12,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
-          ref: fix/atc-blockchain-storage-brace
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt
