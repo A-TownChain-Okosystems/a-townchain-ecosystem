@@ -32,6 +32,8 @@ jobs:
             manifest: components/a-townchain/modules/atc-governance/Cargo.toml
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
@@ -48,6 +50,8 @@ jobs:
     needs: rust-components
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
       - uses: dtolnay/rust-toolchain@stable
       - name: Run multi-node L1 integration gate
         run: cargo test --manifest-path components/a-townchain/modules/atc-blockchain/kernel/Cargo.toml --test multi_node_e2e
@@ -57,6 +61,8 @@ jobs:
     needs: rust-components
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
       - uses: dtolnay/rust-toolchain@stable
       - name: Run real process-level TCP L1 network gate
         run: cargo test --manifest-path components/a-townchain/modules/atc-blockchain/kernel/Cargo.toml --test multi_process_network_e2e
@@ -66,6 +72,8 @@ jobs:
     needs: rust-components
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
       - uses: dtolnay/rust-toolchain@stable
       - name: Run full blockchain E2E gate
         run: cargo test --manifest-path components/atc-sdk/Cargo.toml --test e2e
