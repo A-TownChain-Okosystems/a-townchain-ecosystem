@@ -1,0 +1,61 @@
+name: ui-matrix-contract
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/architecture/UI-COMPONENT-FUNCTION-MATRIX.md'
+      - 'schemas/ui-component-function.schema.yaml'
+      - '.github/workflows/ui-matrix-contract.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assert exact checkout SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected='${{ github.sha }}'
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$expected"
+      - name: Validate required matrix sections
+        shell: bash
+        run: |
+          set -euo pipefail
+          file="docs/architecture/UI-COMPONENT-FUNCTION-MATRIX.md"
+          test -s "$file"
+          for marker in "## 1. Canonical Traceability" "## 2. Canonical UI Domains" "## 5. Standard UI Contract" "## 7. UI Verification Pipeline" "## 8. Same Detail Rule for All Other Matrices"; do
+            grep -F "$marker" "$file" >/dev/null
+          done
+          count="$(grep -c '^| UI-[0-9][0-9] ' "$file")"
+          test "$count" -eq 55
+      - name: Validate schema
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import yaml
+          from pathlib import Path
+          data = yaml.safe_load(Path("schemas/ui-component-function.schema.yaml").read_text())
+          assert data["schema_version"] == 1
+          assert data["required"] == ["id","domain","component","function","contract","status"]
+          print("schema contract: OK")
+          PY
+      - name: Produce exact-SHA evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "workflow=ui-matrix-contract"
+            echo "run_id=${{ github.run_id }}"
+            echo "job=contract"
+            echo "sha=${{ github.sha }}"
+            echo "result=RUNNING"
+          } >> "$GITHUB_STEP_SUMMARY"
