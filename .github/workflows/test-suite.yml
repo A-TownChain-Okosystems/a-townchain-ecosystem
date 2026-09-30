@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
       - uses: dtolnay/rust-toolchain@stable
         with: {components: "rustfmt, clippy"}
       - name: ATCLang fmt + clippy + cargo test (Rust-only, identisch zum Quell-Repo)
@@ -19,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
       - uses: dtolnay/rust-toolchain@stable
         with: {components: "rustfmt, clippy"}
       - name: GlobusOS browser fmt + check + test + clippy
@@ -32,6 +36,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with: {python-version: "3.11"}
       - name: a-townchain ruff (kern-scoped)
@@ -43,6 +49,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
       - uses: dtolnay/rust-toolchain@nightly
       - name: shivacore cargo test ueber alle Manifeste (SCR-0078, F-093)
         working-directory: components/atc-shivacore
@@ -65,6 +73,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-node@v4
         with: {node-version: "20"}
       - name: aurora-ai npm test/build ueber alle Manifeste
@@ -84,6 +94,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
       - uses: dtolnay/rust-toolchain@stable
       - name: genesis-engine fmt + check (rot bis PR #13 gemerged, dokumentiert)
         working-directory: components/genesis-engine
