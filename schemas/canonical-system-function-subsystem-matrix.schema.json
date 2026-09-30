@@ -8,6 +8,7 @@
     "status",
     "machine_readable",
     "entry_count",
+    "required_fields",
     "entries"
   ],
   "properties": {
@@ -25,6 +26,37 @@
     },
     "entry_count": {
       "const": 8
+    },
+    "required_fields": {
+      "const": [
+        "id",
+        "domain",
+        "name",
+        "owner",
+        "responsibility",
+        "inputs",
+        "outputs",
+        "state",
+        "events",
+        "interfaces",
+        "dependencies",
+        "security_boundary",
+        "authority",
+        "capability",
+        "policy",
+        "approval",
+        "source",
+        "tests",
+        "workflow",
+        "exact_sha",
+        "run",
+        "job",
+        "step",
+        "exit_code",
+        "log",
+        "verification",
+        "residual"
+      ]
     },
     "entries": {
       "type": "array",
@@ -60,21 +92,7 @@
           "log",
           "verification",
           "residual"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "domain": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "status": {
-            "const": "ARCHITECTURE CONTRACT"
-          }
-        }
+        ]
       }
     }
   }

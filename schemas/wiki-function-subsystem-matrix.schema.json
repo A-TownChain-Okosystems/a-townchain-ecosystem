@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "ATC-POLICY-SUBSYSTEM-MATRIX-001",
+  "$id": "ATC-WIKI-FUNCTION-SUBSYSTEM-MATRIX-001",
   "type": "object",
   "required": [
     "document_id",
@@ -13,10 +13,10 @@
   ],
   "properties": {
     "document_id": {
-      "const": "ATC-POLICY-SUBSYSTEM-MATRIX-001"
+      "const": "ATC-WIKI-FUNCTION-SUBSYSTEM-MATRIX-001"
     },
     "parent_matrix": {
-      "const": "ATC-POLICY-001"
+      "const": "ATC-WIKI-FUNCTION-001"
     },
     "status": {
       "const": "ARCHITECTURE CONTRACT"

@@ -1,6 +1,6 @@
 {
-  "document_id": "ATC-INTEGRATION-SUBSYSTEM-MATRIX-001",
-  "parent_matrix": "ATC-INTEGRATION-001",
+  "document_id": "ATC-WIKI-FUNCTION-SUBSYSTEM-MATRIX-001",
+  "parent_matrix": "ATC-WIKI-FUNCTION-001",
   "status": "ARCHITECTURE CONTRACT",
   "machine_readable": true,
   "entry_count": 8,
@@ -35,9 +35,9 @@
   ],
   "entries": [
     {
-      "id": "SUB-INT-01",
+      "id": "SUB-WIKI-01",
       "domain": "core_lifecycle",
-      "name": "Integration core lifecycle subsystem",
+      "name": "Wiki Function core lifecycle subsystem",
       "owner": null,
       "responsibility": null,
       "inputs": [],
@@ -64,9 +64,9 @@
       "residual": "Implementation/evidence mapping required"
     },
     {
-      "id": "SUB-INT-02",
+      "id": "SUB-WIKI-02",
       "domain": "contract_schema",
-      "name": "Integration contract schema subsystem",
+      "name": "Wiki Function contract schema subsystem",
       "owner": null,
       "responsibility": null,
       "inputs": [],
@@ -93,9 +93,9 @@
       "residual": "Implementation/evidence mapping required"
     },
     {
-      "id": "SUB-INT-03",
+      "id": "SUB-WIKI-03",
       "domain": "source_implementation",
-      "name": "Integration source implementation subsystem",
+      "name": "Wiki Function source implementation subsystem",
       "owner": null,
       "responsibility": null,
       "inputs": [],
@@ -122,9 +122,9 @@
       "residual": "Implementation/evidence mapping required"
     },
     {
-      "id": "SUB-INT-04",
+      "id": "SUB-WIKI-04",
       "domain": "state_data",
-      "name": "Integration state data subsystem",
+      "name": "Wiki Function state data subsystem",
       "owner": null,
       "responsibility": null,
       "inputs": [],
@@ -151,9 +151,9 @@
       "residual": "Implementation/evidence mapping required"
     },
     {
-      "id": "SUB-INT-05",
+      "id": "SUB-WIKI-05",
       "domain": "event_flow",
-      "name": "Integration event flow subsystem",
+      "name": "Wiki Function event flow subsystem",
       "owner": null,
       "responsibility": null,
       "inputs": [],
@@ -180,9 +180,9 @@
       "residual": "Implementation/evidence mapping required"
     },
     {
-      "id": "SUB-INT-06",
+      "id": "SUB-WIKI-06",
       "domain": "integration_interface",
-      "name": "Integration integration interface subsystem",
+      "name": "Wiki Function integration interface subsystem",
       "owner": null,
       "responsibility": null,
       "inputs": [],
@@ -209,9 +209,9 @@
       "residual": "Implementation/evidence mapping required"
     },
     {
-      "id": "SUB-INT-07",
+      "id": "SUB-WIKI-07",
       "domain": "security_authority",
-      "name": "Integration security authority subsystem",
+      "name": "Wiki Function security authority subsystem",
       "owner": null,
       "responsibility": null,
       "inputs": [],
@@ -238,9 +238,9 @@
       "residual": "Implementation/evidence mapping required"
     },
     {
-      "id": "SUB-INT-08",
+      "id": "SUB-WIKI-08",
       "domain": "testing_evidence_verification",
-      "name": "Integration testing evidence verification subsystem",
+      "name": "Wiki Function testing evidence verification subsystem",
       "owner": null,
       "responsibility": null,
       "inputs": [],
