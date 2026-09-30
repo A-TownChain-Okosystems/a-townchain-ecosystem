@@ -135,7 +135,96 @@ A-TOWNCHAIN L1
     Security / Observability / Testing / Release / Evidence
 ```
 
-## 5. Aurora AI — 23 Canonical Domains
+## 5. ATC-VM — Canonical Function Matrix
+
+**Scope:** deterministic smart-contract execution from ATCLang source through ATC-IR/ABI, bytecode verification, ATCA artifacts, ATC-VM execution and canonical state transition.
+
+| ID | Domain | Canonical responsibility |
+|---|---|---|
+| VM-01 | Language Frontend | ATCLang lexer, parser, AST, syntax diagnostics, source locations |
+| VM-02 | Semantic Analysis | type checking, symbol resolution, control-flow rules, determinism constraints |
+| VM-03 | ATC-IR | canonical intermediate representation, typed operations, validation invariants |
+| VM-04 | ABI / Contract Interface | function signatures, argument/return types, serialization, events, compatibility |
+| VM-05 | Bytecode Format | instruction set, operand encoding, constants, metadata, canonical encoding |
+| VM-06 | Compiler / Codegen | AST/semantics → ATC-IR → bytecode/ATCA artifact, deterministic code generation |
+| VM-07 | Independent Verifier | bytecode validity, instruction safety, type/stack rules, control-flow validity, resource bounds |
+| VM-08 | Typed Value System | U64, U128, U256 and other canonical runtime types, conversions, overflow/underflow rules |
+| VM-09 | Execution Engine | deterministic instruction dispatch, stack/memory semantics, calls, returns, traps |
+| VM-10 | State / Storage Interface | contract state reads/writes, storage isolation, canonical state-transition interface |
+| VM-11 | Gas / Resource Accounting | instruction cost, memory/storage/call limits, deterministic exhaustion and failure |
+| VM-12 | Security / Sandbox | isolation, forbidden operations, capability boundary, recursion/depth limits, DoS resistance |
+| VM-13 | Determinism | canonical arithmetic, encoding, execution order, no nondeterministic host dependencies |
+| VM-14 | Runtime / Host Boundary | explicit host functions, environment inputs, chain context, syscall/API boundary |
+| VM-15 | Artifact / Deployment Lifecycle | ATCA artifact validation, deployment, compatibility, versioning, upgrade constraints |
+| VM-16 | Testing / Vectors | unit, property, fuzz, conformance, cross-language vectors, negative/security tests |
+| VM-17 | Evidence / Verification | exact-SHA CI, verifier evidence, execution evidence, RCA, rerun and residual tracking |
+
+### 5.1 Canonical ATC-VM Pipeline
+
+```text
+ATCLang
+  ↓
+Lexer / Parser / AST
+  ↓
+Semantic Analysis
+  ↓
+ATC-IR
+  ↓
+ABI / Type Validation
+  ↓
+Optimizer / Codegen
+  ↓
+Bytecode / ATCA Artifact
+  ↓
+Independent Verifier
+  ↓
+ATC-VM
+  ↓
+Host / State Interface
+  ↓
+Deterministic State Transition
+  ↓
+Canonical Blockchain State
+```
+
+### 5.2 VM Type and Safety Invariants
+
+- Monetary/state-economic values must support the canonical **u128** representation where required by the L1 contract.
+- VM arithmetic must define overflow, underflow, division-by-zero, conversion and comparison semantics explicitly.
+- Typed execution must not silently reinterpret one integer width as another.
+- Stack, memory, storage, call-depth and program-operation limits are consensus-relevant when they affect execution validity.
+- Verifier acceptance is a prerequisite for execution; source presence or compiler output alone is not proof of executable validity.
+- Host/environment access must be explicit and deterministic; hidden filesystem, clock, randomness or network dependencies are forbidden in deterministic execution.
+- VM failure/trap semantics must be deterministic and distinguish validation failure from runtime failure.
+- Cross-language vectors must prove byte-identical encoding and execution semantics where Rust/TypeScript/wallet tooling participates.
+
+### 5.3 Canonical VM Traceability
+
+Every VM function follows:
+
+```text
+Vision
+→ VM Domain
+→ Component
+→ Function / Opcode / API
+→ Contract
+→ Source
+→ Test / Vector
+→ Workflow
+→ Exact-SHA Evidence
+→ Verification
+→ Residual
+```
+
+VM-specific evidence separation remains mandatory:
+
+```text
+Compiler Error Evidence ≠ Verifier Finding Evidence ≠ Execution Verification Evidence
+```
+
+The matrix does not claim that every VM domain is implemented. In particular, **Independent Verifier**, complete typed-value coverage, canonical bytecode/ATCA validation and full cross-language determinism require source-level and test-level evidence before they can become VERIFIED.
+
+## 6. Aurora AI — 23 Canonical Domains
 
 | ID | Domain | Canonical responsibility |
 |---|---|---|
