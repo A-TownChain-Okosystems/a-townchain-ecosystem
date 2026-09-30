@@ -7,6 +7,11 @@ on:
       - 'docs/architecture/UI-COMPONENT-FUNCTION-MATRIX.md'
       - 'schemas/ui-component-function.schema.yaml'
       - '.github/workflows/ui-matrix-contract.yml'
+  pull_request:
+    paths:
+      - 'docs/architecture/UI-COMPONENT-FUNCTION-MATRIX.md'
+      - 'schemas/ui-component-function.schema.yaml'
+      - '.github/workflows/ui-matrix-contract.yml'
 
 permissions:
   contents: read
