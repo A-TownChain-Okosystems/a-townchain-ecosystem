@@ -6,12 +6,12 @@ on:
     paths:
       - 'docs/architecture/INTEGRATION-MATRIX.md'
       - 'schemas/integration-matrix.schema.json'
-      - '.github/workflows/integration-contract.yml'
+      - '.github/workflows/integration-matrix-contract.yml'
   pull_request:
     paths:
       - 'docs/architecture/INTEGRATION-MATRIX.md'
       - 'schemas/integration-matrix.schema.json'
-      - '.github/workflows/integration-contract.yml'
+      - '.github/workflows/integration-matrix-contract.yml'
 
 permissions:
   contents: read
