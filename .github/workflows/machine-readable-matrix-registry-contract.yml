@@ -1,0 +1,70 @@
+name: Machine-Readable Matrix Registry — Exact SHA Contract
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'data/machine-readable-matrix-registry.json'
+      - 'schemas/machine-readable-matrix-registry.schema.json'
+      - 'docs/architecture/CANONICAL-SYSTEM-FUNCTION-MATRIX.md'
+      - 'docs/architecture/AI-SUBSYSTEM-MATRIX.md'
+      - 'docs/architecture/POLICY-MATRIX.md'
+      - 'docs/architecture/UI-COMPONENT-FUNCTION-MATRIX.md'
+      - 'docs/architecture/INTEGRATION-MATRIX.md'
+      - 'docs/architecture/API-ORCHESTRATOR-MATRIX.md'
+      - 'docs/architecture/STATE-DATA-MATRIX.md'
+      - 'docs/architecture/EVENT-MATRIX.md'
+      - 'docs/architecture/SECURITY-BOUNDARY-MATRIX.md'
+      - 'docs/architecture/DEPENDENCY-MATRIX.md'
+      - 'docs/architecture/CROSS-BOUNDARY-STATE-EVENT-MATRIX.md'
+      - 'docs/architecture/WIKI-FUNCTION-MATRIX.md'
+      - '.github/workflows/machine-readable-matrix-registry-contract.yml'
+  pull_request:
+    paths:
+      - 'data/machine-readable-matrix-registry.json'
+      - 'schemas/machine-readable-matrix-registry.schema.json'
+      - 'docs/architecture/**'
+      - '.github/workflows/machine-readable-matrix-registry-contract.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 1}
+      - name: Assert exact SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Validate registry shape and canonical counts
+        shell: python
+        run: |
+          import json,re
+          from pathlib import Path
+          reg=json.loads(Path("data/machine-readable-matrix-registry.json").read_text())
+          assert reg["matrix_count"]==12
+          expected={
+            "CANONICAL-SYSTEM-FUNCTION":411,
+            "AI-SUBSYSTEM":267,
+            "POLICY":218,
+            "UI-COMPONENT-FUNCTION":66,
+            "INTEGRATION":212,
+            "API-ORCHESTRATOR":183,
+            "STATE-DATA":72,
+            "EVENT":72,
+            "SECURITY-BOUNDARY":72,
+            "DEPENDENCY":64,
+            "CROSS-BOUNDARY-STATE-EVENT":20,
+            "WIKI-FUNCTION":64,
+          }
+          actual={m["slug"]:m["entry_count"] for m in reg["matrices"]}
+          assert actual==expected,(actual,expected)
+          assert len(reg["matrices"])==12
+          for m in reg["matrices"]:
+              assert len(m["entries"])==m["entry_count"],m["slug"]
+              ids=[e["id"] for e in m["entries"]]
+              assert len(ids)==len(set(ids)),m["slug"]
+          print("registry shape/counts OK")
+      - name: Evidence summary
+        run: |
+          echo "Exact SHA: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+          echo "Registry matrices: 12" >> "$GITHUB_STEP_SUMMARY"
+          echo "Cross-matrix count and duplicate-ID integrity validated." >> "$GITHUB_STEP_SUMMARY"
