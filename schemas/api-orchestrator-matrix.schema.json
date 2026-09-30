@@ -1,0 +1,21 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"ATC-API-ORCHESTRATOR-MATRIX-001",
+  "type":"object","additionalProperties":false,
+  "required":["document_id","status","orchestrator_count","orchestrators"],
+  "properties":{
+    "document_id":{"const":"ATC-API-ORCHESTRATOR-MATRIX-001"},
+    "status":{"const":"ARCHITECTURE CONTRACT"},
+    "orchestrator_count":{"const":183},
+    "orchestrators":{"type":"array","minItems":183,"maxItems":183,"items":{
+      "type":"object","additionalProperties":false,
+      "required":["id","domain","name","status"],
+      "properties":{
+        "id":{"type":"string","pattern":"^ORC-[0-9]{3}$"},
+        "domain":{"type":"string","minLength":1},
+        "name":{"type":"string","minLength":1},
+        "status":{"enum":["UNANALYZED","ANALYZED","FIXED","RERUNNING","VERIFIED","RESIDUAL"]}
+      }
+    }}
+  }
+}
