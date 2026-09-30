@@ -1,0 +1,21 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"ATC-INTEGRATION-MATRIX-001",
+  "type":"object","additionalProperties":false,
+  "required":["document_id","status","integration_count","integrations"],
+  "properties":{
+    "document_id":{"const":"ATC-INTEGRATION-MATRIX-001"},
+    "status":{"const":"ARCHITECTURE CONTRACT"},
+    "integration_count":{"const":212},
+    "integrations":{"type":"array","minItems":212,"maxItems":212,"items":{
+      "type":"object","additionalProperties":false,
+      "required":["id","domain","name","status"],
+      "properties":{
+        "id":{"type":"string","pattern":"^INT-[0-9]{3}$"},
+        "domain":{"type":"string","minLength":1},
+        "name":{"type":"string","minLength":1},
+        "status":{"enum":["UNANALYZED","ANALYZED","FIXED","RERUNNING","VERIFIED","RESIDUAL"]}
+      }
+    }}
+  }
+}
