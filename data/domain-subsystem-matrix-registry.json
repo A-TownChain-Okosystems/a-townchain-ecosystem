@@ -2,8 +2,8 @@
   "document_id": "ATC-DOMAIN-SUBSYSTEM-MATRIX-REGISTRY-001",
   "status": "ARCHITECTURE CONTRACT",
   "machine_readable": true,
-  "domain_count": 401,
-  "subsystem_matrix_count": 401,
+  "domain_count": 411,
+  "subsystem_matrix_count": 411,
   "subsystems_per_domain": 8,
   "domains": [
     {
@@ -23258,6 +23258,586 @@
         },
         {
           "id": "NFT-30-SUB-08",
+          "domain_layer": "Testing / Evidence / Verification",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        }
+      ]
+    },
+    {
+      "matrix_id": "ATC-DOMAIN-INT-01-SUBSYSTEM-MATRIX-001",
+      "domain_id": "INT-01",
+      "domain": "Identity Federation",
+      "status": "ARCHITECTURE CONTRACT",
+      "machine_readable": true,
+      "subsystem_count": 8,
+      "subsystems": [
+        {
+          "id": "INT-01-SUB-01",
+          "domain_layer": "Core / Lifecycle",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-01-SUB-02",
+          "domain_layer": "Contract / Schema",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-01-SUB-03",
+          "domain_layer": "Source / Implementation",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-01-SUB-04",
+          "domain_layer": "State / Data",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-01-SUB-05",
+          "domain_layer": "Event / Flow",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-01-SUB-06",
+          "domain_layer": "Integration / Interface",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-01-SUB-07",
+          "domain_layer": "Security / Authority",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-01-SUB-08",
+          "domain_layer": "Testing / Evidence / Verification",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        }
+      ]
+    },
+    {
+      "matrix_id": "ATC-DOMAIN-INT-02-SUBSYSTEM-MATRIX-001",
+      "domain_id": "INT-02",
+      "domain": "Capability Federation",
+      "status": "ARCHITECTURE CONTRACT",
+      "machine_readable": true,
+      "subsystem_count": 8,
+      "subsystems": [
+        {
+          "id": "INT-02-SUB-01",
+          "domain_layer": "Core / Lifecycle",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-02-SUB-02",
+          "domain_layer": "Contract / Schema",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-02-SUB-03",
+          "domain_layer": "Source / Implementation",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-02-SUB-04",
+          "domain_layer": "State / Data",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-02-SUB-05",
+          "domain_layer": "Event / Flow",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-02-SUB-06",
+          "domain_layer": "Integration / Interface",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-02-SUB-07",
+          "domain_layer": "Security / Authority",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-02-SUB-08",
+          "domain_layer": "Testing / Evidence / Verification",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        }
+      ]
+    },
+    {
+      "matrix_id": "ATC-DOMAIN-INT-03-SUBSYSTEM-MATRIX-001",
+      "domain_id": "INT-03",
+      "domain": "Policy / Approval Federation",
+      "status": "ARCHITECTURE CONTRACT",
+      "machine_readable": true,
+      "subsystem_count": 8,
+      "subsystems": [
+        {
+          "id": "INT-03-SUB-01",
+          "domain_layer": "Core / Lifecycle",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-03-SUB-02",
+          "domain_layer": "Contract / Schema",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-03-SUB-03",
+          "domain_layer": "Source / Implementation",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-03-SUB-04",
+          "domain_layer": "State / Data",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-03-SUB-05",
+          "domain_layer": "Event / Flow",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-03-SUB-06",
+          "domain_layer": "Integration / Interface",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-03-SUB-07",
+          "domain_layer": "Security / Authority",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-03-SUB-08",
+          "domain_layer": "Testing / Evidence / Verification",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        }
+      ]
+    },
+    {
+      "matrix_id": "ATC-DOMAIN-INT-04-SUBSYSTEM-MATRIX-001",
+      "domain_id": "INT-04",
+      "domain": "Event / Audit Federation",
+      "status": "ARCHITECTURE CONTRACT",
+      "machine_readable": true,
+      "subsystem_count": 8,
+      "subsystems": [
+        {
+          "id": "INT-04-SUB-01",
+          "domain_layer": "Core / Lifecycle",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-04-SUB-02",
+          "domain_layer": "Contract / Schema",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-04-SUB-03",
+          "domain_layer": "Source / Implementation",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-04-SUB-04",
+          "domain_layer": "State / Data",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-04-SUB-05",
+          "domain_layer": "Event / Flow",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-04-SUB-06",
+          "domain_layer": "Integration / Interface",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-04-SUB-07",
+          "domain_layer": "Security / Authority",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-04-SUB-08",
+          "domain_layer": "Testing / Evidence / Verification",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        }
+      ]
+    },
+    {
+      "matrix_id": "ATC-DOMAIN-INT-05-SUBSYSTEM-MATRIX-001",
+      "domain_id": "INT-05",
+      "domain": "Data / Schema Interoperability",
+      "status": "ARCHITECTURE CONTRACT",
+      "machine_readable": true,
+      "subsystem_count": 8,
+      "subsystems": [
+        {
+          "id": "INT-05-SUB-01",
+          "domain_layer": "Core / Lifecycle",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-05-SUB-02",
+          "domain_layer": "Contract / Schema",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-05-SUB-03",
+          "domain_layer": "Source / Implementation",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-05-SUB-04",
+          "domain_layer": "State / Data",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-05-SUB-05",
+          "domain_layer": "Event / Flow",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-05-SUB-06",
+          "domain_layer": "Integration / Interface",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-05-SUB-07",
+          "domain_layer": "Security / Authority",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-05-SUB-08",
+          "domain_layer": "Testing / Evidence / Verification",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        }
+      ]
+    },
+    {
+      "matrix_id": "ATC-DOMAIN-INT-06-SUBSYSTEM-MATRIX-001",
+      "domain_id": "INT-06",
+      "domain": "Time / Clock Contract",
+      "status": "ARCHITECTURE CONTRACT",
+      "machine_readable": true,
+      "subsystem_count": 8,
+      "subsystems": [
+        {
+          "id": "INT-06-SUB-01",
+          "domain_layer": "Core / Lifecycle",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-06-SUB-02",
+          "domain_layer": "Contract / Schema",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-06-SUB-03",
+          "domain_layer": "Source / Implementation",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-06-SUB-04",
+          "domain_layer": "State / Data",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-06-SUB-05",
+          "domain_layer": "Event / Flow",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-06-SUB-06",
+          "domain_layer": "Integration / Interface",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-06-SUB-07",
+          "domain_layer": "Security / Authority",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-06-SUB-08",
+          "domain_layer": "Testing / Evidence / Verification",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        }
+      ]
+    },
+    {
+      "matrix_id": "ATC-DOMAIN-INT-07-SUBSYSTEM-MATRIX-001",
+      "domain_id": "INT-07",
+      "domain": "Resource / Quota Contract",
+      "status": "ARCHITECTURE CONTRACT",
+      "machine_readable": true,
+      "subsystem_count": 8,
+      "subsystems": [
+        {
+          "id": "INT-07-SUB-01",
+          "domain_layer": "Core / Lifecycle",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-07-SUB-02",
+          "domain_layer": "Contract / Schema",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-07-SUB-03",
+          "domain_layer": "Source / Implementation",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-07-SUB-04",
+          "domain_layer": "State / Data",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-07-SUB-05",
+          "domain_layer": "Event / Flow",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-07-SUB-06",
+          "domain_layer": "Integration / Interface",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-07-SUB-07",
+          "domain_layer": "Security / Authority",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-07-SUB-08",
+          "domain_layer": "Testing / Evidence / Verification",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        }
+      ]
+    },
+    {
+      "matrix_id": "ATC-DOMAIN-INT-08-SUBSYSTEM-MATRIX-001",
+      "domain_id": "INT-08",
+      "domain": "Secret / Key Boundary",
+      "status": "ARCHITECTURE CONTRACT",
+      "machine_readable": true,
+      "subsystem_count": 8,
+      "subsystems": [
+        {
+          "id": "INT-08-SUB-01",
+          "domain_layer": "Core / Lifecycle",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-08-SUB-02",
+          "domain_layer": "Contract / Schema",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-08-SUB-03",
+          "domain_layer": "Source / Implementation",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-08-SUB-04",
+          "domain_layer": "State / Data",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-08-SUB-05",
+          "domain_layer": "Event / Flow",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-08-SUB-06",
+          "domain_layer": "Integration / Interface",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-08-SUB-07",
+          "domain_layer": "Security / Authority",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-08-SUB-08",
+          "domain_layer": "Testing / Evidence / Verification",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        }
+      ]
+    },
+    {
+      "matrix_id": "ATC-DOMAIN-INT-09-SUBSYSTEM-MATRIX-001",
+      "domain_id": "INT-09",
+      "domain": "Artifact / Provenance Federation",
+      "status": "ARCHITECTURE CONTRACT",
+      "machine_readable": true,
+      "subsystem_count": 8,
+      "subsystems": [
+        {
+          "id": "INT-09-SUB-01",
+          "domain_layer": "Core / Lifecycle",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-09-SUB-02",
+          "domain_layer": "Contract / Schema",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-09-SUB-03",
+          "domain_layer": "Source / Implementation",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-09-SUB-04",
+          "domain_layer": "State / Data",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-09-SUB-05",
+          "domain_layer": "Event / Flow",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-09-SUB-06",
+          "domain_layer": "Integration / Interface",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-09-SUB-07",
+          "domain_layer": "Security / Authority",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-09-SUB-08",
+          "domain_layer": "Testing / Evidence / Verification",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        }
+      ]
+    },
+    {
+      "matrix_id": "ATC-DOMAIN-INT-10-SUBSYSTEM-MATRIX-001",
+      "domain_id": "INT-10",
+      "domain": "Recovery / Continuity Contract",
+      "status": "ARCHITECTURE CONTRACT",
+      "machine_readable": true,
+      "subsystem_count": 8,
+      "subsystems": [
+        {
+          "id": "INT-10-SUB-01",
+          "domain_layer": "Core / Lifecycle",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-10-SUB-02",
+          "domain_layer": "Contract / Schema",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-10-SUB-03",
+          "domain_layer": "Source / Implementation",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-10-SUB-04",
+          "domain_layer": "State / Data",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-10-SUB-05",
+          "domain_layer": "Event / Flow",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-10-SUB-06",
+          "domain_layer": "Integration / Interface",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-10-SUB-07",
+          "domain_layer": "Security / Authority",
+          "verification": "UNANALYZED",
+          "residual": "Domain-specific implementation and evidence mapping required"
+        },
+        {
+          "id": "INT-10-SUB-08",
           "domain_layer": "Testing / Evidence / Verification",
           "verification": "UNANALYZED",
           "residual": "Domain-specific implementation and evidence mapping required"
