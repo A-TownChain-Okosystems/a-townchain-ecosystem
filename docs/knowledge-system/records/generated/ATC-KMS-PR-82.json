@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-82",
+  "timestamp": "2026-09-30T08:38:15.936659Z",
+  "category": "change",
+  "title": "PR #82: fix: align canonical layers and L1 ownership",
+  "context": "Pull request 82 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/82",
+    "commit": "30534d0e554e0b27a0aab956c2fe18e223ef47cd"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\nCorrect the ecosystem layer/ownership contradictions identified in the audit.\n\nChanges:\n- make a-townchain/components/algorithm the active L2 workspace/CI target\n- make a-townchain/components/vm the active L3 workspace/CI target\n- remove active workspace/CI references to legacy standalone VM/algorithm paths\n- align README with the canonical L0-L7 + X architecture\n- clarify migration ownership in MIGRATION_MANIFEST.yaml\n- align the master architecture repository mapping with the canonical L1 paths\n\nNo implementation gate is weakened; the changes make CI target the declared canonical implementations."
+}

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-18",
-  "timestamp": "2026-09-29T08:36:28.223077Z",
+  "timestamp": "2026-09-30T08:38:15.936659Z",
   "category": "change",
   "title": "PR #18: fix: enforce canonical monetary policy across migrated mining components",
   "context": "Pull request 18 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/18",
-    "commit": "7e04d46de65400daa111b445fef0c9f8e920d9df"
+    "commit": "30534d0e554e0b27a0aab956c2fe18e223ef47cd"
   },
   "tags": [
     "generated",
