@@ -1,0 +1,39 @@
+name: State & Data Matrix — Exact SHA Contract
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/architecture/STATE-DATA-MATRIX.md'
+      - 'schemas/state-data-matrix.schema.json'
+  pull_request:
+    paths:
+      - 'docs/architecture/STATE-DATA-MATRIX.md'
+      - 'schemas/state-data-matrix.schema.json'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 1}
+      - name: Assert exact SHA
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Validate canonical IDs
+        shell: python
+        run: |
+          import re
+          from pathlib import Path
+          p=Path("docs/architecture/STATE-DATA-MATRIX.md").read_text(encoding="utf-8")
+          ids=re.findall(r'^\\| (DAT-[0-9]{3}) \\|',p,re.M)
+          expected=[f"DAT-{'{'}i:03d{'}'}" for i in range(1,72+1)]
+          assert ids==expected, (len(ids), ids[:3], ids[-3:])
+          assert "ARCHITECTURE CONTRACT" in p and "Exact-SHA" in p and "Verification" in p
+          print("validated",len(ids),"DAT entries")
+      - name: Evidence summary
+        run: |
+          echo "## State & Data Matrix" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Exact SHA: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Entries: 72" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Status: ARCHITECTURE CONTRACT; implementation/verification separate" >> "$GITHUB_STEP_SUMMARY"
