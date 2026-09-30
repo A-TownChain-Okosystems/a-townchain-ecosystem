@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ATC-POLICY-MATRIX-001",
+  "title": "A-TownChain Policy Matrix",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["document_id", "status", "policy_count", "policies"],
+  "properties": {
+    "document_id": {"const": "ATC-POLICY-MATRIX-001"},
+    "status": {"const": "ARCHITECTURE CONTRACT"},
+    "policy_count": {"const": 218},
+    "policies": {
+      "type": "array",
+      "minItems": 218,
+      "maxItems": 218,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "domain", "subsystem", "status"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^POL-[0-9]{3}$"},
+          "domain": {"type": "string", "minLength": 1},
+          "subsystem": {"type": "string", "minLength": 1},
+          "status": {
+            "type": "string",
+            "enum": ["UNANALYZED", "ANALYZED", "FIXED", "RERUNNING", "VERIFIED", "RESIDUAL"]
+          }
+        }
+      }
+    }
+  }
+}
