@@ -372,7 +372,7 @@ impl ConsensusEngine {
             .unwrap()
             .values()
             .copied()
-            .fold(0, u64::saturating_add)
+            .fold(0u128, u128::saturating_add)
     }
 
     pub fn propose_id(&self, h: u64, parent: [u8; 32], state: [u8; 32], tx: [u8; 32]) -> [u8; 32] {
