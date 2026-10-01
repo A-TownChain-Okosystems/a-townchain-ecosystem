@@ -1,4 +1,5 @@
-# ATC Protocol Registry — ATC-STD-PROTOCOL-001 §20/§21 (SSOT)
+# ATC Protocol Registry — machine-readable projection of ATC-STD-PROTOCOL-001
+# Architecture layer semantics are sourced from a-townchain-ecosystem/ARCHITECTURE.md.
 # Generiert von tools/protocol/gen_protocol_registry.py — Änderungen nur via SCR.
 protocol-registry:
   standard: ATC-STD-PROTOCOL-001
@@ -41,7 +42,7 @@ protocol-registry:
     version: 1.0.0
     status: draft
     priority: P1
-    layer: L1/L3
+    layer: L0
     specification: 'protocols/p2p/ATC-PROTO-P2P-001.md — Spezifikation v1.0.0 APPROVED (SCR-0027) und IMPLEMENTIERT in ShivaCore K14-Upgrade (SCR-0028, p2p_secure.rs, 29 Unit-Tests, Kernel 423/423): Envelope
       9+1, 13 Message-Types, 6-Phasen-Handshake, Replay-Schutz, Rate-Limiting, v0.9-Kompatibilitaetsmodus; Status draft bis Testnet-Verifikation/Activation'
     note: 'v1.0.0 IMPLEMENTIERT (08.09. 01:35, K14-Upgrade p2p_secure.rs, SCR-0028): Envelope 9+1, 6-Phasen-Handshake, Replay-Schutz, Rate-Limiting, v0.9-Kompatibilitaetsmodus; Kernel 423/423 Tests gruen;
@@ -52,7 +53,7 @@ protocol-registry:
     version: 1.0.0
     status: planned
     priority: P1
-    layer: L1
+    layer: L0
     specification: Zu spezifizieren gem. ATC-STD-PROTOCOL-001 (SCR erforderlich)
     note: Node-Discovery/Management auf P2P aufbauend
   - id: ATC-PROTO-CONSENSUS-001
@@ -61,7 +62,7 @@ protocol-registry:
     version: 1.0.0
     status: draft
     priority: P1
-    layer: L1/L3
+    layer: L2
     specification: Teilweise implementiert; formale Spezifikation gem. ATC-STD-PROTOCOL-001 nachzuziehen
     note: 'Impl.-Spuren: ShivaCore K16 (DAG+PoH+Validator+Voting+Finality)'
   - id: ATC-PROTO-BLOCK-001
@@ -70,7 +71,7 @@ protocol-registry:
     version: 1.0.0
     status: draft
     priority: P1
-    layer: L3
+    layer: L2
     specification: Teilweise implementiert; formale Spezifikation gem. ATC-STD-PROTOCOL-001 nachzuziehen
     note: 'Impl.-Spuren: a-townchain Blockchain'
   - id: ATC-PROTO-TX-001
@@ -79,7 +80,7 @@ protocol-registry:
     version: 1.0.0
     status: draft
     priority: P1
-    layer: L3
+    layer: L2
     specification: Teilweise implementiert; formale Spezifikation gem. ATC-STD-PROTOCOL-001 nachzuziehen
     note: 'Impl.-Spuren: a-townchain + ShivaCore Tx-Pipeline'
   - id: ATC-PROTO-MEMPOOL-001
@@ -88,7 +89,7 @@ protocol-registry:
     version: 1.0.0
     status: draft
     priority: P1
-    layer: L3
+    layer: L2
     specification: Teilweise implementiert; formale Spezifikation gem. ATC-STD-PROTOCOL-001 nachzuziehen
     note: 'Impl.-Spuren: mempool.rs (Referenzimplementierung)'
   - id: ATC-PROTO-VALIDATOR-001
@@ -97,7 +98,7 @@ protocol-registry:
     version: 1.0.0
     status: draft
     priority: P1
-    layer: L3
+    layer: L2
     specification: Teilweise implementiert; formale Spezifikation gem. ATC-STD-PROTOCOL-001 nachzuziehen
     note: 'Impl.-Spuren: ShivaCore K16 Validator'
   - id: ATC-PROTO-STAKING-001
@@ -106,7 +107,7 @@ protocol-registry:
     version: 1.0.0
     status: planned
     priority: P1
-    layer: L3
+    layer: L2
     specification: Zu spezifizieren gem. ATC-STD-PROTOCOL-001 (SCR erforderlich)
     note: ''
   - id: ATC-PROTO-MINING-001
@@ -115,7 +116,7 @@ protocol-registry:
     version: 1.0.0
     status: draft
     priority: P1
-    layer: L3/L5
+    layer: L2
     specification: Teilweise implementiert; formale Spezifikation gem. ATC-STD-PROTOCOL-001 nachzuziehen
     note: Repo atc-mining vorhanden (L5-Dev-Plattform)
   - id: ATC-PROTO-WALLET-001
@@ -124,7 +125,7 @@ protocol-registry:
     version: 1.0.0
     status: draft
     priority: P1
-    layer: L3/L5
+    layer: L2
     specification: Teilweise implementiert; formale Spezifikation gem. ATC-STD-PROTOCOL-001 nachzuziehen
     note: Repo atc-wallet vorhanden (L5-Dev-Plattform)
   - id: ATC-PROTO-IDENTITY-001
@@ -133,7 +134,7 @@ protocol-registry:
     version: 1.0.0
     status: draft
     priority: P1
-    layer: L1/L3
+    layer: X
     specification: Teilweise implementiert; formale Spezifikation gem. ATC-STD-PROTOCOL-001 nachzuziehen
     note: 'Impl.-Spuren: ShivaCore K6 (DID+RCT) + K6b (Ed25519)'
   - id: ATC-PROTO-REPUTATION-001
@@ -142,7 +143,7 @@ protocol-registry:
     version: 1.0.0
     status: draft
     priority: P2
-    layer: L1/L3
+    layer: L5
     specification: Teilweise implementiert; formale Spezifikation gem. ATC-STD-PROTOCOL-001 nachzuziehen
     note: 'Impl.-Spuren: ShivaCore K15 (Reputation)'
   - id: ATC-PROTO-GOVERNANCE-001
@@ -151,7 +152,7 @@ protocol-registry:
     version: 1.0.0
     status: planned
     priority: P2
-    layer: L3
+    layer: X
     specification: Zu spezifizieren gem. ATC-STD-PROTOCOL-001 (SCR erforderlich)
     note: ''
   - id: ATC-PROTO-ORACLE-001
@@ -169,7 +170,7 @@ protocol-registry:
     version: 1.0.0
     status: planned
     priority: P1
-    layer: L5
+    layer: L4
     specification: Zu spezifizieren gem. ATC-STD-PROTOCOL-001 (SCR erforderlich)
     note: Repo atc-zkp vorhanden
   - id: ATC-PROTO-BRIDGE-001
@@ -196,7 +197,7 @@ protocol-registry:
     version: 1.0.0
     status: planned
     priority: P2
-    layer: L3/L5
+    layer: L1
     specification: Zu spezifizieren gem. ATC-STD-PROTOCOL-001 (SCR erforderlich)
     note: ''
   - id: ATC-PROTO-STORAGE-001
@@ -205,7 +206,7 @@ protocol-registry:
     version: 1.0.0
     status: planned
     priority: P2
-    layer: L5
+    layer: L1
     specification: Zu spezifizieren gem. ATC-STD-PROTOCOL-001 (SCR erforderlich)
     note: Repo atc-storage vorhanden
   - id: ATC-PROTO-AI-001
@@ -214,7 +215,7 @@ protocol-registry:
     version: 1.0.0
     status: planned
     priority: P2
-    layer: L2
+    layer: L6
     specification: Zu spezifizieren gem. ATC-STD-PROTOCOL-001 (SCR erforderlich)
     note: aurora-ai (L2); Kopplung Kernel-Event-Bridge (ATC-M-003)
   - id: ATC-PROTO-AGENT-001
@@ -223,7 +224,7 @@ protocol-registry:
     version: 1.0.0
     status: planned
     priority: P2
-    layer: L2
+    layer: L6
     specification: Zu spezifizieren gem. ATC-STD-PROTOCOL-001 (SCR erforderlich)
     note: AAS-Kopplung (ATC-AAS-001..025)
   - id: ATC-PROTO-API-001
@@ -232,7 +233,7 @@ protocol-registry:
     version: 1.0.0
     status: planned
     priority: P2
-    layer: L5
+    layer: X
     specification: Zu spezifizieren gem. ATC-STD-PROTOCOL-001 (SCR erforderlich)
     note: Kopplung ATC-STD-202 (API-Konventionen)
   - id: ATC-PROTO-EVENT-001
@@ -241,7 +242,7 @@ protocol-registry:
     version: 1.0.0
     status: planned
     priority: P2
-    layer: L2/L4
+    layer: X
     specification: Zu spezifizieren gem. ATC-STD-PROTOCOL-001 (SCR erforderlich)
     note: Kopplung Kernel-Event-Bridge (ATC-M-003)
   - id: ATC-PROTO-AUDIT-001
@@ -250,7 +251,7 @@ protocol-registry:
     version: 1.0.0
     status: planned
     priority: P2
-    layer: L3/L7
+    layer: X
     specification: Zu spezifizieren gem. ATC-STD-PROTOCOL-001 (SCR erforderlich)
     note: Kopplung AUDIT-001/LogChain
   - id: ATC-PROTO-UPGRADE-001
@@ -259,7 +260,7 @@ protocol-registry:
     version: 1.0.0
     status: planned
     priority: P1
-    layer: L0-L7
+    layer: X
     specification: Zu spezifizieren gem. ATC-STD-PROTOCOL-001 (SCR erforderlich)
     note: Prozessnorm in ATC-STD-PROTOCOL-001 §19 verankert
   - id: ATC-PROTO-KERNEL-001
@@ -268,6 +269,6 @@ protocol-registry:
     version: 1.0.0
     status: planned
     priority: P2
-    layer: L1
+    layer: L0
     specification: Zu spezifizieren gem. ATC-STD-PROTOCOL-001 (SCR erforderlich)
     note: Syscall-Interface ATC-96 (ShivaCore K9)
