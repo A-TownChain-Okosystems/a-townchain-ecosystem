@@ -19,7 +19,8 @@ const FINALITY_MAGIC: &[u8] = b"ATCF1";
 const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
-type ValidatorSnapshot = (u64, BTreeMap<String, (u64, [u8; 32])>);
+type LatestValidatorSnapshot = (u64, BTreeMap<String, (u64, [u8; 32])>);
+type ValidatorSnapshot = (BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>);
 type SlashingRecord = (u64, String, [u8; 32], u64);
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
@@ -316,10 +317,8 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if b.height > 0 {
-            let parent = self
-                .blocks
-                .read()
-                .unwrap()
+            let blocks = self.blocks.read().unwrap();
+            let parent = blocks
                 .get(&b.height.saturating_sub(1))
                 .ok_or("cannot commit block without canonical parent")?;
             if b.parent_hash != parent.id {
@@ -408,7 +407,9 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
+            let blocks = self.blocks.read().unwrap();
+            let parent = blocks
+                .get(&block.height.saturating_sub(1))
                 .ok_or("cannot commit block without canonical parent")?;
             if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
         } else if block.parent_hash != [0; 32] {
@@ -440,10 +441,8 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self
-                .blocks
-                .read()
-                .unwrap()
+            let blocks = self.blocks.read().unwrap();
+            let parent = blocks
                 .get(&block.height.saturating_sub(1))
                 .ok_or("cannot commit block without canonical parent")?;
             if block.parent_hash != parent.id {
@@ -464,6 +463,16 @@ impl ChainStorage {
         Ok(self
             .recover_state_with_dao_at_height()?
             .map(|(_, x)| x.0))
+    }
+
+    /// Backward-compatible recovery API returning the latest state/DAO pair
+    /// without exposing the canonical height. New startup paths should use
+    /// `recover_state_with_dao_at_height` so cross-journal height validation
+    /// remains explicit.
+    pub fn recover_state_with_dao(&self) -> Result<Option<DaoStateSnapshot>, String> {
+        Ok(self
+            .recover_state_with_dao_at_height()?
+            .map(|(_, snapshot)| snapshot))
     }
 
     /// Recover the latest durable state snapshot together with the exact
@@ -573,7 +582,7 @@ impl ChainStorage {
         Ok(())
     }
 
-    pub fn recover_validators(&self) -> Result<Option<ValidatorSnapshot>, String> {
+    pub fn recover_validators(&self) -> Result<Option<LatestValidatorSnapshot>, String> {
         let Some(p) = &self.validator_journal else {
             return Ok(None);
         };
