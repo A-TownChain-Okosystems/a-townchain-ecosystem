@@ -18,9 +18,14 @@ class PagingClient(GitHubClient):
         self.responses = list(responses)
         self.calls = []
 
-    def request(self, path):
+    def json(self, path):
         self.calls.append(path)
-        return self.responses.pop(0)
+        response = self.responses.pop(0)
+        if response.status < 200 or response.status >= 300:
+            raise EvidenceBlockedError(
+                f"HTTP {response.status}: {response.error or 'request failed'}"
+            )
+        return response.payload
 
 
 def response(status=200, payload=None, error=None):
@@ -51,7 +56,7 @@ class EvidenceEngineTests(unittest.TestCase):
         client = PagingClient([
             response(200, {"items": [{"id": 1}]}),
         ])
-        items = client.get_json_paginated("/x", "items", max_pages=1)
+        items = client.paginated("/x", "items", max_pages=1)
         self.assertEqual(items, [{"id": 1}])
         self.assertEqual(len(client.calls), 1)
 
@@ -60,7 +65,7 @@ class EvidenceEngineTests(unittest.TestCase):
             response(200, {"items": [{}] * 100}),
             response(200, {"items": []}),
         ])
-        items = client.get_json_paginated("/x", "items", max_pages=1)
+        items = client.paginated("/x", "items", max_pages=1)
         self.assertEqual(len(items), 100)
         self.assertEqual(len(client.calls), 2)
 
@@ -70,7 +75,7 @@ class EvidenceEngineTests(unittest.TestCase):
             response(403, {}, "forbidden"),
         ])
         with self.assertRaises(EvidenceBlockedError):
-            client.get_json_paginated("/x", "items", max_pages=1)
+            client.paginated("/x", "items", max_pages=1)
 
     def test_pagination_overflow_nonempty_is_blocked(self):
         client = PagingClient([
@@ -78,7 +83,7 @@ class EvidenceEngineTests(unittest.TestCase):
             response(200, {"items": [{"id": 101}]}),
         ])
         with self.assertRaises(EvidenceBlockedError):
-            client.get_json_paginated("/x", "items", max_pages=1)
+            client.paginated("/x", "items", max_pages=1)
 
     def test_policy_scope_is_explicit(self):
         self.assertEqual(
