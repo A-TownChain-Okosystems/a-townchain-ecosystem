@@ -343,7 +343,8 @@ def main():
         if returned_tree!=target.tree_sha: raise EvidenceValidationError("tree SHA mismatch")
         l=Ledger(target)
         l.add_node(Node("commit:"+target.resolved_sha,"",target.resolved_sha,"COMMIT",{"requested_sha":target.requested_sha,"resolved_sha":target.resolved_sha,"tree_sha":target.tree_sha}))
-        l.add_node(Node("tree:"+target.tree_sha,"",target.tree_sha,"TREE",{"commit_sha":target.resolved_sha}))\n        l.add_edge(Edge("commit:"+target.resolved_sha,"HAS_TREE","tree:"+target.tree_sha))
+        l.add_node(Node("tree:"+target.tree_sha,"",target.tree_sha,"TREE",{"commit_sha":target.resolved_sha}))
+        l.add_edge(Edge("commit:"+target.resolved_sha,"HAS_TREE","tree:"+target.tree_sha))
         for path,e in entries.items():
             if e["type"]!="blob": continue
             data=ins.blob(e["sha"]); bid="blob:%s:%s"%(path,e["sha"])
