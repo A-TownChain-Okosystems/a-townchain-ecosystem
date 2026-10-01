@@ -4,7 +4,7 @@ criticality: C1
 domain: contracts
 domain_extension: 'pending (fachliche Standards je Domain via SCR — ehrlich: Kernprofil
   v1.0)'
-layer: L5
+layer: L3
 maturity_class: B
 profile: atc-contracts
 registry_id: ATC-REPO-CONTR-001
