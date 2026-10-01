@@ -43,7 +43,7 @@ pub enum NetworkMessage {
     BlockWithValidatorSnapshot {
         block: Block,
         activation_height: u64,
-        validators: BTreeMap<String, u64>,
+        validators: BTreeMap<String, u128>,
         validator_keys: BTreeMap<String, [u8; 32]>,
     },
     StatusRequest,
