@@ -152,9 +152,7 @@ impl Transaction {
         self.tx_type.base_gas() + self.payload.len() as u64 * 10
     }
     pub fn max_fee(&self) -> u128 {
-        u128::from(self.gas_limit)
-            .checked_mul(u128::from(self.gas_price))
-            .unwrap_or(u128::MAX)
+        u128::from(self.gas_limit).saturating_mul(u128::from(self.gas_price))
     }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
