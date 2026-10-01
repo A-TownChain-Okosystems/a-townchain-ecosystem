@@ -91,7 +91,8 @@ fn committed_state_root(
     if height == 0 {
         return Ok(base_state_root);
     }
-    let validator_commitment = validator_commitment.ok_or("validator snapshot is unavailable for state commitment")?;
+    let validator_commitment =
+        validator_commitment.ok_or("validator snapshot is unavailable for state commitment")?;
     let mut bytes = Vec::from(b"ATC-STATE-COMMIT-V1".as_slice());
     bytes.extend_from_slice(&height.to_be_bytes());
     bytes.extend_from_slice(&base_state_root);
@@ -310,9 +311,12 @@ impl Node {
         let reader = stream.try_clone().map_err(|e| e.to_string())?;
         transport.register_stream_with_peer_id(stream, peer_id.clone())?;
         self.set_transport(transport.clone());
-        transport.send_to(&peer_id, NetworkMessage::BlockRequest {
-            from_height: last.height.saturating_add(1),
-        })?;
+        transport.send_to(
+            &peer_id,
+            NetworkMessage::BlockRequest {
+                from_height: last.height.saturating_add(1),
+            },
+        )?;
         Ok(self.clone().serve_tcp_stream_with_peer(reader, peer_id))
     }
 
@@ -323,7 +327,12 @@ impl Node {
     }
 
     fn sign_block(&self, mut block: Block) -> Result<Block, String> {
-        let Some((validator, seed)) = self.vote_signer.lock().map_err(|_| "vote signer lock poisoned")?.clone() else {
+        let Some((validator, seed)) = self
+            .vote_signer
+            .lock()
+            .map_err(|_| "vote signer lock poisoned")?
+            .clone()
+        else {
             return Err("proposer signing key is not configured".into());
         };
         if validator != block.proposer {
@@ -340,11 +349,23 @@ impl Node {
             .copied()
             .ok_or("block proposer is not registered at block height")?;
         if registered != public_key {
-            return Err("proposer signing key does not match validator identity at block height".into());
+            return Err(
+                "proposer signing key does not match validator identity at block height".into(),
+            );
         }
-        block.signature = signing.sign(&block_signing_bytes(self.chain_id, &block)).to_bytes();
-        block.id = block_id(block.height, block.parent_hash, &block.proposer, block.timestamp,
-            block.tx_root, block.state_root, block.receipt_root, block.signature);
+        block.signature = signing
+            .sign(&block_signing_bytes(self.chain_id, &block))
+            .to_bytes();
+        block.id = block_id(
+            block.height,
+            block.parent_hash,
+            &block.proposer,
+            block.timestamp,
+            block.tx_root,
+            block.state_root,
+            block.receipt_root,
+            block.signature,
+        );
         Ok(block)
     }
 
@@ -368,7 +389,10 @@ impl Node {
 
     fn queue_pending_vote(&self, vote: Vote) -> Result<(), String> {
         self.consensus.verify_vote_signature(&vote)?;
-        let mut pending = self.pending_votes.lock().map_err(|_| "pending vote lock poisoned")?;
+        let mut pending = self
+            .pending_votes
+            .lock()
+            .map_err(|_| "pending vote lock poisoned")?;
         let total: usize = pending.values().map(Vec::len).sum();
         if total >= 4096 {
             return Err("pending vote buffer is full".into());
@@ -401,7 +425,10 @@ impl Node {
         for vote in votes {
             let _ = self.submit_vote(vote);
         }
-        if self.consensus.weighted_finality_at_height(&block.id, block.height) {
+        if self
+            .consensus
+            .weighted_finality_at_height(&block.id, block.height)
+        {
             let _ = self.finalize_weighted(block)?;
         }
         Ok(())
@@ -456,17 +483,24 @@ impl Node {
         self.chain.validate_append(&b)?;
 
         if let Some((activation_height, validators, keys)) = sync_snapshot.as_ref() {
-            if *activation_height > b.height || *activation_height > self.chain.height().saturating_add(1) {
-                return Err("validator snapshot activation is outside the synchronization boundary".into());
+            if *activation_height > b.height
+                || *activation_height > self.chain.height().saturating_add(1)
+            {
+                return Err(
+                    "validator snapshot activation is outside the synchronization boundary".into(),
+                );
             }
             if self.consensus.has_validator_snapshot(*activation_height) {
-                let existing = self.consensus.validator_snapshot_for_height(*activation_height)
+                let existing = self
+                    .consensus
+                    .validator_snapshot_for_height(*activation_height)
                     .ok_or("existing validator snapshot is unavailable")?;
                 if existing.0 != *validators || existing.1 != *keys {
                     return Err("conflicting validator snapshot at activation height".into());
                 }
             }
-            if let Some(existing_for_block) = self.consensus.validator_snapshot_for_height(b.height) {
+            if let Some(existing_for_block) = self.consensus.validator_snapshot_for_height(b.height)
+            {
                 if existing_for_block.0 != *validators || existing_for_block.1 != *keys {
                     return Err("synchronized block conflicts with local validator history".into());
                 }
@@ -480,7 +514,8 @@ impl Node {
             let keys = if let Some((_, _, keys)) = sync_snapshot.as_ref() {
                 keys
             } else {
-                snapshot_keys = self.consensus
+                snapshot_keys = self
+                    .consensus
                     .validator_snapshot_for_height(b.height)
                     .ok_or("validator snapshot is unavailable for block height")?;
                 &snapshot_keys.1
@@ -494,7 +529,8 @@ impl Node {
             key.verify(
                 &block_signing_bytes(self.chain_id, &b),
                 &ed25519_dalek::Signature::from_bytes(&b.signature),
-            ).map_err(|_| "invalid block proposer signature")?;
+            )
+            .map_err(|_| "invalid block proposer signature")?;
         }
 
         let parent = self.chain.last().ok_or("genesis required")?;
@@ -571,24 +607,26 @@ impl Node {
             return Err("network block state/receipt root mismatch".into());
         }
 
-        let storage_result = if let Some((activation_height, validators, keys)) = sync_snapshot.as_ref() {
-            self.storage.commit_block_state_issuance_with_validator_snapshot(
-                b.clone(),
-                &self.state.snapshot(),
-                &self.state.dao_snapshot(),
-                self.state.issued_base_units(),
-                *activation_height,
-                validators,
-                keys,
-            )
-        } else {
-            self.storage.commit_block_state_issuance(
-                b.clone(),
-                &self.state.snapshot(),
-                &self.state.dao_snapshot(),
-                self.state.issued_base_units(),
-            )
-        };
+        let storage_result =
+            if let Some((activation_height, validators, keys)) = sync_snapshot.as_ref() {
+                self.storage
+                    .commit_block_state_issuance_with_validator_snapshot(
+                        b.clone(),
+                        &self.state.snapshot(),
+                        &self.state.dao_snapshot(),
+                        self.state.issued_base_units(),
+                        *activation_height,
+                        validators,
+                        keys,
+                    )
+            } else {
+                self.storage.commit_block_state_issuance(
+                    b.clone(),
+                    &self.state.snapshot(),
+                    &self.state.dao_snapshot(),
+                    self.state.issued_base_units(),
+                )
+            };
         if let Err(e) = storage_result {
             self.state.restore(state_snapshot);
             let _ = self.state.restore_dao(&dao_snapshot);
@@ -597,7 +635,8 @@ impl Node {
         }
         self.chain.append(b.clone())?;
         if let Some((activation_height, validators, keys)) = sync_snapshot {
-            self.consensus.restore_validator_snapshot(activation_height, validators, keys)?;
+            self.consensus
+                .restore_validator_snapshot(activation_height, validators, keys)?;
         }
         for tx in &b.transactions {
             self.pool.mark_in_block(&tx.id);
@@ -613,20 +652,36 @@ impl Node {
         self.handle_network_message_from_peer(message, "")
     }
 
-    fn handle_network_message_from_peer(&self, message: NetworkMessage, peer_id: &str) -> Result<(), String> {
-        let _apply_guard = self.network_apply_lock.lock().map_err(|_| "network apply lock poisoned")?;
+    fn handle_network_message_from_peer(
+        &self,
+        message: NetworkMessage,
+        peer_id: &str,
+    ) -> Result<(), String> {
+        let _apply_guard = self
+            .network_apply_lock
+            .lock()
+            .map_err(|_| "network apply lock poisoned")?;
         match message {
             NetworkMessage::Block(b) => self.import_block(b),
-            NetworkMessage::BlockWithValidatorSnapshot { block, activation_height, validators, validator_keys } => {
-                self.import_block_internal(block, Some((activation_height, validators, validator_keys)))
-            }
+            NetworkMessage::BlockWithValidatorSnapshot {
+                block,
+                activation_height,
+                validators,
+                validator_keys,
+            } => self.import_block_internal(
+                block,
+                Some((activation_height, validators, validator_keys)),
+            ),
             NetworkMessage::Vote(v) => {
                 let block_id = v.block;
                 let Some(block) = self.storage.find_block_by_id(block_id) else {
                     return self.queue_pending_vote(v);
                 };
                 self.submit_vote(v)?;
-                if self.consensus.weighted_finality_at_height(&block_id, block.height) {
+                if self
+                    .consensus
+                    .weighted_finality_at_height(&block_id, block.height)
+                {
                     let _ = self.finalize_weighted(&block)?;
                 }
                 Ok(())
@@ -641,19 +696,27 @@ impl Node {
                 if peer_id.is_empty() {
                     return Err("block sync request has no authenticated peer context".into());
                 }
-                let transport = self.transport.lock().map_err(|_| "transport lock poisoned")?.clone()
+                let transport = self
+                    .transport
+                    .lock()
+                    .map_err(|_| "transport lock poisoned")?
+                    .clone()
                     .ok_or("network transport is not configured")?;
                 for h in from_height..=self.chain.height() {
                     if let Some(b) = self.storage.block(h) {
-                        let (activation_height, validators, validator_keys) = self.consensus
+                        let (activation_height, validators, validator_keys) = self
+                            .consensus
                             .validator_snapshot_with_activation_for_height(h)
                             .ok_or("validator snapshot is unavailable for synchronized block")?;
-                        transport.send_to(peer_id, NetworkMessage::BlockWithValidatorSnapshot {
-                            block: b,
-                            activation_height,
-                            validators,
-                            validator_keys,
-                        })?;
+                        transport.send_to(
+                            peer_id,
+                            NetworkMessage::BlockWithValidatorSnapshot {
+                                block: b,
+                                activation_height,
+                                validators,
+                                validator_keys,
+                            },
+                        )?;
                     }
                 }
                 Ok(())
@@ -688,7 +751,8 @@ impl Node {
         // replaying every historical snapshot into the mutable registry would
         // resurrect validators that were later unregistered or slashed.
         for (height, (validators, keys)) in &recovered_validator_snapshots {
-            n.consensus.restore_validator_snapshot(*height, validators.clone(), keys.clone())?;
+            n.consensus
+                .restore_validator_snapshot(*height, validators.clone(), keys.clone())?;
         }
         if let Some((_, (validators, keys))) = recovered_validator_snapshots.last_key_value() {
             for (address, stake) in validators {
@@ -753,7 +817,9 @@ impl Node {
                     return Err("validator snapshot is beyond the next activation height".into());
                 }
                 if height > 0 && height <= last.height && n.storage.block(height - 1).is_none() {
-                    return Err("validator snapshot references missing activation predecessor".into());
+                    return Err(
+                        "validator snapshot references missing activation predecessor".into(),
+                    );
                 }
             }
             n.consensus.set_height(last.height);
@@ -851,8 +917,14 @@ impl Node {
             self.consensus.validator_snapshot_commitment(height),
         )?;
         let b = self.sign_block(Block::new(
-            height, parent.id, self.proposer.clone(), t, Vec::new(),
-            state_root, receipts::root(&[]), [0; 64],
+            height,
+            parent.id,
+            self.proposer.clone(),
+            t,
+            Vec::new(),
+            state_root,
+            receipts::root(&[]),
+            [0; 64],
         ))?;
         self.chain.validate_append(&b)?;
         if let Err(e) = self.storage.commit_block_state_issuance(
@@ -944,8 +1016,14 @@ impl Node {
         )?;
         let receipt_root = receipts::root(&receipts);
         let b = self.sign_block(Block::new(
-            block_height, parent.id, self.proposer.clone(), t, txs,
-            new_root, receipt_root, [0; 64],
+            block_height,
+            parent.id,
+            self.proposer.clone(),
+            t,
+            txs,
+            new_root,
+            receipt_root,
+            [0; 64],
         ))?;
         self.chain.validate_append(&b)?;
         if let Err(e) = self.storage.commit_block_state_issuance(
@@ -982,7 +1060,10 @@ impl Node {
     }
 
     pub fn register_validator(&self, address: String, stake: u128) -> Result<(), String> {
-        let activation_height = if self.consensus.has_validator_snapshot(self.consensus.height()) {
+        let activation_height = if self
+            .consensus
+            .has_validator_snapshot(self.consensus.height())
+        {
             self.consensus.height().saturating_add(1)
         } else {
             self.consensus.height()
@@ -994,7 +1075,8 @@ impl Node {
         // commits the complete registry once the Ed25519 key is known.
         if self.consensus.validator_snapshot_with_keys().is_ok() {
             if let Err(e) = self.persist_validator_snapshot(activation_height) {
-                self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
+                self.consensus
+                    .restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
                 return Err(e);
             }
         }
@@ -1016,8 +1098,15 @@ impl Node {
             .restore_validator_snapshot(height, validators, keys)
     }
 
-    pub fn register_validator_key(&self, address: &str, public_key: [u8; 32]) -> Result<(), String> {
-        let activation_height = if self.consensus.has_validator_snapshot(self.consensus.height()) {
+    pub fn register_validator_key(
+        &self,
+        address: &str,
+        public_key: [u8; 32],
+    ) -> Result<(), String> {
+        let activation_height = if self
+            .consensus
+            .has_validator_snapshot(self.consensus.height())
+        {
             self.consensus.height().saturating_add(1)
         } else {
             self.consensus.height()
@@ -1025,13 +1114,18 @@ impl Node {
         let previous = self.consensus.mutable_validator_state()?;
         self.consensus.register_validator_key(address, public_key)?;
         if let Err(e) = self.persist_validator_snapshot(activation_height) {
-            self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
+            self.consensus
+                .restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
             return Err(e);
         }
         Ok(())
     }
 
-    pub fn slash_validator(&self, evidence: SlashingEvidence, penalty: u128) -> Result<u128, String> {
+    pub fn slash_validator(
+        &self,
+        evidence: SlashingEvidence,
+        penalty: u128,
+    ) -> Result<u128, String> {
         if evidence.height > self.chain.height() {
             return Err("slashing evidence is above current chain height".into());
         }
@@ -1047,7 +1141,8 @@ impl Node {
         // pre-slash live registry so callers cannot continue with state that will
         // disappear after restart.
         if let Err(e) = self.persist_validator_snapshot(activation_height) {
-            self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
+            self.consensus
+                .restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
             return Err(e);
         }
 
@@ -1071,14 +1166,18 @@ impl Node {
         self.consensus.unregister_validator(address);
         let activation_height = self.consensus.height().saturating_add(1);
         if let Err(e) = self.persist_validator_snapshot(activation_height) {
-            self.consensus.restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
+            self.consensus
+                .restore_mutable_validator_state(previous.0, previous.1, previous.2)?;
             return Err(e);
         }
         Ok(())
     }
 
     pub fn submit_vote(&self, vote: Vote) -> Result<(), String> {
-        let block = self.storage.find_block_by_id(vote.block).ok_or("vote references unknown block")?;
+        let block = self
+            .storage
+            .find_block_by_id(vote.block)
+            .ok_or("vote references unknown block")?;
         self.consensus.vote_at_height(vote, block.height)
     }
 
@@ -1126,7 +1225,8 @@ mod tests {
     use super::*;
 
     #[test]
-    fn incomplete_validator_registration_is_pending_until_key_binding_and_survives_only_after_completion() {
+    fn incomplete_validator_registration_is_pending_until_key_binding_and_survives_only_after_completion(
+    ) {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-bootstrap-pending-{}-{}",
             std::process::id(),
@@ -1145,24 +1245,51 @@ mod tests {
 
         let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         assert_eq!(reopened.consensus.validator_stake("validator-a"), 0);
-        assert!(reopened.consensus.validator_public_key("validator-a").is_none());
+        assert!(reopened
+            .consensus
+            .validator_public_key("validator-a")
+            .is_none());
 
         // Once the identity is complete, the snapshot becomes durable.
-        reopened.register_validator("validator-a".into(), 100).unwrap();
-        reopened.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
-        reopened.register_validator("validator-b".into(), 50).unwrap();
-        reopened.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        reopened
+            .register_validator("validator-a".into(), 100)
+            .unwrap();
+        reopened
+            .register_validator_key("validator-a", key_a.verifying_key().to_bytes())
+            .unwrap();
+        reopened
+            .register_validator("validator-b".into(), 50)
+            .unwrap();
+        reopened
+            .register_validator_key("validator-b", key_b.verifying_key().to_bytes())
+            .unwrap();
         reopened.finalize_validator_snapshot().unwrap();
 
         drop(reopened);
         let recovered = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
-        let snapshot = recovered.consensus.validator_snapshot_for_height(0).unwrap();
+        let snapshot = recovered
+            .consensus
+            .validator_snapshot_for_height(0)
+            .unwrap();
         assert_eq!(snapshot.0.get("validator-a"), Some(&100));
         assert_eq!(snapshot.0.get("validator-b"), Some(&50));
-        assert_eq!(snapshot.1.get("validator-a"), Some(&key_a.verifying_key().to_bytes()));
-        assert_eq!(snapshot.1.get("validator-b"), Some(&key_b.verifying_key().to_bytes()));
+        assert_eq!(
+            snapshot.1.get("validator-a"),
+            Some(&key_a.verifying_key().to_bytes())
+        );
+        assert_eq!(
+            snapshot.1.get("validator-b"),
+            Some(&key_b.verifying_key().to_bytes())
+        );
 
-        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+        for suffix in [
+            "",
+            ".state",
+            ".validators",
+            ".finality",
+            ".slashing",
+            ".issuance",
+        ] {
             let target = if suffix.is_empty() {
                 path.clone()
             } else {
@@ -1183,7 +1310,8 @@ mod tests {
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         node.create_genesis_with_proposer(1, "genesis").unwrap();
         node.register_validator("validator-a".into(), 100).unwrap();
-        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes())
+            .unwrap();
         node.set_vote_signer("validator-a", [61u8; 32]);
 
         let h1 = node.produce_reward_block(2).unwrap();
@@ -1201,21 +1329,34 @@ mod tests {
 
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[62u8; 32]);
         node.register_validator("validator-b".into(), 50).unwrap();
-        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes())
+            .unwrap();
         let pending = node.consensus.validator_snapshot_for_height(2).unwrap();
         assert_eq!(pending.0.get("validator-b"), Some(&50));
         let h2 = node.produce_reward_block(3).unwrap();
         assert_eq!(h2.height, 2);
-        assert_eq!(h2.state_root, committed_state_root(
-            node.state.root(),
-            2,
-            node.consensus.validator_snapshot_commitment(2),
-        ).unwrap());
+        assert_eq!(
+            h2.state_root,
+            committed_state_root(
+                node.state.root(),
+                2,
+                node.consensus.validator_snapshot_commitment(2),
+            )
+            .unwrap()
+        );
 
         drop(node);
         let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         assert_eq!(reopened.chain.last().unwrap().id, h2.id);
-        assert_eq!(reopened.consensus.validator_snapshot_for_height(2).unwrap().0.get("validator-b"), Some(&50));
+        assert_eq!(
+            reopened
+                .consensus
+                .validator_snapshot_for_height(2)
+                .unwrap()
+                .0
+                .get("validator-b"),
+            Some(&50)
+        );
         assert_eq!(
             h2.state_root,
             committed_state_root(
@@ -1226,8 +1367,19 @@ mod tests {
             .unwrap()
         );
 
-        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
-            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+        for suffix in [
+            "",
+            ".state",
+            ".validators",
+            ".finality",
+            ".slashing",
+            ".issuance",
+        ] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
             let _ = std::fs::remove_file(target);
         }
     }
@@ -1243,7 +1395,8 @@ mod tests {
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         node.create_genesis_with_proposer(1, "genesis").unwrap();
         node.register_validator("validator-a".into(), 100).unwrap();
-        node.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key.verifying_key().to_bytes())
+            .unwrap();
         node.produce_reward_block(2).unwrap();
 
         node.unregister_validator("validator-a").unwrap();
@@ -1252,9 +1405,19 @@ mod tests {
         drop(node);
         let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         assert_eq!(reopened.consensus.validator_stake("validator-a"), 0);
-        assert!(reopened.consensus.validator_public_key("validator-a").is_none());
+        assert!(reopened
+            .consensus
+            .validator_public_key("validator-a")
+            .is_none());
 
-        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+        for suffix in [
+            "",
+            ".state",
+            ".validators",
+            ".finality",
+            ".slashing",
+            ".issuance",
+        ] {
             let target = if suffix.is_empty() {
                 path.clone()
             } else {
@@ -1276,10 +1439,12 @@ mod tests {
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         node.create_genesis_with_proposer(1, "genesis").unwrap();
         node.register_validator("validator-a".into(), 100).unwrap();
-        node.register_validator_key("validator-a", old_key.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", old_key.verifying_key().to_bytes())
+            .unwrap();
         node.produce_reward_block(2).unwrap();
 
-        node.register_validator_key("validator-a", new_key.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", new_key.verifying_key().to_bytes())
+            .unwrap();
         assert_eq!(
             node.consensus.validator_snapshot_for_height(1).unwrap().1["validator-a"],
             old_key.verifying_key().to_bytes()
@@ -1292,15 +1457,30 @@ mod tests {
         drop(node);
         let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         assert_eq!(
-            reopened.consensus.validator_snapshot_for_height(1).unwrap().1["validator-a"],
+            reopened
+                .consensus
+                .validator_snapshot_for_height(1)
+                .unwrap()
+                .1["validator-a"],
             old_key.verifying_key().to_bytes()
         );
         assert_eq!(
-            reopened.consensus.validator_snapshot_for_height(2).unwrap().1["validator-a"],
+            reopened
+                .consensus
+                .validator_snapshot_for_height(2)
+                .unwrap()
+                .1["validator-a"],
             new_key.verifying_key().to_bytes()
         );
 
-        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+        for suffix in [
+            "",
+            ".state",
+            ".validators",
+            ".finality",
+            ".slashing",
+            ".issuance",
+        ] {
             let target = if suffix.is_empty() {
                 path.clone()
             } else {
@@ -1324,18 +1504,24 @@ mod tests {
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         node.create_genesis_with_proposer(1, "genesis").unwrap();
         node.register_validator("validator-a".into(), 100).unwrap();
-        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes())
+            .unwrap();
         node.produce_reward_block(2).unwrap();
 
         // Every mutation below targets the same pending activation height (2).
         node.register_validator("validator-b".into(), 50).unwrap();
-        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
-        node.register_validator_key("validator-a", key_c.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes())
+            .unwrap();
+        node.register_validator_key("validator-a", key_c.verifying_key().to_bytes())
+            .unwrap();
         node.unregister_validator("validator-b").unwrap();
 
         let pending = node.consensus.validator_snapshot_for_height(2).unwrap();
         assert_eq!(pending.0.get("validator-a"), Some(&100));
-        assert_eq!(pending.1.get("validator-a"), Some(&key_c.verifying_key().to_bytes()));
+        assert_eq!(
+            pending.1.get("validator-a"),
+            Some(&key_c.verifying_key().to_bytes())
+        );
         assert!(!pending.0.contains_key("validator-b"));
         assert!(!pending.1.contains_key("validator-b"));
 
@@ -1344,11 +1530,21 @@ mod tests {
         let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         let recovered = reopened.consensus.validator_snapshot_for_height(2).unwrap();
         assert_eq!(recovered.0.get("validator-a"), Some(&100));
-        assert_eq!(recovered.1.get("validator-a"), Some(&key_c.verifying_key().to_bytes()));
+        assert_eq!(
+            recovered.1.get("validator-a"),
+            Some(&key_c.verifying_key().to_bytes())
+        );
         assert!(!recovered.0.contains_key("validator-b"));
         assert!(!recovered.1.contains_key("validator-b"));
 
-        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+        for suffix in [
+            "",
+            ".state",
+            ".validators",
+            ".finality",
+            ".slashing",
+            ".issuance",
+        ] {
             let target = if suffix.is_empty() {
                 path.clone()
             } else {
@@ -1363,15 +1559,23 @@ mod tests {
         let producer = Node::new(658467, "validator-a".into());
         producer.create_genesis_with_proposer(1, "genesis").unwrap();
         let key = ed25519_dalek::SigningKey::from_bytes(&[63u8; 32]);
-        producer.register_validator("validator-a".into(), 100).unwrap();
-        producer.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+        producer
+            .register_validator("validator-a".into(), 100)
+            .unwrap();
+        producer
+            .register_validator_key("validator-a", key.verifying_key().to_bytes())
+            .unwrap();
         producer.set_vote_signer("validator-a", [63u8; 32]);
         let block = producer.produce_reward_block(2).unwrap();
 
         let receiver = Node::new(658467, "validator-a".into());
         receiver.create_genesis_with_proposer(1, "genesis").unwrap();
-        receiver.register_validator("validator-a".into(), 200).unwrap();
-        receiver.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+        receiver
+            .register_validator("validator-a".into(), 200)
+            .unwrap();
+        receiver
+            .register_validator_key("validator-a", key.verifying_key().to_bytes())
+            .unwrap();
 
         let before_root = receiver.state.root();
         let before_height = receiver.chain.height();
@@ -1393,7 +1597,8 @@ mod tests {
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         node.create_genesis_with_proposer(1, "genesis").unwrap();
         node.register_validator("validator-a".into(), 100).unwrap();
-        node.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key.verifying_key().to_bytes())
+            .unwrap();
         node.set_vote_signer("validator-a", [75u8; 32]);
         let _h1 = node.produce_reward_block(2).unwrap();
 
@@ -1424,7 +1629,11 @@ mod tests {
         };
         node.slash_validator(evidence, 25).unwrap();
         assert_eq!(
-            node.consensus.validator_snapshot_for_height(2).unwrap().0.get("validator-a"),
+            node.consensus
+                .validator_snapshot_for_height(2)
+                .unwrap()
+                .0
+                .get("validator-a"),
             Some(&(before - 25))
         );
 
@@ -1432,7 +1641,12 @@ mod tests {
         let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         assert_eq!(reopened.chain.height(), 1);
         assert_eq!(
-            reopened.consensus.validator_snapshot_for_height(2).unwrap().0.get("validator-a"),
+            reopened
+                .consensus
+                .validator_snapshot_for_height(2)
+                .unwrap()
+                .0
+                .get("validator-a"),
             Some(&(before - 25))
         );
         reopened.set_vote_signer("validator-a", [75u8; 32]);
@@ -1444,11 +1658,23 @@ mod tests {
                 reopened.state.root(),
                 2,
                 reopened.consensus.validator_snapshot_commitment(2),
-            ).unwrap()
+            )
+            .unwrap()
         );
 
-        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
-            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+        for suffix in [
+            "",
+            ".state",
+            ".validators",
+            ".finality",
+            ".slashing",
+            ".issuance",
+        ] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
             let _ = std::fs::remove_file(target);
         }
     }
@@ -1460,13 +1686,15 @@ mod tests {
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[71u8; 32]);
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[72u8; 32]);
         node.register_validator("validator-a".into(), 100).unwrap();
-        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes())
+            .unwrap();
 
         let h1 = node.produce_reward_block(2).unwrap();
         assert_eq!(h1.height, 1);
 
         node.register_validator("validator-b".into(), 50).unwrap();
-        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes())
+            .unwrap();
         let snap = node.consensus.validator_snapshot_for_height(2).unwrap();
         assert_eq!(snap.0.get("validator-a"), Some(&100));
         assert_eq!(snap.0.get("validator-b"), Some(&50));
@@ -1479,7 +1707,8 @@ mod tests {
                 node.state.root(),
                 2,
                 node.consensus.validator_snapshot_commitment(2),
-            ).unwrap()
+            )
+            .unwrap()
         );
     }
 
@@ -1490,9 +1719,11 @@ mod tests {
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[73u8; 32]);
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[74u8; 32]);
         node.register_validator("validator-a".into(), 100).unwrap();
-        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key_a.verifying_key().to_bytes())
+            .unwrap();
         node.register_validator("validator-b".into(), 100).unwrap();
-        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes())
+            .unwrap();
         let _ = node.produce_reward_block(2).unwrap();
 
         node.unregister_validator("validator-b").unwrap();
@@ -1502,7 +1733,12 @@ mod tests {
 
         let h2 = node.produce_reward_block(3).unwrap();
         assert_eq!(h2.height, 2);
-        assert!(!node.consensus.validator_snapshot_for_height(2).unwrap().0.contains_key("validator-b"));
+        assert!(!node
+            .consensus
+            .validator_snapshot_for_height(2)
+            .unwrap()
+            .0
+            .contains_key("validator-b"));
 
         // A slashing transition must produce the same height-scoped live snapshot.
         let before = node.consensus.validator_stake("validator-a");
@@ -1533,7 +1769,11 @@ mod tests {
         let applied = node.slash_validator(evidence, 25).unwrap();
         assert_eq!(applied, 25);
         assert_eq!(
-            node.consensus.validator_snapshot_for_height(3).unwrap().0.get("validator-a"),
+            node.consensus
+                .validator_snapshot_for_height(3)
+                .unwrap()
+                .0
+                .get("validator-a"),
             Some(&(before - 25))
         );
         let h3 = node.produce_reward_block(4).unwrap();
@@ -1544,12 +1784,14 @@ mod tests {
                 node.state.root(),
                 3,
                 node.consensus.validator_snapshot_commitment(3),
-            ).unwrap()
+            )
+            .unwrap()
         );
     }
 
     #[test]
-    fn multiple_pending_validator_revisions_collapse_to_latest_after_restart() -> Result<(), String> {
+    fn multiple_pending_validator_revisions_collapse_to_latest_after_restart() -> Result<(), String>
+    {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-revisions-restart-{}-{}",
             std::process::id(),
@@ -1562,7 +1804,8 @@ mod tests {
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         node.create_genesis_with_proposer(1, "genesis").unwrap();
         node.register_validator("validator-a".into(), 100).unwrap();
-        node.register_validator_key("validator-a", key_a_old.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key_a_old.verifying_key().to_bytes())
+            .unwrap();
         node.set_vote_signer("validator-a", [76u8; 32]);
         node.produce_reward_block(2).unwrap();
 
@@ -1570,7 +1813,8 @@ mod tests {
         // The durable journal therefore contains several complete revisions; recovery
         // must retain only the last revision at height 2.
         node.register_validator("validator-b".into(), 50).unwrap();
-        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-b", key_b.verifying_key().to_bytes())
+            .unwrap();
         node.register_validator_key("validator-a", key_a_new.verifying_key().to_bytes())?;
 
         let before_slash = node.consensus.validator_stake("validator-a");
@@ -1599,14 +1843,20 @@ mod tests {
             }
         };
         node.slash_validator(evidence, 25).unwrap();
-        assert_eq!(node.consensus.validator_stake("validator-a"), before_slash - 25);
+        assert_eq!(
+            node.consensus.validator_stake("validator-a"),
+            before_slash - 25
+        );
 
         // Final revision at H+1 removes B again. A must retain the reduced stake
         // and the rotated key.
         node.unregister_validator("validator-b").unwrap();
         let live = node.consensus.validator_snapshot_for_height(2).unwrap();
         assert_eq!(live.0.get("validator-a"), Some(&(before_slash - 25)));
-        assert_eq!(live.1.get("validator-a"), Some(&key_a_new.verifying_key().to_bytes()));
+        assert_eq!(
+            live.1.get("validator-a"),
+            Some(&key_a_new.verifying_key().to_bytes())
+        );
         assert!(!live.0.contains_key("validator-b"));
         assert!(!live.1.contains_key("validator-b"));
 
@@ -1615,7 +1865,10 @@ mod tests {
         let reopened = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         let recovered = reopened.consensus.validator_snapshot_for_height(2).unwrap();
         assert_eq!(recovered.0.get("validator-a"), Some(&(before_slash - 25)));
-        assert_eq!(recovered.1.get("validator-a"), Some(&key_a_new.verifying_key().to_bytes()));
+        assert_eq!(
+            recovered.1.get("validator-a"),
+            Some(&key_a_new.verifying_key().to_bytes())
+        );
         assert!(!recovered.0.contains_key("validator-b"));
         assert!(!recovered.1.contains_key("validator-b"));
 
@@ -1630,10 +1883,18 @@ mod tests {
                 reopened.state.root(),
                 2,
                 reopened.consensus.validator_snapshot_commitment(2),
-            ).unwrap()
+            )
+            .unwrap()
         );
 
-        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+        for suffix in [
+            "",
+            ".state",
+            ".validators",
+            ".finality",
+            ".slashing",
+            ".issuance",
+        ] {
             let target = if suffix.is_empty() {
                 path.clone()
             } else {
@@ -1658,17 +1919,31 @@ mod tests {
             let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
             node.create_genesis_with_proposer(0, "atc-genesis").unwrap();
             node.register_validator("validator-a".into(), 100).unwrap();
-            node.register_validator_key("validator-a", public_key).unwrap();
-            assert_eq!(node.consensus.validator_public_key("validator-a"), Some(public_key));
+            node.register_validator_key("validator-a", public_key)
+                .unwrap();
+            assert_eq!(
+                node.consensus.validator_public_key("validator-a"),
+                Some(public_key)
+            );
         }
 
         {
             let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
             assert_eq!(node.consensus.validator_stake("validator-a"), 100);
-            assert_eq!(node.consensus.validator_public_key("validator-a"), Some(public_key));
+            assert_eq!(
+                node.consensus.validator_public_key("validator-a"),
+                Some(public_key)
+            );
         }
 
-        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+        for suffix in [
+            "",
+            ".state",
+            ".validators",
+            ".finality",
+            ".slashing",
+            ".issuance",
+        ] {
             let target = if suffix.is_empty() {
                 path.clone()
             } else {
@@ -1698,9 +1973,28 @@ mod tests {
     fn configure_two_validator_node(node: &Node, proposer: &str) {
         node.register_validator("validator-a".into(), 2).unwrap();
         node.register_validator("validator-b".into(), 1).unwrap();
-        node.register_validator_key("validator-a", ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]).verifying_key().to_bytes()).unwrap();
-        node.register_validator_key("validator-b", ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]).verifying_key().to_bytes()).unwrap();
-        node.set_vote_signer(proposer, if proposer == "validator-a" { [1u8; 32] } else { [2u8; 32] });
+        node.register_validator_key(
+            "validator-a",
+            ed25519_dalek::SigningKey::from_bytes(&[1u8; 32])
+                .verifying_key()
+                .to_bytes(),
+        )
+        .unwrap();
+        node.register_validator_key(
+            "validator-b",
+            ed25519_dalek::SigningKey::from_bytes(&[2u8; 32])
+                .verifying_key()
+                .to_bytes(),
+        )
+        .unwrap();
+        node.set_vote_signer(
+            proposer,
+            if proposer == "validator-a" {
+                [1u8; 32]
+            } else {
+                [2u8; 32]
+            },
+        );
     }
 
     #[test]
@@ -1727,11 +2021,15 @@ mod tests {
             .to_bytes();
 
         // Network reordering: vote arrives before the corresponding block.
-        receiver.handle_network_message(NetworkMessage::Vote(vote.clone())).unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Vote(vote.clone()))
+            .unwrap();
         assert_eq!(receiver.consensus.finalized(), None);
 
         // The later block arrival resolves the canonical height and replays the buffered vote.
-        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Block(block.clone()))
+            .unwrap();
         assert_eq!(receiver.chain.height(), 1);
         assert_eq!(receiver.consensus.finalized(), Some((1, block.id)));
     }
@@ -1750,14 +2048,20 @@ mod tests {
 
         let before = receiver.state.root();
         assert_eq!(
-            receiver.handle_network_message(NetworkMessage::Block(block2.clone())).unwrap_err(),
+            receiver
+                .handle_network_message(NetworkMessage::Block(block2.clone()))
+                .unwrap_err(),
             "non-sequential height"
         );
         assert_eq!(receiver.chain.height(), 0);
         assert_eq!(receiver.state.root(), before);
 
-        receiver.handle_network_message(NetworkMessage::Block(block1)).unwrap();
-        receiver.handle_network_message(NetworkMessage::Block(block2.clone())).unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Block(block1))
+            .unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Block(block2.clone()))
+            .unwrap();
         assert_eq!(receiver.chain.height(), 2);
         assert_eq!(receiver.chain.last().unwrap().id, block2.id);
     }
@@ -1784,10 +2088,16 @@ mod tests {
             .sign(&consensus::vote_signing_bytes(658467, &vote))
             .to_bytes();
 
-        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap();
-        receiver.handle_network_message(NetworkMessage::Vote(vote.clone())).unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Block(block.clone()))
+            .unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Vote(vote.clone()))
+            .unwrap();
         assert_eq!(
-            receiver.handle_network_message(NetworkMessage::Vote(vote)).unwrap_err(),
+            receiver
+                .handle_network_message(NetworkMessage::Vote(vote))
+                .unwrap_err(),
             "duplicate voter"
         );
     }
@@ -1818,7 +2128,11 @@ mod tests {
         let source = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         let capture = Arc::new(CaptureTransport::default());
         source.set_transport(capture.clone());
-        source.handle_network_message(NetworkMessage::BlockRequest { from_height: block.height }).unwrap();
+        source
+            .handle_network_message(NetworkMessage::BlockRequest {
+                from_height: block.height,
+            })
+            .unwrap();
         let messages = capture.messages.lock().unwrap().clone();
         assert_eq!(messages, vec![NetworkMessage::Block(block.clone())]);
         for message in messages {
@@ -1841,7 +2155,9 @@ mod tests {
 
         // One delayed vote after restart is still insufficient: the node did
         // not reconstruct a phantom vote from pre-restart memory.
-        receiver.handle_network_message(NetworkMessage::Vote(late_vote)).unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Vote(late_vote))
+            .unwrap();
         assert_eq!(receiver.consensus.finalized(), None);
 
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
@@ -1856,16 +2172,38 @@ mod tests {
             .sign(&consensus::vote_signing_bytes(658467, &second_vote))
             .to_bytes();
 
-        receiver.handle_network_message(NetworkMessage::Vote(second_vote)).unwrap();
-        assert_eq!(receiver.consensus.finalized(), Some((block.height, block.id)));
+        receiver
+            .handle_network_message(NetworkMessage::Vote(second_vote))
+            .unwrap();
+        assert_eq!(
+            receiver.consensus.finalized(),
+            Some((block.height, block.id))
+        );
 
         drop(receiver);
         let reopened = Node::open_storage(658467, "validator-b".into(), &path).unwrap();
-        assert_eq!(reopened.consensus.finalized(), Some((block.height, block.id)));
-        assert_eq!(reopened.storage.recover_finalized().unwrap(), Some((block.height, block.id)));
+        assert_eq!(
+            reopened.consensus.finalized(),
+            Some((block.height, block.id))
+        );
+        assert_eq!(
+            reopened.storage.recover_finalized().unwrap(),
+            Some((block.height, block.id))
+        );
 
-        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
-            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+        for suffix in [
+            "",
+            ".state",
+            ".validators",
+            ".finality",
+            ".slashing",
+            ".issuance",
+        ] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
             let _ = std::fs::remove_file(target);
         }
     }
@@ -1873,12 +2211,16 @@ mod tests {
     #[test]
     fn conflicting_same_height_block_is_rejected_after_finality() {
         let producer_a = Node::new(658467, "validator-a".into());
-        producer_a.create_genesis_with_proposer(1, "genesis").unwrap();
+        producer_a
+            .create_genesis_with_proposer(1, "genesis")
+            .unwrap();
         configure_two_validator_node(&producer_a, "validator-a");
         let canonical = producer_a.produce_reward_block(2).unwrap();
 
         let producer_b = Node::new(658467, "validator-a".into());
-        producer_b.create_genesis_with_proposer(1, "genesis").unwrap();
+        producer_b
+            .create_genesis_with_proposer(1, "genesis")
+            .unwrap();
         configure_two_validator_node(&producer_b, "validator-a");
         let conflicting = producer_b.produce_reward_block(3).unwrap();
         assert_ne!(canonical.id, conflicting.id);
@@ -1888,31 +2230,66 @@ mod tests {
         let receiver = Node::new(658467, "validator-b".into());
         receiver.create_genesis_with_proposer(1, "genesis").unwrap();
         configure_two_validator_node(&receiver, "validator-b");
-        receiver.handle_network_message(NetworkMessage::Block(canonical.clone())).unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Block(canonical.clone()))
+            .unwrap();
 
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
-        let mut va = Vote { block: canonical.id, voter: "validator-a".into(), approve: true, signature: [0;64], public_key: key_a.verifying_key().to_bytes() };
-        va.signature = key_a.sign(&consensus::vote_signing_bytes(658467, &va)).to_bytes();
+        let mut va = Vote {
+            block: canonical.id,
+            voter: "validator-a".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: key_a.verifying_key().to_bytes(),
+        };
+        va.signature = key_a
+            .sign(&consensus::vote_signing_bytes(658467, &va))
+            .to_bytes();
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
-        let mut vb = Vote { block: canonical.id, voter: "validator-b".into(), approve: true, signature: [0;64], public_key: key_b.verifying_key().to_bytes() };
-        vb.signature = key_b.sign(&consensus::vote_signing_bytes(658467, &vb)).to_bytes();
-        receiver.handle_network_message(NetworkMessage::Vote(va)).unwrap();
-        receiver.handle_network_message(NetworkMessage::Vote(vb)).unwrap();
-        assert_eq!(receiver.consensus.finalized(), Some((canonical.height, canonical.id)));
+        let mut vb = Vote {
+            block: canonical.id,
+            voter: "validator-b".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: key_b.verifying_key().to_bytes(),
+        };
+        vb.signature = key_b
+            .sign(&consensus::vote_signing_bytes(658467, &vb))
+            .to_bytes();
+        receiver
+            .handle_network_message(NetworkMessage::Vote(va))
+            .unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Vote(vb))
+            .unwrap();
+        assert_eq!(
+            receiver.consensus.finalized(),
+            Some((canonical.height, canonical.id))
+        );
 
         let before_root = receiver.state.root();
-        assert!(receiver.handle_network_message(NetworkMessage::Block(conflicting)).is_err());
+        assert!(receiver
+            .handle_network_message(NetworkMessage::Block(conflicting))
+            .is_err());
         assert_eq!(receiver.chain.height(), canonical.height);
         assert_eq!(receiver.chain.last().unwrap().id, canonical.id);
         assert_eq!(receiver.state.root(), before_root);
-        assert_eq!(receiver.consensus.finalized(), Some((canonical.height, canonical.id)));
-        assert_eq!(receiver.storage.block(canonical.height).unwrap().id, canonical.id);
+        assert_eq!(
+            receiver.consensus.finalized(),
+            Some((canonical.height, canonical.id))
+        );
+        assert_eq!(
+            receiver.storage.block(canonical.height).unwrap().id,
+            canonical.id
+        );
     }
 
     #[test]
     fn longer_divergent_chain_cannot_reorg_finalized_prefix() {
         let canonical = Node::new(658467, "validator-a".into());
-        canonical.create_genesis_with_proposer(1, "genesis").unwrap();
+        canonical
+            .create_genesis_with_proposer(1, "genesis")
+            .unwrap();
         configure_two_validator_node(&canonical, "validator-a");
         let canonical_h1 = canonical.produce_reward_block(2).unwrap();
         let canonical_h2 = canonical.produce_reward_block(3).unwrap();
@@ -1929,27 +2306,61 @@ mod tests {
         let receiver = Node::new(658467, "validator-b".into());
         receiver.create_genesis_with_proposer(1, "genesis").unwrap();
         configure_two_validator_node(&receiver, "validator-b");
-        receiver.handle_network_message(NetworkMessage::Block(canonical_h1.clone())).unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Block(canonical_h1.clone()))
+            .unwrap();
 
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
-        let mut vote_a = Vote { block: canonical_h1.id, voter: "validator-a".into(), approve: true, signature: [0;64], public_key: key_a.verifying_key().to_bytes() };
-        vote_a.signature = key_a.sign(&consensus::vote_signing_bytes(658467, &vote_a)).to_bytes();
+        let mut vote_a = Vote {
+            block: canonical_h1.id,
+            voter: "validator-a".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: key_a.verifying_key().to_bytes(),
+        };
+        vote_a.signature = key_a
+            .sign(&consensus::vote_signing_bytes(658467, &vote_a))
+            .to_bytes();
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
-        let mut vote_b = Vote { block: canonical_h1.id, voter: "validator-b".into(), approve: true, signature: [0;64], public_key: key_b.verifying_key().to_bytes() };
-        vote_b.signature = key_b.sign(&consensus::vote_signing_bytes(658467, &vote_b)).to_bytes();
-        receiver.handle_network_message(NetworkMessage::Vote(vote_a)).unwrap();
-        receiver.handle_network_message(NetworkMessage::Vote(vote_b)).unwrap();
-        assert_eq!(receiver.consensus.finalized(), Some((canonical_h1.height, canonical_h1.id)));
+        let mut vote_b = Vote {
+            block: canonical_h1.id,
+            voter: "validator-b".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: key_b.verifying_key().to_bytes(),
+        };
+        vote_b.signature = key_b
+            .sign(&consensus::vote_signing_bytes(658467, &vote_b))
+            .to_bytes();
+        receiver
+            .handle_network_message(NetworkMessage::Vote(vote_a))
+            .unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Vote(vote_b))
+            .unwrap();
+        assert_eq!(
+            receiver.consensus.finalized(),
+            Some((canonical_h1.height, canonical_h1.id))
+        );
 
-        assert!(receiver.handle_network_message(NetworkMessage::Block(fork_h1)).is_err());
-        assert!(receiver.handle_network_message(NetworkMessage::Block(fork_h2)).is_err());
+        assert!(receiver
+            .handle_network_message(NetworkMessage::Block(fork_h1))
+            .is_err());
+        assert!(receiver
+            .handle_network_message(NetworkMessage::Block(fork_h2))
+            .is_err());
         assert_eq!(receiver.chain.height(), canonical_h1.height);
         assert_eq!(receiver.chain.last().unwrap().id, canonical_h1.id);
-        assert_eq!(receiver.consensus.finalized(), Some((canonical_h1.height, canonical_h1.id)));
+        assert_eq!(
+            receiver.consensus.finalized(),
+            Some((canonical_h1.height, canonical_h1.id))
+        );
 
         // The longer canonical continuation remains valid and cannot be
         // displaced by the rejected fork.
-        receiver.handle_network_message(NetworkMessage::Block(canonical_h2.clone())).unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Block(canonical_h2.clone()))
+            .unwrap();
         assert_eq!(receiver.chain.last().unwrap().id, canonical_h2.id);
     }
 
@@ -1961,7 +2372,9 @@ mod tests {
         let canonical = source.produce_reward_block(2).unwrap();
 
         let fork_source = Node::new(658467, "validator-a".into());
-        fork_source.create_genesis_with_proposer(1, "genesis").unwrap();
+        fork_source
+            .create_genesis_with_proposer(1, "genesis")
+            .unwrap();
         configure_two_validator_node(&fork_source, "validator-a");
         let fork = fork_source.produce_reward_block(3).unwrap();
         assert_ne!(canonical.id, fork.id);
@@ -1969,17 +2382,39 @@ mod tests {
         let node = Node::new(658467, "validator-b".into());
         node.create_genesis_with_proposer(1, "genesis").unwrap();
         configure_two_validator_node(&node, "validator-b");
-        node.handle_network_message(NetworkMessage::Block(canonical.clone())).unwrap();
+        node.handle_network_message(NetworkMessage::Block(canonical.clone()))
+            .unwrap();
 
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
-        let mut vote_a = Vote { block: canonical.id, voter: "validator-a".into(), approve: true, signature: [0;64], public_key: key_a.verifying_key().to_bytes() };
-        vote_a.signature = key_a.sign(&consensus::vote_signing_bytes(658467, &vote_a)).to_bytes();
+        let mut vote_a = Vote {
+            block: canonical.id,
+            voter: "validator-a".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: key_a.verifying_key().to_bytes(),
+        };
+        vote_a.signature = key_a
+            .sign(&consensus::vote_signing_bytes(658467, &vote_a))
+            .to_bytes();
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
-        let mut vote_b = Vote { block: canonical.id, voter: "validator-b".into(), approve: true, signature: [0;64], public_key: key_b.verifying_key().to_bytes() };
-        vote_b.signature = key_b.sign(&consensus::vote_signing_bytes(658467, &vote_b)).to_bytes();
-        node.handle_network_message(NetworkMessage::Vote(vote_a)).unwrap();
-        node.handle_network_message(NetworkMessage::Vote(vote_b)).unwrap();
-        assert_eq!(node.consensus.finalized(), Some((canonical.height, canonical.id)));
+        let mut vote_b = Vote {
+            block: canonical.id,
+            voter: "validator-b".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: key_b.verifying_key().to_bytes(),
+        };
+        vote_b.signature = key_b
+            .sign(&consensus::vote_signing_bytes(658467, &vote_b))
+            .to_bytes();
+        node.handle_network_message(NetworkMessage::Vote(vote_a))
+            .unwrap();
+        node.handle_network_message(NetworkMessage::Vote(vote_b))
+            .unwrap();
+        assert_eq!(
+            node.consensus.finalized(),
+            Some((canonical.height, canonical.id))
+        );
 
         let state_root = node.state.root();
         let finalized = node.consensus.finalized();
@@ -1999,10 +2434,14 @@ mod tests {
         let receiver = Node::new(658467, "validator-b".into());
         receiver.create_genesis_with_proposer(1, "genesis").unwrap();
         configure_two_validator_node(&receiver, "validator-b");
-        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Block(block.clone()))
+            .unwrap();
         let root = receiver.state.root();
 
-        assert!(receiver.handle_network_message(NetworkMessage::Block(block.clone())).is_err());
+        assert!(receiver
+            .handle_network_message(NetworkMessage::Block(block.clone()))
+            .is_err());
         assert_eq!(receiver.chain.height(), block.height);
         assert_eq!(receiver.chain.last().unwrap().id, block.id);
         assert_eq!(receiver.state.root(), root);
@@ -2012,12 +2451,16 @@ mod tests {
     #[test]
     fn block_request_from_divergent_peer_cannot_replace_finalized_block() {
         let canonical = Node::new(658467, "validator-a".into());
-        canonical.create_genesis_with_proposer(1, "genesis").unwrap();
+        canonical
+            .create_genesis_with_proposer(1, "genesis")
+            .unwrap();
         configure_two_validator_node(&canonical, "validator-a");
         let block = canonical.produce_reward_block(2).unwrap();
 
         let divergent = Node::new(658467, "validator-a".into());
-        divergent.create_genesis_with_proposer(1, "genesis").unwrap();
+        divergent
+            .create_genesis_with_proposer(1, "genesis")
+            .unwrap();
         configure_two_validator_node(&divergent, "validator-a");
         let other = divergent.produce_reward_block(99).unwrap();
         assert_ne!(block.id, other.id);
@@ -2025,30 +2468,62 @@ mod tests {
         let receiver = Node::new(658467, "validator-b".into());
         receiver.create_genesis_with_proposer(1, "genesis").unwrap();
         configure_two_validator_node(&receiver, "validator-b");
-        receiver.handle_network_message(NetworkMessage::Block(block.clone())).unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Block(block.clone()))
+            .unwrap();
 
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[1u8; 32]);
-        let mut va = Vote { block: block.id, voter: "validator-a".into(), approve: true, signature: [0;64], public_key: key_a.verifying_key().to_bytes() };
-        va.signature = key_a.sign(&consensus::vote_signing_bytes(658467, &va)).to_bytes();
+        let mut va = Vote {
+            block: block.id,
+            voter: "validator-a".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: key_a.verifying_key().to_bytes(),
+        };
+        va.signature = key_a
+            .sign(&consensus::vote_signing_bytes(658467, &va))
+            .to_bytes();
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[2u8; 32]);
-        let mut vb = Vote { block: block.id, voter: "validator-b".into(), approve: true, signature: [0;64], public_key: key_b.verifying_key().to_bytes() };
-        vb.signature = key_b.sign(&consensus::vote_signing_bytes(658467, &vb)).to_bytes();
-        receiver.handle_network_message(NetworkMessage::Vote(va)).unwrap();
-        receiver.handle_network_message(NetworkMessage::Vote(vb)).unwrap();
-        assert_eq!(receiver.consensus.finalized(), Some((block.height, block.id)));
+        let mut vb = Vote {
+            block: block.id,
+            voter: "validator-b".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: key_b.verifying_key().to_bytes(),
+        };
+        vb.signature = key_b
+            .sign(&consensus::vote_signing_bytes(658467, &vb))
+            .to_bytes();
+        receiver
+            .handle_network_message(NetworkMessage::Vote(va))
+            .unwrap();
+        receiver
+            .handle_network_message(NetworkMessage::Vote(vb))
+            .unwrap();
+        assert_eq!(
+            receiver.consensus.finalized(),
+            Some((block.height, block.id))
+        );
 
         let transport = Arc::new(CaptureTransport::default());
         divergent.set_transport(transport.clone());
-        divergent.handle_network_message(NetworkMessage::BlockRequest { from_height: 1 }).unwrap();
+        divergent
+            .handle_network_message(NetworkMessage::BlockRequest { from_height: 1 })
+            .unwrap();
         let messages = transport.messages.lock().unwrap().clone();
-        assert!(messages.iter().any(|m| matches!(m, NetworkMessage::Block(b) if b.id == other.id)));
+        assert!(messages
+            .iter()
+            .any(|m| matches!(m, NetworkMessage::Block(b) if b.id == other.id)));
 
         for message in messages {
             let _ = receiver.handle_network_message(message);
         }
         assert_eq!(receiver.chain.height(), block.height);
         assert_eq!(receiver.chain.last().unwrap().id, block.id);
-        assert_eq!(receiver.consensus.finalized(), Some((block.height, block.id)));
+        assert_eq!(
+            receiver.consensus.finalized(),
+            Some((block.height, block.id))
+        );
     }
 
     #[test]
@@ -2080,7 +2555,14 @@ mod tests {
         };
         assert!(err.contains("recovered issuance height 0 does not match canonical tip 1"));
 
-        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+        for suffix in [
+            "",
+            ".state",
+            ".validators",
+            ".finality",
+            ".slashing",
+            ".issuance",
+        ] {
             let target = if suffix.is_empty() {
                 path.clone()
             } else {
@@ -2120,7 +2602,14 @@ mod tests {
         };
         assert!(err.contains("recovered state height 0 does not match canonical tip 1"));
 
-        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+        for suffix in [
+            "",
+            ".state",
+            ".validators",
+            ".finality",
+            ".slashing",
+            ".issuance",
+        ] {
             let target = if suffix.is_empty() {
                 path.clone()
             } else {
@@ -2143,7 +2632,8 @@ mod tests {
             let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
             node.create_genesis_with_proposer(1, "genesis").unwrap();
             node.register_validator("validator-a".into(), 100).unwrap();
-            node.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+            node.register_validator_key("validator-a", key.verifying_key().to_bytes())
+                .unwrap();
             assert_eq!(node.consensus.height(), 0);
             assert!(node.consensus.has_validator_snapshot(1));
         }
@@ -2156,7 +2646,14 @@ mod tests {
             assert_eq!(node.chain.last().unwrap().id, block.id);
         }
 
-        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+        for suffix in [
+            "",
+            ".state",
+            ".validators",
+            ".finality",
+            ".slashing",
+            ".issuance",
+        ] {
             let target = if suffix.is_empty() {
                 path.clone()
             } else {
@@ -2194,7 +2691,14 @@ mod tests {
         };
         assert!(err.contains("validator snapshot exists without a canonical chain"));
 
-        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+        for suffix in [
+            "",
+            ".state",
+            ".validators",
+            ".finality",
+            ".slashing",
+            ".issuance",
+        ] {
             let target = if suffix.is_empty() {
                 path.clone()
             } else {
@@ -2210,7 +2714,8 @@ mod tests {
         node.create_genesis_with_proposer(1, "genesis").unwrap();
         node.register_validator("validator-a".into(), 100).unwrap();
         let key = ed25519_dalek::SigningKey::from_bytes(&[73u8; 32]);
-        node.register_validator_key("validator-a", key.verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key.verifying_key().to_bytes())
+            .unwrap();
 
         let mut block = Block::new(
             1,
