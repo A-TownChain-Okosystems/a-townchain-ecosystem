@@ -13,7 +13,7 @@ standard: ATC-STD-MD-001
 
 ## Übersicht
 
-`atc-algorithm` enthält die kanonische Implementierung des proprietären Hybrid-Konsens-Mechanismus der A-TownChain (Chain-ID 658467). Der Algorithmus kombiniert Proof of History (PoH), Proof of Stake (PoS) und Proof of Work (PoW).
+`atc-algorithm` ist ein historischer Integrationsspiegel des früheren `atc-algorithm`-Repos; der kanonische Algorithmuspfad liegt jetzt in `a-townchain/components/algorithm` der A-TownChain (Chain-ID 658467). Das frühere Design dokumentiert PoH/PoS/PoW. Es ist nicht als eingefrorener Konsensvertrag zu behandeln; der aktuelle Konsens bleibt SPEC-DRAFT bis Spec-Freeze, vollständiger Implementierung, Conformance und Exact-SHA-Evidence.
 
 ## Komponenten
 
@@ -22,7 +22,7 @@ standard: ATC-STD-MD-001
 | `poh` | Proof of History Zeitstempel-Kette (SHA-256 Verifizierbare Ticks) | Yes |
 | `pos` | Proof of Stake Validator-Gewichtung & Staking-Logik | Yes |
 | `pow` | Proof of Work Schwierigkeitsanteil gegen Stake-Zentralisierung | Yes |
-| `hybrid_engine` | Hybrid-Auswahl, Fork-Choice-Rule & Finalitäts-Orchestrierung | Yes |
+| `hybrid_engine` | Historische Hybrid-Auswahl/Fork-Choice/Finalitäts-Orchestrierung | Historical |
 
 ## Datenfluss & Abhängigkeiten
 
