@@ -315,7 +315,7 @@ zeitversetzt oder parallel arbeiten.
 - **Rebuild-Reihenfolge (AD-020):** (1) Launch-Stack aus Vault → (2) atc-shivacore SC-001+ → (3) übrige Produkt-Repos
 - **Chain-ID:** **658467** (AD-004 RESOLVED 03.09.2026, ASCII 'ATC'; superseded Platzhalter 658467)
 - **Sprachstrategie:** ATCLang **Rust-first** (AD-021); Python = Referenz + SDK + Testing. 21-Crate-Layout, Gates G0-G19, kein Freeze vor G18 (AD-022)
-- **Konsensus:** Hybrid PoW+PoS+PoH (ShivaConsensus)
+- **Konsensus:** P0 OPEN — `atc-algorithm` ist das kanonische Consensus-Target; konkrete PoW/PoS/PoH-Regeln sind erst nach Specification Freeze + Conformance kanonisch.
 - **Lizenzmodell:** ATC-LIC/ATC-LIC, durchgesetzt via ATVM ("Code is Law")
 - **Mainnet:** Launch per AD-023 AUFGEHOBEN — kein Ziel, kein Datum; Rebuild qualitäts-getrieben
 - Volle Details: `docs/DECISIONS_REGISTER.md` (AD-001 bis AD-022), `docs/architecture/`
