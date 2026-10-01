@@ -12,7 +12,7 @@ use crate::{
     mempool::{Transaction, TxType},
     Block,
 };
-type ValidatorSnapshot = (u64, BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>);
+pub(crate) type ValidatorSnapshot = (u64, BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>);
 
 use std::{
     collections::BTreeMap,
