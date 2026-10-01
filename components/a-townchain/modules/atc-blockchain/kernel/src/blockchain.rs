@@ -455,7 +455,7 @@ impl Node {
     fn import_block_internal(
         &self,
         b: Block,
-        sync_snapshot: Option<(u64, BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>)>,
+        sync_snapshot: Option<network::ValidatorSnapshot>,
     ) -> Result<(), String> {
         if self.chain_id
             != b.transactions
