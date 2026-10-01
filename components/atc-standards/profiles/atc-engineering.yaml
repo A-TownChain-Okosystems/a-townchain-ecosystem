@@ -6,7 +6,7 @@ domain_extension: 'Org-Build 14.09.2026 (Owner-Direktive): Engineering Control P
   fuer Build/Validierung/Governance/Audit/Release der Org-Fleet (ATC-ENGINEERING-SPEC-001 v1.0.0).
   Standards-Fluss einseitig: liest atc-standards, niemals umgekehrt. AD-008: Infrastruktur=Rust,
   keine Konsens-Semantik. Status SPECIFIED/docs_only; Crates/CLI via ROADMAP Phase 1-5.'
-layer: L7
+layer: X
 maturity_class: C
 profile: atc-engineering
 registry_id: ATC-REPO-ENG-001
