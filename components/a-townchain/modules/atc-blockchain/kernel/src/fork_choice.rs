@@ -23,10 +23,11 @@ pub fn choose<'a>(
     b: &'a Block,
     finalized_height: Option<u64>,
 ) -> Result<&'a Block, ForkChoiceError> {
-    if a.height == b.height && a.id != b.id {
-        if finalized_height.is_some_and(|h| a.height <= h) {
-            return Err(ForkChoiceError::FinalityViolation);
-        }
+    if a.height == b.height
+        && a.id != b.id
+        && finalized_height.is_some_and(|h| a.height <= h)
+    {
+        return Err(ForkChoiceError::FinalityViolation);
     }
 
     Ok(if a.height > b.height {
