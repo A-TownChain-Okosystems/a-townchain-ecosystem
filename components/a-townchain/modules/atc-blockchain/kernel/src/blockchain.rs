@@ -1097,6 +1097,15 @@ impl Node {
     pub fn finalize_validator_snapshot(&self) -> Result<(), String> {
         let height = self.consensus.height();
         let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
+        if self
+            .consensus
+            .validator_snapshot_heights()
+            .last()
+            .copied()
+            .is_some_and(|latest| latest > height)
+        {
+            return Ok(());
+        }
 
         // Durable-first: finalizing the bootstrap snapshot must use the same
         // persistence boundary as every other validator mutation. If storage
