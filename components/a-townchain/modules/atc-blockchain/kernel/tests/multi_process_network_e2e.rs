@@ -113,9 +113,6 @@ fn run_initial_node_a() {
         .serve_tcp_stream_with_peer(reader, peer.to_string());
 
     let block = node.produce_reward_block(2).unwrap();
-    node.submit_vote_and_broadcast(make_vote(block.id, "validator-a", 1))
-        .unwrap();
-
     for _ in 0..120 {
         if node.consensus.finalized().map(|x| x.0) == Some(block.height) {
             break;
@@ -127,8 +124,6 @@ fn run_initial_node_a() {
     let block2 = node.produce_reward_block(3).unwrap();
     assert_eq!(block2.height, 2);
     assert_eq!(node.chain.height(), 2);
-    node.submit_vote_and_broadcast(make_vote(block2.id, "validator-a", 1))
-        .unwrap();
     for _ in 0..120 {
         if node.consensus.finalized().map(|x| x.0) == Some(block2.height) {
             break;
@@ -174,7 +169,6 @@ fn run_initial_node_b() {
     if node.chain.height() < 1 {
         panic!("node-b did not receive block 1; receive loop still running");
     }
-    let block = node.chain.last().unwrap();
     for _ in 0..100 {
         if node.chain.height() >= 2 {
             break;
@@ -188,7 +182,6 @@ fn run_initial_node_b() {
         thread::sleep(Duration::from_millis(25));
     }
     assert_eq!(node.chain.height(), 2);
-    let block2 = node.chain.last().unwrap();
     drop(handle);
 }
 
