@@ -1,5 +1,6 @@
 import hashlib
 import unittest
+from types import SimpleNamespace
 
 from tools.evidence_engine_v4_3_10 import (
     EvidenceBlockedError,
@@ -12,20 +13,25 @@ from tools.evidence_engine_v4_3_10 import (
 )
 
 
-class FakeClient:
+class PagingClient(GitHubClient):
     def __init__(self, responses):
         self.responses = list(responses)
         self.calls = []
 
-    def json(self, path):
+    def request(self, path):
         self.calls.append(path)
-        item = self.responses.pop(0)
-        if isinstance(item, Exception):
-            raise item
-        return item
+        return self.responses.pop(0)
 
 
-class PaginationTests(unittest.TestCase):
+def response(status=200, payload=None, error=None):
+    return SimpleNamespace(
+        status=status,
+        payload=payload,
+        error=error,
+    )
+
+
+class EvidenceEngineTests(unittest.TestCase):
     def test_sha_validators_are_strict(self):
         self.assertEqual(sha1("A" * 40, "x"), "a" * 40)
         self.assertEqual(sha256("B" * 64, "x"), "b" * 64)
@@ -37,36 +43,42 @@ class PaginationTests(unittest.TestCase):
             sha256("g" * 64, "x")
 
     def test_git_blob_hash_uses_git_header(self):
-        data = b"hello\\n"
-        expected = hashlib.sha1(
-            b"blob 6\\0" + data
-        ).hexdigest()
+        data = b"hello\n"
+        expected = hashlib.sha1(b"blob 6\0" + data).hexdigest()
         self.assertEqual(git_blob_sha(data), expected)
 
-    def test_pagination_overflow_is_blocked(self):
-        client = object.__new__(GitHubClient)
-        client.request = lambda path: None
+    def test_pagination_stops_on_partial_page(self):
+        client = PagingClient([
+            response(200, {"items": [{"id": 1}]}),
+        ])
+        items = client.get_json_paginated("/x", "items", max_pages=1)
+        self.assertEqual(items, [{"id": 1}])
+        self.assertEqual(len(client.calls), 1)
 
-        class Fake:
-            def __init__(self):
-                self.calls = []
-                self.pages = []
-            def request(self, path):
-                self.calls.append(path)
-                class R:
-                    status = 200
-                    error = None
-                    payload = {"items": [{}] * 100}
-                return R()
+    def test_pagination_proves_termination_after_full_page(self):
+        client = PagingClient([
+            response(200, {"items": [{}] * 100}),
+            response(200, {"items": []}),
+        ])
+        items = client.get_json_paginated("/x", "items", max_pages=1)
+        self.assertEqual(len(items), 100)
+        self.assertEqual(len(client.calls), 2)
 
-        fake = Fake()
+    def test_pagination_overflow_http_error_is_blocked(self):
+        client = PagingClient([
+            response(200, {"items": [{}] * 100}),
+            response(403, {}, "forbidden"),
+        ])
         with self.assertRaises(EvidenceBlockedError):
-            fake_client = object.__new__(GitHubClient)
-            fake_client.get_json_paginated = lambda *args, **kwargs: (_ for _ in ()).throw(
-                EvidenceBlockedError("PAGINATION_BLOCKED")
-            )
-            fake_client.get_json_paginated("/x", "items")
-        self.assertTrue(True)
+            client.get_json_paginated("/x", "items", max_pages=1)
+
+    def test_pagination_overflow_nonempty_is_blocked(self):
+        client = PagingClient([
+            response(200, {"items": [{}] * 100}),
+            response(200, {"items": [{"id": 101}]}),
+        ])
+        with self.assertRaises(EvidenceBlockedError):
+            client.get_json_paginated("/x", "items", max_pages=1)
 
     def test_policy_scope_is_explicit(self):
         self.assertEqual(
