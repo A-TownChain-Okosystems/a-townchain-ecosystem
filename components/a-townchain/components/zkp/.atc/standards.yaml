@@ -4,7 +4,7 @@ criticality: C1
 domain: zkp
 domain_extension: 'pending (fachliche Standards je Domain via SCR — ehrlich: Kernprofil
   v1.0)'
-layer: L3
+layer: L4
 profile: atc-zkp
 profile_source: atc-standards/profiles/atc-zkp.yaml
 registry_id: ATC-REPO-ZKP-001
