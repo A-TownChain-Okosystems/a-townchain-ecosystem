@@ -22,6 +22,7 @@ const LEGACY_SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
 type ValidatorSnapshot = (u64, BTreeMap<String, (u128, [u8; 32])>);
+type ValidatorSetSnapshot = (BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>);
 type SlashingRecord = (u64, String, [u8; 32], u128);
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
@@ -392,10 +393,9 @@ impl ChainStorage {
         state: &BTreeMap<String, Account>,
         dao: &[u8],
         issued_base_units: u128,
-        activation_height: u64,
-        validators: &BTreeMap<String, u128>,
-        validator_keys: &BTreeMap<String, [u8; 32]>,
+        validator_snapshot: &(u64, BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>),
     ) -> Result<(), String> {
+        let (activation_height, validators, validator_keys) = validator_snapshot;
         if validators.len() != validator_keys.len()
             || validators
                 .keys()
@@ -640,7 +640,7 @@ impl ChainStorage {
     /// height/epoch boundaries rather than only the latest mutable set.
     pub fn recover_validator_snapshots(
         &self,
-    ) -> Result<BTreeMap<u64, (BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>)>, String> {
+    ) -> Result<BTreeMap<u64, ValidatorSetSnapshot>, String> {
         let Some(p) = &self.validator_journal else {
             return Ok(BTreeMap::new());
         };
@@ -985,12 +985,12 @@ mod tests {
             assert_eq!(recovered.get("validator-a"), Some(&(100, key)));
         }
 
-        let _ = std::fs::remove_file(&journal.with_extension("validators"));
+        let _ = std::fs::remove_file(journal.with_extension("validators"));
         let _ = std::fs::remove_file(&journal);
-        let _ = std::fs::remove_file(&journal.with_extension("state"));
-        let _ = std::fs::remove_file(&journal.with_extension("finality"));
-        let _ = std::fs::remove_file(&journal.with_extension("slashing"));
-        let _ = std::fs::remove_file(&journal.with_extension("issuance"));
+        let _ = std::fs::remove_file(journal.with_extension("state"));
+        let _ = std::fs::remove_file(journal.with_extension("finality"));
+        let _ = std::fs::remove_file(journal.with_extension("slashing"));
+        let _ = std::fs::remove_file(journal.with_extension("issuance"));
     }
 
     #[test]
