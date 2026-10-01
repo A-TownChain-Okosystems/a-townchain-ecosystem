@@ -4,7 +4,7 @@ criticality: C1
 domain: consensus
 domain_extension: 'pending (fachliche Standards je Domain via SCR — ehrlich: Kernprofil
   v1.0)'
-layer: L3
+layer: L2
 maturity_class: B
 profile: atc-algorithm
 registry_id: ATC-REPO-CONS-001
