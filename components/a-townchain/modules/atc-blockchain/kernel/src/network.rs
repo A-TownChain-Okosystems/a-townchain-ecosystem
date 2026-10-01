@@ -107,7 +107,9 @@ impl TcpPeerTransport {
             },
         )?;
         match read_message(&mut stream)? {
-            Some(NetworkMessage::Hello { chain_id, node_id, .. }) if chain_id == self.chain_id => {
+            Some(NetworkMessage::Hello {
+                chain_id, node_id, ..
+            }) if chain_id == self.chain_id => {
                 stream.set_read_timeout(None).map_err(|e| e.to_string())?;
                 Ok((stream, node_id))
             }
@@ -116,8 +118,14 @@ impl TcpPeerTransport {
         }
     }
 
-    pub fn connect_stream(&self, addr: &str, height: u64, best_block: [u8; 32]) -> Result<TcpStream, String> {
-        self.connect_stream_with_peer(addr, height, best_block).map(|(stream, _)| stream)
+    pub fn connect_stream(
+        &self,
+        addr: &str,
+        height: u64,
+        best_block: [u8; 32],
+    ) -> Result<TcpStream, String> {
+        self.connect_stream_with_peer(addr, height, best_block)
+            .map(|(stream, _)| stream)
     }
 
     pub fn connect(&self, addr: &str, height: u64, best_block: [u8; 32]) -> Result<(), String> {
@@ -176,7 +184,11 @@ impl TcpPeerTransport {
         }
     }
 
-    pub fn register_stream_with_peer_id(&self, stream: TcpStream, peer_id: impl Into<String>) -> Result<(), String> {
+    pub fn register_stream_with_peer_id(
+        &self,
+        stream: TcpStream,
+        peer_id: impl Into<String>,
+    ) -> Result<(), String> {
         stream.set_nodelay(true).map_err(|e| e.to_string())?;
         self.peers
             .lock()
@@ -206,7 +218,10 @@ impl PeerTransport for TcpPeerTransport {
 
     fn send_to(&self, peer_id: &str, message: NetworkMessage) -> Result<(), String> {
         let peers = self.peers.lock().map_err(|_| "peer lock poisoned")?;
-        let (_, peer) = peers.iter().find(|(id, _)| id == peer_id).ok_or("peer not found")?;
+        let (_, peer) = peers
+            .iter()
+            .find(|(id, _)| id == peer_id)
+            .ok_or("peer not found")?;
         let mut stream = peer.lock().map_err(|_| "stream lock poisoned")?;
         write_message(&mut stream, &message)
     }
@@ -392,7 +407,9 @@ fn validator_snapshot_encode(
     o.extend_from_slice(&activation_height.to_be_bytes());
     o.extend_from_slice(&(validators.len() as u32).to_be_bytes());
     for (address, stake) in validators {
-        let key = keys.get(address).ok_or("validator snapshot missing public key")?;
+        let key = keys
+            .get(address)
+            .ok_or("validator snapshot missing public key")?;
         put(o, address.as_bytes());
         o.extend_from_slice(&stake.to_be_bytes());
         o.extend_from_slice(key);
@@ -406,14 +423,18 @@ fn validator_snapshot_decode(
 ) -> Result<(u64, BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>), String> {
     let activation_height = u64::from_be_bytes(fixed::<8>(b, p)?);
     let n = u32::from_be_bytes(fixed::<4>(b, p)?) as usize;
-    if n > MAX_VALIDATORS_PER_SNAPSHOT { return Err("validator snapshot exceeds protocol limit".into()); }
+    if n > MAX_VALIDATORS_PER_SNAPSHOT {
+        return Err("validator snapshot exceeds protocol limit".into());
+    }
     let mut validators = BTreeMap::new();
     let mut keys = BTreeMap::new();
     for _ in 0..n {
-        let address = String::from_utf8(take(b, p)?.to_vec()).map_err(|_| "invalid validator address")?;
+        let address =
+            String::from_utf8(take(b, p)?.to_vec()).map_err(|_| "invalid validator address")?;
         let stake = u128::from_be_bytes(fixed::<16>(b, p)?);
         let key = fixed::<32>(b, p)?;
-        ed25519_dalek::VerifyingKey::from_bytes(&key).map_err(|_| "invalid validator public key")?;
+        ed25519_dalek::VerifyingKey::from_bytes(&key)
+            .map_err(|_| "invalid validator public key")?;
         if address.is_empty() || stake == 0 || validators.insert(address.clone(), stake).is_some() {
             return Err("invalid or duplicate validator record".into());
         }
@@ -484,7 +505,12 @@ fn encode(m: &NetworkMessage) -> Result<Vec<u8>, String> {
             o.push(4);
             o.extend_from_slice(&from_height.to_be_bytes())
         }
-        NetworkMessage::BlockWithValidatorSnapshot { block, activation_height, validators, validator_keys } => {
+        NetworkMessage::BlockWithValidatorSnapshot {
+            block,
+            activation_height,
+            validators,
+            validator_keys,
+        } => {
             o.push(7);
             let raw_block = block_encode(block);
             put(&mut o, &raw_block);
@@ -538,8 +564,14 @@ fn decode(b: &[u8]) -> Result<NetworkMessage, String> {
         7 => {
             let raw_block = take(b, &mut p)?;
             let block = block_decode(raw_block)?;
-            let (activation_height, validators, validator_keys) = validator_snapshot_decode(b, &mut p)?;
-            NetworkMessage::BlockWithValidatorSnapshot { block, activation_height, validators, validator_keys }
+            let (activation_height, validators, validator_keys) =
+                validator_snapshot_decode(b, &mut p)?;
+            NetworkMessage::BlockWithValidatorSnapshot {
+                block,
+                activation_height,
+                validators,
+                validator_keys,
+            }
         }
         6 => {
             let height = u64::from_be_bytes(fixed::<8>(b, &mut p)?);
@@ -588,12 +620,23 @@ mod tests {
 
     #[test]
     fn validator_snapshot_sync_message_round_trips_deterministically() {
-        let key = ed25519_dalek::SigningKey::from_bytes(&[91u8; 32]).verifying_key().to_bytes();
+        let key = ed25519_dalek::SigningKey::from_bytes(&[91u8; 32])
+            .verifying_key()
+            .to_bytes();
         let mut validators = BTreeMap::new();
         validators.insert("validator-a".to_string(), 100);
         let mut keys = BTreeMap::new();
         keys.insert("validator-a".to_string(), key);
-        let block = Block::new(1, [7; 32], "validator-a".into(), 361, Vec::new(), [8; 32], [0; 32], [0; 64]);
+        let block = Block::new(
+            1,
+            [7; 32],
+            "validator-a".into(),
+            361,
+            Vec::new(),
+            [8; 32],
+            [0; 32],
+            [0; 64],
+        );
         let message = NetworkMessage::BlockWithValidatorSnapshot {
             block: block.clone(),
             activation_height: 1,
@@ -602,7 +645,9 @@ mod tests {
         };
         let decoded = decode(&encode(&message).unwrap()).unwrap();
         assert_eq!(decoded, message);
-        assert!(matches!(decoded, NetworkMessage::BlockWithValidatorSnapshot { block: b, .. } if b.id == block.id));
+        assert!(
+            matches!(decoded, NetworkMessage::BlockWithValidatorSnapshot { block: b, .. } if b.id == block.id)
+        );
     }
 
     #[test]
