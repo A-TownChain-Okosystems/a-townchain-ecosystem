@@ -87,13 +87,26 @@ impl ConsensusEngine {
     }
 
     fn capture_validator_snapshot(&self, height: u64) -> Result<(), String> {
-        let validators = self.validators.lock().map_err(|_| "validator lock poisoned".to_string())?.clone();
-        let keys = self.validator_keys.lock().map_err(|_| "validator key lock poisoned".to_string())?.clone();
+        let validators = self
+            .validators
+            .lock()
+            .map_err(|_| "validator lock poisoned".to_string())?
+            .clone();
+        let keys = self
+            .validator_keys
+            .lock()
+            .map_err(|_| "validator key lock poisoned".to_string())?
+            .clone();
         if validators.len() != keys.len() || validators.keys().any(|id| !keys.contains_key(id)) {
-            return Err("cannot snapshot validator registry without complete public-key bindings".into());
+            return Err(
+                "cannot snapshot validator registry without complete public-key bindings".into(),
+            );
         }
-        self.validator_snapshots.lock().map_err(|_| "validator snapshot lock poisoned".to_string())?
-            .entry(height).or_insert((validators, keys));
+        self.validator_snapshots
+            .lock()
+            .map_err(|_| "validator snapshot lock poisoned".to_string())?
+            .entry(height)
+            .or_insert((validators, keys));
         Ok(())
     }
 
@@ -106,13 +119,19 @@ impl ConsensusEngine {
         if validators.len() != keys.len() || validators.keys().any(|id| !keys.contains_key(id)) {
             return Err("validator snapshot has incomplete public-key bindings".into());
         }
-        self.validator_snapshots.lock().map_err(|_| "validator snapshot lock poisoned".to_string())?
+        self.validator_snapshots
+            .lock()
+            .map_err(|_| "validator snapshot lock poisoned".to_string())?
             .insert(height, (validators, keys));
         Ok(())
     }
 
     pub fn has_validator_snapshot(&self, height: u64) -> bool {
-        self.validator_snapshots.lock().ok().map(|s| s.contains_key(&height)).unwrap_or(false)
+        self.validator_snapshots
+            .lock()
+            .ok()
+            .map(|s| s.contains_key(&height))
+            .unwrap_or(false)
     }
 
     /// Deterministic commitment to the validator set that authenticates a block height.
@@ -134,12 +153,17 @@ impl ConsensusEngine {
         validators: &BTreeMap<String, u128>,
         keys: &BTreeMap<String, [u8; 32]>,
     ) -> Option<[u8; 32]> {
-        if validators.len() != keys.len() || validators.keys().any(|address| !keys.contains_key(address)) {
+        if validators.len() != keys.len()
+            || validators.keys().any(|address| !keys.contains_key(address))
+        {
             return None;
         }
         let mut bytes = Vec::from(b"ATC-VALIDATOR-SET-V1".as_slice());
         for (address, stake) in validators {
-            if address.is_empty() || *stake == 0 || ed25519_dalek::VerifyingKey::from_bytes(keys.get(address)?).is_err() {
+            if address.is_empty()
+                || *stake == 0
+                || ed25519_dalek::VerifyingKey::from_bytes(keys.get(address)?).is_err()
+            {
                 return None;
             }
             bytes.extend_from_slice(&(address.len() as u32).to_be_bytes());
@@ -154,7 +178,12 @@ impl ConsensusEngine {
         &self,
         height: u64,
     ) -> Option<(BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>)> {
-        self.validator_snapshots.lock().ok()?.range(..=height).next_back().map(|(_, snapshot)| snapshot.clone())
+        self.validator_snapshots
+            .lock()
+            .ok()?
+            .range(..=height)
+            .next_back()
+            .map(|(_, snapshot)| snapshot.clone())
     }
 
     pub fn validator_snapshot_with_activation_for_height(
@@ -170,7 +199,11 @@ impl ConsensusEngine {
     }
 
     pub fn validator_snapshot_heights(&self) -> Vec<u64> {
-        self.validator_snapshots.lock().ok().map(|s| s.keys().copied().collect()).unwrap_or_default()
+        self.validator_snapshots
+            .lock()
+            .ok()
+            .map(|s| s.keys().copied().collect())
+            .unwrap_or_default()
     }
 
     pub fn register_validator(&self, address: String, stake: u128) -> Result<(), String> {
@@ -189,16 +222,29 @@ impl ConsensusEngine {
         self.validator_keys.lock().unwrap().remove(address);
     }
 
-    pub fn register_validator_key(&self, address: &str, public_key: [u8; 32]) -> Result<(), String> {
+    pub fn register_validator_key(
+        &self,
+        address: &str,
+        public_key: [u8; 32],
+    ) -> Result<(), String> {
         if self.validator_stake(address) == 0 {
             return Err("validator must be registered before its signing key".into());
         }
-        VerifyingKey::from_bytes(&public_key).map_err(|_| "invalid validator public key".to_string())?;
-        self.validator_keys.lock().map_err(|_| "validator key lock poisoned".to_string())?
+        VerifyingKey::from_bytes(&public_key)
+            .map_err(|_| "invalid validator public key".to_string())?;
+        self.validator_keys
+            .lock()
+            .map_err(|_| "validator key lock poisoned".to_string())?
             .insert(address.to_owned(), public_key);
         let complete = {
-            let validators = self.validators.lock().map_err(|_| "validator lock poisoned".to_string())?;
-            let keys = self.validator_keys.lock().map_err(|_| "validator key lock poisoned".to_string())?;
+            let validators = self
+                .validators
+                .lock()
+                .map_err(|_| "validator lock poisoned".to_string())?;
+            let keys = self
+                .validator_keys
+                .lock()
+                .map_err(|_| "validator key lock poisoned".to_string())?;
             validators.len() == keys.len() && validators.keys().all(|id| keys.contains_key(id))
         };
         // Validator-key rotation is a state transition, not an immediate
@@ -250,9 +296,18 @@ impl ConsensusEngine {
         {
             return Err("cannot restore incomplete validator identity state".into());
         }
-        *self.validators.lock().map_err(|_| "validator lock poisoned".to_string())? = validators;
-        *self.validator_keys.lock().map_err(|_| "validator key lock poisoned".to_string())? = keys;
-        *self.slashed.lock().map_err(|_| "slashed lock poisoned".to_string())? = slashed;
+        *self
+            .validators
+            .lock()
+            .map_err(|_| "validator lock poisoned".to_string())? = validators;
+        *self
+            .validator_keys
+            .lock()
+            .map_err(|_| "validator key lock poisoned".to_string())? = keys;
+        *self
+            .slashed
+            .lock()
+            .map_err(|_| "slashed lock poisoned".to_string())? = slashed;
         Ok(())
     }
 
@@ -294,24 +349,29 @@ impl ConsensusEngine {
             .copied()
             .ok_or("validator had no signing key at evidence height")?;
         if evidence.public_key != expected_key {
-            return Err("slashing evidence public key does not match validator identity at evidence height".into());
+            return Err(
+                "slashing evidence public key does not match validator identity at evidence height"
+                    .into(),
+            );
         }
         if evidence.block_a == evidence.block_b {
             return Err("slashing evidence blocks must conflict".into());
         }
-        let verify_evidence = |block: [u8; 32], approve: bool, sig: [u8; 64]| -> Result<(), String> {
-            let key = VerifyingKey::from_bytes(&expected_key).map_err(|_| "invalid validator public key".to_string())?;
-            let mut bytes = Vec::new();
-            bytes.extend_from_slice(b"ATC-SLASH-V1");
-            bytes.extend_from_slice(&self.chain_id.to_be_bytes());
-            bytes.extend_from_slice(&evidence.height.to_be_bytes());
-            bytes.extend_from_slice(&block);
-            bytes.push(approve as u8);
-            bytes.extend_from_slice(&(evidence.validator.len() as u32).to_be_bytes());
-            bytes.extend_from_slice(evidence.validator.as_bytes());
-            key.verify(&bytes, &Signature::from_bytes(&sig))
-                .map_err(|_| "invalid slashing signature".to_string())
-        };
+        let verify_evidence =
+            |block: [u8; 32], approve: bool, sig: [u8; 64]| -> Result<(), String> {
+                let key = VerifyingKey::from_bytes(&expected_key)
+                    .map_err(|_| "invalid validator public key".to_string())?;
+                let mut bytes = Vec::new();
+                bytes.extend_from_slice(b"ATC-SLASH-V1");
+                bytes.extend_from_slice(&self.chain_id.to_be_bytes());
+                bytes.extend_from_slice(&evidence.height.to_be_bytes());
+                bytes.extend_from_slice(&block);
+                bytes.push(approve as u8);
+                bytes.extend_from_slice(&(evidence.validator.len() as u32).to_be_bytes());
+                bytes.extend_from_slice(evidence.validator.as_bytes());
+                key.verify(&bytes, &Signature::from_bytes(&sig))
+                    .map_err(|_| "invalid slashing signature".to_string())
+            };
         verify_evidence(evidence.block_a, evidence.approve_a, evidence.signature_a)?;
         verify_evidence(evidence.block_b, evidence.approve_b, evidence.signature_b)?;
 
@@ -406,7 +466,8 @@ impl ConsensusEngine {
             return Err("voter is not an active validator at vote height".into());
         }
         let expected_key = keys
-            .get(&v.voter).copied()
+            .get(&v.voter)
+            .copied()
             .ok_or("validator signing key is not registered at vote height")?;
         if expected_key != v.public_key {
             return Err("vote public key does not match validator identity".into());
@@ -457,7 +518,10 @@ impl ConsensusEngine {
         let Some((validators, _keys)) = self.validator_snapshot_for_height(height) else {
             return false;
         };
-        let total = validators.values().copied().fold(0u128, u128::saturating_add);
+        let total = validators
+            .values()
+            .copied()
+            .fold(0u128, u128::saturating_add);
         if total == 0 {
             return false;
         }
@@ -539,14 +603,22 @@ mod tests {
         let new_key = SigningKey::from_bytes(&[22u8; 32]);
 
         engine.register_validator("alice".into(), 100).unwrap();
-        engine.register_validator_key("alice", old_key.verifying_key().to_bytes()).unwrap();
+        engine
+            .register_validator_key("alice", old_key.verifying_key().to_bytes())
+            .unwrap();
         engine.set_height(1);
 
         // A later mutable registry update must not rewrite the historical set
         // that authenticated height 0.
-        engine.register_validator_key("alice", new_key.verifying_key().to_bytes()).unwrap();
+        engine
+            .register_validator_key("alice", new_key.verifying_key().to_bytes())
+            .unwrap();
         assert_eq!(
-            engine.validator_snapshot_for_height(0).unwrap().1.get("alice"),
+            engine
+                .validator_snapshot_for_height(0)
+                .unwrap()
+                .1
+                .get("alice"),
             Some(&old_key.verifying_key().to_bytes())
         );
         assert!(engine.validator_snapshot_for_height(1).is_none());
@@ -558,7 +630,9 @@ mod tests {
             signature: [0; 64],
             public_key: old_key.verifying_key().to_bytes(),
         };
-        historical.signature = old_key.sign(&vote_signing_bytes(engine.chain_id, &historical)).to_bytes();
+        historical.signature = old_key
+            .sign(&vote_signing_bytes(engine.chain_id, &historical))
+            .to_bytes();
         assert!(engine.vote_at_height(historical, 0).is_ok());
 
         let mut current = Vote {
@@ -568,11 +642,11 @@ mod tests {
             signature: [0; 64],
             public_key: new_key.verifying_key().to_bytes(),
         };
-        current.signature = new_key.sign(&vote_signing_bytes(engine.chain_id, &current)).to_bytes();
+        current.signature = new_key
+            .sign(&vote_signing_bytes(engine.chain_id, &current))
+            .to_bytes();
         assert!(engine.vote_at_height(current, 1).is_ok());
     }
-
-
 
     #[test]
     fn old_key_is_rejected_after_rotation_until_next_height_snapshot() {
@@ -580,9 +654,13 @@ mod tests {
         let old_key = SigningKey::from_bytes(&[31u8; 32]);
         let new_key = SigningKey::from_bytes(&[32u8; 32]);
         engine.register_validator("alice".into(), 100).unwrap();
-        engine.register_validator_key("alice", old_key.verifying_key().to_bytes()).unwrap();
+        engine
+            .register_validator_key("alice", old_key.verifying_key().to_bytes())
+            .unwrap();
         engine.set_height(1);
-        engine.register_validator_key("alice", new_key.verifying_key().to_bytes()).unwrap();
+        engine
+            .register_validator_key("alice", new_key.verifying_key().to_bytes())
+            .unwrap();
 
         let old_vote = signed_vote(&engine, &old_key, "alice", [51u8; 32], true);
         assert_eq!(
@@ -590,13 +668,15 @@ mod tests {
             "validator snapshot is unavailable for vote height"
         );
 
-        engine.restore_validator_snapshot(
-            1,
-            engine.validators_snapshot(),
-            [("alice".to_string(), new_key.verifying_key().to_bytes())]
-                .into_iter()
-                .collect(),
-        ).unwrap();
+        engine
+            .restore_validator_snapshot(
+                1,
+                engine.validators_snapshot(),
+                [("alice".to_string(), new_key.verifying_key().to_bytes())]
+                    .into_iter()
+                    .collect(),
+            )
+            .unwrap();
 
         let old_vote = signed_vote(&engine, &old_key, "alice", [52u8; 32], true);
         assert_eq!(
@@ -613,18 +693,30 @@ mod tests {
         let old_key = SigningKey::from_bytes(&[33u8; 32]);
         let new_key = SigningKey::from_bytes(&[34u8; 32]);
         engine.register_validator("alice".into(), 100).unwrap();
-        engine.register_validator_key("alice", old_key.verifying_key().to_bytes()).unwrap();
-        engine.restore_validator_snapshot(
-            0,
-            engine.validators_snapshot(),
-            [("alice".to_string(), old_key.verifying_key().to_bytes())].into_iter().collect(),
-        ).unwrap();
-        engine.register_validator_key("alice", new_key.verifying_key().to_bytes()).unwrap();
-        engine.restore_validator_snapshot(
-            2,
-            engine.validators_snapshot(),
-            [("alice".to_string(), new_key.verifying_key().to_bytes())].into_iter().collect(),
-        ).unwrap();
+        engine
+            .register_validator_key("alice", old_key.verifying_key().to_bytes())
+            .unwrap();
+        engine
+            .restore_validator_snapshot(
+                0,
+                engine.validators_snapshot(),
+                [("alice".to_string(), old_key.verifying_key().to_bytes())]
+                    .into_iter()
+                    .collect(),
+            )
+            .unwrap();
+        engine
+            .register_validator_key("alice", new_key.verifying_key().to_bytes())
+            .unwrap();
+        engine
+            .restore_validator_snapshot(
+                2,
+                engine.validators_snapshot(),
+                [("alice".to_string(), new_key.verifying_key().to_bytes())]
+                    .into_iter()
+                    .collect(),
+            )
+            .unwrap();
 
         let vote = signed_vote(&engine, &old_key, "alice", [54u8; 32], true);
         assert!(engine.vote_at_height(vote.clone(), 0).is_ok());
@@ -639,15 +731,36 @@ mod tests {
         let b = SigningKey::from_bytes(&[36u8; 32]);
         engine.register_validator("a".into(), 60).unwrap();
         engine.register_validator("b".into(), 40).unwrap();
-        engine.register_validator_key("a", a.verifying_key().to_bytes()).unwrap();
-        engine.register_validator_key("b", b.verifying_key().to_bytes()).unwrap();
-        let keys0 = [(String::from("a"), a.verifying_key().to_bytes()), (String::from("b"), b.verifying_key().to_bytes())].into_iter().collect();
-        engine.restore_validator_snapshot(0, engine.validators_snapshot(), keys0).unwrap();
-        engine.restore_validator_snapshot(1, [("a".to_string(), 100u128)].into_iter().collect(), [("a".to_string(), a.verifying_key().to_bytes())].into_iter().collect());
+        engine
+            .register_validator_key("a", a.verifying_key().to_bytes())
+            .unwrap();
+        engine
+            .register_validator_key("b", b.verifying_key().to_bytes())
+            .unwrap();
+        let keys0 = [
+            (String::from("a"), a.verifying_key().to_bytes()),
+            (String::from("b"), b.verifying_key().to_bytes()),
+        ]
+        .into_iter()
+        .collect();
+        engine
+            .restore_validator_snapshot(0, engine.validators_snapshot(), keys0)
+            .unwrap();
+        engine.restore_validator_snapshot(
+            1,
+            [("a".to_string(), 100u128)].into_iter().collect(),
+            [("a".to_string(), a.verifying_key().to_bytes())]
+                .into_iter()
+                .collect(),
+        );
 
         let block0 = [56u8; 32];
-        engine.vote_at_height(signed_vote(&engine, &a, "a", block0, true), 0).unwrap();
-        engine.vote_at_height(signed_vote(&engine, &b, "b", block0, true), 0).unwrap();
+        engine
+            .vote_at_height(signed_vote(&engine, &a, "a", block0, true), 0)
+            .unwrap();
+        engine
+            .vote_at_height(signed_vote(&engine, &b, "b", block0, true), 0)
+            .unwrap();
         assert!(engine.weighted_finality_at_height(&block0, 0));
         assert!(!engine.weighted_finality_at_height(&block0, 1));
     }
@@ -657,9 +770,27 @@ mod tests {
         let engine = ConsensusEngine::new(658467, "proposer".into());
         let key = SigningKey::from_bytes(&[37u8; 32]);
         engine.register_validator("alice".into(), 100).unwrap();
-        engine.register_validator_key("alice", key.verifying_key().to_bytes()).unwrap();
-        engine.restore_validator_snapshot(0, engine.validators_snapshot(), [("alice".to_string(), key.verifying_key().to_bytes())].into_iter().collect()).unwrap();
-        engine.restore_validator_snapshot(1, engine.validators_snapshot(), [("alice".to_string(), key.verifying_key().to_bytes())].into_iter().collect()).unwrap();
+        engine
+            .register_validator_key("alice", key.verifying_key().to_bytes())
+            .unwrap();
+        engine
+            .restore_validator_snapshot(
+                0,
+                engine.validators_snapshot(),
+                [("alice".to_string(), key.verifying_key().to_bytes())]
+                    .into_iter()
+                    .collect(),
+            )
+            .unwrap();
+        engine
+            .restore_validator_snapshot(
+                1,
+                engine.validators_snapshot(),
+                [("alice".to_string(), key.verifying_key().to_bytes())]
+                    .into_iter()
+                    .collect(),
+            )
+            .unwrap();
 
         let a = signed_vote(&engine, &key, "alice", [57u8; 32], true);
         let b = signed_vote(&engine, &key, "alice", [58u8; 32], false);
@@ -677,8 +808,12 @@ mod tests {
         engine.register_validator("a".into(), 40).unwrap();
         engine.register_validator("b".into(), 35).unwrap();
         engine.register_validator("c".into(), 25).unwrap();
-        engine.register_validator_key("a", a.verifying_key().to_bytes()).unwrap();
-        engine.register_validator_key("b", b.verifying_key().to_bytes()).unwrap();
+        engine
+            .register_validator_key("a", a.verifying_key().to_bytes())
+            .unwrap();
+        engine
+            .register_validator_key("b", b.verifying_key().to_bytes())
+            .unwrap();
         let block = [9u8; 32];
         engine
             .vote(signed_vote(&engine, &a, "a", block, true))
@@ -718,16 +853,28 @@ mod tests {
             bytes.extend_from_slice(b"a");
             key.sign(&bytes).to_bytes()
         };
-        engine.register_validator_key("a", key.verifying_key().to_bytes()).unwrap();
-        engine.restore_validator_snapshot(
-            1,
-            engine.validators_snapshot(),
-            [("a".to_string(), key.verifying_key().to_bytes())].into_iter().collect(),
-        ).unwrap();
+        engine
+            .register_validator_key("a", key.verifying_key().to_bytes())
+            .unwrap();
+        engine
+            .restore_validator_snapshot(
+                1,
+                engine.validators_snapshot(),
+                [("a".to_string(), key.verifying_key().to_bytes())]
+                    .into_iter()
+                    .collect(),
+            )
+            .unwrap();
         let evidence = SlashingEvidence {
-            validator: "a".into(), height: 1, block_a: [1; 32], block_b: [2; 32],
-            approve_a: true, approve_b: true, public_key: key.verifying_key().to_bytes(),
-            signature_a: sign_evidence([1; 32]), signature_b: sign_evidence([2; 32]),
+            validator: "a".into(),
+            height: 1,
+            block_a: [1; 32],
+            block_b: [2; 32],
+            approve_a: true,
+            approve_b: true,
+            public_key: key.verifying_key().to_bytes(),
+            signature_a: sign_evidence([1; 32]),
+            signature_b: sign_evidence([2; 32]),
             reason: "double-sign".into(),
         };
         assert_eq!(engine.slash(evidence.clone(), 40).unwrap(), 40);
@@ -744,23 +891,31 @@ mod tests {
         let new_key = SigningKey::from_bytes(&[82u8; 32]);
 
         engine.register_validator("alice".into(), 100).unwrap();
-        engine.register_validator_key("alice", old_key.verifying_key().to_bytes()).unwrap();
-        engine.restore_validator_snapshot(
-            1,
-            engine.validators_snapshot(),
-            [("alice".to_string(), old_key.verifying_key().to_bytes())]
-                .into_iter()
-                .collect(),
-        ).unwrap();
+        engine
+            .register_validator_key("alice", old_key.verifying_key().to_bytes())
+            .unwrap();
+        engine
+            .restore_validator_snapshot(
+                1,
+                engine.validators_snapshot(),
+                [("alice".to_string(), old_key.verifying_key().to_bytes())]
+                    .into_iter()
+                    .collect(),
+            )
+            .unwrap();
 
-        engine.register_validator_key("alice", new_key.verifying_key().to_bytes()).unwrap();
-        engine.restore_validator_snapshot(
-            2,
-            engine.validators_snapshot(),
-            [("alice".to_string(), new_key.verifying_key().to_bytes())]
-                .into_iter()
-                .collect(),
-        ).unwrap();
+        engine
+            .register_validator_key("alice", new_key.verifying_key().to_bytes())
+            .unwrap();
+        engine
+            .restore_validator_snapshot(
+                2,
+                engine.validators_snapshot(),
+                [("alice".to_string(), new_key.verifying_key().to_bytes())]
+                    .into_iter()
+                    .collect(),
+            )
+            .unwrap();
 
         let sign = |key: &SigningKey, block: [u8; 32]| {
             let mut bytes = Vec::new();
@@ -828,12 +983,22 @@ mod key_binding_regression {
         let registered = SigningKey::from_bytes(&[11u8; 32]);
         let attacker = SigningKey::from_bytes(&[12u8; 32]);
         engine.register_validator("alice".into(), 100).unwrap();
-        engine.register_validator_key("alice", registered.verifying_key().to_bytes()).unwrap();
+        engine
+            .register_validator_key("alice", registered.verifying_key().to_bytes())
+            .unwrap();
         let mut vote = Vote {
-            block: [1; 32], voter: "alice".into(), approve: true,
-            signature: [0; 64], public_key: attacker.verifying_key().to_bytes(),
+            block: [1; 32],
+            voter: "alice".into(),
+            approve: true,
+            signature: [0; 64],
+            public_key: attacker.verifying_key().to_bytes(),
         };
-        vote.signature = attacker.sign(&vote_signing_bytes(engine.chain_id, &vote)).to_bytes();
-        assert_eq!(engine.vote(vote).unwrap_err(), "vote public key does not match validator identity");
+        vote.signature = attacker
+            .sign(&vote_signing_bytes(engine.chain_id, &vote))
+            .to_bytes();
+        assert_eq!(
+            engine.vote(vote).unwrap_err(),
+            "vote public key does not match validator identity"
+        );
     }
 }
