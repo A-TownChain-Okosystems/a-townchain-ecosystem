@@ -11,6 +11,19 @@ from datetime import datetime, timezone
 from typing import Any, Mapping, Optional, Sequence
 from types import MappingProxyType
 
+
+def freeze_value(value):
+    """Recursively freeze evidence metadata so post-validation mutation is impossible."""
+    if isinstance(value, Mapping):
+        return MappingProxyType({k: freeze_value(v) for k, v in value.items()})
+    if isinstance(value, list):
+        return tuple(freeze_value(v) for v in value)
+    if isinstance(value, tuple):
+        return tuple(freeze_value(v) for v in value)
+    if isinstance(value, set):
+        return frozenset(freeze_value(v) for v in value)
+    return value
+
 class EvidenceBlockedError(RuntimeError): pass
 class EvidenceValidationError(RuntimeError): pass
 
@@ -113,6 +126,8 @@ class Node:
     sha:str
     type:str
     metadata:Mapping[str,Any]
+    def __post_init__(self):
+        object.__setattr__(self,"metadata",freeze_value(self.metadata))
 
 @dataclass(frozen=True)
 class Edge:
@@ -121,7 +136,7 @@ class Edge:
     target:str
 
 RELATIONS={
-    ("TREE","CONTAINS","BLOB"),("WORKFLOW","BINDS_TO","BLOB"),
+    ("COMMIT","HAS_TREE","TREE"),("TREE","CONTAINS","BLOB"),("WORKFLOW","BINDS_TO","BLOB"),
     ("RUN","RUNS_WORKFLOW","WORKFLOW"),("RUN","RUNS_COMMIT","COMMIT"),
     ("RUN","HAS_JOB","JOB"),("JOB","HAS_STEP","STEP"),("JOB","HAS_LOG","LOG")
 }
@@ -257,24 +272,53 @@ class Adapter:
         ledger.add_edge(Edge(jn,"HAS_LOG",ln))
 
 class Validator:
+    SUCCESS_JOB_CONCLUSIONS={"success","skipped","neutral"}
+    SUCCESS_STEP_CONCLUSIONS={"success","skipped","neutral"}
     def __init__(self,l,t): self.l,self.t=l,t
     def ci(self):
-        if "commit:"+self.t.resolved_sha not in self.l.nodes: raise EvidenceValidationError("missing commit node")
+        commit=self.l.nodes.get("commit:"+self.t.resolved_sha)
+        tree=self.l.nodes.get("tree:"+self.t.tree_sha)
+        if not commit or commit.type!="COMMIT" or commit.sha!=self.t.resolved_sha:
+            raise EvidenceValidationError("missing/invalid commit node")
+        if not tree or tree.type!="TREE" or tree.sha!=self.t.tree_sha:
+            raise EvidenceValidationError("missing/invalid tree node")
+        ct=[e for e in self.l.edges if e.source==commit.id and e.relation=="HAS_TREE"]
+        if len(ct)!=1 or ct[0].target!=tree.id:
+            raise EvidenceValidationError("commit-tree binding invalid")
         for n in self.l.nodes.values():
             incoming=lambda rel:[e.source for e in self.l.edges if e.relation==rel and e.target==n.id]
             outgoing=lambda rel:[e.target for e in self.l.edges if e.relation==rel and e.source==n.id]
-            if n.type=="WORKFLOW" and len(outgoing("BINDS_TO"))!=1: raise EvidenceValidationError("workflow binding invalid: "+n.id)
+            if n.type=="BLOB":
+                sha1(n.sha,"blob.node.sha")
+                if len(incoming("CONTAINS"))!=1 or incoming("CONTAINS")[0]!=tree.id:
+                    raise EvidenceValidationError("blob tree parent invalid: "+n.id)
+            if n.type=="WORKFLOW":
+                binds=outgoing("BINDS_TO")
+                if len(binds)!=1: raise EvidenceValidationError("workflow binding invalid: "+n.id)
+                blob=self.l.nodes.get(binds[0])
+                if not blob or blob.type!="BLOB" or blob.path!=n.path or blob.sha!=n.sha:
+                    raise EvidenceValidationError("workflow/blob SHA binding invalid: "+n.id)
             if n.type=="RUN":
                 if len(outgoing("RUNS_WORKFLOW"))!=1 or len(outgoing("RUNS_COMMIT"))!=1: raise EvidenceValidationError("run bindings invalid: "+n.id)
                 if n.metadata.get("head_sha")!=self.t.resolved_sha: raise EvidenceValidationError("run head_sha mismatch: "+n.id)
-            if n.type=="JOB" and len(incoming("HAS_JOB"))!=1: raise EvidenceValidationError("job parent invalid: "+n.id)
+                if n.metadata.get("status")!="completed" or n.metadata.get("conclusion")!="success":
+                    raise EvidenceBlockedError("run not successfully completed: "+n.id)
+            if n.type=="JOB":
+                if len(incoming("HAS_JOB"))!=1: raise EvidenceValidationError("job parent invalid: "+n.id)
+                if n.metadata.get("head_sha") not in (None,self.t.resolved_sha): raise EvidenceValidationError("job head_sha mismatch: "+n.id)
+                if n.metadata.get("status")!="completed" or n.metadata.get("conclusion") not in self.SUCCESS_JOB_CONCLUSIONS:
+                    raise EvidenceBlockedError("job not successfully completed: "+n.id)
+                if len(outgoing("HAS_LOG"))!=1: raise EvidenceValidationError("job log binding invalid: "+n.id)
             if n.type=="STEP":
                 p=incoming("HAS_STEP")
                 if len(p)!=1 or p[0]!="job:%s"%n.metadata.get("job_id"): raise EvidenceValidationError("step parent invalid: "+n.id)
+                if n.metadata.get("status") not in (None,"completed") or n.metadata.get("conclusion") not in (None,)+tuple(self.SUCCESS_STEP_CONCLUSIONS):
+                    raise EvidenceBlockedError("step not successfully completed: "+n.id)
             if n.type=="LOG":
                 p=incoming("HAS_LOG"); content=n.metadata.get("content_bytes"); digest=n.metadata.get("content_sha256")
                 if len(p)!=1 or p[0]!="job:%s"%n.metadata.get("job_id"): raise EvidenceValidationError("log parent invalid: "+n.id)
                 if not isinstance(content,bytes) or hashlib.sha256(content).hexdigest()!=digest: raise EvidenceValidationError("log SHA-256 mismatch: "+n.id)
+                if n.metadata.get("byte_length")!=len(content): raise EvidenceValidationError("log byte length mismatch: "+n.id)
         if not any(n.type=="WORKFLOW" for n in self.l.nodes.values()): raise EvidenceValidationError("no workflow evidence")
         if not any(n.type=="RUN" for n in self.l.nodes.values()): raise EvidenceValidationError("no run evidence")
     def global_(self):
@@ -299,14 +343,14 @@ def main():
         if returned_tree!=target.tree_sha: raise EvidenceValidationError("tree SHA mismatch")
         l=Ledger(target)
         l.add_node(Node("commit:"+target.resolved_sha,"",target.resolved_sha,"COMMIT",{"requested_sha":target.requested_sha,"resolved_sha":target.resolved_sha,"tree_sha":target.tree_sha}))
-        l.add_node(Node("tree:"+target.tree_sha,"",target.tree_sha,"TREE",{"commit_sha":target.resolved_sha}))
+        l.add_node(Node("tree:"+target.tree_sha,"",target.tree_sha,"TREE",{"commit_sha":target.resolved_sha}))\n        l.add_edge(Edge("commit:"+target.resolved_sha,"HAS_TREE","tree:"+target.tree_sha))
         for path,e in entries.items():
             if e["type"]!="blob": continue
             data=ins.blob(e["sha"]); bid="blob:%s:%s"%(path,e["sha"])
             l.add_node(Node(bid,path,e["sha"],"BLOB",{"byte_length":len(data)})); l.add_edge(Edge("tree:"+target.tree_sha,"CONTAINS",bid))
         Adapter(c,owner,repo,RunSelectionPolicy()).run(l,entries,target)
         v=Validator(l,target); v.ci(); v.global_(); l.freeze()
-        result={"repository":a.repository,"requested_sha":target.requested_sha,"resolved_sha":target.resolved_sha,"tree_sha":target.tree_sha,"status":"VERIFIED","exit_code":0,"evidence_frozen":l.frozen,"timestamp":now()}
+        result={"repository":a.repository,"requested_sha":target.requested_sha,"resolved_sha":target.resolved_sha,"tree_sha":target.tree_sha,"status":"VERIFIED","exit_code":0,"evidence_frozen":l.frozen,"node_count":len(l.nodes),"edge_count":len(l.edges),"timestamp":now()}
     except EvidenceBlockedError as e:
         result={"repository":a.repository,"requested_sha":a.requested_sha,"status":"BLOCKED","exit_code":2,"evidence_frozen":False,"error":str(e),"timestamp":now()}
     except EvidenceValidationError as e:
