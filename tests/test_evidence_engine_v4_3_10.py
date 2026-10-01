@@ -10,6 +10,10 @@ from tools.evidence_engine_v4_3_10 import (
     sha1,
     sha256,
     git_blob_sha,
+    Target,
+    Node,
+    Edge,
+    Ledger,
 )
 
 
@@ -84,6 +88,27 @@ class EvidenceEngineTests(unittest.TestCase):
         ])
         with self.assertRaises(EvidenceBlockedError):
             client.paginated("/x", "items", max_pages=1)
+
+
+
+    def test_node_metadata_is_recursively_immutable(self):
+        node = Node("n", "x", "a" * 40, "BLOB", {"nested": {"items": [1, 2]}})
+        with self.assertRaises(TypeError):
+            node.metadata["nested"]["items"] = ()
+        with self.assertRaises(TypeError):
+            node.metadata["nested"]["items"][0] = 9
+
+    def test_ledger_freeze_prevents_graph_mutation(self):
+        target = Target("owner/repo", "a" * 40, "a" * 40, "b" * 40)
+        ledger = Ledger(target)
+        ledger.add_node(Node("commit:" + "a" * 40, "", "a" * 40, "COMMIT", {}))
+        ledger.add_node(Node("tree:" + "b" * 40, "", "b" * 40, "TREE", {}))
+        ledger.add_edge(Edge("commit:" + "a" * 40, "HAS_TREE", "tree:" + "b" * 40))
+        ledger.freeze()
+        with self.assertRaises(Exception):
+            ledger.add_node(Node("x", "", "a" * 40, "BLOB", {}))
+        with self.assertRaises(TypeError):
+            ledger.nodes["x"] = ledger.nodes["commit:" + "a" * 40]
 
     def test_policy_scope_is_explicit(self):
         self.assertEqual(
