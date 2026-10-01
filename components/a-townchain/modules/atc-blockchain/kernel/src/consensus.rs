@@ -294,11 +294,6 @@ impl ConsensusEngine {
         keys: BTreeMap<String, [u8; 32]>,
         slashed: BTreeMap<String, u128>,
     ) -> Result<(), String> {
-        if validators.len() != keys.len()
-            || validators.keys().any(|address| !keys.contains_key(address))
-        {
-            return Err("cannot restore incomplete validator identity state".into());
-        }
         *self
             .validators
             .lock()
