@@ -68,9 +68,7 @@ impl ChainIdentity {
         if !matches!(self.network_id.as_str(), "devnet" | "testnet" | "mainnet") {
             return Err(IdentityError::InvalidNetworkId(self.network_id.clone()));
         }
-        if self.genesis_id.len() != 64
-            || !self.genesis_id.bytes().all(|b| b.is_ascii_hexdigit())
-        {
+        if self.genesis_id.len() != 64 || !self.genesis_id.bytes().all(|b| b.is_ascii_hexdigit()) {
             return Err(IdentityError::InvalidGenesisId(self.genesis_id.clone()));
         }
         Ok(())
