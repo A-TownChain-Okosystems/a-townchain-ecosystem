@@ -466,9 +466,7 @@ impl ChainStorage {
     }
 
     /// Backward-compatible recovery API returning the latest state/DAO pair
-    /// without exposing the canonical height. New startup paths should use
-    /// `recover_state_with_dao_at_height` so cross-journal height validation
-    /// remains explicit.
+    /// without exposing the canonical height.
     pub fn recover_state_with_dao(&self) -> Result<Option<DaoStateSnapshot>, String> {
         Ok(self
             .recover_state_with_dao_at_height()?
@@ -582,7 +580,7 @@ impl ChainStorage {
         Ok(())
     }
 
-    pub fn recover_validators(&self) -> Result<Option<LatestValidatorSnapshot>, String> {
+    pub fn recover_validators(&self ) -> Result<Option<LatestValidatorSnapshot>, String> {
         let Some(p) = &self.validator_journal else {
             return Ok(None);
         };
@@ -692,7 +690,7 @@ impl ChainStorage {
         height: u64,
         validators: &BTreeMap<String, u64>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
-    ) -> Result<Option<LatestValidatorSnapshot>, String> {
+    ) -> Result<Option<ValidatorSnapshot>, String> {
         self.commit_validators(height, validators, validator_keys)?;
         self.recover_validators()
     }
@@ -878,3 +876,439 @@ impl ChainStorage {
             if raw.trim().is_empty() {
                 continue;
             }
+            let b = hex::decode(raw.trim()).map_err(|e| e.to_string())?;
+            if !b.starts_with(ISSUANCE_MAGIC) {
+                return Err("invalid issuance magic".into());
+            }
+            let mut q = ISSUANCE_MAGIC.len();
+            let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let issued = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
+            if issued > crate::economics::MAX_SUPPLY || q != b.len() {
+                return Err("invalid issuance record".into());
+            }
+            if let Some(prev) = previous_height {
+                if h < prev {
+                    return Err("issuance height regression".into());
+                }
+                if h == prev {
+                    return Err("conflicting issuance record at same height".into());
+                }
+            }
+            if self.block(h).is_none() {
+                return Err("issuance record references missing block".into());
+            }
+            previous_height = Some(h);
+            latest = Some((h, issued));
+        }
+        Ok(latest)
+    }
+
+    pub fn find_block_by_id(&self, id: [u8; 32]) -> Option<Block> {
+        self.blocks.read().unwrap().values().find(|b| b.id == id).cloned()
+    }
+
+    pub fn block(&self, h: u64) -> Option<Block> {
+        self.blocks.read().unwrap().get(&h).cloned()
+    }
+
+    pub fn state_root(&self, h: u64) -> Option<[u8; 32]> {
+        self.state_roots.read().unwrap().get(&h).copied()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn validator_snapshot_persists_public_keys_across_restart() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-snapshot-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let journal = path.with_extension("journal");
+
+        let key = ed25519_dalek::SigningKey::from_bytes(&[7u8; 32])
+            .verifying_key()
+            .to_bytes();
+        let mut validators = BTreeMap::new();
+        validators.insert("validator-a".to_string(), 100u64);
+        let mut keys = BTreeMap::new();
+        keys.insert("validator-a".to_string(), key);
+
+        {
+            let storage = ChainStorage::open(&journal).unwrap();
+            storage.commit_validators(42, &validators, &keys).unwrap();
+        }
+
+        {
+            let storage = ChainStorage::open(&journal).unwrap();
+            let (height, recovered) = storage.recover_validators().unwrap().unwrap();
+            assert_eq!(height, 42);
+            assert_eq!(recovered.get("validator-a"), Some(&(100, key)));
+        }
+
+        let _ = std::fs::remove_file(&journal.with_extension("validators"));
+        let _ = std::fs::remove_file(&journal);
+        let _ = std::fs::remove_file(&journal.with_extension("state"));
+        let _ = std::fs::remove_file(&journal.with_extension("finality"));
+        let _ = std::fs::remove_file(&journal.with_extension("slashing"));
+        let _ = std::fs::remove_file(&journal.with_extension("issuance"));
+    }
+
+    #[test]
+    fn validator_snapshot_history_survives_restart_without_mixing_heights() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-history-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let key0 = ed25519_dalek::SigningKey::from_bytes(&[41u8; 32]).verifying_key().to_bytes();
+        let key1 = ed25519_dalek::SigningKey::from_bytes(&[42u8; 32]).verifying_key().to_bytes();
+        let mut v0 = BTreeMap::new();
+        v0.insert("alice".to_string(), 100u64);
+        let mut k0 = BTreeMap::new();
+        k0.insert("alice".to_string(), key0);
+        let mut v1 = BTreeMap::new();
+        v1.insert("alice".to_string(), 60u64);
+        v1.insert("bob".to_string(), 40u64);
+        let mut k1 = BTreeMap::new();
+        k1.insert("alice".to_string(), key1);
+        k1.insert("bob".to_string(), ed25519_dalek::SigningKey::from_bytes(&[43u8; 32]).verifying_key().to_bytes());
+
+        {
+            let storage = ChainStorage::open(&path).unwrap();
+            storage.commit_validators(0, &v0, &k0).unwrap();
+            storage.commit_validators(10, &v1, &k1).unwrap();
+        }
+        let recovered = ChainStorage::open(&path).unwrap().recover_validator_snapshots().unwrap();
+        assert_eq!(recovered.get(&0).unwrap().1.get("alice"), Some(&key0));
+        assert_eq!(recovered.get(&10).unwrap().1.get("alice"), Some(&key1));
+        assert_eq!(recovered.get(&0).unwrap().0.get("bob"), None);
+        assert_eq!(recovered.get(&10).unwrap().0.get("bob"), Some(&40));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn validator_snapshot_same_activation_height_uses_latest_revision() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-revision-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key_a = ed25519_dalek::SigningKey::from_bytes(&[51u8; 32]).verifying_key().to_bytes();
+        let key_b = ed25519_dalek::SigningKey::from_bytes(&[52u8; 32]).verifying_key().to_bytes();
+
+        let mut first = BTreeMap::new();
+        first.insert("alice".to_string(), 100u64);
+        let mut first_keys = BTreeMap::new();
+        first_keys.insert("alice".to_string(), key_a);
+
+        let mut second = first.clone();
+        second.insert("bob".to_string(), 50u64);
+        let mut second_keys = first_keys.clone();
+        second_keys.insert("bob".to_string(), key_b);
+
+        {
+            let storage = ChainStorage::open(&path).unwrap();
+            storage.commit_validators(10, &first, &first_keys).unwrap();
+            storage.commit_validators(10, &second, &second_keys).unwrap();
+        }
+
+        let storage = ChainStorage::open(&path).unwrap();
+        let recovered = storage.recover_validator_snapshots().unwrap();
+        let (validators, keys) = recovered.get(&10).unwrap();
+        assert_eq!(validators.get("alice"), Some(&100));
+        assert_eq!(validators.get("bob"), Some(&50));
+        assert_eq!(keys.get("bob"), Some(&key_b));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn validator_snapshot_history_rejects_height_regression() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-validator-regression-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let key = ed25519_dalek::SigningKey::from_bytes(&[53u8; 32]).verifying_key().to_bytes();
+        let mut validators = BTreeMap::new();
+        validators.insert("alice".to_string(), 100u64);
+        let mut keys = BTreeMap::new();
+        keys.insert("alice".to_string(), key);
+
+        {
+            let storage = ChainStorage::open(&path).unwrap();
+            storage.commit_validators(10, &validators, &keys).unwrap();
+            storage.commit_validators(9, &validators, &keys).unwrap();
+        }
+
+        let err = match ChainStorage::open(&path) {
+            Ok(_) => panic!("validator height regression must be rejected"),
+            Err(err) => err,
+        };
+        assert!(err.contains("validator snapshot height regressed"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() {
+                path.clone()
+            } else {
+                std::path::PathBuf::from(format!("{}{}", path.display(), suffix))
+            };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn incomplete_validator_snapshot_is_rejected() {
+        let storage = ChainStorage::new();
+        let mut validators = BTreeMap::new();
+        validators.insert("validator-a".to_string(), 100u64);
+        let keys = BTreeMap::new();
+        let err = storage.commit_validators(1, &validators, &keys).unwrap_err();
+        assert!(err.contains("every validator needs a public key"));
+    }
+
+    #[test]
+    fn finality_journal_is_idempotent_and_rejects_conflicting_height() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-finality-idempotence-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let storage = ChainStorage::open(&path).unwrap();
+        let block = Block::new(7, [6u8; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        storage.commit(block.clone()).unwrap();
+        storage.commit_finalized(7, block.id).unwrap();
+        storage.commit_finalized(7, block.id).unwrap();
+        assert!(storage.commit_finalized(7, [8u8; 32]).is_err());
+        assert_eq!(storage.recover_finalized().unwrap(), Some((7, block.id)));
+
+        let raw = std::fs::read_to_string(path.with_extension("finality")).unwrap();
+        assert_eq!(raw.lines().count(), 1);
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn canonical_commit_rejects_conflicting_height_and_parent() {
+        let s = ChainStorage::new();
+        let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        s.commit(genesis.clone()).unwrap();
+
+        let h1 = Block::new(1, genesis.id, "v".into(), 2, Vec::new(), [3; 32], [4; 32], [0; 64]);
+        s.commit(h1.clone()).unwrap();
+        assert!(s.commit(h1.clone()).is_ok());
+        let conflicting = Block::new(1, genesis.id, "v".into(), 3, Vec::new(), [5; 32], [6; 32], [0; 64]);
+        assert!(s.commit(conflicting).is_err());
+        let wrong_parent = Block::new(2, [9; 32], "v".into(), 4, Vec::new(), [7; 32], [8; 32], [0; 64]);
+        assert!(s.commit(wrong_parent).is_err());
+    }
+
+    #[test]
+    fn recovery_rejects_conflicting_canonical_height_in_journal() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-storage-conflicting-height-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        let first = Block::new(1, genesis.id, "v".into(), 2, Vec::new(), [3; 32], [4; 32], [0; 64]);
+        let conflicting = Block::new(1, genesis.id, "v".into(), 3, Vec::new(), [5; 32], [6; 32], [0; 64]);
+        let raw = format!(
+            "{}\n{}\n{}\n",
+            hex::encode(block_encode(&genesis)),
+            hex::encode(block_encode(&first)),
+            hex::encode(block_encode(&conflicting)),
+        );
+        std::fs::write(&path, raw).unwrap();
+
+        let err = match ChainStorage::open(&path) {
+            Ok(_) => panic!("conflicting journal must be rejected"),
+            Err(err) => err,
+        };
+        assert!(err.contains("non-sequential block height"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovery_rejects_state_or_issuance_beyond_canonical_tip() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-storage-state-boundary-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        std::fs::write(&path, format!("{}\n", hex::encode(block_encode(&genesis)))).unwrap();
+
+        let state_path = path.with_extension("state");
+        let mut state_record = Vec::new();
+        state_record.extend_from_slice(&1u64.to_be_bytes());
+        state_record.extend_from_slice(&0u32.to_be_bytes());
+        put(&mut state_record, &[]);
+        std::fs::write(&state_path, format!("{}\n", hex::encode(state_record))).unwrap();
+        let recovered = ChainStorage::open(&path).unwrap();
+        assert!(recovered.recover_state_with_dao().is_err());
+
+        let issuance_path = path.with_extension("issuance");
+        let mut issuance_record = Vec::new();
+        issuance_record.extend_from_slice(ISSUANCE_MAGIC);
+        issuance_record.extend_from_slice(&1u64.to_be_bytes());
+        issuance_record.extend_from_slice(&0u128.to_be_bytes());
+        std::fs::write(&issuance_path, format!("{}\n", hex::encode(issuance_record))).unwrap();
+        assert!(ChainStorage::open(&path).unwrap().recover_issuance().is_err());
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovery_rejects_torn_canonical_block_record() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-storage-torn-block-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        let encoded = hex::encode(block_encode(&genesis));
+        std::fs::write(&path, format!("{}\n{}", &encoded[..encoded.len() - 2], encoded)).unwrap();
+        let err = match ChainStorage::open(&path) {
+            Ok(_) => panic!("torn canonical block journal must be rejected"),
+            Err(err) => err,
+        };
+        assert!(err.contains("journal line 1"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovery_rejects_state_written_before_block_commit_point() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-storage-precommit-state-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let mut state_record = Vec::new();
+        state_record.extend_from_slice(&1u64.to_be_bytes());
+        state_record.extend_from_slice(&0u32.to_be_bytes());
+        put(&mut state_record, &[]);
+        std::fs::write(path.with_extension("state"), format!("{}\n", hex::encode(state_record))).unwrap();
+
+        let mut storage = ChainStorage::new();
+        // The same recovery boundary used by open_storage() must fail closed:
+        // state cannot become durable merely because its journal line is valid.
+        storage.state_journal = Some(path.with_extension("state"));
+        let err = storage.recover_state_with_dao().unwrap_err();
+        assert!(err.contains("missing block"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovery_rejects_torn_finality_record() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-storage-torn-finality-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        let storage = ChainStorage::open(&path).unwrap();
+        storage.commit(genesis.clone()).unwrap();
+        let mut record = Vec::from(FINALITY_MAGIC);
+        record.extend_from_slice(&0u64.to_be_bytes());
+        record.extend_from_slice(&genesis.id);
+        let encoded = hex::encode(record);
+        std::fs::write(path.with_extension("finality"), format!("{}\n", &encoded[..encoded.len() - 4])).unwrap();
+        let err = match ChainStorage::open(&path) {
+            Ok(_) => panic!("torn finality journal must be rejected"),
+            Err(err) => err,
+        };
+        assert!(err.contains("finality journal line 1"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn recovery_rejects_torn_issuance_record() {
+        let path = std::env::temp_dir().join(format!(
+            "atc-storage-torn-issuance-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+        ));
+        let storage = ChainStorage::open(&path).unwrap();
+        let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
+        storage.commit(genesis).unwrap();
+        let mut record = Vec::from(ISSUANCE_MAGIC);
+        record.extend_from_slice(&0u64.to_be_bytes());
+        record.extend_from_slice(&0u128.to_be_bytes());
+        let encoded = hex::encode(record);
+        std::fs::write(path.with_extension("issuance"), format!("{}\n", &encoded[..encoded.len() - 2])).unwrap();
+        let err = match ChainStorage::open(&path) {
+            Ok(_) => panic!("torn issuance journal must be rejected"),
+            Err(err) => err,
+        };
+        assert!(err.contains("invalid issuance") || err.contains("range end index"));
+
+        for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
+            let target = if suffix.is_empty() { path.clone() } else { std::path::PathBuf::from(format!("{}{}", path.display(), suffix)) };
+            let _ = std::fs::remove_file(target);
+        }
+    }
+
+    #[test]
+    fn round_trip() {
+        let s = ChainStorage::new();
+        let b = Block::new(
+            0,
+            [0; 32],
+            "v".into(),
+            1,
+            Vec::new(),
+            [1; 32],
+            [2; 32],
+            [0; 64],
+        );
+        s.commit(b.clone()).unwrap();
+        assert_eq!(s.block(0), Some(b));
+    }
+}
