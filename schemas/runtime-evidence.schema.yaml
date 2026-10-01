@@ -1,0 +1,35 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://a-townchain.org/schemas/runtime-evidence.schema.json"
+title: ATC Runtime Evidence Record
+type: object
+required: [schema_version, source_sha, recorded_at, measurements]
+properties:
+  schema_version: {type: string}
+  source_sha: {type: string, pattern: "^[0-9a-f]{40}$"}
+  recorded_at: {type: string, format: date-time}
+  run_id: {type: [string, "null"]}
+  job_id: {type: [string, "null"]}
+  workflow: {type: [string, "null"]}
+  measurements:
+    type: object
+    required: [build_ms, test_ms, protocol_conformance_ms, runtime_gas_ms, library_conformance_ms]
+    properties:
+      build_ms: {type: integer, minimum: 0}
+      test_ms: {type: integer, minimum: 0}
+      protocol_conformance_ms: {type: integer, minimum: 0}
+      runtime_gas_ms: {type: integer, minimum: 0}
+      library_conformance_ms: {type: integer, minimum: 0}
+  results:
+    type: object
+    additionalProperties: {type: string, enum: [PASS, FAIL, BLOCKED, NOT_RUN]}
+  evidence:
+    type: array
+    items:
+      type: object
+      required: [step, command, exit_code, duration_ms]
+      properties:
+        step: {type: string}
+        command: {type: string}
+        exit_code: {type: integer}
+        duration_ms: {type: integer, minimum: 0}
+additionalProperties: false
