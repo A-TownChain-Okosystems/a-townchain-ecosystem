@@ -175,8 +175,6 @@ fn run_initial_node_b() {
         panic!("node-b did not receive block 1; receive loop still running");
     }
     let block = node.chain.last().unwrap();
-    node.submit_vote_and_broadcast(make_vote(block.id, "validator-b", 2))
-        .unwrap();
     for _ in 0..100 {
         if node.chain.height() >= 2 {
             break;
@@ -191,8 +189,6 @@ fn run_initial_node_b() {
     }
     assert_eq!(node.chain.height(), 2);
     let block2 = node.chain.last().unwrap();
-    node.submit_vote_and_broadcast(make_vote(block2.id, "validator-b", 2))
-        .unwrap();
     drop(handle);
 }
 
