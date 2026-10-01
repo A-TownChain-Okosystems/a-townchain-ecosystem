@@ -4,7 +4,7 @@ criticality: C1
 domain: interoperability
 domain_extension: 'pending (fachliche Standards je Domain via SCR — ehrlich: Kernprofil
   v1.0)'
-layer: L3
+layer: L5
 maturity_class: B
 profile: atc-interop
 registry_id: ATC-REPO-INTOP-001
