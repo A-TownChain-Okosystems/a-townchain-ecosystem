@@ -17,7 +17,7 @@ const DEFAULT_GENESIS_PROPOSER: &str = "atc-genesis";
 #[derive(Clone)]
 struct ValidatorConfig {
     id: String,
-    stake: u64,
+    stake: u128,
     seed: [u8; 32],
 }
 
@@ -60,7 +60,7 @@ fn validators_from_env() -> Result<Vec<ValidatorConfig>, String> {
         let stake = parts
             .next()
             .ok_or("validator stake missing")?
-            .parse::<u64>()
+            .parse::<u128>()
             .map_err(|_| "invalid validator stake")?;
         let seed = parse_seed(parts.next().ok_or("validator seed missing")?)?;
         if parts.next().is_some() || id.is_empty() || stake == 0 {
