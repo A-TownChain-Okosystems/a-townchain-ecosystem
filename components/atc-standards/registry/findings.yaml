@@ -581,16 +581,16 @@ findings:
   severity: P0
   source: Owner-Audit 10.09. (P0-01..04)
   status: OPEN
-  title: 'atc-algorithm: Konsens-Kern unimplementiert (src/tests nur .gitkeep, kein Cargo.toml) und unspezifiziert — PoH/PoS/PoW/Hybrid/Fork-Choice/Finality/Determinismus/Encoding fehlen formal (S4-Kern)'
+  title: 'atc-algorithm: Konsens-Kern unimplementiert (src/tests nur .gitkeep, kein Cargo.toml) und unspezifiziert — PoH/PoS/PoW/Hybrid/Fork-Choice/Finality/Determinismus/Encoding fehlen formal (S4-Kern); konkrete Konsensvariante ist noch nicht Specification-Frozen'
   priority: P0
 - alias: null
   discovered: '2026-09-10'
   id: F-068
-  resolution: 'README Zeile 5 auf L3 korrigiert; kanonische Org-Schichten: L0 atclang, L1 atc-shivacore, L3 a-townchain'
+  resolution: 'Layer terminology superseded by canonical architecture SSOT: L2 Blockchain Core, L3 deterministic execution/ATC-VM; a-townchain is L2. Historical wording retained only as audit history.'
   scr: SCR-0070
   severity: P1
   source: Owner-Audit 10.09. (P1 Layer-Bezeichnung)
-  status: RESOLVED
+  status: SUPERSEDED
   title: 'a-townchain: Layer-Terminologie-Widerspruch — README ''Blockchain L1'' vs. ''kanonische Layer-3-Blockchain'' (3 Stellen korrekt L3)'
   priority: P1
 - alias: null
