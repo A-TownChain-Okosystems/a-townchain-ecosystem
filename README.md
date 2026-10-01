@@ -40,9 +40,9 @@ ATCLang is the language and contract-development layer of A-TownChain. The repos
 ```text
 ATCLang source
     │
-    ├── Python reference implementation / SDK / differential tests
+    ├── Rust canonical production implementation
     │
-    └── Rust canonical production implementation
+    └── Python reference/test tooling and differential conformance only
               │
               ▼
            ATC-VM
@@ -61,12 +61,8 @@ The current release state is determined by the applicable standards, conformance
 
 ## Components
 
-- `src/atclang/frontend/` — Python reference lexer, tokenizer, parser and AST.
-- `src/atclang/semantics/` — reference semantic/type checking.
-- `src/atclang/compiler/` — reference compiler and bytecode generation.
-- `src/atclang/vm/` — reference VM only; not a production trust anchor.
-- `src/atclang/runtime/` — reference runtime integration.
-- `src/atclang/stdlib/` — reference standard library.
+- `src/atclang/` — any remaining Python code is reference/test tooling only and MUST NOT define production semantics.
+- `crates/atc-core/` — Rust canonical compiler/runtime/verifier/ABI core.
 - `crates/atc-core/` — Rust canonical core currently under incremental implementation and differential conformance testing.
 - `specs/` — normative language, ABI, bytecode, IR, semantics, VM and standard-library specifications.
 - `tools/` — deterministic/differential and CI-independent audit tooling.
@@ -152,7 +148,8 @@ ownership:
   organization: A-TownChain-Okosystems
 technology:
   primary_language: Rust
-  reference_language: Python
+  secondary_language: Python
+  secondary_scope: reference, conformance, tests
 governance:
   security_class: S4
   criticality: CRITICAL
