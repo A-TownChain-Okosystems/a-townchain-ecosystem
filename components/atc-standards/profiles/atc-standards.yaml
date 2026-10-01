@@ -4,7 +4,7 @@ criticality: C1
 domain: governance
 domain_extension: 'pending (fachliche Standards je Domain via SCR — ehrlich: Kernprofil
   v1.0)'
-layer: L7
+layer: X
 maturity_class: A
 profile: atc-standards
 registry_id: ATC-REPO-GOV-001
