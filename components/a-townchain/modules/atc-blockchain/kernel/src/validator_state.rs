@@ -218,3 +218,60 @@ impl ValidatorState {
     pub fn root(&self) -> [u8; 32] {
         let mut bytes = Vec::from(DOMAIN);
         for (address, validator) in &self.validators {
+            bytes.extend_from_slice(&(address.len() as u32).to_be_bytes());
+            bytes.extend_from_slice(address.as_bytes());
+            bytes.extend_from_slice(&validator.stake.to_be_bytes());
+            bytes.extend_from_slice(&validator.public_key);
+            bytes.extend_from_slice(&validator.activation_height.to_be_bytes());
+            bytes.push(u8::from(validator.active));
+            bytes.extend_from_slice(&validator.slashed_base_units.to_be_bytes());
+        }
+        simple_hash(&bytes)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn key(n: u8) -> [u8; 32] {
+        [n; 32]
+    }
+
+    #[test]
+    fn validator_root_changes_for_key_rotation_and_slash() {
+        let mut state = ValidatorState::new();
+        state.apply(&ValidatorTransition::Register {
+            address: "validator-a".into(), stake: 100, public_key: key(1), activation_height: 1,
+        }).unwrap();
+        let registered = state.root();
+        state.apply(&ValidatorTransition::RotateKey {
+            address: "validator-a".into(), public_key: key(2), activation_height: 2,
+        }).unwrap();
+        assert_ne!(registered, state.root());
+        let rotated = state.root();
+        state.apply(&ValidatorTransition::Slash {
+            address: "validator-a".into(), evidence_id: [7; 32], evidence_height: 1,
+            penalty: 25, activation_height: 3,
+        }).unwrap();
+        assert_ne!(rotated, state.root());
+        assert_eq!(state.get("validator-a").unwrap().stake, 75);
+    }
+
+    #[test]
+    fn validator_state_is_replay_deterministic() {
+        let transitions = [
+            ValidatorTransition::Register { address: "a".into(), stake: 100, public_key: key(1), activation_height: 1 },
+            ValidatorTransition::Stake { address: "a".into(), amount: 50 },
+            ValidatorTransition::RotateKey { address: "a".into(), public_key: key(2), activation_height: 2 },
+            ValidatorTransition::Slash { address: "a".into(), evidence_id: [9; 32], evidence_height: 2, penalty: 20, activation_height: 3 },
+            ValidatorTransition::Unregister { address: "a".into(), activation_height: 4 },
+        ];
+        let mut left = ValidatorState::new();
+        let mut right = ValidatorState::new();
+        for transition in &transitions { left.apply(transition).unwrap(); }
+        for transition in &transitions { right.apply(transition).unwrap(); }
+        assert_eq!(left, right);
+        assert_eq!(left.root(), right.root());
+    }
+}
