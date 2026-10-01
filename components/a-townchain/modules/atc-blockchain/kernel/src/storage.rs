@@ -580,7 +580,7 @@ impl ChainStorage {
         Ok(())
     }
 
-    pub fn recover_validators(&self ) -> Result<Option<LatestValidatorSnapshot>, String> {
+    pub fn recover_validators(&self) -> Result<Option<LatestValidatorSnapshot>, String> {
         let Some(p) = &self.validator_journal else {
             return Ok(None);
         };
