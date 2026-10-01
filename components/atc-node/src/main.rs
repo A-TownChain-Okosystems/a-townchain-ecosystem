@@ -175,21 +175,27 @@ fn main() -> std::io::Result<()> {
     };
 
     for validator in &validators {
-        if let Err(e) = runtime
-            .node
-            .register_validator(validator.id.clone(), validator.stake.into())
-        {
-            eprintln!("validator registration failed for {}: {e}", validator.id);
-            std::process::exit(1);
-        }
-        let signing = ed25519_dalek::SigningKey::from_bytes(&validator.seed);
-        if let Err(e) =
-            runtime
+        let expected_stake = u128::from(validator.stake);
+        if runtime.node.consensus.validator_stake(&validator.id) != expected_stake {
+            if let Err(e) = runtime
                 .node
-                .register_validator_key(&validator.id, signing.verifying_key().to_bytes())
-        {
-            eprintln!("validator key registration failed for {}: {e}", validator.id);
-            std::process::exit(1);
+                .register_validator(validator.id.clone(), expected_stake)
+            {
+                eprintln!("validator registration failed for {}: {e}", validator.id);
+                std::process::exit(1);
+            }
+        }
+
+        let signing = ed25519_dalek::SigningKey::from_bytes(&validator.seed);
+        let expected_key = signing.verifying_key().to_bytes();
+        if runtime.node.consensus.validator_public_key(&validator.id) != Some(expected_key) {
+            if let Err(e) = runtime
+                .node
+                .register_validator_key(&validator.id, expected_key)
+            {
+                eprintln!("validator key registration failed for {}: {e}", validator.id);
+                std::process::exit(1);
+            }
         }
     }
 
