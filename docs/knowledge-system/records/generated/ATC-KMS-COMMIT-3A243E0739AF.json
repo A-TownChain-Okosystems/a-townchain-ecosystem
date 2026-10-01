@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-3A243E0739AF",
-  "timestamp": "2026-09-30T08:38:15.936659Z",
+  "timestamp": "2026-10-01T09:00:32.303469Z",
   "category": "change",
   "title": "Commit: consensus: activate persisted validator revisions at target height",
   "context": "Git commit 3a243e0739af00d2dee3a193542edf28d55d50f0 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/3a243e0739af00d2dee3a193542edf28d55d50f0",
-    "commit": "30534d0e554e0b27a0aab956c2fe18e223ef47cd"
+    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
   },
   "tags": [
     "commit",

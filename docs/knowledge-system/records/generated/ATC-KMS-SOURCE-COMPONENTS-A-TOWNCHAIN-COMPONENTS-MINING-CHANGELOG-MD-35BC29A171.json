@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-COMPONENTS-MINING-CHANGELOG-MD-35BC29A171",
-  "timestamp": "2026-09-30T08:38:15.936659Z",
+  "timestamp": "2026-10-01T09:00:32.303469Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain/components/mining/CHANGELOG.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain/components/mining/CHANGELOG.md",
-    "commit": "30534d0e554e0b27a0aab956c2fe18e223ef47cd"
+    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
   },
   "tags": [
     "generated",

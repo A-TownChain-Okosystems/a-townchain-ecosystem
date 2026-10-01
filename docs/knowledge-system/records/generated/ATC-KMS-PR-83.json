@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-83",
+  "timestamp": "2026-10-01T09:00:32.303469Z",
+  "category": "change",
+  "title": "PR #83: ARCH: add canonical OS, L1 and Aurora function matrix",
+  "context": "Pull request 83 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/83",
+    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\n## Scope\n\nCanonical system function matrix for:\n\n- Operating System — 19 domains\n- A-TownChain L1 — 24 domains\n- ATCLang — 19 domains\n- ATC-VM — 17 domains\n- Genesis Engine — 25 domains\n- GateToHell Browser — 26 domains\n- ATC Mining — 20 domains\n- Staking — 24 domains\n- Aurora AI — 23 domains\n\n## Staking addition\n\nExisting-First discovery confirmed the master architecture already defines the validator lifecycle: Identity → Registration → Stake/Bond → Eligibility → Active Set → Proposal/Voting → Rewards → Performance Accounting → Slashing/Restriction → Exit/Unbond → Withdrawal.\n\nAdds STK-01…STK-24 covering validator identity/registration, bonding, delegation, eligibility, active-set construction, consensus boundary, rewards, performance, slashing, restriction/jail, unbonding, withdrawal, lockups, delegation accounting, economic parameters, evidence/security, node integration, governance, storage/state, testing/determinism, observability and release/verification.\n\nThe matrix explicitly keeps staking economics and eligibility separate from consensus authority and treats canonical staking state as blockchain state.\n\nArchitecture ≠ Implementation ≠ Test ≠ CI Evidence ≠ Verification."
+}
