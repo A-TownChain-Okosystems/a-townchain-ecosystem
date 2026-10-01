@@ -615,9 +615,7 @@ impl Node {
                         &self.state.snapshot(),
                         &self.state.dao_snapshot(),
                         self.state.issued_base_units(),
-                        *activation_height,
-                        validators,
-                        keys,
+                        &(*activation_height, validators.clone(), keys.clone()),
                     )
             } else {
                 self.storage.commit_block_state_issuance(
