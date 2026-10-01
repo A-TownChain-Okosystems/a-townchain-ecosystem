@@ -4,7 +4,7 @@ criticality: C2
 domain: indexing
 domain_extension: 'pending (fachliche Standards je Domain via SCR — ehrlich: Kernprofil
   v1.0)'
-layer: L5
+layer: L1
 maturity_class: B
 profile: atc-indexer
 registry_id: ATC-REPO-IDX-001
