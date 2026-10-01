@@ -537,7 +537,7 @@ X-ATC-Nonce: <uuid4> (verhindert Replay)
 2. **Asynchrone Propagation** - Events via Mesh (ATC-01), Finality durch Bestaetigungs-Referenzen
 3. **Latenz-Widerstand** - Schnelle Pfade im Graph reduzieren Time-to-Finality
 
-**Aktueller Stand:** Lineare Chain (PoW+PoS+PoH) voll implementiert. DAG als Evolutionspfad fuer v4.0.0+.
+**Aktueller Stand:** Die Consensus-Spezifikation/Implementierung ist P0 OPEN. PoW/PoS/PoH-Dokumente beschreiben Ziel-/Entwicklungsregeln, nicht einen bereits verifizierten Produktionskonsensus. DAG als Evolutionspfad fuer v4.0.0+.
 **Bruecke:** PoH (VDF Hash-Kette) kann als Event-Timestamp-Quelle im DAG dienen.
 **Evolutionspfad:** Chain (v3.2.1) -> Hybrid-Modus (v4.0) -> Voll-DAG (v4.5+)
 **Roadmap:** Issue #8 Done, #14 Done, #15 Done, #68 Done | TBD (DAG-Implementation)
