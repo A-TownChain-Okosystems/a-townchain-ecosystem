@@ -47,12 +47,8 @@ fn tx_block_reward_state_finality_persistence_recovery() {
     let path = temp_path();
     std::fs::create_dir_all(&path).unwrap();
 
-    let node = Node::open_storage(
-        CHAIN_ID,
-        "validator-a".into(),
-        path.join("chain.journal"),
-    )
-    .unwrap();
+    let node =
+        Node::open_storage(CHAIN_ID, "validator-a".into(), path.join("chain.journal")).unwrap();
     node.state.genesis_credit("alice", GENESIS_BALANCE).unwrap();
     let genesis = node.create_genesis_with_proposer(1, "atc-genesis").unwrap();
 
@@ -60,12 +56,16 @@ fn tx_block_reward_state_finality_persistence_recovery() {
     node.register_validator("validator-b".into(), 1).unwrap();
     node.register_validator_key(
         "validator-a",
-        SigningKey::from_bytes(&[1u8; 32]).verifying_key().to_bytes(),
+        SigningKey::from_bytes(&[1u8; 32])
+            .verifying_key()
+            .to_bytes(),
     )
     .unwrap();
     node.register_validator_key(
         "validator-b",
-        SigningKey::from_bytes(&[2u8; 32]).verifying_key().to_bytes(),
+        SigningKey::from_bytes(&[2u8; 32])
+            .verifying_key()
+            .to_bytes(),
     )
     .unwrap();
     node.set_vote_signer("validator-a", [1u8; 32]);
@@ -139,22 +139,22 @@ fn tx_block_reward_state_finality_persistence_recovery() {
 
     drop(node);
 
-    let recovered = Node::open_storage(
-        CHAIN_ID,
-        "validator-a".into(),
-        path.join("chain.journal"),
-    )
-    .unwrap();
+    let recovered =
+        Node::open_storage(CHAIN_ID, "validator-a".into(), path.join("chain.journal")).unwrap();
     recovered
         .register_validator_key(
             "validator-a",
-            SigningKey::from_bytes(&[1u8; 32]).verifying_key().to_bytes(),
+            SigningKey::from_bytes(&[1u8; 32])
+                .verifying_key()
+                .to_bytes(),
         )
         .unwrap();
     recovered
         .register_validator_key(
             "validator-b",
-            SigningKey::from_bytes(&[2u8; 32]).verifying_key().to_bytes(),
+            SigningKey::from_bytes(&[2u8; 32])
+                .verifying_key()
+                .to_bytes(),
         )
         .unwrap();
     recovered.set_vote_signer("validator-a", [1u8; 32]);
