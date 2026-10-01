@@ -7,6 +7,11 @@ use std::{
 };
 
 pub type ValidatorSet = (BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>);
+type MutableValidatorState = (
+    BTreeMap<String, u128>,
+    BTreeMap<String, [u8; 32]>,
+    BTreeMap<String, u128>,
+);
 type ValidatorSnapshot = (u64, ValidatorSet);
 
 const EPOCH_LENGTH_BLOCKS: u64 = crate::economics::HALVING_INTERVAL_BLOCKS;
@@ -264,14 +269,7 @@ impl ConsensusEngine {
 
     pub fn mutable_validator_state(
         &self,
-    ) -> Result<
-        (
-            BTreeMap<String, u128>,
-            BTreeMap<String, [u8; 32]>,
-            BTreeMap<String, u128>,
-        ),
-        String,
-    > {
+    ) -> Result<MutableValidatorState, String> {
         Ok((
             self.validators
                 .lock()
