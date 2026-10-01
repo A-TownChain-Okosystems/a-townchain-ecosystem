@@ -6,7 +6,7 @@
 //! die SHA-256-Richtung; Adoption im Devnet-Pfad als eigene Welle, danach
 //! keine FNV-Platzhalter mehr. Kein Mainnet-Claim ohne externe Krypto-Pruefung.
 
+pub mod economics;
 pub mod hash;
 pub mod poh;
 pub mod selection;
-pub mod economics;
