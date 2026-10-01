@@ -12,6 +12,8 @@ use crate::{
     mempool::{Transaction, TxType},
     Block,
 };
+type ValidatorSnapshot = (u64, BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>);
+
 use std::{
     collections::BTreeMap,
     io::{Read, Write},
@@ -420,7 +422,7 @@ fn validator_snapshot_encode(
 fn validator_snapshot_decode(
     b: &[u8],
     p: &mut usize,
-) -> Result<(u64, BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>), String> {
+) -> Result<ValidatorSnapshot, String> {
     let activation_height = u64::from_be_bytes(fixed::<8>(b, p)?);
     let n = u32::from_be_bytes(fixed::<4>(b, p)?) as usize;
     if n > MAX_VALIDATORS_PER_SNAPSHOT {
