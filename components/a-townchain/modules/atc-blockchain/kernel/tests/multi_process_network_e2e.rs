@@ -83,9 +83,11 @@ fn run_initial_node_a() {
         // Complete each validator identity before adding the next one so no
         // incomplete registry can be persisted.
         node.register_validator("validator-a".into(), 1).unwrap();
-        node.register_validator_key("validator-a", key(1).verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key(1).verifying_key().to_bytes())
+            .unwrap();
         node.register_validator("validator-b".into(), 1).unwrap();
-        node.register_validator_key("validator-b", key(2).verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-b", key(2).verifying_key().to_bytes())
+            .unwrap();
     }
     node.set_vote_signer("validator-a", [1u8; 32]);
 
@@ -106,7 +108,9 @@ fn run_initial_node_a() {
         .unwrap();
     node.set_transport(transport.clone());
     let reader = stream.try_clone().unwrap();
-    let loop_handle = node.clone().serve_tcp_stream_with_peer(reader, peer.to_string());
+    let loop_handle = node
+        .clone()
+        .serve_tcp_stream_with_peer(reader, peer.to_string());
 
     let block = node.produce_reward_block(2).unwrap();
     node.submit_vote_and_broadcast(make_vote(block.id, "validator-a", 1))
@@ -195,8 +199,10 @@ fn run_initial_node_b() {
 fn run_restart_node_a() {
     let (a_path, _) = paths();
     let node = Arc::new(Node::open_storage(CHAIN_ID, "validator-a".into(), &a_path).unwrap());
-    node.register_validator_key("validator-a", key(1).verifying_key().to_bytes()).unwrap();
-    node.register_validator_key("validator-b", key(2).verifying_key().to_bytes()).unwrap();
+    node.register_validator_key("validator-a", key(1).verifying_key().to_bytes())
+        .unwrap();
+    node.register_validator_key("validator-b", key(2).verifying_key().to_bytes())
+        .unwrap();
     node.set_vote_signer("validator-a", [1u8; 32]);
     assert_eq!(node.chain.height(), 2);
     assert_eq!(node.consensus.finalized().map(|x| x.0), Some(2));
@@ -218,7 +224,9 @@ fn run_restart_node_a() {
         .register_stream(stream.try_clone().unwrap())
         .unwrap();
     node.set_transport(transport);
-    let handle = node.clone().serve_tcp_stream_with_peer(stream.try_clone().unwrap(), peer.to_string());
+    let handle = node
+        .clone()
+        .serve_tcp_stream_with_peer(stream.try_clone().unwrap(), peer.to_string());
     // B explicitly requests the missing height after restart; A serves it from durable storage.
     thread::sleep(Duration::from_millis(500));
     assert_eq!(node.storage.block(3).unwrap().id, block3.id);
