@@ -2,7 +2,7 @@
 
 Status: DRAFT / implementation baseline
 Owner: A-TownChain-Okosystems/a-townchain-ecosystem
-Scope: L1 native ATC issuance
+Scope: L2 consensus-derived native ATC issuance
 Chain ID: 658467
 
 ## Normative parameters
@@ -40,7 +40,7 @@ Thirty-six halving intervals span 12,960,000 blocks and about 147.95 target year
 
 ## Integration contract
 
-- components/atc-algorithm/src/economics.rs is the canonical implementation for the monorepo.
+- a-townchain/components/algorithm/src/economics.rs is the canonical implementation for the monorepo.
 - a-townchain MUST consume these parameters and MUST NOT define a competing monetary policy.
 - atc-mining MUST consume the canonical subsidy rule.
 - Genesis configuration MUST NOT pre-mint supply outside the 360,000,000 ATC cap.
