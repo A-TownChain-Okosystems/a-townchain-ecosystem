@@ -4,7 +4,7 @@ criticality: C2
 domain: marketplace
 domain_extension: 'pending (fachliche Standards je Domain via SCR — ehrlich: Kernprofil
   v1.0)'
-layer: L6
+layer: L5
 maturity_class: B
 profile: atc-marketplace
 registry_id: ATC-REPO-MKT-001
