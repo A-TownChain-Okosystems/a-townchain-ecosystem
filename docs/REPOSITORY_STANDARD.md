@@ -1,6 +1,6 @@
 # Repository Standard — a-townchain-ecosystem
 
-**Klassifizierung:** CORE · **Maturity:** R4 · **Layer:** L3 · **Domain:** blockchain
+**Klassifizierung:** CORE · **Maturity:** R4 · **Layer:** X — Cross-Layer Integration · **Domain:** ecosystem
 
 Dieses Repository folgt den ATC-Repository-Standards (kanonisch im
 [atc-standards](https://github.com/A-TownChain-Okosystems/atc-standards)):
