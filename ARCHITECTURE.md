@@ -4173,3 +4173,1003 @@ Userspace Tests
   ↓
 IPC / Capability Tests
   ↓
+Driver Tests
+  ↓
+Service Integration
+  ↓
+QEMU Boot Smoke
+  ↓
+QEMU Functional Boot
+  ↓
+Hardware Boot
+  ↓
+Hardware Functional Tests
+  ↓
+Long-Run / Fault / Recovery Tests
+~~~
+ 
+The canonical minimum QEMU gate SHOULD prove:
+ 
+1. bootloader starts;
+2. ShivaCore starts;
+3. memory initializes;
+4. interrupts/timer work;
+5. scheduler runs;
+6. userspace starts;
+7. PID 1 starts;
+8. at least one service reaches READY/RUNNING;
+9. a userspace program performs a syscall;
+10. at least one IPC transaction succeeds;
+11. controlled shutdown/reboot succeeds.
+ 
+A hardware-backed capability MUST NOT be marked verified by QEMU-only evidence.
+ 
+## 22. OS Evidence Contract
+ 
+OS status MUST use independent evidence dimensions:
+ 
+PRESENT · SPECIFIED · IMPLEMENTED · TESTED · CI_VERIFIED · QEMU_VERIFIED · HARDWARE_VERIFIED · INTEGRATED · E2E_VERIFIED · RELEASED · DEPLOYED · OPERATIONAL
+ 
+Exact-SHA CI rules from ARCH-001 remain mandatory.
+ 
+A kernel boot log, source file, README statement or architecture diagram alone MUST NOT establish full OS functionality.
+ 
+## 23. OS Completeness Gate
+ 
+The minimum functional OS gate is:
+ 
+~~~text
+Firmware
+  ↓
+Bootloader
+  ↓
+ShivaCore
+  ↓
+Memory
+  ↓
+Interrupts / Timer
+  ↓
+Scheduler
+  ↓
+Userspace
+  ↓
+Syscalls
+  ↓
+IPC / Capabilities
+  ↓
+PID 1
+  ↓
+Service Manager
+  ↓
+Storage
+  ↓
+Network
+  ↓
+Identity
+  ↓
+Shell / Application
+~~~
+ 
+A target profile MAY omit desktop, networking, storage or other optional subsystems only when that profile explicitly declares the omission and its supported use case. A general-purpose GlobusOS profile MUST NOT omit the mandatory path above.
+ 
+## 24. OS Architecture Gap Closure
+ 
+ARCH-004 extends the previous contracts:
+ 
+~~~text
+ARCH-001
+Authority / Evidence
+      ↓
+ARCH-002
+System / Domain / Interface
+      ↓
+ARCH-003
+Operations / Security / Resilience / Verification
+      ↓
+ARCH-004
+Functional Operating System / Boot-to-Userspace
+~~~
+ 
+The component repositories remain the implementation SSOTs. The ecosystem architecture defines the cross-repository acceptance contract; it does not claim that the acceptance gate has already passed.
+
+ 
+---
+ 
+# ARCH-005 — Production Operating System, Hardware, Security, Desktop and Aurora Gates
+ 
+ARCH-005 extends ARCH-004 from a functional bootable OS to a production-capable GlobusOS platform. It defines hardware, trusted boot, storage hardening, network hardening, desktop, Aurora integration, target profiles and final operational gates.
+ 
+ARCH-005 is an acceptance architecture contract. It does not establish implementation, CI, QEMU, hardware, security or operational evidence.
+ 
+## 1. OS Target Profiles
+ 
+GlobusOS MUST distinguish at least:
+ 
+- **OS-Core Profile** — boot, kernel, userspace, syscall, IPC, capabilities and core services;
+- **General-Purpose Profile** — OS-Core plus storage, networking, identity and standard user services;
+- **Desktop Profile** — General-Purpose plus graphics, input, audio, session and desktop services;
+- **Secure Hardware Profile** — declared physical hardware, secure/measured boot and hardware-backed security features;
+- **Aurora Platform Profile** — declared Aurora runtime, model, agent, capability, policy, tool and audit integration.
+ 
+Passing one profile MUST NOT imply passing another.
+ 
+## 2. Hardware Verification Gate
+ 
+The canonical physical platform path is:
+ 
+~~~text
+Firmware
+  ↓
+CPU / SMP
+  ↓
+RAM
+  ↓
+Interrupt Controller
+  ↓
+Timer
+  ↓
+PCI / PCIe / Bus Discovery
+  ↓
+Storage
+  ↓
+Network
+  ↓
+Input / Display where applicable
+  ↓
+ShivaCore
+~~~
+ 
+Every supported hardware target MUST have an explicit hardware profile containing architecture, CPU, memory, firmware, bootloader, devices, drivers, known limitations and test procedure.
+ 
+QEMU verification MUST NOT establish hardware verification.
+ 
+Hardware support status MUST be tracked independently per target. Supporting x86_64 MUST NOT imply aarch64 support, and supporting one physical machine MUST NOT imply support for another.
+ 
+## 3. Secure Boot and Trusted Hardware Gate
+ 
+Where claimed, the trusted boot chain is:
+ 
+~~~text
+UEFI / Firmware
+  ↓
+Platform Boot Policy
+  ↓
+Bootloader Signature Verification
+  ↓
+Kernel Signature Verification
+  ↓
+Measured Boot
+  ↓
+TPM / Hardware Root of Trust where supported
+  ↓
+ShivaCore
+  ↓
+GlobusOS
+~~~
+ 
+The architecture MUST separately identify:
+ 
+- Secure Boot;
+- measured boot;
+- TPM;
+- TEE;
+- hardware-backed key storage;
+- attestation;
+- rollback protection.
+ 
+Each capability requires implementation and appropriate hardware evidence. QEMU-only evidence MUST NOT be upgraded to hardware-backed verification.
+ 
+Key lifecycle MUST cover enrollment, binding, use, rotation, revocation, recovery and compromise response.
+ 
+## 4. Storage Hardening Gate
+ 
+The hardened storage path is:
+ 
+~~~text
+Device Driver
+  ↓
+Block Layer
+  ↓
+Filesystem
+  ↓
+VFS
+  ↓
+Permission / Capability Enforcement
+  ↓
+Userspace
+~~~
+ 
+Storage verification MUST include, where applicable:
+ 
+- malformed filesystem handling;
+- permission isolation;
+- path traversal;
+- symlink and TOCTOU behavior;
+- crash consistency;
+- journal/recovery;
+- corruption detection;
+- fsck/recovery;
+- disk exhaustion;
+- inode/file exhaustion;
+- quota/resource limits;
+- concurrent access;
+- power-loss recovery;
+- encrypted storage;
+- secure deletion semantics where technically applicable;
+- update/rollback interaction.
+ 
+Recovered storage state MUST NOT be treated as trusted until integrity and required invariants have been verified.
+ 
+## 5. Network Hardening Gate
+ 
+The hardened network path is:
+ 
+~~~text
+Untrusted Network
+  ↓
+NIC / Driver
+  ↓
+Network Stack
+  ↓
+Firewall / Policy
+  ↓
+Socket / Service Boundary
+  ↓
+Capability / Identity
+  ↓
+Target Service
+~~~
+ 
+Verification MUST cover, where applicable:
+ 
+- malformed packets;
+- oversized packets;
+- connection exhaustion;
+- rate limiting;
+- protocol abuse;
+- authentication failure;
+- certificate validation;
+- DNS security;
+- routing isolation;
+- service isolation;
+- privilege escalation;
+- peer identity;
+- P2P Sybil/eclipsing resistance;
+- network partition/recovery;
+- DoS/resource exhaustion;
+- retry/backoff;
+- observability.
+ 
+Network reachability MUST NOT grant authority.
+ 
+## 6. Device and Peripheral Security
+ 
+Device access MUST be capability-controlled and explicitly assigned to a principal/service.
+ 
+The architecture MUST define isolation for:
+ 
+- storage;
+- network;
+- USB;
+- camera;
+- microphone;
+- audio;
+- GPU;
+- NPU;
+- display;
+- input;
+- TPM/TEE.
+ 
+A device driver compromise MUST have a defined containment boundary. A peripheral MUST NOT automatically obtain kernel-equivalent authority.
+ 
+## 7. Desktop Platform Gate
+ 
+The canonical desktop path is:
+ 
+~~~text
+GPU / Display Hardware
+  ↓
+Graphics Driver / HAL
+  ↓
+Display Server / Compositor
+  ↓
+Session Manager
+  ↓
+Window Manager / Desktop Shell
+  ↓
+Input / Audio / Clipboard / Notification Services
+  ↓
+Applications
+~~~
+ 
+Desktop verification MUST cover:
+ 
+- display initialization;
+- compositor isolation;
+- input routing;
+- keyboard/mouse/touch;
+- audio;
+- clipboard;
+- notifications;
+- application lifecycle;
+- session creation/termination;
+- crash isolation;
+- accessibility;
+- sandboxing;
+- GPU resource isolation.
+ 
+Rendering MUST NOT mutate authoritative OS, blockchain or Genesis state directly.
+ 
+## 8. Aurora Platform Gate
+ 
+Aurora MUST remain a userspace intelligence/control platform above GlobusOS:
+ 
+~~~text
+ShivaCore
+  ↓
+GlobusOS
+  ↓
+System Services
+  ↓
+Aurora Runtime
+  ↓
+Model / Agent
+  ↓
+Capability Check
+  ↓
+Policy
+  ↓
+Approval where required
+  ↓
+Tool Sandbox
+  ↓
+Target Service
+  ↓
+Target-Domain Validation
+  ↓
+Commit
+  ↓
+Audit / Evidence
+~~~
+ 
+Aurora MUST NOT receive implicit root, kernel, blockchain, Genesis or hardware authority.
+ 
+Aurora verification MUST cover:
+ 
+- workload identity;
+- capability assignment;
+- policy enforcement;
+- tool authorization;
+- sandboxing;
+- resource budgets;
+- model provenance/version;
+- input validation;
+- untrusted tool-output handling;
+- memory provenance and isolation;
+- prompt/input boundary;
+- action limits;
+- timeout/cancellation;
+- runaway/recursion limits;
+- audit;
+- failure isolation;
+- rollback/recovery.
+ 
+Aurora output remains a proposal/request until the authoritative target domain validates and commits it.
+ 
+## 9. OS Resource and Fault Isolation Gate
+ 
+Production verification MUST demonstrate that failures in a userspace service, driver, desktop application or Aurora tool do not automatically compromise unrelated services or the kernel.
+ 
+The architecture MUST define:
+ 
+- CPU quotas;
+- memory limits;
+- storage quotas;
+- network quotas;
+- IPC limits;
+- file-handle limits;
+- device access limits;
+- GPU/NPU budgets;
+- process/service restart;
+- fault containment;
+- cancellation;
+- timeout;
+- degraded-mode behavior.
+ 
+## 10. Update and Recovery Gate
+ 
+Production update verification MUST cover:
+ 
+~~~text
+Signed Artifact
+  ↓
+Provenance Verification
+  ↓
+Compatibility / Policy Check
+  ↓
+Inactive Slot
+  ↓
+Install
+  ↓
+Reboot
+  ↓
+Boot Verification
+  ↓
+Health Validation
+  ↓
+Commit or Rollback
+~~~
+ 
+Required failure scenarios SHOULD include interrupted update, invalid artifact, incompatible version, failed boot, failed service startup, corrupted state and repeated rollback.
+ 
+## 11. Hardware / Secure Boot / Storage / Network / Desktop / Aurora Gate Matrix
+ 
+The master acceptance matrix is:
+ 
+| Gate | Minimum proof | Evidence class |
+|---|---|---|
+| OS-Core | Boot → Userspace → Syscall → IPC | QEMU/target |
+| Hardware | Physical target boots and exercises declared devices | HARDWARE_VERIFIED |
+| Secure Boot | Invalid/untrusted boot artifact rejected | SECURE/HARDWARE evidence |
+| Storage | Crash/corruption/permission/resource tests | TESTED + target evidence |
+| Network | Adversarial protocol/resource tests | TESTED + target evidence |
+| Desktop | Session/display/input/application path | DESKTOP profile |
+| Aurora | Capability → Policy → Tool → Target validation → Audit | AURORA profile |
+| Recovery | Fault → recovery/rollback → verified state | RECOVERY evidence |
+| Operational | Long-run + update + monitoring | OPERATIONAL |
+ 
+Passing a row MUST NOT imply passing another row.
+ 
+## 12. Full Production OS Gate
+ 
+The complete declared production path is:
+ 
+~~~text
+G0 Architecture
+ ↓
+G1 Firmware / Bootloader
+ ↓
+G2 ShivaCore
+ ↓
+G3 Memory / Interrupt / Scheduler
+ ↓
+G4 Userspace / Syscall / IPC
+ ↓
+G5 PID 1 / Core Services
+ ↓
+G6 Storage
+ ↓
+G7 Network
+ ↓
+G8 Identity / Capability Security
+ ↓
+G9 QEMU Functional OS
+ ↓
+G10 Physical Hardware
+ ↓
+G11 Secure / Trusted Boot
+ ↓
+G12 Storage Hardening
+ ↓
+G13 Network Hardening
+ ↓
+G14 Device / Fault Isolation
+ ↓
+G15 Desktop Profile
+ ↓
+G16 Aurora Runtime
+ ↓
+G17 Aurora Capability / Policy / Tool Gate
+ ↓
+G18 Full OS + Aurora E2E
+ ↓
+G19 Update / Recovery / Long-Run
+ ↓
+G20 Release / Operational
+~~~
+ 
+G15 and G16-G18 are profile-dependent. A headless server profile MAY stop before the Desktop/Aurora gates. A declared General-Purpose Desktop + Aurora platform MUST pass them.
+ 
+## 13. Final OS Evidence Contract
+ 
+The OS evidence state MUST distinguish:
+ 
+PRESENT · SPECIFIED · IMPLEMENTED · TESTED · CI_VERIFIED · QEMU_VERIFIED · HARDWARE_VERIFIED · SECURE_BOOT_VERIFIED · STORAGE_HARDENED · NETWORK_HARDENED · DESKTOP_VERIFIED · AURORA_VERIFIED · E2E_VERIFIED · RECOVERY_VERIFIED · RELEASED · DEPLOYED · OPERATIONAL
+ 
+No source file, README, architecture diagram, PR state or historical CI run may substitute for the evidence required by the corresponding gate.
+ 
+## 14. Relationship to Previous Architecture Contracts
+ 
+~~~text
+ARCH-001
+Authority / Evidence
+      ↓
+ARCH-002
+System / Domain / Interface / Lifecycle
+      ↓
+ARCH-003
+Operations / Security / Resilience / Verification
+      ↓
+ARCH-004
+Functional OS / Boot-to-Userspace
+      ↓
+ARCH-005
+Hardware / Trusted Boot / Hardening / Desktop / Aurora / Production
+~~~
+ 
+The component repositories remain implementation SSOTs. The ecosystem repository defines the cross-repository acceptance contract and evidence aggregation only.
+
+ 
+---
+ 
+# ARCH-006 — Protocol, Data, Execution, Economics and System Completeness Architecture
+ 
+ARCH-006 closes the remaining cross-system architecture gaps that are not fully covered by ARCH-001 through ARCH-005. It defines protocol data availability, canonical encoding, concurrency, node roles, topology, threat assumptions, economics, proofs, light clients, interoperability, deployment environments, governance of parameters, and system-level completeness.
+ 
+ARCH-006 is an architecture and acceptance contract. It does not constitute implementation or verification evidence.
+ 
+## 1. Canonical Serialization, Encoding and ABI
+ 
+Every consensus-, execution-, identity- and interoperability-critical data structure MUST have one canonical encoding.
+ 
+The contract MUST define:
+ 
+- canonical serialization;
+- field ordering;
+- integer encoding and widths;
+- signed/unsigned representation;
+- byte order;
+- optional/default field semantics;
+- enum representation;
+- string/byte encoding;
+- length encoding;
+- domain separation;
+- versioning;
+- canonical hashing;
+- canonical signing preimage;
+- ABI compatibility;
+- wire encoding;
+- rejection of non-canonical representations.
+ 
+Consensus-critical code MUST NOT accept multiple encodings that can represent different byte sequences as the same logical object unless canonicalization is explicitly defined.
+ 
+## 2. Transaction and Signing-Domain Contract
+ 
+The transaction contract MUST define the complete signing and verification preimage, including protocol version, numeric chain identifier, transaction fields, serialization and domain separation.
+ 
+Legacy signing domains MUST NOT remain valid merely because legacy code or fixtures still exist.
+ 
+The transaction contract MUST define:
+ 
+- signer identity;
+- signing algorithm;
+- signature encoding;
+- chain/domain separation;
+- nonce semantics;
+- fee semantics;
+- validity interval;
+- replay protection;
+- authorization;
+- canonical serialization;
+- verification failure behavior;
+- version migration.
+ 
+## 3. Monetary and Economic Protocol Contract
+ 
+The canonical economic contract MUST explicitly define:
+ 
+- maximum supply: 360,000,000 ATC;
+- 36 halvings;
+- target block time: 360 seconds;
+- halving interval: 360,000 blocks;
+- base denomination: 10^-18 ATC;
+- economic values as u128;
+- protocol counters such as height, nonce, timestamp and epoch as u64;
+- chain identifier: 658467;
+- block reward derivation;
+- issuance schedule;
+- supply conservation;
+- treasury/reward/slashing semantics;
+- rounding and overflow behavior;
+- genesis allocation;
+- fee treatment;
+- economic parameter activation and migration.
+ 
+All monetary calculations MUST be deterministic and overflow-safe.
+ 
+No wallet, UI, indexer or explorer may independently redefine canonical monetary semantics.
+ 
+## 4. Data Availability and Archive Contract
+ 
+Consensus finality MUST be distinguished from data availability.
+ 
+The architecture MUST define:
+ 
+~~~text
+Block Commitment
+  ↓
+Data Publication
+  ↓
+Availability Sampling / Retrieval
+  ↓
+Availability Verification
+  ↓
+Consensus / Finality
+  ↓
+Canonical Archive
+~~~
+ 
+The contract MUST define block/body availability, retention, pruning, archival nodes, snapshot boundaries, retrieval proofs, missing-data behavior and recovery.
+ 
+A finalized header MUST NOT automatically imply that every required body/data object remains locally available.
+ 
+## 5. Light Client and Proof Verification
+ 
+The system MUST define a light-client trust path:
+ 
+~~~text
+Untrusted Header / Proof
+  ↓
+Cryptographic Verification
+  ↓
+Consensus / Finality Proof
+  ↓
+State / Inclusion Proof
+  ↓
+Policy Validation
+  ↓
+Trusted Result
+~~~
+ 
+Light clients MUST NOT become canonical state authorities.
+ 
+Proof types, commitment format, verification rules, trust assumptions, freshness and replay protection MUST be versioned.
+ 
+## 6. Concurrency, Ordering and Parallel Execution
+ 
+The architecture MUST explicitly distinguish:
+ 
+- deterministic sequential execution;
+- independent parallel execution;
+- speculative execution;
+- conflict detection;
+- dependency ordering;
+- transaction ordering;
+- state access sets;
+- deterministic merge;
+- rollback;
+- retry;
+- commit ordering.
+ 
+Any parallel execution MUST produce the same canonical result as the declared reference execution model.
+ 
+Nondeterministic thread scheduling MUST NOT affect consensus state.
+ 
+## 7. Mempool, Admission and Transaction Lifecycle
+ 
+The transaction lifecycle MUST explicitly distinguish:
+ 
+~~~text
+Constructed
+ → Signed
+ → Submitted
+ → Authenticated
+ → Syntax Valid
+ → Policy Valid
+ → Admitted
+ → Mempool
+ → Selected
+ → Proposed
+ → Executed
+ → Finalized
+ → Committed
+ → Persisted
+ → Indexed
+~~~
+ 
+The contract MUST define duplicate handling, replacement, expiration, fee policy, nonce conflicts, resource limits, fairness policy, eviction, persistence/restart behavior and observability.
+ 
+Mempool state MUST NOT be confused with canonical chain state.
+ 
+## 8. Node Roles and Operational Topology
+ 
+The architecture MUST distinguish at least:
+ 
+- validator;
+- full node;
+- archive node;
+- light client;
+- RPC/API node;
+- indexer;
+- explorer service;
+- bootstrapping/state-sync node;
+- bridge/interop gateway;
+- oracle service where applicable;
+- development/local node.
+ 
+For each role the architecture MUST define stored state, authority, network exposure, keys, capabilities, resource requirements, failure behavior and synchronization responsibilities.
+ 
+No operational role receives protocol authority merely through deployment topology.
+ 
+## 9. Network and Environment Topology
+ 
+The system MUST define separate environments:
+ 
+~~~text
+Development
+  ↓
+Local / Integration
+  ↓
+Devnet
+  ↓
+Testnet
+  ↓
+Staging / Release Candidate
+  ↓
+Mainnet
+~~~
+ 
+Each environment MUST have explicit chain identity, genesis, keys, endpoints, artifact policy, upgrade policy, data reset policy and evidence expectations.
+ 
+Mainnet state or credentials MUST NOT be silently reused in lower environments.
+ 
+## 10. Threat Model and Trust Assumptions
+ 
+Each security-critical domain MUST declare:
+ 
+- assets;
+- trust boundaries;
+- trusted components;
+- untrusted inputs;
+- adversary capabilities;
+- compromise assumptions;
+- attack surfaces;
+- security invariants;
+- detection mechanisms;
+- containment;
+- recovery;
+- residual risk.
+ 
+The master threat model MUST cover at least:
+ 
+- malicious validators;
+- Byzantine peers;
+- Sybil/eclipse attacks;
+- replay;
+- key compromise;
+- malicious contracts;
+- resource exhaustion;
+- corrupted storage;
+- compromised drivers;
+- compromised services;
+- malicious AI/model/tool output;
+- supply-chain compromise;
+- insider/emergency authority abuse;
+- physical compromise where hardware security is claimed.
+ 
+Security claims MUST identify their trust assumptions.
+ 
+## 11. ZKP and Proof-System Boundary
+ 
+Zero-knowledge and cryptographic proof systems MUST have an explicit boundary:
+ 
+~~~text
+Statement / Witness
+  ↓
+Circuit / Constraint System
+  ↓
+Proof Generation
+  ↓
+Proof Artifact
+  ↓
+Verifier
+  ↓
+Protocol / Application Acceptance
+~~~
+ 
+The architecture MUST define proving/verifying authority, circuit/version identity, trusted setup assumptions where applicable, proof encoding, verification cost, recursion/composition, key lifecycle and upgrade compatibility.
+ 
+A valid cryptographic proof MUST NOT bypass protocol authorization or state ownership.
+ 
+## 12. Oracle Architecture
+ 
+External information MUST follow:
+ 
+~~~text
+External Source
+  ↓
+Provider Identity
+  ↓
+Attestation / Signature
+  ↓
+Validation
+  ↓
+Freshness / Quorum
+  ↓
+Canonical Oracle State
+  ↓
+Consumer
+~~~
+ 
+The architecture MUST define provider trust, freshness, quorum/aggregation, fallback, stale data, conflicting data, manipulation, outage and rollback semantics.
+ 
+External data MUST NOT become canonical solely because an oracle service emitted it.
+ 
+## 13. Bridge and Cross-Chain Interoperability
+ 
+Cross-chain state MUST follow:
+ 
+~~~text
+External Chain
+  ↓
+External Finality
+  ↓
+Proof / Attestation
+  ↓
+Verification
+  ↓
+Interop Gateway
+  ↓
+Replay / Nonce Protection
+  ↓
+Policy
+  ↓
+Canonical Command
+  ↓
+Target Domain Commit
+~~~
+ 
+Asset bridges MUST additionally define lock/mint/burn/release semantics, representation, supply conservation, timeouts, circuit breakers, recovery and reconciliation.
+ 
+## 14. Canonical State Transition and Reference Execution
+ 
+Every consensus-critical state transition MUST have:
+ 
+- a normative specification;
+- canonical input/output schema;
+- reference implementation;
+- deterministic test vectors;
+- property tests;
+- fuzz/differential tests;
+- exact-SHA CI evidence;
+- migration vectors where applicable.
+ 
+A production implementation MUST NOT become canonical merely because it is the first implementation.
+ 
+## 15. Protocol Upgrade and Parameter Governance
+ 
+Protocol parameters MUST have:
+ 
+~~~text
+Proposal
+ → Specification
+ → Review
+ → Approval
+ → Compatibility Analysis
+ → Activation Rule
+ → Deployment
+ → Activation
+ → Verification
+ → Monitoring
+~~~
+ 
+This includes consensus, monetary, VM, network, cryptographic and OS-integrated protocol parameters.
+ 
+Activation MUST be deterministic and replayable. Governance metadata MUST NOT silently alter consensus semantics outside the declared activation mechanism.
+ 
+## 16. State Migration and Schema Evolution
+ 
+Every persistent or consensus-relevant schema MUST define:
+ 
+- version;
+- owner;
+- compatibility;
+- migration direction;
+- migration trigger;
+- transformation;
+- validation;
+- rollback/recovery boundary;
+- mixed-version behavior;
+- evidence.
+ 
+Migration MUST be idempotent where applicable and MUST NOT silently discard canonical state.
+ 
+## 17. Snapshot and State-Sync Contract
+ 
+The canonical recovery path is:
+ 
+~~~text
+Snapshot
+ → Metadata / Commitment
+ → Source Authentication
+ → Download
+ → Integrity Verification
+ → Restore
+ → Replay Missing Range
+ → Canonical-State Verification
+ → Serve
+~~~
+ 
+Snapshots MUST NOT be treated as canonical merely because they were downloaded from a trusted-looking endpoint.
+ 
+## 18. Governance, Emergency and Human Approval
+ 
+The architecture MUST distinguish:
+ 
+- protocol governance;
+- repository governance;
+- release authority;
+- operational authority;
+- emergency authority;
+- domain authority;
+- human approval;
+- automated policy decisions.
+ 
+Emergency powers MUST be scoped, time-bounded, auditable and unable to silently become permanent authority.
+ 
+AI approval MUST NOT replace protocol or domain authorization.
+ 
+## 19. Privacy, Data Classification and Immutable-State Boundary
+ 
+Data MUST be classified as applicable:
+ 
+PUBLIC · PRIVATE · CONFIDENTIAL · SECRET · SENSITIVE · DERIVED · EPHEMERAL · CANONICAL
+ 
+The architecture MUST distinguish immutable protocol data from mutable off-chain data, AI memory, retrieval indexes, logs and caches.
+ 
+Sensitive information MUST NOT be written to immutable public state merely because a service can access it.
+ 
+Retention, deletion/tombstone behavior, provenance and access policy MUST be defined per data domain.
+ 
+## 20. Observability, SLO and Operational Evidence
+ 
+Production domains MUST define:
+ 
+- metrics;
+- logs;
+- traces;
+- audit events;
+- health/readiness;
+- SLI/SLO where applicable;
+- alert conditions;
+- error budgets where applicable;
+- incident correlation;
+- evidence retention.
+ 
+Observability MUST NOT mutate canonical state or grant authority.
+ 
+## 21. Supply Chain and Artifact Trust
+ 
+The complete artifact path is:
+ 
+~~~text
+Source
+ → Dependency Resolution
+ → Dependency Verification
+ → Build
+ → SBOM / Provenance
+ → Artifact Signing
+ → Verification
+ → Release
+ → Deployment
+ → Runtime Verification
+~~~
+ 
+The architecture MUST distinguish artifact integrity from functional correctness.
+ 
+Build reproducibility, dependency pinning, provenance, signatures, SBOM, vulnerability policy and compromised-dependency response MUST be defined.
+ 
+## 22. Capacity, Performance and Backpressure
+ 
+Every production subsystem MUST define applicable:
+ 
+- latency;
+- throughput;
+- queue limits;
+- memory/CPU budget;
+- storage growth;
+- bandwidth;
+- concurrency;
+- saturation;
+- admission control;
+- backpressure;
