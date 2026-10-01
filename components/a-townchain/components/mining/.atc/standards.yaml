@@ -4,7 +4,7 @@ criticality: C2
 domain: mining
 domain_extension: 'pending (fachliche Standards je Domain via SCR — ehrlich: Kernprofil
   v1.0)'
-layer: L3
+layer: L2
 profile: atc-mining
 profile_source: atc-standards/profiles/atc-mining.yaml
 registry_id: ATC-REPO-MINE-001
