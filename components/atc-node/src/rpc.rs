@@ -241,7 +241,7 @@ fn string_param(params: &Value, key: &str) -> Result<String, (i64, String)> {
 fn u128_param(params: &Value, key: &str) -> Result<u128, (i64, String)> {
     params
         .get(key)
-         .and_then(|v| v.as_number().and_then(|n| n.as_u128()))
+        .and_then(|v| v.as_number().and_then(|n| n.as_u128()))
         .ok_or((-32602, format!("missing or invalid params.{key}")))
 }
 
