@@ -5,7 +5,7 @@ schema_version: "1.0.0"
 repository: atclang
 generated: "2026-09-16"
 generated_by: "CI-independent audit"
-bound_commit: 23ebf6f17b841bbc0048d7dc5b523c06c47f1263
+bound_commit: 90031fb7815c31b805a42c794132cceafaab5e36
 maturity_class: A
 r_level: R4
 implementation:
@@ -13,7 +13,7 @@ implementation:
   summary: "Python-Referenz substanziell; Rust-Canonical-Core gestartet und durch Differential-Tests abgesichert."
 tests:
   status: pass_with_evidence
-  evidence: CI-Independent ATCLang Audit run 36898666203 @ 2026-10-01T17:20:53.133813+00:00
+  evidence: CI-Independent ATCLang Audit run 36941597943 @ 2026-10-01T23:51:56.188866+00:00
 security:
   status: not_audited
 conformance:
