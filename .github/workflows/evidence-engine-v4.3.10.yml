@@ -1,0 +1,61 @@
+name: Evidence Engine v4.3.10
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      requested_sha:
+        description: "Exact 40-character commit SHA to prove"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  unit:
+    name: v4.3.10 unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile proof engine
+        run: python -m py_compile tools/evidence_engine_v4_3_10.py
+      - name: Run proof-engine tests
+        run: python -m unittest discover -s tests -p 'test_evidence_engine_v4_3_10.py' -v
+
+  exact-sha-proof:
+    name: Exact-SHA proof
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate requested SHA
+        env:
+          REQUESTED_SHA: \${{ inputs.requested_sha }}
+        run: |
+          test "$(printf '%s' "$REQUESTED_SHA" | wc -c)" -eq 40
+          printf '%s\n' "$REQUESTED_SHA" | grep -Eq '^[0-9a-fA-F]{40}$'
+      - name: Run exact-SHA proof
+        env:
+          GITHUB_TOKEN: \${{ github.token }}
+        run: |
+          python tools/evidence_engine_v4_3_10.py \
+            --repository "\${{ github.repository }}" \
+            --requested-sha "\${{ inputs.requested_sha }}" \
+            --output evidence-proof.json
+      - name: Upload proof result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-proof-v4-3-10
+          path: evidence-proof.json
