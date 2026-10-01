@@ -4,7 +4,7 @@ criticality: C1
 domain: oracle
 domain_extension: 'pending (fachliche Standards je Domain via SCR — ehrlich: Kernprofil
   v1.0)'
-layer: L3
+layer: L5
 profile: atc-oracle
 profile_source: atc-standards/profiles/atc-oracle.yaml
 registry_id: ATC-REPO-ORAC-001
