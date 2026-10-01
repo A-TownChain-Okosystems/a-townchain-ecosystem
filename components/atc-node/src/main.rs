@@ -113,7 +113,8 @@ fn attach_network(node: Arc<Node>, listen_addr: String, peers: Vec<String>) -> R
                         node.chain.last().map(|b| b.id).unwrap_or([0; 32]),
                     ) {
                         Ok((stream, peer, _height, _best)) => {
-                            let _ = transport.register_stream_with_peer_id(stream.try_clone().unwrap(), peer.clone());
+                            let _ = transport
+                                .register_stream_with_peer_id(stream.try_clone().unwrap(), peer.clone());
                             let _ = node.clone().serve_tcp_stream_with_peer(stream, peer);
                         }
                         Err(e) => eprintln!("peer handshake failed: {e}"),
@@ -174,7 +175,9 @@ fn main() -> std::io::Result<()> {
     };
 
     for validator in &validators {
-        if let Err(e) = runtime.node.register_validator(validator.id.clone(), validator.stake.into()) {
+        if let Err(e) = runtime
+            .node
+            .register_validator(validator.id.clone(), validator.stake.into())
             eprintln!("validator registration failed for {}: {e}", validator.id);
             std::process::exit(1);
         }
