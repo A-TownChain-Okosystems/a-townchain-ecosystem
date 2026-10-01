@@ -217,7 +217,7 @@ impl ConsensusEngine {
         &self,
     ) -> Result<
         (
-            BTreeMap<String, u128>,
+            BTreeMap<String, u64>,
             BTreeMap<String, [u8; 32]>,
             BTreeMap<String, u64>,
         ),
@@ -241,7 +241,7 @@ impl ConsensusEngine {
 
     pub fn restore_mutable_validator_state(
         &self,
-        validators: BTreeMap<String, u128>,
+        validators: BTreeMap<String, u64>,
         keys: BTreeMap<String, [u8; 32]>,
         slashed: BTreeMap<String, u64>,
     ) -> Result<(), String> {
@@ -698,3 +698,142 @@ mod tests {
     fn epoch_is_height_deterministic() {
         assert_eq!(ConsensusEngine::epoch(0), 0);
         assert_eq!(ConsensusEngine::epoch(EPOCH_LENGTH_BLOCKS - 1), 0);
+        assert_eq!(ConsensusEngine::epoch(EPOCH_LENGTH_BLOCKS), 1);
+        assert!(ConsensusEngine::is_epoch_boundary(EPOCH_LENGTH_BLOCKS));
+    }
+
+    #[test]
+    fn slashing_reduces_voting_weight_and_is_idempotent_by_state() {
+        let engine = ConsensusEngine::new(658467, "proposer".into());
+        engine.register_validator("a".into(), 100).unwrap();
+        let key = SigningKey::from_bytes(&[3u8; 32]);
+        let sign_evidence = |block: [u8; 32]| {
+            let mut bytes = Vec::new();
+            bytes.extend_from_slice(b"ATC-SLASH-V1");
+            bytes.extend_from_slice(&engine.chain_id.to_be_bytes());
+            bytes.extend_from_slice(&1u64.to_be_bytes());
+            bytes.extend_from_slice(&block);
+            bytes.push(1);
+            bytes.extend_from_slice(&(1u32).to_be_bytes());
+            bytes.extend_from_slice(b"a");
+            key.sign(&bytes).to_bytes()
+        };
+        engine.register_validator_key("a", key.verifying_key().to_bytes()).unwrap();
+        engine.restore_validator_snapshot(
+            1,
+            engine.validators_snapshot(),
+            [("a".to_string(), key.verifying_key().to_bytes())].into_iter().collect(),
+        ).unwrap();
+        let evidence = SlashingEvidence {
+            validator: "a".into(), height: 1, block_a: [1; 32], block_b: [2; 32],
+            approve_a: true, approve_b: true, public_key: key.verifying_key().to_bytes(),
+            signature_a: sign_evidence([1; 32]), signature_b: sign_evidence([2; 32]),
+            reason: "double-sign".into(),
+        };
+        assert_eq!(engine.slash(evidence.clone(), 40).unwrap(), 40);
+        assert_eq!(engine.validator_stake("a"), 60);
+        assert_eq!(engine.slashed_stake("a"), 40);
+        assert_eq!(engine.slash(evidence, 10).unwrap(), 10);
+        assert_eq!(engine.validator_stake("a"), 50);
+    }
+
+    #[test]
+    fn slashing_uses_validator_key_at_evidence_height_after_rotation() {
+        let engine = ConsensusEngine::new(658467, "proposer".into());
+        let old_key = SigningKey::from_bytes(&[81u8; 32]);
+        let new_key = SigningKey::from_bytes(&[82u8; 32]);
+
+        engine.register_validator("alice".into(), 100).unwrap();
+        engine.register_validator_key("alice", old_key.verifying_key().to_bytes()).unwrap();
+        engine.restore_validator_snapshot(
+            1,
+            engine.validators_snapshot(),
+            [("alice".to_string(), old_key.verifying_key().to_bytes())]
+                .into_iter()
+                .collect(),
+        ).unwrap();
+
+        engine.register_validator_key("alice", new_key.verifying_key().to_bytes()).unwrap();
+        engine.restore_validator_snapshot(
+            2,
+            engine.validators_snapshot(),
+            [("alice".to_string(), new_key.verifying_key().to_bytes())]
+                .into_iter()
+                .collect(),
+        ).unwrap();
+
+        let sign = |key: &SigningKey, block: [u8; 32]| {
+            let mut bytes = Vec::new();
+            bytes.extend_from_slice(b"ATC-SLASH-V1");
+            bytes.extend_from_slice(&engine.chain_id.to_be_bytes());
+            bytes.extend_from_slice(&1u64.to_be_bytes());
+            bytes.extend_from_slice(&block);
+            bytes.push(1);
+            bytes.extend_from_slice(&(5u32).to_be_bytes());
+            bytes.extend_from_slice(b"alice");
+            key.sign(&bytes).to_bytes()
+        };
+        let evidence = SlashingEvidence {
+            validator: "alice".into(),
+            height: 1,
+            block_a: [91; 32],
+            block_b: [92; 32],
+            approve_a: true,
+            approve_b: true,
+            public_key: old_key.verifying_key().to_bytes(),
+            signature_a: sign(&old_key, [91; 32]),
+            signature_b: sign(&old_key, [92; 32]),
+            reason: "double-sign".into(),
+        };
+        assert_eq!(engine.slash(evidence, 10).unwrap(), 10);
+
+        let bad = SlashingEvidence {
+            validator: "alice".into(),
+            height: 1,
+            block_a: [93; 32],
+            block_b: [94; 32],
+            approve_a: true,
+            approve_b: true,
+            public_key: new_key.verifying_key().to_bytes(),
+            signature_a: sign(&new_key, [93; 32]),
+            signature_b: sign(&new_key, [94; 32]),
+            reason: "double-sign".into(),
+        };
+        assert_eq!(
+            engine.slash(bad, 10).unwrap_err(),
+            "slashing evidence public key does not match validator identity at evidence height"
+        );
+    }
+
+    #[test]
+    fn unregistered_votes_are_rejected() {
+        let engine = ConsensusEngine::new(658467, "proposer".into());
+        let key = SigningKey::from_bytes(&[7u8; 32]);
+        let vote = signed_vote(&engine, &key, "unknown", [1u8; 32], true);
+        assert_eq!(
+            engine.vote(vote).unwrap_err(),
+            "validator snapshot is unavailable for vote height"
+        );
+    }
+}
+
+#[cfg(test)]
+mod key_binding_regression {
+    use super::*;
+    use ed25519_dalek::{Signer, SigningKey};
+
+    #[test]
+    fn mismatched_vote_key_is_rejected() {
+        let engine = ConsensusEngine::new(658467, "proposer".into());
+        let registered = SigningKey::from_bytes(&[11u8; 32]);
+        let attacker = SigningKey::from_bytes(&[12u8; 32]);
+        engine.register_validator("alice".into(), 100).unwrap();
+        engine.register_validator_key("alice", registered.verifying_key().to_bytes()).unwrap();
+        let mut vote = Vote {
+            block: [1; 32], voter: "alice".into(), approve: true,
+            signature: [0; 64], public_key: attacker.verifying_key().to_bytes(),
+        };
+        vote.signature = attacker.sign(&vote_signing_bytes(engine.chain_id, &vote)).to_bytes();
+        assert_eq!(engine.vote(vote).unwrap_err(), "vote public key does not match validator identity");
+    }
+}
