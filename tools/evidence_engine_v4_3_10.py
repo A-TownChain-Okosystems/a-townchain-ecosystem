@@ -9,6 +9,7 @@ import argparse, base64, hashlib, json, os, sys, urllib.error, urllib.parse, url
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Mapping, Optional, Sequence
+from types import MappingProxyType
 
 class EvidenceBlockedError(RuntimeError): pass
 class EvidenceValidationError(RuntimeError): pass
@@ -140,6 +141,9 @@ class Ledger:
         if e in self.edges: raise EvidenceValidationError("duplicate edge: %r"% (e,))
         self.edges.append(e)
     def freeze(self):
+        if self.frozen: return
+        self.nodes=MappingProxyType(dict(self.nodes))
+        self.edges=tuple(self.edges)
         self.frozen=True
 
 class Inspector:
@@ -217,7 +221,8 @@ class Adapter:
                 rid=Schema.i(run.get("id"),"run.id"); head=Schema.s(run.get("head_sha"),"run.head_sha")
                 if head!=target.requested_sha: continue
                 if self.policy.explicit_run_ids is not None and rid not in self.policy.explicit_run_ids: continue
-                rw=run.get("workflow_id",run.get("workflow",{}).get("id") if isinstance(run.get("workflow"),dict) else None)
+                rw=run.get("workflow_id")
+                if rw is None and isinstance(run.get("workflow"),dict): rw=run.get("workflow",{}).get("id")
                 if not isinstance(rw,int) or rw!=wid: raise EvidenceValidationError("run workflow binding mismatch: %d"%rid)
                 matches.append(run)
             if self.policy.require_unique_match and len(matches)!=1:
