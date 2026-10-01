@@ -6,7 +6,10 @@ use std::{
     sync::Mutex,
 };
 
-pub const EPOCH_LENGTH_BLOCKS: u64 = crate::economics::HALVING_INTERVAL_BLOCKS;
+pub type ValidatorSet = (BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>);
+type ValidatorSnapshot = (u64, ValidatorSet);
+
+const EPOCH_LENGTH_BLOCKS: u64 = crate::economics::HALVING_INTERVAL_BLOCKS;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct SlashingEvidence {
@@ -68,7 +71,7 @@ pub struct ConsensusEngine {
     /// Immutable validator-set snapshots keyed by the height at which the
     /// set became active. Consensus verification never falls back to the
     /// mutable current registry for historical blocks.
-    validator_snapshots: Mutex<BTreeMap<u64, (BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>)>>,
+    validator_snapshots: Mutex<BTreeMap<u64, ValidatorSet>>,
 }
 
 impl ConsensusEngine {
@@ -177,7 +180,7 @@ impl ConsensusEngine {
     pub fn validator_snapshot_for_height(
         &self,
         height: u64,
-    ) -> Option<(BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>)> {
+    ) -> Option<ValidatorSet> {
         self.validator_snapshots
             .lock()
             .ok()?
@@ -189,7 +192,7 @@ impl ConsensusEngine {
     pub fn validator_snapshot_with_activation_for_height(
         &self,
         height: u64,
-    ) -> Option<(u64, BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>)> {
+    ) -> Option<ValidatorSnapshot> {
         self.validator_snapshots
             .lock()
             .ok()?
@@ -407,7 +410,7 @@ impl ConsensusEngine {
     /// identity binding for durable snapshots.
     pub fn validator_snapshot_with_keys(
         &self,
-    ) -> Result<(BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>), String> {
+    ) -> Result<ValidatorSet, String> {
         let validators = self
             .validators
             .lock()
