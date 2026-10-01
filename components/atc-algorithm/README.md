@@ -18,10 +18,8 @@
 
 The repository owns the canonical consensus logic for:
 
-- Proof-of-History sequencing
-- Proof-of-Stake validator weighting
-- Proof-of-Work integration
-- Hybrid selection rules
+- Consensus specification and implementation target
+- Candidate PoH/PoS/PoW mechanisms are currently design inputs, not frozen protocol truth
 - Fork-choice rules
 - Finality rules
 - Consensus verification and adversarial testing
@@ -38,7 +36,7 @@ Evidence currently supports an MVP/skeleton implementation, not a production con
 
 The consensus P0 remains **OPEN** until all of the following are evidenced:
 
-1. **Consensus specification freeze** — complete normative rules for PoH, PoS, PoW, hybrid selection, fork choice and finality.
+1. **Consensus specification freeze** — complete normative rules for the selected consensus design; PoH/PoS/PoW/Hybrid are candidate mechanisms until that freeze.
 2. **Complete Rust implementation** — implementation matches the frozen specification.
 3. **Determinism/conformance** — cross-node differential and conformance vectors pass.
 4. **Security review** — independent cryptographic and consensus-security assessment.
@@ -70,6 +68,10 @@ Canonical consensus result
         ▼
 a-townchain orchestration
 ```
+
+### Consensus Status Contract
+
+**Normative status:** SPEC-DRAFT / NOT FROZEN. The repository may contain PoH, PoS and PoW prototypes, but no specific hybrid composition, weighting formula, fork-choice rule or finality threshold is canonical until the consensus specification is frozen by the standards authority and validated by Exact-SHA conformance evidence.
 
 ### Components
 
@@ -134,8 +136,8 @@ This repository follows ATC-STD-000 v1.3.0 and the A-TownChain governance framew
 
 ## Roadmap
 
-1. Freeze normative consensus specification.
-2. Complete PoH/PoS/PoW/hybrid implementation.
+1. Freeze the normative consensus design and explicitly record the selected mechanisms.
+2. Implement only the frozen consensus design.
 3. Add deterministic conformance vectors and differential tests.
 4. Complete adversarial/fuzz testing.
 5. Complete independent security review.
