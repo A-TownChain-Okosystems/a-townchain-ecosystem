@@ -4,7 +4,7 @@ criticality: C1
 domain: node_runtime
 domain_extension: 'pending (fachliche Standards je Domain via SCR — ehrlich: Kernprofil
   v1.0)'
-layer: L3
+layer: L0
 profile: atc-node
 profile_source: atc-standards/profiles/atc-node.yaml
 registry_id: ATC-REPO-NODE-001
