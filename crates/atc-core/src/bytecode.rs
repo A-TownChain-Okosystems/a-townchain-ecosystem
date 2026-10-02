@@ -431,6 +431,21 @@ mod tests {
         assert!(bc.verify(0, 1).is_ok());
     }
 
+
+    #[test]
+    fn canonical_encoding_is_stable_and_big_endian() {
+        let bc = Bytecode {
+            instructions: vec![
+                Instruction::ConstI64(0x0102030405060708),
+                Instruction::Return,
+            ],
+        };
+        let encoded = bc.encode_canonical().unwrap();
+        assert_eq!(&encoded[..10], b"ATCB\x00\x01\x00\x00\x00\x02");
+        assert_eq!(&encoded[10..18], &0x0102030405060708i64.to_be_bytes());
+        assert_eq!(encoded[18], 0x21);
+    }
+
     #[test]
     fn verifier_rejects_fallthrough_past_end() {
         let bc = Bytecode {
