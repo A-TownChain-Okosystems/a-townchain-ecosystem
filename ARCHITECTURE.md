@@ -132,6 +132,45 @@ X is a cross-cutting control-plane model for identity, capability, authorization
             L0              L1              L2 ... L7
 ```
 
+## P0 Boundary Contract Set
+
+The architecture-level contracts are machine-readable and validated in CI:
+
+- `ARCH-P0-001` Network / P2P
+- `ARCH-P0-002` Identity / Trust
+- `ARCH-P0-003` State Ownership
+- `ARCH-P0-004` Global Authority Matrix
+- `ARCH-P0-005` Canonical Interfaces / Events
+- `ARCH-P0-006` Failure / Recovery
+
+Canonical contract document: `docs/architecture/P0-BOUNDARY-CONTRACTS.md`.  
+Machine-readable contract set: `architecture/contracts/p0-boundary-contracts.json`.  
+Schema: `schemas/architecture/p0-boundary-contracts.schema.json`.
+
+These are architecture contracts, not implementation evidence. The responsible standalone repository remains the implementation SSOT under **Standalone First, Ecosystem Second**.
+
+### P0 Conformance / Evidence Matrix
+
+The contract set is paired with a machine-readable conformance matrix:
+
+- `architecture/contracts/p0-conformance-matrix.json`
+- `schemas/architecture/p0-conformance-matrix.schema.json`
+
+The matrix binds each P0 contract to its current implementation SSOT candidate, implementation surface, mandatory test classes and exact-SHA evidence dimensions. Entries start at **UNANALYZED** and may only advance through the repository evidence lifecycle; architecture presence never upgrades an entry to VERIFIED.
+
+### EventBus / IPCBus P0/P1 Contracts
+
+The bus boundaries are explicitly split by authority and transport:
+
+- `ARCH-P0-007` IPCBus — P0 process/service communication boundary; implementation SSOT is `globus-os/system/ipc`.
+- `ARCH-P1-001` EventBus — P1 in-process event distribution boundary; implementation SSOT is `globus-os/system/event-bus`.
+
+The IPCBus is capability-scoped and transport-oriented. The EventBus is bounded publish/subscribe and is not an authorization or canonical-state mechanism. Architecture presence does not imply runtime verification; exact-SHA CI evidence remains mandatory.
+
+Machine-readable P1 contract: `architecture/contracts/p1-boundary-contracts.json`.
+Schema: `schemas/architecture/p1-boundary-contracts.schema.json`.
+
+
 ## Primary Repository / Subsystem Mapping
 
 A repository may span more than one architectural layer; the table identifies its primary responsibility and does not override repository-level SSOT.
@@ -140,8 +179,8 @@ A repository may span more than one architectural layer; the table identifies it
 |---|---|
 | L0 | `atc-shivacore`, `globus-os`, `atc-node` network/runtime boundary |
 | L1 | `atc-storage`, `atc-indexer` read models, `atc-explorer` presentation/read model |
-| L2 | `a-townchain`, `atc-node`, `atc-algorithm`, `atc-mining`, `atc-wallet` transaction interface |
-| L3 | `atc-vm`, `atclang`, `atc-contracts` |
+| L2 | `a-townchain` (including `components/algorithm`, `components/node`, `components/mining`, `components/wallet`) |
+| L3 | `a-townchain/components/vm`, `atclang`, `a-townchain/components/contracts` |
 | L4 | `atc-zkp`, future scaling/execution-domain components |
 | L5 | `atc-interop`, `atc-oracle`, `atc-compute`, `atc-marketplace`, `atc-launchpad`, protocol/asset/identity domains |
 | L6 | `aurora-ai`, Quest AI, Dialogue AI and other domain-intelligence capabilities |
