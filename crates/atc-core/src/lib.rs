@@ -3,6 +3,7 @@
 //! Rust is the canonical compiler-side implementation boundary; Python is
 //! reference tooling and differential-test infrastructure.
 
+pub mod artifact;
 pub mod ast;
 pub mod bytecode;
 pub mod lexer;
