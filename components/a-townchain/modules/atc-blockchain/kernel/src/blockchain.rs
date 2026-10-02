@@ -1123,14 +1123,21 @@ impl Node {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    
+    fn next_test_id() -> u64 {
+        use std::sync::atomic::{AtomicU64, Ordering};
+        static COUNTER: AtomicU64 = AtomicU64::new(1);
+        COUNTER.fetch_add(1, Ordering::Relaxed)
+    }
+
+use super::*;
 
     #[test]
     fn incomplete_validator_registration_is_pending_until_key_binding_and_survives_only_after_completion() {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-bootstrap-pending-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -1180,7 +1187,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-state-binding-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -1243,7 +1250,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-restart-unregister-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -1278,7 +1285,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-key-rotation-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -1327,7 +1334,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-multi-mutation-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -1402,7 +1409,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-pending-slash-restart-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -1571,7 +1578,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-revisions-restart-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -1670,7 +1677,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-node-validator-restart-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -1820,7 +1827,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-restart-resync-votes-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            next_test_id()
         ));
 
         let producer = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -2079,7 +2086,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-cross-journal-issuance-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -2121,7 +2128,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-cross-journal-state-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -2164,7 +2171,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-pending-activation-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -2203,7 +2210,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-orphan-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
