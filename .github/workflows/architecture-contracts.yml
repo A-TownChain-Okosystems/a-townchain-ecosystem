@@ -1,0 +1,27 @@
+name: Architecture Contracts
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  architecture-contracts:
+    name: P0 architecture contract validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - name: Validate machine-readable contract set
+        run: python3 tools/validate_architecture_contracts.py
+
+      - name: Validate JSON syntax
+        run: python3 -m json.tool architecture/contracts/p0-boundary-contracts.json >/dev/null
