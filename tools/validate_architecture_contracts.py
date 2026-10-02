@@ -11,8 +11,10 @@ EXPECTED = {
     "ARCH-P0-004",
     "ARCH-P0-005",
     "ARCH-P0-006",
+    "ARCH-P0-007",
 }
 STATUSES = {"UNANALYZED", "ANALYZED", "FIXED", "RERUNNING", "VERIFIED", "RESIDUAL"}
+P1_EXPECTED = {"ARCH-P1-001"}
 
 
 def load_json(root: Path, relative: str) -> dict:
@@ -67,13 +69,29 @@ def validate_conformance(data: dict) -> None:
         assert item["status"] in STATUSES, contract_id
 
 
+def validate_p1_contracts(data: dict) -> None:
+    assert data["schema"] == "ATC-ARCH-P1-CONTRACTS-1.0"
+    assert data["architecture_source"] == "ARCHITECTURE.md"
+    assert data["status"] == "ACTIVE"
+    contracts = data["contracts"]
+    ids = {item["id"] for item in contracts}
+    assert ids == P1_EXPECTED, f"unexpected P1 contract IDs: {sorted(ids)}"
+    assert len(contracts) == len(P1_EXPECTED)
+    for item in contracts:
+        assert item["authority"], item["id"]
+        assert item["canonical_owner"], item["id"]
+        assert item["deny_by_default"] is True, item["id"]
+
+
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
     contracts = load_json(root, "architecture/contracts/p0-boundary-contracts.json")
     conformance = load_json(root, "architecture/contracts/p0-conformance-matrix.json")
+    p1 = load_json(root, "architecture/contracts/p1-boundary-contracts.json")
 
     validate_contracts(contracts)
     validate_conformance(conformance)
+    validate_p1_contracts(p1)
 
     print(f"Architecture P0 contracts: PASS ({len(contracts['contracts'])} contracts)")
     print(
