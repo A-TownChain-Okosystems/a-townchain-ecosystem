@@ -32,7 +32,7 @@
     },
     "entries": {
       "type": "array",
-      "minItems": 6,
+      "minItems": 7,
       "items": {
         "type": "object",
         "required": [
@@ -51,7 +51,7 @@
         ],
         "properties": {
           "contract_id": {
-            "pattern": "^ARCH-P0-00[1-6]$"
+            "pattern": "^ARCH-P0-00[1-7]$"
           },
           "implementation_ssot": {
             "type": "array",
