@@ -351,6 +351,15 @@ pub fn lower_program(prog: &Program) -> Result<CompiledProgram, LowerError> {
     fn_ids.insert(ENTRY.to_string(), (0, 0));
     for s in &prog.statements {
         if let Stmt::Fn(f) = s {
+            if fn_ids.len() >= u16::MAX as usize {
+                return Err(LowerError::new("Funktionsanzahl ueberschreitet kanonisches Limit"));
+            }
+            if f.params.len() >= u16::MAX as usize {
+                return Err(LowerError::new(format!(
+                    "Parameterzahl ueberschreitet kanonisches Limit in Funktion {}",
+                    f.name
+                )));
+            }
             let idx = fn_ids.len() as u16;
             if fn_ids
                 .insert(f.name.clone(), (idx, f.params.len() as u16))
