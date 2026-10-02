@@ -91,7 +91,7 @@ export function canonicalSigningPreimage(tx: TransactionSigningInput): Uint8Arra
   out.push(tx.tx_type);
   pushBytes(out, new TextEncoder().encode(tx.sender_did));
   pushOptionalString(out, tx.recipient_did);
-  pushU64BE(out, tx.amount);
+  pushU128BE(out, tx.amount);
   pushU64BE(out, tx.gas_price);
   pushU64BE(out, tx.gas_limit);
   pushU64BE(out, tx.nonce);
