@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-84",
+  "timestamp": "2026-10-02T08:36:01.818638Z",
+  "category": "change",
+  "title": "PR #84: feat(evidence): v4.3.10 exact-SHA proof engine",
+  "context": "Pull request 84 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/84",
+    "commit": "218c581dc2c05f2a13494a45d0136d035711677c"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: False\n\nImplements the v4.3.10 fail-closed Exact-SHA evidence proof runner, strict pagination termination, workflow metadata uniqueness, PER_WORKFLOW run selection, workflow/blob bindings, job/step/job-log evidence, SHA-256 log integrity, CI-EVIDENCE-001 validation, and immutable ledger freeze. Adds unit coverage and a manual Exact-SHA proof workflow. No manual VERIFIED override is provided."
+}

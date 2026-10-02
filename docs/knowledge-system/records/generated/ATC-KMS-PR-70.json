@@ -1,22 +1,27 @@
 {
   "id": "ATC-KMS-PR-70",
-  "timestamp": "2026-10-01T09:00:32.303469Z",
+  "timestamp": "2026-10-02T08:36:01.818638Z",
   "category": "change",
   "title": "PR #70: ARCH-001: establish system completeness and authority contract",
   "context": "Pull request 70 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
-  "status": "active",
+  "status": "archived",
   "version": "v1.0.0",
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/70",
-    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
+    "commit": "218c581dc2c05f2a13494a45d0136d035711677c"
   },
   "tags": [
     "generated",
     "github",
     "pull-request"
   ],
-  "links": [],
-  "content": "State: open\nMerged: False\nDraft: False\n\n## MASTER-ARCH-001\n\nAdds the canonical System Completeness & Authority Contract to `ARCHITECTURE.md`.\n\n### Included\n- global authority boundaries\n- state/data ownership model\n- identity and trust chain\n- decentralized network/P2P contract\n- memory federation contract\n- canonical API/interface contract\n- event contract\n- security boundaries\n- failure/recovery lifecycle\n- upgrade/migration lifecycle\n- compatibility contract\n- observability/evidence contract\n- deployment/topology contract\n- Aurora / Genesis / GlobusOS / ShivaCore domain boundaries\n- repository/SSOT separation\n- architecture completeness and repository mapping gates\n- explicit Architecture ≠ Implementation ≠ Test ≠ CI ≠ E2E boundary\n\nThis PR changes architecture documentation only; it does not claim implementation of the defined contracts."
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-63"
+    }
+  ],
+  "content": "State: closed\nMerged: False\nDraft: False\n\nSuperseded by the later MASTER-ARCH-001 implementation in PR #63 and subsequent canonical L0-L7+X/P0 architecture contracts."
 }

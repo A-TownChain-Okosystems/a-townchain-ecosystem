@@ -1,16 +1,16 @@
 {
   "id": "ATC-KMS-PR-61",
-  "timestamp": "2026-10-01T09:00:32.303469Z",
+  "timestamp": "2026-10-02T08:36:01.818638Z",
   "category": "change",
   "title": "PR #61: fix(consistency): align active ATC contract examples with canonical supply",
   "context": "Pull request 61 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
-  "status": "active",
+  "status": "archived",
   "version": "v1.0.0",
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/61",
-    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
+    "commit": "218c581dc2c05f2a13494a45d0136d035711677c"
   },
   "tags": [
     "generated",
@@ -18,5 +18,5 @@
     "pull-request"
   ],
   "links": [],
-  "content": "State: open\nMerged: False\nDraft: False\n\nAlign active mirrored ATCoin examples with canonical 360M ATC supply. Historical archives are untouched."
+  "content": "State: closed\nMerged: False\nDraft: False\n\nObsolete: the exact two ATC-8300 MAX_SUPPLY changes are already present on current main; this PR has no remaining delta."
 }

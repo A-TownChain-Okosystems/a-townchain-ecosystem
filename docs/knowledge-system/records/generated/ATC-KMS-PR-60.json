@@ -1,16 +1,16 @@
 {
   "id": "ATC-KMS-PR-60",
-  "timestamp": "2026-10-01T09:00:32.303469Z",
+  "timestamp": "2026-10-02T08:36:01.818638Z",
   "category": "change",
   "title": "PR #60: fix(ci): repair current red L1/Rust gates",
   "context": "Pull request 60 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
-  "status": "active",
+  "status": "archived",
   "version": "v1.0.0",
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/60",
-    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
+    "commit": "218c581dc2c05f2a13494a45d0136d035711677c"
   },
   "tags": [
     "generated",
@@ -18,5 +18,5 @@
     "pull-request"
   ],
   "links": [],
-  "content": "State: open\nMerged: False\nDraft: False\n\nFixes source-level failures observed on the latest failing main gate.\n\nEvidence baseline:\n- Ecosystem Release Readiness run 36254952534 failed in rust-manifests.\n- Ecosystem Integration run 36254952541 failed in workspace check.\n- L1 Network E2E run 36254952555 failed in all four Rust E2E jobs.\n- Determinism Gate run 36254952586 failed for a-townchain Rust static scan.\n- Blockchain Core Integration run 36254952589 failed formatting in atc-node, atc-sdk and atc-blockchain, plus check in atc-indexer.\n\nChanges in this PR:\n- align kernel Transaction constructors with the already-implemented u128 monetary amount field;\n- decode RPC transaction amount as u128, including full-width decimal string input;\n- apply verified rustfmt corrections in the failing Rust files.\n\nNo CI gate is weakened and no historical/archive content is changed.\n\nL1-TX-001 remains the governing contract gate; this PR only repairs concrete red build/type/format failures without migrating wallet signing semantics."
+  "content": "State: closed\nMerged: False\nDraft: False\n\nSuperseded by the later selective and follow-up L1 corrections in PRs #67–#69, which carry the u128 transaction/type fixes and related Rust corrections into the current blockchain workspace. Keeping #60 open would duplicate an older repair batch."
 }

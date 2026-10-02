@@ -1,16 +1,16 @@
 {
   "id": "ATC-KMS-PR-10",
-  "timestamp": "2026-10-01T09:00:32.303469Z",
+  "timestamp": "2026-10-02T08:36:01.818638Z",
   "category": "change",
   "title": "PR #10: feat(aurora): connect decentralized trust and Chat runtime",
   "context": "Pull request 10 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
-  "status": "active",
+  "status": "archived",
   "version": "v1.0.0",
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/10",
-    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
+    "commit": "218c581dc2c05f2a13494a45d0136d035711677c"
   },
   "tags": [
     "generated",
@@ -18,5 +18,5 @@
     "pull-request"
   ],
   "links": [],
-  "content": "State: open\nMerged: False\nDraft: True\n\nAdds Aurora agent/device identity, ATC-COMP-505-aligned execution attestation, and provider-neutral ChatModel/ChatTool contracts with validated messages and streaming. Adds an aurora-core Rust CI gate. No kernel authority or vendor-specific model implementation is introduced. GitHub workflow verification is pending because no workflow run is currently associated with the latest commits."
+  "content": "State: closed\nMerged: False\nDraft: True\n\nSuperseded by the current Aurora architecture/runtime work and current ecosystem control-plane boundaries. The historical Aurora Chat/trust implementation is no longer the canonical path. Kept closed to avoid parallel/obsolete implementation paths."
 }

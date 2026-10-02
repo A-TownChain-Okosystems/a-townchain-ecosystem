@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-91",
+  "timestamp": "2026-10-02T08:36:01.818638Z",
+  "category": "change",
+  "title": "PR #91: CI: Centralize dependency review at ecosystem level",
+  "context": "Pull request 91 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/91",
+    "commit": "218c581dc2c05f2a13494a45d0136d035711677c"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\nMoves the Dependency Review gate from the standalone a-townchain repository to the canonical a-townchain-ecosystem control/integration layer. The standalone chain keeps code, determinism, governance, CodeQL, and test gates; dependency review is evaluated centrally where the ecosystem aggregates component manifests."
+}

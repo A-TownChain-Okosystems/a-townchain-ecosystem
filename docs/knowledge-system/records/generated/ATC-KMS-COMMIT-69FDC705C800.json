@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-69FDC705C800",
-  "timestamp": "2026-10-01T09:00:32.303469Z",
+  "timestamp": "2026-10-02T08:36:01.818638Z",
   "category": "change",
   "title": "Commit: fix: make validator register and unregister rollback-safe",
   "context": "Git commit 69fdc705c8007f3395b0843736803a163cd53c3f on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/69fdc705c8007f3395b0843736803a163cd53c3f",
-    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
+    "commit": "218c581dc2c05f2a13494a45d0136d035711677c"
   },
   "tags": [
     "commit",

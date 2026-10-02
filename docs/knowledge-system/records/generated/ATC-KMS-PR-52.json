@@ -1,22 +1,27 @@
 {
   "id": "ATC-KMS-PR-52",
-  "timestamp": "2026-10-01T09:00:32.303469Z",
+  "timestamp": "2026-10-02T08:36:01.818638Z",
   "category": "change",
   "title": "PR #52: fix(aurora): make model inference input UTF-8 safe",
   "context": "Pull request 52 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
-  "status": "active",
+  "status": "archived",
   "version": "v1.0.0",
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/52",
-    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
+    "commit": "218c581dc2c05f2a13494a45d0136d035711677c"
   },
   "tags": [
     "generated",
     "github",
     "pull-request"
   ],
-  "links": [],
-  "content": "State: open\nMerged: False\nDraft: False\n\n## Summary\n- fix a real panic risk in Aurora ModelHub when prompts contain multi-byte UTF-8 text\n- use Unicode scalar iteration for the preview instead of byte slicing\n- add a regression test with non-ASCII input\n\n## Audit finding\nAurora's Rust ModelHub used `&prompt[..40]`, which can panic when byte offset 40 is inside a UTF-8 code point. Aurora explicitly accepts natural-language input, so this is a concrete runtime correctness defect.\n\nThis PR deliberately fixes only the verified defect; it does not claim that the current ModelHub is a real LLM backend."
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-53"
+    }
+  ],
+  "content": "State: closed\nMerged: False\nDraft: False\n\nSuperseded by PR #53, whose current Aurora runtime foundation explicitly preserves the UTF-8-safe inference path. The concrete defect addressed by #52 is therefore carried forward by the later consolidated runtime work."
 }
