@@ -4,6 +4,7 @@
 //! checked-Arithmetik (Overflow ist ein Fehler, kein Wrap) und fester
 //! Aufruftiefe (fail-closed).
 
+use crate::artifact::VerifiedArtifact;
 use crate::bytecode::Instruction;
 use crate::lower::CompiledProgram;
 
@@ -40,6 +41,13 @@ enum Step {
 }
 
 /// Fuehrt das Kompilat ab der Entry-Funktion aus; Ergebnis = Rueckgabewert.
+/// L1-facing execution entry point. Only a cryptographically and structurally
+/// verified ATCA artifact may cross this boundary.
+pub fn execute_verified(artifact: &VerifiedArtifact) -> Result<i64, RunError> {
+    let program = artifact.clone().into_program();
+    execute(&program)
+}
+
 pub fn execute(prog: &CompiledProgram) -> Result<i64, RunError> {
     prog.verify().map_err(|e| RunError::InvalidProgram {
         message: e.message,
