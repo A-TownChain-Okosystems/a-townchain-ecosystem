@@ -1,5 +1,5 @@
 //! Transactions, mempool and deterministic state transition.
-use crate::{economics::MAX_ATC_SUPPLY, security::simple_hash};
+use crate::{economics::MAX_SUPPLY, security::simple_hash};
 use std::{collections::BTreeMap, sync::Mutex};
 
 mod signature_serde {
@@ -65,7 +65,7 @@ impl Transaction {
         t: TxType,
         s: String,
         r: Option<String>,
-        a: u64,
+        a: u128,
         gp: u64,
         gl: u64,
         n: u64,
@@ -81,7 +81,7 @@ impl Transaction {
         t: TxType,
         s: String,
         r: Option<String>,
-        a: u64,
+        a: u128,
         gp: u64,
         gl: u64,
         n: u64,
@@ -99,7 +99,7 @@ impl Transaction {
         t: TxType,
         s: String,
         r: Option<String>,
-        a: u64,
+        a: u128,
         gp: u64,
         gl: u64,
         n: u64,
