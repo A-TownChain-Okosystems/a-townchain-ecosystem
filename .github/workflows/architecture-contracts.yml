@@ -24,4 +24,6 @@ jobs:
         run: python3 tools/validate_architecture_contracts.py
 
       - name: Validate JSON syntax
-        run: python3 -m json.tool architecture/contracts/p0-boundary-contracts.json >/dev/null
+        run: |
+          python3 -m json.tool architecture/contracts/p0-boundary-contracts.json >/dev/null
+          python3 -m json.tool architecture/contracts/p0-conformance-matrix.json >/dev/null
