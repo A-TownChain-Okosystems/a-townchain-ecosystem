@@ -300,13 +300,9 @@ fn finish_function(
             "Parameterzahl ueberschreitet lokale Slots in Funktion {name}"
         )));
     }
-    // During construction exact signatures are known from fn_ids.
-    let mut signatures = vec![u16::MAX; l.fn_ids.len()];
-    for (idx, params) in l.fn_ids.values().map(|(idx, params)| (*idx, *params)) {
-        signatures[idx as usize] = params;
-    }
+    let function_count = l.fn_ids.len() as u16;
     bytecode
-        .verify_with_signatures(local_count, &signatures)
+        .verify(local_count, function_count)
         .map_err(|e| LowerError::new(format!("Verifizierer lehnte Funktion {name} ab: {e:?}")))?;
     Ok(CompiledFunction {
         name,
@@ -403,7 +399,9 @@ pub fn lower_program(prog: &Program) -> Result<CompiledProgram, LowerError> {
             functions.push(lower_user_function(f, &fn_ids)?);
         }
     }
-    Ok(CompiledProgram { functions, entry })
+    let compiled = CompiledProgram { functions, entry };
+    compiled.verify()?;
+    Ok(compiled)
 }
 
 #[cfg(test)]
