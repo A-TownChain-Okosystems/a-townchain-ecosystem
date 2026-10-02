@@ -171,6 +171,37 @@
       ],
       "exact_source_sha": "51f0344a412d351359dff014a587b07c50ecf42b",
       "evidence_note": "Finality spec requires monotonic finalized height and rollback rejection, but the spec is explicitly SPEC-DRAFT with implementation and CI evidence pending."
+    },
+    {
+      "contract_id": "ARCH-P0-007",
+      "implementation_ssot": [
+        "A-TownChain-Okosystems/globus-os"
+      ],
+      "implementation_surface": "capability-scoped IPCBus facade over the canonical bounded IPC channel primitive",
+      "test_requirements": [
+        "explicit principal/capability access",
+        "protocol-version mismatch rejection",
+        "bounded payload and queue",
+        "deterministic FIFO",
+        "unauthorized send/receive denied",
+        "no unrelated canonical-state mutation on IPC failure"
+      ],
+      "ci_evidence_required": [
+        "exact source SHA",
+        "Rust format/check/test/clippy",
+        "security",
+        "boot/integration"
+      ],
+      "integration_evidence_required": true,
+      "e2e_evidence_required": true,
+      "status": "ANALYZED",
+      "implementation_paths": [
+        "A-TownChain-Okosystems/globus-os:system/ipc/src/lib.rs",
+        "A-TownChain-Okosystems/globus-os:system/ipc/src/bus.rs",
+        "A-TownChain-Okosystems/globus-os:system/ipc/src/channel.rs"
+      ],
+      "exact_source_sha": "df60ddbbfc73db39063d182a23d1c777e1aefa55",
+      "evidence_note": "Existing-first audit found the bounded globus-ipc ChannelRegistry and message model at the pre-change source. The current standalone implementation extends that SSOT with explicit principal/capability endpoint policy and protocol-version enforcement. Exact-SHA CI verification is still pending for the final implementation head."
     }
   ]
 }
