@@ -10,13 +10,17 @@ use crate::lower::CompiledProgram;
 /// Deterministischer Laufzeitfehler (kein Panic-Pfad).
 #[derive(Debug, Clone, PartialEq)]
 pub enum RunError {
+    InvalidProgram { message: String },
     DivisionByZero { function: String, pc: usize },
     ArithmeticOverflow { function: String, pc: usize },
     CallDepthExceeded { max_depth: usize },
+    ExecutionLimitExceeded { max_steps: u64 },
 }
 
 /// Feste maximale Aufruftiefe — kein Stack-Overflow, immer ein Fehler.
 pub const MAX_CALL_DEPTH: usize = 1024;
+/// Hard deterministic execution bound until the canonical gas model is wired in.
+pub const MAX_STEPS: u64 = 1_000_000;
 
 struct Frame {
     function_idx: usize,
@@ -37,9 +41,17 @@ enum Step {
 
 /// Fuehrt das Kompilat ab der Entry-Funktion aus; Ergebnis = Rueckgabewert.
 pub fn execute(prog: &CompiledProgram) -> Result<i64, RunError> {
+    prog.verify().map_err(|e| RunError::InvalidProgram {
+        message: e.message,
+    })?;
     let entry = prog.entry as usize;
+    let mut steps = 0u64;
     let mut frames: Vec<Frame> = vec![new_frame(entry, 0, Vec::new(), prog)];
     loop {
+        steps = steps.saturating_add(1);
+        if steps > MAX_STEPS {
+            return Err(RunError::ExecutionLimitExceeded { max_steps: MAX_STEPS });
+        }
         let step = {
             let depth = frames.len();
             let frame = frames.last_mut().expect("mindestens ein Frame aktiv");
