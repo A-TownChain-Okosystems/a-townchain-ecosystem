@@ -2,67 +2,175 @@
   "schema": "ATC-ARCH-P0-CONFORMANCE-1.0",
   "source_contracts": "architecture/contracts/p0-boundary-contracts.json",
   "status": "ACTIVE",
-  "evidence_status": "UNANALYZED",
+  "evidence_status": "ANALYZED",
   "entries": [
     {
       "contract_id": "ARCH-P0-001",
-      "implementation_ssot": ["A-TownChain-Okosystems/a-townchain"],
+      "implementation_ssot": [
+        "A-TownChain-Okosystems/a-townchain"
+      ],
       "implementation_surface": "L2 protocol networking and peer-message validation; exact canonical path must be confirmed by EXISTING-FIRST audit",
-      "test_requirements": ["authenticated peer identity", "message version/network/domain binding", "replay rejection", "invalid message cannot mutate canonical state", "network failure preserves finalized state"],
-      "ci_evidence_required": ["exact source SHA", "determinism", "code quality", "security", "integration"],
+      "test_requirements": [
+        "authenticated peer identity",
+        "message version/network/domain binding",
+        "replay rejection",
+        "invalid message cannot mutate canonical state",
+        "network failure preserves finalized state"
+      ],
+      "ci_evidence_required": [
+        "exact source SHA",
+        "determinism",
+        "code quality",
+        "security",
+        "integration"
+      ],
       "integration_evidence_required": true,
       "e2e_evidence_required": true,
-      "status": "UNANALYZED"
+      "status": "ANALYZED",
+      "implementation_paths": [
+        "A-TownChain-Okosystems/a-townchain:modules/atcnet/p2p_node.atc",
+        "A-TownChain-Okosystems/a-townchain:modules/atcnet/p2p_propagation.atc",
+        "A-TownChain-Okosystems/a-townchain:components/node/src/peers.rs"
+      ],
+      "exact_source_sha": "51f0344a412d351359dff014a587b07c50ecf42b",
+      "evidence_note": "Existing P2P/peer lifecycle surfaces confirmed. The inspected peer table has Connected/Verified/Banned states, but the P0 contract's authenticated identity, protocol binding and mutation-isolation requirements are not yet evidenced."
     },
     {
       "contract_id": "ARCH-P0-002",
-      "implementation_ssot": ["A-TownChain-Okosystems/a-townchain", "A-TownChain-Okosystems/atc-standards"],
+      "implementation_ssot": [
+        "A-TownChain-Okosystems/a-townchain",
+        "A-TownChain-Okosystems/atc-standards"
+      ],
       "implementation_surface": "identity, key-role separation, capability and authorization boundaries; exact canonical paths must be confirmed by EXISTING-FIRST audit",
-      "test_requirements": ["authentication does not grant capability", "missing capability denies", "revocation/expiry denies", "no ambient authority", "protocol-critical identity state is versioned"],
-      "ci_evidence_required": ["exact source SHA", "security", "determinism where protocol-critical"],
+      "test_requirements": [
+        "authentication does not grant capability",
+        "missing capability denies",
+        "revocation/expiry denies",
+        "no ambient authority",
+        "protocol-critical identity state is versioned"
+      ],
+      "ci_evidence_required": [
+        "exact source SHA",
+        "security",
+        "determinism where protocol-critical"
+      ],
       "integration_evidence_required": true,
       "e2e_evidence_required": true,
-      "status": "UNANALYZED"
+      "status": "RESIDUAL",
+      "implementation_paths": [],
+      "exact_source_sha": null,
+      "evidence_note": "No sufficiently specific existing implementation surface was identified by the EXISTING-FIRST search for the full authentication→capability→authorization contract. Do not infer implementation from generic identity or key code."
     },
     {
       "contract_id": "ARCH-P0-003",
-      "implementation_ssot": ["A-TownChain-Okosystems/a-townchain"],
+      "implementation_ssot": [
+        "A-TownChain-Okosystems/a-townchain"
+      ],
       "implementation_surface": "canonical state ownership across L1/L2/L3 and delegated domains; exact canonical paths must be confirmed by EXISTING-FIRST audit",
-      "test_requirements": ["single canonical owner per authoritative state", "mirrors/indexers are non-authoritative", "L3 becomes canonical only through L2 finality", "recovery uses canonical authority"],
-      "ci_evidence_required": ["exact source SHA", "determinism", "state/recovery tests", "integration"],
+      "test_requirements": [
+        "single canonical owner per authoritative state",
+        "mirrors/indexers are non-authoritative",
+        "L3 becomes canonical only through L2 finality",
+        "recovery uses canonical authority"
+      ],
+      "ci_evidence_required": [
+        "exact source SHA",
+        "determinism",
+        "state/recovery tests",
+        "integration"
+      ],
       "integration_evidence_required": true,
       "e2e_evidence_required": true,
-      "status": "UNANALYZED"
+      "status": "ANALYZED",
+      "implementation_paths": [
+        "A-TownChain-Okosystems/a-townchain:components/algorithm/specs/ATC-CONSENSUS-306-FINALITY.md",
+        "A-TownChain-Okosystems/a-townchain:components/indexer/docs/specs/ATC-INDEX-002.md"
+      ],
+      "exact_source_sha": "51f0344a412d351359dff014a587b07c50ecf42b",
+      "evidence_note": "Canonical/finality concepts and indexer reorg/finality handling are documented. The source does not yet provide exact evidence that every authoritative state domain has one canonical owner."
     },
     {
       "contract_id": "ARCH-P0-004",
-      "implementation_ssot": ["A-TownChain-Okosystems/atc-standards"],
+      "implementation_ssot": [
+        "A-TownChain-Okosystems/atc-standards"
+      ],
       "implementation_surface": "global authority model and cross-layer policy contract; runtime enforcement owner must be confirmed by EXISTING-FIRST audit",
-      "test_requirements": ["unknown authority denies", "missing capability denies", "version mismatch denies", "policy failure denies", "evidence cannot authorize"],
-      "ci_evidence_required": ["exact source SHA", "security", "policy/authorization tests"],
+      "test_requirements": [
+        "unknown authority denies",
+        "missing capability denies",
+        "version mismatch denies",
+        "policy failure denies",
+        "evidence cannot authorize"
+      ],
+      "ci_evidence_required": [
+        "exact source SHA",
+        "security",
+        "policy/authorization tests"
+      ],
       "integration_evidence_required": true,
       "e2e_evidence_required": true,
-      "status": "UNANALYZED"
+      "status": "RESIDUAL",
+      "implementation_paths": [],
+      "exact_source_sha": null,
+      "evidence_note": "No dedicated global authority matrix runtime enforcement surface was found in the EXISTING-FIRST search. Standards ownership remains at atc-standards; runtime enforcement must be assigned before implementation."
     },
     {
       "contract_id": "ARCH-P0-005",
-      "implementation_ssot": ["A-TownChain-Okosystems/atc-standards", "A-TownChain-Okosystems/a-townchain"],
+      "implementation_ssot": [
+        "A-TownChain-Okosystems/atc-standards",
+        "A-TownChain-Okosystems/a-townchain"
+      ],
       "implementation_surface": "canonical protocol interfaces, binary encodings and authoritative event semantics; exact interface owners must be confirmed by EXISTING-FIRST audit",
-      "test_requirements": ["stable identifier/version", "canonical binary encoding", "authoritative vs derived event distinction", "compatibility classification", "deterministic IDs where required", "premature finality events rejected"],
-      "ci_evidence_required": ["exact source SHA", "cross-language vectors where applicable", "determinism", "integration"],
+      "test_requirements": [
+        "stable identifier/version",
+        "canonical binary encoding",
+        "authoritative vs derived event distinction",
+        "compatibility classification",
+        "deterministic IDs where required",
+        "premature finality events rejected"
+      ],
+      "ci_evidence_required": [
+        "exact source SHA",
+        "cross-language vectors where applicable",
+        "determinism",
+        "integration"
+      ],
       "integration_evidence_required": true,
       "e2e_evidence_required": true,
-      "status": "UNANALYZED"
+      "status": "ANALYZED",
+      "implementation_paths": [
+        "A-TownChain-Okosystems/a-townchain:components/algorithm/specs/ATC-CONSENSUS-306-FINALITY.md"
+      ],
+      "exact_source_sha": "51f0344a412d351359dff014a587b07c50ecf42b",
+      "evidence_note": "Finality specification defines signed attestation semantics and conformance categories, but is SPEC-DRAFT and explicitly says implementation/tests/evidence are pending. It cannot be treated as implementation verification."
     },
     {
       "contract_id": "ARCH-P0-006",
-      "implementation_ssot": ["A-TownChain-Okosystems/a-townchain"],
+      "implementation_ssot": [
+        "A-TownChain-Okosystems/a-townchain"
+      ],
       "implementation_surface": "failure classification, fail-closed behavior and recovery for canonical state; exact recovery owner/path must be confirmed by EXISTING-FIRST audit",
-      "test_requirements": ["security/protocol failures fail closed", "finalized height is monotonic", "recovery is idempotent", "recovery never invents canonical state", "recovery bypasses no authorization"],
-      "ci_evidence_required": ["exact source SHA", "determinism", "recovery tests", "integration"],
+      "test_requirements": [
+        "security/protocol failures fail closed",
+        "finalized height is monotonic",
+        "recovery is idempotent",
+        "recovery never invents canonical state",
+        "recovery bypasses no authorization"
+      ],
+      "ci_evidence_required": [
+        "exact source SHA",
+        "determinism",
+        "recovery tests",
+        "integration"
+      ],
       "integration_evidence_required": true,
       "e2e_evidence_required": true,
-      "status": "UNANALYZED"
+      "status": "ANALYZED",
+      "implementation_paths": [
+        "A-TownChain-Okosystems/a-townchain:components/algorithm/specs/ATC-CONSENSUS-306-FINALITY.md"
+      ],
+      "exact_source_sha": "51f0344a412d351359dff014a587b07c50ecf42b",
+      "evidence_note": "Finality spec requires monotonic finalized height and rollback rejection, but the spec is explicitly SPEC-DRAFT with implementation and CI evidence pending."
     }
   ]
 }
