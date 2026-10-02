@@ -47,18 +47,24 @@ def validate_conformance(data: dict) -> None:
     assert len(entries) == len(EXPECTED)
 
     for item in entries:
-        assert item["implementation_surface"], item["contract_id"]
-        assert isinstance(item["implementation_paths"], list), item["contract_id"]
-        assert item["evidence_note"], item["contract_id"]
+        contract_id = item["contract_id"]
+        assert item["implementation_surface"], contract_id
+        assert isinstance(item["implementation_paths"], list), contract_id
+        assert item["evidence_note"], contract_id
         source_sha = item["exact_source_sha"]
-        assert source_sha is None or (len(source_sha) == 40 and all(ch in "0123456789abcdef" for ch in source_sha)), item["contract_id"]
+        assert source_sha is None or (
+            len(source_sha) == 40 and all(ch in "0123456789abcdef" for ch in source_sha)
+        ), contract_id
         if item["status"] == "VERIFIED":
-            raise AssertionError(f"{item[\"contract_id\"]}: VERIFIED requires external exact-SHA run evidence and cannot be asserted by this architecture manifest")
-        assert item["test_requirements"], item["contract_id"]
-        assert item["ci_evidence_required"], item["contract_id"]
-        assert isinstance(item["integration_evidence_required"], bool), item["contract_id"]
-        assert isinstance(item["e2e_evidence_required"], bool), item["contract_id"]
-        assert item["status"] in STATUSES, item["contract_id"]
+            raise AssertionError(
+                f"{contract_id}: VERIFIED requires external exact-SHA run evidence "
+                "and cannot be asserted by this architecture manifest"
+            )
+        assert item["test_requirements"], contract_id
+        assert item["ci_evidence_required"], contract_id
+        assert isinstance(item["integration_evidence_required"], bool), contract_id
+        assert isinstance(item["e2e_evidence_required"], bool), contract_id
+        assert item["status"] in STATUSES, contract_id
 
 
 def main() -> int:
@@ -70,7 +76,10 @@ def main() -> int:
     validate_conformance(conformance)
 
     print(f"Architecture P0 contracts: PASS ({len(contracts['contracts'])} contracts)")
-    print(f"Architecture P0 conformance: PASS ({len(conformance['entries'])} entries; evidence={conformance['evidence_status']})")
+    print(
+        f"Architecture P0 conformance: PASS "
+        f"({len(conformance['entries'])} entries; evidence={conformance['evidence_status']})"
+    )
     return 0
 
 
