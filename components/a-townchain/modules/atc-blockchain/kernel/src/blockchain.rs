@@ -1130,10 +1130,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-bootstrap-pending-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            0u128
         ));
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[111u8; 32]);
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[112u8; 32]);
@@ -1180,10 +1177,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-state-binding-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            0u128
         ));
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[61u8; 32]);
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -1243,10 +1237,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-restart-unregister-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            0u128
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[71u8; 32]);
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -1278,10 +1269,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-key-rotation-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            0u128
         ));
         let old_key = ed25519_dalek::SigningKey::from_bytes(&[73u8; 32]);
         let new_key = ed25519_dalek::SigningKey::from_bytes(&[74u8; 32]);
@@ -1327,10 +1315,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-multi-mutation-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            0u128
         ));
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[101u8; 32]);
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[102u8; 32]);
@@ -1402,10 +1387,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-pending-slash-restart-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            0u128
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[75u8; 32]);
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -1571,10 +1553,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-revisions-restart-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            0u128
         ));
         let key_a_old = ed25519_dalek::SigningKey::from_bytes(&[76u8; 32]);
         let key_a_new = ed25519_dalek::SigningKey::from_bytes(&[77u8; 32]);
@@ -1670,10 +1649,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-node-validator-restart-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            0u128
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[19u8; 32]);
         let public_key = key.verifying_key().to_bytes();
@@ -1816,7 +1792,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-restart-resync-votes-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            0u128
         ));
 
         let producer = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -2075,10 +2051,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-cross-journal-issuance-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            0u128
         ));
 
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -2117,10 +2090,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-cross-journal-state-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            0u128
         ));
 
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -2160,10 +2130,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-pending-activation-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            0u128
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[71u8; 32]);
 
@@ -2199,10 +2166,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-orphan-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            0u128
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[72u8; 32]);
 
