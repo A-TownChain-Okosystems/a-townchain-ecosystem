@@ -387,7 +387,7 @@ mod tests {
         };
         assert_eq!(
             bc.verify(0, 1),
-            Err(VerifyError::UnexpectedEnd { pc: 1 })
+            Err(VerifyError::MissingReturn { pc: 0 })
         );
     }
 
