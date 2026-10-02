@@ -48,7 +48,7 @@ pub fn execute_verified(artifact: &VerifiedArtifact) -> Result<i64, RunError> {
     execute(&program)
 }
 
-pub fn execute(prog: &CompiledProgram) -> Result<i64, RunError> {
+pub(crate) fn execute(prog: &CompiledProgram) -> Result<i64, RunError> {
     prog.verify().map_err(|e| RunError::InvalidProgram {
         message: e.message,
     })?;
