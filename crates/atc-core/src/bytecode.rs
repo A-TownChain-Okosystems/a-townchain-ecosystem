@@ -177,6 +177,11 @@ impl Bytecode {
                 Instruction::Div => out.push(0x13),
                 Instruction::Neg => out.push(0x14),
                 Instruction::Eq => out.push(0x15),
+                Instruction::Ne => out.push(0x16),
+                Instruction::Lt => out.push(0x17),
+                Instruction::Gt => out.push(0x18),
+                Instruction::Le => out.push(0x19),
+                Instruction::Ge => out.push(0x1A),
                 Instruction::Call { function, argc } => {
                     out.push(0x20);
                     out.extend_from_slice(&function.to_be_bytes());
