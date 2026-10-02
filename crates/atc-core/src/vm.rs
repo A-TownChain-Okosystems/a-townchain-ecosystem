@@ -263,7 +263,8 @@ mod tests {
     fn execute_bounds_non_terminating_program() {
         let p = program(vec![
             Instruction::ConstI64(1),
-            Instruction::Jump(-2),
+            Instruction::Pop,
+            Instruction::Jump(-3),
         ]);
         assert_eq!(
             execute(&p),
