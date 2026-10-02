@@ -48,6 +48,12 @@ def validate_conformance(data: dict) -> None:
 
     for item in entries:
         assert item["implementation_surface"], item["contract_id"]
+        assert isinstance(item["implementation_paths"], list), item["contract_id"]
+        assert item["evidence_note"], item["contract_id"]
+        source_sha = item["exact_source_sha"]
+        assert source_sha is None or (len(source_sha) == 40 and all(ch in "0123456789abcdef" for ch in source_sha)), item["contract_id"]
+        if item["status"] == "VERIFIED":
+            raise AssertionError(f"{item[\"contract_id\"]}: VERIFIED requires external exact-SHA run evidence and cannot be asserted by this architecture manifest")
         assert item["test_requirements"], item["contract_id"]
         assert item["ci_evidence_required"], item["contract_id"]
         assert isinstance(item["integration_evidence_required"], bool), item["contract_id"]
