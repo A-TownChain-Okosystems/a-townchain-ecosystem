@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-10-02T00:00:00Z",
+  "components": [
+    {
+      "id": "ipcbus",
+      "name": "IPCBus",
+      "status": "IMPLEMENTED",
+      "claims": [
+        {
+          "id": "CLM-IPCBUS-001",
+          "text": "IPCBus P0/P1 implementation exists on PR #37 at exact source SHA fb90684fa8bca395d29177e68b235d80f45ca7f8.",
+          "evidenceIds": ["EVD-IPCBUS-37-SHA"]
+        }
+      ],
+      "evidence": [
+        {
+          "id": "EVD-IPCBUS-37-SHA",
+          "type": "ci-run",
+          "sha": "fb90684fa8bca395d29177e68b235d80f45ca7f8",
+          "url": "https://github.com/A-TownChain-Okosystems/globus-os/actions/runs/37065515660",
+          "independent": false,
+          "description": "GlobusOS System CI run 37065515660 for exact SHA. Run failed in pre-existing ShivaCore/kernel baseline; the failure is not an EventBus/IPCBus implementation failure."
+        }
+      ],
+      "residuals": ["RES-SHIVACORE-BASELINE"]
+    },
+    {
+      "id": "eventbus",
+      "name": "EventBus",
+      "status": "IMPLEMENTED",
+      "claims": [
+        {
+          "id": "CLM-EVENTBUS-001",
+          "text": "EventBus P0/P1 implementation exists on PR #37 at exact source SHA fb90684fa8bca395d29177e68b235d80f45ca7f8.",
+          "evidenceIds": ["EVD-EVENTBUS-37-SHA"]
+        }
+      ],
+      "evidence": [
+        {
+          "id": "EVD-EVENTBUS-37-SHA",
+          "type": "ci-run",
+          "sha": "fb90684fa8bca395d29177e68b235d80f45ca7f8",
+          "url": "https://github.com/A-TownChain-Okosystems/globus-os/actions/runs/37065515670",
+          "independent": false,
+          "description": "SDK Build and Test run 37065515670 for exact SHA passed. Exact-SHA system/kernel gates remain failing, so EventBus is not VERIFIED."
+        }
+      ],
+      "residuals": ["RES-SHIVACORE-BASELINE"]
+    },
+    {
+      "id": "shivacore-baseline",
+      "name": "ShivaCore Baseline Build",
+      "status": "BLOCKED",
+      "claims": [
+        {
+          "id": "CLM-SHIVACORE-001",
+          "text": "ShivaCore kernel does not yet build cleanly under no_std x86_64 at exact source SHA fb90684fa8bca395d29177e68b235d80f45ca7f8.",
+          "evidenceIds": ["EVD-SHIVACORE-37-SHA"]
+        }
+      ],
+      "evidence": [
+        {
+          "id": "EVD-SHIVACORE-37-SHA",
+          "type": "ci-run",
+          "sha": "fb90684fa8bca395d29177e68b235d80f45ca7f8",
+          "url": "https://github.com/A-TownChain-Okosystems/globus-os/actions/runs/37065515678",
+          "independent": false,
+          "description": "ShivaCore Kernel Boot run 37065515678 failed. Observed baseline errors include missing Rights::INSPECT, x86_64 availability, Vec/String imports, ToString under no_std, u64 dereference, UserContext move, PageSize/Size4KiB::SIZE, and ELF/kernel test failures."
+        }
+      ],
+      "residuals": ["RES-SHIVACORE-BASELINE"]
+    },
+    {
+      "id": "governance",
+      "name": "Dependency Review Residual",
+      "status": "RESIDUAL",
+      "claims": [
+        {
+          "id": "CLM-DEPREVIEW-001",
+          "text": "Dependency Review is currently a documented residual because GitHub Dependency Graph support is unavailable for the repository; it is not treated as a merge blocker by this framework.",
+          "evidenceIds": ["EVD-DEPREVIEW-37"]
+        }
+      ],
+      "evidence": [
+        {
+          "id": "EVD-DEPREVIEW-37",
+          "type": "ci-run",
+          "sha": "fb90684fa8bca395d29177e68b235d80f45ca7f8",
+          "url": "https://github.com/A-TownChain-Okosystems/globus-os/actions/runs/37065515704",
+          "independent": false,
+          "description": "Dependency Review run 37065515704 failed because GitHub Dependency Graph review support is unavailable for the repository."
+        }
+      ],
+      "residuals": ["RES-DEPREVIEW-GATE"]
+    }
+  ]
+}

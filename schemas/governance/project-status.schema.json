@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/schemas/governance/project-status.schema.json",
+  "title": "A-TownChain Project Status Matrix",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "components"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/component" }
+    }
+  },
+  "definitions": {
+    "status": {
+      "type": "string",
+      "enum": ["PLANNED", "SPECIFIED", "IMPLEMENTED", "TESTED", "VERIFIED", "BLOCKED", "RESIDUAL"]
+    },
+    "sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "evidenceId": {
+      "type": "string",
+      "pattern": "^EVD-[A-Z0-9][A-Z0-9-]*$"
+    },
+    "claimId": {
+      "type": "string",
+      "pattern": "^CLM-[A-Z0-9][A-Z0-9-]*$"
+    },
+    "residualId": {
+      "type": "string",
+      "pattern": "^RES-[A-Z0-9][A-Z0-9-]*$"
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["id", "type", "sha", "url", "independent"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/definitions/evidenceId" },
+        "type": {
+          "enum": ["ci-run", "log", "artifact", "audit", "reproduction", "review"]
+        },
+        "sha": { "$ref": "#/definitions/sha" },
+        "url": { "type": "string", "format": "uri" },
+        "independent": { "type": "boolean" },
+        "description": { "type": "string", "minLength": 1 }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "required": ["id", "text", "evidenceIds"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/definitions/claimId" },
+        "text": { "type": "string", "minLength": 1 },
+        "evidenceIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/evidenceId" }
+        }
+      }
+    },
+    "component": {
+      "type": "object",
+      "required": ["id", "name", "status", "claims", "evidence", "residuals"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "name": { "type": "string", "minLength": 1 },
+        "status": { "$ref": "#/definitions/status" },
+        "claims": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/claim" }
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/evidence" }
+        },
+        "residuals": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/residualId" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "status": { "const": "VERIFIED" } },
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "type": "array",
+                "contains": {
+                  "type": "object",
+                  "required": ["independent", "type"],
+                  "properties": {
+                    "independent": { "const": true },
+                    "type": { "enum": ["audit", "reproduction"] }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "status": { "enum": ["BLOCKED", "RESIDUAL"] } },
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {
+              "residuals": { "type": "array", "minItems": 1 }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
