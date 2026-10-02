@@ -1,7 +1,8 @@
 // Copyright (c) 2026 Michael Wroblewski — Apache-2.0
 //! Canonical ATCLang bytecode format and verifier (G3 baseline, SCR-0128 Stufe 1).
-//! Encoding is deterministic: fixed opcode bytes, little-endian immediates,
-//! no host-dependent serialization.
+//! Legacy encoding is deterministic and little-endian. The canonical encoding
+//! below is a separate wire contract: fixed opcode bytes and big-endian
+//! immediates, with no host-dependent serialization.
 //!
 //! Sprungmodell (SCR-0128 Stufe 1): `Jump(i16)`/`JumpIfFalse(i16)` sind PC-relativ,
 //! Bezugsbasis ist die Folgeinstruktion (`Ziel = pc + 1 + distanz`). i16 erlaubt
@@ -76,6 +77,8 @@ pub enum VerifyError {
         pc: usize,
         target: i64,
     },
+    /// Instruction count cannot be represented by the canonical u32 field.
+    InstructionCountOverflow,
     /// Widerspruechliche Stack-Hoehen an einer Join-Stelle (Sprungziel).
     InconsistentStackHeight {
         pc: usize,
@@ -151,12 +154,31 @@ impl Bytecode {
     /// Format:
     /// magic "ATCB", version u16 BE, instruction_count u32 BE,
     /// followed by fixed opcode payloads. This deliberately avoids serde/JSON.
+    ///
+    /// A standalone bytecode object does not know its containing program's
+    /// local count or function signature table. We derive the minimum local
+    /// count from the bytecode and use unknown call signatures here.
+    /// Full program validation remains the responsibility of
+    /// `CompiledProgram::verify()`.
     pub fn encode_canonical(&self) -> Result<Vec<u8>, VerifyError> {
-        self.verify(0, u16::MAX)?;
-        let mut out = Vec::with_capacity(8 + self.instructions.len() * 9);
+        let local_count = self
+            .instructions
+            .iter()
+            .filter_map(|ins| match ins {
+                Instruction::LoadLocal(i) | Instruction::StoreLocal(i) => Some(*i),
+                _ => None,
+            })
+            .max()
+            .map_or(0, |i| i.saturating_add(1));
+        self.verify(local_count, u16::MAX)?;
+        let instruction_count = u32::try_from(self.instructions.len())
+            .map_err(|_| VerifyError::InstructionCountOverflow)?;
+        let mut out = Vec::with_capacity(
+            10usize.saturating_add(self.instructions.len().saturating_mul(9)),
+        );
         out.extend_from_slice(b"ATCB");
         out.extend_from_slice(&1u16.to_be_bytes());
-        out.extend_from_slice(&(self.instructions.len() as u32).to_be_bytes());
+        out.extend_from_slice(&instruction_count.to_be_bytes());
         for ins in &self.instructions {
             match ins {
                 Instruction::ConstI64(v) => {
