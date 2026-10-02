@@ -13,6 +13,7 @@ use atc_node::runtime::Runtime;
 use std::{env, net::TcpListener, path::PathBuf, sync::Arc, thread, time::Duration};
 
 const DEFAULT_GENESIS_PROPOSER: &str = "atc-genesis";
+const CANONICAL_BLOCK_INTERVAL_SECS: u64 = 360;
 
 #[derive(Clone)]
 struct ValidatorConfig {
@@ -151,12 +152,6 @@ fn main() -> std::io::Result<()> {
         .filter(|x| !x.trim().is_empty())
         .map(|x| x.trim().to_string())
         .collect::<Vec<_>>();
-    let block_interval = env::var("ATC_BLOCK_INTERVAL_SECS")
-        .ok()
-        .and_then(|x| x.parse::<u64>().ok())
-        .filter(|x| *x > 0)
-        .unwrap_or(360);
-
     let validators = match validators_from_env() {
         Ok(v) => v,
         Err(e) => {
@@ -221,10 +216,17 @@ fn main() -> std::io::Result<()> {
         if !is_local_proposer(&producer) {
             continue;
         }
-        let now = std::time::SystemTime::now()
-            .duration_since(std::time::UNIX_EPOCH)
-            .map(|d| d.as_secs())
-            .unwrap_or(0);
+        let now = match producer
+            .chain
+            .last()
+            .and_then(|parent| parent.timestamp.checked_add(CANONICAL_BLOCK_INTERVAL_SECS))
+        {
+            Some(timestamp) => timestamp,
+            None => {
+                eprintln!("block timestamp overflow");
+                continue;
+            }
+        };
         let result = if producer.pool.get_pending_batch(100).is_empty() {
             producer.produce_reward_block(now)
         } else {
