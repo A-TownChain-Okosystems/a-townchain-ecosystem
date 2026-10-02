@@ -10,6 +10,7 @@ use std::{
     fs::{self, File, OpenOptions},
     io::{Read, Write},
     path::{Path, PathBuf},
+    sync::atomic::{AtomicU64, Ordering},
 };
 
 use super::{BlobStore, SecureStoreError};
@@ -139,25 +140,25 @@ impl BlobStore for FileBlobStore {
     }
 }
 
+static TEMP_FILE_COUNTER: AtomicU64 = AtomicU64::new(0);
+
 fn temporary_path(path: &Path) -> PathBuf {
+    let sequence = TEMP_FILE_COUNTER.fetch_add(1, Ordering::Relaxed);
     let mut tmp = path.as_os_str().to_owned();
-    tmp.push(format!(".tmp-{}", std::process::id()));
+    tmp.push(format!(".tmp-{sequence}"));
     PathBuf::from(tmp)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::{
-        env,
-        time::{SystemTime, UNIX_EPOCH},
-    };
+    use std::env;
+    use std::sync::atomic::{AtomicU64, Ordering};
+
+    static TEST_PATH_COUNTER: AtomicU64 = AtomicU64::new(0);
 
     fn path() -> PathBuf {
-        let n = SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .unwrap()
-            .as_nanos();
+        let n = TEST_PATH_COUNTER.fetch_add(1, Ordering::Relaxed);
         env::temp_dir().join(format!("globus-identity-{n}.blob"))
     }
 
