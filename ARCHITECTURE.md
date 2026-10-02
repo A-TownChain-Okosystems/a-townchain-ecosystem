@@ -149,6 +149,15 @@ Schema: `schemas/architecture/p0-boundary-contracts.schema.json`.
 
 These are architecture contracts, not implementation evidence. The responsible standalone repository remains the implementation SSOT under **Standalone First, Ecosystem Second**.
 
+### P0 Conformance / Evidence Matrix
+
+The contract set is paired with a machine-readable conformance matrix:
+
+- `architecture/contracts/p0-conformance-matrix.json`
+- `schemas/architecture/p0-conformance-matrix.schema.json`
+
+The matrix binds each P0 contract to its current implementation SSOT candidate, implementation surface, mandatory test classes and exact-SHA evidence dimensions. Entries start at **UNANALYZED** and may only advance through the repository evidence lifecycle; architecture presence never upgrades an entry to VERIFIED.
+
 ## Primary Repository / Subsystem Mapping
 
 A repository may span more than one architectural layer; the table identifies its primary responsibility and does not override repository-level SSOT.
