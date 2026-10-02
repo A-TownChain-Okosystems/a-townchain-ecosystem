@@ -49,6 +49,34 @@ impl CompiledProgram {
     pub fn function_count(&self) -> u16 {
         self.functions.len() as u16
     }
+
+    /// Re-validates the complete compiled program before execution/trust.
+    pub fn verify(&self) -> Result<(), LowerError> {
+        if self.functions.is_empty() {
+            return Err(LowerError::new("Programm enthaelt keine Funktionen"));
+        }
+        if self.entry as usize >= self.functions.len() {
+            return Err(LowerError::new("ungueltige Entry-Funktion"));
+        }
+        if self.functions.len() > u16::MAX as usize {
+            return Err(LowerError::new("zu viele Funktionen"));
+        }
+        let signatures: Vec<u16> = self.functions.iter().map(|f| f.param_count).collect();
+        for f in &self.functions {
+            if f.param_count > f.local_count {
+                return Err(LowerError::new(format!(
+                    "Funktion {} hat mehr Parameter als lokale Slots",
+                    f.name
+                )));
+            }
+            f.bytecode
+                .verify_with_signatures(f.local_count, &signatures)
+                .map_err(|e| LowerError::new(format!(
+                    "Verifizierer lehnte Funktion {} ab: {e:?}", f.name
+                )))?;
+        }
+        Ok(())
+    }
 }
 
 const ENTRY: &str = "__main__";
@@ -267,9 +295,20 @@ fn finish_function(
     }
     let bytecode = Bytecode { instructions };
     let local_count = l.next_local;
-    let function_count = l.fn_ids.len() as u16;
+    if param_count > local_count {
+        return Err(LowerError::new(format!(
+            "Parameterzahl ueberschreitet lokale Slots in Funktion {name}"
+        )));
+    }
+    // During construction exact signatures are known from fn_ids.
+    let mut signatures = vec![u16::MAX; l.fn_ids.len()];
+    for (idx, (_, params)) in l.fn_ids.values().enumerate() {
+        if idx < signatures.len() {
+            signatures[idx] = *params;
+        }
+    }
     bytecode
-        .verify(local_count, function_count)
+        .verify_with_signatures(local_count, &signatures)
         .map_err(|e| LowerError::new(format!("Verifizierer lehnte Funktion {name} ab: {e:?}")))?;
     Ok(CompiledFunction {
         name,
