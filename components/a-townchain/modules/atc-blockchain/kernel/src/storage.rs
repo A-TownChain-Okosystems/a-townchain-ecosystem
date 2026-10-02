@@ -918,14 +918,21 @@ impl ChainStorage {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    
+    fn next_test_id() -> u64 {
+        use std::sync::atomic::{AtomicU64, Ordering};
+        static COUNTER: AtomicU64 = AtomicU64::new(1);
+        COUNTER.fetch_add(1, Ordering::Relaxed)
+    }
+
+use super::*;
 
     #[test]
     fn validator_snapshot_persists_public_keys_across_restart() {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-snapshot-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -965,7 +972,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-history-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            next_test_id()
         ));
         let key0 = ed25519_dalek::SigningKey::from_bytes(&[41u8; 32]).verifying_key().to_bytes();
         let key1 = ed25519_dalek::SigningKey::from_bytes(&[42u8; 32]).verifying_key().to_bytes();
@@ -1002,7 +1009,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-revision-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -1048,7 +1055,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-regression-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
+            next_test_id()
                 .duration_since(std::time::UNIX_EPOCH)
                 .unwrap()
                 .as_nanos()
@@ -1096,7 +1103,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-finality-idempotence-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            next_test_id()
         ));
         let storage = ChainStorage::open(&path).unwrap();
         let block = Block::new(7, [6u8; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
@@ -1135,7 +1142,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-conflicting-height-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            next_test_id()
         ));
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         let first = Block::new(1, genesis.id, "v".into(), 2, Vec::new(), [3; 32], [4; 32], [0; 64]);
@@ -1165,7 +1172,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-state-boundary-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            next_test_id()
         ));
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         std::fs::write(&path, format!("{}\n", hex::encode(block_encode(&genesis)))).unwrap();
@@ -1198,7 +1205,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-torn-block-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            next_test_id()
         ));
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         let encoded = hex::encode(block_encode(&genesis));
@@ -1220,7 +1227,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-precommit-state-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            next_test_id()
         ));
         let mut state_record = Vec::new();
         state_record.extend_from_slice(&1u64.to_be_bytes());
@@ -1246,7 +1253,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-torn-finality-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            next_test_id()
         ));
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         let storage = ChainStorage::open(&path).unwrap();
@@ -1273,7 +1280,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-torn-issuance-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            next_test_id()
         ));
         let storage = ChainStorage::open(&path).unwrap();
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
