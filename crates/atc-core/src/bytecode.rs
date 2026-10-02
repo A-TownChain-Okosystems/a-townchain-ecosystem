@@ -69,6 +69,8 @@ pub enum VerifyError {
         expected: usize,
         actual: usize,
     },
+    /// Control-flow path ends without an explicit Return.
+    MissingReturn { pc: usize },
     /// Sprungziel ausserhalb [0, len].
     InvalidJumpTarget {
         pc: usize,
@@ -194,6 +196,9 @@ impl Bytecode {
             match instruction {
                 Instruction::ConstI64(v) => {
                     let next_stack = stack.checked_add(1).ok_or(VerifyError::InvalidStackHeight { pc, expected: usize::MAX, actual: stack })?;
+                    if pc + 1 >= len {
+                        return Err(VerifyError::MissingReturn { pc });
+                    }
                     work.push((pc + 1, next_stack, Some(*v)));
                 }
                 Instruction::LoadLocal(index) => {
@@ -201,6 +206,9 @@ impl Bytecode {
                         return Err(VerifyError::InvalidLocal { pc, index: *index });
                     }
                     let next_stack = stack.checked_add(1).ok_or(VerifyError::InvalidStackHeight { pc, expected: usize::MAX, actual: stack })?;
+                    if pc + 1 >= len {
+                        return Err(VerifyError::MissingReturn { pc });
+                    }
                     work.push((pc + 1, next_stack, None));
                 }
                 Instruction::StoreLocal(index) => {
@@ -210,11 +218,17 @@ impl Bytecode {
                     if stack < 1 {
                         return Err(VerifyError::StackUnderflow { pc });
                     }
+                    if pc + 1 >= len {
+                        return Err(VerifyError::MissingReturn { pc });
+                    }
                     work.push((pc + 1, stack - 1, None));
                 }
                 Instruction::Add | Instruction::Sub | Instruction::Mul => {
                     if stack < 2 {
                         return Err(VerifyError::StackUnderflow { pc });
+                    }
+                    if pc + 1 >= len {
+                        return Err(VerifyError::MissingReturn { pc });
                     }
                     work.push((pc + 1, stack - 1, None));
                 }
@@ -225,11 +239,17 @@ impl Bytecode {
                     if stack < 2 {
                         return Err(VerifyError::StackUnderflow { pc });
                     }
+                    if pc + 1 >= len {
+                        return Err(VerifyError::MissingReturn { pc });
+                    }
                     work.push((pc + 1, stack - 1, None));
                 }
                 Instruction::Neg => {
                     if stack < 1 {
                         return Err(VerifyError::StackUnderflow { pc });
+                    }
+                    if pc + 1 >= len {
+                        return Err(VerifyError::MissingReturn { pc });
                     }
                     work.push((pc + 1, stack, None));
                 }
@@ -241,6 +261,9 @@ impl Bytecode {
                 | Instruction::Ge => {
                     if stack < 2 {
                         return Err(VerifyError::StackUnderflow { pc });
+                    }
+                    if pc + 1 >= len {
+                        return Err(VerifyError::MissingReturn { pc });
                     }
                     work.push((pc + 1, stack - 1, None));
                 }
@@ -262,6 +285,9 @@ impl Bytecode {
                     if stack < argc {
                         return Err(VerifyError::StackUnderflow { pc });
                     }
+                    if pc + 1 >= len {
+                        return Err(VerifyError::MissingReturn { pc });
+                    }
                     work.push((pc + 1, stack - argc + 1, None));
                 }
                 Instruction::Return => {
@@ -277,6 +303,9 @@ impl Bytecode {
                 Instruction::Pop => {
                     if stack < 1 {
                         return Err(VerifyError::StackUnderflow { pc });
+                    }
+                    if pc + 1 >= len {
+                        return Err(VerifyError::MissingReturn { pc });
                     }
                     work.push((pc + 1, stack - 1, None));
                 }
