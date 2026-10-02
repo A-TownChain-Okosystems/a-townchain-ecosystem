@@ -474,6 +474,38 @@ mod tests {
     }
 
     #[test]
+    fn canonical_encoding_covers_all_comparison_opcodes() {
+        let bc = Bytecode {
+            instructions: vec![
+                Instruction::ConstI64(1),
+                Instruction::ConstI64(2),
+                Instruction::Ne,
+                Instruction::Pop,
+                Instruction::ConstI64(1),
+                Instruction::ConstI64(2),
+                Instruction::Lt,
+                Instruction::Pop,
+                Instruction::ConstI64(1),
+                Instruction::ConstI64(2),
+                Instruction::Gt,
+                Instruction::Pop,
+                Instruction::ConstI64(1),
+                Instruction::ConstI64(2),
+                Instruction::Le,
+                Instruction::Pop,
+                Instruction::ConstI64(1),
+                Instruction::ConstI64(2),
+                Instruction::Ge,
+                Instruction::Return,
+            ],
+        };
+        let encoded = bc.encode_canonical().unwrap();
+        for opcode in [0x16u8, 0x17, 0x18, 0x19, 0x1A] {
+            assert!(encoded.contains(&opcode), "missing canonical opcode {opcode:#x}");
+        }
+    }
+
+    #[test]
     fn verifier_rejects_fallthrough_past_end() {
         let bc = Bytecode {
             instructions: vec![Instruction::ConstI64(1)],
