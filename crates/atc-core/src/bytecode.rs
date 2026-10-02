@@ -146,6 +146,57 @@ impl Bytecode {
         pc as i64 + 1 + distanz as i64
     }
 
+    /// Canonical deterministic binary encoding.
+    ///
+    /// Format:
+    /// magic "ATCB", version u16 BE, instruction_count u32 BE,
+    /// followed by fixed opcode payloads. This deliberately avoids serde/JSON.
+    pub fn encode_canonical(&self) -> Result<Vec<u8>, VerifyError> {
+        self.verify(0, u16::MAX)?;
+        let mut out = Vec::with_capacity(8 + self.instructions.len() * 9);
+        out.extend_from_slice(b"ATCB");
+        out.extend_from_slice(&1u16.to_be_bytes());
+        out.extend_from_slice(&(self.instructions.len() as u32).to_be_bytes());
+        for ins in &self.instructions {
+            match ins {
+                Instruction::ConstI64(v) => {
+                    out.push(0x01);
+                    out.extend_from_slice(&v.to_be_bytes());
+                }
+                Instruction::LoadLocal(i) => {
+                    out.push(0x02);
+                    out.extend_from_slice(&i.to_be_bytes());
+                }
+                Instruction::StoreLocal(i) => {
+                    out.push(0x03);
+                    out.extend_from_slice(&i.to_be_bytes());
+                }
+                Instruction::Add => out.push(0x10),
+                Instruction::Sub => out.push(0x11),
+                Instruction::Mul => out.push(0x12),
+                Instruction::Div => out.push(0x13),
+                Instruction::Neg => out.push(0x14),
+                Instruction::Eq => out.push(0x15),
+                Instruction::Call { function, argc } => {
+                    out.push(0x20);
+                    out.extend_from_slice(&function.to_be_bytes());
+                    out.extend_from_slice(&argc.to_be_bytes());
+                }
+                Instruction::Return => out.push(0x21),
+                Instruction::Jump(delta) => {
+                    out.push(0x30);
+                    out.extend_from_slice(&delta.to_be_bytes());
+                }
+                Instruction::JumpIfFalse(delta) => {
+                    out.push(0x31);
+                    out.extend_from_slice(&delta.to_be_bytes());
+                }
+                Instruction::Pop => out.push(0x40),
+            }
+        }
+        Ok(out)
+    }
+
     pub fn verify(&self, local_count: u16, function_count: u16) -> Result<(), VerifyError> {
         self.verify_with_signatures(local_count, &vec![u16::MAX; function_count as usize])
     }
