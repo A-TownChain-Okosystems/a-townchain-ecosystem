@@ -233,3 +233,58 @@ fn pop2(stack: &mut Vec<i64>) -> (i64, i64) {
     let a = stack.pop().expect("verifiziert");
     (b, a)
 }
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::bytecode::{Bytecode, Instruction};
+    use crate::lower::CompiledFunction;
+
+    fn program(instructions: Vec<Instruction>) -> CompiledProgram {
+        CompiledProgram {
+            functions: vec![CompiledFunction {
+                name: "__main__".into(),
+                param_count: 0,
+                local_count: 0,
+                bytecode: Bytecode { instructions },
+            }],
+            entry: 0,
+        }
+    }
+
+    #[test]
+    fn execute_rejects_invalid_program_without_panicking() {
+        let p = program(vec![Instruction::Add]);
+        assert!(matches!(execute(&p), Err(RunError::InvalidProgram { .. })));
+    }
+
+    #[test]
+    fn execute_bounds_non_terminating_program() {
+        let p = program(vec![
+            Instruction::ConstI64(1),
+            Instruction::Jump(-2),
+        ]);
+        assert_eq!(
+            execute(&p),
+            Err(RunError::ExecutionLimitExceeded { max_steps: MAX_STEPS })
+        );
+    }
+
+    #[test]
+    fn execute_detects_overflow_deterministically() {
+        let p = program(vec![
+            Instruction::ConstI64(i64::MAX),
+            Instruction::ConstI64(1),
+            Instruction::Add,
+            Instruction::Return,
+        ]);
+        assert_eq!(
+            execute(&p),
+            Err(RunError::ArithmeticOverflow {
+                function: "__main__".into(),
+                pc: 2,
+            })
+        );
+    }
+}
