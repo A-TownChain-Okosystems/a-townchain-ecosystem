@@ -132,6 +132,23 @@ X is a cross-cutting control-plane model for identity, capability, authorization
             L0              L1              L2 ... L7
 ```
 
+## P0 Boundary Contract Set
+
+The architecture-level contracts are machine-readable and validated in CI:
+
+- `ARCH-P0-001` Network / P2P
+- `ARCH-P0-002` Identity / Trust
+- `ARCH-P0-003` State Ownership
+- `ARCH-P0-004` Global Authority Matrix
+- `ARCH-P0-005` Canonical Interfaces / Events
+- `ARCH-P0-006` Failure / Recovery
+
+Canonical contract document: `docs/architecture/P0-BOUNDARY-CONTRACTS.md`.  
+Machine-readable contract set: `architecture/contracts/p0-boundary-contracts.json`.  
+Schema: `schemas/architecture/p0-boundary-contracts.schema.json`.
+
+These are architecture contracts, not implementation evidence. The responsible standalone repository remains the implementation SSOT under **Standalone First, Ecosystem Second**.
+
 ## Primary Repository / Subsystem Mapping
 
 A repository may span more than one architectural layer; the table identifies its primary responsibility and does not override repository-level SSOT.
@@ -140,8 +157,8 @@ A repository may span more than one architectural layer; the table identifies it
 |---|---|
 | L0 | `atc-shivacore`, `globus-os`, `atc-node` network/runtime boundary |
 | L1 | `atc-storage`, `atc-indexer` read models, `atc-explorer` presentation/read model |
-| L2 | `a-townchain`, `atc-node`, `atc-algorithm`, `atc-mining`, `atc-wallet` transaction interface |
-| L3 | `atc-vm`, `atclang`, `atc-contracts` |
+| L2 | `a-townchain` (including `components/algorithm`, `components/node`, `components/mining`, `components/wallet`) |
+| L3 | `a-townchain/components/vm`, `atclang`, `a-townchain/components/contracts` |
 | L4 | `atc-zkp`, future scaling/execution-domain components |
 | L5 | `atc-interop`, `atc-oracle`, `atc-compute`, `atc-marketplace`, `atc-launchpad`, protocol/asset/identity domains |
 | L6 | `aurora-ai`, Quest AI, Dialogue AI and other domain-intelligence capabilities |
