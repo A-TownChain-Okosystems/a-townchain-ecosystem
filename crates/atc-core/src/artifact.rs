@@ -183,6 +183,10 @@ impl Artifact {
 
         let entry = r.u16()?;
         let count = r.u16()? as usize;
+        // A function has at least name-length + params + locals + bytecode-length.
+        if count > r.remaining() / 10 {
+            return Err(ArtifactError::InvalidCount);
+        }
         let mut functions = Vec::with_capacity(count);
         for _ in 0..count {
             let name = r.string()?;
@@ -352,6 +356,12 @@ fn decode_bytecode(raw: &[u8]) -> Result<Bytecode, ArtifactError> {
         ));
     }
     let count = u32::from_be_bytes([raw[6], raw[7], raw[8], raw[9]]) as usize;
+    let remaining = raw.len().saturating_sub(10);
+    // Every instruction consumes at least one opcode byte. Do not allocate
+    // from an attacker-controlled count before this structural bound.
+    if count > remaining {
+        return Err(ArtifactError::InvalidCount);
+    }
     let mut p = 10usize;
     let mut instructions = Vec::with_capacity(count);
 
