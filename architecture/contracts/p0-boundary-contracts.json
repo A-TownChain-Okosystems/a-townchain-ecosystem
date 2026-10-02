@@ -1,0 +1,13 @@
+{
+  "schema": "ATC-ARCH-P0-CONTRACTS-1.0",
+  "architecture_source": "ARCHITECTURE.md",
+  "status": "ACTIVE",
+  "contracts": [
+    {"id":"ARCH-P0-001","name":"network_p2p","authority":["L0","X","L2"],"deny_by_default":true,"canonical_owner":"L0_transport_X_policy_L2_protocol"},
+    {"id":"ARCH-P0-002","name":"identity_trust","authority":["X"],"deny_by_default":true,"canonical_owner":"X"},
+    {"id":"ARCH-P0-003","name":"state_ownership","authority":["L1","L2","L3","L4","L5","L6","L7","X"],"deny_by_default":true,"canonical_owner":"layer_specific_single_authority"},
+    {"id":"ARCH-P0-004","name":"global_authority_matrix","authority":["X"],"deny_by_default":true,"canonical_owner":"X"},
+    {"id":"ARCH-P0-005","name":"canonical_interfaces_events","authority":["X","domain_owners"],"deny_by_default":true,"canonical_owner":"interface_domain_owner"},
+    {"id":"ARCH-P0-006","name":"failure_recovery","authority":["X","responsible_domain"],"deny_by_default":true,"canonical_owner":"responsible_domain_with_X_control"}
+  ]
+}
