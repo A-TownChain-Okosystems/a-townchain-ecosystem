@@ -48,6 +48,8 @@ pub struct Bytecode {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum VerifyError {
+    EmptyBytecode,
+    UnexpectedEnd { pc: usize },
     StackUnderflow {
         pc: usize,
     },
@@ -143,7 +145,19 @@ impl Bytecode {
     }
 
     pub fn verify(&self, local_count: u16, function_count: u16) -> Result<(), VerifyError> {
+        self.verify_with_signatures(local_count, &vec![u16::MAX; function_count as usize])
+    }
+
+    /// Full verifier including exact call arity when function signatures are available.
+    pub fn verify_with_signatures(
+        &self,
+        local_count: u16,
+        function_params: &[u16],
+    ) -> Result<(), VerifyError> {
         let len = self.instructions.len();
+        if len == 0 {
+            return Err(VerifyError::EmptyBytecode);
+        }
         // visited[pc] = Hoehe beim ersten Besuch; height
         let mut visited: Vec<Option<usize>> = vec![None; len];
         // last_const beim ersten Besuch; bei Join mit abweichendem Wert -> None
@@ -151,6 +165,9 @@ impl Bytecode {
         // Worklist: (pc, hoehe, last_const) — deterministisch (fester Stack-Order).
         let mut work: Vec<(usize, usize, Option<i64>)> = vec![(0, 0, None)];
         while let Some((pc, stack, last_const)) = work.pop() {
+            if pc >= len {
+                return Err(VerifyError::UnexpectedEnd { pc });
+            }
             match visited[pc] {
                 Some(h) => {
                     if h != stack {
@@ -173,20 +190,18 @@ impl Bytecode {
                     last_const_at[pc] = last_const;
                 }
             }
-            let Some(instruction) = self.instructions.get(pc) else {
-                // pc == len: Pfad laeuft ohne Return aus — wie zuvor kein
-                // Verifizierer-Fehler; die VM behandelt das fail-closed.
-                continue;
-            };
+            let instruction = &self.instructions[pc];
             match instruction {
                 Instruction::ConstI64(v) => {
-                    work.push((pc + 1, stack + 1, Some(*v)));
+                    let next_stack = stack.checked_add(1).ok_or(VerifyError::InvalidStackHeight { pc, expected: usize::MAX, actual: stack })?;
+                    work.push((pc + 1, next_stack, Some(*v)));
                 }
                 Instruction::LoadLocal(index) => {
                     if *index >= local_count {
                         return Err(VerifyError::InvalidLocal { pc, index: *index });
                     }
-                    work.push((pc + 1, stack + 1, None));
+                    let next_stack = stack.checked_add(1).ok_or(VerifyError::InvalidStackHeight { pc, expected: usize::MAX, actual: stack })?;
+                    work.push((pc + 1, next_stack, None));
                 }
                 Instruction::StoreLocal(index) => {
                     if *index >= local_count {
@@ -230,13 +245,20 @@ impl Bytecode {
                     work.push((pc + 1, stack - 1, None));
                 }
                 Instruction::Call { function, argc } => {
-                    if *function >= function_count {
+                    if (*function as usize) >= function_params.len() {
                         return Err(VerifyError::InvalidFunction {
                             pc,
                             function: *function,
                         });
                     }
                     let argc = *argc as usize;
+                    let expected = function_params[*function as usize];
+                    if expected != u16::MAX && *argc != expected {
+                        return Err(VerifyError::InvalidFunction {
+                            pc,
+                            function: *function,
+                        });
+                    }
                     if stack < argc {
                         return Err(VerifyError::StackUnderflow { pc });
                     }
