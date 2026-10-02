@@ -65,7 +65,7 @@ impl Transaction {
         t: TxType,
         s: String,
         r: Option<String>,
-        a: u64,
+        a: u128,
         gp: u64,
         gl: u64,
         n: u64,
@@ -237,7 +237,7 @@ impl MemoryPool {
         e.insert(
             id,
             PoolEntry {
-                priority: tx.gas_price.saturating_mul(tx.gas_limit),
+                priority: u128::from(tx.gas_price).saturating_mul(u128::from(tx.gas_limit)),
                 tx,
                 status: TxStatus::Pending,
                 added_at: now,
@@ -335,7 +335,7 @@ impl StateDb {
             .ok_or("supply overflow".to_string())?;
         if new_supply > crate::economics::MAX_SUPPLY {
             return Err(format!(
-                "ATC supply cap exceeded in base units: {new_supply} > {MAX_SUPPLY}"
+                "ATC supply cap exceeded in base units: {new_supply} > {crate::economics::MAX_SUPPLY}"
             ));
         }
         let x = a.entry(id.into()).or_insert(Account {
@@ -500,10 +500,10 @@ impl StateDb {
                     staked: 0,
                     nonce: 0,
                 });
-                if x.balance < amount {
+                if x.balance < u128::from(amount) {
                     Err("insufficient balance for DAO treasury deposit".into())
                 } else {
-                    x.balance -= amount;
+                    x.balance -= u128::from(amount);
                     Ok(())
                 }
             }
@@ -516,7 +516,7 @@ impl StateDb {
                 });
                 x.balance = x
                     .balance
-                    .checked_add(amount)
+                    .checked_add(u128::from(amount))
                     .ok_or("recipient balance overflow".to_string())?;
                 Ok(())
             }

@@ -1,13 +1,13 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // ─────────────────────────────────────────────────────────────
 // ATC-01 — Genesis Validator Generator
-// Sprint 2.3 | Infrastructure Layer | Chain-ID 9000
+// Sprint 2.3 | Infrastructure Layer | Chain-ID 658467
 // Migrated from: scripts/generate_validators.py (395 lines)
 // Generates genesis wallet, validator keys, mainnet config
 // ─────────────────────────────────────────────────────────────
 
 const DEFAULT_VALIDATOR_COUNT: u8 = 5
-const CHAIN_ID: u32 = 9000
+const CHAIN_ID: u64 = 658467
 
 struct ValidatorKey {
     validator_id: u8,
@@ -19,7 +19,7 @@ struct ValidatorKey {
 }
 
 struct GenesisConfig {
-    chain_id: u32,
+    chain_id: u64,
     genesis_wallet: Address,
     genesis_supply: u128,
     validators: List<ValidatorKey>,
@@ -68,7 +68,7 @@ contract ValidatorGenerator {
         let genesis_pub = Hash::sha256(genesis_priv)
         let genesis_addr = Address::from_hash(Hash::sha256(genesis_pub))
         self.genesis_wallet = genesis_addr
-        self.genesis_supply = 21000000000000000000000000  // 21M ATC
+        self.genesis_supply = 0  // Canonical genesis supply; L1 issuance follows monetary policy
         emit GenesisCreated(genesis_addr, self.genesis_supply)
 
         // Generate validators
@@ -88,8 +88,8 @@ contract ValidatorGenerator {
             genesis_supply: self.genesis_supply,
             validators: self.validators.keys(),
             created_at: Time::now(),
-            block_time: 12,
-            epoch_length: 1000,
+            block_time: 360,
+            epoch_length: 360000,
         }
         self.config = config
         return genesis_addr
@@ -111,7 +111,7 @@ contract ValidatorGenerator {
         return self.genesis_wallet
     }
 
-    fn get_genesis_config() -> (u32, Address, u128, u16, u32) {
+    fn get_genesis_config() -> (u64, Address, u128, u16, u32) {
         return (self.config.chain_id, self.config.genesis_wallet, self.config.genesis_supply, self.config.block_time, self.config.epoch_length)
     }
 
@@ -129,7 +129,7 @@ contract ValidatorGenerator {
         return total
     }
 
-    fn export_config() -> (u32, u8, u128, u64, u16) {
+    fn export_config() -> (u64, u8, u128, u64, u16) {
         return (self.config.chain_id, self.validator_count, self.total_stake(), self.config.created_at, self.config.block_time)
     }
 }

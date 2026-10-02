@@ -31,14 +31,14 @@ Stand: 15.09.2026 · Self-Compliance: ATC-STD-201 R1
 - `src/executor.rs` — FIFO execution queue.
 - `src/miner.rs` — deterministic SHA3-256 candidate hashing and bounded nonce search against an explicit target.
 - `src/reward.rs` — checked reward issuance with a hard supply ceiling.
-- Consensus rules remain owned by `atc-algorithm`; mining does not mutate or redefine consensus.
+- Consensus/algorithm ownership is `components/a-townchain/components/algorithm`; consensus remains SPEC-DRAFT until governed Spec-Freeze, complete implementation, Conformance and Exact-SHA evidence. Mining does not mutate or redefine consensus.
 - Contract settlement remains external to this crate and is owned by `atc-contracts`.
 
 ## Remaining P1
 
 - Hardware-specific CPU/GPU backends.
 - Network job transport and authenticated work distribution.
-- Canonical integration with `atc-algorithm` difficulty rules.
+- Canonical integration with `components/a-townchain/components/algorithm` difficulty rules.
 - SC-018 settlement adapter and MinerWatcher telemetry.
 - Hardware/benchmark evidence before production readiness.
 
