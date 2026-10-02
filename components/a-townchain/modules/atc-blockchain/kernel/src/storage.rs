@@ -20,6 +20,7 @@ const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
 type ValidatorSnapshot = (u64, BTreeMap<String, (u64, [u8; 32])>);
+type ValidatorSnapshotHistory = (BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>);
 type SlashingRecord = (u64, String, [u8; 32], u64);
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
@@ -316,13 +317,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if b.height > 0 {
-            let parent = self
+            let parent_id = self
                 .blocks
                 .read()
                 .unwrap()
                 .get(&b.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if b.parent_hash != parent.id {
+            if b.parent_hash != parent_id {
                 return Err("canonical parent mismatch".into());
             }
         } else if b.parent_hash != [0; 32] {
@@ -408,9 +410,14 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
+            let parent_id = self
+                .blocks
+                .read()
+                .unwrap()
+                .get(&block.height.saturating_sub(1))
+                .map(|parent| parent.id)
                 .ok_or("cannot commit block without canonical parent")?;
-            if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
+            if block.parent_hash != parent_id { return Err("canonical parent mismatch".into()); }
         } else if block.parent_hash != [0; 32] {
             return Err("invalid genesis parent".into());
         }
@@ -458,6 +465,10 @@ impl ChainStorage {
 
         // This is intentionally the final durable write for the block commit.
         self.append_block_record(&block)
+    }
+
+    pub fn recover_state_with_dao(&self) -> Result<Option<DaoStateSnapshot>, String> {
+        Ok(self.recover_state_with_dao_at_height()?.map(|(_, snapshot)| snapshot))
     }
 
     pub fn recover_state(&self) -> Result<Option<BTreeMap<String, Account>>, String> {
@@ -629,7 +640,7 @@ impl ChainStorage {
 
     /// Recover every durable validator snapshot, preserving historical
     /// height/epoch boundaries rather than only the latest mutable set.
-    pub fn recover_validator_snapshots(&self) -> Result<BTreeMap<u64, ValidatorSnapshot>, String> {
+    pub fn recover_validator_snapshots(&self) -> Result<BTreeMap<u64, ValidatorSnapshotHistory>, String> {
         let Some(p) = &self.validator_journal else {
             return Ok(BTreeMap::new());
         };
@@ -915,14 +926,7 @@ mod tests {
 
     #[test]
     fn validator_snapshot_persists_public_keys_across_restart() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-validator-snapshot-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = std::env::temp_dir().join("atc-storage-deterministic-test");
         let journal = path.with_extension("journal");
 
         let key = ed25519_dalek::SigningKey::from_bytes(&[7u8; 32])
@@ -955,11 +959,7 @@ mod tests {
 
     #[test]
     fn validator_snapshot_history_survives_restart_without_mixing_heights() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-validator-history-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
-        ));
+        let path = std::env::temp_dir().join("atc-storage-deterministic-test");
         let key0 = ed25519_dalek::SigningKey::from_bytes(&[41u8; 32]).verifying_key().to_bytes();
         let key1 = ed25519_dalek::SigningKey::from_bytes(&[42u8; 32]).verifying_key().to_bytes();
         let mut v0 = BTreeMap::new();
@@ -992,14 +992,7 @@ mod tests {
 
     #[test]
     fn validator_snapshot_same_activation_height_uses_latest_revision() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-validator-revision-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = std::env::temp_dir().join("atc-storage-deterministic-test");
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[51u8; 32]).verifying_key().to_bytes();
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[52u8; 32]).verifying_key().to_bytes();
 
@@ -1038,14 +1031,7 @@ mod tests {
 
     #[test]
     fn validator_snapshot_history_rejects_height_regression() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-validator-regression-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = std::env::temp_dir().join("atc-storage-deterministic-test");
         let key = ed25519_dalek::SigningKey::from_bytes(&[53u8; 32]).verifying_key().to_bytes();
         let mut validators = BTreeMap::new();
         validators.insert("alice".to_string(), 100u64);
@@ -1086,11 +1072,7 @@ mod tests {
 
     #[test]
     fn finality_journal_is_idempotent_and_rejects_conflicting_height() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-finality-idempotence-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
-        ));
+        let path = std::env::temp_dir().join("atc-storage-deterministic-test");
         let storage = ChainStorage::open(&path).unwrap();
         let block = Block::new(7, [6u8; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         storage.commit(block.clone()).unwrap();
@@ -1125,11 +1107,7 @@ mod tests {
 
     #[test]
     fn recovery_rejects_conflicting_canonical_height_in_journal() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-storage-conflicting-height-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
-        ));
+        let path = std::env::temp_dir().join("atc-storage-deterministic-test");
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         let first = Block::new(1, genesis.id, "v".into(), 2, Vec::new(), [3; 32], [4; 32], [0; 64]);
         let conflicting = Block::new(1, genesis.id, "v".into(), 3, Vec::new(), [5; 32], [6; 32], [0; 64]);
@@ -1155,11 +1133,7 @@ mod tests {
 
     #[test]
     fn recovery_rejects_state_or_issuance_beyond_canonical_tip() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-storage-state-boundary-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
-        ));
+        let path = std::env::temp_dir().join("atc-storage-deterministic-test");
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         std::fs::write(&path, format!("{}\n", hex::encode(block_encode(&genesis)))).unwrap();
 
@@ -1188,11 +1162,7 @@ mod tests {
 
     #[test]
     fn recovery_rejects_torn_canonical_block_record() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-storage-torn-block-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
-        ));
+        let path = std::env::temp_dir().join("atc-storage-deterministic-test");
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         let encoded = hex::encode(block_encode(&genesis));
         std::fs::write(&path, format!("{}\n{}", &encoded[..encoded.len() - 2], encoded)).unwrap();
@@ -1210,11 +1180,7 @@ mod tests {
 
     #[test]
     fn recovery_rejects_state_written_before_block_commit_point() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-storage-precommit-state-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
-        ));
+        let path = std::env::temp_dir().join("atc-storage-deterministic-test");
         let mut state_record = Vec::new();
         state_record.extend_from_slice(&1u64.to_be_bytes());
         state_record.extend_from_slice(&0u32.to_be_bytes());
@@ -1236,11 +1202,7 @@ mod tests {
 
     #[test]
     fn recovery_rejects_torn_finality_record() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-storage-torn-finality-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
-        ));
+        let path = std::env::temp_dir().join("atc-storage-deterministic-test");
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         let storage = ChainStorage::open(&path).unwrap();
         storage.commit(genesis.clone()).unwrap();
@@ -1263,11 +1225,7 @@ mod tests {
 
     #[test]
     fn recovery_rejects_torn_issuance_record() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-storage-torn-issuance-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
-        ));
+        let path = std::env::temp_dir().join("atc-storage-deterministic-test");
         let storage = ChainStorage::open(&path).unwrap();
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         storage.commit(genesis).unwrap();
