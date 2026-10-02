@@ -15,7 +15,7 @@ use std::{
 
 const CHAIN_ID: u64 = atc_blockchain::chain_identity::NUMERIC_CHAIN_ID;
 const GENESIS_BALANCE: u64 = 1_000_000;
-const TRANSFER_AMOUNT: u64 = 1_000;
+const TRANSFER_AMOUNT: u128 = 1_000 * atc_blockchain::economics::ATC_BASE_UNITS;
 const GAS_PRICE: u64 = 1;
 const GAS_LIMIT: u64 = 1_000;
 
@@ -105,8 +105,10 @@ fn tx_block_reward_state_finality_persistence_recovery() {
     assert_eq!(block.parent_hash, genesis.id);
     assert_eq!(block.transactions.len(), 1);
     assert_eq!(
-        node.state.balance("alice"),
-        GENESIS_BALANCE - TRANSFER_AMOUNT - GAS_LIMIT
+        node.state.balance_base_units("alice"),
+        u128::from(GENESIS_BALANCE) * atc_blockchain::economics::ATC_BASE_UNITS
+            - TRANSFER_AMOUNT
+            - u128::from(GAS_LIMIT)
     );
     assert_eq!(node.state.balance("bob"), TRANSFER_AMOUNT);
     assert_eq!(node.state.balance("validator-a"), 500);
@@ -141,7 +143,7 @@ fn tx_block_reward_state_finality_persistence_recovery() {
         recovered.state.balance("alice"),
         GENESIS_BALANCE - TRANSFER_AMOUNT - GAS_LIMIT
     );
-    assert_eq!(recovered.state.balance("bob"), TRANSFER_AMOUNT);
+    assert_eq!(recovered.state.balance_base_units("bob"), TRANSFER_AMOUNT);
     assert_eq!(recovered.state.balance("validator-a"), 500);
     assert_eq!(recovered.state.root(), block.state_root);
     assert_eq!(recovered.consensus.finalized().map(|x| x.0), Some(1));

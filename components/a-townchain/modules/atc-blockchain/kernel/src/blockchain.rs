@@ -448,7 +448,7 @@ impl Node {
         }
         let parent = self.chain.last().ok_or("genesis required")?;
         let finalized_height = self.consensus.finalized().map(|(height, _)| height);
-        let selected = fork_choice::choose(parent, &b, finalized_height)
+        let selected = fork_choice::choose(&parent, &b, finalized_height)
             .map_err(|_| "fork-choice finality violation")?;
         if selected.id != b.id {
             return Err("candidate rejected by deterministic fork-choice".into());
@@ -868,7 +868,16 @@ impl Node {
         }
         self.chain.append(b.clone())?;
         self.consensus.set_height(height);
-        self.broadcast(NetworkMessage::Block(b.clone()))?;
+        let (activation_height, validators, validator_keys) = self
+            .consensus
+            .validator_snapshot_with_activation_for_height(height)
+            .ok_or("validator snapshot is unavailable for block broadcast")?;
+        self.broadcast(NetworkMessage::BlockWithValidatorSnapshot {
+            block: b.clone(),
+            activation_height,
+            validators,
+            validator_keys,
+        })?;
         self.vote_for_block(&b)?;
         Ok(b)
     }
@@ -964,7 +973,16 @@ impl Node {
             self.pool.mark_in_block(&tx.id)
         }
         self.consensus.set_height(b.height);
-        self.broadcast(NetworkMessage::Block(b.clone()))?;
+        let (activation_height, validators, validator_keys) = self
+            .consensus
+            .validator_snapshot_with_activation_for_height(b.height)
+            .ok_or("validator snapshot is unavailable for block broadcast")?;
+        self.broadcast(NetworkMessage::BlockWithValidatorSnapshot {
+            block: b.clone(),
+            activation_height,
+            validators,
+            validator_keys,
+        })?;
         self.vote_for_block(&b)?;
         Ok(b)
     }
@@ -1006,6 +1024,32 @@ impl Node {
     pub fn finalize_validator_snapshot(&self) -> Result<(), String> {
         let height = self.consensus.height();
         let (validators, keys) = self.consensus.validator_snapshot_with_keys()?;
+
+        // Recovery may already contain a durable pending activation above the
+        // current chain height. Finalization must not append a lower snapshot:
+        // that would make the append-only validator journal regress on restart.
+        if let Some(latest_height) = self.consensus.validator_snapshot_heights().last().copied() {
+            if latest_height > height {
+                let (existing_validators, existing_keys) = self
+                    .consensus
+                    .validator_snapshot_for_height(latest_height)
+                    .ok_or("latest validator snapshot is unavailable")?;
+                if existing_validators != validators || existing_keys != keys {
+                    return Err("mutable validator registry conflicts with pending validator snapshot".into());
+                }
+                return Ok(());
+            }
+            if latest_height == height {
+                let (existing_validators, existing_keys) = self
+                    .consensus
+                    .validator_snapshot_for_height(height)
+                    .ok_or("current validator snapshot is unavailable")?;
+                if existing_validators != validators || existing_keys != keys {
+                    return Err("conflicting validator snapshot at current height".into());
+                }
+                return Ok(());
+            }
+        }
 
         // Durable-first: finalizing the bootstrap snapshot must use the same
         // persistence boundary as every other validator mutation. If storage
@@ -1124,16 +1168,19 @@ impl Node {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::sync::atomic::{AtomicU64, Ordering};
+
+    fn test_nonce() -> u64 {
+        static NEXT: AtomicU64 = AtomicU64::new(0);
+        NEXT.fetch_add(1, Ordering::Relaxed)
+    }
 
     #[test]
     fn incomplete_validator_registration_is_pending_until_key_binding_and_survives_only_after_completion() {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-bootstrap-pending-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[111u8; 32]);
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[112u8; 32]);
@@ -1180,10 +1227,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-state-binding-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[61u8; 32]);
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -1243,10 +1287,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-restart-unregister-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[71u8; 32]);
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -1278,10 +1319,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-key-rotation-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
         let old_key = ed25519_dalek::SigningKey::from_bytes(&[73u8; 32]);
         let new_key = ed25519_dalek::SigningKey::from_bytes(&[74u8; 32]);
@@ -1327,10 +1365,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-multi-mutation-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[101u8; 32]);
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[102u8; 32]);
@@ -1402,10 +1437,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-pending-slash-restart-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[75u8; 32]);
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -1571,10 +1603,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-revisions-restart-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
         let key_a_old = ed25519_dalek::SigningKey::from_bytes(&[76u8; 32]);
         let key_a_new = ed25519_dalek::SigningKey::from_bytes(&[77u8; 32]);
@@ -1670,10 +1699,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-node-validator-restart-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[19u8; 32]);
         let public_key = key.verifying_key().to_bytes();
@@ -1709,6 +1735,11 @@ mod tests {
 
     impl PeerTransport for CaptureTransport {
         fn broadcast(&self, message: NetworkMessage) -> Result<(), String> {
+            self.messages.lock().unwrap().push(message);
+            Ok(())
+        }
+
+        fn send_to(&self, _peer_id: &str, message: NetworkMessage) -> Result<(), String> {
             self.messages.lock().unwrap().push(message);
             Ok(())
         }
@@ -1816,7 +1847,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-restart-resync-votes-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            test_nonce()
         ));
 
         let producer = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -2075,10 +2106,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-cross-journal-issuance-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
 
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -2117,10 +2145,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-cross-journal-state-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
 
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -2160,10 +2185,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-pending-activation-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[71u8; 32]);
 
@@ -2199,10 +2221,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-orphan-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            test_nonce()
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[72u8; 32]);
 

@@ -1,4 +1,4 @@
-use atc_blockchain::chain_identity::NUMERIC_CHAIN_ID;
+use atc_blockchain::{chain_identity::NUMERIC_CHAIN_ID, economics::ATC_BASE_UNITS};
 use atc_wallet::keys::WalletKey;
 use atc_wallet::node::{NodeClient, TcpNodeClient};
 use atc_wallet::tx::{Transaction, TxType};
@@ -56,7 +56,7 @@ fn wallet_to_atc_node_mempool_block_state_process_e2e() {
         tx_type: TxType::Transfer,
         sender_did: "alice".into(),
         recipient_did: Some("bob".into()),
-        amount: 100,
+        amount: 100 * ATC_BASE_UNITS,
         gas_price: 1,
         gas_limit: 2_000,
         nonce: 0,
