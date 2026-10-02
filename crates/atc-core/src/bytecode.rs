@@ -352,6 +352,34 @@ mod tests {
     }
 
     #[test]
+    fn verifier_rejects_fallthrough_past_end() {
+        let bc = Bytecode {
+            instructions: vec![Instruction::ConstI64(1)],
+        };
+        assert_eq!(
+            bc.verify(0, 1),
+            Err(VerifyError::UnexpectedEnd { pc: 1 })
+        );
+    }
+
+    #[test]
+    fn verifier_rejects_empty_bytecode() {
+        let bc = Bytecode { instructions: vec![] };
+        assert_eq!(bc.verify(0, 1), Err(VerifyError::EmptyBytecode));
+    }
+
+    #[test]
+    fn verifier_checks_call_arity_when_signatures_are_known() {
+        let bc = Bytecode {
+            instructions: vec![Instruction::ConstI64(1), Instruction::Call { function: 0, argc: 1 }, Instruction::Return],
+        };
+        assert_eq!(
+            bc.verify_with_signatures(0, &[2]),
+            Err(VerifyError::InvalidFunction { pc: 1, function: 0 })
+        );
+    }
+
+    #[test]
     fn verifier_rejects_stack_underflow() {
         let bc = Bytecode {
             instructions: vec![Instruction::Add],
