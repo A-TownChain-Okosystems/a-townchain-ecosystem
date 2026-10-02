@@ -200,8 +200,8 @@
         "A-TownChain-Okosystems/globus-os:system/ipc/src/bus.rs",
         "A-TownChain-Okosystems/globus-os:system/ipc/src/channel.rs"
       ],
-      "exact_source_sha": "df60ddbbfc73db39063d182a23d1c777e1aefa55",
-      "evidence_note": "Existing-first audit found the bounded globus-ipc ChannelRegistry and message model at the pre-change source. The current standalone implementation extends that SSOT with explicit principal/capability endpoint policy and protocol-version enforcement. Exact-SHA CI verification is still pending for the final implementation head."
+      "exact_source_sha": "72415e86e2be4dd6c11fc6212f09c8eb2f023381",
+      "evidence_note": "Existing-first audit found the bounded globus-ipc ChannelRegistry and message model at the pre-change source. The standalone implementation now extends that SSOT with explicit principal/capability endpoint policy, protocol-version enforcement and no-std compatibility required by the ShivaCore build boundary. Exact-SHA CI verification is still pending for the final implementation head."
     }
   ]
 }
