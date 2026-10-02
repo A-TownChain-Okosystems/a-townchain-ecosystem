@@ -302,10 +302,8 @@ fn finish_function(
     }
     // During construction exact signatures are known from fn_ids.
     let mut signatures = vec![u16::MAX; l.fn_ids.len()];
-    for (idx, (_, params)) in l.fn_ids.values().enumerate() {
-        if idx < signatures.len() {
-            signatures[idx] = *params;
-        }
+    for (idx, params) in l.fn_ids.values().map(|(idx, params)| (*idx, *params)) {
+        signatures[idx as usize] = params;
     }
     bytecode
         .verify_with_signatures(local_count, &signatures)
