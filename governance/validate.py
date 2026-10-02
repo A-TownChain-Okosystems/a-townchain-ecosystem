@@ -39,24 +39,50 @@ def load_json(path: Path):
         return json.load(handle)
 
 
-def parse_md_table(path: Path) -> list[dict[str, str]]:
+def parse_md_table(path: Path, required_headers: set[str] | None = None) -> list[dict[str, str]]:
+    """Parse the first Markdown table matching the requested header fields.
+
+    Files such as PROJECT_STATUS.md contain multiple tables. Selecting the
+    first table globally is incorrect because the status-model table is not
+    the component snapshot table used by the consistency check.
+    """
     if not path.exists():
         return []
 
-    rows: list[list[str]] = []
-    for line in path.read_text(encoding="utf-8").splitlines():
+    lines = path.read_text(encoding="utf-8").splitlines()
+    for index, line in enumerate(lines):
         stripped = line.strip()
         if not stripped.startswith("|"):
             continue
-        cells = [cell.strip() for cell in stripped.strip("|").split("|")]
-        rows.append(cells)
 
-    if len(rows) < 2:
-        return []
+        header = [cell.strip() for cell in stripped.strip("|").split("|")]
+        if required_headers and not required_headers.issubset(header):
+            continue
 
-    header = rows[0]
-    data = [row for row in rows[1:] if not all(set(cell) <= {"-", ":"} for cell in row)]
-    return [dict(zip(header, row)) for row in data if len(row) == len(header)]
+        if index + 1 >= len(lines):
+            return []
+
+        separator = lines[index + 1].strip()
+        if not separator.startswith("|"):
+            continue
+        separator_cells = [cell.strip() for cell in separator.strip("|").split("|")]
+        if len(separator_cells) != len(header):
+            continue
+        if not all(cell and set(cell) <= {"-", ":"} for cell in separator_cells):
+            continue
+
+        parsed: list[dict[str, str]] = []
+        for data_line in lines[index + 2:]:
+            data_stripped = data_line.strip()
+            if not data_stripped.startswith("|"):
+                break
+            cells = [cell.strip() for cell in data_stripped.strip("|").split("|")]
+            if len(cells) != len(header):
+                break
+            parsed.append(dict(zip(header, cells)))
+        return parsed
+
+    return []
 
 
 def main() -> int:
@@ -72,11 +98,15 @@ def main() -> int:
     if errors:
         return report()
 
-    residual_rows = parse_md_table(RESIDUALS)
-    claim_rows = parse_md_table(CLAIMS)
-    attribution_rows = parse_md_table(ATTRIBUTION)
-    security_rows = parse_md_table(SECURITY)
-    project_rows = parse_md_table(PROJECT_STATUS)
+    residual_rows = parse_md_table(RESIDUALS, {"ID", "Status"})
+    claim_rows = parse_md_table(CLAIMS, {"Claim ID", "Evidence IDs"})
+    attribution_rows = parse_md_table(
+        ATTRIBUTION, {"Project", "Version/Commit", "License", "Usage", "URL"}
+    )
+    security_rows = parse_md_table(
+        SECURITY, {"ID", "Finding", "Severity", "Status", "Evidence", "Owner"}
+    )
+    project_rows = parse_md_table(PROJECT_STATUS, {"ID", "Component", "Status", "Residuals"})
 
     known_residuals = {row.get("ID", "") for row in residual_rows if row.get("ID")}
     resolved_residuals = {
