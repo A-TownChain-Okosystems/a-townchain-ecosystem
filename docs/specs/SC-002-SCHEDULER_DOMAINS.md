@@ -1,8 +1,8 @@
 ---
 document_id: SC-002
 title: "ShivaCore v0.1 Kernelspezifikation — Scheduler & Scheduling-Domains"
-version: 0.1.0-DRAFT_REVIEW
-status: DRAFT_REVIEW — startet unmittelbar nach SC-001-Freeze (AD-026/AD-013)
+version: 0.1.0-FROZEN
+status: FROZEN v0.1.0 — Owner-Freigabe 03.10.2026 (SC-DEC-G…J akzeptiert per Vorab-Regel mit Auflagen; Review bei SC-ARCH-001…010)
 repository: atc-shivacore
 layer: L1-Kernel
 owner: A-TownChain-Okosystems / ShivaCore (Michael Wroblewski)
@@ -14,10 +14,11 @@ depends: [SC-001-FROZEN, SHIVA-ABI-001, SHIVA-HAL-001]
 series: SC-001…SC-013 (v0.1.0-Kernelspezifikation, AD-013)
 ---
 
-# SC-002 — Scheduler & Scheduling-Domains (v0.1.0, DRAFT_REVIEW)
+# SC-002 — Scheduler & Scheduling-Domains (v0.1.0, FROZEN 03.10.2026)
 
-> **Status:** DRAFT_REVIEW per AD-013. Baut auf SC-001-FROZEN (03.10.2026)
-> auf; Normativität nach Owner-Freigabe der offenen Punkte SC-DEC-G…I (§13).
+> **Status:** FROZEN v0.1.0 per AD-013 — Owner-Freigabe 03.10.2026: SC-DEC-G…J
+> alle vier reversibel (Impact ≤ mittel) und mit Auflagen akzeptiert (§13).
+> Review bei SC-ARCH-001…010.
 > Implementierungsstand: scheduler.rs der K-Sprints ist ein Grundstock
 > (Round-Robin, keine Domains) — Implementation erfolgt GEGEN diese Spec.
 
@@ -106,8 +107,9 @@ INV-10 IRQ-Behandlung endet immer in definiertem Umschaltpunkt.
 ## 9. Fehlerfälle (MUST-behandelbar)
 
 S-E01 HardRT-Admission verweigert → Fehlercode an Erzeuger, kein Boot-Einfluss.
-S-E02 Deadline-Miss (HARDRT) → Diagnostic-Event + Watchdog-Entscheidung
-      (Owner-Verhalten HARDCUT/LOG: SC-DEC-J offen).
+S-E02 Deadline-Miss (HARDRT) → HARDCUT (SC-DEC-J, §13); andere
+      Domains: Diagnostic-Event + kontrollierte Degradation, kein stilles
+      Weiterlaufen.
 S-E03 Starvation in DOM-BACKGROUND → Mindest-Budget je Slice-Fenster.
 S-E04 Timer-Overflow (48-bit-TSC-Fenster) → HAL-Rollover-Handling.
 S-E05 SMP-Race auf Runqueue-Migration → Cap-Gate + Test-T7.
@@ -133,20 +135,19 @@ Bestand läuft als DOM-THROUGHPUT-Interim weiter, bis die Domain-Engine
 nach SC-001…SC-013 gegen die Specs implementiert wird (AD-026-Reihenfolge:
 erst Specs, dann Implementierung).
 
-## 13. Offene Punkte (SC-DEC-G…I, blockierend für Freeze)
+## 13. Entscheidungsprotokoll SC-DEC-G…J (Owner-Freigabe 03.10.2026, mit Auflagen)
 
-- **SC-DEC-G Prioritäts-Inversion bei IPC:** Priority-Inheritance-Kette über
-  Endpoint (Empf.: ja, kaskadierend, SC-003-kompatibel) | Reversibel: ja |
-  Impact: mittel.
-- **SC-DEC-H Tick-Modell:** Tick-getrieben je Domain vs. tickless mit
-  Delta-Timer (Empf.: tickless, energetisch + deterministisch) | Reversibel:
-  ja | Impact: mittel.
-- **SC-DEC-I Quanten-Werte:** konkrete Zeitscheiben je Domain (Empf.:
-  250 µs HARDRT … 10 ms BACKGROUND; final nach Messtest T7) | Reversibel:
-  ja | Impact: klein.
-- **SC-DEC-J Deadline-Miss-Politik:** HARDCUT (Thread terminieren) vs.
-  LOG+Continue (Empf.: HARDCUT für DOM-HARDRT, LOG sonst) | Reversibel:
-  ja | Impact: mittel.
+| ID | Frage | Freigabe | Auflage / Default | Reversibel | Impact |
+|---|---|---|---|---|---|
+| G | Prioritäts-Inversion bei IPC | **ja** | Bounded PI, nur für blockierende IPC/Endpoint; keine unbegrenzte Vererbungskette (Implementierungs-Details in SC-003 §5: Tiefenlimit, Zyklus-Erkennung) | ja | mittel |
+| H | Tick-Modell | **tickless** | Timer-Manager als One-Shot-Deadline-Geber; kein Tick als ABI oder Zeitsemantik | ja | mittel |
+| I | Quanten-Werte | **Range 250 µs–10 ms** | Defaults: HARDRT 250 µs, Normal 1 ms, Background/Idle 10 ms; pro Domain konfigurierbar | ja | klein |
+| J | Deadline-Miss-Politik | **HARDCUT für HARDRT** | Andere Domains: Log + kontrollierte Degradation, kein stilles Weiterlaufen | ja | mittel |
+
+> Freigabe-Modus: Owner-Vorab-Regel — reversible Entscheidungen (Impact ≤ mittel)
+> gelten mit Empfehlung als akzeptiert ("Owner accepted recommendation, review at
+> SC-ARCH"). Neue SC-DEC-K… nur noch bei irreversiblen Entscheidungen oder
+> Impact "groß" (Owner-Anweisung 03.10.2026).
 
 ## 14. Referenzen
 
