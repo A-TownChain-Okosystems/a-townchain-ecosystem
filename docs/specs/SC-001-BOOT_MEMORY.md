@@ -1,8 +1,8 @@
 ---
 document_id: SC-001
 title: "ShivaCore v0.1 Kernelspezifikation — Boot & Speicher"
-version: 0.1.0-DRAFT_REVIEW
-status: DRAFT_REVIEW — wartet auf SC-DEC-A…F-Entscheidungen des Owners
+version: 0.1.0-FROZEN
+status: FROZEN v0.1.0 — Owner-Freigabe 03.10.2026 (Vorab-Regel: SC-DEC-A…F alle reversibel, Empfehlungen akzeptiert; Review bleibt bei SC-ARCH-001…010)
 repository: atc-shivacore
 layer: L1-Kernel
 owner: A-TownChain-Okosystems / ShivaCore (Michael Wroblewski)
@@ -14,10 +14,11 @@ depends: [G1-PASSED atclang, SHIVA-BOOT-001, SHIVA-HAL-001, SHIVA-ABI-001]
 series: SC-001…SC-013 (v0.1.0-Kernelspezifikation, AD-013)
 ---
 
-# SC-001 — Boot & Speicher (v0.1.0, DRAFT_REVIEW)
+# SC-001 — Boot & Speicher (v0.1.0, FROZEN 03.10.2026)
 
-> **Status:** DRAFT_REVIEW per AD-013. Normativ erst nach Owner-Freigabe der
-> Entscheidungen SC-DEC-A…F (§12). Diese Spec erhebt keinen
+> **Status:** FROZEN v0.1.0 per AD-013 — Owner-Freigabe 03.10.2026 über die
+> Vorab-Regel (alle sechs Entscheidungen reversibel, keine mit Impact "groß";
+> §12-Empfehlungen als Default akzeptiert, Review bei SC-ARCH-001…010). Diese Spec erhebt keinen
 > Implementierungs-Status ("No status without evidence") — die heutige
 > Boot-Sequenz L0–L10 (kernel_init, J-K10-Ära) ist eine In-Kernel-Testsequenz
 > und KEIN echtes Booten (§11).
@@ -185,20 +186,20 @@ Limine, kein globus-init, kein Userspace. Die ECHTE Bootchain ist B0–B5
 dieser Spezifikation und existiert heute nur als Dokumentation. Jede
 Aussage "Kernel bootet" ohne B0–B5-Evidenz ist ein Reality-Check-Verstoß.
 
-## 12. Offene Owner-Entscheidungen (SC-DEC-A…F, blockierend für Freeze)
+## 12. Entscheidungsprotokoll SC-DEC-A…F (Owner-Freigabe 03.10.2026, Vorab-Regel)
 
-- **SC-DEC-A Seitengröße:** Nur 4 KiB oder 4 KiB + 2 MiB-HugePages (Empf.:
-  4 KiB only für v0.1, HugePages als SC-002+).
-- **SC-DEC-B Higher-Half-Basis:** Konkrete Adresse des Kernel-Layouts
-  (Empf.: gängige Limine-HHDM-Konvention, zur Freeze festzulegen).
-- **SC-DEC-C Retyp-Granularität:** Mindestabmessung einer Retype-Operation
-  (Empf.: 4 KiB, Untyped-Splitting erlaubt).
-- **SC-DEC-D Initial-Umfang:** Volle USABLE-Untypes an globus-init oder
-  Kernel behält Anteil (Empf.: voll delegieren, INV-06 schützt).
-- **SC-DEC-E SMP-Start:** gestaffelter Kernstart oder gegatedes Aufwecken
-  durch Initial Task (Empf.: gegated, AD-13-Domain-Trennung).
-- **SC-DEC-F Framebuffer:** Device-Cap an globus-init oder MMIO über HAL
-  (Empf.: Device-Cap, SHIVA-BOOT-001 folgend).
+| ID | Frage | Entscheidung (Empfehlung akzeptiert) | Reversibel | Impact | Begründung |
+|---|---|---|---|---|---|
+| A | Seitengröße v0.1 | **4 KiB only** — HugePages als Erweiterung in SC-003+ (Memory-Objekt-Spez) | ja | klein | Kein echter Bedarf vor M5; HugePages nur für große Mappings/DMA; nachrüstbar ohne INV-Bruch, weil nur Addition |
+| B | Higher-Half-Basis | **Limine-HHDM-Konvention** — Basis aus dem Limine-Protokoll abgeleitet, zur Implementierung als Build-Konstante fixiert | ja | mittel | Kein Boot-Code existiert, Umzug ist reine Konstanten-Änderung; eigene Adresse erfindet Kompatibilitätsrisiko gegen Limine |
+| C | Retyp-Granularität | **4 KiB + Untyped-Splitting erlaubt** | ja | klein | 4 KiB deckt Frames/PageTables; Splitting erlaubt Teil-Retyp ohne Fragmentierungszwang |
+| D | Initial-Umfang | **Volle USABLE-Untype-Delegation an globus-init** | ja | mittel | INV-06 schützt vor Über-Retyp; Kernel-Reserve bleibt Festbetrag; "Kernel behält Anteil" bricht REQ-SC001-12-Geist (keine impliziten Rechte) schwächer nicht |
+| E | SMP-Start | **Gegated** — Initial Task weckt CPUs per Notification | ja | mittel | Bestimmt deterministisches Boot; gestaffelter Start schafft Rennen in B3; Domain-Trennung (AD-013) verlangt explizite Freigabe |
+| F | Framebuffer | **Device-Cap an globus-init** | ja | klein | Folgt SHIVA-BOOT-001 ("only when explicitly enabled"); MMIO-Umweg über HAL verletzt Capability-Klarheit |
+
+> Freigabe-Modus: Owner-Vorab-Regel vom 03.10. — reversible Entscheidungen mit
+> Empfehlung gelten als akzeptiert ("Owner accepted recommendation, review at
+> SC-ARCH"). Keine der sechs Entscheidungen ist irreversibel oder Impact "groß".
 
 ## 13. Referenzen
 
