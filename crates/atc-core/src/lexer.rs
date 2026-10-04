@@ -118,18 +118,18 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                 let mut value = String::new();
                 loop {
                     match chars.next() {
-                        Some((_, '\\"')) => break,
-                        Some((pos, '\\\\')) => match chars.next() {
-                            Some((_, 'n')) => value.push('\\n'),
-                            Some((_, 'r')) => value.push('\\r'),
-                            Some((_, 't')) => value.push('\\t'),
-                            Some((_, '\\"')) => value.push('\\"'),
-                            Some((_, '\\\\')) => value.push('\\\\'),
+                        Some((_, '"')) => break,
+                        Some((pos, '\\')) => match chars.next() {
+                            Some((_, 'n')) => value.push('\n'),
+                            Some((_, 'r')) => value.push('\r'),
+                            Some((_, 't')) => value.push('\t'),
+                            Some((_, '"')) => value.push('"'),
+                            Some((_, '\\')) => value.push('\\'),
                             Some((_, ch)) => return Err(LexError { pos, ch }),
-                            None => return Err(LexError { pos, ch: '\\\\' }),
+                            None => return Err(LexError { pos, ch: '\\' }),
                         },
                         Some((pos, ch)) => value.push(ch),
-                        None => return Err(LexError { pos: src.len(), ch: '\\"' }),
+                        None => return Err(LexError { pos: src.len(), ch: '"' }),
                     }
                 }
                 tokens.push(Token::String(value));
