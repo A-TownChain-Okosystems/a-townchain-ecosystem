@@ -1,8 +1,8 @@
 ---
 document_id: SC-005
 title: "ShivaCore v0.1 Kernelspezifikation — Capability-System-Vertiefung"
-version: 0.1.0-DRAFT_REVIEW
-status: DRAFT_REVIEW — startet nach SC-004-Freeze (AD-013-Reihenfolge)
+version: 0.1.0-FROZEN
+status: FROZEN v0.1.0 — Owner-Freigabe 04.10.2026 nach 4-Punkte-Verifikation (Badge-Immunität, Limit-Semantik, Snapshot-Revocation, Initial-Allmacht)
 repository: atc-shivacore
 layer: L1-Kernel
 owner: A-TownChain-Okosystems / ShivaCore (Michael Wroblewski)
@@ -14,13 +14,16 @@ depends: [SC-001-FROZEN, SC-002-FROZEN, SC-003-FROZEN, SC-004-FROZEN]
 series: SC-001…SC-013 (v0.1.0-Kernelspezifikation, AD-013)
 ---
 
-# SC-005 — Capability-System-Vertiefung (v0.1.0, DRAFT_REVIEW)
+# SC-005 — Capability-System-Vertiefung (v0.1.0, FROZEN 04.10.2026)
 
-> **Status:** DRAFT_REVIEW per AD-013, auf SC-001…SC-004 (alle FROZEN)
-> aufbauend. Kernvorgabe AD-013: Kernel-enforced Handles, NICHT kryptografisch
-> — Krypto nur Cross-Domain (remote_caps/did = Service Space, out of scope).
-> Per Owner-Standing-Mandat: KEINE blockierenden SC-DEC — reversible Detailwerte
-> als Defaults (§12), Review bei SC-ARCH-001…010.
+> **Status:** FROZEN v0.1.0 per AD-013 — Owner-Freigabe 04.10.2026 nach
+> 4-Punkte-Verifikation am Volltext: (1) Badge-Immunität als INV-05
+> nachgezogen (mint nur NEUER Badge auf Ableitung, Original unberührt,
+> Badge nie Rechtekanal); (2) Limit-Semantik als REQ-SC005-07a/C-E03
+> (mint schlägt fehl, kein Truncate, kein Wrap); (3) Snapshot-Semantik
+> REQ-SC005-09a/INV-09 — aus SC-004 INV-06/07 + SC-003 I-E06 ABGELEITET,
+> keine neue Zusage; (4) REQ-SC005-11: kein All-Rights-Cap, kein ambient
+> derive im Initial-Layout. Kernvorgabe AD-013: Handles, nicht Krypto.
 
 ## 1. Zweck
 
@@ -66,6 +69,11 @@ unbekannte Bits in der Maske = INVALID_CAP (Y-E02-Pfad, SC-004).
   Derivationstiefe begrenzt (Default 16, §12).
 - **REQ-SC005-07 (MUST):** Jede Ableitung wird im Derivationsbaum des
   Originals registriert — Voraussetzung für vollständige Revocation (§5).
+- **REQ-SC005-07a (MUST) Verhalten am Derivationslimit:** Überschreitet eine
+  Ableitung die Tiefe (Default 16, §12), schlägt der mint/derive FEHL mit
+  DERIVATION_LIMIT (C-E03); das Statuswort-Detail enthält die erreichte
+  Tiefe. Keine stille Truncation des Baums, kein Wrap-Around, keine
+  Zustandsänderung am Original oder bestehenden Ableitungen.
 
 ## 5. Revocation (REQ-SC005-08…09)
 
@@ -75,11 +83,26 @@ unbekannte Bits in der Maske = INVALID_CAP (Y-E02-Pfad, SC-004).
 - **REQ-SC005-09 (MUST):** Revocation während blockierter OPs folgt
   SC-003 I-E06 (kontrolliertes Aufwecken mit Fehlercode) — inklusive
   Badge-lose Reply-Pfade (SC-003 I-E07).
+- **REQ-SC005-09a (MUST) Snapshot-Semantik für laufende syscalls**
+  (abgeleitet aus SC-004 INV-06/INV-07 + SC-003 I-E06, KEINE neue Zusage):
+  Trifft eine Revocation eine Cap, die in einem bereits laufenden,
+  nicht-blockierenden invoke slot-resolviert ist, schließt dieser
+  syscall auf der Cap-Resolution zum Eintritt ab (atomar, alle-oder-
+  nichts, SC-004 INV-07); die Revocation wirkt mit sysret (INV-09).
+  NEUE Aufrufe auf dem Slot sehen danach C-E01/INVALID_CAP.
+  Für blockierte OPs gilt SC-003 I-E06 (Aufwecken mit Fehlercode),
+  nicht Snapshot. Es existiert KEINE Abbruch-Semantik für laufende
+  atomare OPs — ein mitten drin abgebrochener invoke würde die
+  Alle-oder-nichts-Garantie brechen.
 
 ## 6. Badge-Propagation (REQ-SC005-10)
 
 Kernel-vergeben, unveränderlich (SC-003 REQ-SC003-03). Propagation
 ausschließlich via mint auf Endpoint-Bindungen; derive ändert Badge nie.
+mint setzt ausschließlich einen NEUEN Badge auf der abgeleiteten Cap; der
+Badge des Originals bleibt unberührt und ist von abgeleiteten Caps aus
+nie überschreibbar. Badge ist kein Rechtekanal: keine Badge-Operation hebt
+die Rechte-Reduktion von REQ-SC005-05 auf (Badge-Immunität, INV-05).
 Badge ist Provenanz-Grundlage für SC-003 §2 und identitätsstiftend für
 globus-init-Delegationen (SHIVA-GLOBUS-INTEGRATION-001).
 
@@ -90,6 +113,12 @@ SC-DEC-D), Timer-, IRQ-, Device-Caps (Framebuffer per SC-DEC-F), Thread-Cap
 für sich selbst. KEIN Unix-Root, keine impliziten Rechte (REQ-SC001-12).
 globus-init delegiert an Services nur per mint mit Reduktion.
 
+**REQ-SC005-11 (MUST) Keine Initial-Allmacht:** Das Initial-Layout enthält
+KEINEN All-Rights-Cap über beliebige Objekttypen und kein ambientes derive:
+jeder Initial-Cap ist typgebunden an genau eine Rechte-Menge aus §3, mint
+erfolgt nur auf konkrete Ziel-Caps mit Reduktion. Es existiert keine
+"weil initial, darf alles"-Autorität (Verstärkung von REQ-SC001-12).
+
 ## 8. Invarianten (MUST)
 
 INV-01 Kein Kernel-Objektzugriff ohne Capability (alles: invoke, map, IPC).
@@ -97,18 +126,26 @@ INV-02 Cap-Struktur ist die einzige Autorität; Zeiger autorisieren nie.
 INV-03 Derivation ist monoton: Rechte-Mengen wachsen nie aufwärts.
 INV-04 Derivationsbaum ist vollständig registriert; Revocation hinterlässt
        keine erreichbaren Ableitungen.
-INV-05 Badge ist kernel-vergeben und unveränderlich nach Erzeugung.
+INV-05 Badge-Immunität: Badges sind kernel-vergeben und nach Erzeugung
+       unveränderlich; abgeleitete Caps ändern den Badge des Originals
+       nie — nur ein neuer mint auf demselben Endpoint setzt einen NEUEN
+       Badge auf der Ableitung. Der Badge ist kein Rechtekanal.
 INV-06 Rechte-Masken enthalten nur Typ-Modi aus §3; fremde Bits = Fehler.
 INV-07 Revocation während Block folgt SC-003 I-E06/E07 — kein stiller
        Weiterlauf.
 INV-08 CSpace-Zugriff eines Threads nur über eigene CNode-Pfade (kein
        Cross-CSpace-Lesen ohne DUPLICATE-Maschine).
+INV-09 Revocation wirkt an definierten Übergangspunkten (sysret bzw.
+       I-E06-Wake): ein laufender atomarer OP sieht die Slot-Resolution
+       bis zum Abschluss; danach ist der Slot unzugreifbar (C-E01).
 
 ## 9. Fehlerklassen (MUST-behandelbar)
 
 C-E01 Ungültiger/leerer Slot → INVALID_CAP (SC-004 Y-E02).
 C-E02 Rechte fehlen → AUTH_DENIED (SC-004 Y-E01), keine Zustandsänderung.
-C-E03 Derivationstiefe überschritten → DERIVATION_LIMIT.
+C-E03 Derivationstiefe überschritten → DERIVATION_LIMIT (Statuswort-
+      Detail = erreichte Tiefe); mint/derive schlagen fehl — keine stille
+      Truncation, kein Wrap, Original unverändert.
 C-E04 mint mit Rechte-Erweiterung versucht → AUTH_DENIED + Diagnostic-Event.
 C-E05 CNode voll → CSPACE_FULL (kein stills Überschreiben freier Slots).
 C-E06 revoke auf Kernel-internes Original (nicht ableitbar) → verboten,
