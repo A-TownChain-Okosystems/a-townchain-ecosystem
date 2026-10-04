@@ -1,8 +1,8 @@
 ---
 document_id: SC-006
 title: "ShivaCore v0.1 Kernelspezifikation — Driver / Interrupt / Time"
-version: 0.1.0-DRAFT_REVIEW
-status: DRAFT_REVIEW — startet nach SC-005-Freeze (AD-013-Reihenfolge)
+version: 0.1.0-FROZEN
+status: FROZEN v0.1.0 — Owner-Freigabe 04.10.2026 (Überflug bestanden, kein Blocker; keine SC-DEC-Kandidaten, nichts bindet binär vor G7)
 repository: atc-shivacore
 layer: L1-Kernel
 owner: A-TownChain-Okosystems / ShivaCore (Michael Wroblewski)
@@ -14,14 +14,17 @@ depends: [SC-001-FROZEN, SC-002-FROZEN, SC-003-FROZEN, SC-004-FROZEN, SC-005-FRO
 series: SC-001…SC-013 (v0.1.0-Kernelspezifikation, AD-013)
 ---
 
-# SC-006 — Driver / Interrupt / Time (v0.1.0, DRAFT_REVIEW)
+# SC-006 — Driver / Interrupt / Time (v0.1.0, FROZEN 04.10.2026)
 
-> **Status:** DRAFT_REVIEW per AD-013, auf SC-001…SC-005 (alle FROZEN)
-> aufbauend. AD-012/013-Rahmen: Kernel vermittelt nur — Treiber sind
-> Userspace-Services mit Device-Caps; Time-Manager ist der ticklose
-> One-Shot-Deadline-Geber (SC-DEC-H, in SC-002/SC-003 gefroren). Per
-> Owner-Standing-Mandat: KEINE blockierenden SC-DEC — reversible Detailwerte
-> als Defaults (§10), Review bei SC-ARCH-001…010.
+> **Status:** FROZEN v0.1.0 per AD-013 — Owner-Freigabe 04.10.2026:
+> Überflug bestanden, kein Blocker. Bestätigt: IRQ {SUBSCRIBE, ACK} mit
+> Trampolin-in-Notification und ACK vor Re-Trigger; Timer als tickloser
+> One-Shot-Deadline-Geber (SC-DEC-H), monoton via HAL, keine Wanduhr im
+> Kernel; MMIO nur via Frame-Grant, DMA nur mit Frame-geprüften Puffern;
+> Treiber als Service-Space-Services, keine Treiber-Registry im Kernel.
+> Snapshot-Verdrahtung zu REQ-SC005-09a bestätigt. Per Standing-Mandat:
+> keine SC-DEC-Kandidaten, nichts bindet binär vor G7 — Defaults behalten
+> SC-ARCH-001…010-Review.
 
 ## 1. Zweck
 
