@@ -1,8 +1,8 @@
 ---
 document_id: SC-003
 title: "ShivaCore v0.1 Kernelspezifikation — IPC & Endpoints"
-version: 0.1.0-DRAFT_REVIEW
-status: DRAFT_REVIEW — startet unmittelbar nach SC-002-Freeze (AD-013-Reihenfolge)
+version: 0.1.0-FROZEN
+status: FROZEN v0.1.0 — Owner-Freigabe 04.10.2026 (Default-only-Check bestätigt: keine versteckten ABI-Bindungen; Register-Transfer ≡ SC-004 §12)
 repository: atc-shivacore
 layer: L1-Kernel
 owner: A-TownChain-Okosystems / ShivaCore (Michael Wroblewski)
@@ -14,14 +14,13 @@ depends: [SC-001-FROZEN, SC-002-FROZEN, SHIVA-ABI-001]
 series: SC-001…SC-013 (v0.1.0-Kernelspezifikation, AD-013)
 ---
 
-# SC-003 — IPC & Endpoints (v0.1.0, DRAFT_REVIEW)
+# SC-003 — IPC & Endpoints (v0.1.0, FROZEN 04.10.2026)
 
-> **Status:** DRAFT_REVIEW per AD-013, auf SC-001-FROZEN + SC-002-FROZEN
-> (beide 03.10.2026) aufbauend. IPC ist der OS-Bus (AD-013): Kernel-Primitive,
-> POSIX-frei. Per Owner-Anweisung 03.10. enthält diese Spezifikation KEINE
-> blockierenden SC-DEC-Punkte — alle Detailwerte sind reversibel, werden als
-> Default dokumentiert und bei SC-ARCH-001…010 reviewt; SC-DEC-K… nur noch
-> bei irreversiblen Entscheidungen oder Impact "groß".
+> **Status:** FROZEN v0.1.0 per AD-013 — Owner-Freigabe 04.10.2026. Default-
+> only-Check (live): Register-Transfer-Wert identisch mit SC-004 §12 (FROZEN),
+> Register-Layouts per Forward-Ref auf G7 verwiesen, keine Nummern-/Opcode-
+> Festlegungen enthalten. SC-DEC-N (Fehler-/Restart-Semantik, SC-004 §5)
+> ist ab dieser Spezifikation wirksam.
 
 ## 1. Zweck
 
@@ -79,6 +78,9 @@ PI gilt ausschließlich für blockierende IPC/Endpoint, mit harten Grenzen:
 - Alle IPC-Wartesituationen nutzen den Timer-Manager als One-Shot-Deadline-
   Geber (Timeout-Cap); es existiert KEIN Tick als ABI oder Zeitsemantik.
 - IPC-Timeout ist ein definierter Fehlerzustand (I-E05), kein Retry im Kernel.
+- Fehler-/Restart-Semantik gem. SC-004 §5 (SC-DEC-N): Statuswort 8-Bit-Klasse
+  + 24-Bit-Detail; nur blockierende OPs INTERRUPTED mit RESTARTABLE/ABORTED
+  — ab SC-003 wirksam.
 
 ## 7. Invarianten (MUST)
 
@@ -134,7 +136,7 @@ SC-001…SC-013 (AD-026: erst Specs, dann Implementierung).
 
 | Wert | Default | Ort |
 |---|---|---|
-| Register-Transfer | 4 Maschinenwörter | §3 |
+| Register-Transfer | 4 Maschinenwörter (≡ SC-004 §12, FROZEN) | §3 |
 | PI-Tiefenlimit | 8 | §5 |
 | Queue-Tiefe je Endpoint | 16 | INV-08 |
 | Notification-Bitmask | 64 Bit | §2 |
