@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-9E0D37B43C2D",
-  "timestamp": "2026-10-03T08:11:58.031898Z",
+  "timestamp": "2026-10-04T08:29:34.182936Z",
   "category": "change",
   "title": "Commit: fix: return result from validator revision regression",
   "context": "Git commit 9e0d37b43c2d54b21593499cc7705e57c1dcd3d7 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/9e0d37b43c2d54b21593499cc7705e57c1dcd3d7",
-    "commit": "4384b2a610a7f11b2ab7b403024df050f6ffcef1"
+    "commit": "f9f4eb781cfcd9171ba10c105cf5ea4443bc250b"
   },
   "tags": [
     "commit",
