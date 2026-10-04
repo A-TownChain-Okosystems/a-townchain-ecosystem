@@ -57,7 +57,14 @@ Kernel-Objekte mit definierten Klassen, keine Formatstrings, kein Pollen.
   Diagnostic-Events SIND Pflicht: Deadlock (I-E04), PI-Limit (I-E03),
   Revocation-während-Block (I-E06), Sicherheits-Verstöße (C-E04, D-E05,
   M-E03-Analog), Terminal-Zustände (REQ-SC007-13a, P-E07), HAL-Anomalien
-  (D-E07), TLB-Inkonsistenz (M-E07), Notification-Verwurf (REQ-SC008-10a).
+  (D-E07), TLB-Inkonsistenz (SC-007 M-E07 — Bestand aus 001–008, KEIN
+  Forward-Ref), Notification-Verwurf (REQ-SC008-10a).
+- **REQ-SC009-04a (MUST) Katalog-Fortschreibung:** Der Pflicht-Katalog
+  nimmt neue Diagnostic-Event-Klassen AUTOMATISCH auf, sobald sie in
+  einer gefrorenen SC definiert sind (kein SC-009-Amendment-Zyklus);
+  Katalogversion = höchste gefrorene SC-Nummer. NICHT bindend vor G7 —
+  als Kategorie-B-Eintrag im G7-Audit-Trail geführt (TEMPLATE,
+  G7_AUDIT_TRAIL_TEMPLATE.md).
 - **REQ-SC009-05 (MUST) IRQ-Hot-Path-Verbot:** Im IRQ-Pfad wird KEIN Event
   synchron erzeugt (SC-006 INV-06); Events aus IRQ-Kontext werden
   deferred (minimaler Marker, Ausformung außerhalb des Hot Paths).
