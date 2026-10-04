@@ -1,8 +1,8 @@
 ---
 document_id: SC-007
 title: "ShivaCore v0.1 Kernelspezifikation — AddressSpace & Memory Objects"
-version: 0.1.0-DRAFT_REVIEW
-status: DRAFT_REVIEW — startet nach SC-006-Freeze (AD-013-Reihenfolge)
+version: 0.1.0-FROZEN
+status: FROZEN v0.1.0 — Owner-Freigabe 04.10.2026 (kein Blocker; drei Anmerkungen im Freeze nachgezogen)
 repository: atc-shivacore
 layer: L1-Kernel
 owner: A-TownChain-Okosystems / ShivaCore (Michael Wroblewski)
@@ -14,15 +14,17 @@ depends: [SC-001-FROZEN, SC-002-FROZEN, SC-003-FROZEN, SC-004-FROZEN, SC-005-FRO
 series: SC-001…SC-013 (v0.1.0-Kernelspezifikation, AD-013)
 ---
 
-# SC-007 — AddressSpace & Memory Objects (v0.1.0, DRAFT_REVIEW)
+# SC-007 — AddressSpace & Memory Objects (v0.1.0, FROZEN 04.10.2026)
 
-> **Status:** DRAFT_REVIEW per AD-013, auf SC-001…SC-006 (alle FROZEN)
-> aufbauend. Diese Spezifikation vertieft die VA-Seite des Speichers:
-> AddressSpace-, PageTable- und Mapping-Objekte. Die physische Verwaltung
-> (Untyped/Retype, 4-KiB-Basis) bleibt bei SC-001; hier nur virtuelle
-> Räume. Kein mmap/brk/malloc-Semantik-Äquivalent (AD-013, J-K10). Per
-> Owner-Standing-Mandat: KEINE blockierenden SC-DEC — reversible Detailwerte
-> als Defaults (§11), Review bei SC-ARCH-001…010.
+> **Status:** FROZEN v0.1.0 per AD-013 — Owner-Freigabe 04.10.2026, kein
+> Blocker. Drei Owner-Anmerkungen im Freeze nachgezogen: (1) REQ-SC007-13a
+> Terminal-Suspend bei fehlender Resume-fähiger Thread-Cap (dokumentierter
+> Endzustand + Diagnostic-Event; strukturelle Abhilfe via SC-008-Supervisor-
+> Reserve); (2) REQ-SC007-05 W^X als Kernel-Politik-Default, änderbar nur
+> per SC-DEC/SC-ARCH — kein Service-Space-Laufzeitpfad; (3) REQ-SC007-09a
+> Rechte-Reduktion nur via mint+revoke, Propagation hält INV-03 global.
+> Kein mmap/brk/malloc-Semantik-Äquivalent (AD-013, J-K10). Defaults mit
+> SC-ARCH-001…010-Review.
 
 ## 1. Zweck
 
@@ -48,8 +50,10 @@ Erweiterungspfad spezifiziert, ohne aktuelle Anforderung.
 - **REQ-SC007-04 (MUST):** map erfordert AddressSpace-Cap {MAP} + Frame-Cap
   {GRANT}; ohne beide: AUTH_DENIED (Y-E01), keine Zustandsänderung.
 - **REQ-SC007-05 (MUST) W^X:** Eine VA-Region ist nie gleichzeitig WRITE-
-  und EXECUTE-mapped (Default-Politik; RW+X verboten). Verstöße werden beim
-  map-Versuch abgelehnt (ARG), nie nachträglich abgeschwächt.
+  und EXECUTE-mapped (RW+X verboten). Verstöße werden beim map-Versuch
+  abgelehnt (ARG), nie nachträglich abgeschwächt. Status: Kernel-Politik-
+  Default, änderbar NUR per späterem SC-DEC bzw. SC-ARCH-001…010-Review —
+  KEIN Service-Space-Cap-Anforderungspfad zur Laufzeit.
 - **REQ-SC007-06 (MUST) Aliasing:** Ein Frame darf mehrfach gemappt sein
   (auch in mehreren AddressSpaces); jedes Mapping trägt seine eigene
   Rechte-Reduktion. Alias-Konsistz ist Frame-Physik — der Kernel
@@ -66,6 +70,14 @@ Erweiterungspfad spezifiziert, ohne aktuelle Anforderung.
 - **REQ-SC007-09 (MUST):** Frame-Revocation (SC-005 §5) unmappt den Frame
   in ALLEN AddressSpaces synchron (TLB-Shootdown je Raum); INV-04
   (kein Zombie-Zugriff) gilt global für Mappings.
+- **REQ-SC007-09a (MUST) Rechte-Reduktion-Propagation (Verdrahtung zu
+  SC-005 INV-03):** Rechte-Reduktion erfolgt nie in-place: der einzige Weg
+  ist mint (kleinere Maske) + revoke (Original). Revocation unmappt das
+  Original in ALLEN AddressSpaces (REQ-SC007-09); Mappings unter der
+  abgeleiteten Cap tragen die reduzierte Maske ab Erzeugung. Damit hält
+  JEDES Mapping dauerhaft Mapping-Rechte ⊆ Frame-Cap-Rechte (INV-02) —
+  auch über nachgelagerte Reduktionen hinweg; kein Mapping kann mehr
+  Rechte tragen als seine Frame-Cap.
 - **REQ-SC007-10 (MUST) Abgrenzung zu INV-09:** Die Snapshot-Semantik
   (SC-005 REQ-SC005-09a/INV-09) gilt für slot-resolvierte Caps in
   LAUFENDEN SYSCALLS. Rohe Speicherzugriffe sind keine Syscalls: nach
@@ -89,6 +101,12 @@ Erweiterungspfad spezifiziert, ohne aktuelle Anforderung.
 - **REQ-SC007-13 (MUST):** Ohne konfigurierten Fault-Endpoint: Thread
   suspendiert + Diagnostic-Event (kein Kill im Kernel, kein User-Panic,
   SC-004 Y-E07-Analog).
+- **REQ-SC007-13a (MUST) Terminal-Suspend:** Ist ein Fault-Endpoint
+  vorhanden, aber keine Resume-fähige Thread-Cap erreichbar (verloren oder
+  revoked), ist der Thread TERMINAL SUSPENDIERT — dokumentierter
+  Endzustand + Diagnostic-Event; kein stiller Kill, kein kernel-seitiges
+  Auto-Resume. Strukturelle Abhilfe liefert SC-008: bei Service-Erzeugung
+  verbleibt eine Reserve-Thread-Cap beim Supervisor (dort §4).
 
 ## 7. HugePages-Erweiterungspfad (SC-DEC-A-Nachtrag, nicht bindend)
 
