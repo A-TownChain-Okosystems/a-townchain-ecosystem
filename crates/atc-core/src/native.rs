@@ -43,9 +43,19 @@ pub struct NativeFunction {
     pub name: String,
     pub params: Vec<NativeParam>,
     pub return_type: Option<String>,
-    pub capabilities: Vec<String>,
-    pub policies: Vec<String>,
+    pub capabilities: Vec<CapabilityDef>,
+    pub policies: Vec<PolicyDef>,
     pub body: Vec<Token>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CapabilityDef {
+    pub name: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct PolicyDef {
+    pub name: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -254,8 +264,12 @@ impl Parser {
             self.bump();
             let decorator = self.ident("Decorator")?;
             match decorator.as_str() {
-                "capability" => capabilities.push(self.ident("@capability-Wert")?),
-                "policy" => policies.push(self.ident("@policy-Wert")?),
+                "capability" => capabilities.push(CapabilityDef {
+                    name: self.ident("@capability-Wert")?,
+                }),
+                "policy" => policies.push(PolicyDef {
+                    name: self.ident("@policy-Wert")?,
+                }),
                 other => return Err(NativeParseError::new(format!("unbekannter Function-Decorator @{other}"))),
             }
         }
@@ -385,5 +399,67 @@ contract ATownAvatar {
     fn rejects_unknown_native_type() {
         let err = parse_native_contract("@version 1.0 @type NotNative contract C {}").unwrap_err();
         assert!(err.message.contains("unbekannter nativer @type"));
+    }
+
+    #[test]
+    fn parses_capability_and_policy_ast_nodes() {
+        let contract = parse_native_contract(
+            r#"@version 1.0
+contract C {
+    @capability mint
+    function mint(to: Address) {
+    }
+
+    @policy soulbound
+    function enforce(token_id: TokenId) {
+    }
+}"#,
+        )
+        .expect("capability/policy decorators must parse");
+
+        let functions = contract
+            .contract
+            .members
+            .iter()
+            .filter_map(|member| match member {
+                ContractMember::Function(function) => Some(function),
+                ContractMember::State(_) => None,
+            })
+            .collect::<Vec<_>>();
+
+        assert_eq!(functions[0].capabilities, vec![CapabilityDef { name: "mint".into() }]);
+        assert!(functions[0].policies.is_empty());
+        assert_eq!(functions[1].policies, vec![PolicyDef { name: "soulbound".into() }]);
+        assert!(functions[1].capabilities.is_empty());
+    }
+
+    #[test]
+    fn rejects_duplicate_version_directive() {
+        let err = parse_native_contract("@version 1.0 @version 1.1 contract C {}").unwrap_err();
+        assert!(err.message.contains("doppelte @version"));
+    }
+
+    #[test]
+    fn rejects_unknown_function_decorator() {
+        let err = parse_native_contract(
+            "@version 1.0 contract C { @unknown mint function f() {} }",
+        )
+        .unwrap_err();
+        assert!(err.message.contains("unbekannter Function-Decorator"));
+    }
+
+    #[test]
+    fn rejects_unterminated_function_body() {
+        let err = parse_native_contract(
+            "@version 1.0 contract C { function f() { let x = 1;",
+        )
+        .unwrap_err();
+        assert!(err.message.contains("unbeendeter Function-Body"));
+    }
+
+    #[test]
+    fn rejects_missing_contract() {
+        let err = parse_native_contract("@version 1.0").unwrap_err();
+        assert!(err.message.contains("Contract-Name") || err.message.contains("Contract"));
     }
 }
