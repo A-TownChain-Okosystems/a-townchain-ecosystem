@@ -26,6 +26,7 @@ pub enum Token {
     Assign,
     Eq,
     NotEq,
+    Bang,
     Lt,
     Gt,
     LtEq,
@@ -74,7 +75,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                     chars.next();
                     tokens.push(Token::NotEq);
                 } else {
-                    return Err(LexError { pos, ch });
+                    tokens.push(Token::Bang);
                 }
             }
             '<' => {
