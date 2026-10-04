@@ -1,8 +1,8 @@
 ---
 document_id: SC-008
 title: "ShivaCore v0.1 Kernelspezifikation — Prozess- & Service-Erzeugung"
-version: 0.1.0-DRAFT_REVIEW
-status: DRAFT_REVIEW — startet nach SC-007-Freeze (AD-013-Reihenfolge)
+version: 0.1.0-FROZEN
+status: FROZEN v0.1.0 — Owner-Freigabe 04.10.2026 (nach Nachzug von Anmerkung 1 und 2; Anmerkung 3 + Domain-Klarstellung mit eingefroren)
 repository: atc-shivacore
 layer: L1-Kernel
 owner: A-TownChain-Okosystems / ShivaCore (Michael Wroblewski)
@@ -14,14 +14,17 @@ depends: [SC-001-FROZEN, SC-002-FROZEN, SC-003-FROZEN, SC-004-FROZEN, SC-005-FRO
 series: SC-001…SC-013 (v0.1.0-Kernelspezifikation, AD-013)
 ---
 
-# SC-008 — Prozess- & Service-Erzeugung (v0.1.0, DRAFT_REVIEW)
+# SC-008 — Prozess- & Service-Erzeugung (v0.1.0, FROZEN 04.10.2026)
 
-> **Status:** DRAFT_REVIEW per AD-013, auf SC-001…SC-007 (alle FROZEN)
-> aufbauend. Verboten per AD-013/J-K10: fork/exec/wait/signal-Semantik —
-> Erzeugung ist EXPLIZIT (Cap-Transfer per mint), Beendigung ist
-> Ereignis-basiert (Exit-Notification), kein implizites Erben, keine PIDs
-> ohne Cap-Bezug. Per Owner-Standing-Mandat: KEINE blockierenden SC-DEC —
-> reversible Detailwerte als Defaults (§10), Review bei SC-ARCH-001…010.
+> **Status:** FROZEN v0.1.0 per AD-013 — Owner-Freigabe 04.10.2026.
+> Nachgezogen vor Freeze: (1) REQ-SC008-07 Spawn als Sequenz atomarer
+> Einzel-OPs mit EXPLIZITER Supervisor-Aufräum-Pflicht per Revocation —
+> kein Kernel-Rollback-Zustand (AD-028); (2) REQ-SC008-10a Empfänger-
+> unabhängiger Service-End: Untyped-Rückfluss im Derivationsbaum des
+> Creators läuft IMMER, Notification-Verwurf blockiert nie. Mit eingefroren:
+> (3) Loader-Frame-Grant-Wiring (SC-005 §3/SC-006/SC-007), (4) Domain-
+> Bindung = Erzeugungszeit (CONFIG wirkt auf Erzeugung, nie auf laufende
+> Threads). Kein fork/exec/wait/signal; Defaults mit SC-ARCH-Review.
 
 ## 1. Zweck
 
@@ -57,10 +60,20 @@ Supervisor, sodass Fault-Resume immer möglich ist.
 - **REQ-SC008-06 (MUST) Image-Laden:** KEIN Kernel-Exec: Das Laden von
   Code/Initial-Daten ist Service-Space-Aufgabe (globus-init/Loader-Service)
   über Frame-GRANT + Mapping (SC-007, W^X geprüft); der Kernel verifiziert
-  nur Cap-Ketten, nie Dateiformate.
-- **REQ-SC008-07 (MUST) Spawn-Atomarität:** spawn schlägt als Ganzes fehl
-  oder startet den Thread — kein halbfertiger Service (Partial-Failure
-  räumt per Revocation auf, SC-005 §5).
+  nur Cap-Ketten, nie Dateiformate. Wiring-Point (G7-relevant, nicht
+  bindend): Die Loader-Schreibrechte entstehen als Frame-GRANT-Mint aus
+  dem Supervisor-CSpace innerhalb der Spawn-Sequenz (SC-005 §3,
+  SC-006-Muster); das Mapping ins Ziel-AS erfolgt per AS-Cap {MAP} des
+  Loaders (SC-007 §3), W^X geprüft (REQ-SC007-05).
+- **REQ-SC008-07 (MUST) Spawn-Sequenz:** spawn ist eine SEQUENZ atomarer
+  Einzel-OPs (je OP SC-004 INV-07), KEINE einzelne Kernel-Transaktion. Bei
+  Teilerfolg (z. B. DERIVATION_LIMIT aus REQ-SC005-07a nach angelegtem
+  CSpace/AS) läuft keine OP zurück: Die erzeugten Objekte bleiben als Caps
+  im Supervisor-CSpace, und der Supervisor trägt die EXPLIZITE Aufräum-
+  Pflicht per Revocation (SC-005 §5). Der Kernel hält keinen Spawn-
+  Transaktions- oder Rollback-Zustand (AD-028, keine Registry). Sichtbar
+  wird ein Service erst mit dem Thread-Start — der LETZTEN OP der
+  Sequenz; kein Thread läuft ohne vollständige Initialausstattung (INV-04).
 
 ## 4. Betrieb & Fault-Verdrahtung (REQ-SC008-08…09)
 
@@ -70,9 +83,13 @@ Supervisor, sodass Fault-Resume immer möglich ist.
   REQ-SC008-05 strukturell ausgeschlossen (Reserve kann nur der
   Supervisor selbst revoken; das ist supervisor-Entscheidung, kein
   Kernel-Fehlerzustand).
-- **REQ-SC008-09 (MUST) Domain-Bindung:** Der Thread erbt die SC-002-
-  Domain des Erzeugers bei Erzeugung; ein anderer DOM nur über Neu-Erzeugung
-  mit CONFIG (REQ-SC002-03) — kein Laufzeit-Wechsel (Verdrahtung SC-002).
+- **REQ-SC008-09 (MUST) Domain-Bindung (Erzeugungszeit, NICHT Boot-
+  Zeit):** Domain-Zuweisung erfolgt bei JEDER Thread-Erzeugung, auch bei
+  Laufzeit-Spawns: Default = Erbe der Erzeuger-Domain; Abweichung nur per
+  CONFIG am erzeugten Thread (SC-002 Thread-Cap-Recht). Ein Domain-Wechsel
+  zur Laufzeit existiert nicht — nur Neu-Erzeugung (REQ-SC002-03).
+  Kein Widerspruch zu SC-002: CONFIG wirkt auf die ERZEUGUNG, nie auf
+  laufende Threads.
 
 ## 5. Beendigung (REQ-SC008-10…12)
 
@@ -80,6 +97,14 @@ Supervisor, sodass Fault-Resume immer möglich ist.
   (explizit) oder unbehobener Terminal-Fault (SC-007 §6); der Kernel
   entwertet die Thread-Cap und triggert die Exit-Notification an den
   Supervisor-Endpoint. KEIN Zombie-Zustand, kein waitpid.
+- **REQ-SC008-10a (MUST) Empfängerunabhängiger Service-End:** Der
+  Lebensende-Pfad (Entwertung, Revocation, Untyped-Rückfluss im
+  Derivationsbaum des Creators, SC-005 §4/§5) läuft UNABHÄNGIG davon ab,
+  ob Supervisor oder Exit-Endpoint noch existieren oder empfangen.
+  Fehlt der Empfänger (oder Queue voll, P-E05), wird die Notification
+  verworfen (Diagnostic-Event) — sie blockiert NIE den Lebensende-Pfad.
+  Verwaiste Rückflüsse existieren nicht: Untyped fließt im Derivationsbaum
+  zurück, nicht an Empfänger-Events.
 - **REQ-SC008-11 (MUST) Service-End:** Ist der letzte Thread des Aggregats
   beendet, endet der Service: CSpace wird per Revocation geleert (Frames
   kehren über Untyped zurück, SC-001 §4), Mappings fallen mit Revocation
@@ -95,9 +120,12 @@ INV-01 Jeder laufende Thread hat einen Supervisor mit Reserve-Thread-Cap
 INV-02 Erzeugung ist explizit: kein Cap wandert ohne mint in einen
        neuen CSpace; keine implizite Vererbung.
 INV-03 Supervisor-Reserve ist vor Thread-Start hinterlegt (atomar).
-INV-04 Spawn ist atomar — kein halbfertiger Service existiert sichtbar.
-INV-05 Exit-Notification precedes Entwertung: der Supervisor erfährt
-       jedes Lebensende; kein stilles Verschwinden.
+INV-04 Kein Thread läuft ohne vollständige Initialausstattung; ein
+       halbfertiger Service ist unsichtbar (kein Thread gestartet);
+       Teilobjekte bleiben Supervisor-Caps mit Aufräum-Pflicht.
+INV-05 Exit-Notification wird vor der Entwertung VERSANDT; die
+       Entwertung läuft empfangsunabhängig ab (REQ-SC008-10a). Kein
+       blockierendes Warten auf Empfänger; Verwurf = Diagnostic-Event.
 INV-06 Frames kehren bei Service-End vollständig in Untyped zurück
        (kein Leck, SC-001/SC-005-Verdrahtung).
 INV-07 Keine PIDs ohne Cap: Identifikation nur über Caps/Badges.
