@@ -1,8 +1,8 @@
 ---
 document_id: SC-009
 title: "ShivaCore v0.1 Kernelspezifikation — Kernel-Diagnostics & Event-Bridge"
-version: 0.1.0-DRAFT_REVIEW
-status: DRAFT_REVIEW — startet nach SC-008-Freeze (AD-013-Reihenfolge)
+version: 0.1.0-FROZEN
+status: FROZEN v0.1.0 — Owner-Freigabe 04.10.2026 (Verdrängungsregel nachgezogen; Punkte 2/3 als nicht-bindende Notizen mit eingefroren)
 repository: atc-shivacore
 layer: L1-Kernel
 owner: A-TownChain-Okosystems / ShivaCore (Michael Wroblewski)
@@ -14,14 +14,18 @@ depends: [SC-001-FROZEN, SC-002-FROZEN, SC-003-FROZEN, SC-004-FROZEN, SC-005-FRO
 series: SC-001…SC-013 (v0.1.0-Kernelspezifikation, AD-013)
 ---
 
-# SC-009 — Kernel-Diagnostics & Event-Bridge (v0.1.0, DRAFT_REVIEW)
+# SC-009 — Kernel-Diagnostics & Event-Bridge (v0.1.0, FROZEN 04.10.2026)
 
-> **Status:** DRAFT_REVIEW per AD-013, auf SC-001…SC-008 (alle FROZEN)
-> aufbauend. AD-012/013-Rahmen: Die Kernel-Event-Bridge ist die EINZIGE
-> Schnittstelle, über die Aurora (L2) Kernel-Ereignisse erhält — NUR-LESEN,
-> Capability-geprüft, keine AI-Logik im Kernel (DefenderGPT-Regel:
-> beobachten, nie steuern; Enforcement bleibt Kernel). Per Owner-Standing-
-> Mandat: KEINE blockierenden SC-DEC — Defaults (§9) mit SC-ARCH-Review.
+> **Status:** FROZEN v0.1.0 per AD-013 — Owner-Freigabe 04.10.2026.
+> Vor Freeze nachgezogen: (1) REQ-SC009-06 Zwei-Klassen-Verdrängung
+> (DIAGNOSTIC zuerst FIFO; Security hart begrenzt mit OVERFLOW-Zähler;
+> Schreiber blockiert nie — INV-07). Als nicht bindend, G7-relevant
+> markiert und mit eingefroren: (2) REQ-SC009-02 Grant-Pflicht für
+> SUBSCRIBE (kein ambientes Abo; Kernel-Politik-Default, SC-DEC-Kandidat),
+> (3) REQ-SC009-04a automatische Katalog-Fortschreibung (Version =
+> höchste gefrorene SC; M-E07 = SC-007-Bestand, kein Forward-Ref) und
+> Deferral-Mechanik in REQ-SC009-05 (Marker → Drain → Ring-Write →
+> Notification). Aurora NUR-LESEN (AD-013); Defaults mit SC-ARCH-Review.
 
 ## 1. Zweck
 
@@ -38,6 +42,11 @@ Kernel-Objekte mit definierten Klassen, keine Formatstrings, kein Pollen.
   stempel (monoton, SC-006 §3), Kontextwörter (Default 8)}.
 - **REQ-SC009-02 (MUST) Diagnostic-Cap:** {SUBSCRIBE} — nur der Kernel
   erzeugt Events; Konsumenten abonnieren über gemintete Diagnostic-Caps.
+  Grant-Pflicht: SUBSCRIBE entsteht ausschließlich per explizitem Grant
+  (mint) aus dem Supervisor-CSpace — KEIN ambientes/Default-Abonnement
+  (Verdrahtung SC-005 §4; sonst Timing-Seitenkanal über Ereignisraten).
+  Status: Kernel-Politik-Default wie REQ-SC007-05 — NICHT bindend vor G7,
+  SC-DEC-Kandidat, falls G7 davon abweichen will.
 - **REQ-SC009-03 (MUST) Delivery:** Events werden als Notification-artige
   Auslieferung an den Endpoint des Konsumenten gepusht; das Abrufen der
   Detail-Records erfolgt per invoke (kein Polling-ABI, kein Formatstring).
@@ -52,9 +61,21 @@ Kernel-Objekte mit definierten Klassen, keine Formatstrings, kein Pollen.
 - **REQ-SC009-05 (MUST) IRQ-Hot-Path-Verbot:** Im IRQ-Pfad wird KEIN Event
   synchron erzeugt (SC-006 INV-06); Events aus IRQ-Kontext werden
   deferred (minimaler Marker, Ausformung außerhalb des Hot Paths).
-- **REQ-SC009-06 (MUST) Append-only:** Events sind unveränderlich nach
-  Erzeugung; Kernel-interner Ring je Konsument (Default 256); Überlauf
-  verwirft ÄLTESTE und zählt (nie neueste Sicherheits-Events).
+  Deferral-Mechanik: Der IRQ-Kontext schreibt nur einen Marker-Slot (Flag
+  je Quelle); Ring-Write und Ausformung erfolgen im Drain — dem ersten
+  Nicht-IRQ-Kontext auf dem zugehörigen CPU-Kern; die Konsumenten-
+  Notification folgt nach dem Ring-Write, nie direkt aus dem IRQ-Pfad.
+- **REQ-SC009-06 (MUST) Append-only & Zwei-Klassen-Verdrängung:** Events
+  sind unveränderlich nach Erzeugung; Kernel-interner Ring je Konsument
+  (Default 256, davon harte Security-Obergrenze 64). ZWEI Prioritäts-
+  klassen: SECURITY und DIAGNOSTIC. Verdrängungsregel: (a) Ein neues
+  SECURITY-Event verdrängt zuerst nach FIFO aus der DIAGNOSTIC-Klasse
+  (Noise zuerst raus); (b) erreicht die Security-Klasse ihre harte
+  Obergrenze, erzeugt der Kernel einen SECURITY_OVERFLOW-Zähler-Event und
+  verwirft das älteste SECURITY-Event (dokumentierte Degradation, nie
+  still); (c) der Schreiber blockiert NIE (INV-07), auch nicht bei vollem
+  Security-Limit — der Overflow-Zähler ist der definierte Rückkanal.
+  Kein Ring-Wachstum über die Obergrenzen hinaus.
 
 ## 4. Kernel-Event-Bridge (REQ-SC009-07…09)
 
@@ -74,7 +95,9 @@ Kernel-Objekte mit definierten Klassen, keine Formatstrings, kein Pollen.
 INV-01 Events entstehen nur im Kernel, nur mit definierten Klassen.
 INV-02 Kein Event synchron im IRQ-Hot-Path (deferred).
 INV-03 Events sind append-only und unveränderlich.
-INV-04 Ring-Überlauf verwirft Älteste, niemals neueste Sicherheits-Events.
+INV-04 Verdrängung zuerst in der DIAGNOSTIC-Klasse (FIFO); Security-
+       Events werden erst bei vollem Security-Limit verworfen — mit
+       SECURITY_OVERFLOW-Zähler (REQ-SC009-06), nie still.
 INV-05 Konsumenten brauchen Diagnostic-Caps; keine Broadcast-Events ohne
        Cap (Badge-Provenanz SC-005 §6).
 INV-06 Die Bridge (und Aurora) hat NUR-LESEN; keine Kernel-Steuerung.
@@ -118,7 +141,7 @@ E-E07 Bridge-Angriffsversuch (Scheiben/Fälschen) → unmöglich per
 
 | Wert | Default | Ort |
 |---|---|---|
-| Ring je Konsument | 256 Events | §3 |
+| Ring je Konsument | 256 Events (Security-Klasse max 64) | §3 |
 | Kontextwörter je Event | 8 | §2 |
 | Severity-Stufen | 4 (INFO/WARN/ERROR/SECURITY) | §2 |
 | Deferred-Marker je IRQ | 1 Slot, drain-basiert | §3 |
