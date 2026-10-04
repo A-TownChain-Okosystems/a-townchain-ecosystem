@@ -83,6 +83,7 @@
 - `crates/atc-core/src/lib.rs`
 - `crates/atc-core/src/lower.rs`
 - `crates/atc-core/src/main.rs`
+- `crates/atc-core/src/native.rs`
 - `crates/atc-core/src/parser.rs`
 - `crates/atc-core/src/vm.rs`
 - `crates/atc-core/tests/cli.rs`
