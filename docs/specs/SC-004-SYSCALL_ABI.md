@@ -1,8 +1,8 @@
 ---
 document_id: SC-004
 title: "ShivaCore v0.1 Kernelspezifikation — Syscall-Interface (ABI)"
-version: 0.1.0-DRAFT_REVIEW
-status: DRAFT_REVIEW — startet nach SC-003 (AD-013-Reihenfolge); SC-DEC-K…N als Owner-Vorlage (§13)
+version: 0.1.0-FROZEN
+status: FROZEN v0.1.0 — Owner-Freigabe 04.10.2026 (SC-DEC-K/L/M freigegeben, N als Default bestätigt und ab SC-003 wirksam)
 repository: atc-shivacore
 layer: L1-Kernel
 owner: A-TownChain-Okosystems / ShivaCore (Michael Wroblewski)
@@ -14,13 +14,13 @@ depends: [SC-001-FROZEN, SC-002-FROZEN, SC-003-DRAFT_REVIEW, SHIVA-HAL-001, SHIV
 series: SC-001…SC-013 (v0.1.0-Kernelspezifikation, AD-013)
 ---
 
-# SC-004 — Syscall-Interface / ABI (v0.1.0, DRAFT_REVIEW)
+# SC-004 — Syscall-Interface / ABI (v0.1.0, FROZEN 04.10.2026)
 
-> **Status:** DRAFT_REVIEW per AD-013. Das Syscall-ABI ist die EINZIGE Grenze
-> User→Kernel (AD-013). Per Owner-Anweisung 03.10. gelten Defaults statt
-> blockierender SC-DEC — AUSNAHME: die vier Kandidaten §13 (Nummernraum/
-> ABI-Stabilität, Register-Konvention, Capability-Übergabe, Fehler-/Restart-
-> Semantik) sind dem Owner vorgelegt statt defaulted.
+> **Status:** FROZEN v0.1.0 per AD-013 — Owner-Freigabe 04.10.2026: K/L/M
+> freigegeben wie empfohlen, N explizit als Default bestätigt (ab SC-003
+> wirksam). AUFLAGE (Owner, 04.10.): K/L/M sind nur bis zur ersten binären
+> Bindung (G7) reversibel — danach ABI-Freeze; bis dahin keine Reserved-
+> Number-Festlegung, nur Dokumentation der Reservierungsbereiche.
 
 ## 1. Zweck
 
@@ -79,10 +79,12 @@ Fehlerzustände, freie PIDs ohne Cap-Bezug.
 
 ## 6. Nummernraum & ABI-Stabilität (Detail: SC-DEC-K, §13)
 
-- Vorschlag: Opcode = 16-Bit je Objekttyp-Familie + ABI-Version im
-  Dispatch (Major/Minor); Major-Mismatch = definierter Fehler ABI_MISMATCH,
-  kein Fallback (INV-08). Nummern-Freeze erst mit erster binärer Bindung
-  (ATCLang-Codegen, G7) — danach Major-Version als Kompatibilitätsnetz.
+- Freigegeben (SC-DEC-K, 04.10.): Opcode = 16-Bit je Objekttyp-Familie +
+  ABI-Version im Dispatch (Major/Minor); Major-Mismatch = definierter Fehler
+  ABI_MISMATCH, kein Fallback (INV-08). Nummern-Freeze erst mit erster
+  binärer Bindung (ATCLang-Codegen, G7) — danach ABI-Freeze. Bis dahin:
+  KEINE Reserved-Number-Festlegung, nur Dokumentation der
+  Reservierungsbereiche (Owner-Auflage).
 
 ## 7. Anbindung SC-002 / SC-003 (normativ)
 
@@ -147,18 +149,19 @@ Y-E07 Kernel-interner Fehler → nie User-sichtbar; Diagnostic-Event +
 | CNode-Slot-Adressraum | 2^14 Slots | §4 |
 | yield-OP | fester Kern-OP-Bereich | §2 |
 
-## 13. Owner-Vorlage SC-DEC-K…N (NICHT defaulted — Freigabe nötig)
+## 13. Entscheidungsprotokoll SC-DEC-K…N (Owner-Freigabe 04.10.2026)
 
-| ID | Frage | Empfehlung | Reversibel? | Impact |
+| ID | Frage | Freigabe | Reversibel? | Impact |
 |---|---|---|---|---|
-| K | Syscall-Nummernraum & ABI-Stabilität | Versionierter Nummernraum (16-Bit-Opcode je Familie + Major/Minor im Dispatch); Nummern-Freeze erst mit G7-Bindung | bedingt — nur bis zur ersten binären Bindung | groß (ABI-Bruch später) |
-| L | Register-Konvention | Fester Satz: Cap-Slot, Opcode, 4 Args, 2 Resultate, Status; sysret einheitlich für alle Pfade | ja — bis Compiler/Toolchain bindet | groß (berührt ATCLang-Codegen G7) |
-| M | Capability-Übergabe bei syscall/sysret | Slot-Indizes rein, Kernel-resolviert; neue Caps in Ziel-CNode-Slot; transiente Caps bei Exit verworfen | ja — solange globus-init/Services nicht binden | groß (Sicherheitsmodell-Kern) |
-| N | Fehler-/Restart-Semantik | Fehler im Statuswort (Klasse+Detail); nur blockierende OPs INTERRUPTED mit RESTARTABLE/ABORTED-Flag; keine globalen Fehlerzustände | ja | mittel (prägt SC-003-Verträge) |
+| K | Syscall-Nummernraum & ABI-Stabilität | **FREIGEGEBEN** wie empfohlen: versionierter Nummernraum, Freeze erst mit G7-Bindung | nur bis G7 (dann ABI-Freeze) | groß (ABI-Bruch später) |
+| L | Register-Konvention | **FREIGEGEBEN**: Cap-Slot, Opcode, 4 Args, 2 Resultate, Status; sysret einheitlich | nur bis G7 (dann ABI-Freeze) | groß (ATCLang-Codegen G7) |
+| M | Capability-Übergabe bei syscall/sysret | **FREIGEGEBEN**: Slot-Indizes rein, Kernel-resolviert; neue Caps in Ziel-CNode-Slot; transiente Caps bei Exit verworfen | nur bis globus-init/Services binden | groß (Sicherheitsmodell-Kern) |
+| N | Fehler-/Restart-Semantik | **ALS DEFAULT BESTÄTIGT** (wirksam ab SC-003): 8-Bit-Klasse + 24-Bit-Detail; nur blockierende OPs INTERRUPTED mit RESTARTABLE/ABORTED | ja | mittel (prägt SC-003-Verträge) |
 
-> Empfehlung des Verfassers: K/L/M nach Freigabe als FROZEN-Anhang in §13
-> protokollieren; N ggf. per Vorab-Regel als Default. Nächster Spez:
-> SC-005 Capability-System-Vertiefung → SC-006 Driver/Interrupt/Time.
+> AUFLAGE (Owner, 04.10.): K/L/M sind nur bis zur ersten binären Bindung
+> (G7) respektive bis globus-init/Services binden (M) reversibel — danach
+> ABI-Freeze. N ist ab SC-003 wirksam. Nächster Spez: SC-005
+> Capability-System-Vertiefung → SC-006 Driver/Interrupt/Time.
 
 ## 14. Referenzen
 
