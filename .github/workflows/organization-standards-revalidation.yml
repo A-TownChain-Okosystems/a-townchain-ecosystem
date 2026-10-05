@@ -1,0 +1,48 @@
+name: Organization Standards Revalidation
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: organization-standards-revalidation
+  cancel-in-progress: false
+
+jobs:
+  revalidate:
+    name: Revalidate repositories against current standards SSOT
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout standards SSOT at exact execution SHA
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Assert exact execution SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          expected="${GITHUB_SHA}"
+          test "${actual}" = "${expected}" || {
+            echo "Exact-SHA mismatch: expected=${expected} actual=${actual}"
+            exit 1
+          }
+
+      - name: Run organization standards revalidation
+        run: python3 tools/standards/revalidate_org.py
+
+      - name: Upload machine-readable evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: organization-standards-revalidation-${{ github.sha }}
+          path: artifacts/standards-revalidation.json
+          if-no-files-found: error
+          retention-days: 90
