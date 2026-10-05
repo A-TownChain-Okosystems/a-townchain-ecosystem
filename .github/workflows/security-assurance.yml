@@ -1,0 +1,293 @@
+name: Security Assurance Pipeline
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  ASSURANCE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+concurrency:
+  group: security-assurance-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-integrity:
+    name: Build Integrity / Dependency Graph
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.ASSURANCE_SHA }}
+      - name: Assert exact execution SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$ASSURANCE_SHA"
+          echo "Execution SHA bound: $actual"
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Cargo metadata is deterministic
+        shell: bash
+        run: |
+          set -euo pipefail
+          cargo metadata --format-version 1 --no-deps > metadata-1.json
+          cargo metadata --format-version 1 --no-deps > metadata-2.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          a = json.loads(Path("metadata-1.json").read_text())
+          b = json.loads(Path("metadata-2.json").read_text())
+          if a != b:
+              raise SystemExit("Cargo metadata is not deterministic")
+          print("Cargo metadata is deterministic.")
+          PY
+      - name: Lockfile status
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f Cargo.lock ]; then
+            echo "LOCKFILE=AVAILABLE" >> "$GITHUB_STEP_SUMMARY"
+            cargo metadata --format-version 1 --locked >/dev/null
+            echo "Cargo.lock is accepted by cargo metadata --locked."
+          else
+            echo "LOCKFILE=RESIDUAL" >> "$GITHUB_STEP_SUMMARY"
+            echo "::warning::Cargo.lock is absent at ecosystem root; reproducible dependency resolution remains RESIDUAL."
+          fi
+      - name: Toolchain pin status
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f rust-toolchain.toml ] || [ -f rust-toolchain ]; then
+            echo "Toolchain pin: AVAILABLE" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Toolchain pin: RESIDUAL" >> "$GITHUB_STEP_SUMMARY"
+            echo "::warning::No root rust-toolchain.toml/rust-toolchain is present; exact toolchain reproducibility remains RESIDUAL."
+          fi
+      - name: Dependency graph evidence
+        run: cargo tree --workspace --all-features > cargo-tree.txt
+      - name: Upload dependency evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-assurance-dependency-graph-${{ env.ASSURANCE_SHA }}
+          path: |
+            metadata-1.json
+            cargo-tree.txt
+
+  unsafe-inventory:
+    name: Unsafe / TCB Inventory
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.ASSURANCE_SHA }}
+      - name: Assert exact execution SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$ASSURANCE_SHA"
+          echo "Execution SHA bound: $actual"
+      - name: Inventory unsafe Rust
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assurance-evidence
+          if git grep -nE '\bunsafe\b' -- '*.rs' > assurance-evidence/unsafe-rust.txt; then
+            count=$(wc -l < assurance-evidence/unsafe-rust.txt | tr -d ' ')
+          else
+            count=0
+            : > assurance-evidence/unsafe-rust.txt
+          fi
+          {
+            echo "# Unsafe Rust inventory"
+            echo
+            echo "Commit: $ASSURANCE_SHA"
+            echo "Count: $count"
+            echo
+            if [ "$count" -gt 0 ]; then
+              echo "UNSAFE_PRESENT"
+            else
+              echo "NO_UNSAFE_FOUND"
+            fi
+          } > assurance-evidence/unsafe-rust-summary.md
+          echo "Unsafe occurrences: $count"
+          echo "Inventory only: this job does not claim that unsafe code is safe."
+      - name: Upload unsafe inventory
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-assurance-unsafe-inventory-${{ env.ASSURANCE_SHA }}
+          path: assurance-evidence/
+
+  dependency-inventory:
+    name: Dependency / SBOM Evidence
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.ASSURANCE_SHA }}
+      - name: Assert exact execution SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$ASSURANCE_SHA"
+          echo "Execution SHA bound: $actual"
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Generate Cargo dependency inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assurance-evidence
+          cargo metadata --format-version 1 > assurance-evidence/cargo-metadata.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("assurance-evidence/cargo-metadata.json").read_text())
+          packages = []
+          for p in data.get("packages", []):
+              packages.append({
+                  "name": p["name"],
+                  "version": p["version"],
+                  "source": p.get("source"),
+                  "license": p.get("license"),
+                  "license_file": p.get("license_file"),
+                  "repository": p.get("repository"),
+              })
+          packages.sort(key=lambda x: (x["name"], x["version"]))
+          Path("assurance-evidence/dependency-inventory.json").write_text(
+              json.dumps({
+                  "format": "cargo-dependency-inventory-v1",
+                  "commit": "${{ env.ASSURANCE_SHA }}",
+                  "packages": packages,
+              }, indent=2, sort_keys=True) + "\n"
+          )
+          print(f"Inventory packages: {len(packages)}")
+          PY
+      - name: Upload dependency inventory
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-assurance-dependency-inventory-${{ env.ASSURANCE_SHA }}
+          path: assurance-evidence/
+
+  fuzzing:
+    name: Fuzz Harness Smoke Verification
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.ASSURANCE_SHA }}
+      - name: Assert exact execution SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$ASSURANCE_SHA"
+          echo "Execution SHA bound: $actual"
+      - uses: dtolnay/rust-toolchain@nightly
+      - name: Discover fuzz harnesses
+        id: discover
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t manifests < <(find . -path '*/fuzz/Cargo.toml' -not -path '*/target/*' -not -path '*/archive/*' | sort)
+          printf '%s\n' "${manifests[@]}" > fuzz-manifests.txt
+          echo "count=${#manifests[@]}" >> "$GITHUB_OUTPUT"
+          if [ "${#manifests[@]}" -eq 0 ]; then
+            echo "::warning::No cargo-fuzz harness found; fuzzing coverage is RESIDUAL."
+          fi
+      - name: Install cargo-fuzz
+        if: steps.discover.outputs.count != '0'
+        run: cargo install cargo-fuzz --locked
+      - name: Compile every fuzz harness
+        if: steps.discover.outputs.count != '0'
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r manifest; do
+            [ -n "$manifest" ] || continue
+            dir="$(dirname "$manifest")"
+            echo "=== cargo fuzz check: $dir"
+            (cd "$dir" && cargo fuzz check)
+          done < fuzz-manifests.txt
+      - name: Upload fuzz inventory
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-assurance-fuzz-inventory-${{ env.ASSURANCE_SHA }}
+          path: fuzz-manifests.txt
+
+  configured-miri:
+    name: Miri Verification (Configured Targets Only)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.ASSURANCE_SHA }}
+      - name: Assert exact execution SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$ASSURANCE_SHA"
+          echo "Execution SHA bound: $actual"
+      - name: Check Miri policy
+        id: policy
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f .github/miri-packages.txt ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::No .github/miri-packages.txt configured; Miri remains RESIDUAL."
+          fi
+      - uses: dtolnay/rust-toolchain@nightly
+        if: steps.policy.outputs.configured == 'true'
+        with:
+          components: miri
+      - name: Run configured Miri targets
+        if: steps.policy.outputs.configured == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r package; do
+            case "$package" in
+              ''|'#'*) continue ;;
+            esac
+            cargo +nightly miri test -p "$package"
+          done < .github/miri-packages.txt
+
+  assurance-summary:
+    name: Assurance Classification
+    runs-on: ubuntu-latest
+    needs:
+      - build-integrity
+      - unsafe-inventory
+      - dependency-inventory
+      - fuzzing
+      - configured-miri
+    if: always()
+    steps:
+      - name: Publish classification
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "## Security Assurance Classification"
+            echo
+            echo "| Control | Result |"
+            echo "|---|---|"
+            echo "| Build/dependency graph | ${{ needs.build-integrity.result }} |"
+            echo "| Unsafe/TCB inventory | ${{ needs.unsafe-inventory.result }} |"
+            echo "| Dependency inventory | ${{ needs.dependency-inventory.result }} |"
+            echo "| Fuzz harness smoke | ${{ needs.fuzzing.result }} |"
+            echo "| Miri configured targets | ${{ needs.configured-miri.result }} |"
+            echo
+            echo "**Evidence rule:** a successful workflow is not by itself VERIFIED. Evidence remains bound to the exact execution SHA and must be classified by the repository evidence system."
+          } >> "$GITHUB_STEP_SUMMARY"
