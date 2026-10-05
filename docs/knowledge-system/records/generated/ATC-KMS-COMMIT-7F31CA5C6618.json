@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-7F31CA5C6618",
-  "timestamp": "2026-10-04T08:29:34.182936Z",
+  "timestamp": "2026-10-05T09:09:30.013220Z",
   "category": "change",
   "title": "Commit: docs(architecture): correct candidate execution and finality flow",
   "context": "Git commit 7f31ca5c661865413630aea2413cc3c7e9957c21 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/7f31ca5c661865413630aea2413cc3c7e9957c21",
-    "commit": "f9f4eb781cfcd9171ba10c105cf5ea4443bc250b"
+    "commit": "7879d4ff4df192481db0f84261ca26e0d242521b"
   },
   "tags": [
     "commit",
