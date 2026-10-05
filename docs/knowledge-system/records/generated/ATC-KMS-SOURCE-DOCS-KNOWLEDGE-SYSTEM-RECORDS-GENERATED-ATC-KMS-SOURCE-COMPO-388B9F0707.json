@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-DOCS-KNOWLEDGE-SYSTEM-RECORDS-GENERATED-ATC-KMS-SOURCE-COMPO-388B9F0707",
-  "timestamp": "2026-10-05T09:09:30.013220Z",
+  "timestamp": "2026-10-05T16:35:10.054560Z",
   "category": "evidence",
   "title": "Indexed source: docs/knowledge-system/records/generated/ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-COMPONENTS-ZKP-ARCHITECTURE-MD-2FDF3064FC.json",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "docs/knowledge-system/records/generated/ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-COMPONENTS-ZKP-ARCHITECTURE-MD-2FDF3064FC.json",
-    "commit": "7879d4ff4df192481db0f84261ca26e0d242521b"
+    "commit": "916856ac28fa463afd5e63f4e0e744fb279d35c3"
   },
   "tags": [
     "generated",

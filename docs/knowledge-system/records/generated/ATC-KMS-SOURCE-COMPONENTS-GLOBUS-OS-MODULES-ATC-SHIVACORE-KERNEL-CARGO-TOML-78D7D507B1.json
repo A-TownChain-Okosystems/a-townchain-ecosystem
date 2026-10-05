@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-GLOBUS-OS-MODULES-ATC-SHIVACORE-KERNEL-CARGO-TOML-78D7D507B1",
-  "timestamp": "2026-10-05T09:09:30.013220Z",
+  "timestamp": "2026-10-05T16:35:10.054560Z",
   "category": "evidence",
   "title": "Indexed source: components/globus-os/modules/atc-shivacore/kernel/Cargo.toml",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/globus-os/modules/atc-shivacore/kernel/Cargo.toml",
-    "commit": "7879d4ff4df192481db0f84261ca26e0d242521b"
+    "commit": "916856ac28fa463afd5e63f4e0e744fb279d35c3"
   },
   "tags": [
     "generated",

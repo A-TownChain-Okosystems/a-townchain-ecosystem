@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-749D8C249AA0",
-  "timestamp": "2026-10-05T09:09:30.013220Z",
+  "timestamp": "2026-10-05T16:35:10.054560Z",
   "category": "change",
   "title": "Commit: feat(consensus): add canonical validator transition decoder",
   "context": "Git commit 749d8c249aa0bbcddf25a4d056804d2b938cff0f on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/749d8c249aa0bbcddf25a4d056804d2b938cff0f",
-    "commit": "7879d4ff4df192481db0f84261ca26e0d242521b"
+    "commit": "916856ac28fa463afd5e63f4e0e744fb279d35c3"
   },
   "tags": [
     "commit",

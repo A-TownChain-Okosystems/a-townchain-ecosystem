@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-DOCS-ARCHIVE-WIKI-ATC-WALLET--F5DD7A254C",
-  "timestamp": "2026-10-05T09:09:30.013220Z",
+  "timestamp": "2026-10-05T16:35:10.054560Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/docs/archive/wiki/atc-wallet-wiki/docs/ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/docs/archive/wiki/atc-wallet-wiki/docs/ARCHITECTURE.md",
-    "commit": "7879d4ff4df192481db0f84261ca26e0d242521b"
+    "commit": "916856ac28fa463afd5e63f4e0e744fb279d35c3"
   },
   "tags": [
     "generated",
