@@ -133,6 +133,11 @@ impl Instruction {
 }
 
 impl Bytecode {
+    /// LEGACY / NON-CANONICAL: Little-Endian-Encoder (historisch).
+    /// Kanonische Serialisierung ist ausschliesslich `encode_canonical()`
+    /// (ATC-BC-001 v1.0.0-FROZEN, ATCB v1, big-endian).
+    /// Nicht als kanonisches Format referenzieren. Entfernung nur per
+    /// Gate-0-Folgecommit nach bestaetigter Nichtnutzung.
     pub fn encode(&self) -> Vec<u8> {
         let mut out = Vec::new();
         out.extend_from_slice(b"ATCB");
