@@ -130,7 +130,12 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                             None => return Err(LexError { pos, ch: '\\' }),
                         },
                         Some((pos, ch)) => value.push(ch),
-                        None => return Err(LexError { pos: src.len(), ch: '"' }),
+                        None => {
+                            return Err(LexError {
+                                pos: src.len(),
+                                ch: '"',
+                            })
+                        }
                     }
                 }
                 tokens.push(Token::String(value));

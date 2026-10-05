@@ -71,7 +71,9 @@ pub struct NativeParseError {
 
 impl NativeParseError {
     fn new(message: impl Into<String>) -> Self {
-        Self { message: message.into() }
+        Self {
+            message: message.into(),
+        }
     }
 }
 
@@ -91,10 +93,19 @@ pub fn validate_native_contract(contract: &NativeContract) -> Result<(), NativeP
     if let Some(t) = &contract.asset_type {
         if !matches!(
             t.as_str(),
-            "NFT721" | "NFT1155" | "Token20" | "Token777" | "Governance" |
-            "Oracle" | "Bridge" | "Rental" | "Hybrid"
+            "NFT721"
+                | "NFT1155"
+                | "Token20"
+                | "Token777"
+                | "Governance"
+                | "Oracle"
+                | "Bridge"
+                | "Rental"
+                | "Hybrid"
         ) {
-            return Err(NativeParseError::new(format!("unbekannter nativer @type: {t}")));
+            return Err(NativeParseError::new(format!(
+                "unbekannter nativer @type: {t}"
+            )));
         }
     }
     if contract.contract.name.is_empty() {
@@ -126,14 +137,20 @@ impl Parser {
             self.bump();
             Ok(())
         } else {
-            Err(NativeParseError::new(format!("erwartet {:?}, gefunden {:?}", expected, self.cur())))
+            Err(NativeParseError::new(format!(
+                "erwartet {:?}, gefunden {:?}",
+                expected,
+                self.cur()
+            )))
         }
     }
 
     fn ident(&mut self, what: &str) -> Result<String, NativeParseError> {
         match self.bump() {
             Token::Ident(v) => Ok(v),
-            other => Err(NativeParseError::new(format!("{what} erwartet, gefunden {other:?}"))),
+            other => Err(NativeParseError::new(format!(
+                "{what} erwartet, gefunden {other:?}"
+            ))),
         }
     }
 
@@ -158,7 +175,11 @@ impl Parser {
                 "type" => asset_type = Some(self.ident("@type-Wert")?),
                 "name" => name = Some(self.string("@name")?),
                 "symbol" => symbol = Some(self.string("@symbol")?),
-                other => return Err(NativeParseError::new(format!("unbekannte Direktive @{other}"))),
+                other => {
+                    return Err(NativeParseError::new(format!(
+                        "unbekannte Direktive @{other}"
+                    )))
+                }
             }
         }
 
@@ -169,8 +190,14 @@ impl Parser {
         while *self.cur() != Token::RBrace && *self.cur() != Token::Eof {
             match self.cur() {
                 Token::State => members.push(ContractMember::State(self.state()?)),
-                Token::At | Token::Function => members.push(ContractMember::Function(self.function()?)),
-                other => return Err(NativeParseError::new(format!("Contract-Member erwartet, gefunden {other:?}"))),
+                Token::At | Token::Function => {
+                    members.push(ContractMember::Function(self.function()?))
+                }
+                other => {
+                    return Err(NativeParseError::new(format!(
+                        "Contract-Member erwartet, gefunden {other:?}"
+                    )))
+                }
             }
         }
         self.expect(Token::RBrace)?;
@@ -184,7 +211,10 @@ impl Parser {
             asset_type,
             name,
             symbol,
-            contract: ContractDef { name: contract_name, members },
+            contract: ContractDef {
+                name: contract_name,
+                members,
+            },
         };
         validate_native_contract(&contract)?;
         Ok(contract)
@@ -193,7 +223,11 @@ impl Parser {
     fn version(&mut self) -> Result<String, NativeParseError> {
         let mut out = match self.bump() {
             Token::Int(v) => v.to_string(),
-            other => return Err(NativeParseError::new(format!("Versionsnummer erwartet, gefunden {other:?}"))),
+            other => {
+                return Err(NativeParseError::new(format!(
+                    "Versionsnummer erwartet, gefunden {other:?}"
+                )))
+            }
         };
         while *self.cur() == Token::Dot {
             self.bump();
@@ -202,7 +236,11 @@ impl Parser {
                     out.push('.');
                     out.push_str(&v.to_string());
                 }
-                other => return Err(NativeParseError::new(format!("Versionssegment erwartet, gefunden {other:?}"))),
+                other => {
+                    return Err(NativeParseError::new(format!(
+                        "Versionssegment erwartet, gefunden {other:?}"
+                    )))
+                }
             }
         }
         Ok(out)
@@ -212,14 +250,22 @@ impl Parser {
         let mut out = match self.bump() {
             Token::Ident(v) => v,
             Token::Int(v) => v.to_string(),
-            other => return Err(NativeParseError::new(format!("@standard-ID erwartet, gefunden {other:?}"))),
+            other => {
+                return Err(NativeParseError::new(format!(
+                    "@standard-ID erwartet, gefunden {other:?}"
+                )))
+            }
         };
         while *self.cur() == Token::Minus {
             self.bump();
             let part = match self.bump() {
                 Token::Ident(v) => v,
                 Token::Int(v) => v.to_string(),
-                other => return Err(NativeParseError::new(format!("Standard-ID-Segment erwartet, gefunden {other:?}"))),
+                other => {
+                    return Err(NativeParseError::new(format!(
+                        "Standard-ID-Segment erwartet, gefunden {other:?}"
+                    )))
+                }
             };
             out.push('-');
             out.push_str(&part);
@@ -230,7 +276,9 @@ impl Parser {
     fn string(&mut self, what: &str) -> Result<String, NativeParseError> {
         match self.bump() {
             Token::String(v) => Ok(v),
-            other => Err(NativeParseError::new(format!("{what} String erwartet, gefunden {other:?}"))),
+            other => Err(NativeParseError::new(format!(
+                "{what} String erwartet, gefunden {other:?}"
+            ))),
         }
     }
 
@@ -251,7 +299,11 @@ impl Parser {
             if *self.cur() == Token::Semi {
                 self.bump();
             }
-            fields.push(StateField { name: field_name, type_name, initializer });
+            fields.push(StateField {
+                name: field_name,
+                type_name,
+                initializer,
+            });
         }
         self.expect(Token::RBrace)?;
         Ok(StateDef { fields })
@@ -270,7 +322,11 @@ impl Parser {
                 "policy" => policies.push(PolicyDef {
                     name: self.ident("@policy-Wert")?,
                 }),
-                other => return Err(NativeParseError::new(format!("unbekannter Function-Decorator @{other}"))),
+                other => {
+                    return Err(NativeParseError::new(format!(
+                        "unbekannter Function-Decorator @{other}"
+                    )))
+                }
             }
         }
         self.expect(Token::Function)?;
@@ -281,7 +337,10 @@ impl Parser {
             let pname = self.ident("Parametername")?;
             self.expect(Token::Colon)?;
             let ptype = self.ident("Parameter-Typ")?;
-            params.push(NativeParam { name: pname, type_name: ptype });
+            params.push(NativeParam {
+                name: pname,
+                type_name: ptype,
+            });
             if *self.cur() == Token::Comma {
                 self.bump();
             } else {
@@ -297,7 +356,14 @@ impl Parser {
         };
         self.expect(Token::LBrace)?;
         let body = self.collect_balanced_body()?;
-        Ok(NativeFunction { name, params, return_type, capabilities, policies, body })
+        Ok(NativeFunction {
+            name,
+            params,
+            return_type,
+            capabilities,
+            policies,
+            body,
+        })
     }
 
     fn collect_balanced_body(&mut self) -> Result<Vec<Token>, NativeParseError> {
@@ -427,9 +493,19 @@ contract C {
             })
             .collect::<Vec<_>>();
 
-        assert_eq!(functions[0].capabilities, vec![CapabilityDef { name: "mint".into() }]);
+        assert_eq!(
+            functions[0].capabilities,
+            vec![CapabilityDef {
+                name: "mint".into()
+            }]
+        );
         assert!(functions[0].policies.is_empty());
-        assert_eq!(functions[1].policies, vec![PolicyDef { name: "soulbound".into() }]);
+        assert_eq!(
+            functions[1].policies,
+            vec![PolicyDef {
+                name: "soulbound".into()
+            }]
+        );
         assert!(functions[1].capabilities.is_empty());
     }
 
@@ -441,19 +517,16 @@ contract C {
 
     #[test]
     fn rejects_unknown_function_decorator() {
-        let err = parse_native_contract(
-            "@version 1.0 contract C { @unknown mint function f() {} }",
-        )
-        .unwrap_err();
+        let err =
+            parse_native_contract("@version 1.0 contract C { @unknown mint function f() {} }")
+                .unwrap_err();
         assert!(err.message.contains("unbekannter Function-Decorator"));
     }
 
     #[test]
     fn rejects_unterminated_function_body() {
-        let err = parse_native_contract(
-            "@version 1.0 contract C { function f() { let x = 1;",
-        )
-        .unwrap_err();
+        let err = parse_native_contract("@version 1.0 contract C { function f() { let x = 1;")
+            .unwrap_err();
         assert!(err.message.contains("unbeendeter Function-Body"));
     }
 
