@@ -26,9 +26,9 @@ jobs:
           ts = datetime.datetime.now(datetime.timezone.utc).isoformat()
           p = ".atc/evidence/evidence.yaml"
           t = open(p, encoding="utf-8").read()
-          t = re.sub(r"bound_commit: [^\\n]*", "bound_commit: " + sha, t)
-          t = re.sub(r"(?m)^(tests:\\n  status:) [^\\n]*", r"\\1 pass_with_evidence", t)
-          t = re.sub(r"(?m)^  evidence: [^\\n]*", "  evidence: CI-Independent ATCLang Audit run " + rid + " @ " + ts, t)
+          t = re.sub(r"bound_commit: [^\n]*", "bound_commit: " + sha, t)
+          t = re.sub(r"(?m)^(tests:\n  status:) [^\n]*", r"\1 pass_with_evidence", t)
+          t = re.sub(r"(?m)^  evidence: [^\n]*", "  evidence: CI-Independent ATCLang Audit run " + rid + " @ " + ts, t)
           open(p, "w", encoding="utf-8").write(t)
           PY
           git config user.name "ShivaCoreDev"
