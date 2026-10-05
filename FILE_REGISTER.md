@@ -21,6 +21,7 @@
 - `.github/workflows/codeql.yml`
 - `.github/workflows/dependency-review.yml`
 - `.github/workflows/determinism-gate.yml`
+- `.github/workflows/evidence-bind.yml`
 - `.github/workflows/governance-ci.yml`
 - `.github/workflows/test-suite.yml`
 - `.gitignore`
