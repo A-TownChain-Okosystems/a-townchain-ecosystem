@@ -125,6 +125,22 @@ ueber ATCA-Artefakte), **atc-toolchain** (Verifikations-Adapter konsumieren
 ATCB v1). Dieser Freeze ist eine Normaenderung mit Wirkung auf diese drei
 Komponenten, keine reine ATCB-Modifikation.
 
+### 8.1 SSOT-Trägerschaft (Owner-Entscheidung, 2026-10-06)
+
+ATCB v1 wird normativ von atclang getragen (Owner-Entscheidung gegen eine
+Überführung nach atc-standards). Begründung der evolutionären Kopplung:
+
+1. ATCB v1 ist der G3-Output der ATCLang-Compiler-Pipeline (ATC-IR → Codegen
+   → ATCB) und Teil der atclang-Gate-Struktur (AD-022).
+2. Referenzimplementierungen (`encode_canonical()`/`decode_bytecode()`) und
+   die deterministischen Test-Suiten (Determinism Gate, Differential-Suite,
+   Canonical-Vektor) leben in atclang.
+3. Der Freeze-Anker ee26531338787667ae417333b4900b302eb36353 bleibt in
+   atclang; die Normversion wandert nicht.
+
+atc-standards hält einen Registry-Pointer auf den Freeze-Anker (keine Kopie).
+Trägerschafts-Änderungen sind SCR-pflichtig (ATC-STD-UPDATE-001).
+
 ## 9. Statustrennung
 
 Dieser Freeze erzeugt ATCB v1 als kanonische Norm mit eigenem Commit-SHA.
