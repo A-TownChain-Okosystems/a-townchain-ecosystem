@@ -359,7 +359,7 @@ impl Bytecode {
                     }
                     let argc = *argc as usize;
                     let expected = function_params[*function as usize];
-                    if expected != u16::MAX && *argc != expected {
+                    if expected != u16::MAX && argc != usize::from(expected) {
                         return Err(VerifyError::InvalidFunction {
                             pc,
                             function: *function,
