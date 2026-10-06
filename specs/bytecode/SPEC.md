@@ -141,8 +141,11 @@ ATCB in atclang?" ist nie „weil ee265313 das sagt"):
 
 1. **SCR-0129** (atc-standards/change-requests/, PENDING Owner-Approve) —
    trägt die Setzung samt Begründung.
-2. **Registry-Fähigkeit `bytecode_format: atclang`**
-   (atc-standards/registry/repositories.yaml) — maschinenlesbare SSOT-Zuweisung.
+2. **Registry-Bindung `bytecode_format: atclang`** — maschinenlesbare
+   SSOT-Zuweisung, folgt der SCR-0129-Freigabe (Umsetzungsequenz:
+   Registry → Standard → Validator/CI); zwischenzeitlich zurückgezogen
+   (06.10., Owner-Anordnung: keine vorgezogene normative
+   Registry-Änderung).
 3. **Registry-Pointer** (atc-standards/references/standards/ATCB-v1-POINTER.md).
 
 Durchsetzung: RV-001 im Revalidierungs-Regelkatalog
