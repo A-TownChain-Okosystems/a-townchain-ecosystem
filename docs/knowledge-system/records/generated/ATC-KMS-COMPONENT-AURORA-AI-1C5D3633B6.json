@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-AURORA-AI-1C5D3633B6",
-  "timestamp": "2026-10-05T16:35:10.054560Z",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
   "category": "module",
   "title": "Component: aurora-ai",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/aurora-ai",
-    "commit": "916856ac28fa463afd5e63f4e0e744fb279d35c3"
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
   },
   "tags": [
     "aurora-ai",
