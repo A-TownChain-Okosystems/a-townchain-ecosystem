@@ -474,8 +474,9 @@ mod tests {
         };
         let encoded = bc.encode_canonical().unwrap();
         assert_eq!(&encoded[..10], b"ATCB\x00\x01\x00\x00\x00\x02");
-        assert_eq!(&encoded[10..18], &0x0102030405060708i64.to_be_bytes());
-        assert_eq!(encoded[18], 0x21);
+        assert_eq!(encoded[10], 0x01);
+        assert_eq!(&encoded[11..19], &0x0102030405060708i64.to_be_bytes());
+        assert_eq!(encoded[19], 0x21);
     }
 
     #[test]

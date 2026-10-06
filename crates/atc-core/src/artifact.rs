@@ -468,7 +468,8 @@ mod tests {
     fn tampered_artifact_is_rejected() {
         let a = Artifact::from_program(&sample_program(), metadata()).unwrap();
         let mut bytes = a.encode().unwrap();
-        bytes[bytes.len() - 33] ^= 1;
+        let last_hash_byte = bytes.len() - 1;
+        bytes[last_hash_byte] ^= 1;
         assert_eq!(
             Artifact::decode_and_verify(&bytes),
             Err(ArtifactError::HashMismatch)
