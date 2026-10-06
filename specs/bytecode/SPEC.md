@@ -125,21 +125,31 @@ ueber ATCA-Artefakte), **atc-toolchain** (Verifikations-Adapter konsumieren
 ATCB v1). Dieser Freeze ist eine Normaenderung mit Wirkung auf diese drei
 Komponenten, keine reine ATCB-Modifikation.
 
-### 8.1 SSOT-Trägerschaft (Owner-Entscheidung, 2026-10-06)
+### 8.1 SSOT-Trägerschaft (Setzung, Owner-Wahl 2026-10-06)
 
-ATCB v1 wird normativ von atclang getragen (Owner-Entscheidung gegen eine
-Überführung nach atc-standards). Begründung der evolutionären Kopplung:
+ATCB v1 wird normativ von atclang getragen. Diese Zuweisung ist eine
+**gewählte Setzung, keine Ableitung**: Bytecode ist ein Laufzeitformat —
+die Sprache produziert es, die VM konsumiert es; „Sprachformat" wäre keine
+kategorische Begründung. Tragendes Argument ist pragmatisch: **wo die
+Referenzimplementierung liegt, liegt die Norm** — `encode_canonical()` /
+`decode_bytecode()` und die Determinism-/Differential-Suiten leben in
+atclang; der Freeze-Anker ee26531338787667ae417333b4900b302eb36353 liegt
+hier und wandert nicht.
 
-1. ATCB v1 ist der G3-Output der ATCLang-Compiler-Pipeline (ATC-IR → Codegen
-   → ATCB) und Teil der atclang-Gate-Struktur (AD-022).
-2. Referenzimplementierungen (`encode_canonical()`/`decode_bytecode()`) und
-   die deterministischen Test-Suiten (Determinism Gate, Differential-Suite,
-   Canonical-Vektor) leben in atclang.
-3. Der Freeze-Anker ee26531338787667ae417333b4900b302eb36353 bleibt in
-   atclang; die Normversion wandert nicht.
+Entscheidungsträger außerhalb dieses Commits (die Antwort auf „warum
+ATCB in atclang?" ist nie „weil ee265313 das sagt"):
 
-atc-standards hält einen Registry-Pointer auf den Freeze-Anker (keine Kopie).
-Trägerschafts-Änderungen sind SCR-pflichtig (ATC-STD-UPDATE-001).
+1. **SCR-0129** (atc-standards/change-requests/, PENDING Owner-Approve) —
+   trägt die Setzung samt Begründung.
+2. **Registry-Fähigkeit `bytecode_format: atclang`**
+   (atc-standards/registry/repositories.yaml) — maschinenlesbare SSOT-Zuweisung.
+3. **Registry-Pointer** (atc-standards/references/standards/ATCB-v1-POINTER.md).
+
+Durchsetzung: RV-001 im Revalidierungs-Regelkatalog
+(atc-standards/references/revalidation/REVALIDATION_RULES.md) — normative
+ATCB-Geometrie außerhalb dieses SSOT-Pfads ist VIOLATION; klassifizierte
+ARCHIVE/MIRROR-Kopien zulässig. Trägerschafts-Wechsel bleibt SCR-pflichtig
+(ATC-STD-UPDATE-001).
 
 ## 9. Statustrennung
 
