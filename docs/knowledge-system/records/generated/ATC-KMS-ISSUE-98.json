@@ -1,0 +1,39 @@
+{
+  "id": "ATC-KMS-ISSUE-98",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
+  "category": "discussion",
+  "title": "Issue #98: Assurance Residual Register — PR #97 freeze record",
+  "context": "Issue 98 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "issue",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/98",
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "issue"
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-97"
+    },
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-97"
+    },
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-97"
+    },
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-97"
+    }
+  ],
+  "content": "State: open\n\n# Assurance Residual Register — PR #97\n\nThis issue is an inventory/evidence record outside PR #97. It does not request changes to PR #97.\n\n## Frozen source state\n\n- PR: #97\n- Implementation / corrected execution SHA: `f3df78ee212d3fecebfab8ea5d6f7ff9fe9d5fa1`\n- Historical RCA run: `37338379157` — synthetic merge-ref execution; retained as evidence of the original defect.\n- Corrected verification run: `37339963294` — exact execution-SHA binding verified from raw job logs.\n- PR scope at freeze: 1 commit / 1 file.\n- Overall classification: **VERIFIED WITH RESIDUALS**.\n\n## Residual inventory\n\n### R-001 — Fuzzing harnesses\n\n**Status:** RESIDUAL\n\nNo cargo-fuzz harnesses were discovered by the frozen assurance pipeline. The pipeline therefore does not claim fuzzing coverage.\n\n### R-002 — Miri configuration\n\n**Status:** RESIDUAL\n\nNo `.github/miri-packages.txt` was present. Miri verification is therefore not configured for repository targets.\n\n### R-003 — Dependency-graph reproducibility / lockfile and toolchain\n\n**Status:** RESIDUAL\n\nNo root `Cargo.lock` and no root `rust-toolchain.toml` / `rust-toolchain` were present at the frozen SHA.\n\n**Precise assurance statement:**\n\n> The Build-Integrity job proves which dependency graph it observed for the concrete run, but it does not prove that future runs will resolve the same graph.\n\nWithout a root lockfile, dependency resolution can change over time even when the source execution SHA is unchanged. The observed `cargo tree` is therefore a time-bound snapshot, not a reproducibility binding.\n\n### R-004 — Formal SBOM coverage\n\n**Status:** RESIDUAL\n\nThe frozen pipeline produces dependency inventory evidence from Cargo metadata, but this is not yet a formal SPDX or CycloneDX SBOM artifact. The inventory must not be promoted to formal SBOM compliance.\n\n## Reusable two-control-axis pattern\n\nThe following controls are structurally distinct and must not be collapsed into a single “green = verified” state:\n\n```\nExact-SHA execution binding\n    -> reproducible execution target -> VERIFIED\n\nDependency-graph reproducibility\n    -> time-dependent without lock/toolchain pinning -> RESIDUAL\n```\n\nMore generally:\n\n**Provenance / execution identity** and **reproducibility / dependency resolution** are separate assurance axes. A verified execution SHA does not establish a reproducible dependency graph.\n\n## Historical RCA rule\n\nThe historical RCA remains valid and must not be overwritten by the corrected run:\n\n- Run `37338379157`: evidence of the original synthetic merge-ref execution defect.\n- Run `37339963294`: evidence for the corrected exact-head execution binding.\n\nBoth statements remain true and complementary.\n\n## Freeze rule\n\nPR #97 remains frozen. No follow-up implementation is implied by this register. Any remediation must be opened as a separate, explicitly scoped change with its own evidence chain.\n\n**Register state:** INVENTORY ONLY / VERIFIED WITH RESIDUALS."
+}

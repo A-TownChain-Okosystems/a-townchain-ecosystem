@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-613A9FCF5EC3",
-  "timestamp": "2026-10-02T08:36:01.818638Z",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
   "category": "change",
   "title": "Commit: docs(architecture): resolve authority and state-flow contradictions",
   "context": "Git commit 613a9fcf5ec38dab9a0f984b6dd1bee5bca3af4b on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/613a9fcf5ec38dab9a0f984b6dd1bee5bca3af4b",
-    "commit": "218c581dc2c05f2a13494a45d0136d035711677c"
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
   },
   "tags": [
     "commit",
