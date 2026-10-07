@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-WIKI-DNS-WIKI-DOCS-ARCHITECTU-EF16D7BE89",
-  "timestamp": "2026-10-05T16:35:10.054560Z",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/wiki/dns-wiki/docs/ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/wiki/dns-wiki/docs/ARCHITECTURE.md",
-    "commit": "916856ac28fa463afd5e63f4e0e744fb279d35c3"
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
   },
   "tags": [
     "generated",
