@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-F3DF78EE212D",
-  "timestamp": "2026-10-07T09:18:54.637099Z",
+  "timestamp": "2026-10-07T16:44:12.975162Z",
   "category": "change",
   "title": "Commit: ci: add security assurance pipeline",
   "context": "Git commit f3df78ee212d3fecebfab8ea5d6f7ff9fe9d5fa1 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/f3df78ee212d3fecebfab8ea5d6f7ff9fe9d5fa1",
-    "commit": "a96f6a8788ee02da7564d98270577b847acec084"
+    "commit": "10a23bd3854eab01b16802ecdda2137b29accfca"
   },
   "tags": [
     "commit",
