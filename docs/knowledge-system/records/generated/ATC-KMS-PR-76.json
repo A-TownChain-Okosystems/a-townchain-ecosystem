@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-76",
-  "timestamp": "2026-10-01T09:00:32.303469Z",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
   "category": "change",
   "title": "PR #76: docs: add RELEASE-001 release readiness matrix",
   "context": "Pull request 76 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/76",
-    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
   },
   "tags": [
     "generated",

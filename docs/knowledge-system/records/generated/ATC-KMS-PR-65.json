@@ -1,16 +1,16 @@
 {
   "id": "ATC-KMS-PR-65",
-  "timestamp": "2026-10-01T09:00:32.303469Z",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
   "category": "change",
   "title": "PR #65: fix(node): sync identity implementation with atc-node SSOT",
   "context": "Pull request 65 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
-  "status": "active",
+  "status": "archived",
   "version": "v1.0.0",
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/65",
-    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
   },
   "tags": [
     "generated",
@@ -18,5 +18,5 @@
     "pull-request"
   ],
   "links": [],
-  "content": "State: open\nMerged: False\nDraft: False\n\nSynchronize the migrated a-townchain node mirror with the canonical atc-node/src/identity.rs. This restores IdentityError and ChainIdentity::validate() in the CI workspace without changing the atc-node SSOT itself."
+  "content": "State: closed\nMerged: False\nDraft: False\n\nObsolete: its identity implementation is already present on current main and its transaction-domain semantics are legacy; current canonical transaction signing uses ATC-TX-DOMAIN-V2 and the separate canonical TX-V2 work."
 }

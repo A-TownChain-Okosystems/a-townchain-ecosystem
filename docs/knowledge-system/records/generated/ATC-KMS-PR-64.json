@@ -1,16 +1,16 @@
 {
   "id": "ATC-KMS-PR-64",
-  "timestamp": "2026-10-01T09:00:32.303469Z",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
   "category": "change",
   "title": "PR #64: fix(blockchain): correct validator recovery and storage lifetimes",
   "context": "Pull request 64 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
-  "status": "active",
+  "status": "archived",
   "version": "v1.0.0",
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/64",
-    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
   },
   "tags": [
     "generated",
@@ -18,5 +18,5 @@
     "pull-request"
   ],
   "links": [],
-  "content": "State: open\nMerged: False\nDraft: False\n\nCore fix for the CI-confirmed atc-blockchain failures. Corrects the historical validator snapshot type, preserves the latest validator snapshot API separately, restores the backward-compatible recover_state_with_dao() API expected by tests, and binds RwLock read guards before parent references. No determinism allowlist changes."
+  "content": "State: closed\nMerged: False\nDraft: False\n\nObsolete: its storage/validator recovery fixes are included in the later selective blockchain correction chain in #67; keeping both would duplicate the same root-cause fix."
 }

@@ -1,16 +1,16 @@
 {
   "id": "ATC-KMS-PR-80",
-  "timestamp": "2026-10-01T09:00:32.303469Z",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
   "category": "change",
   "title": "PR #80: docs: optimize master architecture boundaries",
   "context": "Pull request 80 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
-  "status": "active",
+  "status": "archived",
   "version": "v1.0.0",
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/80",
-    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
   },
   "tags": [
     "generated",
@@ -18,5 +18,5 @@
     "pull-request"
   ],
   "links": [],
-  "content": "State: open\nMerged: False\nDraft: False\n\n## Master Architecture Optimization\n\nThis change tightens the master architecture around explicit system invariants without asserting implementation status.\n\n### Changes\n- Adds an Architecture Kernel for authority, canonical state ownership, command/query/event semantics, deterministic boundaries, failure semantics and version compatibility.\n- Makes persistence and finality separate architectural properties.\n- Clarifies the trust hierarchy for AI, applications, integration services, deterministic runtimes and canonical state.\n- Adds explicit optimization rules for single state ownership, contract ownership, control-plane enforcement, recovery and duplicate implementations.\n- Aligns the canonical blockchain runtime/data-flow diagram with those semantics.\n\n### Evidence rule\nArchitecture remains separate from specification, implementation, testing, exact-SHA CI and E2E evidence."
+  "content": "State: closed\nMerged: False\nDraft: False\n\nSuperseded by the later canonical deterministic L1 architecture and P0 authority/determinism contracts in PRs #85 and #86."
 }
