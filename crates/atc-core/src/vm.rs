@@ -49,16 +49,17 @@ pub fn execute_verified(artifact: &VerifiedArtifact) -> Result<i64, RunError> {
 }
 
 pub(crate) fn execute(prog: &CompiledProgram) -> Result<i64, RunError> {
-    prog.verify().map_err(|e| RunError::InvalidProgram {
-        message: e.message,
-    })?;
+    prog.verify()
+        .map_err(|e| RunError::InvalidProgram { message: e.message })?;
     let entry = prog.entry as usize;
     let mut steps = 0u64;
     let mut frames: Vec<Frame> = vec![new_frame(entry, 0, Vec::new(), prog)];
     loop {
         steps = steps.saturating_add(1);
         if steps > MAX_STEPS {
-            return Err(RunError::ExecutionLimitExceeded { max_steps: MAX_STEPS });
+            return Err(RunError::ExecutionLimitExceeded {
+                max_steps: MAX_STEPS,
+            });
         }
         let step = {
             let depth = frames.len();
@@ -242,7 +243,6 @@ fn pop2(stack: &mut Vec<i64>) -> (i64, i64) {
     (b, a)
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -276,7 +276,9 @@ mod tests {
         ]);
         assert_eq!(
             execute(&p),
-            Err(RunError::ExecutionLimitExceeded { max_steps: MAX_STEPS })
+            Err(RunError::ExecutionLimitExceeded {
+                max_steps: MAX_STEPS
+            })
         );
     }
 

@@ -145,7 +145,9 @@ impl Artifact {
         if self.compute_hash()? != self.hash {
             return Err(ArtifactError::HashMismatch);
         }
-        Ok(VerifiedArtifact { artifact: self.clone() })
+        Ok(VerifiedArtifact {
+            artifact: self.clone(),
+        })
     }
 
     /// Parse untrusted bytes and verify all structure, bytecode and hash
@@ -198,7 +200,12 @@ impl Artifact {
             }
             let raw = r.take(bytecode_len)?;
             let bytecode = decode_bytecode(raw)?;
-            functions.push(ArtifactFunction { name, param_count, local_count, bytecode });
+            functions.push(ArtifactFunction {
+                name,
+                param_count,
+                local_count,
+                bytecode,
+            });
         }
 
         let hash_bytes = r.take(32)?;
@@ -238,12 +245,17 @@ impl VerifiedArtifact {
 
     fn artifact_to_program(&self) -> CompiledProgram {
         CompiledProgram {
-            functions: self.artifact.functions.iter().map(|f| CompiledFunction {
-                name: f.name.clone(),
-                param_count: f.param_count,
-                local_count: f.local_count,
-                bytecode: f.bytecode.clone(),
-            }).collect(),
+            functions: self
+                .artifact
+                .functions
+                .iter()
+                .map(|f| CompiledFunction {
+                    name: f.name.clone(),
+                    param_count: f.param_count,
+                    local_count: f.local_count,
+                    bytecode: f.bytecode.clone(),
+                })
+                .collect(),
             entry: self.artifact.entry,
         }
     }
@@ -266,7 +278,7 @@ fn validate_metadata(metadata: &ArtifactMetadata) -> Result<(), ArtifactError> {
 }
 
 fn validate_string(value: &str) -> Result<(), ArtifactError> {
-    if value.as_bytes().len() > MAX_STRING_BYTES {
+    if value.len() > MAX_STRING_BYTES {
         return Err(ArtifactError::StringTooLong);
     }
     Ok(())
@@ -285,17 +297,19 @@ fn validate_artifact(artifact: &Artifact) -> Result<(), ArtifactError> {
         validate_string(&f.name)?;
         if f.param_count > f.local_count {
             return Err(ArtifactError::InvalidProgram(format!(
-                "function {} has more parameters than locals", f.name
+                "function {} has more parameters than locals",
+                f.name
             )));
         }
-        f.bytecode.verify_with_signatures(f.local_count, &signatures)?;
+        f.bytecode
+            .verify_with_signatures(f.local_count, &signatures)?;
     }
     Ok(())
 }
 
 fn put_string(out: &mut Vec<u8>, value: &str) -> Result<(), ArtifactError> {
     validate_string(value)?;
-    out.extend_from_slice(&(value.as_bytes().len() as u16).to_be_bytes());
+    out.extend_from_slice(&(value.len() as u16).to_be_bytes());
     out.extend_from_slice(value.as_bytes());
     Ok(())
 }
@@ -351,9 +365,9 @@ fn decode_bytecode(raw: &[u8]) -> Result<Bytecode, ArtifactError> {
         return Err(ArtifactError::InvalidMagic);
     }
     if u16::from_be_bytes([raw[4], raw[5]]) != 1 {
-        return Err(ArtifactError::UnsupportedVersion(
-            u16::from_be_bytes([raw[4], raw[5]])
-        ));
+        return Err(ArtifactError::UnsupportedVersion(u16::from_be_bytes([
+            raw[4], raw[5],
+        ])));
     }
     let count = u32::from_be_bytes([raw[6], raw[7], raw[8], raw[9]]) as usize;
     let remaining = raw.len().saturating_sub(10);
@@ -402,7 +416,9 @@ fn decode_bytecode(raw: &[u8]) -> Result<Bytecode, ArtifactError> {
 }
 
 fn read_u16(raw: &[u8], p: &mut usize) -> Result<u16, ArtifactError> {
-    if *p + 2 > raw.len() { return Err(ArtifactError::Truncated); }
+    if *p + 2 > raw.len() {
+        return Err(ArtifactError::Truncated);
+    }
     let value = u16::from_be_bytes([raw[*p], raw[*p + 1]]);
     *p += 2;
     Ok(value)
@@ -413,7 +429,9 @@ fn read_i16(raw: &[u8], p: &mut usize) -> Result<i16, ArtifactError> {
 }
 
 fn read_i64(raw: &[u8], p: &mut usize) -> Result<i64, ArtifactError> {
-    if *p + 8 > raw.len() { return Err(ArtifactError::Truncated); }
+    if *p + 8 > raw.len() {
+        return Err(ArtifactError::Truncated);
+    }
     let mut b = [0u8; 8];
     b.copy_from_slice(&raw[*p..*p + 8]);
     *p += 8;

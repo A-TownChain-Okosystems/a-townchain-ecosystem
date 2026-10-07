@@ -71,9 +71,9 @@ impl CompiledProgram {
             }
             f.bytecode
                 .verify_with_signatures(f.local_count, &signatures)
-                .map_err(|e| LowerError::new(format!(
-                    "Verifizierer lehnte Funktion {} ab: {e:?}", f.name
-                )))?;
+                .map_err(|e| {
+                    LowerError::new(format!("Verifizierer lehnte Funktion {} ab: {e:?}", f.name))
+                })?;
         }
         Ok(())
     }
@@ -348,7 +348,9 @@ pub fn lower_program(prog: &Program) -> Result<CompiledProgram, LowerError> {
     for s in &prog.statements {
         if let Stmt::Fn(f) = s {
             if fn_ids.len() >= u16::MAX as usize {
-                return Err(LowerError::new("Funktionsanzahl ueberschreitet kanonisches Limit"));
+                return Err(LowerError::new(
+                    "Funktionsanzahl ueberschreitet kanonisches Limit",
+                ));
             }
             if f.params.len() >= u16::MAX as usize {
                 return Err(LowerError::new(format!(

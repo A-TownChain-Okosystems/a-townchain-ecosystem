@@ -50,7 +50,9 @@ pub struct Bytecode {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum VerifyError {
     EmptyBytecode,
-    UnexpectedEnd { pc: usize },
+    UnexpectedEnd {
+        pc: usize,
+    },
     StackUnderflow {
         pc: usize,
     },
@@ -71,7 +73,9 @@ pub enum VerifyError {
         actual: usize,
     },
     /// Control-flow path ends without an explicit Return.
-    MissingReturn { pc: usize },
+    MissingReturn {
+        pc: usize,
+    },
     /// Sprungziel ausserhalb [0, len].
     InvalidJumpTarget {
         pc: usize,
@@ -178,9 +182,8 @@ impl Bytecode {
         self.verify(local_count, u16::MAX)?;
         let instruction_count = u32::try_from(self.instructions.len())
             .map_err(|_| VerifyError::InstructionCountOverflow)?;
-        let mut out = Vec::with_capacity(
-            10usize.saturating_add(self.instructions.len().saturating_mul(9)),
-        );
+        let mut out =
+            Vec::with_capacity(10usize.saturating_add(self.instructions.len().saturating_mul(9)));
         out.extend_from_slice(b"ATCB");
         out.extend_from_slice(&1u16.to_be_bytes());
         out.extend_from_slice(&instruction_count.to_be_bytes());
@@ -278,7 +281,14 @@ impl Bytecode {
             let instruction = &self.instructions[pc];
             match instruction {
                 Instruction::ConstI64(v) => {
-                    let next_stack = stack.checked_add(1).ok_or(VerifyError::InvalidStackHeight { pc, expected: usize::MAX, actual: stack })?;
+                    let next_stack =
+                        stack
+                            .checked_add(1)
+                            .ok_or(VerifyError::InvalidStackHeight {
+                                pc,
+                                expected: usize::MAX,
+                                actual: stack,
+                            })?;
                     if pc + 1 >= len {
                         return Err(VerifyError::MissingReturn { pc });
                     }
@@ -288,7 +298,14 @@ impl Bytecode {
                     if *index >= local_count {
                         return Err(VerifyError::InvalidLocal { pc, index: *index });
                     }
-                    let next_stack = stack.checked_add(1).ok_or(VerifyError::InvalidStackHeight { pc, expected: usize::MAX, actual: stack })?;
+                    let next_stack =
+                        stack
+                            .checked_add(1)
+                            .ok_or(VerifyError::InvalidStackHeight {
+                                pc,
+                                expected: usize::MAX,
+                                actual: stack,
+                            })?;
                     if pc + 1 >= len {
                         return Err(VerifyError::MissingReturn { pc });
                     }
@@ -463,7 +480,6 @@ mod tests {
         assert!(bc.verify(0, 1).is_ok());
     }
 
-
     #[test]
     fn canonical_encoding_is_stable_and_big_endian() {
         let bc = Bytecode {
@@ -507,7 +523,10 @@ mod tests {
         };
         let encoded = bc.encode_canonical().unwrap();
         for opcode in [0x16u8, 0x17, 0x18, 0x19, 0x1A] {
-            assert!(encoded.contains(&opcode), "missing canonical opcode {opcode:#x}");
+            assert!(
+                encoded.contains(&opcode),
+                "missing canonical opcode {opcode:#x}"
+            );
         }
     }
 
@@ -516,22 +535,28 @@ mod tests {
         let bc = Bytecode {
             instructions: vec![Instruction::ConstI64(1)],
         };
-        assert_eq!(
-            bc.verify(0, 1),
-            Err(VerifyError::MissingReturn { pc: 0 })
-        );
+        assert_eq!(bc.verify(0, 1), Err(VerifyError::MissingReturn { pc: 0 }));
     }
 
     #[test]
     fn verifier_rejects_empty_bytecode() {
-        let bc = Bytecode { instructions: vec![] };
+        let bc = Bytecode {
+            instructions: vec![],
+        };
         assert_eq!(bc.verify(0, 1), Err(VerifyError::EmptyBytecode));
     }
 
     #[test]
     fn verifier_checks_call_arity_when_signatures_are_known() {
         let bc = Bytecode {
-            instructions: vec![Instruction::ConstI64(1), Instruction::Call { function: 0, argc: 1 }, Instruction::Return],
+            instructions: vec![
+                Instruction::ConstI64(1),
+                Instruction::Call {
+                    function: 0,
+                    argc: 1,
+                },
+                Instruction::Return,
+            ],
         };
         assert_eq!(
             bc.verify_with_signatures(0, &[2]),

@@ -76,6 +76,7 @@
 - `crates/atc-core/differential/expected/mixed.json`
 - `crates/atc-core/differential/expected/parens.json`
 - `crates/atc-core/differential/expected/unary.json`
+- `crates/atc-core/src/artifact.rs`
 - `crates/atc-core/src/ast.rs`
 - `crates/atc-core/src/bytecode.rs`
 - `crates/atc-core/src/lexer.rs`
