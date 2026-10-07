@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-60",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
+  "category": "change",
+  "title": "PR #60: fix(ci): repair current red L1/Rust gates",
+  "context": "Pull request 60 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "archived",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/60",
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: False\nDraft: False\n\nSuperseded by the later selective and follow-up L1 corrections in PRs #67–#69, which carry the u128 transaction/type fixes and related Rust corrections into the current blockchain workspace. Keeping #60 open would duplicate an older repair batch."
+}
