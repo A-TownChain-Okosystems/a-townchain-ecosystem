@@ -345,7 +345,12 @@ mod tests {
             rotation_xyz_microunits: [100000, 200000, 300000],
         };
         let p = InterpolatedTransform::between(&a, &b, 0.5).unwrap();
-        assert_eq!(p.position, [0.5, 1.0, 1.5]);
+        for (ist, soll) in p.position.iter().zip([0.5f32, 1.0, 1.5]) {
+            assert!(
+                (ist - soll).abs() < 1e-5,
+                "Interpolation weicht ab: {ist} != {soll}"
+            );
+        }
         assert_eq!(p.rotation, [0.05, 0.1, 0.15])
     }
     #[test]

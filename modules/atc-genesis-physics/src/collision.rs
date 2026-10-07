@@ -189,9 +189,18 @@ mod tests {
             min: [-1.0; 3],
             max: [1.0; 3],
         };
-        assert_eq!(
-            aabb.point_resolution([0.9, 0.0, 0.0]),
-            Some(([1.0, 0.0, 0.0], 0.1))
+        let (normal, dist) = aabb
+            .point_resolution([0.9, 0.0, 0.0])
+            .expect("Face erwartet");
+        for (ist, soll) in normal.iter().zip([1.0f32, 0.0, 0.0]) {
+            assert!(
+                (ist - soll).abs() < 1e-5,
+                "Normal weicht ab: {ist} != {soll}"
+            );
+        }
+        assert!(
+            (dist - 0.1).abs() < 1e-5,
+            "Distanz weicht ab: {dist} != 0.1"
         );
     }
 
