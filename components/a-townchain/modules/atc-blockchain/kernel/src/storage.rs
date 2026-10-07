@@ -20,6 +20,7 @@ const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
 type ValidatorSnapshot = (u64, BTreeMap<String, (u64, [u8; 32])>);
+type ValidatorSnapshots = (BTreeMap<String, u64>, BTreeMap<String, [u8; 32]>);
 type SlashingRecord = (u64, String, [u8; 32], u64);
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
@@ -316,10 +317,8 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if b.height > 0 {
-            let parent = self
-                .blocks
-                .read()
-                .unwrap()
+            let blocks = self.blocks.read().unwrap();
+            let parent = blocks
                 .get(&b.height.saturating_sub(1))
                 .ok_or("cannot commit block without canonical parent")?;
             if b.parent_hash != parent.id {
@@ -408,7 +407,9 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
+            let blocks = self.blocks.read().unwrap();
+            let parent = blocks
+                .get(&block.height.saturating_sub(1))
                 .ok_or("cannot commit block without canonical parent")?;
             if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
         } else if block.parent_hash != [0; 32] {
@@ -440,10 +441,8 @@ impl ChainStorage {
             return Err("conflicting block at canonical height".into());
         }
         if block.height > 0 {
-            let parent = self
-                .blocks
-                .read()
-                .unwrap()
+            let blocks = self.blocks.read().unwrap();
+            let parent = blocks
                 .get(&block.height.saturating_sub(1))
                 .ok_or("cannot commit block without canonical parent")?;
             if block.parent_hash != parent.id {
@@ -629,7 +628,7 @@ impl ChainStorage {
 
     /// Recover every durable validator snapshot, preserving historical
     /// height/epoch boundaries rather than only the latest mutable set.
-    pub fn recover_validator_snapshots(&self) -> Result<BTreeMap<u64, ValidatorSnapshot>, String> {
+    pub fn recover_validator_snapshots(&self) -> Result<BTreeMap<u64, ValidatorSnapshots>, String> {
         let Some(p) = &self.validator_journal else {
             return Ok(BTreeMap::new());
         };
@@ -1170,7 +1169,7 @@ mod tests {
         put(&mut state_record, &[]);
         std::fs::write(&state_path, format!("{}\n", hex::encode(state_record))).unwrap();
         let recovered = ChainStorage::open(&path).unwrap();
-        assert!(recovered.recover_state_with_dao().is_err());
+        assert!(recovered.recover_state_with_dao_at_height().is_err());
 
         let issuance_path = path.with_extension("issuance");
         let mut issuance_record = Vec::new();
@@ -1225,7 +1224,7 @@ mod tests {
         // The same recovery boundary used by open_storage() must fail closed:
         // state cannot become durable merely because its journal line is valid.
         storage.state_journal = Some(path.with_extension("state"));
-        let err = storage.recover_state_with_dao().unwrap_err();
+        let err = storage.recover_state_with_dao_at_height().unwrap_err();
         assert!(err.contains("missing block"));
 
         for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {

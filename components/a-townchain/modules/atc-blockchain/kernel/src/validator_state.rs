@@ -139,7 +139,7 @@ impl ValidatorState {
         let mut keys = BTreeMap::new();
         for (address, record) in &self.validators {
             if record.active && record.activation_height <= height && record.stake > 0 {
-                stakes.insert(address.clone(), record.stake);
+                stakes.insert(address.clone(), u64::try_from(record.stake).expect("validator stake exceeds consensus u64 range"));
                 keys.insert(address.clone(), record.public_key);
             }
         }
