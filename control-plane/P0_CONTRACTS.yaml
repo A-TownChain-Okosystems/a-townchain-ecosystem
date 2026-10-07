@@ -1,0 +1,83 @@
+schema_version: "1"
+contract_set: "ATC-L1-P0"
+status: "NORMATIVE"
+architecture_ssot: "ARCHITECTURE.md"
+principles:
+  - "Standalone First, Ecosystem Second"
+  - "No implicit authority"
+  - "Fail closed on ambiguity"
+  - "Exact-SHA evidence only"
+  - "Architecture, implementation, testing, CI and E2E are separate status dimensions"
+contracts:
+  - id: "P0-NET-001"
+    name: "Network / P2P"
+    owner_layer: "L4"
+    authority_boundary: "L4 <-> L2"
+    purpose: "Define authenticated peer communication, message validation, propagation, synchronization and recovery without granting authority through reachability."
+    who: ["peer", "node", "validator"]
+    allowed_actions: ["discover", "authenticate", "propagate_transaction", "propagate_block", "synchronize_state", "request_state"]
+    forbidden_actions: ["define_canonical_state", "finalize_state", "bypass_l2_validation"]
+    required_capability: "network.protocol"
+    enforcement_boundary: "L4 message validation; L2 protocol validation"
+    failure_semantics: "Reject invalid/untrusted messages; rate-limit resource abuse; fail closed on ambiguous authority."
+    evidence_requirements: ["exact_source_sha", "run_id", "job_id", "step_id", "log_or_artifact_digest"]
+  - id: "P0-ID-001"
+    name: "Identity / Trust"
+    owner_layer: "X"
+    authority_boundary: "X <-> L1/L2/L4/L5"
+    purpose: "Bind principals to authenticated identities and explicit authorization context."
+    who: ["principal", "peer", "account", "validator", "service"]
+    allowed_actions: ["authenticate", "authorize", "bind_capability", "audit_identity_event"]
+    forbidden_actions: ["implicit_authority", "authority_by_network_reachability"]
+    required_capability: "identity.authenticate"
+    enforcement_boundary: "Responsible protocol/service boundary before privileged action"
+    failure_semantics: "Reject unauthenticated, ambiguous or unverifiable identity context."
+    evidence_requirements: ["exact_source_sha", "cross_language_vectors_where_applicable"]
+  - id: "P0-STATE-001"
+    name: "State Ownership"
+    owner_layer: "L2"
+    authority_boundary: "L2 <-> L1/L3/L5/L7"
+    purpose: "Define canonical blockchain state ownership and deterministic state transition authority."
+    who: ["l2_state_machine", "authorized_protocol_component"]
+    allowed_actions: ["validate_block", "apply_state_transition", "commit_state", "finalize_state"]
+    forbidden_actions: ["l1_runtime_state_as_canonical_chain_state", "l3_independent_finality", "l7_direct_state_mutation", "ai_direct_state_mutation"]
+    required_capability: "state.transition"
+    enforcement_boundary: "L2 block/state validation and ledger boundary"
+    failure_semantics: "Reject non-deterministic, invalid or unauthorized transitions; never silently rewrite canonical state."
+    evidence_requirements: ["exact_source_sha", "deterministic_vectors", "state_transition_tests"]
+  - id: "P0-AUTH-001"
+    name: "Global Authority Matrix"
+    owner_layer: "X"
+    authority_boundary: "X <-> L0-L7"
+    purpose: "Machine-readable WHO/WHAT/WHERE authority mapping for every privileged action."
+    who: ["principal", "component", "service"]
+    allowed_actions: ["observe", "invoke_authorized_action", "audit"]
+    forbidden_actions: ["implicit_authority", "authority_by_api_reachability", "authority_by_propagation"]
+    required_capability: "authority.matrix"
+    enforcement_boundary: "Declared validation/enforcement boundary for each action"
+    failure_semantics: "Deny when principal, capability, policy or enforcement boundary is missing or ambiguous."
+    evidence_requirements: ["exact_source_sha", "matrix_validation", "audit_trail"]
+  - id: "P0-IF-001"
+    name: "Canonical Interfaces"
+    owner_layer: "X"
+    authority_boundary: "X <-> L0-L7"
+    purpose: "Define stable ownership, canonical types, encodings, versioning and compatibility semantics."
+    who: ["interface_owner", "protocol_component"]
+    allowed_actions: ["publish_versioned_contract", "validate_encoding", "negotiate_supported_version"]
+    forbidden_actions: ["ambiguous_encoding", "silent_schema_drift", "implicit_cross_layer_semantics"]
+    required_capability: "interface.contract"
+    enforcement_boundary: "Interface adapter plus receiving authoritative domain"
+    failure_semantics: "Reject unsupported versions, malformed encodings and incompatible contracts."
+    evidence_requirements: ["exact_source_sha", "canonical_vectors", "schema_validation"]
+  - id: "P0-FR-001"
+    name: "Failure / Recovery"
+    owner_layer: "X"
+    authority_boundary: "L1/L2/L4 <-> X"
+    purpose: "Define explicit failure, timeout, quarantine, recovery and resynchronization semantics."
+    who: ["node", "peer", "validator", "recovery_controller"]
+    allowed_actions: ["detect_failure", "quarantine", "resynchronize", "recover_runtime"]
+    forbidden_actions: ["silent_state_rewrite", "bypass_finality", "bypass_authorization"]
+    required_capability: "recovery.control"
+    enforcement_boundary: "Runtime, protocol and control-plane recovery boundaries"
+    failure_semantics: "Fail closed where authority/evidence is ambiguous; recovery must converge to canonical state."
+    evidence_requirements: ["exact_source_sha", "failure_injection", "recovery_evidence", "state_consistency_evidence"]

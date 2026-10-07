@@ -221,10 +221,11 @@ fn main() -> std::io::Result<()> {
         if !is_local_proposer(&producer) {
             continue;
         }
-        let now = std::time::SystemTime::now()
-            .duration_since(std::time::UNIX_EPOCH)
-            .map(|d| d.as_secs())
-            .unwrap_or(0);
+        let now = producer
+            .chain
+            .last()
+            .map(|block| block.timestamp.saturating_add(block_interval))
+            .unwrap_or(block_interval);
         let result = if producer.pool.get_pending_batch(100).is_empty() {
             producer.produce_reward_block(now)
         } else {
