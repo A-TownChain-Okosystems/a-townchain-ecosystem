@@ -65,7 +65,7 @@ impl Transaction {
         t: TxType,
         s: String,
         r: Option<String>,
-        a: u64,
+        a: u128,
         gp: u64,
         gl: u64,
         n: u64,
@@ -81,7 +81,7 @@ impl Transaction {
         t: TxType,
         s: String,
         r: Option<String>,
-        a: u64,
+        a: u128,
         gp: u64,
         gl: u64,
         n: u64,
@@ -99,7 +99,7 @@ impl Transaction {
         t: TxType,
         s: String,
         r: Option<String>,
-        a: u64,
+        a: u128,
         gp: u64,
         gl: u64,
         n: u64,
@@ -237,7 +237,7 @@ impl MemoryPool {
         e.insert(
             id,
             PoolEntry {
-                priority: tx.gas_price.saturating_mul(tx.gas_limit),
+                priority: u128::from(tx.gas_price).saturating_mul(u128::from(tx.gas_limit)),
                 tx,
                 status: TxStatus::Pending,
                 added_at: now,
@@ -335,7 +335,7 @@ impl StateDb {
             .ok_or("supply overflow".to_string())?;
         if new_supply > crate::economics::MAX_SUPPLY {
             return Err(format!(
-                "ATC supply cap exceeded in base units: {new_supply} > {MAX_SUPPLY}"
+                "ATC supply cap exceeded in base units: {new_supply} > {}", crate::economics::MAX_SUPPLY
             ));
         }
         let x = a.entry(id.into()).or_insert(Account {
@@ -494,6 +494,7 @@ impl StateDb {
         let result = match effect {
             None => Ok(()),
             Some(crate::dao_state::DaoEffect::TreasuryDeposit { amount }) => {
+                let amount = u128::from(amount);
                 let mut a = self.accounts.lock().unwrap();
                 let x = a.entry(sender.to_owned()).or_insert(Account {
                     balance: 0,
@@ -508,6 +509,7 @@ impl StateDb {
                 }
             }
             Some(crate::dao_state::DaoEffect::TreasuryPayout { recipient, amount }) => {
+                let amount = u128::from(amount);
                 let mut a = self.accounts.lock().unwrap();
                 let x = a.entry(recipient).or_insert(Account {
                     balance: 0,
@@ -691,7 +693,7 @@ impl StateDb {
 #[cfg(test)]
 mod supply_tests {
     use super::*;
-    use crate::economics::{MAX_ATC_SUPPLY, ATC_BASE_UNITS};
+    use crate::economics::ATC_BASE_UNITS;
 
     #[test]
     fn genesis_supply_cannot_exceed_360_million_atc() {
