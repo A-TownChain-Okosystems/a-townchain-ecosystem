@@ -1,16 +1,16 @@
 {
   "id": "ATC-KMS-PR-63",
-  "timestamp": "2026-10-01T09:00:32.303469Z",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
   "category": "change",
   "title": "PR #63: docs: implement MASTER-ARCH-001 system completeness contract",
   "context": "Pull request 63 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
-  "status": "active",
+  "status": "archived",
   "version": "v1.0.0",
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/63",
-    "commit": "16685be7e74bf54434e118ce3ed2a9a2c858115d"
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
   },
   "tags": [
     "generated",
@@ -18,5 +18,5 @@
     "pull-request"
   ],
   "links": [],
-  "content": "State: open\nMerged: False\nDraft: False\n\n## Summary\n\nImplements MASTER-ARCH-001 as the canonical system-wide architecture contract.\n\n### Implemented\n\n- System-of-Systems scope and layer model\n- Repository / SSOT contract\n- Authority matrix and authority invariants\n- Identity / trust model\n- Network / P2P contract\n- Blockchain / consensus lifecycle\n- State and data ownership\n- MEMORY-001 federation boundary\n- Canonical API/interface contract\n- Canonical event contract\n- Security architecture\n- ATCLang / VM boundary\n- Aurora authority boundary and AURORA-001 relationship\n- World Intelligence / Dialogue / Quest boundaries\n- Genesis architecture\n- GlobusOS / ShivaCore boundaries\n- Interoperability\n- Storage / indexing / oracle / compute\n- Governance and migration\n- Failure / recovery\n- Observability / evidence\n- Deployment / topology\n- Compatibility\n- Privacy / data governance\n- Resource/economic architecture\n- Lifecycle\n- Subsystem completeness schema\n- Architecture completeness matrix\n- Master architecture invariants\n- Repository authority map\n\n### Evidence semantics\n\nThe contract explicitly preserves:\n\nPRESENT != IMPLEMENTED != TESTED != CI_VERIFIED != E2E_VERIFIED != DEPLOYED\n\nNo implementation or CI status is fabricated by the architecture document.\n\n### Scope\n\nThis PR adds the canonical contract without replacing component repository SSOTs or making the ecosystem repository a hidden implementation dependency."
+  "content": "State: closed\nMerged: False\nDraft: False\n\nObsolete: its architecture contract contains the superseded layer model and is superseded by the canonical L0-L7+X architecture in #85 and the P0 authority/determinism contracts in #86."
 }
