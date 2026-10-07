@@ -249,7 +249,7 @@ impl Parser {
     fn standard_id(&mut self) -> Result<String, NativeParseError> {
         let mut out = match self.bump() {
             Token::Ident(v) => v,
-            Token::Int(v) => v.to_string(),
+            Token::Int(v) => format!("{v:03}"),
             other => {
                 return Err(NativeParseError::new(format!(
                     "@standard-ID erwartet, gefunden {other:?}"
@@ -260,7 +260,7 @@ impl Parser {
             self.bump();
             let part = match self.bump() {
                 Token::Ident(v) => v,
-                Token::Int(v) => v.to_string(),
+                Token::Int(v) => format!("{v:03}"),
                 other => {
                     return Err(NativeParseError::new(format!(
                         "Standard-ID-Segment erwartet, gefunden {other:?}"
@@ -314,7 +314,19 @@ impl Parser {
         let mut policies = Vec::new();
         while *self.cur() == Token::At {
             self.bump();
-            let decorator = self.ident("Decorator")?;
+            // Keyword-Token (Capability/Policy) direkt akzeptieren; Lexer mappt
+            // capability/policy auf Keywords, der Decorator-Name darf beides sein.
+            let decorator = match self.cur() {
+                Token::Capability => {
+                    self.bump();
+                    "capability".to_string()
+                }
+                Token::Policy => {
+                    self.bump();
+                    "policy".to_string()
+                }
+                _ => self.ident("Decorator")?,
+            };
             match decorator.as_str() {
                 "capability" => capabilities.push(CapabilityDef {
                     name: self.ident("@capability-Wert")?,
