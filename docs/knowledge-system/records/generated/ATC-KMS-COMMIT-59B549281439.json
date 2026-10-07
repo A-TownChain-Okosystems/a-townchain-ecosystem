@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-59B549281439",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
+  "category": "change",
+  "title": "Commit: Merge pull request #56 from A-TownChain-Okosystems/audit/ecosystem-g1-g2-baseline",
+  "context": "Git commit 59b5492814397ace40dde514ea1de493bfc76ff4 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/59b5492814397ace40dde514ea1de493bfc76ff4",
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "Merge pull request #56 from A-TownChain-Okosystems/audit/ecosystem-g1-g2-baseline\n\naudit: establish evidence-first G1-G9 ecosystem audit baseline"
+}

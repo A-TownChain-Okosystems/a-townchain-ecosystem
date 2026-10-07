@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-290FC896528C",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
+  "category": "change",
+  "title": "Commit: test: preserve final validator revision across restart",
+  "context": "Git commit 290fc896528ca4e96bb191aa0f5edbffbb9106c5 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/290fc896528ca4e96bb191aa0f5edbffbb9106c5",
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "test: preserve final validator revision across restart"
+}

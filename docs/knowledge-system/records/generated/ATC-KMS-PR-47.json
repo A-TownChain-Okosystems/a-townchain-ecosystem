@@ -1,16 +1,16 @@
 {
   "id": "ATC-KMS-PR-47",
-  "timestamp": "2026-09-24T16:39:35.974930Z",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
   "category": "change",
   "title": "PR #47: Add cross-repository integration baseline",
   "context": "Pull request 47 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
-  "status": "active",
+  "status": "archived",
   "version": "v1.0.0",
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/47",
-    "commit": "8c937bfa9436efbd270e772776363a3e84ec7ad4"
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
   },
   "tags": [
     "generated",
@@ -18,5 +18,5 @@
     "pull-request"
   ],
   "links": [],
-  "content": "State: open\nMerged: False\nDraft: True\n\nImplements the architecture consolidated in the 2026-09-22 engineering chat. Changes are isolated to a dedicated integration branch; main is untouched. Readiness remains evidence-driven."
+  "content": "State: closed\nMerged: False\nDraft: True\n\nSuperseded by the later consolidated architecture, ownership, evidence, and implementation work. This broad 2026-09-22 integration baseline is no longer the canonical integration path."
 }
