@@ -19,19 +19,16 @@ kanonischen Quell-Repos statt (SSOT-Disziplin, ATC-STD-000).
 | System | Kanonischer Pfad | Quell-Repo (SSOT) |
 |---|---|---|
 | ATCLang (Programmiersprache) | `components/atclang` | atclang |
-| ATC-VM | `components/a-townchain/components/vm` | a-townchain (L1-Monorepo) |
-| ATC-Algorithm | `components/a-townchain/components/algorithm` | a-townchain (L1-Monorepo) |
+| ATC-VM | `components/a-townchain/components/vm` | a-townchain (canonical L3 execution path) |
+| ATC-Algorithm | `components/a-townchain/components/algorithm` | a-townchain (canonical L2 consensus component) |
 | ShivaCore-Kernel | `components/atc-shivacore` | atc-shivacore |
-| A-TownChain (L1, 13 Komponenten) | `components/a-townchain` | a-townchain |
+| A-TownChain Blockchain Core (L2, 13 migrated components) | `components/a-townchain` | a-townchain |
 | Aurora AI | `components/aurora-ai` | aurora-ai |
 | Genesis Engine | `components/genesis-engine` | genesis-engine |
 
 ## Architecture
 
-Schichten (unten → oben): ShivaCore-Kernel (TCB) → ATCLang → ATC-VM →
-ATC-Algorithm/Node (A-TownChain L1) → Aurora AI (Policy/Agent-Ebene) →
-Genesis Engine (Game-Plattform) → Anwendungen (Genesis Chronicles, Flagship).
-Details: `ARCHITECTURE.md`.
+Die aktuelle Layer-Zuordnung ist ausschließlich `ARCHITECTURE.md`-basiert: L0 System/Network, L1 Data/Storage, L2 Blockchain Core/Consensus, L3 deterministic ATC-VM execution, L4 Scaling, L5 Protocol/Economic Domains, L6 AI, L7 Applications/UX, X Control Plane. Diese Layer sind Verantwortungsdomänen, keine zwingende Runtime-Reihenfolge. Details: `ARCHITECTURE.md`.
 
 ## Features
 

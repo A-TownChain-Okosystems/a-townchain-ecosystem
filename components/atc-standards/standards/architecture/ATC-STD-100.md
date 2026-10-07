@@ -36,6 +36,8 @@ Schlüsselwörter: MUSS/MUSS NICHT, SOLLTE, DARF/KANN — RFC 2119 gemäß ATC-S
 
 ## 1. Language Architecture L0-L8 (REQ-STD-105: MUST)
 
+> **Layer-model boundary:** L0-L8 in this standard is a *language/technology classification model*. It is not the canonical ecosystem responsibility model. The canonical ecosystem architecture is L0-L7+X with **L2 = A-TownChain Blockchain Core** and **L3 = deterministic ATC-VM**. Do not use this table to reassign protocol ownership.
+
 Die Ökosystem-Architektur MUSS dem folgenden Layer-Modell folgen; jede
 Komponente MUSS ihrem Layer zugeordnet sein:
 
@@ -51,7 +53,7 @@ Komponente MUSS ihrem Layer zugeordnet sein:
 | L7 — Applications | Wallet, Explorer, Marketplace, OS-UI | TypeScript + ATCLang |
 | L8 — Data | Indexer, Analytics, Off-chain State | SQL + Rust/Python |
 
-Kette: ShivaCore → Rust → ATC Runtime → ATC-VM → A-TownChain Node → Consensus.
+Kette: ShivaCore → Rust → ATC Runtime → ATC-VM → A-TownChain Node → Consensus. Diese illustrative technology chain does not override the canonical L0-L7+X ownership model.
 
 ## 2. Sprachbindungen (REQ-STD-106: MUST)
 
