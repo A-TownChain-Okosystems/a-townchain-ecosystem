@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-93",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
+  "category": "change",
+  "title": "PR #93: fix(sdk): align mirrored TypeScript amount encoding with u128",
+  "context": "Pull request 93 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/93",
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: False\n\n## Root cause\nThe ecosystem TypeScript mirror declared `amount: bigint` and documented `amount(u128)`, but its `pushU128BE` helper still encoded only 8 bytes and rejected values above `u64::MAX`.\n\n## Fix\nAlign the mirror with the standalone `atc-sdk` canonical contract: full 16-byte big-endian u128 amount encoding and u128 range validation."
+}
