@@ -30,8 +30,8 @@ pub struct Proposal {
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum DaoEffect {
-    TreasuryDeposit { amount: u64 },
-    TreasuryPayout { recipient: String, amount: u64 },
+    TreasuryDeposit { amount: u128 },
+    TreasuryPayout { recipient: String, amount: u128 },
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct DaoState {
@@ -332,7 +332,7 @@ impl DaoState {
                     self.treasury -= action_amount;
                     effect = Some(DaoEffect::TreasuryPayout {
                         recipient,
-                        amount: action_amount,
+                        amount: u128::from(action_amount),
                     });
                 }
             }
@@ -345,7 +345,7 @@ impl DaoState {
                     .treasury
                     .checked_add(amount)
                     .ok_or("treasury overflow")?;
-                effect = Some(DaoEffect::TreasuryDeposit { amount });
+                effect = Some(DaoEffect::TreasuryDeposit { amount: u128::from(amount) });
             }
             5 => {
                 return Err(

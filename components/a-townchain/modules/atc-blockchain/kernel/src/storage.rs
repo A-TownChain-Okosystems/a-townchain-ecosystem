@@ -19,8 +19,8 @@ const FINALITY_MAGIC: &[u8] = b"ATCF1";
 const SLASH_MAGIC: &[u8] = b"ATCS1";
 const ISSUANCE_MAGIC: &[u8] = b"ATCI1";
 
-type ValidatorSnapshot = (u64, BTreeMap<String, (u64, [u8; 32])>);
-type SlashingRecord = (u64, String, [u8; 32], u64);
+type ValidatorSnapshot = (BTreeMap<String, u128>, BTreeMap<String, [u8; 32]>);
+type SlashingRecord = (u64, String, [u8; 32], u128);
 
 fn put(out: &mut Vec<u8>, b: &[u8]) {
     out.extend_from_slice(&(b.len() as u32).to_be_bytes());
@@ -321,6 +321,7 @@ impl ChainStorage {
                 .read()
                 .unwrap()
                 .get(&b.height.saturating_sub(1))
+                .cloned()
                 .ok_or("cannot commit block without canonical parent")?;
             if b.parent_hash != parent.id {
                 return Err("canonical parent mismatch".into());
@@ -392,7 +393,7 @@ impl ChainStorage {
         dao: &[u8],
         issued_base_units: u128,
         activation_height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<(), String> {
         if validators.len() != validator_keys.len()
@@ -409,6 +410,7 @@ impl ChainStorage {
         }
         if block.height > 0 {
             let parent = self.blocks.read().unwrap().get(&block.height.saturating_sub(1))
+                .cloned()
                 .ok_or("cannot commit block without canonical parent")?;
             if block.parent_hash != parent.id { return Err("canonical parent mismatch".into()); }
         } else if block.parent_hash != [0; 32] {
@@ -445,6 +447,7 @@ impl ChainStorage {
                 .read()
                 .unwrap()
                 .get(&block.height.saturating_sub(1))
+                .cloned()
                 .ok_or("cannot commit block without canonical parent")?;
             if block.parent_hash != parent.id {
                 return Err("canonical parent mismatch".into());
@@ -540,7 +543,7 @@ impl ChainStorage {
     pub fn commit_validators(
         &self,
         height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<(), String> {
         let Some(p) = &self.validator_journal else {
@@ -605,24 +608,26 @@ impl ChainStorage {
             let h = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
             let n = u32::from_be_bytes(fixed::<4>(&b, &mut q)?) as usize;
             let mut validators = BTreeMap::new();
+            let mut keys = BTreeMap::new();
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec())
                     .map_err(|_| "invalid validator address")?;
-                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let stake = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let public_key = fixed::<32>(&b, &mut q)?;
                 ed25519_dalek::VerifyingKey::from_bytes(&public_key)
                     .map_err(|_| "invalid validator public key")?;
                 if address.is_empty() || stake == 0 {
                     return Err("invalid validator record".into());
                 }
-                if validators.insert(address, (stake, public_key)).is_some() {
+                if validators.insert(address.clone(), stake).is_some() {
                     return Err("duplicate validator record".into());
                 }
+                keys.insert(address, public_key);
             }
             if q != b.len() {
                 return Err("trailing validator bytes".into());
             }
-            latest = Some((h, validators));
+            latest = Some((h, (validators, keys)));
         }
         Ok(latest)
     }
@@ -656,11 +661,16 @@ impl ChainStorage {
             let mut keys = BTreeMap::new();
             for _ in 0..n {
                 let address = String::from_utf8(get(&b, &mut q)?.to_vec()).map_err(|_| "invalid validator address")?;
-                let stake = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+                let stake = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
                 let public_key = fixed::<32>(&b, &mut q)?;
-                ed25519_dalek::VerifyingKey::from_bytes(&public_key).map_err(|_| "invalid validator public key")?;
-                if address.is_empty() || stake == 0 { return Err("invalid validator record".into()); }
-                if validators.insert(address.clone(), stake).is_some() { return Err("duplicate validator record".into()); }
+                ed25519_dalek::VerifyingKey::from_bytes(&public_key)
+                    .map_err(|_| "invalid validator public key")?;
+                if address.is_empty() || stake == 0 {
+                    return Err("invalid validator record".into());
+                }
+                if validators.insert(address.clone(), stake).is_some() {
+                    return Err("duplicate validator record".into());
+                }
                 keys.insert(address, public_key);
             }
             if q != b.len() { return Err("trailing validator bytes".into()); }
@@ -681,7 +691,7 @@ impl ChainStorage {
     pub fn validator_snapshot_round_trip_for_restart(
         &self,
         height: u64,
-        validators: &BTreeMap<String, u64>,
+        validators: &BTreeMap<String, u128>,
         validator_keys: &BTreeMap<String, [u8; 32]>,
     ) -> Result<Option<ValidatorSnapshot>, String> {
         self.commit_validators(height, validators, validator_keys)?;
@@ -771,7 +781,7 @@ impl ChainStorage {
         height: u64,
         validator: &str,
         evidence_id: [u8; 32],
-        penalty: u64,
+        penalty: u128,
     ) -> Result<(), String> {
         let Some(p) = &self.slashing_journal else {
             return Ok(());
@@ -819,7 +829,7 @@ impl ChainStorage {
             let validator = String::from_utf8(get(&b, &mut q)?.to_vec())
                 .map_err(|_| "invalid slashing validator")?;
             let evidence_id = fixed::<32>(&b, &mut q)?;
-            let penalty = u64::from_be_bytes(fixed::<8>(&b, &mut q)?);
+            let penalty = u128::from_be_bytes(fixed::<16>(&b, &mut q)?);
             if validator.is_empty() || penalty == 0 || q != b.len() {
                 return Err("invalid slashing record".into());
             }
@@ -911,6 +921,7 @@ impl ChainStorage {
 
 #[cfg(test)]
 mod tests {
+    static TEST_PATH_COUNTER: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
     use super::*;
 
     #[test]
@@ -918,10 +929,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-snapshot-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            TEST_PATH_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
         ));
         let journal = path.with_extension("journal");
 
@@ -929,7 +937,7 @@ mod tests {
             .verifying_key()
             .to_bytes();
         let mut validators = BTreeMap::new();
-        validators.insert("validator-a".to_string(), 100u64);
+        validators.insert("validator-a".to_string(), 100u128);
         let mut keys = BTreeMap::new();
         keys.insert("validator-a".to_string(), key);
 
@@ -958,7 +966,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-history-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            TEST_PATH_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
         ));
         let key0 = ed25519_dalek::SigningKey::from_bytes(&[41u8; 32]).verifying_key().to_bytes();
         let key1 = ed25519_dalek::SigningKey::from_bytes(&[42u8; 32]).verifying_key().to_bytes();
@@ -967,8 +975,8 @@ mod tests {
         let mut k0 = BTreeMap::new();
         k0.insert("alice".to_string(), key0);
         let mut v1 = BTreeMap::new();
-        v1.insert("alice".to_string(), 60u64);
-        v1.insert("bob".to_string(), 40u64);
+        v1.insert("alice".to_string(), 60u128);
+        v1.insert("bob".to_string(), 40u128);
         let mut k1 = BTreeMap::new();
         k1.insert("alice".to_string(), key1);
         k1.insert("bob".to_string(), ed25519_dalek::SigningKey::from_bytes(&[43u8; 32]).verifying_key().to_bytes());
@@ -995,10 +1003,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-revision-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            TEST_PATH_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
         ));
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[51u8; 32]).verifying_key().to_bytes();
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[52u8; 32]).verifying_key().to_bytes();
@@ -1009,7 +1014,7 @@ mod tests {
         first_keys.insert("alice".to_string(), key_a);
 
         let mut second = first.clone();
-        second.insert("bob".to_string(), 50u64);
+        second.insert("bob".to_string(), 50u128);
         let mut second_keys = first_keys.clone();
         second_keys.insert("bob".to_string(), key_b);
 
@@ -1041,10 +1046,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-validator-regression-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
+            TEST_PATH_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
         ));
         let key = ed25519_dalek::SigningKey::from_bytes(&[53u8; 32]).verifying_key().to_bytes();
         let mut validators = BTreeMap::new();
@@ -1089,7 +1091,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-finality-idempotence-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            TEST_PATH_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
         ));
         let storage = ChainStorage::open(&path).unwrap();
         let block = Block::new(7, [6u8; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
@@ -1128,7 +1130,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-conflicting-height-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            TEST_PATH_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
         ));
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         let first = Block::new(1, genesis.id, "v".into(), 2, Vec::new(), [3; 32], [4; 32], [0; 64]);
@@ -1158,7 +1160,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-state-boundary-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            TEST_PATH_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
         ));
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         std::fs::write(&path, format!("{}\n", hex::encode(block_encode(&genesis)))).unwrap();
@@ -1170,7 +1172,7 @@ mod tests {
         put(&mut state_record, &[]);
         std::fs::write(&state_path, format!("{}\n", hex::encode(state_record))).unwrap();
         let recovered = ChainStorage::open(&path).unwrap();
-        assert!(recovered.recover_state_with_dao().is_err());
+        assert!(recovered.recover_state().is_err());
 
         let issuance_path = path.with_extension("issuance");
         let mut issuance_record = Vec::new();
@@ -1191,7 +1193,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-torn-block-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            TEST_PATH_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
         ));
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         let encoded = hex::encode(block_encode(&genesis));
@@ -1213,7 +1215,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-precommit-state-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            TEST_PATH_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
         ));
         let mut state_record = Vec::new();
         state_record.extend_from_slice(&1u64.to_be_bytes());
@@ -1221,11 +1223,11 @@ mod tests {
         put(&mut state_record, &[]);
         std::fs::write(path.with_extension("state"), format!("{}\n", hex::encode(state_record))).unwrap();
 
-        let storage = ChainStorage::new();
+        let mut storage = ChainStorage::new();
         // The same recovery boundary used by open_storage() must fail closed:
         // state cannot become durable merely because its journal line is valid.
         storage.state_journal = Some(path.with_extension("state"));
-        let err = storage.recover_state_with_dao().unwrap_err();
+        let err = storage.recover_state().unwrap_err();
         assert!(err.contains("missing block"));
 
         for suffix in ["", ".state", ".validators", ".finality", ".slashing", ".issuance"] {
@@ -1239,7 +1241,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-torn-finality-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            TEST_PATH_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
         ));
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
         let storage = ChainStorage::open(&path).unwrap();
@@ -1266,7 +1268,7 @@ mod tests {
         let path = std::env::temp_dir().join(format!(
             "atc-storage-torn-issuance-{}-{}",
             std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
+            TEST_PATH_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
         ));
         let storage = ChainStorage::open(&path).unwrap();
         let genesis = Block::new(0, [0; 32], "v".into(), 1, Vec::new(), [1; 32], [2; 32], [0; 64]);
