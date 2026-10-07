@@ -1,22 +1,27 @@
 {
   "id": "ATC-KMS-PR-24",
-  "timestamp": "2026-09-24T14:52:55.897478Z",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
   "category": "change",
   "title": "PR #24: fix(atc-blockchain): correct storage recovery syntax",
   "context": "Pull request 24 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
-  "status": "active",
+  "status": "archived",
   "version": "v1.0.0",
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/24",
-    "commit": "7431e656e46a787e83bfb27482885cc87faf4c6a"
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
   },
   "tags": [
     "generated",
     "github",
     "pull-request"
   ],
-  "links": [],
-  "content": "State: open\nMerged: False\nDraft: False\n\nCI-Fix-Zyklus: korrigiert Storage-Recovery, determinism toolchain und Rust-Format-Workflow. Ziel: reale Ecosystem-/Blockchain-/Determinism-/Release-Gates ausführen und verbleibende Fehler anhand der GitHub-CI beheben."
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-64"
+    }
+  ],
+  "content": "State: closed\nMerged: False\nDraft: False\n\nSuperseded by the later storage/recovery corrections in PR #64 and the subsequent L1 recovery/E2E fix chain. This early CI/workspace patch also targets the obsolete canonical atc-algorithm/atc-vm paths and an unsafe nightly/tooling direction, so it is no longer the correct integration path."
 }

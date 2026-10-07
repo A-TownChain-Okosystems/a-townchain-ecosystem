@@ -15,6 +15,10 @@ impl PeerTransport for Link {
             .push(message);
         Ok(())
     }
+
+    fn send_to(&self, _peer_id: &str, message: NetworkMessage) -> Result<(), String> {
+        self.broadcast(message)
+    }
 }
 
 #[test]

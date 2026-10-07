@@ -13,6 +13,8 @@ fn sdk_node_mempool_consensus_vm_state_storage_indexer() {
         .genesis_credit("alice", 1_000_000)
         .expect("genesis allocation must respect supply cap");
     node.register_validator("validator-1".into(), 100).unwrap();
+    node.register_validator_key("validator-1", SigningKey::from_bytes(&[6u8; 32]).verifying_key().to_bytes()).unwrap();
+    node.set_vote_signer("validator-1", [6u8; 32]);
     node.create_genesis(1).unwrap();
     let key = SigningKey::from_bytes(&[7u8; 32]);
     let tx = TransactionBuilder::transfer(chain_id, "alice", "bob", 100, 1, 1000, 0, 2).sign(&key);
@@ -74,6 +76,8 @@ fn storage_restart_recovers_chain_and_state() {
         .genesis_credit("alice", 1_000_000)
         .expect("genesis allocation must respect supply cap");
     node.register_validator("validator-1".into(), 100).unwrap();
+    node.register_validator_key("validator-1", SigningKey::from_bytes(&[10u8; 32]).verifying_key().to_bytes()).unwrap();
+    node.set_vote_signer("validator-1", [10u8; 32]);
     node.create_genesis(1).unwrap();
     let key = SigningKey::from_bytes(&[8u8; 32]);
     let tx = TransactionBuilder::transfer(658467, "alice", "bob", 25, 1, 1000, 0, 2).sign(&key);
@@ -100,6 +104,8 @@ fn storage_restart_recovers_chain_and_state() {
     assert!(node.finalize(&block, 1).unwrap());
     drop(node);
     let reopened = Node::open_storage(658467, "validator-1".into(), &path).unwrap();
+    reopened.register_validator_key("validator-1", SigningKey::from_bytes(&[10u8; 32]).verifying_key().to_bytes()).unwrap();
+    reopened.set_vote_signer("validator-1", [10u8; 32]);
     assert_eq!(reopened.chain.height(), 1);
     assert_eq!(reopened.state.balance("bob"), 25);
     assert_eq!(reopened.storage.block(1).unwrap().id, block.id);
@@ -159,6 +165,9 @@ fn dao_transactions_persist_and_recover() {
     node.state
         .genesis_credit(&proposer, 1_000_000)
         .expect("genesis allocation must respect supply cap");
+    node.register_validator(proposer.clone(), 100).unwrap();
+    node.register_validator_key(&proposer, SigningKey::from_bytes(&[11u8; 32]).verifying_key().to_bytes()).unwrap();
+    node.set_vote_signer(proposer.clone(), [11u8; 32]);
     node.create_genesis(0).unwrap();
     let key = SigningKey::from_bytes(&[11u8; 32]);
 

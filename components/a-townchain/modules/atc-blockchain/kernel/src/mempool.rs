@@ -28,6 +28,7 @@ pub enum TxType {
     Stake = 1,
     Unstake = 2,
     Contract = 3,
+    Validator = 4,
 }
 impl TxType {
     pub fn base_gas(self) -> u64 {
@@ -36,6 +37,7 @@ impl TxType {
             Self::Stake => 1200,
             Self::Unstake => 1200,
             Self::Contract => 5000,
+            Self::Validator => 2500,
         }
     }
 }
@@ -46,7 +48,7 @@ pub struct Transaction {
     pub tx_type: TxType,
     pub sender_did: String,
     pub recipient_did: Option<String>,
-    pub amount: u64,
+    pub amount: u128,
     pub gas_price: u64,
     pub gas_limit: u64,
     pub nonce: u64,
@@ -149,8 +151,8 @@ impl Transaction {
     pub fn gas_cost(&self) -> u64 {
         self.tx_type.base_gas() + self.payload.len() as u64 * 10
     }
-    pub fn max_fee(&self) -> u64 {
-        self.gas_limit.saturating_mul(self.gas_price)
+    pub fn max_fee(&self) -> u128 {
+        u128::from(self.gas_limit).checked_mul(u128::from(self.gas_price)).unwrap_or(u128::MAX)
     }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -167,7 +169,7 @@ pub struct PoolEntry {
     pub tx: Transaction,
     pub status: TxStatus,
     pub added_at: u64,
-    pub priority: u64,
+    pub priority: u128,
 }
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum MempoolError {
@@ -183,6 +185,7 @@ pub enum MempoolError {
     Expired,
     InvalidSignature,
     WrongChain,
+    InvalidValidatorTransition(String),
 }
 
 impl std::fmt::Display for MempoolError {
@@ -202,6 +205,7 @@ impl std::fmt::Display for MempoolError {
             Self::Expired => write!(f, "transaction expired"),
             Self::InvalidSignature => write!(f, "invalid signature"),
             Self::WrongChain => write!(f, "wrong chain"),
+            Self::InvalidValidatorTransition(e) => write!(f, "invalid validator transition: {e}"),
         }
     }
 }
@@ -284,8 +288,8 @@ impl MemoryPool {
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Account {
-    pub balance: u64,
-    pub staked: u64,
+    pub balance: u128,
+    pub staked: u128,
     pub nonce: u64,
 }
 pub struct StateDb {
@@ -293,6 +297,7 @@ pub struct StateDb {
     dao: Mutex<crate::dao_state::DaoState>,
     genesis_sealed: Mutex<bool>,
     issued_base_units: Mutex<u128>,
+    validator_state: Mutex<crate::validator_state::ValidatorState>,
 }
 impl Default for StateDb {
     fn default() -> Self {
@@ -309,16 +314,18 @@ impl StateDb {
             ),
             genesis_sealed: Mutex::new(false),
             issued_base_units: Mutex::new(0),
+            validator_state: Mutex::new(crate::validator_state::ValidatorState::new()),
         }
     }
     pub fn genesis_credit(&self, id: &str, n: u64) -> Result<(), String> {
+        let n = u128::from(n).checked_mul(crate::economics::ATC_BASE_UNITS).ok_or("genesis allocation overflow".to_string())?;
         if *self.genesis_sealed.lock().unwrap() {
             return Err("genesis allocation is sealed".into());
         }
         let mut a = self.accounts.lock().unwrap();
         let current = a
             .values()
-            .try_fold(0u64, |acc, x| {
+            .try_fold(0u128, |acc, x| {
                 acc.checked_add(x.balance)
                     .and_then(|v| v.checked_add(x.staked))
             })
@@ -326,9 +333,9 @@ impl StateDb {
         let new_supply = current
             .checked_add(n)
             .ok_or("supply overflow".to_string())?;
-        if new_supply > MAX_ATC_SUPPLY {
+        if new_supply > crate::economics::MAX_SUPPLY {
             return Err(format!(
-                "ATC supply cap exceeded: {new_supply} > {MAX_ATC_SUPPLY}"
+                "ATC supply cap exceeded in base units: {new_supply} > {MAX_SUPPLY}"
             ));
         }
         let x = a.entry(id.into()).or_insert(Account {
@@ -336,8 +343,7 @@ impl StateDb {
             staked: 0,
             nonce: 0,
         });
-        *self.issued_base_units.lock().unwrap() =
-            new_supply as u128 * crate::economics::ATC_BASE_UNITS;
+        *self.issued_base_units.lock().unwrap() = new_supply;
         x.balance = x
             .balance
             .checked_add(n)
@@ -356,16 +362,12 @@ impl StateDb {
         *self.issued_base_units.lock().unwrap()
     }
 
-    pub fn apply_block_reward(&self, height: u64, recipient: &str) -> Result<u64, String> {
+    pub fn apply_block_reward(&self, height: u64, recipient: &str) -> Result<u128, String> {
         let reward = crate::economics::block_reward_base_units(height, self.issued_base_units());
         if reward == 0 {
             return Ok(0);
         }
-        let whole = reward / crate::economics::ATC_BASE_UNITS;
-        if whole > u64::MAX as u128 {
-            return Err("block reward exceeds account balance range".into());
-        }
-        let mut accounts = self.accounts.lock().unwrap();
+                let mut accounts = self.accounts.lock().unwrap();
         let mut issued = self.issued_base_units.lock().unwrap();
         let new_issued = (*issued)
             .checked_add(reward)
@@ -380,27 +382,26 @@ impl StateDb {
         });
         x.balance = x
             .balance
-            .checked_add(whole as u64)
+            .checked_add(reward)
             .ok_or("reward balance overflow")?;
         *issued = new_issued;
-        Ok(whole as u64)
+        Ok(reward)
     }
 
     pub fn seal_genesis(&self) {
         *self.genesis_sealed.lock().unwrap() = true
     }
+    pub fn total_supply_base_units(&self) -> u128 {
+        self.accounts.lock().unwrap().values().try_fold(0u128, |acc, x| acc.checked_add(x.balance)?.checked_add(x.staked)).unwrap_or(u128::MAX)
+    }
     pub fn total_supply(&self) -> u64 {
-        self.accounts.lock().unwrap().values().fold(0u64, |acc, x| {
-            acc.saturating_add(x.balance).saturating_add(x.staked)
-        })
+        (self.total_supply_base_units() / crate::economics::ATC_BASE_UNITS).min(u64::MAX as u128) as u64
+    }
+    pub fn balance_base_units(&self, id: &str) -> u128 {
+        self.accounts.lock().unwrap().get(id).map(|x| x.balance).unwrap_or(0)
     }
     pub fn balance(&self, id: &str) -> u64 {
-        self.accounts
-            .lock()
-            .unwrap()
-            .get(id)
-            .map(|x| x.balance)
-            .unwrap_or(0)
+        (self.balance_base_units(id) / crate::economics::ATC_BASE_UNITS).min(u64::MAX as u128) as u64
     }
     pub fn nonce(&self, id: &str) -> u64 {
         self.accounts
@@ -416,18 +417,34 @@ impl StateDb {
         }
         let mut a = self.accounts.lock().unwrap();
         let x = a.get_mut(id).ok_or("validator account not found")?;
+        let amount = u128::from(amount).checked_mul(crate::economics::ATC_BASE_UNITS).ok_or("slash amount overflow")?;
         let applied = amount.min(x.staked);
         x.staked -= applied;
-        Ok(applied)
+        Ok((applied / crate::economics::ATC_BASE_UNITS).min(u64::MAX as u128) as u64)
     }
 
+    /// Deterministic commitment of the canonical validator state.
+    pub fn validator_root(&self) -> [u8; 32] {
+        self.validator_state.lock().unwrap().root()
+    }
+
+    pub fn validator_snapshot(&self) -> BTreeMap<String, crate::validator_state::ValidatorRecord> {
+        self.validator_state.lock().unwrap().snapshot()
+    }
+
+    /// Apply one canonical validator lifecycle transition.
+    pub fn apply_validator_transition(
+        &self,
+        transition: &crate::validator_state::ValidatorTransition,
+    ) -> Result<(), String> {
+        self.validator_state.lock().unwrap().apply(transition)
+    }
+
+    pub fn staked_base_units(&self, id: &str) -> u128 {
+        self.accounts.lock().unwrap().get(id).map(|x| x.staked).unwrap_or(0)
+    }
     pub fn staked(&self, id: &str) -> u64 {
-        self.accounts
-            .lock()
-            .unwrap()
-            .get(id)
-            .map(|x| x.staked)
-            .unwrap_or(0)
+        (self.staked_base_units(id) / crate::economics::ATC_BASE_UNITS).min(u64::MAX as u128) as u64
     }
     pub fn root(&self) -> [u8; 32] {
         let a = self.accounts.lock().unwrap();
@@ -440,15 +457,17 @@ impl StateDb {
             b.extend_from_slice(&v.nonce.to_be_bytes())
         }
         let account_root = simple_hash(&b);
-        let supply = a.values().fold(0u64, |acc, x| {
-            acc.saturating_add(x.balance).saturating_add(x.staked)
-        });
+        let supply = a.values().try_fold(0u128, |acc, x| acc.checked_add(x.balance)?.checked_add(x.staked)).unwrap_or(u128::MAX);
         let dao_root = self.dao.lock().unwrap().root();
         let mut combined = Vec::from(b"ATC-STATE-V2");
         combined.extend_from_slice(&account_root);
         combined.extend_from_slice(&supply.to_be_bytes());
         combined.extend_from_slice(&self.issued_base_units().to_be_bytes());
         combined.extend_from_slice(&dao_root);
+        let validator_snapshot = self.validator_snapshot();
+        if !validator_snapshot.is_empty() {
+            combined.extend_from_slice(&self.validator_root());
+        }
         simple_hash(&combined)
     }
     pub fn apply_dao_payload(
@@ -519,8 +538,64 @@ impl StateDb {
     pub fn apply_batch(&self, txs: &[Transaction]) -> Result<(), MempoolError> {
         let mut a = self.accounts.lock().unwrap();
         let mut staged = a.clone();
+        let mut validators = self.validator_state.lock().unwrap();
+        let validator_snapshot = validators.snapshot();
         for tx in txs {
-            Self::apply_to(&mut staged, tx)?;
+            if let Err(e) = Self::apply_to(&mut staged, tx) {
+                validators.restore(validator_snapshot.clone());
+                return Err(e);
+            }
+            match tx.tx_type {
+                TxType::Stake if validators.get(&tx.sender_did).is_some() => {
+                    let transition = crate::validator_state::ValidatorTransition::Stake {
+                        address: tx.sender_did.clone(), amount: tx.amount,
+                    };
+                    if let Err(e) = validators.apply(&transition) {
+                        validators.restore(validator_snapshot.clone());
+                        return Err(MempoolError::InvalidValidatorTransition(e));
+                    }
+                }
+                TxType::Unstake if validators.get(&tx.sender_did).is_some() => {
+                    let transition = crate::validator_state::ValidatorTransition::Unstake {
+                        address: tx.sender_did.clone(), amount: tx.amount,
+                    };
+                    if let Err(e) = validators.apply(&transition) {
+                        validators.restore(validator_snapshot.clone());
+                        return Err(MempoolError::InvalidValidatorTransition(e));
+                    }
+                }
+                TxType::Validator => {
+                    let transition = match crate::validator_state::ValidatorTransition::decode(&tx.payload) {
+                        Ok(v) => v,
+                        Err(e) => { validators.restore(validator_snapshot.clone()); return Err(MempoolError::InvalidValidatorTransition(e)); }
+                    };
+                    match &transition {
+                        crate::validator_state::ValidatorTransition::Register { address, .. }
+                        | crate::validator_state::ValidatorTransition::RotateKey { address, .. }
+                        | crate::validator_state::ValidatorTransition::Unregister { address, .. } if address != &tx.sender_did => {
+                            validators.restore(validator_snapshot.clone());
+                            return Err(MempoolError::InvalidValidatorTransition("validator transition sender mismatch".into()));
+                        }
+                        crate::validator_state::ValidatorTransition::Slash { .. } => {
+                            validators.restore(validator_snapshot.clone());
+                            return Err(MempoolError::InvalidValidatorTransition("slashing transitions require verified consensus evidence".into()));
+                        }
+                        _ => {}
+                    }
+                    if let crate::validator_state::ValidatorTransition::Register { stake, .. } = &transition {
+                        let account = staged.get(&tx.sender_did).ok_or(MempoolError::InvalidValidatorTransition("validator account missing".into()))?;
+                        if account.staked != *stake {
+                            validators.restore(validator_snapshot.clone());
+                            return Err(MempoolError::InvalidValidatorTransition("validator stake does not match account stake".into()));
+                        }
+                    }
+                    if let Err(e) = validators.apply(&transition) {
+                        validators.restore(validator_snapshot.clone());
+                        return Err(MempoolError::InvalidValidatorTransition(e));
+                    }
+                }
+                _ => {}
+            }
         }
         *a = staged;
         Ok(())
@@ -551,20 +626,15 @@ impl StateDb {
             TxType::Transfer | TxType::Contract => {
                 let debit = match tx.tx_type {
                     TxType::Contract => fee,
-                    _ => tx.amount.saturating_add(fee),
+                    _ => tx.amount.checked_add(fee).ok_or(MempoolError::InsufficientBalance)?,
                 };
-                if s.balance
-                    < debit.saturating_add(if tx.tx_type == TxType::Contract {
-                        tx.amount
-                    } else {
-                        0
-                    })
+                if s.balance < debit.saturating_add(if tx.tx_type == TxType::Contract { tx.amount } else { 0 })
                 {
                     return Err(MempoolError::InsufficientBalance);
                 }
                 let mut ns = s;
                 ns.balance -= debit;
-                ns.nonce += 1;
+                ns.nonce = ns.nonce.checked_add(1).ok_or(MempoolError::InvalidNonce { expected: u64::MAX, got: tx.nonce })?;
                 a.insert(tx.sender_did.clone(), ns);
                 if tx.tx_type == TxType::Transfer {
                     let r = tx.recipient_did.as_ref().ok_or(MempoolError::NoRecipient)?;
@@ -580,16 +650,23 @@ impl StateDb {
                 }
             }
             TxType::Stake => {
-                if s.balance < tx.amount.saturating_add(fee) {
+                if s.balance < tx.amount.checked_add(fee).ok_or(MempoolError::InsufficientBalance)? {
                     return Err(MempoolError::InsufficientBalance);
                 }
                 let mut ns = s;
-                ns.balance -= tx.amount.saturating_add(fee);
+                ns.balance -= tx.amount.checked_add(fee).ok_or(MempoolError::InsufficientBalance)?;
                 ns.staked = ns
                     .staked
                     .checked_add(tx.amount)
                     .ok_or(MempoolError::InsufficientStake)?;
-                ns.nonce += 1;
+                ns.nonce = ns.nonce.checked_add(1).ok_or(MempoolError::InvalidNonce { expected: u64::MAX, got: tx.nonce })?;
+                a.insert(tx.sender_did.clone(), ns);
+            }
+            TxType::Validator => {
+                if s.balance < fee { return Err(MempoolError::InsufficientBalance); }
+                let mut ns = s;
+                ns.balance -= fee;
+                ns.nonce = ns.nonce.checked_add(1).ok_or(MempoolError::InvalidNonce { expected: u64::MAX, got: tx.nonce })?;
                 a.insert(tx.sender_did.clone(), ns);
             }
             TxType::Unstake => {
@@ -603,7 +680,7 @@ impl StateDb {
                     .checked_add(tx.amount)
                     .and_then(|v| v.checked_sub(fee))
                     .ok_or(MempoolError::InsufficientBalance)?;
-                ns.nonce += 1;
+                ns.nonce = ns.nonce.checked_add(1).ok_or(MempoolError::InvalidNonce { expected: u64::MAX, got: tx.nonce })?;
                 a.insert(tx.sender_did.clone(), ns);
             }
         }
@@ -614,7 +691,7 @@ impl StateDb {
 #[cfg(test)]
 mod supply_tests {
     use super::*;
-    use crate::economics::MAX_ATC_SUPPLY;
+    use crate::economics::{MAX_ATC_SUPPLY, ATC_BASE_UNITS};
 
     #[test]
     fn genesis_supply_cannot_exceed_360_million_atc() {
@@ -638,12 +715,40 @@ mod supply_tests {
         let state = StateDb::new();
         state.genesis_credit("genesis", 1_000_000).unwrap();
         let before = state.issued_base_units();
-        assert_eq!(state.apply_block_reward(0, "validator"), Ok(500));
+        assert_eq!(state.apply_block_reward(0, "validator"), Ok(500 * crate::economics::ATC_BASE_UNITS));
         assert_eq!(state.balance("validator"), 500);
+        assert_eq!(state.balance_base_units("validator"), 500 * crate::economics::ATC_BASE_UNITS);
         assert_eq!(
             state.issued_base_units(),
             before + 500 * crate::economics::ATC_BASE_UNITS
         );
+    }
+
+    #[test]
+    fn base_unit_transfer_preserves_sub_atc_dust() {
+        let state = StateDb::new();
+        state.genesis_credit("alice", 1).unwrap();
+        let dust = crate::economics::ATC_BASE_UNITS - 1;
+        let tx = Transaction::new_with_chain_id(
+            658467,
+            TxType::Transfer,
+            "alice".into(),
+            Some("bob".into()),
+            dust,
+            1,
+            1,
+            0,
+            1,
+            Vec::new(),
+            [0; 64],
+            [0; 32],
+            [0; 32],
+        );
+        state.apply(&tx).unwrap();
+        assert_eq!(state.balance_base_units("bob"), dust);
+        assert_eq!(state.balance("bob"), 0);
+        assert_eq!(state.balance_base_units("alice"), crate::economics::ATC_BASE_UNITS - dust);
+        assert_eq!(state.total_supply_base_units(), crate::economics::ATC_BASE_UNITS);
     }
 
     #[test]

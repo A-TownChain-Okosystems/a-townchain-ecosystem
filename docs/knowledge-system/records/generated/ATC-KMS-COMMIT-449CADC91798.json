@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-449CADC91798",
+  "timestamp": "2026-10-06T09:02:34.884974Z",
+  "category": "change",
+  "title": "Commit: security: bind sync responses to authenticated peer streams",
+  "context": "Git commit 449cadc91798ed5715db1ce7068b53a8636c9ca9 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/449cadc91798ed5715db1ce7068b53a8636c9ca9",
+    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "security: bind sync responses to authenticated peer streams"
+}

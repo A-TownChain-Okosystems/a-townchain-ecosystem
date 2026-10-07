@@ -75,14 +75,19 @@ fn start_child(role: &str, root: &str, port: u16) -> std::process::Child {
 
 fn run_initial_node_a() {
     let (a_path, _) = paths();
-    let node = Arc::new(Node::open_storage(CHAIN_ID, "node-a".into(), &a_path).unwrap());
+    let node = Arc::new(Node::open_storage(CHAIN_ID, "validator-a".into(), &a_path).unwrap());
     if node.chain.last().is_none() {
         node.create_genesis_with_proposer(1, "genesis").unwrap();
     }
     if node.consensus.total_validator_stake() == 0 {
+        // Complete each validator identity before adding the next one so no
+        // incomplete registry can be persisted.
         node.register_validator("validator-a".into(), 1).unwrap();
+        node.register_validator_key("validator-a", key(1).verifying_key().to_bytes()).unwrap();
         node.register_validator("validator-b".into(), 1).unwrap();
+        node.register_validator_key("validator-b", key(2).verifying_key().to_bytes()).unwrap();
     }
+    node.set_vote_signer("validator-a", [1u8; 32]);
 
     let listener = TcpListener::bind(("127.0.0.1", port())).unwrap();
     let transport = Arc::new(TcpPeerTransport::new(CHAIN_ID, "node-a"));
@@ -97,11 +102,11 @@ fn run_initial_node_a() {
     assert_eq!(peer, "node-b");
     assert_eq!(peer_height, 0);
     transport
-        .register_stream(stream.try_clone().unwrap())
+        .register_stream_with_peer_id(stream.try_clone().unwrap(), peer.to_string())
         .unwrap();
     node.set_transport(transport.clone());
     let reader = stream.try_clone().unwrap();
-    let loop_handle = node.clone().serve_tcp_stream(reader);
+    let loop_handle = node.clone().serve_tcp_stream_with_peer(reader, peer.to_string());
 
     let block = node.produce_reward_block(2).unwrap();
     node.submit_vote_and_broadcast(make_vote(block.id, "validator-a", 1))
@@ -132,14 +137,13 @@ fn run_initial_node_a() {
 
 fn run_initial_node_b() {
     let (_, b_path) = paths();
-    let node = Arc::new(Node::open_storage(CHAIN_ID, "node-b".into(), &b_path).unwrap());
+    let node = Arc::new(Node::open_storage(CHAIN_ID, "validator-b".into(), &b_path).unwrap());
     if node.chain.last().is_none() {
         node.create_genesis_with_proposer(1, "genesis").unwrap();
     }
-    if node.consensus.total_validator_stake() == 0 {
-        node.register_validator("validator-a".into(), 1).unwrap();
-        node.register_validator("validator-b".into(), 1).unwrap();
-    }
+    // Node B intentionally starts with no validator snapshot. The network
+    // sync must deliver the historical validator identity before block import.
+    node.set_vote_signer("validator-b", [2u8; 32]);
 
     let transport = Arc::new(TcpPeerTransport::new(CHAIN_ID, "node-b"));
     let mut connected = None;
@@ -190,7 +194,10 @@ fn run_initial_node_b() {
 
 fn run_restart_node_a() {
     let (a_path, _) = paths();
-    let node = Arc::new(Node::open_storage(CHAIN_ID, "node-a".into(), &a_path).unwrap());
+    let node = Arc::new(Node::open_storage(CHAIN_ID, "validator-a".into(), &a_path).unwrap());
+    node.register_validator_key("validator-a", key(1).verifying_key().to_bytes()).unwrap();
+    node.register_validator_key("validator-b", key(2).verifying_key().to_bytes()).unwrap();
+    node.set_vote_signer("validator-a", [1u8; 32]);
     assert_eq!(node.chain.height(), 2);
     assert_eq!(node.consensus.finalized().map(|x| x.0), Some(2));
 
@@ -211,7 +218,7 @@ fn run_restart_node_a() {
         .register_stream(stream.try_clone().unwrap())
         .unwrap();
     node.set_transport(transport);
-    let handle = node.clone().serve_tcp_stream(stream.try_clone().unwrap());
+    let handle = node.clone().serve_tcp_stream_with_peer(stream.try_clone().unwrap(), peer.to_string());
     // B explicitly requests the missing height after restart; A serves it from durable storage.
     thread::sleep(Duration::from_millis(500));
     assert_eq!(node.storage.block(3).unwrap().id, block3.id);
@@ -220,7 +227,10 @@ fn run_restart_node_a() {
 
 fn run_restart_node_b() {
     let (_, b_path) = paths();
-    let node = Arc::new(Node::open_storage(CHAIN_ID, "node-b".into(), &b_path).unwrap());
+    let node = Arc::new(Node::open_storage(CHAIN_ID, "validator-b".into(), &b_path).unwrap());
+    // Historical validator snapshots must be reconstructed from durable sync
+    // state; no validator keys are injected during restart.
+    node.set_vote_signer("validator-b", [2u8; 32]);
     assert_eq!(node.chain.height(), 2);
     assert_eq!(node.consensus.finalized().map(|x| x.0), Some(2));
 
@@ -229,7 +239,7 @@ fn run_restart_node_b() {
         .connect_tcp_peer(transport.clone(), &format!("127.0.0.1:{}", port()))
         .unwrap();
     transport
-        .broadcast(NetworkMessage::BlockRequest { from_height: 3 })
+        .send_to("node-a", NetworkMessage::BlockRequest { from_height: 3 })
         .unwrap();
     wait_height(&node, 3);
     assert_eq!(node.chain.last().unwrap().height, 3);
