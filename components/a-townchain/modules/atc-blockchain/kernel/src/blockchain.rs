@@ -1125,16 +1125,13 @@ impl Node {
 mod tests {
     use super::*;
 
+    fn test_temp_path(name: &str) -> std::path::PathBuf {
+        std::env::temp_dir().join(format!("atc-{name}-deterministic"))
+    }
+
     #[test]
     fn incomplete_validator_registration_is_pending_until_key_binding_and_survives_only_after_completion() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-validator-bootstrap-pending-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = test_temp_path("atc-validator-bootstrap-pending");
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[111u8; 32]);
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[112u8; 32]);
 
@@ -1177,14 +1174,7 @@ mod tests {
 
     #[test]
     fn validator_activation_is_bound_to_committed_block_state_and_survives_restart() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-validator-state-binding-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = test_temp_path("atc-validator-state-binding");
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[61u8; 32]);
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         node.create_genesis_with_proposer(1, "genesis").unwrap();
@@ -1240,14 +1230,7 @@ mod tests {
 
     #[test]
     fn restart_does_not_resurrect_historically_removed_validator() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-validator-restart-unregister-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = test_temp_path("atc-validator-restart-unregister");
         let key = ed25519_dalek::SigningKey::from_bytes(&[71u8; 32]);
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         node.create_genesis_with_proposer(1, "genesis").unwrap();
@@ -1275,14 +1258,7 @@ mod tests {
 
     #[test]
     fn validator_key_rotation_survives_restart_without_rewriting_history() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-validator-key-rotation-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = test_temp_path("atc-validator-key-rotation");
         let old_key = ed25519_dalek::SigningKey::from_bytes(&[73u8; 32]);
         let new_key = ed25519_dalek::SigningKey::from_bytes(&[74u8; 32]);
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
@@ -1324,14 +1300,7 @@ mod tests {
 
     #[test]
     fn multiple_validator_mutations_same_activation_height_keep_only_final_revision() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-validator-multi-mutation-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = test_temp_path("atc-validator-multi-mutation");
         let key_a = ed25519_dalek::SigningKey::from_bytes(&[101u8; 32]);
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[102u8; 32]);
         let key_c = ed25519_dalek::SigningKey::from_bytes(&[103u8; 32]);
@@ -1399,14 +1368,7 @@ mod tests {
 
     #[test]
     fn pending_slash_snapshot_survives_restart_before_next_block() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-pending-slash-restart-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = test_temp_path("atc-pending-slash-restart");
         let key = ed25519_dalek::SigningKey::from_bytes(&[75u8; 32]);
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         node.create_genesis_with_proposer(1, "genesis").unwrap();
@@ -1568,14 +1530,7 @@ mod tests {
 
     #[test]
     fn multiple_pending_validator_revisions_collapse_to_latest_after_restart() -> Result<(), String> {
-        let path = std::env::temp_dir().join(format!(
-            "atc-validator-revisions-restart-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = test_temp_path("atc-validator-revisions-restart");
         let key_a_old = ed25519_dalek::SigningKey::from_bytes(&[76u8; 32]);
         let key_a_new = ed25519_dalek::SigningKey::from_bytes(&[77u8; 32]);
         let key_b = ed25519_dalek::SigningKey::from_bytes(&[78u8; 32]);
@@ -1667,14 +1622,7 @@ mod tests {
 
     #[test]
     fn validator_public_key_survives_node_restart() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-node-validator-restart-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = test_temp_path("atc-node-validator-restart");
         let key = ed25519_dalek::SigningKey::from_bytes(&[19u8; 32]);
         let public_key = key.verifying_key().to_bytes();
 
@@ -1813,11 +1761,7 @@ mod tests {
 
     #[test]
     fn restart_resync_does_not_reconstruct_transient_votes_and_late_vote_restores_finality() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-restart-resync-votes-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()
-        ));
+        let path = test_temp_path("atc-restart-resync-votes");
 
         let producer = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         producer.create_genesis_with_proposer(1, "genesis").unwrap();
@@ -2072,14 +2016,7 @@ mod tests {
 
     #[test]
     fn recovery_rejects_cross_journal_issuance_height_mismatch() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-cross-journal-issuance-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = test_temp_path("atc-cross-journal-issuance");
 
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         node.create_genesis_with_proposer(1, "genesis").unwrap();
@@ -2114,14 +2051,7 @@ mod tests {
 
     #[test]
     fn recovery_rejects_cross_journal_state_height_mismatch() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-cross-journal-state-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = test_temp_path("atc-cross-journal-state");
 
         let node = Node::open_storage(658467, "validator-a".into(), &path).unwrap();
         node.create_genesis_with_proposer(1, "genesis").unwrap();
@@ -2157,14 +2087,7 @@ mod tests {
 
     #[test]
     fn recovered_pending_validator_snapshot_is_only_usable_for_next_canonical_height() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-validator-pending-activation-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = test_temp_path("atc-validator-pending-activation");
         let key = ed25519_dalek::SigningKey::from_bytes(&[71u8; 32]);
 
         {
@@ -2196,14 +2119,7 @@ mod tests {
 
     #[test]
     fn recovered_validator_snapshot_without_canonical_chain_is_rejected() {
-        let path = std::env::temp_dir().join(format!(
-            "atc-validator-orphan-{}-{}",
-            std::process::id(),
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_nanos()
-        ));
+        let path = test_temp_path("atc-validator-orphan");
         let key = ed25519_dalek::SigningKey::from_bytes(&[72u8; 32]);
 
         let mut record = Vec::from(b"ATCV2".as_slice());
