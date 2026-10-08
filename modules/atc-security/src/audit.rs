@@ -1,6 +1,5 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Security audit framework
-use std::collections::HashMap;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Severity { Critical, High, Medium, Low, Pass }
@@ -47,6 +46,12 @@ impl SecurityAuditor {
 
     pub fn has_critical(&self) -> bool {
         self.checks.iter().any(|c| c.severity == Severity::Critical)
+    }
+}
+
+impl Default for SecurityAuditor {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
