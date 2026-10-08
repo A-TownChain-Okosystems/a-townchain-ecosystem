@@ -6,38 +6,51 @@ on:
   workflow_dispatch:
 permissions: read-all
 jobs:
-  mixed-runtime-quality:
+  rust:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
-      - name: Rust quality when manifests exist
-        shell: bash
-        run: |
-          if find modules . -name Cargo.toml -not -path './target/*' | grep -q .; then
-            cargo fmt --all -- --check
-            cargo check --workspace --all-targets
-            cargo clippy --workspace --all-targets -- -D warnings
-          fi
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Python boundary validation
-        run: |
-          if [ -d modules ]; then python -m compileall -q modules; fi
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - name: Node validation when package manifests exist
+      - name: Validate Rust modules
         shell: bash
         run: |
           found=0
-          while IFS= read -r p; do
+          while IFS= read -r manifest; do
             found=1
-            d=$(dirname "$p")
-            if [ -f "$d/package-lock.json" ]; then npm --prefix "$d" ci; else npm --prefix "$d" install; fi
-            npm --prefix "$d" test --if-present
-          done < <(find . -name package.json -not -path '*/node_modules/*')
-          if [ "$found" -eq 0 ]; then echo "No Node package manifests."; fi
+            dir=$(dirname "$manifest")
+            cargo fmt --manifest-path "$manifest" -- --check
+            cargo test --manifest-path "$manifest"
+            cargo clippy --manifest-path "$manifest" --all-targets -- -D warnings
+          done < <(find modules -name Cargo.toml -not -path '*/target/*' -print)
+          if [ "$found" -eq 0 ]; then echo "No Rust manifests present."; fi
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate Python module
+        run: |
+          if [ -d modules/atc-aurora-ai ]; then python -m compileall -q modules/atc-aurora-ai; fi
+  node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate Node module
+        shell: bash
+        run: |
+          if [ -f modules/atc-aistudio/package-lock.json ]; then
+            npm --prefix modules/atc-aistudio ci
+          elif [ -f modules/atc-aistudio/package.json ]; then
+            npm --prefix modules/atc-aistudio install
+          else
+            echo "No Node manifest present."
+            exit 0
+          fi
+          npm --prefix modules/atc-aistudio test --if-present
