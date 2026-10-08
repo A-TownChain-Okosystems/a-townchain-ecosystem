@@ -22,6 +22,53 @@ pub struct RuntimeContext {
     pub vm_version: String,
 }
 
+/// Fail-closed identity validation errors (ATC-STD-600).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum IdentityError {
+    EmptyField,
+    GenesisMismatch {
+        configured: String,
+        computed: String,
+    },
+}
+
+impl std::fmt::Display for IdentityError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            IdentityError::EmptyField => {
+                write!(f, "chain identity has an empty field")
+            }
+            IdentityError::GenesisMismatch {
+                configured,
+                computed,
+            } => {
+                write!(
+                    f,
+                    "genesis identity mismatch: configured {configured}, computed {computed}"
+                )
+            }
+        }
+    }
+}
+
+impl std::error::Error for IdentityError {}
+
+impl ChainIdentity {
+    /// Fail-closed structural validation: every identity field MUST be non-empty.
+    pub fn validate(&self) -> Result<(), IdentityError> {
+        if self.chain_id.trim().is_empty() {
+            return Err(IdentityError::EmptyField);
+        }
+        if self.network_id.trim().is_empty() {
+            return Err(IdentityError::EmptyField);
+        }
+        if self.genesis_id.trim().is_empty() {
+            return Err(IdentityError::EmptyField);
+        }
+        Ok(())
+    }
+}
+
 /// Genesis identity = HASH(CANONICAL_ENCODE(genesis_document)).
 /// The genesis_id itself is excluded from its own preimage.
 #[allow(clippy::too_many_arguments)]

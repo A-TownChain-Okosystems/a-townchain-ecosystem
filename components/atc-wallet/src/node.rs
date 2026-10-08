@@ -111,7 +111,9 @@ impl NodeClient for TcpNodeClient {
             "tx_type": tx_type_number(tx.tx_type),
             "sender_did": tx.sender_did,
             "recipient_did": tx.recipient_did,
-            "amount": tx.amount,
+            // u128 amounts exceed JSON number precision: transport as decimal
+            // string, which the node RPC accepts for u128 params.
+            "amount": tx.amount.to_string(),
             "gas_price": tx.gas_price,
             "gas_limit": tx.gas_limit,
             "nonce": tx.nonce,
@@ -146,7 +148,6 @@ fn tx_type_number(tx_type: TxType) -> u8 {
         TxType::Stake => 1,
         TxType::Unstake => 2,
         TxType::Contract => 3,
-        TxType::Validator => 4,
     }
 }
 

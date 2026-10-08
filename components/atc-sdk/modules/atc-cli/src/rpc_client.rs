@@ -70,53 +70,50 @@ fn extract_result(resp: &str) -> Option<String> {
     Some(rest[..j].to_string())
 }
 
-fn extract_id(resp: &str) -> String {
-    let i = resp
-        .find("\"id\":")
-        .map(|i| i + "\"id\":".len())
-        .unwrap_or(0);
-    let rest = &resp[i..];
-    let digits: String = rest.chars().take_while(|c| c.is_ascii_digit()).collect();
-    if digits.is_empty() {
-        "0".to_string()
-    } else {
-        digits
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::io::Write as _;
+    fn extract_id(resp: &str) -> String {
+        let i = resp
+            .find("\"id\":")
+            .map(|i| i + "\"id\":".len())
+            .unwrap_or(0);
+        let rest = &resp[i..];
+        let digits: String = rest.chars().take_while(|c| c.is_ascii_digit()).collect();
+        if digits.is_empty() {
+            "0".to_string()
+        } else {
+            digits
+        }
+    }
     use std::net::TcpListener;
 
     /// Mock-Node: antwortet wie der atc-node Devnet-RPC (SCR-0109-Protokoll).
     fn mock_node(listener: TcpListener) {
-        for s in listener.incoming() {
-            let mut s = match s {
-                Ok(s) => s,
-                Err(_) => break,
-            };
-            let mut reader = BufReader::new(s.try_clone().unwrap());
-            let mut line = String::new();
-            reader.read_line(&mut line).unwrap();
-            let body = if line.contains("\"chain_id\"") {
-                "658467"
-            } else if line.contains("\"peers\"") {
-                "2"
-            } else if line.contains("\"boot_hash\"") {
-                "1234567890"
-            } else {
-                "pong"
-            };
-            let resp = format!(
-                "{{\"jsonrpc\":\"2.0\",\"id\":{},\"result\":\"{}\"}}\n",
-                extract_id(&line),
-                body
-            );
-            s.write_all(resp.as_bytes()).unwrap();
-            break; // ein Request pro Verbindung (wie atc-node)
-        }
+        let s = match listener.incoming().next() {
+            Some(Ok(s)) => s,
+            _ => return,
+        };
+        let mut s = s;
+        let mut reader = BufReader::new(s.try_clone().unwrap());
+        let mut line = String::new();
+        reader.read_line(&mut line).unwrap();
+        let body = if line.contains("\"chain_id\"") {
+            "658467"
+        } else if line.contains("\"peers\"") {
+            "2"
+        } else if line.contains("\"boot_hash\"") {
+            "1234567890"
+        } else {
+            "pong"
+        };
+        let resp = format!(
+            "{{\"jsonrpc\":\"2.0\",\"id\":{},\"result\":\"{}\"}}\n",
+            extract_id(&line),
+            body
+        );
+        s.write_all(resp.as_bytes()).unwrap();
+        // ein Request pro Verbindung (wie atc-node)
     }
 
     #[test]

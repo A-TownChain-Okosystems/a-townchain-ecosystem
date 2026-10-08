@@ -27,8 +27,11 @@ pub enum Protocol {
     Tls,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub enum NetworkPolicy {
+    /// Fail-closed default: userspace networking stays disabled until
+    /// a policy is explicitly set.
+    #[default]
     Disabled,
     Restricted,
     Normal,

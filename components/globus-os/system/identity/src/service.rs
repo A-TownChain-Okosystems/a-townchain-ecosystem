@@ -84,6 +84,7 @@ impl IdentityService {
         Ok((result, wallet))
     }
 
+    #[allow(clippy::too_many_arguments)] // Restore: Parameter = persistierte Wallet-Felder
     pub fn restore(
         &mut self,
         user_id: UserId,

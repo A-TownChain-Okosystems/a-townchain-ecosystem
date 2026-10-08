@@ -6,7 +6,7 @@
 
 use std::collections::BTreeMap;
 
-use globus_process::{ProcessId, ProcessState};
+use globus_process::ProcessId;
 use globus_process_manager::{ProcessAction, ProcessManager, ProcessManagerError};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -160,6 +160,7 @@ impl ApplicationManager {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use globus_process::ProcessState;
 
     fn spec(id: u64) -> ApplicationSpec {
         ApplicationSpec {

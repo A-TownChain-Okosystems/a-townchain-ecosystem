@@ -1,10 +1,9 @@
 use atc_blockchain::{
-    consensus::{vote_signing_bytes, Vote},
     network::PeerTransport,
     network::{NetworkMessage, TcpPeerTransport},
     Node,
 };
-use ed25519_dalek::{Signer, SigningKey};
+use ed25519_dalek::SigningKey;
 use std::{
     env,
     net::TcpListener,
@@ -28,21 +27,6 @@ fn port() -> u16 {
 
 fn key(seed: u8) -> SigningKey {
     SigningKey::from_bytes(&[seed; 32])
-}
-
-fn make_vote(block: [u8; 32], voter: &str, seed: u8) -> Vote {
-    let signing = key(seed);
-    let mut vote = Vote {
-        block,
-        voter: voter.into(),
-        approve: true,
-        signature: [0; 64],
-        public_key: signing.verifying_key().to_bytes(),
-    };
-    vote.signature = signing
-        .sign(&vote_signing_bytes(CHAIN_ID, &vote))
-        .to_bytes();
-    vote
 }
 
 fn wait_height(node: &Node, height: u64) {
@@ -83,9 +67,11 @@ fn run_initial_node_a() {
         // Complete each validator identity before adding the next one so no
         // incomplete registry can be persisted.
         node.register_validator("validator-a".into(), 1).unwrap();
-        node.register_validator_key("validator-a", key(1).verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-a", key(1).verifying_key().to_bytes())
+            .unwrap();
         node.register_validator("validator-b".into(), 1).unwrap();
-        node.register_validator_key("validator-b", key(2).verifying_key().to_bytes()).unwrap();
+        node.register_validator_key("validator-b", key(2).verifying_key().to_bytes())
+            .unwrap();
     }
     node.set_vote_signer("validator-a", [1u8; 32]);
 
@@ -106,12 +92,11 @@ fn run_initial_node_a() {
         .unwrap();
     node.set_transport(transport.clone());
     let reader = stream.try_clone().unwrap();
-    let loop_handle = node.clone().serve_tcp_stream_with_peer(reader, peer.to_string());
+    let loop_handle = node
+        .clone()
+        .serve_tcp_stream_with_peer(reader, peer.to_string());
 
     let block = node.produce_reward_block(2).unwrap();
-    node.submit_vote_and_broadcast(make_vote(block.id, "validator-a", 1))
-        .unwrap();
-
     for _ in 0..120 {
         if node.consensus.finalized().map(|x| x.0) == Some(block.height) {
             break;
@@ -123,8 +108,6 @@ fn run_initial_node_a() {
     let block2 = node.produce_reward_block(3).unwrap();
     assert_eq!(block2.height, 2);
     assert_eq!(node.chain.height(), 2);
-    node.submit_vote_and_broadcast(make_vote(block2.id, "validator-a", 1))
-        .unwrap();
     for _ in 0..120 {
         if node.consensus.finalized().map(|x| x.0) == Some(block2.height) {
             break;
@@ -170,33 +153,35 @@ fn run_initial_node_b() {
     if node.chain.height() < 1 {
         panic!("node-b did not receive block 1; receive loop still running");
     }
-    let block = node.chain.last().unwrap();
-    node.submit_vote_and_broadcast(make_vote(block.id, "validator-b", 2))
-        .unwrap();
+    // Convergence signal: height 2 alone is not enough; the node must have
+    // broadcast its own vote and observed the peer vote so weighted finality
+    // is reached. Exiting on chain height alone would kill the receive
+    // thread before its finality vote ever reaches the peer.
     for _ in 0..100 {
-        if node.chain.height() >= 2 {
+        if node.chain.height() >= 2 && node.consensus.finalized().map(|x| x.0) == Some(2) {
             break;
         }
         if handle.is_finished() {
             let result = handle
                 .join()
                 .expect("node-b receive loop panicked after vote");
-            panic!("node-b receive loop exited before height 2: {:?}", result);
+            panic!("node-b receive loop exited before finality 2: {:?}", result);
         }
         thread::sleep(Duration::from_millis(25));
     }
     assert_eq!(node.chain.height(), 2);
     let block2 = node.chain.last().unwrap();
-    node.submit_vote_and_broadcast(make_vote(block2.id, "validator-b", 2))
-        .unwrap();
+    assert_eq!(node.consensus.finalized().map(|x| x.0), Some(block2.height));
     drop(handle);
 }
 
 fn run_restart_node_a() {
     let (a_path, _) = paths();
     let node = Arc::new(Node::open_storage(CHAIN_ID, "validator-a".into(), &a_path).unwrap());
-    node.register_validator_key("validator-a", key(1).verifying_key().to_bytes()).unwrap();
-    node.register_validator_key("validator-b", key(2).verifying_key().to_bytes()).unwrap();
+    node.register_validator_key("validator-a", key(1).verifying_key().to_bytes())
+        .unwrap();
+    node.register_validator_key("validator-b", key(2).verifying_key().to_bytes())
+        .unwrap();
     node.set_vote_signer("validator-a", [1u8; 32]);
     assert_eq!(node.chain.height(), 2);
     assert_eq!(node.consensus.finalized().map(|x| x.0), Some(2));
@@ -215,10 +200,12 @@ fn run_restart_node_a() {
     assert_eq!(peer, "node-b");
     assert_eq!(peer_height, 2);
     transport
-        .register_stream(stream.try_clone().unwrap())
+        .register_stream_with_peer_id(stream.try_clone().unwrap(), peer.to_string())
         .unwrap();
     node.set_transport(transport);
-    let handle = node.clone().serve_tcp_stream_with_peer(stream.try_clone().unwrap(), peer.to_string());
+    let handle = node
+        .clone()
+        .serve_tcp_stream_with_peer(stream.try_clone().unwrap(), peer.to_string());
     // B explicitly requests the missing height after restart; A serves it from durable storage.
     thread::sleep(Duration::from_millis(500));
     assert_eq!(node.storage.block(3).unwrap().id, block3.id);

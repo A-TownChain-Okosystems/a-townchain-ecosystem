@@ -26,6 +26,7 @@ impl RecoveryManager {
         }
         system
             .apply(SystemAction::EnterRecovery)
+            .map(|_| ())
             .map_err(|_| RecoveryError::Transition)
     }
     pub fn resume(system: &mut SystemManager) -> Result<(), RecoveryError> {
@@ -34,6 +35,7 @@ impl RecoveryManager {
         }
         system
             .apply(SystemAction::Start)
+            .map(|_| ())
             .map_err(|_| RecoveryError::Transition)
     }
 }

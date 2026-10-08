@@ -128,6 +128,14 @@ impl BootstrapProcess {
     }
 }
 
+/// Switches the CPU context from `current` to `next` (x86-64).
+///
+/// # Safety
+///
+/// `current` and `next` must point to valid, non-overlapping contexts and
+/// must not be moved or dropped while the switch is in flight. The stack
+/// saved in `next` must be mapped, writable and aligned; `next` must have
+/// been initialized by [`Context::bootstrap`] or a previous `switch`.
 #[inline(never)]
 pub unsafe fn switch(current: &mut Context, next: &Context) {
     asm!(
@@ -157,7 +165,9 @@ mod tests {
     use super::*;
 
     extern "C" fn never_returns() -> ! {
-        loop {}
+        loop {
+            core::hint::spin_loop();
+        }
     }
 
     #[test]
