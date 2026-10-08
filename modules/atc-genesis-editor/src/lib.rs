@@ -92,8 +92,10 @@ impl SceneDocument {
         Ok(())
     }
     pub fn serialize(&self) -> String {
-        let mut out = String::from("GENESIS_SCENE 1
-");
+        let mut out = String::from(
+            "GENESIS_SCENE 1
+",
+        );
         let mut nodes = self.nodes.clone();
         nodes.sort_by_key(|n| n.id.0);
         for n in nodes {
@@ -171,11 +173,13 @@ fn escape(s: &str) -> String {
         .replace('\n', "\\n")
 }
 fn unescape(s: &str) -> String {
-    s.replace("\
+    s.replace(
+        "\
 ", "
-")
-        .replace("\\p", "|")
-        .replace("\\\\", "\\")
+",
+    )
+    .replace("\\p", "|")
+    .replace("\\\\", "\\")
 }
 #[cfg(test)]
 mod tests {
