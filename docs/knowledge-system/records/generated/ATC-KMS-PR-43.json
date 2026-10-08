@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-43",
-  "timestamp": "2026-10-08T12:31:46.524580Z",
+  "timestamp": "2026-10-08T22:42:55.996367Z",
   "category": "change",
   "title": "PR #43: fix(l1): restore canonical blockchain API integration",
   "context": "Pull request 43 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/43",
-    "commit": "4a82ee618003d02091b8bab46865fb3fd646126a"
+    "commit": "84433f0b54fa1fbe18a6834d7021376e58145662"
   },
   "tags": [
     "generated",

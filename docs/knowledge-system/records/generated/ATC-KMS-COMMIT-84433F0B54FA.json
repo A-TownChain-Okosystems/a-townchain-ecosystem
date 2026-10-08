@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-84433F0B54FA",
+  "timestamp": "2026-10-08T22:42:55.996367Z",
+  "category": "change",
+  "title": "Commit: Merge pull request #104 from A-TownChain-Okosystems/fix/explorer-typescript-ts-jest-peer",
+  "context": "Git commit 84433f0b54fa1fbe18a6834d7021376e58145662 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/84433f0b54fa1fbe18a6834d7021376e58145662",
+    "commit": "84433f0b54fa1fbe18a6834d7021376e58145662"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "Merge pull request #104 from A-TownChain-Okosystems/fix/explorer-typescript-ts-jest-peer\n\nfix(explorer): resolve TypeScript/ts-jest dependency conflict"
+}

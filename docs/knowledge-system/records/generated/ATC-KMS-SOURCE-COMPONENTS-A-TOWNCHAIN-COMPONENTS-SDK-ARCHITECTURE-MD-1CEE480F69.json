@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-COMPONENTS-SDK-ARCHITECTURE-MD-1CEE480F69",
-  "timestamp": "2026-10-08T12:31:46.524580Z",
+  "timestamp": "2026-10-08T22:42:55.996367Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain/components/sdk/ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain/components/sdk/ARCHITECTURE.md",
-    "commit": "4a82ee618003d02091b8bab46865fb3fd646126a"
+    "commit": "84433f0b54fa1fbe18a6834d7021376e58145662"
   },
   "tags": [
     "generated",
