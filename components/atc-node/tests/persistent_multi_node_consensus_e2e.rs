@@ -161,15 +161,23 @@ fn persistent_two_node_consensus_path() {
         .unwrap();
 
     let recovered_status = wait_status(a_rpc, persisted_height);
-    assert_eq!(
-        recovered_status["result"]["height"].as_u64(),
-        Some(persisted_height),
-        "restart did not recover the persisted height"
+    // wait_status wartet auf >= persisted_height; der Knoten laeuft mit
+    // 1s-Blockintervall weiter, daher duerfen beide Hoehen hoeher sein —
+    // gesichert wird nur: kein Verlust persistierter bzw. finalisierter Höhe.
+    let recovered_height = recovered_status["result"]["height"].as_u64();
+    assert!(
+        recovered_height >= Some(persisted_height),
+        "restart lost persisted height: {recovered_height:?} < {persisted_height}"
     );
-    assert_eq!(
-        recovered_status["result"]["finalized"]["height"].as_u64(),
-        a_status["result"]["finalized"]["height"].as_u64(),
-        "restart did not recover finalized height"
+    let finalized_before = a_status["result"]["finalized"]["height"]
+        .as_u64()
+        .unwrap_or(0);
+    let finalized_after = recovered_status["result"]["finalized"]["height"]
+        .as_u64()
+        .unwrap_or(0);
+    assert!(
+        finalized_after >= finalized_before,
+        "restart lost finalized height: {finalized_after} < {finalized_before}"
     );
     let recovered_block = rpc_block(a_rpc, persisted_height);
     assert_eq!(
