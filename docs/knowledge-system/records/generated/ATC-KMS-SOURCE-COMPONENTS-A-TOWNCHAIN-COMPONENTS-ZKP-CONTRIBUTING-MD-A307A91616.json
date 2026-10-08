@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-COMPONENTS-ZKP-CONTRIBUTING-MD-A307A91616",
-  "timestamp": "2026-10-08T11:05:12.182466Z",
+  "timestamp": "2026-10-08T12:31:46.524580Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain/components/zkp/CONTRIBUTING.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain/components/zkp/CONTRIBUTING.md",
-    "commit": "b0ee1b00b61a13ea653b81eb50a0dade06d2c2e1"
+    "commit": "4a82ee618003d02091b8bab46865fb3fd646126a"
   },
   "tags": [
     "generated",

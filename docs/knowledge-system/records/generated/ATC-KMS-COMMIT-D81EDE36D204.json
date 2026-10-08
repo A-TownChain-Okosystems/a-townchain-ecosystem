@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-D81EDE36D204",
-  "timestamp": "2026-10-08T11:05:12.182466Z",
+  "timestamp": "2026-10-08T12:31:46.524580Z",
   "category": "change",
   "title": "Commit: docs(architecture): canonicalize L0-L7 and cross-layer control plane",
   "context": "Git commit d81ede36d2044a22c8001d0d417b0ee3ea11ad29 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/d81ede36d2044a22c8001d0d417b0ee3ea11ad29",
-    "commit": "b0ee1b00b61a13ea653b81eb50a0dade06d2c2e1"
+    "commit": "4a82ee618003d02091b8bab46865fb3fd646126a"
   },
   "tags": [
     "commit",
