@@ -1,0 +1,43 @@
+name: Aurora AI Code Quality
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions: read-all
+jobs:
+  mixed-runtime-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - name: Rust quality when manifests exist
+        shell: bash
+        run: |
+          if find modules . -name Cargo.toml -not -path './target/*' | grep -q .; then
+            cargo fmt --all -- --check
+            cargo check --workspace --all-targets
+            cargo clippy --workspace --all-targets -- -D warnings
+          fi
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Python boundary validation
+        run: |
+          if [ -d modules ]; then python -m compileall -q modules; fi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Node validation when package manifests exist
+        shell: bash
+        run: |
+          found=0
+          while IFS= read -r p; do
+            found=1
+            d=$(dirname "$p")
+            if [ -f "$d/package-lock.json" ]; then npm --prefix "$d" ci; else npm --prefix "$d" install; fi
+            npm --prefix "$d" test --if-present
+          done < <(find . -name package.json -not -path '*/node_modules/*')
+          if [ "$found" -eq 0 ]; then echo "No Node package manifests."; fi
