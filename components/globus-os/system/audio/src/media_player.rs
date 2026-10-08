@@ -53,6 +53,9 @@ impl MediaQueue {
     pub fn len(&self) -> usize {
         self.tracks.len()
     }
+    pub fn is_empty(&self) -> bool {
+        self.tracks.is_empty()
+    }
     pub fn current(&self) -> Option<&MediaTrack> {
         self.current.and_then(|i| self.tracks.get(i))
     }
@@ -206,6 +209,7 @@ impl MediaPlayer {
         }
         Ok(())
     }
+    #[allow(clippy::should_implement_trait)] // Domain-API: naechster Track, kein Iterator
     pub fn next(&mut self) -> Result<(), MediaPlayerError> {
         self.queue.next(self.repeat)?;
         self.position_ms = 0;

@@ -185,7 +185,7 @@ pub fn validate_mapping_target(virt: u64, flags: MappingFlags) -> Result<(), Vmm
     VirtAddr::new(virt)?;
     flags.validate()?;
 
-    if flags.user_accessible && !(virt >= USER_SPACE_BASE && virt < USER_SPACE_TOP_EXCLUSIVE) {
+    if flags.user_accessible && !(USER_SPACE_BASE..USER_SPACE_TOP_EXCLUSIVE).contains(&virt) {
         return Err(VmmError::PrivilegeViolation);
     }
 

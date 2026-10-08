@@ -38,16 +38,31 @@ fn sdk_spricht_mit_echtem_node() {
     }
     assert!(bereit, "Node-Dienst nicht bereit");
 
-    let mut c = RpcClient::new(format!("127.0.0.1:{}", port));
+    let addr = format!("127.0.0.1:{}", port);
+
+    // Der Serve-Thread ist unmittelbar nach dem TCP-Handshake eventuell
+    // noch nicht anfragebereit (unter CI-Last beobachtet: ECONNRESET auf
+    // dem ersten RPC-Call). Jeden RPC-Aufruf begrenzt wiederholen.
+    fn mit_retry<T>(addr: &str, f: impl Fn(&mut RpcClient) -> Result<T, String>) -> T {
+        for _ in 0..50 {
+            let mut c = RpcClient::new(addr.to_string());
+            match f(&mut c) {
+                Ok(v) => return v,
+                Err(_) => std::thread::sleep(Duration::from_millis(100)),
+            }
+        }
+        panic!("RPC nach 5s nicht bereit");
+    }
+
     assert_eq!(
-        c.chain_id().expect("chain_id"),
+        mit_retry(&addr, |c| c.chain_id()),
         658467,
         "SDK-Client muss Chain-ID des echten Nodes lesen"
     );
-    assert_eq!(c.peers().expect("peers"), 2);
+    assert_eq!(mit_retry(&addr, |c| c.peers()), 2);
     // Kerninvariante: Boot-Hash aus der Node-Genesis == was der Client ueber RPC erhaelt
     assert_eq!(
-        c.boot_hash().expect("boot_hash"),
+        mit_retry(&addr, |c| c.boot_hash()),
         boot_hash,
         "Boot-Hash muss ueber RPC identisch sein"
     );

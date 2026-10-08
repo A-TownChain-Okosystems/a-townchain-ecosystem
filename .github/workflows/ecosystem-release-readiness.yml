@@ -17,10 +17,6 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
-      - name: Install nightly toolchain for GlobusOS bootloader
-        run: |
-          rustup toolchain install nightly --profile minimal
-          rustup component add rustfmt clippy --toolchain nightly
       - name: Validate every Rust workspace/package once
         shell: bash
         run: |
@@ -50,16 +46,26 @@ jobs:
           for dir in "${!roots[@]}"; do
             echo "=== Rust: $dir"
             cargo_cmd=(cargo)
+            excl=()
+            features="--all-features"
+            lint_flags=(-D warnings)
             if [ "$dir" = "components/globus-os" ]; then
-              cargo_cmd=(cargo +nightly)
+              # SCR-0078: boot-Crate wird nur cross-compiliert (atc-shivacore-tests),
+              # Host-Gates laufen ohne boot (stable statt nightly).
+              # x86_64-Crate 0.15.5 hat ein nightly-only Feature -> Default-Features.
+              # rustdoc-Debt (~2900 fehlende Eintraege) per -A missing_docs
+              # dokumentiert und als P2-Issue im Umbrella verfolgt.
+              excl=(--exclude boot)
+              features=""
+              lint_flags+=(-A missing_docs)
             fi
             for gate in fmt check test clippy; do
               log="$(mktemp)"
               case "$gate" in
                 fmt) command=("${cargo_cmd[@]}" fmt --all -- --check) ;;
-                check) command=("${cargo_cmd[@]}" check --workspace --all-targets) ;;
-                test) command=("${cargo_cmd[@]}" test --workspace --all-targets) ;;
-                clippy) command=("${cargo_cmd[@]}" clippy --workspace --all-targets --all-features -- -D warnings) ;;
+                check) command=("${cargo_cmd[@]}" check --workspace --all-targets ${excl[@]+"${excl[@]}"}) ;;
+                test) command=("${cargo_cmd[@]}" test --workspace --all-targets ${excl[@]+"${excl[@]}"}) ;;
+                clippy) command=("${cargo_cmd[@]}" clippy --workspace --all-targets ${features:+"$features"} ${excl[@]+"${excl[@]}"} -- "${lint_flags[@]}") ;;
               esac
               if ! (cd "$dir" && "${command[@]}") >"$log" 2>&1; then
                 fail=1

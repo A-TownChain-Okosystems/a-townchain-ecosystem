@@ -65,6 +65,7 @@ impl TaskManager {
         self.scheduler.set_state(t.id, t.state);
         Ok(())
     }
+    #[allow(clippy::should_implement_trait)] // Domain-API: naechster Task, kein Iterator
     pub fn next(&mut self) -> Option<ProcessId> {
         self.scheduler.next()
     }

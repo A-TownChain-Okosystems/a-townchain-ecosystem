@@ -186,7 +186,7 @@ mod tests {
         );
         manager.configure(id).unwrap();
         manager
-            .set_address(id, IpAddress::V4(Ipv4Address::new(192, 0, 2, 10)))
+            .set_address(id, IpAddress::V4(Ipv4Address::new([192, 0, 2, 10])))
             .unwrap();
         assert_eq!(manager.get(id).unwrap().1, InterfaceState::Up);
     }
