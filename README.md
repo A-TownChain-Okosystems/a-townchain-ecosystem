@@ -1,8 +1,6 @@
 # A-TownChain Ecosystem
 
-System-of-Systems-Integration des A-TownChain-Ökosystems: alle Kern-Systeme laufen
-hier als ein Gesamtsystem zusammen. Vollständige Komponenten-Überführung per
-`git subtree` **mit voller Historie** (siehe `MIGRATION_MANIFEST.yaml`).
+System-of-Systems-Integrations- und Evidence-Control-Plane des A-TownChain-Ökosystems. Importierte `git subtree`-Verzeichnisse sind Integrations-Snapshots; sie verschieben keine SSOT-Verantwortung und beweisen nicht, dass alle Komponenten synchron oder end-to-end verifiziert sind.
 
 ## Purpose
 
@@ -21,7 +19,7 @@ kanonischen Quell-Repos statt (SSOT-Disziplin, ATC-STD-000).
 | ATCLang (Programmiersprache) | `components/atclang` | atclang |
 | ATC-VM | `components/a-townchain/components/vm` | a-townchain (L1-Monorepo) |
 | ATC-Algorithm | `components/a-townchain/components/algorithm` | a-townchain (L1-Monorepo) |
-| ShivaCore-Kernel | `components/atc-shivacore` | atc-shivacore |
+| ShivaCore-Kernel | `components/globus-os/modules/atc-shivacore/kernel` (Importpfad, falls vorhanden) | globus-os (kanonische Kernel-Quelle) |
 | A-TownChain (L1, 13 Komponenten) | `components/a-townchain` | a-townchain |
 | Aurora AI | `components/aurora-ai` | aurora-ai |
 | Genesis Engine | `components/genesis-engine` | genesis-engine |
@@ -49,13 +47,13 @@ git clone https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem.git
 
 ## L1 Integration Contract
 
-The canonical runtime path is now explicitly verified as a connected chain:
+The intended end-to-end runtime path to be verified is:
 
 `wallet/SDK transaction → mempool → proposer → block → network block validation → state transition → reward → validator vote → weighted finality → durable persistence → restart recovery → next block`.
 
-Multi-node operation uses the canonical `atc-node` runtime and the `atc-blockchain` consensus/network boundary. Network handshakes bind chain identity and expose the accepting node's own height/tip; received blocks are validated before state adoption, and finality/evidence state is persisted for restart recovery.
+This path is an integration contract, not by itself proof that the whole chain is currently verified. Each edge requires evidence tied to the exact source SHA and the relevant workflow run/job/step/logs. Multi-node behavior, chain-identity binding, block validation, finality and restart recovery must be reported separately where their evidence differs.
 
-A successful CI run is required before any production-readiness claim. Current development status remains **not production-ready** until all mandatory gates are green.
+A successful relevant CI run is required before any verification claim, and all applicable release gates are required before production-readiness claims. Current development status remains **not production-ready** until mandatory gates and exact-SHA evidence support the claim.
 
 ## Testing
 
