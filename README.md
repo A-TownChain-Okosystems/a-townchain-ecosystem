@@ -4,9 +4,7 @@ System-of-Systems-Integrations- und Evidence-Control-Plane des A-TownChain-Ökos
 
 ## Purpose
 
-Ein Dach-Repository, das ATCLang, ATC-VM, ATC-Algorithm, ShivaCore-Kernel,
-A-TownChain, Aurora AI und Genesis Engine als ein Gesamtsystem integriert,
-bündelt und systemübergreifend verifiziert.
+Dieses Repository koordiniert die Integration dieser Systeme, dokumentiert Cross-Repo-Verträge und aggregiert Evidence. Ein Import, ein grüner Einzel-Gate oder ein vorhandener Integrationstest beweist nicht, dass alle Komponenten als Gesamtsystem vollständig verifiziert sind.
 
 ## Scope
 
@@ -18,7 +16,7 @@ kanonischen Quell-Repos statt (SSOT-Disziplin, ATC-STD-000).
 |---|---|---|
 | ATCLang (Programmiersprache) | `components/atclang` | atclang |
 | ATC-VM | `components/a-townchain/components/vm` | a-townchain (L1-Monorepo) |
-| ATC-Algorithm | `components/a-townchain/components/algorithm` | a-townchain (L1-Monorepo) |
+| Algorithmus/Konsens | `components/a-townchain/components/algorithm` | a-townchain (L1-Monorepo) |
 | ShivaCore-Kernel | `components/globus-os/modules/atc-shivacore/kernel` (Importpfad, falls vorhanden) | globus-os (kanonische Kernel-Quelle) |
 | A-TownChain (L1, 13 Komponenten) | `components/a-townchain` | a-townchain |
 | Aurora AI | `components/aurora-ai` | aurora-ai |
@@ -31,12 +29,12 @@ ATC-Algorithm/Node (A-TownChain L1) → Aurora AI (Policy/Agent-Ebene) →
 Genesis Engine (Game-Plattform) → Anwendungen (Genesis Chronicles, Flagship).
 Details: `ARCHITECTURE.md`.
 
-## Features
+## Capabilities and limits
 
-- 5 Komponenten-Importe mit voller Git-Historie (subtree, kein Squash)
-- Komponenten-eigene Determinism-Gates mit eigenen Allowlists
-- Governance-Audit gegen die Org-Registry (ATC-STD-201/202/203)
-- System-Mapping der 7 Kern-Systeme auf kanonische Pfade
+- Imported component trees are integration snapshots; their freshness must be checked against the canonical source SHA.
+- Component-specific Determinism Gates use their own tools and allowlists; a pass in one component does not verify another.
+- Governance checks validate repository policy and registry alignment; they do not prove production readiness.
+- The seven-system map records intended ownership and paths, not complete runtime connectivity.
 
 ## Installation
 
@@ -74,11 +72,12 @@ Fach-Commits im Umbrella sind zu unterlassen.
 Criticality: critical (aggregiert alle Kern-Systeme). Security-Policy je
 Komponente siehe `components/<name>/SECURITY.md`; Meldewege siehe SECURITY.md.
 
-## Roadmap
+## Roadmap / open verification work
 
-1. PR genesis-engine#13 mergen → Genesis-Komponente grün, danach subtree pull
-2. Registry-Decommission-Mapping (repositories.yaml) für die 13 L1-Quell-Repos
-3. Systemübergreifende Integrationstests (ATCLang → VM → Node → Engine)
+1. Reconcile the imported component snapshots against current canonical source SHAs and record any lag.
+2. Complete the repository-registry decommission mapping for the migrated source repositories; do not archive or decommission sources without an explicit governance decision.
+3. Run and record cross-component integration tests (ATCLang → canonical VM → node/chain runtime → consuming service) against exact SHAs.
+4. Keep failed or pending integration and determinism gates visible; do not infer end-to-end verification from component-level green checks.
 
 ## Version
 
