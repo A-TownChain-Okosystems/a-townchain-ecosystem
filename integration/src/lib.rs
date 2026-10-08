@@ -27,10 +27,23 @@ pub fn build_signed_transfer(
     .sign(&key)
 }
 
+pub fn register_dev_validator(node: &atc_blockchain::Node, proposer: &str) {
+    node.register_validator(proposer.to_string(), 1)
+        .expect("dev validator registration must succeed");
+    node.register_validator_key(
+        proposer,
+        SigningKey::from_bytes(&[1u8; 32])
+            .verifying_key()
+            .to_bytes(),
+    )
+    .expect("dev validator key registration must succeed");
+    node.set_vote_signer(proposer, [1u8; 32]);
+}
+
 pub fn boot_and_build_transaction(
 ) -> Result<([u8; 32], atc_blockchain::mempool::Transaction), String> {
     let runtime = Runtime::devnet("ecosystem-integration")?;
-    let tx = build_signed_transfer("alice", "bob", 1u128 * atc_blockchain::economics::ATC_BASE_UNITS, 0);
+    let tx = build_signed_transfer("alice", "bob", atc_blockchain::economics::ATC_BASE_UNITS, 0);
     let tx_id = runtime
         .submit(tx.clone(), 1)
         .map_err(|e| format!("transaction rejected: {e:?}"))?;
@@ -50,8 +63,8 @@ mod tests {
     }
     #[test]
     fn transaction_id_is_deterministic() {
-        let a = build_signed_transfer("alice", "bob", 1u128 * atc_blockchain::economics::ATC_BASE_UNITS, 0);
-        let b = build_signed_transfer("alice", "bob", 1, 0);
+        let a = build_signed_transfer("alice", "bob", atc_blockchain::economics::ATC_BASE_UNITS, 0);
+        let b = build_signed_transfer("alice", "bob", atc_blockchain::economics::ATC_BASE_UNITS, 0);
         assert_eq!(a.id, b.id);
         assert_eq!(a.payload, b.payload);
     }
@@ -88,6 +101,7 @@ mod tests {
 #[test]
 fn node_produces_and_finalizes_sdk_transaction() {
     let runtime = Runtime::devnet("ecosystem-integration").expect("runtime must boot");
+    register_dev_validator(&runtime.node, "ecosystem-integration");
     let tx = build_signed_transfer("alice", "bob", 1, 0);
     runtime
         .submit(tx, 1)
@@ -97,9 +111,11 @@ fn node_produces_and_finalizes_sdk_transaction() {
         .expect("node must produce a block from the pending transaction");
     assert_eq!(block.height, 1);
     assert_eq!(block.transactions.len(), 1);
-    assert!(!runtime
+    // The single registered dev validator auto-votes for its own block, so
+    // weighted finality is reached with one vote out of one validator.
+    assert!(runtime
         .finalize(&block)
-        .expect("finality check must execute without a quorum vote"));
+        .expect("finality check must execute on the single-validator devnet"));
 }
 #[test]
 fn durable_block_state_survives_runtime_restart() {
@@ -110,6 +126,7 @@ fn durable_block_state_survives_runtime_restart() {
 
     let runtime = Runtime::open_storage("ecosystem-integration", &path)
         .expect("fresh durable runtime must open");
+    register_dev_validator(&runtime.node, "ecosystem-integration");
     runtime
         .node
         .state
@@ -133,7 +150,15 @@ fn durable_block_state_survives_runtime_restart() {
         .expect("restart must reconstruct persisted chain and state");
     assert_eq!(recovered.node.chain.height(), 1);
     assert_eq!(recovered.node.storage.block(1).unwrap().id, committed_id);
-    assert_eq!(recovered.node.state.root(), committed_root);
+    assert_eq!(
+        atc_blockchain::committed_state_root(
+            recovered.node.state.root(),
+            1,
+            recovered.node.consensus.validator_snapshot_commitment(1),
+        )
+        .expect("recovered validator commitment must be available"),
+        committed_root
+    );
     assert_eq!(recovered.node.storage.state_root(1), Some(committed_root));
 
     let _ = std::fs::remove_file(&path);
@@ -147,6 +172,7 @@ fn dao_transaction_state_survives_runtime_restart() {
 
     let runtime =
         Runtime::open_storage("ecosystem-integration", &path).expect("durable runtime must open");
+    register_dev_validator(&runtime.node, "ecosystem-integration");
     runtime
         .node
         .state
@@ -159,8 +185,16 @@ fn dao_transaction_state_survives_runtime_restart() {
 
     let key = SigningKey::from_bytes(&[11u8; 32]);
 
-    let stake =
-        TransactionBuilder::stake(SYSTEM_CHAIN_ID, "alice", 100_000, 1, 2_000, 0, 1).sign(&key);
+    let stake = TransactionBuilder::stake(
+        SYSTEM_CHAIN_ID,
+        "alice",
+        100_000 * atc_blockchain::economics::ATC_BASE_UNITS,
+        1,
+        2_000,
+        0,
+        1,
+    )
+    .sign(&key);
     runtime.submit(stake, 1).expect("stake must enter runtime");
     runtime
         .produce(1, 10)
@@ -175,7 +209,7 @@ fn dao_transaction_state_survives_runtime_restart() {
         "Treasury",
         "Fund audit",
         Some("bob"),
-        125,
+        125 * atc_blockchain::economics::ATC_BASE_UNITS,
         1,
         6_000,
         1,
@@ -189,8 +223,16 @@ fn dao_transaction_state_survives_runtime_restart() {
         .produce(2, 10)
         .expect("proposal block must be produced");
 
-    let fund =
-        TransactionBuilder::dao_fund(SYSTEM_CHAIN_ID, "alice", 500, 1, 6_000, 2, 3).sign(&key);
+    let fund = TransactionBuilder::dao_fund(
+        SYSTEM_CHAIN_ID,
+        "alice",
+        500 * atc_blockchain::economics::ATC_BASE_UNITS,
+        1,
+        6_000,
+        2,
+        3,
+    )
+    .sign(&key);
     runtime
         .submit(fund, 3)
         .expect("DAO funding must enter runtime");
@@ -229,7 +271,10 @@ fn dao_transaction_state_survives_runtime_restart() {
         before.proposals.get(&7).unwrap().status,
         atc_blockchain::dao_state::Status::Executed
     );
-    assert_eq!(before.treasury, 375);
+    assert_eq!(
+        before.treasury,
+        375 * atc_blockchain::economics::ATC_BASE_UNITS
+    );
     assert_eq!(runtime.node.state.balance("bob"), 125);
     drop(runtime);
 
@@ -241,7 +286,10 @@ fn dao_transaction_state_survives_runtime_restart() {
         after.proposals.get(&7).unwrap().status,
         atc_blockchain::dao_state::Status::Executed
     );
-    assert_eq!(after.treasury, 375);
+    assert_eq!(
+        after.treasury,
+        375 * atc_blockchain::economics::ATC_BASE_UNITS
+    );
     assert_eq!(recovered.node.state.balance("bob"), 125);
     assert_eq!(recovered.node.state.staked("alice"), 100_000);
     assert_eq!(recovered.node.chain.height(), 6);

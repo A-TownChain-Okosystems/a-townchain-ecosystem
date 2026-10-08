@@ -218,7 +218,7 @@ fn decode_transaction(params: &Value) -> Result<Transaction, (i64, String)> {
         tx_type,
         sender_did,
         recipient_did,
-        amount.into(),
+        amount,
         gas_price,
         gas_limit,
         nonce,

@@ -26,18 +26,18 @@ pub struct Proposal {
     pub no: u64,
     pub abstain: u64,
     pub action_recipient: Option<String>,
-    pub action_amount: u64,
+    pub action_amount: u128,
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum DaoEffect {
-    TreasuryDeposit { amount: u64 },
-    TreasuryPayout { recipient: String, amount: u64 },
+    TreasuryDeposit { amount: u128 },
+    TreasuryPayout { recipient: String, amount: u128 },
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct DaoState {
     pub proposals: BTreeMap<u64, Proposal>,
     pub votes: BTreeMap<(u64, String), (u8, u64)>,
-    pub treasury: u64,
+    pub treasury: u128,
     pub allocations: BTreeMap<String, u64>,
     pub timelocks: BTreeMap<u64, u64>,
     pub quorum: u64,
@@ -121,7 +121,7 @@ impl DaoState {
         let mut q = MAGIC.len();
         let quorum = get_u64(bytes, &mut q)?;
         let approval = get_u16(bytes, &mut q)?;
-        let treasury = get_u64(bytes, &mut q)?;
+        let treasury = get_u128(bytes, &mut q)?;
         let pn = get_u32(bytes, &mut q)? as usize;
         let mut proposals = BTreeMap::new();
         for _ in 0..pn {
@@ -149,7 +149,7 @@ impl DaoState {
                 1 => Some(get_str(bytes, &mut q)?),
                 _ => return Err("invalid DAO action recipient flag".into()),
             };
-            let action_amount = get_u64(bytes, &mut q)?;
+            let action_amount = get_u128(bytes, &mut q)?;
             proposals.insert(
                 id,
                 Proposal {
@@ -231,7 +231,7 @@ impl DaoState {
                     1 => Some(get_str(payload, &mut q)?),
                     _ => return Err("invalid DAO action recipient flag".into()),
                 };
-                let action_amount = get_u64(payload, &mut q)?;
+                let action_amount = get_u128(payload, &mut q)?;
                 if action_amount > 0 && action_recipient.is_none() {
                     return Err("treasury action requires recipient".into());
                 }
@@ -337,7 +337,7 @@ impl DaoState {
                 }
             }
             4 => {
-                let amount = get_u64(payload, &mut q)?;
+                let amount = get_u128(payload, &mut q)?;
                 if amount == 0 {
                     return Err("treasury deposit must be non-zero".into());
                 }
@@ -399,6 +399,14 @@ fn get_u64(b: &[u8], p: &mut usize) -> Result<u64, String> {
     }
     let v = u64::from_be_bytes(b[*p..*p + 8].try_into().unwrap());
     *p += 8;
+    Ok(v)
+}
+fn get_u128(b: &[u8], p: &mut usize) -> Result<u128, String> {
+    if *p + 16 > b.len() {
+        return Err("truncated DAO integer".into());
+    }
+    let v = u128::from_be_bytes(b[*p..*p + 16].try_into().unwrap());
+    *p += 16;
     Ok(v)
 }
 fn get_str(b: &[u8], p: &mut usize) -> Result<String, String> {

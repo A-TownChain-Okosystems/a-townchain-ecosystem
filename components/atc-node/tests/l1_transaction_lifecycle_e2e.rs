@@ -47,19 +47,27 @@ fn tx_block_reward_state_finality_persistence_recovery() {
     let path = temp_path();
     std::fs::create_dir_all(&path).unwrap();
 
-    let node = Node::open_storage(
-        CHAIN_ID,
-        "validator-a".into(),
-        path.join("chain.journal"),
-    )
-    .unwrap();
+    let node =
+        Node::open_storage(CHAIN_ID, "validator-a".into(), path.join("chain.journal")).unwrap();
     node.state.genesis_credit("alice", GENESIS_BALANCE).unwrap();
     let genesis = node.create_genesis_with_proposer(1, "atc-genesis").unwrap();
 
     node.register_validator("validator-a".into(), 1).unwrap();
     node.register_validator("validator-b".into(), 1).unwrap();
-    node.register_validator_key("validator-a", SigningKey::from_bytes(&[1u8; 32]).verifying_key().to_bytes()).unwrap();
-    node.register_validator_key("validator-b", SigningKey::from_bytes(&[2u8; 32]).verifying_key().to_bytes()).unwrap();
+    node.register_validator_key(
+        "validator-a",
+        SigningKey::from_bytes(&[1u8; 32])
+            .verifying_key()
+            .to_bytes(),
+    )
+    .unwrap();
+    node.register_validator_key(
+        "validator-b",
+        SigningKey::from_bytes(&[2u8; 32])
+            .verifying_key()
+            .to_bytes(),
+    )
+    .unwrap();
     node.set_vote_signer("validator-a", [1u8; 32]);
 
     let wallet_key = WalletKey::from_seed([7u8; 32]);
@@ -110,7 +118,7 @@ fn tx_block_reward_state_finality_persistence_recovery() {
             - TRANSFER_AMOUNT
             - u128::from(GAS_LIMIT)
     );
-    assert_eq!(node.state.balance("bob"), TRANSFER_AMOUNT);
+    assert_eq!(node.state.balance_base_units("bob"), TRANSFER_AMOUNT);
     assert_eq!(node.state.balance("validator-a"), 500);
     assert_eq!(
         node.state.issued_base_units(),
@@ -133,19 +141,46 @@ fn tx_block_reward_state_finality_persistence_recovery() {
 
     drop(node);
 
-    let recovered = Node::open_storage(CHAIN_ID, "validator-a".into(), path.join("chain.journal")).unwrap();
-    recovered.register_validator_key("validator-a", SigningKey::from_bytes(&[1u8; 32]).verifying_key().to_bytes()).unwrap();
-    recovered.register_validator_key("validator-b", SigningKey::from_bytes(&[2u8; 32]).verifying_key().to_bytes()).unwrap();
+    let recovered =
+        Node::open_storage(CHAIN_ID, "validator-a".into(), path.join("chain.journal")).unwrap();
+    recovered
+        .register_validator_key(
+            "validator-a",
+            SigningKey::from_bytes(&[1u8; 32])
+                .verifying_key()
+                .to_bytes(),
+        )
+        .unwrap();
+    recovered
+        .register_validator_key(
+            "validator-b",
+            SigningKey::from_bytes(&[2u8; 32])
+                .verifying_key()
+                .to_bytes(),
+        )
+        .unwrap();
     recovered.set_vote_signer("validator-a", [1u8; 32]);
     assert_eq!(recovered.chain.height(), 1);
     assert_eq!(recovered.chain.last().unwrap().id, block.id);
     assert_eq!(
-        recovered.state.balance("alice"),
-        GENESIS_BALANCE - TRANSFER_AMOUNT - GAS_LIMIT
+        recovered.state.balance_base_units("alice"),
+        u128::from(GENESIS_BALANCE) * atc_blockchain::economics::ATC_BASE_UNITS
+            - TRANSFER_AMOUNT
+            - u128::from(GAS_LIMIT)
     );
     assert_eq!(recovered.state.balance_base_units("bob"), TRANSFER_AMOUNT);
     assert_eq!(recovered.state.balance("validator-a"), 500);
-    assert_eq!(recovered.state.root(), block.state_root);
+    assert_eq!(
+        atc_blockchain::committed_state_root(
+            recovered.state.root(),
+            block.height,
+            recovered
+                .consensus
+                .validator_snapshot_commitment(block.height),
+        )
+        .unwrap(),
+        block.state_root
+    );
     assert_eq!(recovered.consensus.finalized().map(|x| x.0), Some(1));
     assert_eq!(recovered.consensus.validator_stake("validator-a"), 1);
     assert_eq!(recovered.consensus.validator_stake("validator-b"), 1);
