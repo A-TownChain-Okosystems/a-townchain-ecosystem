@@ -117,7 +117,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                 } else {
                     tokens.push(Token::Slash);
                 }
-            },
+            }
             '%' => tokens.push(Token::Percent),
             ':' => tokens.push(Token::Colon),
             '@' => tokens.push(Token::At),
