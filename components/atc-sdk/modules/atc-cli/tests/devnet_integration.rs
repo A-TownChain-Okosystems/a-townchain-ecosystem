@@ -6,7 +6,6 @@
 use atc_cli::rpc_client::RpcClient;
 use atc_node::bootstrap::{devnet_boot, Genesis};
 use atc_node::rpc::{serve, DevnetRpc};
-use std::net::TcpStream;
 use std::time::Duration;
 
 #[test]
@@ -24,20 +23,12 @@ fn sdk_spricht_mit_echtem_node() {
         let _ = serve(&format!("127.0.0.1:{}", port), state);
     });
 
-    // Bis zu 5s auf Server-Bereitschaft warten
-    let mut bereit = false;
-    for _ in 0..50 {
-        match TcpStream::connect(("127.0.0.1", port)) {
-            Ok(s) => {
-                drop(s);
-                bereit = true;
-                break;
-            }
-            Err(_) => std::thread::sleep(Duration::from_millis(100)),
-        }
-    }
-    assert!(bereit, "Node-Dienst nicht bereit");
-
+    // KEIN separater TCP-Bereitschafts-Probe: ein connect-and-drop wird von
+    // serve() als leere Anfrage gelesen, die Antwort schlaegt auf die
+    // geschlossene Verbindung fehl (EPIPE) und beendet den Serve-Thread —
+    // danach schlagen alle RPCs fehl (CI-Failure 'RPC nach 5s nicht bereit').
+    // Bereitschaft deckt stattdessen mit_retry ab (ConnectionRefused bis der
+    // Thread gebunden hat).
     let addr = format!("127.0.0.1:{}", port);
 
     // Der Serve-Thread ist unmittelbar nach dem TCP-Handshake eventuell
