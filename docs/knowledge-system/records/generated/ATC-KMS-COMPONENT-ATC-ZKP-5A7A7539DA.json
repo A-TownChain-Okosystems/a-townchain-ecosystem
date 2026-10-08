@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-ATC-ZKP-5A7A7539DA",
-  "timestamp": "2026-10-08T09:03:10.275463Z",
+  "timestamp": "2026-10-08T11:05:12.182466Z",
   "category": "module",
   "title": "Component: atc-zkp",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-zkp",
-    "commit": "30444698d751df404a8195e52f692940391ee9bb"
+    "commit": "b0ee1b00b61a13ea653b81eb50a0dade06d2c2e1"
   },
   "tags": [
     "atc-zkp",
@@ -23,5 +23,5 @@
       "target": "ATC-KMS-REPOSITORY-STRUCTURE"
     }
   ],
-  "content": "Files: 59\n\nManifests: components/atc-zkp/Cargo.toml, components/atc-zkp/crates/zkp-circuits/Cargo.toml, components/atc-zkp/crates/zkp-core/Cargo.toml, components/atc-zkp/crates/zkp-crypto/Cargo.toml, components/atc-zkp/crates/zkp-prover/Cargo.toml, components/atc-zkp/crates/zkp-sdk/Cargo.toml, components/atc-zkp/crates/zkp-verifier/Cargo.toml, components/atc-zkp/crates/zkp-vm/Cargo.toml"
+  "content": "Files: 60\n\nManifests: components/atc-zkp/Cargo.toml, components/atc-zkp/crates/zkp-circuits/Cargo.toml, components/atc-zkp/crates/zkp-core/Cargo.toml, components/atc-zkp/crates/zkp-crypto/Cargo.toml, components/atc-zkp/crates/zkp-prover/Cargo.toml, components/atc-zkp/crates/zkp-sdk/Cargo.toml, components/atc-zkp/crates/zkp-verifier/Cargo.toml, components/atc-zkp/crates/zkp-vm/Cargo.toml"
 }

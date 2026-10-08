@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-017EF3EAFAB6",
+  "timestamp": "2026-10-08T11:05:12.182466Z",
+  "category": "change",
+  "title": "Commit: Merge branch 'main' into fix/l1-snapshot-e2e-recovery",
+  "context": "Git commit 017ef3eafab6e9634463b8b5e6ed92287ab44624 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/017ef3eafab6e9634463b8b5e6ed92287ab44624",
+    "commit": "b0ee1b00b61a13ea653b81eb50a0dade06d2c2e1"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "Merge branch 'main' into fix/l1-snapshot-e2e-recovery"
+}

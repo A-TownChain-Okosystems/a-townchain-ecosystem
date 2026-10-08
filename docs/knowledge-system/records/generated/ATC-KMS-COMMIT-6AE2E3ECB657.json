@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-6AE2E3ECB657",
+  "timestamp": "2026-10-08T11:05:12.182466Z",
+  "category": "change",
+  "title": "Commit: test(wallet): use canonical base units in transfer E2E",
+  "context": "Git commit 6ae2e3ecb657bb881a5de6da13786e0e8c389da3 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/6ae2e3ecb657bb881a5de6da13786e0e8c389da3",
+    "commit": "b0ee1b00b61a13ea653b81eb50a0dade06d2c2e1"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "test(wallet): use canonical base units in transfer E2E"
+}

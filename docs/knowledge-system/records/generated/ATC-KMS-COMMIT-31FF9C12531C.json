@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-31FF9C12531C",
+  "timestamp": "2026-10-08T11:05:12.182466Z",
+  "category": "change",
+  "title": "Commit: chore(blockchain): remove unused supply import",
+  "context": "Git commit 31ff9c12531c2a38823673d62c40963df7fb311b on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/31ff9c12531c2a38823673d62c40963df7fb311b",
+    "commit": "b0ee1b00b61a13ea653b81eb50a0dade06d2c2e1"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "chore(blockchain): remove unused supply import"
+}

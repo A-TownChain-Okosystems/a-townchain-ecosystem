@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-REPOSITORY-STRUCTURE",
-  "timestamp": "2026-10-08T09:03:10.275463Z",
+  "timestamp": "2026-10-08T11:05:12.182466Z",
   "category": "architecture",
   "title": "Repository structure: A-TownChain-Okosystems/a-townchain-ecosystem",
   "context": "Automatically indexed repository structure.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "github",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem",
-    "commit": "30444698d751df404a8195e52f692940391ee9bb"
+    "commit": "b0ee1b00b61a13ea653b81eb50a0dade06d2c2e1"
   },
   "tags": [
     "generated",
@@ -127,5 +127,5 @@
       "target": "ATC-KMS-COMPONENT-GLOBUS-OS-CD602E3D08"
     }
   ],
-  "content": "Top-level entries: \"components, .atc, .github, ARCHITECTURE.md, CHANGELOG.md, CODEOWNERS, CONTRIBUTING.md, Cargo.toml, LICENSE, MIGRATION_MANIFEST.yaml, README.md, SDK_ARCHITECTURE.md, SECURITY.md, components, control-plane, docs, integration, tools\n\nComponents: README.md, a-townchain, a-townchain-os, a-townchain-os-docs, atc-algorithm, atc-compute, atc-contracts, atc-explorer, atc-indexer, atc-interop, atc-launchpad, atc-marketplace, atc-mining, atc-node, atc-oracle, atc-sdk, atc-shivacore, atc-standards, atc-storage, atc-vm, atc-wallet, atc-zkp, atclang, aurora-ai, genesis-chronicles, genesis-engine, globus-os"
+  "content": "Top-level entries: \"components, .atc, .github, .gitignore, ARCHITECTURE.md, CHANGELOG.md, CODEOWNERS, CONTRIBUTING.md, Cargo.lock, Cargo.toml, LICENSE, MIGRATION_MANIFEST.yaml, README.md, SDK_ARCHITECTURE.md, SECURITY.md, components, control-plane, docs, integration, tools\n\nComponents: README.md, a-townchain, a-townchain-os, a-townchain-os-docs, atc-algorithm, atc-compute, atc-contracts, atc-explorer, atc-indexer, atc-interop, atc-launchpad, atc-marketplace, atc-mining, atc-node, atc-oracle, atc-sdk, atc-shivacore, atc-standards, atc-storage, atc-vm, atc-wallet, atc-zkp, atclang, aurora-ai, genesis-chronicles, genesis-engine, globus-os"
 }

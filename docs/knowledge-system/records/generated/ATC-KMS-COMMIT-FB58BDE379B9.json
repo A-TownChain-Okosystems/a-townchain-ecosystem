@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-FB58BDE379B9",
+  "timestamp": "2026-10-08T11:05:12.182466Z",
+  "category": "change",
+  "title": "Commit: fix(network): broadcast validator snapshot with produced blocks",
+  "context": "Git commit fb58bde379b95737bff968ded2638c215e472410 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/fb58bde379b95737bff968ded2638c215e472410",
+    "commit": "b0ee1b00b61a13ea653b81eb50a0dade06d2c2e1"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(network): broadcast validator snapshot with produced blocks"
+}
