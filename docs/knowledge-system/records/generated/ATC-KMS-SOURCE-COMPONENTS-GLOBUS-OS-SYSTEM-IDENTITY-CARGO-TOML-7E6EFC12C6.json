@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-GLOBUS-OS-SYSTEM-IDENTITY-CARGO-TOML-7E6EFC12C6",
-  "timestamp": "2026-10-07T16:44:12.975162Z",
+  "timestamp": "2026-10-08T09:03:10.275463Z",
   "category": "evidence",
   "title": "Indexed source: components/globus-os/system/identity/Cargo.toml",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/globus-os/system/identity/Cargo.toml",
-    "commit": "10a23bd3854eab01b16802ecdda2137b29accfca"
+    "commit": "30444698d751df404a8195e52f692940391ee9bb"
   },
   "tags": [
     "generated",

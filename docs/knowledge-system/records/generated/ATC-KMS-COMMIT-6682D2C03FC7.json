@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-6682D2C03FC7",
-  "timestamp": "2026-10-07T16:44:12.975162Z",
+  "timestamp": "2026-10-08T09:03:10.275463Z",
   "category": "change",
   "title": "Commit: audit: add evidence-first ecosystem readiness matrix",
   "context": "Git commit 6682d2c03fc76caa60a7c126c4cc39b7834727be on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/6682d2c03fc76caa60a7c126c4cc39b7834727be",
-    "commit": "10a23bd3854eab01b16802ecdda2137b29accfca"
+    "commit": "30444698d751df404a8195e52f692940391ee9bb"
   },
   "tags": [
     "commit",
