@@ -92,14 +92,16 @@ impl SceneDocument {
         Ok(())
     }
     pub fn serialize(&self) -> String {
-        let mut out = String::from("GENESIS_SCENE 1\n");
+        let mut out = String::from("GENESIS_SCENE 1
+");
         let mut nodes = self.nodes.clone();
         nodes.sort_by_key(|n| n.id.0);
         for n in nodes {
             let p = n.parent.map(|x| x.0).unwrap_or(0);
             let t = n.transform;
             out.push_str(&format!(
-                "NODE|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}\n",
+                "NODE|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}
+",
                 n.id.0,
                 p,
                 escape(&n.name),
@@ -169,7 +171,9 @@ fn escape(s: &str) -> String {
         .replace('\n', "\\n")
 }
 fn unescape(s: &str) -> String {
-    s.replace("\\n", "\n")
+    s.replace("\
+", "
+")
         .replace("\\p", "|")
         .replace("\\\\", "\\")
 }
