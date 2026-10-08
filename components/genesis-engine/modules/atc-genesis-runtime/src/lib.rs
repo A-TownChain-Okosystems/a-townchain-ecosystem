@@ -332,7 +332,7 @@ fn quantize_mm(v: [f32; 3]) -> Result<[i32; 3], String> {
 }
 
 fn dequantize_mm(v: [i32; 3]) -> [f32; 3] {
-    v.map(|x| x as f32 * 0.001)
+    v.map(|x| x as f32 / 1000.0)
 }
 
 fn quantize_rotation(v: [f32; 4]) -> Result<[i32; 3], String> {

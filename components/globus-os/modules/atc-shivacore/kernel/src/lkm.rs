@@ -586,6 +586,10 @@ impl ModuleEventType {
 #[derive(Clone, Debug)]
 pub struct DependencyGraph {
     nodes: BTreeSet<String>,
+    /// Nodes explicitly registered via `add_node`. `add_edge` only implies
+    /// node existence; load-order resolution requires every dependency to be
+    /// explicitly registered, which is how missing dependencies are detected.
+    registered: BTreeSet<String>,
     edges: HashMap<String, BTreeSet<String>>, // module -> set of dependencies
     reverse_edges: HashMap<String, BTreeSet<String>>, // module -> set of dependents
 }
@@ -594,6 +598,7 @@ impl Default for DependencyGraph {
     fn default() -> Self {
         DependencyGraph {
             nodes: BTreeSet::new(),
+            registered: BTreeSet::new(),
             edges: HashMap::new(),
             reverse_edges: HashMap::new(),
         }
@@ -606,6 +611,7 @@ impl DependencyGraph {
     }
 
     pub fn add_node(&mut self, name: &str) {
+        self.registered.insert(name.to_string());
         self.nodes.insert(name.to_string());
         self.edges.entry(name.to_string()).or_default();
         self.reverse_edges.entry(name.to_string()).or_default();
@@ -627,6 +633,7 @@ impl DependencyGraph {
     }
 
     pub fn remove_node(&mut self, name: &str) {
+        self.registered.remove(name);
         self.nodes.remove(name);
         self.edges.remove(name);
         self.reverse_edges.remove(name);
@@ -790,7 +797,7 @@ impl DependencyGraph {
             let mut sorted_deps: Vec<String> = deps.iter().cloned().collect();
             sorted_deps.sort();
             for dep in &sorted_deps {
-                if !self.nodes.contains(dep) {
+                if !self.registered.contains(dep) {
                     return Err(format!(
                         "Dependency '{}' not found (required by '{}')",
                         dep, node
@@ -1103,6 +1110,18 @@ impl ModuleRegistry {
             if module.state.is_loading() {
                 return Err(format!("Module '{}' is already loading", name));
             }
+            // Load-time conflict check: a declared conflict against an
+            // already-active module must fail the load (fail-closed).
+            for conflict in &module.conflicts {
+                if let Some(other) = self.modules.get(conflict) {
+                    if other.state.is_active() {
+                        return Err(format!(
+                            "Module '{}' conflicts with active module '{}'",
+                            name, conflict
+                        ));
+                    }
+                }
+            }
             (module.id, module.name.clone())
         };
 
@@ -1328,7 +1347,17 @@ impl ModuleRegistry {
 
         sorted
             .into_iter()
-            .map(|(name, _)| self.load(&name))
+            .map(|(name, _)| {
+                // A module pulled in earlier as a dependency of another
+                // auto-load entry is already active: report its handle
+                // idempotently instead of failing the auto-load batch.
+                if let Some(m) = self.modules.get(&name) {
+                    if m.state.is_active() {
+                        return Ok(m.id);
+                    }
+                }
+                self.load(&name)
+            })
             .collect()
     }
 
@@ -2392,7 +2421,12 @@ mod tests {
 
     #[test]
     fn test_dep_graph_load_order() {
+        // load_order only resolves explicitly registered nodes; add_edge
+        // alone does not make a dependency loadable (missing-dep detection).
         let mut g = DependencyGraph::new();
+        g.add_node("a");
+        g.add_node("b");
+        g.add_node("c");
         g.add_edge("c", "b");
         g.add_edge("b", "a");
         let order = g.load_order("c").unwrap();
