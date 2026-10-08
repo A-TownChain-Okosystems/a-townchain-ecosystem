@@ -104,7 +104,20 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, LexError> {
                 }
             }
             '*' => tokens.push(Token::Star),
-            '/' => tokens.push(Token::Slash),
+            '/' => {
+                if chars.peek().is_some_and(|&(_, c)| c == '/') {
+                    // Line comments are lexical trivia. Consume the complete
+                    // line before tokenizing, including arbitrary Unicode text.
+                    chars.next();
+                    for (_, comment_ch) in chars.by_ref() {
+                        if comment_ch == '\n' {
+                            break;
+                        }
+                    }
+                } else {
+                    tokens.push(Token::Slash);
+                }
+            },
             '%' => tokens.push(Token::Percent),
             ':' => tokens.push(Token::Colon),
             '@' => tokens.push(Token::At),
@@ -246,6 +259,22 @@ mod tests {
         assert!(ts.contains(&Token::Capability));
         assert!(ts.contains(&Token::Function));
         assert!(ts.contains(&Token::Require));
+    }
+
+    #[test]
+    fn line_comments_ignore_unicode_text() {
+        let tokens = tokenize("// ───────────── Unicode comment\nlet x = 1;").unwrap();
+        assert_eq!(
+            tokens,
+            vec![
+                Token::Let,
+                Token::Ident("x".to_string()),
+                Token::Assign,
+                Token::Int(1),
+                Token::Semi,
+                Token::Eof,
+            ]
+        );
     }
 
     #[test]
