@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-A9B073EF3C94",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "Commit: docs(architecture): route dialogue effects through authoritative runtime",
+  "context": "Git commit a9b073ef3c94720dec3a0b33b9c16758fc888d13 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/a9b073ef3c94720dec3a0b33b9c16758fc888d13",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs(architecture): route dialogue effects through authoritative runtime"
+}

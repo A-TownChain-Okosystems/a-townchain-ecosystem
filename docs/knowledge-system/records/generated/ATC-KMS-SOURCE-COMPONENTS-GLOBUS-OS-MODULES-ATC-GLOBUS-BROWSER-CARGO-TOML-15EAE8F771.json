@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-GLOBUS-OS-MODULES-ATC-GLOBUS-BROWSER-CARGO-TOML-15EAE8F771",
-  "timestamp": "2026-09-27T08:15:49.652216Z",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
   "category": "evidence",
   "title": "Indexed source: components/globus-os/modules/atc-globus-browser/Cargo.toml",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/globus-os/modules/atc-globus-browser/Cargo.toml",
-    "commit": "d23e26afdd5368e6d9f2bb06856f5ad360b101e9"
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
   },
   "tags": [
     "generated",

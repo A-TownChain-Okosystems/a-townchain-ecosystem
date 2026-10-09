@@ -13,11 +13,27 @@ fn sdk_node_mempool_consensus_vm_state_storage_indexer() {
         .genesis_credit("alice", 1_000_000)
         .expect("genesis allocation must respect supply cap");
     node.register_validator("validator-1".into(), 100).unwrap();
-    node.register_validator_key("validator-1", SigningKey::from_bytes(&[6u8; 32]).verifying_key().to_bytes()).unwrap();
+    node.register_validator_key(
+        "validator-1",
+        SigningKey::from_bytes(&[6u8; 32])
+            .verifying_key()
+            .to_bytes(),
+    )
+    .unwrap();
     node.set_vote_signer("validator-1", [6u8; 32]);
     node.create_genesis(1).unwrap();
     let key = SigningKey::from_bytes(&[7u8; 32]);
-    let tx = TransactionBuilder::transfer(chain_id, "alice", "bob", 100, 1, 1000, 0, 2).sign(&key);
+    let tx = TransactionBuilder::transfer(
+        chain_id,
+        "alice",
+        "bob",
+        100 * atc_blockchain::economics::ATC_BASE_UNITS,
+        1,
+        1000,
+        0,
+        2,
+    )
+    .sign(&key);
     let txid = tx.id;
     node.submit(tx, 2).unwrap();
     assert_eq!(node.pool.get_pending_batch(10).len(), 1);
@@ -46,7 +62,17 @@ fn sdk_node_mempool_consensus_vm_state_storage_indexer() {
     assert!(node.finalize(&block, 1).unwrap());
     assert!(indexer.contains(block.id));
     assert_eq!(node.storage.block(1).unwrap().id, block.id);
-    assert_eq!(node.storage.state_root(1), Some(node.state.root()));
+    assert_eq!(
+        node.storage.state_root(1),
+        Some(
+            atc_blockchain::committed_state_root(
+                node.state.root(),
+                1,
+                node.consensus.validator_snapshot_commitment(1),
+            )
+            .unwrap()
+        )
+    );
 }
 
 #[test]
@@ -76,11 +102,27 @@ fn storage_restart_recovers_chain_and_state() {
         .genesis_credit("alice", 1_000_000)
         .expect("genesis allocation must respect supply cap");
     node.register_validator("validator-1".into(), 100).unwrap();
-    node.register_validator_key("validator-1", SigningKey::from_bytes(&[10u8; 32]).verifying_key().to_bytes()).unwrap();
+    node.register_validator_key(
+        "validator-1",
+        SigningKey::from_bytes(&[10u8; 32])
+            .verifying_key()
+            .to_bytes(),
+    )
+    .unwrap();
     node.set_vote_signer("validator-1", [10u8; 32]);
     node.create_genesis(1).unwrap();
     let key = SigningKey::from_bytes(&[8u8; 32]);
-    let tx = TransactionBuilder::transfer(658467, "alice", "bob", 25, 1, 1000, 0, 2).sign(&key);
+    let tx = TransactionBuilder::transfer(
+        658467,
+        "alice",
+        "bob",
+        25 * atc_blockchain::economics::ATC_BASE_UNITS,
+        1,
+        1000,
+        0,
+        2,
+    )
+    .sign(&key);
     node.submit(tx, 2).unwrap();
     let block = node.produce(3, 10).unwrap();
     let vote_key = SigningKey::from_bytes(&[10u8; 32]);
@@ -104,7 +146,14 @@ fn storage_restart_recovers_chain_and_state() {
     assert!(node.finalize(&block, 1).unwrap());
     drop(node);
     let reopened = Node::open_storage(658467, "validator-1".into(), &path).unwrap();
-    reopened.register_validator_key("validator-1", SigningKey::from_bytes(&[10u8; 32]).verifying_key().to_bytes()).unwrap();
+    reopened
+        .register_validator_key(
+            "validator-1",
+            SigningKey::from_bytes(&[10u8; 32])
+                .verifying_key()
+                .to_bytes(),
+        )
+        .unwrap();
     reopened.set_vote_signer("validator-1", [10u8; 32]);
     assert_eq!(reopened.chain.height(), 1);
     assert_eq!(reopened.state.balance("bob"), 25);
@@ -166,12 +215,27 @@ fn dao_transactions_persist_and_recover() {
         .genesis_credit(&proposer, 1_000_000)
         .expect("genesis allocation must respect supply cap");
     node.register_validator(proposer.clone(), 100).unwrap();
-    node.register_validator_key(&proposer, SigningKey::from_bytes(&[11u8; 32]).verifying_key().to_bytes()).unwrap();
+    node.register_validator_key(
+        &proposer,
+        SigningKey::from_bytes(&[11u8; 32])
+            .verifying_key()
+            .to_bytes(),
+    )
+    .unwrap();
     node.set_vote_signer(proposer.clone(), [11u8; 32]);
     node.create_genesis(0).unwrap();
     let key = SigningKey::from_bytes(&[11u8; 32]);
 
-    let stake = TransactionBuilder::stake(chain_id, &proposer, 100_000, 1, 2000, 0, 1).sign(&key);
+    let stake = TransactionBuilder::stake(
+        chain_id,
+        &proposer,
+        100_000 * atc_blockchain::economics::ATC_BASE_UNITS,
+        1,
+        2000,
+        0,
+        1,
+    )
+    .sign(&key);
     node.submit(stake, 1).unwrap();
     node.produce(1, 10).unwrap();
 
@@ -184,7 +248,7 @@ fn dao_transactions_persist_and_recover() {
         "Treasury",
         "Fund audit",
         Some("bob"),
-        125,
+        125 * atc_blockchain::economics::ATC_BASE_UNITS,
         1,
         6000,
         1,
@@ -194,7 +258,16 @@ fn dao_transactions_persist_and_recover() {
     node.submit(create, 2).unwrap();
     node.produce(2, 10).unwrap();
 
-    let fund = TransactionBuilder::dao_fund(chain_id, &proposer, 500, 1, 6000, 2, 3).sign(&key);
+    let fund = TransactionBuilder::dao_fund(
+        chain_id,
+        &proposer,
+        500 * atc_blockchain::economics::ATC_BASE_UNITS,
+        1,
+        6000,
+        2,
+        3,
+    )
+    .sign(&key);
     node.submit(fund, 3).unwrap();
     node.produce(3, 10).unwrap();
 
@@ -216,7 +289,10 @@ fn dao_transactions_persist_and_recover() {
         dao.proposals.get(&7).unwrap().status,
         atc_blockchain::dao_state::Status::Executed
     );
-    assert_eq!(dao.treasury, 375);
+    assert_eq!(
+        dao.treasury,
+        375 * atc_blockchain::economics::ATC_BASE_UNITS
+    );
     assert_eq!(node.state.balance("bob"), 125);
 
     drop(node);
@@ -227,7 +303,10 @@ fn dao_transactions_persist_and_recover() {
         recovered_dao.proposals.get(&7).unwrap().status,
         atc_blockchain::dao_state::Status::Executed
     );
-    assert_eq!(recovered_dao.treasury, 375);
+    assert_eq!(
+        recovered_dao.treasury,
+        375 * atc_blockchain::economics::ATC_BASE_UNITS
+    );
     assert_eq!(recovered.state.balance("bob"), 125);
     assert_eq!(recovered.state.staked("alice"), 100_000);
     assert_eq!(recovered.chain.height(), 6);

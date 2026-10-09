@@ -7,51 +7,228 @@
 **Prinzip:** SSOT je Domäne, zentrale Integrationsarchitektur im Ecosystem  
 **Quest AI:** als kanonische Game-Intelligence-Funktion in Aurora/Genesis integriert
 
-## Schichtenmodell
+> **Canonical architecture rule:** L0–L7 are architectural responsibility domains, not a mandatory runtime ordering. **X** is a cross-layer control plane, not an additional execution layer. Architecture, implementation, testing, CI evidence and E2E evidence are separate status dimensions.
 
-```
-+----------------------------------------------------------------+
-| Applications                                                  |
-| Genesis Chronicles / Games / Franchises / User Experiences    |
-+----------------------------------------------------------------+
-| Genesis Engine — L6 Game Platform                             |
-| Runtime / ECS / World / Gameplay / AI / Quest AI / Dialogue / LiveOps |
-+----------------------------------------------------------------+
-| Aurora AI — AI / Agent / Policy Layer                          |
-| Models / Agents / Memory / Tools / Planning / Dialogue / Governance |
-+----------------------------------------------------------------+
-| A-TownChain L1                                                 |
-| Node / Wallet / SDK / VM / Algorithm / State / Storage / ...  |
-+----------------------------------------------------------------+
-| ATCLang                                                       |
-| On-chain programs / contracts / deterministic artifacts       |
-+----------------------------------------------------------------+
-| ShivaCore Kernel — TCB                                         |
-| Hardware / HAL / memory / IPC / scheduling / security         |
-+----------------------------------------------------------------+
-```
+## Canonical Layer Model
 
-## System Integration
+```text
+L0 — System & Network
+     Hardware / HAL / GlobusOS / ShivaCore / networking / transport / node runtime
 
-Der kanonische Daten- und Kontrollfluss lautet:
+L1 — Data & Storage
+     Canonical persistence / state storage / history / read models / indexing
 
-```
-ShivaCore
-    ↓
-ATCLang
-    ↓
-ATC-VM
-    ↓
-A-TownChain L1
-    ↓
-Aurora AI
-    ↓
-Genesis Engine
-    ↓
-Games / Worlds / Franchises
+L2 — Blockchain Core & Consensus
+     Transactions / authorization entry / mempool / blocks / consensus / finality / economics
+
+L3 — Deterministic Execution / ATC-VM
+     ATCLang / ATC-IR / ABI / bytecode / verifier / ATC-VM / deterministic state transition
+
+L4 — Scaling & Execution Domains
+     Rollups / validity domains / specialized execution / future scaling and settlement domains
+
+L5 — Protocol & Economic Domains
+     Identity / assets / oracle / compute / interoperability / marketplace / launchpad / protocol contracts
+
+L6 — AI & Intelligence
+     Aurora / agents / RAG / memory / Quest AI / Dialogue AI / World / Character / domain intelligence
+
+L7 — Applications & User Experience
+     Genesis Engine / games / worlds / franchises / wallet UX / explorer / user-facing applications
+
+X — Cross-Layer Control Plane
+     Identity / capability / authorization / policy / governance / cryptography /
+     audit & evidence / observability / interoperability / versioning & compatibility
 ```
 
-Die Engine bleibt außerhalb des Konsens-Kernels. On-chain relevante Zustandsänderungen passieren ausschließlich über die definierte Chain/VM-Grenze.
+### Layer Semantics
+
+| Layer | Authority | Determinism | State authority |
+|---|---|---|---|
+| L0 | System / kernel / network boundary | deterministic where specified | No canonical chain state |
+| L1 | Data / persistence | deterministic persistence rules | Persistence of state committed by L2/L3; no protocol authority |
+| L2 | Blockchain protocol | deterministic | Chain authority / consensus |
+| L3 | ATC-VM execution | deterministic | Computes deterministic state transitions under L2 protocol authority |
+| L4 | Execution/scaling domain | domain-contract dependent | Only explicitly authorized domain state |
+| L5 | Protocol/economic domain | contract/policy defined | Authorized protocol state |
+| L6 | AI / intelligence | not a consensus authority | No direct canonical chain authority |
+| L7 | Application / UX | runtime/user dependent | No direct canonical chain authority |
+| X | Governance / security / control | policy/contract defined | Controls authorization and access |
+
+**Layer ordering is conceptual.** L1 being numbered below L2 does not mean storage executes before consensus. The runtime data path is defined separately below.
+
+## Canonical Deterministic Trust Boundary
+
+The authoritative blockchain path separates candidate execution from protocol finality:
+
+```text
+Transaction
+    ↓
+Signature / Authorization
+    ↓
+Mempool
+    ↓
+Block Proposal / Validation
+    ↓
+ATC-VM — deterministic candidate state transition
+    ↓
+Consensus / Validator Voting
+    ↓
+Finality / Commit
+    ↓
+Canonical State
+    ↓
+Durable Storage / Read Models
+```
+
+This diagram defines authority and commit semantics, not a single-process implementation. Execution may occur before finality as a candidate transition; only finalized protocol state becomes canonical.
+
+### Boundary Invariants
+
+```text
+Aurora
+  ≠ Consensus
+  ≠ ATC-VM
+  ≠ canonical blockchain state
+
+Genesis
+  ≠ Blockchain Core
+
+GlobusOS / ShivaCore
+  ≠ ATC-VM
+
+Indexer
+  ≠ Source of Truth
+
+Explorer
+  ≠ Source of Truth
+
+AI Memory
+  ≠ canonical blockchain state
+```
+
+AI/model inference can produce proposals, commands or requests. Authoritative state changes require the responsible deterministic runtime and applicable authorization/policy checks.
+
+## Cross-Layer Control Plane
+
+X is a cross-cutting control-plane model for identity, capability, authorization, policy, governance, security and evidence. It does not replace L0–L7, does not become a runtime execution layer, and does not independently execute blockchain state transitions. Normative standards remain owned by `atc-standards`; runtime enforcement remains with the responsible domain.
+
+```text
+                 CROSS-LAYER CONTROL PLANE — X
+ ┌──────────────────────────────────────────────────────────────┐
+ │ Identity                                                     │
+ │ Capability / Authorization                                   │
+ │ Policy                                                      │
+ │ Governance                                                   │
+ │ Cryptography                                                 │
+ │ Audit / Evidence                                             │
+ │ Observability                                                │
+ │ Interoperability                                             │
+ │ Versioning / Compatibility                                   │
+ └───────────────────────────┬──────────────────────────────────┘
+                             │
+             ┌───────────────┼───────────────┐
+             ▼               ▼               ▼
+            L0              L1              L2 ... L7
+```
+
+## Primary Repository / Subsystem Mapping
+
+A repository may span more than one architectural layer; the table identifies its primary responsibility and does not override repository-level SSOT.
+
+| Layer | Primary repositories / subsystems |
+|---|---|
+| L0 | `atc-shivacore`, `globus-os`, `atc-node` network/runtime boundary |
+| L1 | `atc-storage`, `atc-indexer` read models, `atc-explorer` presentation/read model |
+| L2 | `a-townchain`, `atc-node`, `atc-algorithm`, `atc-mining`, `atc-wallet` transaction interface |
+| L3 | `atc-vm`, `atclang`, `atc-contracts` |
+| L4 | `atc-zkp`, future scaling/execution-domain components |
+| L5 | `atc-interop`, `atc-oracle`, `atc-compute`, `atc-marketplace`, `atc-launchpad`, protocol/asset/identity domains |
+| L6 | `aurora-ai`, Quest AI, Dialogue AI and other domain-intelligence capabilities |
+| L7 | `genesis-engine`, `genesis-chronicles`, `genesis-franchise-factory`, `atc-wallet` UX, `atc-explorer` UX, `atc-ide` |
+| X | `atc-standards`, security/cryptography/identity/policy/audit capabilities across the ecosystem |
+
+This mapping is architectural only. It does not assert implementation, test, CI or E2E status. Cross-layer repositories remain governed by their own canonical source-of-truth contracts.
+
+## Canonical Runtime / Data-Flow Separation
+
+The layer model and runtime flow must not be conflated.
+
+```text
+L2 Blockchain Core
+    │
+    ├── Transaction / Mempool
+    └── Block Proposal / Validation
+             │
+             ▼
+L3 Deterministic Execution
+    │
+    └── ATC-VM / candidate State Transition
+             │
+             ▼
+L2 Consensus / Validator Voting
+             │
+             ▼
+L2 Finality / Commit
+             │
+             ▼
+L1 Canonical State Persistence
+    │
+    ├── Durable Storage
+    └── Read Models / Indexing
+```
+
+The VM result is a candidate until accepted by the applicable consensus/finality rules. L1 persists committed state; it does not determine protocol finality.
+
+Application and intelligence paths connect through defined interfaces rather than becoming part of the consensus/VM execution boundary:
+
+```text
+L6 Aurora / AI
+      │
+      ├── Proposal / Command / Request
+      ▼
+X Authorization / Policy / Capability
+      │
+      ▼
+L7 Genesis / Application Runtime
+      │
+      ├── deterministic local state changes
+      └── authorized L5/L2/L3 integration when required
+```
+
+## Canonical Ownership Rules
+
+1. **Standalone First, Ecosystem Second:** each core repository owns its implementation SSOT, build, tests, release and API/ABI contracts.
+2. `a-townchain-ecosystem` owns system-level boundaries, integration architecture and evidence aggregation; it does not replace component implementation SSOTs.
+3. `atc-standards` remains the standards/governance SSOT.
+4. Architecture text is not implementation evidence.
+5. A file or directory existing is not evidence that a capability is implemented.
+6. CI evidence is valid only when tied to the exact source commit under assessment.
+7. Indexers and explorers are read/presentation models and are not canonical state authorities.
+8. AI memory is not canonical blockchain state unless an explicit deterministic protocol contract makes a state representation authoritative.
+9. L4 is a target architectural domain where components may be future/partial; its presence here is not an implementation claim.
+
+## Architecture Status Semantics
+
+Architecture statements must remain separate from implementation evidence:
+
+```text
+ARCHITECTURE CONTRACT
+        │
+        ├── Implementation: PRESENT / MISSING / BLOCKED
+        ├── Tests: TESTED / NOT_TESTED
+        ├── CI: CI_VERIFIED only for exact SHA
+        ├── Integration: INTEGRATED / NOT_INTEGRATED
+        └── E2E: E2E_VERIFIED / NOT_E2E_VERIFIED
+
+These are independent evidence dimensions, not a required implementation sequence.
+```
+
+Exceptional states may include:
+
+`MISSING` · `BLOCKED` · `DUPLICATE` · `DISCONNECTED`
+
+The remainder of this document defines Quest AI, Dialogue AI and Aurora/GlobusOS architecture within the canonical layer model. Existing boundary contracts are retained below and must not be interpreted as implementation claims.
 
 ---
 
@@ -274,7 +451,9 @@ Difficulty
 + Quest Importance
 → Reward Proposal
 → Economy Validation
-→ Reward
+→ Authorized Reward Command
+→ Genesis / authoritative Economy Runtime
+→ Committed Reward State
 ```
 
 Unterstützte Reward-Klassen:
@@ -812,7 +991,11 @@ Deterministic Runtime
         ↓
 World / Player State
         ↓
-Rewards / Reputation / Consequences
+Genesis Authoritative Runtime
+        ↓
+Validated Rewards / Reputation / Consequences
+        ↓
+Committed Game State
         ↓
 Persistent Game State
 ```
@@ -1339,7 +1522,7 @@ Die konkrete Transporttechnologie und Runtime-Implementierung bleiben Aufgabe de
 | Dialogue runtime / NPC & gameplay integration | genesis-engine |
 | Models / agents / planning / inference orchestration | aurora-ai |
 | Character / NPC / world state | genesis-engine |
-| Quest contracts / Quest runtime | genesis-engine / a-townchain-ecosystem architecture |
+| Quest contracts / Quest runtime | `genesis-engine` |
 | Lore / canon source | zuständiges kanonisches Lore-/Content-System |
 | Voice / TTS adapters | Genesis Engine / AI capability implementation |
 | Standards / governance | atc-standards |
@@ -1673,3 +1856,4621 @@ Evidence MUST identify, where applicable:
 - provenance/audit information
 
 This section is an architectural governance contract. It does not claim that every listed ecosystem capability is currently implemented or federation-verified.
+
+---
+
+# Aurora AI — Canonical GlobusOS Control / Intelligence Plane
+
+Aurora AI is the **AI Control / Intelligence Plane of GlobusOS**. It is not the operating-system kernel and does not own blockchain consensus authority.
+
+## Canonical OS Boundary
+
+```text
+AURORA AI
+    │
+    │ Intelligence / Planning / Agent Execution
+    ▼
+GLOBUS OS
+    │
+    │ OS Services / IPC / Resource Management
+    ▼
+SHIVACORE
+    │
+    │ Kernel / TCB / Capabilities / Isolation
+    ▼
+HARDWARE
+```
+
+- **Aurora:** models, agents, planning, skills, tools, memory/RAG, multimodal processing, domain intelligence, automation and evidence.
+- **GlobusOS:** operating-system services, IPC, resource/device integration, userspace and OS-level policy boundaries.
+- **ShivaCore:** trusted kernel/TCB, isolation, capabilities, scheduling, memory and hardware boundary.
+
+These are architectural responsibilities, not implementation claims. Actual Aurora capability status is determined by **AURORA-001 — Platform Completeness & Authority Gate** in the `aurora-ai` repository.
+
+## Canonical Authority Contract
+
+```text
+MODEL
+  │ proposes
+  ▼
+AGENT
+  │ requests
+  ▼
+CAPABILITY
+  │ checked by
+  ▼
+POLICY
+  │ may require
+  ▼
+APPROVAL
+  │ authorizes
+  ▼
+TOOL
+  │ executes
+  ▼
+GLOBUS OS
+  │ capability + IPC
+  ▼
+SHIVACORE
+```
+
+The following are architectural invariants:
+
+- AI models have no implicit execution authority.
+- Agents cannot bypass capability checks.
+- Capabilities are subject to policy evaluation.
+- Sensitive operations may require explicit approval.
+- Tools execute only through authorized interfaces.
+- Aurora has no direct kernel authority.
+- Aurora has no direct blockchain consensus authority.
+- Privileged execution must be auditable.
+
+## A-TownChain Integration Boundary
+
+```text
+AURORA
+   │ request
+   ▼
+A-TownChain Interface
+   ▼
+Node
+   ▼
+Consensus
+   ▼
+ATC-VM
+   ▼
+State
+```
+
+Aurora may propose, plan and request blockchain operations. Consensus, VM execution and authoritative state transitions remain under the deterministic A-TownChain components.
+
+## Aurora Platform Planes
+
+The canonical Aurora target architecture consists of:
+
+1. **Model Plane** — ModelHub, provider adapters, registry, versioning, model policy.
+2. **Runtime Plane** — scheduler, context engine, agent runtime, planner, execution, event bridge.
+3. **Agent Plane** — registry, lifecycle, roles, planning, skills, multi-agent coordination.
+4. **Authority Plane** — capabilities, policy engine, approval, human gate, authorization.
+5. **Tool Plane** — tool registry, adapters, execution and sandboxing.
+6. **Memory / Knowledge Plane** — working, episodic, semantic and federated memory, RAG, retrieval, knowledge graph and provenance.
+7. **Multimodal Plane** — text, speech, audio, vision, image, video and documents.
+8. **Domain Intelligence** — Dialogue, Quest, World, Character, Creature, Faction and Security AI.
+9. **Governance / Evidence** — audit, provenance, telemetry, evaluation and evidence.
+10. **Integration Plane** — GlobusOS IPC, Genesis interface, A-TownChain interface and external services.
+
+The plane list defines the canonical target architecture. It does not assert that every plane or component is already implemented.
+
+## AURORA-001 Evidence Rule
+
+Aurora component evidence uses the same independent dimensions as the master architecture:
+
+```text
+ARCHITECTURE CONTRACT
+        │
+        ├── Implementation: PRESENT / MISSING / BLOCKED
+        ├── Tests: TESTED / NOT_TESTED
+        ├── CI: CI_VERIFIED only for exact SHA
+        ├── Integration: INTEGRATED / NOT_INTEGRATED
+        └── E2E: E2E_VERIFIED / NOT_E2E_VERIFIED
+```
+
+Exceptional states are `MISSING`, `BLOCKED`, `DUPLICATE` and `DISCONNECTED`.
+
+These are evidence dimensions, not a required implementation sequence. A file, directory or architecture statement is not implementation evidence. CI evidence is valid only when tied to the exact source commit under assessment.
+
+## Repository Ownership
+
+| Capability | Canonical Owner |
+|---|---|
+| Aurora AI implementation | `aurora-ai` |
+| Aurora platform architecture / AURORA-001 evidence | `aurora-ai` |
+| Ecosystem system boundaries and integration contract | `a-townchain-ecosystem` |
+| GlobusOS | `globus-os` |
+| Kernel / TCB / capabilities | `atc-shivacore` |
+| Genesis runtime | `genesis-engine` |
+| Blockchain / VM | A-TownChain canonical L1 / VM repositories |
+| Standards / governance | `atc-standards` |
+
+The ecosystem repository remains the integration/master-architecture SSOT; component implementations remain in their canonical repositories.
+
+
+---
+
+## Architecture Consistency Gate — ARCH-001
+
+The following invariants are normative and resolve cross-section ambiguity:
+
+### A. Authority vs. persistence
+- L2 owns consensus/finality authority.
+- L3 computes deterministic state transitions under L2 protocol authority.
+- L1 persists committed state and serves history/read models; storage cannot finalize protocol state.
+- Indexers and explorers are derived/read models and cannot become canonical state authorities.
+
+### B. Execution vs. finality
+- VM execution may produce a candidate transition before consensus finality.
+- Only a finalized/committed transition becomes canonical protocol state.
+- Durable persistence follows the commit contract; recovery must validate the committed state before serving it as canonical.
+
+### C. Aurora / AI authority
+- Aurora, agents and models are never implicit super-authorities.
+- AI output is a proposal/request unless a target domain's deterministic authorization contract accepts it.
+- Aurora does not replace Chain, Genesis, GlobusOS or ShivaCore authority.
+
+### D. ShivaCore / GlobusOS / ATC-VM boundary
+- ShivaCore is the kernel/TCB boundary.
+- GlobusOS is the OS/service boundary above ShivaCore.
+- ATC-VM is the deterministic contract-execution boundary and is not the kernel.
+- Hardware-backed security claims require separate hardware evidence.
+
+### E. SSOT and evidence
+- `atc-standards` is normative standards/governance SSOT.
+- `a-townchain-ecosystem` owns system architecture, boundaries and integration evidence aggregation.
+- Component repositories own implementation, tests, release and API/ABI SSOT.
+- Architecture text, repository/file existence, PR state and historical CI runs are not current implementation evidence.
+- CI verification is valid only for the exact source SHA under assessment.
+
+### F. State domains
+Every state domain must have exactly one authoritative owner for writes/commit semantics. Read replicas, caches, indexes, memories and projections may consume state but cannot silently become authoritative.
+
+### G. Interface and event discipline
+All cross-domain writes must cross a declared, versioned interface with authentication/authorization, schema validation, replay/idempotency rules and audit semantics. Events are transport/integration artifacts unless their target domain explicitly defines them as authoritative inputs.
+
+This gate is an architecture consistency contract. It does not claim that the listed contracts are implemented or CI/E2E verified.
+
+---
+
+# ARCH-002 — Detailed System Architecture Contract
+
+This section expands the master architecture into explicit layers, planes, domains, authority boundaries, lifecycle stages, interfaces, state ownership, failure handling, security, observability, deployment and evidence rules.
+
+It is a normative target-architecture and boundary contract. It does not imply that every described component is implemented.
+
+## 1. Architecture Model
+
+The system is organized across four orthogonal dimensions:
+
+1. Layers — architectural responsibility and dependency direction.
+2. Planes — cross-cutting capabilities.
+3. Domains — authoritative ownership boundaries.
+4. Evidence — independent proof dimensions.
+
+These dimensions MUST NOT be conflated.
+
+~~~text
+SYSTEM ARCHITECTURE
+        |
+  +-----+------+----------------+
+  |            |                |
+LAYERS       PLANES           DOMAINS
+  |            |                |
+responsibility cross-cutting   state/authority
+  +------------+----------------+
+               |
+       INTERFACE CONTRACTS
+               |
+         EVIDENCE CONTRACT
+~~~
+
+## 2. Canonical Layer Contract
+
+### L0 — Foundation / Host / Network
+
+Owns host assumptions, transport, platform capabilities and hardware-facing interfaces. L0 MUST NOT define application semantics.
+
+### L1 — Data / Persistence
+
+Owns durable storage, committed-state persistence, snapshots, journals, recovery, historical reads and derived read models. L1 MUST NOT decide blockchain finality.
+
+### L2 — Blockchain / Protocol / Consensus
+
+Owns transactions, authorization, mempool admission, block proposal, validation, peer protocol, validator participation, consensus and finality. L2 owns blockchain finality authority.
+
+### L3 — Deterministic Execution / ATC-VM
+
+Owns bytecode verification, deterministic execution, resource accounting, contract state-transition calculation, host interfaces, limits and execution receipts. L3 produces candidate transitions and MUST NOT independently finalize blockchain state.
+
+### L4 — Scaling / Execution Domains
+
+Owns execution domains, partitioned/parallel execution where defined, domain-local ordering and settlement interfaces. Every L4 domain MUST define its relationship to L2 canonical state.
+
+### L5 — Protocol / Economic Domains
+
+Owns monetary policy implementation, rewards, staking, slashing, treasury and protocol economic services. Economic state MUST define its authoritative owner, units and numeric types.
+
+### L6 — Intelligence / AI
+
+Owns models, inference, planning, retrieval, agents, multimodal processing and domain intelligence. L6 output is non-authoritative by default.
+
+### L7 — Applications / Experience
+
+Owns wallets, explorers, Genesis applications, editor UX, developer tooling and presentation. L7 MUST NOT bypass lower-layer authority boundaries.
+
+## 3. Cross-Layer X Plane
+
+X is a cross-cutting control plane, not an execution layer.
+
+~~~text
+Identity
+  |
+Authentication
+  |
+Authorization
+  |
+Capability
+  |
+Policy
+  |
+Approval
+  |
+Audit / Evidence
+~~~
+
+X may constrain or authorize operations in L1-L7 but MUST NOT silently become owner of another domain's canonical state.
+
+## 4. Authority Model
+
+Authority follows canonical state ownership, not UI position, model capability or orchestration centrality.
+
+~~~text
+Human / Governance
+        |
+Policy / Approval
+        |
+Target Domain Authority
+   +----+-----+-------+-------+
+   |          |       |       |
+ Chain       VM    Genesis    OS
+ consensus execution runtime services
+   |          |       |       |
+ finality  transition state   policy
+~~~
+
+Aurora MAY propose and orchestrate actions but MUST NOT become an implicit global authority.
+
+## 5. Canonical Blockchain Lifecycle
+
+~~~text
+Construct Transaction
+        |
+Canonical Encoding
+        |
+Signature / Authorization
+        |
+Admission / Validation
+        |
+Mempool
+        |
+Block Proposal
+        |
+Block Validation
+        |
+ATC-VM Candidate Execution
+        |
+Execution Receipt
+        |
+Consensus / Validator Voting
+        |
+Finality / Commit
+        |
+Canonical State Update
+        |
+Durable Persistence
+        |
+Indexing / Read Models
+        |
+External Observation
+~~~
+
+A mempool transaction is not final. A VM result is not final. A persisted candidate is not canonical protocol state unless the commit contract establishes it as such.
+
+## 6. Canonical Block Lifecycle
+
+~~~text
+RECEIVED
+   |
+VALIDATING
+   |
+VALID
+   |
+PROPOSED
+   |
+VOTING
+   |
+FINALIZED
+   |
+COMMITTED
+   |
+PERSISTED
+   |
+INDEXED
+~~~
+
+Rejected or failed blocks MUST NOT transition to FINALIZED.
+
+## 7. State Machine Contract
+
+Every authoritative state domain MUST define:
+
+- state identifier;
+- owner;
+- version;
+- schema;
+- allowed transitions;
+- transition authority;
+- invariants;
+- persistence boundary;
+- recovery rule;
+- migration rule;
+- event contract;
+- audit requirements.
+
+Canonical transition:
+
+~~~text
+Previous State
+      |
+Authorized Input
+      |
+Validation
+      |
+Deterministic Transition
+      |
+Invariant Check
+      |
+Commit Decision
+      |
+New Canonical State
+~~~
+
+No component may mutate another domain's canonical state through an undocumented side channel.
+
+## 8. State Ownership
+
+| State | Authoritative owner | Consumers |
+|---|---|---|
+| Consensus state | Chain / L2 | nodes, indexers, explorers |
+| Contract execution state | protocol-defined chain/VM state owner | nodes, contracts |
+| Persistent chain data | L1 storage | nodes, indexers |
+| Economic protocol state | designated L5/chain domain | chain, wallets, applications |
+| Wallet local state | wallet | user applications |
+| Genesis world state | Genesis Engine | Aurora, clients, tools |
+| Quest state | Genesis/Quest runtime | Quest AI, UI |
+| Dialogue context | Dialogue subsystem | Aurora/agents |
+| AI working memory | Aurora/runtime | agents |
+| OS service state | GlobusOS | services/applications |
+| Kernel state | ShivaCore | GlobusOS |
+| Index state | indexer | explorer/API |
+| Cache state | owning service | consumers |
+
+Derived state MUST remain subordinate to its authoritative source.
+
+## 9. Event Architecture
+
+Events are not automatically authoritative.
+
+~~~text
+Authoritative State Transition
+          |
+        Commit
+          |
+    Canonical Event
+          |
+       Transport
+          |
+       Consumers
+          |
+ Derived State / Actions
+~~~
+
+Cross-domain events SHOULD define event ID, type, schema version, source domain, source entity, source state version, sequence information, correlation ID, causation ID, authorization context and integrity metadata.
+
+Consumers MUST implement the applicable replay, deduplication and idempotency contract.
+
+## 10. Command vs Event
+
+~~~text
+COMMAND = requested state transition
+        |
+ Authorization
+        |
+ Validation
+        |
+ Execution
+        |
+ Commit
+        |
+EVENT = accepted transition occurred
+~~~
+
+A command is intent. An event is evidence of an accepted transition. An event MUST NOT become authorization merely because it exists.
+
+## 11. Interface Contract
+
+Every cross-domain interface MUST define owner, consumer, version, transport, schema, authentication, authorization, capabilities, timeout, retry semantics, idempotency, ordering, error model, compatibility, deprecation, observability and security requirements.
+
+Supported interface classes include synchronous API, asynchronous command, event stream, IPC, P2P protocol, storage contract, ABI and developer interface.
+
+No integration MAY depend on undocumented internal implementation details of another repository.
+
+## 12. Dependency Direction
+
+The numeric layer order is NOT a runtime execution sequence.
+
+Dependency direction is:
+
+~~~text
+Foundation
+    ^
+Kernel / OS
+    ^
+Protocol / Chain
+    ^
+Execution
+    ^
+Domain Services
+    ^
+Applications
+    ^
+Experience
+~~~
+
+The arrow means dependency on the lower boundary.
+
+Forbidden authority cycles include:
+- Genesis depending on Aurora as state authority.
+- Aurora depending on Genesis as global authority.
+- Chain depending on Explorer.
+- Explorer becoming Chain authority.
+- Storage becoming Consensus authority.
+- UI becoming protocol authority.
+- Indexer becoming canonical state owner.
+
+## 13. ATC-VM Boundary
+
+Canonical contract path:
+
+~~~text
+ATCLang
+   |
+ATC-IR / ABI
+   |
+ATC Bytecode
+   |
+Verifier
+   |
+ATC-VM
+   |
+Deterministic Host Interface
+   |
+Candidate State Transition
+~~~
+
+The VM contract MUST define bytecode validity, instruction limits, stack/memory/storage limits, gas/resource limits, deterministic host calls, rollback semantics, error semantics and execution receipts.
+
+ShivaCore MUST NOT be treated as a substitute for the canonical contract VM.
+
+## 14. Genesis Engine Boundary
+
+Genesis owns authoritative Genesis application/game state.
+
+~~~text
+Input / Player Action
+        |
+Command Validation
+        |
+Game Rules
+        |
+Simulation
+        |
+Quest / Dialogue / World Systems
+        |
+State Transition
+        |
+Invariant Validation
+        |
+Committed Game State
+        |
+Persistence
+        |
+Events / Replication / Presentation
+~~~
+
+AI operates around the runtime:
+
+~~~text
+Aurora / AI
+   |
+propose / plan / generate
+   |
+Genesis Authority
+   |
+validate
+   |
+execute
+   |
+commit
+~~~
+
+AI MUST NOT directly mutate canonical Genesis state without the declared runtime authority boundary.
+
+## 15. Aurora Authority Flow
+
+~~~text
+Model Output
+    |
+Agent Intent
+    |
+Capability Check
+    |
+Policy Evaluation
+    |
+Approval if required
+    |
+Tool Authorization
+    |
+Tool Execution
+    |
+Target Domain Validation
+    |
+Target Domain Commit
+    |
+Audit / Evidence
+~~~
+
+Model output MUST be treated as untrusted input to the authority plane.
+
+## 16. Memory Contract
+
+Memory classes are distinct:
+
+1. Working memory.
+2. Episodic memory.
+3. Semantic memory.
+4. Retrieval index.
+5. Knowledge graph.
+6. Provenance.
+7. Canonical domain state.
+
+Only the target domain's canonical state is authoritative by default. AI memory MUST NOT silently overwrite Chain, Genesis, OS or kernel state.
+
+## 17. Security Architecture
+
+~~~text
+Hardware / Root of Trust
+        |
+Boot / Platform Integrity
+        |
+ShivaCore Isolation
+        |
+GlobusOS Policy / IPC
+        |
+Identity
+        |
+Capability
+        |
+Authorization
+        |
+Protocol / Application Validation
+        |
+Audit / Evidence
+~~~
+
+Security controls MUST follow least privilege. Capabilities MUST be explicit. Ambient authority MUST NOT be assumed. Hardware-backed claims require hardware-specific evidence.
+
+## 18. Identity Architecture
+
+Security-sensitive principals MAY include human, user, organization, service, node, validator, wallet, contract, agent, model, tool, device and kernel/service principals.
+
+Identity does not grant authority.
+
+~~~text
+Identity
+  |
+Authentication
+  |
+Principal Resolution
+  |
+Capability
+  |
+Policy
+  |
+Authorization
+  |
+Action
+  |
+Audit
+~~~
+
+## 19. Failure and Recovery
+
+Every authoritative domain MUST define behavior for invalid input, authorization failure, execution failure, timeout, transport failure, partial failure, storage failure, consensus failure, dependency failure, replay, duplicate delivery, version mismatch and corrupted state.
+
+Recovery:
+
+~~~text
+Detect Failure
+    |
+Stop Unsafe Progress
+    |
+Recover / Replay
+    |
+Validate Invariants
+    |
+Re-establish Canonical State
+    |
+Resume
+    |
+Emit Evidence
+~~~
+
+Recovery MUST NOT silently promote unverified state to canonical state.
+
+## 20. Observability
+
+Critical transitions SHOULD carry correlated request ID, transaction ID, block ID, state version, event ID, command ID, agent run ID, tool invocation ID, trace ID, source SHA and deployment/version ID where applicable.
+
+Observability distinguishes:
+
+- logs;
+- metrics;
+- traces;
+- audit;
+- provenance;
+- test evidence;
+- CI evidence;
+- E2E evidence.
+
+Operational telemetry is not a substitute for correctness evidence.
+
+## 21. Versioning and Compatibility
+
+Externally consumed contracts MUST define compatibility policy.
+
+Versioned artifacts include APIs, ABIs, transaction encoding, signing domains, event schemas, state schemas, VM bytecode formats, network protocols, IPC contracts and tool schemas.
+
+Breaking changes MUST define migration, compatibility window, rollback strategy, activation condition and evidence requirement.
+
+## 22. Deployment Lifecycle
+
+~~~text
+Source
+  |
+Build
+  |
+Artifact
+  |
+Verification
+  |
+Release
+  |
+Deployment
+  |
+Health Validation
+  |
+Operational Evidence
+~~~
+
+Every release artifact MUST identify its source revision. Deployment success does not prove protocol correctness.
+
+## 23. Repository Architecture
+
+Standalone First, Ecosystem Second:
+
+~~~text
+Component Repository
+        |
+ Source / Build / Tests / Release / API-ABI
+        |
+        v
+Ecosystem Integration
+        |
+        v
+System-Level Evidence
+~~~
+
+Core repositories MUST retain their own implementation, build, tests, release and API/ABI SSOT.
+
+The ecosystem repository MUST NOT become a hidden build dependency of a core repository.
+
+## 24. Governance Architecture
+
+~~~text
+atc-standards
+      |
+Standards / Contracts
+      |
+Component Implementation
+      |
+Component Verification
+      |
+Ecosystem Integration
+      |
+System Evidence
+~~~
+
+Governance, security, architecture, implementation and release authority SHOULD remain separated where required by the applicable standards.
+
+## 25. Evidence Architecture
+
+Evidence dimensions are independent:
+
+| Dimension | Meaning |
+|---|---|
+| PRESENT | artifact exists |
+| SPECIFIED | contract is defined |
+| IMPLEMENTED | source matches contract |
+| TESTED | relevant tests exist and pass |
+| CI_VERIFIED | required CI passed for exact SHA |
+| INTEGRATED | declared interface is connected |
+| E2E_VERIFIED | declared end-to-end path passed |
+| RELEASED | release gate passed |
+| DEPLOYED | artifact deployed |
+| OPERATIONAL | runtime evidence demonstrates operation |
+
+Thus:
+
+~~~text
+File exists
+   != Implementation
+   != Tested
+   != Exact-SHA CI
+   != E2E
+   != Released
+   != Operational
+~~~
+
+## 26. Canonical End-to-End Paths
+
+### Blockchain
+
+~~~text
+SDK
+ |
+Wallet / Signing
+ |
+Node
+ |
+Mempool
+ |
+Validation
+ |
+Consensus
+ |
+ATC-VM
+ |
+State Transition
+ |
+Finality
+ |
+Storage
+ |
+Indexer
+ |
+Explorer / API
+~~~
+
+### AI Action
+
+~~~text
+User / Event
+ |
+Aurora Context
+ |
+Model
+ |
+Agent
+ |
+Plan
+ |
+Capability
+ |
+Policy
+ |
+Approval
+ |
+Tool
+ |
+Target Domain
+ |
+Validation
+ |
+Commit
+ |
+Audit
+~~~
+
+### Genesis
+
+~~~text
+Player / World Event
+ |
+Genesis Input
+ |
+Simulation / Rules
+ |
+AI Proposal where applicable
+ |
+Validation
+ |
+Authoritative Runtime
+ |
+Committed Game State
+ |
+Persistence
+ |
+Events
+ |
+Presentation
+~~~
+
+### OS
+
+~~~text
+Application
+ |
+GlobusOS Service
+ |
+IPC / Capability
+ |
+Policy
+ |
+ShivaCore
+ |
+Hardware
+~~~
+
+## 27. Cross-System Invariants
+
+1. Exactly one authoritative owner per canonical state domain.
+2. No AI component receives implicit super-authority.
+3. No UI component becomes protocol authority.
+4. No indexer becomes canonical state authority.
+5. No storage component decides consensus finality.
+6. No VM execution result is final without the applicable finality/commit rule.
+7. No cross-domain write bypasses its declared interface.
+8. No event is treated as authorization without an explicit contract.
+9. No implementation claim is inferred from architecture text.
+10. No CI claim is valid without exact-SHA association.
+11. No E2E claim is valid without exercising the declared path.
+12. No hardware-backed claim is valid without hardware evidence.
+13. No core repository silently depends on the ecosystem repository.
+14. No duplicate implementation silently becomes a second SSOT.
+15. Canonical state migrations MUST define compatibility and recovery.
+
+## 28. Architecture Change Gate
+
+~~~text
+Proposal
+  |
+Affected Domains
+  |
+Authority Analysis
+  |
+SSOT Analysis
+  |
+Dependency Analysis
+  |
+State / Migration Analysis
+  |
+Security Analysis
+  |
+Interface / Compatibility Analysis
+  |
+Implementation Plan
+  |
+Tests
+  |
+Exact-SHA CI
+  |
+Integration
+  |
+E2E where applicable
+  |
+Architecture Evidence
+~~~
+
+Documentation-only changes MUST NOT be presented as implementation changes.
+
+## 29. Architectural Completeness
+
+A domain contract is complete when it defines, at minimum:
+
+Identity, Purpose, Scope, Owner, Authority, SSOT, State, Inputs, Outputs, Interfaces, Events, Security, Capabilities, Policies, Failure, Recovery, Versioning, Migration, Observability, Lifecycle and Evidence.
+
+Architectural completeness does not imply implementation completeness.
+
+## 30. Master Dependency View
+
+~~~text
+                         HUMAN / GOVERNANCE
+                                |
+                         Policy / Approval
+                                |
+          +---------------------+---------------------+
+          |                     |                     |
+       AURORA                GENESIS               CHAIN
+    Intelligence          Game Runtime          L2 Protocol
+          |                     |              +-----+-----+
+          |                     |              |           |
+          |                     |          Consensus      L3 VM
+          |                     |              |           |
+          |                     |              +-----+-----+
+          |                     |                    |
+          |                     |                 Finality
+          |                     |                    |
+          |                     |              Canonical State
+          |                     |                    |
+          |                     |                L1 Storage
+          |                     |
+          v                     v
+      GlobusOS            Genesis State
+          |                     |
+          v                     v
+      ShivaCore           Persistence
+          |
+          v
+       Hardware
+~~~
+
+This diagram describes authority/dependency boundaries, not a claim that every arrow is a direct runtime call.
+
+## 31. Conflict Resolution Precedence
+
+When architecture sections appear to conflict, resolution MUST follow:
+
+1. Explicit authority contract.
+2. State ownership contract.
+3. Canonical interface / ABI contract.
+4. Layer responsibility.
+5. Domain runtime contract.
+6. Integration contract.
+7. Descriptive diagram.
+8. Non-normative example.
+
+A diagram MUST NOT override a normative authority or state-ownership rule.
+
+## 32. Master Rule
+
+Authority follows the canonical state owner and its declared commit contract.
+
+Execution, intelligence, storage, indexing and presentation remain subordinate to that authority boundary.
+
+ 
+---
+
+# ARCH-003 — System Operational Architecture
+
+ARCH-003 closes the remaining operational architecture gaps identified by the master architecture review. It defines contracts for determinism, randomness, cryptography, networking, upgrades, bootstrap, interoperability, privacy, supply-chain security, resilience, testing, performance, configuration, external exposure, emergency control and multiplayer/runtime authority.
+
+ARCH-003 is normative at the architecture-contract level. It does not claim implementation or verification.
+
+## 1. Time and Determinism Contract
+
+Every deterministic subsystem MUST declare its authoritative time source.
+
+Time classes are distinct:
+
+~~~text
+Wall Clock
+   |
+Monotonic Clock
+   |
+Consensus / Block Time
+   |
+Application Time
+   |
+Simulation Time
+~~~
+
+Rules:
+- Consensus state MUST NOT depend on an uncontrolled wall clock.
+- VM execution MUST use only explicitly deterministic time inputs.
+- Genesis simulation MUST define tick and time-step semantics.
+- Timeout semantics MUST identify the clock used.
+- Replay MUST reproduce the same state transition for the same canonical inputs.
+- Clock drift, timestamp validity and acceptable ranges MUST be protocol-defined where consensus-relevant.
+
+## 2. Randomness and Entropy Contract
+
+Randomness classes MUST remain separate:
+
+~~~text
+Cryptographic Entropy
+   !=
+Consensus Randomness
+   !=
+Deterministic PRNG
+   !=
+Game Randomness
+   !=
+AI Sampling
+~~~
+
+Consensus- or protocol-relevant randomness MUST define its source, commitment/derivation, verification and replay semantics.
+
+Game randomness MUST NOT silently become protocol randomness.
+
+AI sampling MUST NOT be treated as authoritative randomness.
+
+## 3. Cryptographic and Key Lifecycle Contract
+
+Security-sensitive keys MUST have a lifecycle:
+
+~~~text
+Generate
+  ↓
+Register / Bind Identity
+  ↓
+Store
+  ↓
+Use
+  ↓
+Rotate
+  ↓
+Revoke
+  ↓
+Recover / Retire
+~~~
+
+The contract MUST define:
+- algorithm;
+- key purpose;
+- signing domain;
+- storage boundary;
+- authorization;
+- rotation;
+- revocation;
+- compromise response;
+- recovery;
+- audit.
+
+Transaction signing MUST use the canonical domain-separation contract, including the network/chain identity and canonical transaction encoding.
+
+Validator, node, wallet, service, agent, tool and hardware-backed keys MUST NOT share implicit authority.
+
+## 4. Networking and P2P Contract
+
+Network lifecycle:
+
+~~~text
+Discovery
+  ↓
+Handshake
+  ↓
+Identity Authentication
+  ↓
+Protocol / Capability Negotiation
+  ↓
+Connection Policy
+  ↓
+Message Validation
+  ↓
+Propagation
+  ↓
+Peer Scoring
+  ↓
+Disconnect / Restrict
+~~~
+
+The network contract MUST define:
+- peer identity;
+- protocol versions;
+- message schemas;
+- maximum message size;
+- connection limits;
+- rate limits;
+- peer scoring;
+- Sybil resistance;
+- eclipse resistance;
+- DoS protection;
+- gossip rules;
+- partition behavior;
+- retry/backoff;
+- observability.
+
+A network peer is not automatically trusted because it is reachable.
+
+## 5. Protocol Upgrade and Migration Contract
+
+Protocol changes MUST follow an explicit lifecycle:
+
+~~~text
+Proposal
+  ↓
+Specification
+  ↓
+Technical / Security / Architecture Review
+  ↓
+Approval
+  ↓
+Compatibility Analysis
+  ↓
+Activation Condition
+  ↓
+Deployment
+  ↓
+Activation
+  ↓
+Verification
+  ↓
+Post-Activation Monitoring
+~~~
+
+Every breaking change MUST define:
+- affected state;
+- version;
+- activation condition;
+- compatibility window;
+- migration;
+- rollback boundary;
+- recovery;
+- evidence.
+
+Rollback MUST NOT create an invalid or ambiguous canonical state.
+
+Emergency protocol changes require explicit emergency authority and separate evidence.
+
+## 6. Bootstrap, Genesis and State-Sync Contract
+
+Canonical bootstrap:
+
+~~~text
+Network Identity
+  ↓
+Genesis Configuration
+  ↓
+Genesis Hash
+  ↓
+Protocol Version
+  ↓
+Initial State
+  ↓
+Initial Validator / Authority Set
+  ↓
+Bootstrap Verification
+  ↓
+Network Start
+~~~
+
+State synchronization:
+
+~~~text
+Snapshot
+  ↓
+Metadata / Commitment
+  ↓
+Source Authentication
+  ↓
+Download
+  ↓
+Integrity Verification
+  ↓
+Restore
+  ↓
+Replay Missing Range
+  ↓
+Canonical-State Verification
+  ↓
+Serve
+~~~
+
+A node MUST NOT serve an unverified recovered state as canonical.
+
+Genesis configuration MUST define chain identity, initial protocol parameters, initial economic state and reproducibility requirements.
+
+## 7. Interoperability, Oracle and Bridge Contract
+
+Interop, Oracle and Bridge are distinct domains.
+
+### Oracle
+
+~~~text
+External Data
+  ↓
+Provider
+  ↓
+Attestation
+  ↓
+Validation
+  ↓
+Aggregation
+  ↓
+Freshness Check
+  ↓
+Canonical Oracle State
+~~~
+
+### Cross-Chain Interop
+
+~~~text
+External Chain
+  ↓
+Proof / Attestation
+  ↓
+Verification
+  ↓
+Interop Gateway
+  ↓
+Policy
+  ↓
+Canonical Command
+  ↓
+Target Domain
+~~~
+
+### Bridge
+
+A bridge MUST additionally define:
+- asset representation;
+- lock/mint or burn/release semantics;
+- message nonce;
+- replay protection;
+- external finality requirement;
+- timeout;
+- pause/circuit breaker;
+- recovery;
+- reconciliation.
+
+External data MUST NOT become canonical merely because an oracle or bridge reports it.
+
+## 8. Data, Privacy and Retention Contract
+
+Data classes MUST be explicit:
+
+~~~text
+Public
+Private
+Confidential
+Secret
+Sensitive
+Derived
+Canonical
+Ephemeral
+~~~
+
+Data lifecycle:
+
+~~~text
+Collection
+  ↓
+Classification
+  ↓
+Purpose / Authorization
+  ↓
+Processing
+  ↓
+Storage
+  ↓
+Retention
+  ↓
+Deletion / Tombstone where applicable
+  ↓
+Audit
+~~~
+
+On-chain immutable data MUST be treated differently from mutable off-chain data.
+
+AI memory, retrieval indexes and derived knowledge MUST carry provenance and access policy where required.
+
+Secrets MUST NOT be stored in ordinary application state.
+
+## 9. Secrets Management Contract
+
+Secrets lifecycle:
+
+~~~text
+Provision
+  ↓
+Bind to Workload Identity
+  ↓
+Inject
+  ↓
+Use
+  ↓
+Rotate
+  ↓
+Revoke
+  ↓
+Destroy
+~~~
+
+Secrets MUST be:
+- least-privilege;
+- scoped;
+- auditable;
+- non-loggable;
+- rotatable;
+- revocable.
+
+Aurora tools and external service credentials MUST execute under explicit workload identities.
+
+## 10. Supply-Chain and Artifact Security Contract
+
+Release chain:
+
+~~~text
+Source
+  ↓
+Dependency Resolution
+  ↓
+Dependency Verification
+  ↓
+Build
+  ↓
+SBOM / Provenance
+  ↓
+Artifact Signing
+  ↓
+Verification
+  ↓
+Release
+  ↓
+Deployment
+~~~
+
+Critical artifacts SHOULD support:
+- reproducible builds where applicable;
+- pinned dependencies;
+- dependency provenance;
+- SBOM;
+- artifact signatures;
+- source/build provenance;
+- vulnerability policy;
+- compromised dependency response.
+
+A signed artifact proves integrity/authenticity of the signing boundary; it does not prove functional correctness.
+
+## 11. Backup, Disaster Recovery and Incident Contract
+
+Backup:
+
+~~~text
+State
+  ↓
+Snapshot / Backup
+  ↓
+Integrity Verification
+  ↓
+Protected Storage
+  ↓
+Restore Test
+~~~
+
+Disaster recovery MUST define:
+- RPO;
+- RTO;
+- backup frequency;
+- retention;
+- geographic redundancy;
+- immutable backup where required;
+- corruption detection;
+- restore verification.
+
+Incident lifecycle:
+
+~~~text
+Detection
+  ↓
+Classification
+  ↓
+Containment
+  ↓
+Evidence Preservation
+  ↓
+Mitigation
+  ↓
+Recovery
+  ↓
+Verification
+  ↓
+Post-Incident Review
+  ↓
+Corrective Architecture / Standard Change
+~~~
+
+## 12. Configuration Contract
+
+Configuration classes are distinct:
+
+- static configuration;
+- environment configuration;
+- protocol configuration;
+- runtime configuration;
+- governance configuration;
+- feature configuration;
+- secret configuration.
+
+Configuration lifecycle:
+
+~~~text
+Source
+  ↓
+Schema Validation
+  ↓
+Default Resolution
+  ↓
+Policy Validation
+  ↓
+Activation
+  ↓
+Audit
+~~~
+
+Configuration MUST NOT silently override protocol semantics.
+
+Protocol-relevant configuration MUST be versioned and governed.
+
+## 13. Resource Governance Contract
+
+Resource classes include:
+
+- CPU;
+- memory;
+- storage;
+- network;
+- I/O;
+- GPU;
+- AI inference;
+- tool execution;
+- disk quota;
+- bandwidth.
+
+Admission:
+
+~~~text
+Resource Request
+  ↓
+Identity / Capability
+  ↓
+Quota
+  ↓
+Policy
+  ↓
+Admission
+  ↓
+Execution
+  ↓
+Accounting
+  ↓
+Limit / Reclaim
+~~~
+
+Resource exhaustion MUST have explicit failure and degradation semantics.
+
+## 14. Testing and Verification Architecture
+
+The verification hierarchy is:
+
+~~~text
+Static Analysis
+   ↓
+Unit Tests
+   ↓
+Property Tests
+   ↓
+Fuzz Tests
+   ↓
+Component Integration
+   ↓
+Cross-Repository Integration
+   ↓
+Network Tests
+   ↓
+Fault Injection
+   ↓
+E2E
+   ↓
+Soak / Load
+   ↓
+Recovery / Chaos
+~~~
+
+Blockchain-specific verification SHOULD include:
+- deterministic state-transition vectors;
+- serialization vectors;
+- signing vectors;
+- consensus vectors;
+- fork tests;
+- replay tests;
+- migration tests.
+
+Critical invariants SHOULD be represented as executable properties. Formal verification MAY be applied where the assurance requirement justifies it.
+
+No lower-level test substitutes for an E2E requirement.
+
+## 15. Performance and Capacity Contract
+
+Every critical subsystem SHOULD define:
+
+- latency;
+- throughput;
+- resource budget;
+- queue limits;
+- saturation point;
+- backpressure;
+- graceful degradation;
+- recovery behavior.
+
+Capacity lifecycle:
+
+~~~text
+Capacity Model
+  ↓
+Load Model
+  ↓
+Scaling Boundary
+  ↓
+Admission / Backpressure
+  ↓
+Degradation
+  ↓
+Recovery
+~~~
+
+Performance claims MUST identify workload, environment, version and measurement method.
+
+## 16. External Exposure Contract
+
+External interfaces MUST be classified:
+
+- internal API;
+- authenticated API;
+- public RPC;
+- developer API;
+- administrative API;
+- governance API;
+- indexer API;
+- AI tool API.
+
+Every exposed interface MUST define authentication, authorization, rate limits, quotas, abuse protection, versioning, compatibility and audit semantics.
+
+Administrative interfaces MUST NOT inherit authority merely from network reachability.
+
+## 17. Emergency Authority Contract
+
+Emergency authority is distinct from normal authority.
+
+~~~text
+Detection
+  ↓
+Emergency Authority
+  ↓
+Scope Verification
+  ↓
+Required Approval
+  ↓
+Pause / Restrict / Contain
+  ↓
+Evidence
+  ↓
+Recovery
+  ↓
+Verification
+  ↓
+Resume
+~~~
+
+Emergency controls MUST define:
+- authorized principals;
+- permitted scope;
+- trigger conditions;
+- approval requirements;
+- maximum duration;
+- audit;
+- recovery;
+- expiry.
+
+Emergency authority MUST NOT become an undocumented permanent superuser.
+
+## 18. AI Security Contract
+
+### Model Security
+
+Models SHOULD have:
+- provenance;
+- version identity;
+- integrity verification;
+- policy classification;
+- rollback capability.
+
+### Agent Security
+
+Agents MUST have:
+- identity;
+- explicit capabilities;
+- delegation boundary;
+- action budget;
+- recursion/runaway limits;
+- audit identity.
+
+### Tool Security
+
+~~~text
+Agent
+  ↓
+Tool Request
+  ↓
+Schema Validation
+  ↓
+Capability
+  ↓
+Policy
+  ↓
+Sandbox
+  ↓
+Execution
+  ↓
+Result Validation
+  ↓
+Audit
+~~~
+
+Tool output MUST be treated as untrusted input unless the tool contract explicitly establishes a trusted result boundary.
+
+### AI Memory Security
+
+Memory SHOULD support:
+- provenance;
+- trust classification;
+- authorization;
+- poisoning resistance;
+- tenant isolation where applicable;
+- retention;
+- deletion semantics.
+
+## 19. Genesis Simulation and Multiplayer Contract
+
+Genesis separates authoritative simulation from presentation.
+
+~~~text
+Client Input
+  ↓
+Network
+  ↓
+Authoritative Simulation
+  ↓
+Rules / Systems
+  ↓
+State Transition
+  ↓
+Commit
+  ↓
+Replication
+  ↓
+Client Presentation
+~~~
+
+Client prediction is not authoritative state.
+
+Genesis MUST define, where multiplayer applies:
+- tick model;
+- simulation time;
+- authoritative server/domain;
+- client prediction;
+- reconciliation;
+- rollback;
+- replication;
+- entity ownership;
+- shard/world ownership;
+- persistence.
+
+Rendering MUST NOT mutate authoritative gameplay state.
+
+## 20. Developer Platform Contract
+
+Developer-facing architecture includes:
+
+- SDK;
+- CLI;
+- RPC clients;
+- contract compiler/toolchain;
+- ATCLang tooling;
+- ABI tooling;
+- wallet tooling;
+- debugger;
+- simulator;
+- local network/test environment;
+- deployment tooling.
+
+Developer tools MUST consume versioned contracts rather than undocumented internal structures.
+
+## 21. Formal Invariant Contract
+
+Critical invariants SHOULD be mapped to executable verification artifacts.
+
+~~~text
+Invariant
+  ↓
+Formal Property / Test Vector
+  ↓
+Reference Implementation
+  ↓
+Property Test
+  ↓
+Fuzz / Differential Test
+  ↓
+Exact-SHA CI
+  ↓
+E2E Evidence where applicable
+~~~
+
+Examples include monetary supply, transaction validity, signing-domain correctness, VM safety, capability isolation and state-transition determinism.
+
+## 22. Additional Cross-System Invariants
+
+16. Consensus-relevant time is deterministic and explicitly defined.
+17. Protocol randomness has a verifiable source and replay semantics.
+18. Key purpose and signing domain are explicit.
+19. External data is not canonical without verification and target-domain acceptance.
+20. Recovered state is not canonical until integrity and protocol invariants are verified.
+21. Configuration cannot silently change protocol semantics.
+22. Resource exhaustion has defined failure behavior.
+23. External APIs cannot acquire authority from network reachability.
+24. Emergency authority is scoped, auditable and non-permanent.
+25. AI memory is not canonical domain state by default.
+26. Client prediction is not authoritative Genesis state.
+27. Artifact integrity does not equal functional correctness.
+28. Performance claims require reproducible measurement context.
+29. Critical invariants map to executable verification evidence.
+30. Upgrade activation requires explicit compatibility and recovery semantics.
+
+## 23. Architecture Gap Closure Rule
+
+ARCH-001 defines authority and evidence consistency.
+ARCH-002 defines detailed system boundaries and lifecycle.
+ARCH-003 defines operational, security, resilience and verification contracts.
+
+Together:
+
+~~~text
+ARCH-001
+Authority / Evidence
+      ↓
+ARCH-002
+System / Domain / Interface
+      ↓
+ARCH-003
+Operations / Security / Resilience / Verification
+~~~
+
+These contracts remain architectural SSOTs. Implementation status MUST still be established from component repositories and exact-SHA evidence.
+
+ 
+---
+ 
+# ARCH-004 — Functional Operating System Architecture
+ 
+ARCH-004 defines the minimum functional contract for a real bootable and usable GlobusOS/ShivaCore operating system. It closes the distinction between kernel architecture, OS architecture and an actually functioning OS.
+ 
+ARCH-004 is an architecture contract only. It MUST NOT be interpreted as implementation, test, CI, hardware or release evidence.
+ 
+## 1. Boot-to-Userspace Contract
+ 
+The canonical minimum OS path is:
+ 
+~~~text
+Firmware / UEFI
+  ↓
+Bootloader
+  ↓
+Kernel Image Verification / Load
+  ↓
+ShivaCore Entry
+  ↓
+CPU / Exception / Interrupt Initialization
+  ↓
+Physical + Virtual Memory
+  ↓
+Timer + Scheduler
+  ↓
+Kernel Objects / Capabilities
+  ↓
+Syscall Boundary
+  ↓
+Userspace Address Space
+  ↓
+ELF / Program Loader
+  ↓
+Initial Userspace Process
+  ↓
+PID 1 / Init
+  ↓
+Service Manager
+  ↓
+Core GlobusOS Services
+  ↓
+Shell / Application
+~~~
+ 
+A platform MUST NOT be described as a functioning general-purpose OS until this path is implemented and verified for its declared target environment.
+ 
+## 2. CPU and Architecture Contract
+ 
+ShivaCore MUST explicitly define per supported architecture:
+ 
+- boot protocol;
+- CPU initialization;
+- privilege levels;
+- exception vectors;
+- interrupt model;
+- timer source;
+- context-switch mechanism;
+- atomic/synchronization primitives;
+- SMP initialization;
+- CPU topology;
+- architecture-specific memory-management behavior;
+- shutdown/reboot semantics.
+ 
+Architecture support MUST be tracked independently. Code existing for one architecture MUST NOT imply support for another.
+ 
+## 3. Interrupt, Exception and Timer Contract
+ 
+The kernel MUST provide:
+ 
+- exception dispatch;
+- interrupt routing;
+- interrupt masking/unmasking;
+- timer interrupts;
+- syscall entry;
+- page-fault handling;
+- fatal-fault handling;
+- interrupt-safe synchronization rules;
+- timer ownership and cancellation semantics.
+ 
+Fatal kernel faults MUST have a defined evidence-producing failure path such as panic, crash record or controlled halt.
+ 
+## 4. Memory Management Contract
+ 
+Memory management MUST define:
+ 
+~~~text
+Physical Memory
+  ↓
+Frame / Page Allocator
+  ↓
+Page Tables / MMU
+  ↓
+Kernel Address Space
+  ↓
+User Address Spaces
+  ↓
+Heap / Allocator
+~~~
+ 
+The contract MUST cover:
+ 
+- physical allocation;
+- virtual mapping;
+- page permissions;
+- user/kernel isolation;
+- page faults;
+- shared memory;
+- memory ownership;
+- mapping lifetime;
+- allocator failure;
+- out-of-memory behavior;
+- memory accounting;
+- SMP synchronization.
+ 
+Kernel and userspace memory MUST have explicit protection boundaries.
+ 
+## 5. Scheduling and Process Contract
+ 
+The kernel MUST define:
+ 
+- process;
+- thread;
+- task;
+- scheduler;
+- runnable/blocked/sleeping states;
+- context switching;
+- priorities or scheduling classes;
+- timer-driven wakeup;
+- process termination;
+- thread termination;
+- parent/child semantics;
+- CPU affinity where SMP applies.
+ 
+A scheduler contract MUST define behavior under CPU saturation and resource exhaustion.
+ 
+## 6. Userspace and Program Loading Contract
+ 
+A general-purpose OS MUST define a real userspace execution boundary:
+ 
+~~~text
+Kernel
+  ↓
+Address Space Creation
+  ↓
+ELF / Program Validation
+  ↓
+Executable Mapping
+  ↓
+User Stack / Initial Runtime State
+  ↓
+Ring-3 / User Privilege
+  ↓
+Program Execution
+~~~
+ 
+The program loader MUST validate executable format, memory ranges, permissions and entry conditions before transfer of control.
+ 
+Userspace MUST NOT obtain kernel authority by merely controlling executable input.
+ 
+## 7. Syscall ABI Contract
+ 
+The kernel/userspace boundary MUST define a versioned syscall ABI including:
+ 
+- syscall numbering;
+- calling convention;
+- argument validation;
+- pointer validation;
+- object/capability references;
+- return values;
+- error model;
+- interruption/cancellation;
+- ABI versioning;
+- compatibility/deprecation rules.
+ 
+Syscalls MUST be treated as hostile input boundaries.
+ 
+## 8. IPC and Capability Contract
+ 
+The microkernel communication path MUST be:
+ 
+~~~text
+Process A
+  ↓
+Capability / Endpoint Authorization
+  ↓
+IPC Message Validation
+  ↓
+Kernel IPC
+  ↓
+Process B
+~~~
+ 
+IPC MUST define:
+ 
+- endpoints;
+- send/receive/reply;
+- synchronous/asynchronous semantics;
+- message limits;
+- timeout;
+- cancellation;
+- shared-memory transfer where applicable;
+- capability transfer;
+- object lifetime;
+- failure behavior;
+- replay/idempotency semantics where required.
+ 
+Capability checks MUST be enforced by the kernel, not only by userspace convention.
+ 
+## 9. Device, Driver and HAL Contract
+ 
+Hardware access MUST follow:
+ 
+~~~text
+Hardware
+  ↓
+Architecture HAL
+  ↓
+Bus / Device Discovery
+  ↓
+Driver
+  ↓
+Kernel / Driver Interface
+  ↓
+OS Service
+  ↓
+Userspace API
+~~~
+ 
+At minimum the declared boot target SHOULD provide working paths for:
+ 
+- console/serial;
+- timer;
+- interrupt controller;
+- storage;
+- network;
+- input;
+- display/framebuffer where a graphical target is claimed.
+ 
+Optional hardware such as TPM, TEE, GPU, NPU, USB or Bluetooth MUST be separately capability- and hardware-verified.
+ 
+## 10. Storage and VFS Contract
+ 
+A usable OS MUST define:
+ 
+~~~text
+Block Device
+  ↓
+Block Layer
+  ↓
+Filesystem
+  ↓
+VFS
+  ↓
+File Descriptor / Handle API
+  ↓
+Userspace
+~~~
+ 
+The contract MUST cover:
+ 
+- device discovery;
+- partitions;
+- filesystem format;
+- mount/unmount;
+- files/directories;
+- handles/descriptors;
+- permissions;
+- concurrent access;
+- crash consistency;
+- corruption detection/recovery;
+- fsck or equivalent;
+- persistence guarantees.
+ 
+## 11. Init and Service Lifecycle Contract
+ 
+After userspace starts:
+ 
+~~~text
+Kernel
+  ↓
+Initial Process
+  ↓
+PID 1 / Init
+  ↓
+Service Dependency Resolution
+  ↓
+Service Start
+  ↓
+Health Check
+  ↓
+RUNNING
+~~~
+ 
+PID 1/service management MUST define:
+ 
+- dependency ordering;
+- startup failure;
+- restart policy;
+- health checks;
+- shutdown ordering;
+- signal/event handling;
+- service isolation;
+- capability assignment;
+- resource limits;
+- boot failure reporting.
+ 
+## 12. Core GlobusOS Services Contract
+ 
+A minimal functional GlobusOS service set SHOULD include:
+ 
+- process/service manager;
+- identity/authentication;
+- capability/policy service;
+- storage service;
+- device manager;
+- network manager;
+- time service;
+- logging/audit service;
+- configuration service;
+- update/recovery service;
+- IPC/service registry.
+ 
+Each service MUST have a declared owner, interface, state model, capability requirements, lifecycle and recovery semantics.
+ 
+## 13. Networking and Socket Contract
+ 
+A network-capable OS MUST define:
+ 
+~~~text
+NIC
+  ↓
+Driver
+  ↓
+Link / Network Stack
+  ↓
+IP / Transport
+  ↓
+Socket API
+  ↓
+Userspace Service
+~~~
+ 
+The contract MUST define interface lifecycle, addressing, routing, sockets, DNS where applicable, firewall/policy boundaries, error behavior, resource limits and network service isolation.
+ 
+Protocol implementations MUST NOT be treated as available merely because a library or source file exists.
+ 
+## 14. Identity, Authentication and Authorization Contract
+ 
+The OS identity path MUST be:
+ 
+~~~text
+Principal
+  ↓
+Identity
+  ↓
+Authentication
+  ↓
+Session / Workload Identity
+  ↓
+Authorization
+  ↓
+Capability
+  ↓
+Resource / Service
+~~~
+ 
+Credential storage, session lifecycle, key purpose, revocation, recovery and audit MUST be explicit.
+ 
+GlobusOS identity MUST NOT silently inherit blockchain, wallet, Aurora or Genesis authority.
+ 
+## 15. Secure Boot and Trusted Boot Contract
+ 
+Where secure boot is claimed:
+ 
+~~~text
+Firmware
+  ↓
+Boot Policy
+  ↓
+Bootloader Verification
+  ↓
+Kernel Verification
+  ↓
+Measured / Attested State where supported
+  ↓
+ShivaCore
+~~~
+ 
+Secure Boot, measured boot, TPM and TEE MUST remain distinct claims. Each requires its own implementation and hardware evidence.
+ 
+## 16. Update, Recovery and A/B Contract
+ 
+System updates MUST define:
+ 
+~~~text
+Artifact
+  ↓
+Signature / Provenance Verification
+  ↓
+Compatibility Check
+  ↓
+Inactive Slot
+  ↓
+Install
+  ↓
+Reboot
+  ↓
+Health Validation
+  ↓
+Commit
+~~~
+ 
+Failure MUST lead to a defined rollback/recovery boundary. An update mechanism MUST NOT leave an ambiguous partially activated system state.
+ 
+## 17. Userspace Runtime and Standard Services
+ 
+A usable userspace SHOULD provide stable libraries/APIs for:
+ 
+- process creation;
+- memory allocation;
+- threads/synchronization;
+- filesystem;
+- networking;
+- IPC;
+- time;
+- logging;
+- cryptography;
+- configuration;
+- environment/session management.
+ 
+The API surface MUST consume versioned OS contracts rather than private kernel implementation details.
+ 
+## 18. Display, Input, Audio and Desktop Contract
+ 
+A graphical OS target additionally requires:
+ 
+~~~text
+Display / GPU
+  ↓
+Graphics Driver / HAL
+  ↓
+Compositor / Display Server
+  ↓
+Window / Session Manager
+  ↓
+Input
+  ↓
+Desktop Shell
+  ↓
+Applications
+~~~
+ 
+Rendering MUST remain separate from authoritative system state. Input MUST cross explicit authorization and event boundaries. Audio, camera, GPU and other peripheral access MUST be capability-controlled.
+ 
+## 19. OS Resource and Isolation Contract
+ 
+Every process/service SHOULD have explicit accounting and policy for:
+ 
+- CPU;
+- memory;
+- storage;
+- network;
+- file handles;
+- IPC objects;
+- device access;
+- GPU/NPU resources where applicable.
+ 
+Resource exhaustion MUST be isolated so that an untrusted service cannot trivially destabilize the kernel or unrelated services.
+ 
+## 20. Observability and Diagnostics Contract
+ 
+A functioning OS MUST expose enough diagnostics to establish whether boot and runtime contracts are working.
+ 
+Minimum evidence SHOULD include:
+ 
+- boot stage;
+- kernel version/build identity;
+- hardware/architecture identity;
+- process/thread lifecycle;
+- memory state;
+- service state;
+- IPC failures;
+- device discovery;
+- storage/network state;
+- security events;
+- crash/panic information;
+- update/rollback state.
+ 
+Diagnostics MUST NOT leak secrets or unrestricted credentials.
+ 
+## 21. OS Test Pyramid and Boot Gates
+ 
+The OS verification chain MUST include, where applicable:
+ 
+~~~text
+Static Analysis
+  ↓
+Kernel Unit Tests
+  ↓
+Architecture / ABI Tests
+  ↓
+Userspace Tests
+  ↓
+IPC / Capability Tests
+  ↓
+Driver Tests
+  ↓
+Service Integration
+  ↓
+QEMU Boot Smoke
+  ↓
+QEMU Functional Boot
+  ↓
+Hardware Boot
+  ↓
+Hardware Functional Tests
+  ↓
+Long-Run / Fault / Recovery Tests
+~~~
+ 
+The canonical minimum QEMU gate SHOULD prove:
+ 
+1. bootloader starts;
+2. ShivaCore starts;
+3. memory initializes;
+4. interrupts/timer work;
+5. scheduler runs;
+6. userspace starts;
+7. PID 1 starts;
+8. at least one service reaches READY/RUNNING;
+9. a userspace program performs a syscall;
+10. at least one IPC transaction succeeds;
+11. controlled shutdown/reboot succeeds.
+ 
+A hardware-backed capability MUST NOT be marked verified by QEMU-only evidence.
+ 
+## 22. OS Evidence Contract
+ 
+OS status MUST use independent evidence dimensions:
+ 
+PRESENT · SPECIFIED · IMPLEMENTED · TESTED · CI_VERIFIED · QEMU_VERIFIED · HARDWARE_VERIFIED · INTEGRATED · E2E_VERIFIED · RELEASED · DEPLOYED · OPERATIONAL
+ 
+Exact-SHA CI rules from ARCH-001 remain mandatory.
+ 
+A kernel boot log, source file, README statement or architecture diagram alone MUST NOT establish full OS functionality.
+ 
+## 23. OS Completeness Gate
+ 
+The minimum functional OS gate is:
+ 
+~~~text
+Firmware
+  ↓
+Bootloader
+  ↓
+ShivaCore
+  ↓
+Memory
+  ↓
+Interrupts / Timer
+  ↓
+Scheduler
+  ↓
+Userspace
+  ↓
+Syscalls
+  ↓
+IPC / Capabilities
+  ↓
+PID 1
+  ↓
+Service Manager
+  ↓
+Storage
+  ↓
+Network
+  ↓
+Identity
+  ↓
+Shell / Application
+~~~
+ 
+A target profile MAY omit desktop, networking, storage or other optional subsystems only when that profile explicitly declares the omission and its supported use case. A general-purpose GlobusOS profile MUST NOT omit the mandatory path above.
+ 
+## 24. OS Architecture Gap Closure
+ 
+ARCH-004 extends the previous contracts:
+ 
+~~~text
+ARCH-001
+Authority / Evidence
+      ↓
+ARCH-002
+System / Domain / Interface
+      ↓
+ARCH-003
+Operations / Security / Resilience / Verification
+      ↓
+ARCH-004
+Functional Operating System / Boot-to-Userspace
+~~~
+ 
+The component repositories remain the implementation SSOTs. The ecosystem architecture defines the cross-repository acceptance contract; it does not claim that the acceptance gate has already passed.
+
+ 
+---
+ 
+# ARCH-005 — Production Operating System, Hardware, Security, Desktop and Aurora Gates
+ 
+ARCH-005 extends ARCH-004 from a functional bootable OS to a production-capable GlobusOS platform. It defines hardware, trusted boot, storage hardening, network hardening, desktop, Aurora integration, target profiles and final operational gates.
+ 
+ARCH-005 is an acceptance architecture contract. It does not establish implementation, CI, QEMU, hardware, security or operational evidence.
+ 
+## 1. OS Target Profiles
+ 
+GlobusOS MUST distinguish at least:
+ 
+- **OS-Core Profile** — boot, kernel, userspace, syscall, IPC, capabilities and core services;
+- **General-Purpose Profile** — OS-Core plus storage, networking, identity and standard user services;
+- **Desktop Profile** — General-Purpose plus graphics, input, audio, session and desktop services;
+- **Secure Hardware Profile** — declared physical hardware, secure/measured boot and hardware-backed security features;
+- **Aurora Platform Profile** — declared Aurora runtime, model, agent, capability, policy, tool and audit integration.
+ 
+Passing one profile MUST NOT imply passing another.
+ 
+## 2. Hardware Verification Gate
+ 
+The canonical physical platform path is:
+ 
+~~~text
+Firmware
+  ↓
+CPU / SMP
+  ↓
+RAM
+  ↓
+Interrupt Controller
+  ↓
+Timer
+  ↓
+PCI / PCIe / Bus Discovery
+  ↓
+Storage
+  ↓
+Network
+  ↓
+Input / Display where applicable
+  ↓
+ShivaCore
+~~~
+ 
+Every supported hardware target MUST have an explicit hardware profile containing architecture, CPU, memory, firmware, bootloader, devices, drivers, known limitations and test procedure.
+ 
+QEMU verification MUST NOT establish hardware verification.
+ 
+Hardware support status MUST be tracked independently per target. Supporting x86_64 MUST NOT imply aarch64 support, and supporting one physical machine MUST NOT imply support for another.
+ 
+## 3. Secure Boot and Trusted Hardware Gate
+ 
+Where claimed, the trusted boot chain is:
+ 
+~~~text
+UEFI / Firmware
+  ↓
+Platform Boot Policy
+  ↓
+Bootloader Signature Verification
+  ↓
+Kernel Signature Verification
+  ↓
+Measured Boot
+  ↓
+TPM / Hardware Root of Trust where supported
+  ↓
+ShivaCore
+  ↓
+GlobusOS
+~~~
+ 
+The architecture MUST separately identify:
+ 
+- Secure Boot;
+- measured boot;
+- TPM;
+- TEE;
+- hardware-backed key storage;
+- attestation;
+- rollback protection.
+ 
+Each capability requires implementation and appropriate hardware evidence. QEMU-only evidence MUST NOT be upgraded to hardware-backed verification.
+ 
+Key lifecycle MUST cover enrollment, binding, use, rotation, revocation, recovery and compromise response.
+ 
+## 4. Storage Hardening Gate
+ 
+The hardened storage path is:
+ 
+~~~text
+Device Driver
+  ↓
+Block Layer
+  ↓
+Filesystem
+  ↓
+VFS
+  ↓
+Permission / Capability Enforcement
+  ↓
+Userspace
+~~~
+ 
+Storage verification MUST include, where applicable:
+ 
+- malformed filesystem handling;
+- permission isolation;
+- path traversal;
+- symlink and TOCTOU behavior;
+- crash consistency;
+- journal/recovery;
+- corruption detection;
+- fsck/recovery;
+- disk exhaustion;
+- inode/file exhaustion;
+- quota/resource limits;
+- concurrent access;
+- power-loss recovery;
+- encrypted storage;
+- secure deletion semantics where technically applicable;
+- update/rollback interaction.
+ 
+Recovered storage state MUST NOT be treated as trusted until integrity and required invariants have been verified.
+ 
+## 5. Network Hardening Gate
+ 
+The hardened network path is:
+ 
+~~~text
+Untrusted Network
+  ↓
+NIC / Driver
+  ↓
+Network Stack
+  ↓
+Firewall / Policy
+  ↓
+Socket / Service Boundary
+  ↓
+Capability / Identity
+  ↓
+Target Service
+~~~
+ 
+Verification MUST cover, where applicable:
+ 
+- malformed packets;
+- oversized packets;
+- connection exhaustion;
+- rate limiting;
+- protocol abuse;
+- authentication failure;
+- certificate validation;
+- DNS security;
+- routing isolation;
+- service isolation;
+- privilege escalation;
+- peer identity;
+- P2P Sybil/eclipsing resistance;
+- network partition/recovery;
+- DoS/resource exhaustion;
+- retry/backoff;
+- observability.
+ 
+Network reachability MUST NOT grant authority.
+ 
+## 6. Device and Peripheral Security
+ 
+Device access MUST be capability-controlled and explicitly assigned to a principal/service.
+ 
+The architecture MUST define isolation for:
+ 
+- storage;
+- network;
+- USB;
+- camera;
+- microphone;
+- audio;
+- GPU;
+- NPU;
+- display;
+- input;
+- TPM/TEE.
+ 
+A device driver compromise MUST have a defined containment boundary. A peripheral MUST NOT automatically obtain kernel-equivalent authority.
+ 
+## 7. Desktop Platform Gate
+ 
+The canonical desktop path is:
+ 
+~~~text
+GPU / Display Hardware
+  ↓
+Graphics Driver / HAL
+  ↓
+Display Server / Compositor
+  ↓
+Session Manager
+  ↓
+Window Manager / Desktop Shell
+  ↓
+Input / Audio / Clipboard / Notification Services
+  ↓
+Applications
+~~~
+ 
+Desktop verification MUST cover:
+ 
+- display initialization;
+- compositor isolation;
+- input routing;
+- keyboard/mouse/touch;
+- audio;
+- clipboard;
+- notifications;
+- application lifecycle;
+- session creation/termination;
+- crash isolation;
+- accessibility;
+- sandboxing;
+- GPU resource isolation.
+ 
+Rendering MUST NOT mutate authoritative OS, blockchain or Genesis state directly.
+ 
+## 8. Aurora Platform Gate
+ 
+Aurora MUST remain a userspace intelligence/control platform above GlobusOS:
+ 
+~~~text
+ShivaCore
+  ↓
+GlobusOS
+  ↓
+System Services
+  ↓
+Aurora Runtime
+  ↓
+Model / Agent
+  ↓
+Capability Check
+  ↓
+Policy
+  ↓
+Approval where required
+  ↓
+Tool Sandbox
+  ↓
+Target Service
+  ↓
+Target-Domain Validation
+  ↓
+Commit
+  ↓
+Audit / Evidence
+~~~
+ 
+Aurora MUST NOT receive implicit root, kernel, blockchain, Genesis or hardware authority.
+ 
+Aurora verification MUST cover:
+ 
+- workload identity;
+- capability assignment;
+- policy enforcement;
+- tool authorization;
+- sandboxing;
+- resource budgets;
+- model provenance/version;
+- input validation;
+- untrusted tool-output handling;
+- memory provenance and isolation;
+- prompt/input boundary;
+- action limits;
+- timeout/cancellation;
+- runaway/recursion limits;
+- audit;
+- failure isolation;
+- rollback/recovery.
+ 
+Aurora output remains a proposal/request until the authoritative target domain validates and commits it.
+ 
+## 9. OS Resource and Fault Isolation Gate
+ 
+Production verification MUST demonstrate that failures in a userspace service, driver, desktop application or Aurora tool do not automatically compromise unrelated services or the kernel.
+ 
+The architecture MUST define:
+ 
+- CPU quotas;
+- memory limits;
+- storage quotas;
+- network quotas;
+- IPC limits;
+- file-handle limits;
+- device access limits;
+- GPU/NPU budgets;
+- process/service restart;
+- fault containment;
+- cancellation;
+- timeout;
+- degraded-mode behavior.
+ 
+## 10. Update and Recovery Gate
+ 
+Production update verification MUST cover:
+ 
+~~~text
+Signed Artifact
+  ↓
+Provenance Verification
+  ↓
+Compatibility / Policy Check
+  ↓
+Inactive Slot
+  ↓
+Install
+  ↓
+Reboot
+  ↓
+Boot Verification
+  ↓
+Health Validation
+  ↓
+Commit or Rollback
+~~~
+ 
+Required failure scenarios SHOULD include interrupted update, invalid artifact, incompatible version, failed boot, failed service startup, corrupted state and repeated rollback.
+ 
+## 11. Hardware / Secure Boot / Storage / Network / Desktop / Aurora Gate Matrix
+ 
+The master acceptance matrix is:
+ 
+| Gate | Minimum proof | Evidence class |
+|---|---|---|
+| OS-Core | Boot → Userspace → Syscall → IPC | QEMU/target |
+| Hardware | Physical target boots and exercises declared devices | HARDWARE_VERIFIED |
+| Secure Boot | Invalid/untrusted boot artifact rejected | SECURE/HARDWARE evidence |
+| Storage | Crash/corruption/permission/resource tests | TESTED + target evidence |
+| Network | Adversarial protocol/resource tests | TESTED + target evidence |
+| Desktop | Session/display/input/application path | DESKTOP profile |
+| Aurora | Capability → Policy → Tool → Target validation → Audit | AURORA profile |
+| Recovery | Fault → recovery/rollback → verified state | RECOVERY evidence |
+| Operational | Long-run + update + monitoring | OPERATIONAL |
+ 
+Passing a row MUST NOT imply passing another row.
+ 
+## 12. Full Production OS Gate
+ 
+The complete declared production path is:
+ 
+~~~text
+G0 Architecture
+ ↓
+G1 Firmware / Bootloader
+ ↓
+G2 ShivaCore
+ ↓
+G3 Memory / Interrupt / Scheduler
+ ↓
+G4 Userspace / Syscall / IPC
+ ↓
+G5 PID 1 / Core Services
+ ↓
+G6 Storage
+ ↓
+G7 Network
+ ↓
+G8 Identity / Capability Security
+ ↓
+G9 QEMU Functional OS
+ ↓
+G10 Physical Hardware
+ ↓
+G11 Secure / Trusted Boot
+ ↓
+G12 Storage Hardening
+ ↓
+G13 Network Hardening
+ ↓
+G14 Device / Fault Isolation
+ ↓
+G15 Desktop Profile
+ ↓
+G16 Aurora Runtime
+ ↓
+G17 Aurora Capability / Policy / Tool Gate
+ ↓
+G18 Full OS + Aurora E2E
+ ↓
+G19 Update / Recovery / Long-Run
+ ↓
+G20 Release / Operational
+~~~
+ 
+G15 and G16-G18 are profile-dependent. A headless server profile MAY stop before the Desktop/Aurora gates. A declared General-Purpose Desktop + Aurora platform MUST pass them.
+ 
+## 13. Final OS Evidence Contract
+ 
+The OS evidence state MUST distinguish:
+ 
+PRESENT · SPECIFIED · IMPLEMENTED · TESTED · CI_VERIFIED · QEMU_VERIFIED · HARDWARE_VERIFIED · SECURE_BOOT_VERIFIED · STORAGE_HARDENED · NETWORK_HARDENED · DESKTOP_VERIFIED · AURORA_VERIFIED · E2E_VERIFIED · RECOVERY_VERIFIED · RELEASED · DEPLOYED · OPERATIONAL
+ 
+No source file, README, architecture diagram, PR state or historical CI run may substitute for the evidence required by the corresponding gate.
+ 
+## 14. Relationship to Previous Architecture Contracts
+ 
+~~~text
+ARCH-001
+Authority / Evidence
+      ↓
+ARCH-002
+System / Domain / Interface / Lifecycle
+      ↓
+ARCH-003
+Operations / Security / Resilience / Verification
+      ↓
+ARCH-004
+Functional OS / Boot-to-Userspace
+      ↓
+ARCH-005
+Hardware / Trusted Boot / Hardening / Desktop / Aurora / Production
+~~~
+ 
+The component repositories remain implementation SSOTs. The ecosystem repository defines the cross-repository acceptance contract and evidence aggregation only.
+
+ 
+---
+ 
+# ARCH-006 — Protocol, Data, Execution, Economics and System Completeness Architecture
+ 
+ARCH-006 closes the remaining cross-system architecture gaps that are not fully covered by ARCH-001 through ARCH-005. It defines protocol data availability, canonical encoding, concurrency, node roles, topology, threat assumptions, economics, proofs, light clients, interoperability, deployment environments, governance of parameters, and system-level completeness.
+ 
+ARCH-006 is an architecture and acceptance contract. It does not constitute implementation or verification evidence.
+ 
+## 1. Canonical Serialization, Encoding and ABI
+ 
+Every consensus-, execution-, identity- and interoperability-critical data structure MUST have one canonical encoding.
+ 
+The contract MUST define:
+ 
+- canonical serialization;
+- field ordering;
+- integer encoding and widths;
+- signed/unsigned representation;
+- byte order;
+- optional/default field semantics;
+- enum representation;
+- string/byte encoding;
+- length encoding;
+- domain separation;
+- versioning;
+- canonical hashing;
+- canonical signing preimage;
+- ABI compatibility;
+- wire encoding;
+- rejection of non-canonical representations.
+ 
+Consensus-critical code MUST NOT accept multiple encodings that can represent different byte sequences as the same logical object unless canonicalization is explicitly defined.
+ 
+## 2. Transaction and Signing-Domain Contract
+ 
+The transaction contract MUST define the complete signing and verification preimage, including protocol version, numeric chain identifier, transaction fields, serialization and domain separation.
+ 
+Legacy signing domains MUST NOT remain valid merely because legacy code or fixtures still exist.
+ 
+The transaction contract MUST define:
+ 
+- signer identity;
+- signing algorithm;
+- signature encoding;
+- chain/domain separation;
+- nonce semantics;
+- fee semantics;
+- validity interval;
+- replay protection;
+- authorization;
+- canonical serialization;
+- verification failure behavior;
+- version migration.
+ 
+## 3. Monetary and Economic Protocol Contract
+ 
+The canonical economic contract MUST explicitly define:
+ 
+- maximum supply: 360,000,000 ATC;
+- 36 halvings;
+- target block time: 360 seconds;
+- halving interval: 360,000 blocks;
+- base denomination: 10^-18 ATC;
+- economic values as u128;
+- protocol counters such as height, nonce, timestamp and epoch as u64;
+- chain identifier: 658467;
+- block reward derivation;
+- issuance schedule;
+- supply conservation;
+- treasury/reward/slashing semantics;
+- rounding and overflow behavior;
+- genesis allocation;
+- fee treatment;
+- economic parameter activation and migration.
+ 
+All monetary calculations MUST be deterministic and overflow-safe.
+ 
+No wallet, UI, indexer or explorer may independently redefine canonical monetary semantics.
+ 
+## 4. Data Availability and Archive Contract
+ 
+Consensus finality MUST be distinguished from data availability.
+ 
+The architecture MUST define:
+ 
+~~~text
+Block Commitment
+  ↓
+Data Publication
+  ↓
+Availability Sampling / Retrieval
+  ↓
+Availability Verification
+  ↓
+Consensus / Finality
+  ↓
+Canonical Archive
+~~~
+ 
+The contract MUST define block/body availability, retention, pruning, archival nodes, snapshot boundaries, retrieval proofs, missing-data behavior and recovery.
+ 
+A finalized header MUST NOT automatically imply that every required body/data object remains locally available.
+ 
+## 5. Light Client and Proof Verification
+ 
+The system MUST define a light-client trust path:
+ 
+~~~text
+Untrusted Header / Proof
+  ↓
+Cryptographic Verification
+  ↓
+Consensus / Finality Proof
+  ↓
+State / Inclusion Proof
+  ↓
+Policy Validation
+  ↓
+Trusted Result
+~~~
+ 
+Light clients MUST NOT become canonical state authorities.
+ 
+Proof types, commitment format, verification rules, trust assumptions, freshness and replay protection MUST be versioned.
+ 
+## 6. Concurrency, Ordering and Parallel Execution
+ 
+The architecture MUST explicitly distinguish:
+ 
+- deterministic sequential execution;
+- independent parallel execution;
+- speculative execution;
+- conflict detection;
+- dependency ordering;
+- transaction ordering;
+- state access sets;
+- deterministic merge;
+- rollback;
+- retry;
+- commit ordering.
+ 
+Any parallel execution MUST produce the same canonical result as the declared reference execution model.
+ 
+Nondeterministic thread scheduling MUST NOT affect consensus state.
+ 
+## 7. Mempool, Admission and Transaction Lifecycle
+ 
+The transaction lifecycle MUST explicitly distinguish:
+ 
+~~~text
+Constructed
+ → Signed
+ → Submitted
+ → Authenticated
+ → Syntax Valid
+ → Policy Valid
+ → Admitted
+ → Mempool
+ → Selected
+ → Proposed
+ → Executed
+ → Finalized
+ → Committed
+ → Persisted
+ → Indexed
+~~~
+ 
+The contract MUST define duplicate handling, replacement, expiration, fee policy, nonce conflicts, resource limits, fairness policy, eviction, persistence/restart behavior and observability.
+ 
+Mempool state MUST NOT be confused with canonical chain state.
+ 
+## 8. Node Roles and Operational Topology
+ 
+The architecture MUST distinguish at least:
+ 
+- validator;
+- full node;
+- archive node;
+- light client;
+- RPC/API node;
+- indexer;
+- explorer service;
+- bootstrapping/state-sync node;
+- bridge/interop gateway;
+- oracle service where applicable;
+- development/local node.
+ 
+For each role the architecture MUST define stored state, authority, network exposure, keys, capabilities, resource requirements, failure behavior and synchronization responsibilities.
+ 
+No operational role receives protocol authority merely through deployment topology.
+ 
+## 9. Network and Environment Topology
+ 
+The system MUST define separate environments:
+ 
+~~~text
+Development
+  ↓
+Local / Integration
+  ↓
+Devnet
+  ↓
+Testnet
+  ↓
+Staging / Release Candidate
+  ↓
+Mainnet
+~~~
+ 
+Each environment MUST have explicit chain identity, genesis, keys, endpoints, artifact policy, upgrade policy, data reset policy and evidence expectations.
+ 
+Mainnet state or credentials MUST NOT be silently reused in lower environments.
+ 
+## 10. Threat Model and Trust Assumptions
+ 
+Each security-critical domain MUST declare:
+ 
+- assets;
+- trust boundaries;
+- trusted components;
+- untrusted inputs;
+- adversary capabilities;
+- compromise assumptions;
+- attack surfaces;
+- security invariants;
+- detection mechanisms;
+- containment;
+- recovery;
+- residual risk.
+ 
+The master threat model MUST cover at least:
+ 
+- malicious validators;
+- Byzantine peers;
+- Sybil/eclipse attacks;
+- replay;
+- key compromise;
+- malicious contracts;
+- resource exhaustion;
+- corrupted storage;
+- compromised drivers;
+- compromised services;
+- malicious AI/model/tool output;
+- supply-chain compromise;
+- insider/emergency authority abuse;
+- physical compromise where hardware security is claimed.
+ 
+Security claims MUST identify their trust assumptions.
+ 
+## 11. ZKP and Proof-System Boundary
+ 
+Zero-knowledge and cryptographic proof systems MUST have an explicit boundary:
+ 
+~~~text
+Statement / Witness
+  ↓
+Circuit / Constraint System
+  ↓
+Proof Generation
+  ↓
+Proof Artifact
+  ↓
+Verifier
+  ↓
+Protocol / Application Acceptance
+~~~
+ 
+The architecture MUST define proving/verifying authority, circuit/version identity, trusted setup assumptions where applicable, proof encoding, verification cost, recursion/composition, key lifecycle and upgrade compatibility.
+ 
+A valid cryptographic proof MUST NOT bypass protocol authorization or state ownership.
+ 
+## 12. Oracle Architecture
+ 
+External information MUST follow:
+ 
+~~~text
+External Source
+  ↓
+Provider Identity
+  ↓
+Attestation / Signature
+  ↓
+Validation
+  ↓
+Freshness / Quorum
+  ↓
+Canonical Oracle State
+  ↓
+Consumer
+~~~
+ 
+The architecture MUST define provider trust, freshness, quorum/aggregation, fallback, stale data, conflicting data, manipulation, outage and rollback semantics.
+ 
+External data MUST NOT become canonical solely because an oracle service emitted it.
+ 
+## 13. Bridge and Cross-Chain Interoperability
+ 
+Cross-chain state MUST follow:
+ 
+~~~text
+External Chain
+  ↓
+External Finality
+  ↓
+Proof / Attestation
+  ↓
+Verification
+  ↓
+Interop Gateway
+  ↓
+Replay / Nonce Protection
+  ↓
+Policy
+  ↓
+Canonical Command
+  ↓
+Target Domain Commit
+~~~
+ 
+Asset bridges MUST additionally define lock/mint/burn/release semantics, representation, supply conservation, timeouts, circuit breakers, recovery and reconciliation.
+ 
+## 14. Canonical State Transition and Reference Execution
+ 
+Every consensus-critical state transition MUST have:
+ 
+- a normative specification;
+- canonical input/output schema;
+- reference implementation;
+- deterministic test vectors;
+- property tests;
+- fuzz/differential tests;
+- exact-SHA CI evidence;
+- migration vectors where applicable.
+ 
+A production implementation MUST NOT become canonical merely because it is the first implementation.
+ 
+## 15. Protocol Upgrade and Parameter Governance
+ 
+Protocol parameters MUST have:
+ 
+~~~text
+Proposal
+ → Specification
+ → Review
+ → Approval
+ → Compatibility Analysis
+ → Activation Rule
+ → Deployment
+ → Activation
+ → Verification
+ → Monitoring
+~~~
+ 
+This includes consensus, monetary, VM, network, cryptographic and OS-integrated protocol parameters.
+ 
+Activation MUST be deterministic and replayable. Governance metadata MUST NOT silently alter consensus semantics outside the declared activation mechanism.
+ 
+## 16. State Migration and Schema Evolution
+ 
+Every persistent or consensus-relevant schema MUST define:
+ 
+- version;
+- owner;
+- compatibility;
+- migration direction;
+- migration trigger;
+- transformation;
+- validation;
+- rollback/recovery boundary;
+- mixed-version behavior;
+- evidence.
+ 
+Migration MUST be idempotent where applicable and MUST NOT silently discard canonical state.
+ 
+## 17. Snapshot and State-Sync Contract
+ 
+The canonical recovery path is:
+ 
+~~~text
+Snapshot
+ → Metadata / Commitment
+ → Source Authentication
+ → Download
+ → Integrity Verification
+ → Restore
+ → Replay Missing Range
+ → Canonical-State Verification
+ → Serve
+~~~
+ 
+Snapshots MUST NOT be treated as canonical merely because they were downloaded from a trusted-looking endpoint.
+ 
+## 18. Governance, Emergency and Human Approval
+ 
+The architecture MUST distinguish:
+ 
+- protocol governance;
+- repository governance;
+- release authority;
+- operational authority;
+- emergency authority;
+- domain authority;
+- human approval;
+- automated policy decisions.
+ 
+Emergency powers MUST be scoped, time-bounded, auditable and unable to silently become permanent authority.
+ 
+AI approval MUST NOT replace protocol or domain authorization.
+ 
+## 19. Privacy, Data Classification and Immutable-State Boundary
+ 
+Data MUST be classified as applicable:
+ 
+PUBLIC · PRIVATE · CONFIDENTIAL · SECRET · SENSITIVE · DERIVED · EPHEMERAL · CANONICAL
+ 
+The architecture MUST distinguish immutable protocol data from mutable off-chain data, AI memory, retrieval indexes, logs and caches.
+ 
+Sensitive information MUST NOT be written to immutable public state merely because a service can access it.
+ 
+Retention, deletion/tombstone behavior, provenance and access policy MUST be defined per data domain.
+ 
+## 20. Observability, SLO and Operational Evidence
+ 
+Production domains MUST define:
+ 
+- metrics;
+- logs;
+- traces;
+- audit events;
+- health/readiness;
+- SLI/SLO where applicable;
+- alert conditions;
+- error budgets where applicable;
+- incident correlation;
+- evidence retention.
+ 
+Observability MUST NOT mutate canonical state or grant authority.
+ 
+## 21. Supply Chain and Artifact Trust
+ 
+The complete artifact path is:
+ 
+~~~text
+Source
+ → Dependency Resolution
+ → Dependency Verification
+ → Build
+ → SBOM / Provenance
+ → Artifact Signing
+ → Verification
+ → Release
+ → Deployment
+ → Runtime Verification
+~~~
+ 
+The architecture MUST distinguish artifact integrity from functional correctness.
+ 
+Build reproducibility, dependency pinning, provenance, signatures, SBOM, vulnerability policy and compromised-dependency response MUST be defined.
+ 
+## 22. Capacity, Performance and Backpressure
+ 
+Every production subsystem MUST define applicable:
+ 
+- latency;
+- throughput;
+- queue limits;
+- memory/CPU budget;
+- storage growth;
+- bandwidth;
+- concurrency;
+- saturation;
+- admission control;
+- backpressure;
+- degradation;
+- recovery.
+ 
+Performance claims MUST identify workload, environment, version and measurement method.
+ 
+## 23. Chaos, Fault Injection and Recovery
+ 
+Critical systems MUST define controlled failure scenarios covering:
+ 
+- process crash;
+- node restart;
+- network partition;
+- packet loss;
+- delayed messages;
+- corrupted storage;
+- disk exhaustion;
+- key rotation;
+- invalid artifacts;
+- failed updates;
+- unavailable dependencies;
+- validator failure;
+- service failure;
+- Aurora tool failure;
+- hardware faults where applicable.
+ 
+Recovery MUST return to a verified state, not merely a running state.
+ 
+## 24. Developer Platform Contract
+ 
+The architecture MUST define versioned developer interfaces for:
+ 
+- SDKs;
+- CLI;
+- RPC clients;
+- ATCLang compiler/tooling;
+- IR/ABI tooling;
+- wallet tooling;
+- debugger;
+- simulator;
+- local network;
+- test environment;
+- deployment tooling;
+- proof/ZKP tooling;
+- Genesis tooling;
+- Aurora tool development.
+ 
+Developer tooling MUST consume canonical versioned contracts and MUST NOT redefine protocol semantics.
+ 
+## 25. Canonical Dependency and Version Matrix
+ 
+The ecosystem MUST maintain a machine-checkable mapping of:
+ 
+- component;
+- owner;
+- repository;
+- SSOT;
+- interface/API/ABI;
+- dependency direction;
+- protocol version;
+- schema version;
+- supported environments;
+- supported hardware;
+- evidence level;
+- release compatibility.
+ 
+Dependency diagrams are informative unless the corresponding dependency contract explicitly grants authority.
+ 
+## 26. System Completeness Contract
+ 
+The complete master architecture MUST be evaluated across these dimensions:
+ 
+~~~text
+Foundation
+Boot / Kernel / OS
+Protocol / Consensus
+Execution / VM
+State / Storage
+Networking / P2P
+Identity / Cryptography
+Economics
+Data Availability
+Interoperability / Oracle / Bridge
+Proof / ZKP
+AI / Aurora
+Genesis / Applications
+Desktop / UX
+Security / Threat Model
+Supply Chain
+Testing / Verification
+Observability
+Performance / Capacity
+Recovery / Disaster
+Upgrade / Migration
+Governance
+Developer Platform
+Release / Deployment
+Operational Runtime
+~~~
+ 
+A component is not considered architecturally complete solely because a repository, directory, module or document exists.
+ 
+## 27. Master Architecture Gate Chain
+ 
+The complete gate chain is:
+ 
+~~~text
+ARCH-001 Authority / Evidence
+        ↓
+ARCH-002 System / Domain / Interface
+        ↓
+ARCH-003 Operations / Security / Resilience
+        ↓
+ARCH-004 Functional OS
+        ↓
+ARCH-005 Production OS / Hardware / Desktop / Aurora
+        ↓
+ARCH-006 Protocol / Data / Economics / Proof / Topology / Completeness
+~~~
+ 
+ARCH-006 closes architecture-level gaps. Implementation status remains subject to component-level verification and exact-SHA evidence.
+
+ 
+---
+ 
+# ARCH-007 — Domain Subsystem Completeness and Cross-Domain Control Architecture
+ 
+ARCH-007 defines additional subsystem contracts required to make the master architecture operationally complete across blockchain, OS, AI, Genesis, developer, commercial and user-facing domains. It complements ARCH-001 through ARCH-006 and does not imply implementation.
+ 
+## 1. Blockchain State Model and Transaction Semantics
+The protocol MUST explicitly define its canonical state model: account/state-object or UTXO model; ownership; nonce semantics; contract storage ownership; state-root construction; transaction ordering; fee payer/signer relationships; expiration; replay protection; failed-transaction effects; storage economics where applicable; pruning/archive behavior; canonical state commitment.
+ 
+## 2. Fee Market and Transaction Resource Economics
+The protocol MUST define base/dynamic fees where applicable, priority fees, minimum admission fees, resource pricing, gas/execution accounting, block and transaction resource limits, fee distribution/burning/treasury/validator treatment, failed-execution fee semantics, congestion behavior and anti-spam economics.
+ 
+## 3. Validator Lifecycle, Staking and Slashing
+Validator operation MUST cover Identity → Registration → Stake/Bond → Eligibility → Active Set → Proposal/Voting → Rewards → Performance Accounting → Slashing/Restriction → Exit/Unbond → Withdrawal. It MUST define activation delays, downtime/equivocation evidence, reward accounting, key rotation and governance boundaries.
+ 
+## 4. Consensus Safety and Liveness
+Consensus MUST define safety, liveness assumptions, synchrony, quorum, validator-set changes, proposer selection, voting phases, equivocation, duplicate votes, conflicting blocks, fork choice where applicable, finality proofs, timeout/view-change and restart/resynchronization behavior.
+ 
+## 5. Reorganization and Canonicality Handling
+Non-finalized consumers MUST define behavior for forks, reorgs, reverted transactions/receipts, mempool reinsertion, index rollback, explorer/API visibility, notification invalidation and cache invalidation. Finalized state MUST have an explicit irreversibility contract.
+ 
+## 6. Indexer, Explorer and Read-Model Consistency
+The canonical read path is Commit → Event/Change Feed → Indexer → Derived Read Model → API → Explorer/Application. Ordering, replay, idempotency, reindexing, rollback, schema versioning, lag, missing events, corruption detection and rebuild-from-canonical-state MUST be defined.
+ 
+## 7. RPC, API Gateway and External Interfaces
+Every external API MUST declare owner, version, authentication, authorization, capability, rate limits, quotas, schemas, pagination, idempotency, timeout/cancellation, errors, compatibility, abuse controls, audit and deprecation. Reachability MUST NOT confer authority.
+ 
+## 8. Service Discovery and Internal Control Plane
+Internal services MUST define service identity, discovery/registration, endpoint ownership, health/readiness, capability advertisement, version negotiation, certificate/key lifecycle, timeout/retry, circuit breaking, dependency policy and graceful degradation.
+ 
+## 9. Distributed Configuration and Feature Flags
+Build-time, deployment-time, runtime, protocol, governance, feature-flag and secret configuration MUST be distinct. Source authority, precedence, validation, rollout, consistency, rollback and audit MUST be defined. Feature flags MUST NOT silently alter consensus or security semantics.
+ 
+## 10. Identity Federation and Trust Domains
+Human, device, workload, service and cryptographic identities MUST have explicit relationships. Blockchain accounts, wallet keys, OS principals, Aurora agents, Genesis users and external identities remain distinct unless an explicit binding exists. Delegation, impersonation, session binding, revocation and recovery MUST be defined.
+ 
+## 11. Key Custody, Wallet and Recovery
+Wallet architecture MUST define entropy, key generation/derivation, signing, secure storage, hardware wallet/HSM integration where applicable, backup, recovery, rotation, revocation, compromise response and signing-domain enforcement. Wallets MUST consume canonical protocol semantics.
+ 
+## 12. Smart-Contract Lifecycle and Governance
+Contract lifecycle MUST cover Author → Compile → Canonical IR/ABI → Bytecode → Analysis → Verification → Deployment Authorization → On-Chain Deployment → Versioned Execution → Upgrade/Migration/Retirement. Upgrade authority, timelocks, storage compatibility, code identity and emergency handling MUST be explicit.
+ 
+## 13. VM Resource and Determinism Governance
+VM architecture MUST define resource/gas costs, stack/heap/storage limits, recursion/call depth, memory, timeout, deterministic host functions, forbidden nondeterminism, rollback, errors and receipts. Limits MUST be enforced at the authoritative execution boundary.
+ 
+## 14. Protocol Randomness and Selection
+Protocol randomness MUST define entropy, commitment/reveal, derivation, epoch/validator binding, bias resistance, manipulation resistance, verification, replay and recovery. Game randomness and AI sampling MUST remain separate.
+ 
+## 15. Storage Engine and Database Consistency
+Persistent services MUST define storage ownership, atomicity, durability, consistency, concurrency, WAL/journaling, compaction, corruption detection, checksums, snapshots, recovery, schema migration, disk exhaustion and repair/rebuild. Database success MUST NOT equal protocol finality.
+ 
+## 16. Event Bus and Messaging Semantics
+Messages MUST distinguish command, canonical event, integration event, telemetry, audit event and notification. Schema/version, ordering, delivery, duplication, replay, retention, dead-letter handling, authorization and provenance MUST be defined.
+ 
+## 17. Search, Knowledge and Retrieval
+Canonical Source → Ingestion → Normalization → Index → Retrieval → Ranking → Presentation MUST preserve provenance. AI retrieval, blockchain indexing and Genesis knowledge systems MUST distinguish retrieved evidence from canonical state and support rebuild where applicable.
+ 
+## 18. Aurora Model and Agent Lifecycle
+Aurora MUST define Model Artifact → Provenance/Integrity → Registration → Capability Profile → Runtime → Context → Agent Session → Planning → Policy/Approval → Tool Execution → Result Validation → Memory Update → Audit → Termination. Model versioning, rollback, budgets, identity, delegation, recursion limits, tool isolation, routing, evaluation and memory trust levels MUST be explicit.
+ 
+## 19. AI Evaluation and Release Gate
+Aurora models/agents MUST follow Scenario/Dataset → Evaluation → Security/Robustness → Capability Assessment → Regression → Approval → Release → Monitoring → Rollback. Results MUST identify model/version, scenarios, environment and methodology.
+ 
+## 20. Genesis Authoritative Simulation and Persistence
+Genesis MUST separate input, authoritative simulation, entity/component state, physics, combat, inventory, economy, quests, dialogue, world state, multiplayer replication, persistence, replay and presentation. The canonical path is Input → Validation → Simulation → State Transition → Invariant Validation → Commit → Persistence → Replication → Presentation. AI-generated behavior/content MUST pass authoritative validation before mutation.
+ 
+## 21. Genesis Content, Asset and Mod Lifecycle
+Content MUST have identity, version, dependencies, provenance, compatibility, validation, signing where required, sandboxing, load/unload lifecycle, save compatibility, migration and rollback. Mods MUST NOT obtain unrestricted engine/OS/network authority through content loading.
+ 
+## 22. Multiplayer, Matchmaking and Session Authority
+Multiplayer MUST define session identity, world/shard ownership, matchmaking, lobby/session lifecycle, authoritative server/domain, prediction, reconciliation, anti-cheat boundary, replication, reconnect, migration, persistence and failure handling.
+ 
+## 23. Marketplace, Launchpad and Economic Application Boundary
+Commercial domains MUST define catalog authority, product/asset identity, ownership, pricing, order lifecycle, payment, settlement, refunds, inventory, fraud/abuse, disputes, treasury boundary and blockchain settlement. Application commerce MUST NOT redefine protocol monetary semantics.
+ 
+## 24. Notification and User-Interaction Services
+Notifications MUST define event source, authorization, delivery channel, priority, deduplication, ordering, retry, expiration, preferences, privacy and audit. Notifications are derived effects, not authoritative state by delivery alone.
+ 
+## 25. Accessibility, Internationalization and Localization
+Desktop, Aurora, Genesis and developer applications SHOULD define locale/timezone, number/date formatting, text direction, accessibility, keyboard navigation, assistive technology, captions, color-independent state communication and input abstraction. Presentation localization MUST NOT alter canonical semantics.
+ 
+## 26. Secrets and External Integration Boundary
+Credentials MUST follow Provision → Bind Identity → Scoped Capability → Use → Audit → Rotate → Revoke → Destroy. Credentials MUST NOT be embedded in source, logs, model context, immutable chain state or untrusted tool output.
+ 
+## 27. Multi-Tenancy and Isolation
+Shared services MUST define tenant identity, isolation, authorization, data partitioning, quotas, encryption boundary, noisy-neighbor controls, audit, deletion and cross-tenant access prevention. Tenant IDs alone are not authorization.
+ 
+## 28. Telemetry and Audit Separation
+Canonical state, metrics, logs, traces, security audit, economic audit, model telemetry and gameplay telemetry MUST be separate data classes with explicit retention and access policies.
+ 
+## 29. Geographic and Physical Failure Domains
+Critical services MUST define process, host, rack, zone, region, network-segment, storage and operator failure domains. Recovery MUST account for correlated failures and independent recovery sources where required.
+ 
+## 30. System Boundary and Authority Non-Transitivity
+Authority MUST NOT propagate implicitly across Human, AI, Wallet, OS, Kernel, Blockchain, Genesis, Marketplace, Indexer, Explorer, Oracle or Bridge domains. Every target domain MUST validate authority at its own commit boundary.
+ 
+## 31. Architecture Completeness Matrix
+The master architecture SHOULD maintain a machine-checkable matrix:
+Domain | Component | Owner | SSOT | State Owner | Authority | Interface | Schema | Security | Test | CI | Integration | E2E | Release | Operational
+ 
+Missing cells are explicit architecture/evidence gaps, not assumptions.
+ 
+## 32. Extended Master Gate Chain
+ARCH-001 Authority/Evidence → ARCH-002 System/Domain/Interface → ARCH-003 Operations/Security/Resilience → ARCH-004 Functional OS → ARCH-005 Production OS/Hardware/Aurora → ARCH-006 Protocol/Data/Economics/Proof/Topology → ARCH-007 Domain Subsystems/Cross-Domain Control/Completeness
+
+ 
+---
+ 
+# ARCH-008 — Architecture Optimization, Control Planes, Lifecycle, Safety and System Integration
+ 
+ARCH-008 optimizes the master architecture by making previously implicit cross-cutting contracts explicit and by separating authoritative planes from derived, operational and presentation concerns. It is a structural refinement of ARCH-001 through ARCH-007 and does not imply implementation.
+ 
+## 1. Four-Plane System Model
+ 
+The ecosystem MUST distinguish four orthogonal planes:
+ 
+1. **Authority Plane** — consensus, canonical state transition, authorization and commit.
+2. **Data Plane** — canonical state, storage, replication, indexing and data movement.
+3. **Control Plane** — configuration, orchestration, policy, governance, deployment, upgrades and operational control.
+4. **Experience Plane** — applications, desktop, Genesis presentation, Aurora interaction, APIs and user interfaces.
+ 
+Control-plane reachability MUST NOT grant authority-plane privileges. Experience-plane actions MUST cross explicit command/authorization boundaries.
+ 
+## 2. Canonical Domain Boundary Contract
+ 
+Every domain MUST declare:
+ 
+- canonical state;
+- state owner;
+- command interface;
+- event interface;
+- read interface;
+- commit boundary;
+- authorization boundary;
+- persistence boundary;
+- recovery boundary;
+- migration boundary;
+- audit boundary.
+ 
+A domain without an explicit commit owner is architecturally incomplete.
+ 
+## 3. Command, Query, Event and Projection Separation
+ 
+The architecture MUST distinguish:
+ 
+~~~text
+Command → Validation → Authorization → State Transition → Commit → Event
+Query   ← Projection ← Canonical State
+Event   → Derived Consumers / Integration / Notification
+~~~
+ 
+Queries MUST NOT mutate canonical state. Events MUST describe accepted transitions, not merely requests. Projections MUST be rebuildable where their source is authoritative.
+ 
+## 4. Workflow and Orchestration Architecture
+ 
+Long-running workflows MUST define:
+ 
+- workflow identity;
+- state machine;
+- owner;
+- durable checkpoint;
+- timeout;
+- retry;
+- compensation;
+- idempotency;
+- cancellation;
+- resume;
+- failure state;
+- audit trail.
+ 
+Orchestration MUST coordinate domain authorities rather than replace them.
+ 
+## 5. Distributed Transaction and Saga Boundary
+ 
+Cross-domain operations MUST NOT assume one global transaction. Where atomicity cannot cross domain boundaries, the architecture MUST define:
+ 
+~~~text
+Command
+ → Local Commit
+ → Canonical Event
+ → Next Domain Action
+ → Confirmation / Compensation
+ → Final Workflow State
+~~~
+ 
+Compensation MUST NOT be confused with rollback of an already-finalized canonical protocol state.
+ 
+## 6. Queue, Backpressure and Work Scheduling
+ 
+Every asynchronous work system MUST define:
+ 
+- queue owner;
+- priority;
+- fairness;
+- capacity;
+- admission;
+- backpressure;
+- retry;
+- dead-letter handling;
+- cancellation;
+- expiration;
+- concurrency;
+- starvation prevention;
+- overload behavior.
+ 
+AI jobs, indexing, block processing, Genesis simulation and OS services MUST not share uncontrolled resource pools.
+ 
+## 7. Resource Domains and Budget Hierarchy
+ 
+Resources MUST have explicit accounting boundaries:
+ 
+~~~text
+Physical Host
+ → OS
+ → Service
+ → Workload
+ → Request / Job
+ → Tool / Operation
+~~~
+ 
+CPU, memory, storage, network, GPU/NPU, VM gas, AI inference and tool budgets MUST be separately attributable where applicable. A child workload MUST NOT escape the parent budget through retries, delegation or recursive execution.
+ 
+## 8. Delegation and Capability Attenuation
+ 
+Delegated authority MUST satisfy:
+ 
+~~~text
+Parent Capability
+ → Attenuated Capability
+ → Scoped Delegation
+ → Expiry
+ → Execution
+ → Audit
+~~~
+ 
+A delegate MUST NOT receive broader authority than its delegator. Capability transfer MUST be explicit, revocable where applicable and bound to identity, purpose and lifetime.
+ 
+This applies to ShivaCore capabilities, GlobusOS services, wallets, Aurora agents/tools, Genesis services and protocol authorization.
+ 
+## 9. Policy Decision / Policy Enforcement Separation
+ 
+Where policy engines are used:
+ 
+- Policy Decision Point determines an authorization result.
+- Policy Enforcement Point enforces it.
+- Policy Administration defines policy.
+- Policy Information provides trusted context.
+ 
+A policy engine MUST NOT silently become the canonical state owner of the protected domain.
+ 
+## 10. Admission-Control Architecture
+ 
+Every scarce or security-sensitive boundary SHOULD have an explicit admission gate:
+ 
+~~~text
+Request
+ → Identity
+ → Schema
+ → Capability
+ → Policy
+ → Resource Availability
+ → Rate / Quota
+ → Admission
+ → Execution
+~~~
+ 
+Admission failure MUST be deterministic where protocol semantics require determinism and MUST be observable without leaking sensitive data.
+ 
+## 11. Cancellation, Timeout and Lease Semantics
+ 
+Long-running operations MUST define:
+ 
+- timeout source;
+- deadline propagation;
+- cancellation authority;
+- cancellation visibility;
+- partial-result behavior;
+- cleanup;
+- lease owner;
+- lease renewal;
+- lease expiry;
+- orphan recovery.
+ 
+Cancellation MUST NOT create an ambiguous canonical state.
+ 
+## 12. Idempotency and Exactly-Once Illusion
+ 
+Cross-domain commands MUST define an idempotency key or equivalent replay identity where retries are possible. The architecture MUST NOT assume network-level exactly-once delivery.
+ 
+Canonical state transitions MUST remain safe under duplicate delivery, retry and delayed delivery.
+ 
+## 13. Clock and Temporal Authority Hierarchy
+ 
+The master architecture MUST use an explicit temporal hierarchy:
+ 
+~~~text
+Hardware / Monotonic Time
+        ↓
+OS Time Services
+        ↓
+Protocol / Consensus Time
+        ↓
+Application Time
+        ↓
+Genesis Simulation Time
+        ↓
+AI Context / User Presentation Time
+~~~
+ 
+A lower-trust or less deterministic clock MUST NOT silently determine a higher-authority state transition.
+ 
+## 14. Reference Data and Configuration Authority
+ 
+The architecture MUST distinguish:
+ 
+- canonical protocol parameters;
+- governed configuration;
+- runtime configuration;
+- reference data;
+- cached configuration;
+- user preferences;
+- model configuration.
+ 
+Every value MUST have one source authority and a defined propagation/update mechanism.
+ 
+## 15. Schema Registry and Contract Registry
+ 
+All cross-domain schemas SHOULD be discoverable through a versioned contract registry containing:
+ 
+- identifier;
+- owner;
+- version;
+- schema;
+- compatibility;
+- lifecycle;
+- security classification;
+- consumers;
+- producers;
+- test vectors;
+- deprecation state.
+ 
+Registry metadata MUST NOT itself become domain authority.
+ 
+## 16. Compatibility and Version Negotiation
+ 
+Interfaces MUST define:
+ 
+- major/minor compatibility;
+- feature negotiation;
+- capability negotiation;
+- minimum supported version;
+- maximum supported version;
+- downgrade behavior;
+- deprecation period;
+- migration path.
+ 
+Consensus-critical compatibility MUST be deterministic and explicitly activated.
+ 
+## 17. Deployment Topology and Placement Policy
+ 
+The architecture MUST distinguish logical components from deployment instances.
+ 
+Placement MUST account for:
+ 
+- trust domain;
+- resource class;
+- latency;
+- availability;
+- data locality;
+- hardware capability;
+- geographic restrictions;
+- security classification;
+- failure domain.
+ 
+Moving a component between hosts MUST NOT change its logical authority.
+ 
+## 18. Service Mesh / Transport Security Boundary
+ 
+If service-mesh or encrypted service transport is used, it MUST provide transport security and identity enforcement without becoming an implicit domain authority. mTLS, certificate rotation, workload identity and network policy MUST remain distinct from application authorization.
+ 
+## 19. Secrets-to-Data-Plane Boundary
+ 
+Secrets MUST be prevented from crossing into:
+ 
+- logs;
+- metrics;
+- traces;
+- model context;
+- telemetry;
+- public APIs;
+- immutable protocol state;
+- crash dumps;
+- debug artifacts.
+ 
+Redaction and secret-scanning MUST be part of the release/evidence pipeline.
+ 
+## 20. Human-in-the-Loop and Approval Architecture
+ 
+Where human approval is required:
+ 
+~~~text
+Proposal
+ → Risk / Policy Evaluation
+ → Human Approval
+ → Scoped Authorization
+ → Execution
+ → Result Validation
+ → Audit
+~~~
+ 
+Approval MUST identify principal, scope, expiry, target, action and evidence. Human approval MUST not bypass deterministic target-domain validation.
+ 
+## 21. Safety Case and Assurance Case
+ 
+Security- and safety-critical claims SHOULD be represented as:
+ 
+~~~text
+Claim
+ → Argument
+ → Evidence
+ → Assumption
+ → Residual Risk
+ → Verification Status
+~~~
+ 
+This provides a structured assurance layer above individual tests and prevents documentation claims from being confused with evidence.
+ 
+## 22. Formal Methods and Verification Strategy
+ 
+Critical invariants SHOULD be classified by verification strength:
+ 
+- specification;
+- executable invariant;
+- property test;
+- fuzz/differential test;
+- model checking;
+- formal proof;
+- exact-SHA CI;
+- integration;
+- E2E;
+- operational evidence.
+ 
+The required level MUST be proportional to the consequence of violation.
+ 
+## 23. Reference Implementations and Differential Conformance
+ 
+Protocol and contract specifications SHOULD have canonical test vectors and, where practical, independent reference implementations or differential implementations.
+ 
+Two implementations MUST NOT silently diverge on consensus-critical semantics.
+ 
+## 24. Security Boundary Inventory
+ 
+The master architecture SHOULD maintain a security-boundary inventory covering:
+ 
+- hardware ↔ bootloader;
+- bootloader ↔ kernel;
+- kernel ↔ userspace;
+- process ↔ process;
+- service ↔ service;
+- wallet ↔ protocol;
+- node ↔ network;
+- VM ↔ host;
+- contract ↔ contract;
+- Aurora ↔ tool;
+- AI ↔ memory;
+- Genesis client ↔ authoritative server;
+- application ↔ blockchain;
+- bridge ↔ external chain.
+ 
+Every boundary MUST identify trust direction, allowed data, allowed authority, validation and failure behavior.
+ 
+## 25. Canonical Lifecycle Model
+ 
+Every major artifact or stateful component SHOULD use:
+ 
+~~~text
+Create
+ → Validate
+ → Register
+ → Activate
+ → Operate
+ → Observe
+ → Update
+ → Suspend / Restrict
+ → Recover
+ → Retire
+ → Archive / Destroy
+~~~
+ 
+Not every component requires every state, but omitted states MUST be intentional.
+ 
+## 26. Ownership Transfer and Handover
+ 
+Authority or responsibility transfer MUST define:
+ 
+- old owner;
+- new owner;
+- handover condition;
+- state synchronization;
+- authorization;
+- overlap period;
+- cutover point;
+- rollback;
+- evidence.
+ 
+This applies to validators, leaders, service ownership, world shards, model versions, storage ownership and emergency operations.
+ 
+## 27. Bootstrap Dependency Closure
+ 
+Every bootstrapping path MUST be checked for circular dependencies. The architecture MUST identify the minimum trust and functionality required to bootstrap:
+ 
+~~~text
+Hardware / Firmware
+ → Boot
+ → Kernel
+ → Minimal Identity / Crypto
+ → Network / Storage
+ → Core Services
+ → Protocol / Application
+~~~
+ 
+A component MUST NOT require a higher-layer service to initialize the lower layer that provides it.
+ 
+## 28. Degraded-Mode Architecture
+ 
+Critical services MUST define explicit degraded modes:
+ 
+- dependency unavailable;
+- network partition;
+- storage read-only;
+- resource exhaustion;
+- partial hardware failure;
+- model unavailable;
+- tool unavailable;
+- indexer lag;
+- non-critical service failure.
+ 
+Degraded operation MUST identify which functions remain authoritative, which are disabled and how recovery occurs.
+ 
+## 29. Safe Failure and Fail-Closed Boundaries
+ 
+Security-sensitive authorization, boot verification, protocol validation, capability enforcement and state-integrity checks MUST define fail-closed behavior unless a documented safe-degraded mode is explicitly authorized.
+ 
+A timeout, missing policy result or unavailable dependency MUST NOT silently become authorization.
+ 
+## 30. Canonical Evidence Provenance
+ 
+Every system-level evidence item SHOULD identify:
+ 
+- repository;
+- commit SHA;
+- artifact;
+- environment;
+- platform;
+- test/gate;
+- timestamp;
+- tool/version;
+- raw result;
+- evaluator;
+- relationship to requirement.
+ 
+Historical evidence MUST be distinguished from current-head evidence.
+ 
+## 31. Architecture Decision Record Integration
+ 
+Material architecture decisions SHOULD have:
+ 
+- decision ID;
+- problem;
+- alternatives;
+- decision;
+- rationale;
+- consequences;
+- affected domains;
+- migration;
+- supersession relationship;
+- approval;
+- implementation evidence.
+ 
+A newer decision MUST explicitly supersede conflicting older decisions.
+ 
+## 32. Architectural Invariant Set
+ 
+The master architecture MUST preserve these invariants:
+ 
+1. One canonical state owner per authoritative state domain.
+2. Authority never follows reachability alone.
+3. Events do not become state without domain acceptance.
+4. Read models never silently become write authorities.
+5. AI output is non-authoritative until accepted by the target domain.
+6. Presentation never directly mutates canonical state.
+7. Lower-layer services do not depend on higher-layer authority.
+8. Retries cannot create duplicate canonical effects.
+9. Configuration cannot silently rewrite protocol semantics.
+10. Recovery cannot serve unverified canonical state.
+11. Capability delegation cannot increase authority.
+12. Resource exhaustion cannot cross isolation boundaries.
+13. Exact-SHA evidence is tied to the tested source.
+14. Historical evidence is not current-head evidence.
+15. Architecture claims do not substitute for implementation evidence.
+ 
+## 33. Optimized Master Architecture Model
+ 
+The resulting master model is:
+ 
+~~~text
+                         GOVERNANCE / ASSURANCE
+                                  │
+             ┌────────────────────┼────────────────────┐
+             │                    │                    │
+        AUTHORITY PLANE       CONTROL PLANE       EVIDENCE PLANE
+             │                    │                    │
+      Canonical State       Policy / Config       Verification
+      Commit / Finality     Orchestration         CI / E2E
+      Domain Authority      Deployment            Audit
+             │                    │                    │
+             └──────────────┬─────┴──────────────┬─────┘
+                            │                    │
+                         DATA PLANE         SECURITY PLANE
+                            │                    │
+                  Storage / Replication   Identity / Capability
+                  Events / Indexing       Trust Boundaries
+                            │                    │
+                            └─────────┬──────────┘
+                                      │
+                               EXPERIENCE PLANE
+                                      │
+                    Genesis / Aurora / Desktop / SDK
+                    APIs / Wallet / Explorer / Apps
+~~~
+ 
+The planes are orthogonal. No plane automatically inherits the authority of another.
+ 
+## 34. Architecture Optimization Rules
+ 
+The master architecture MUST prefer:
+ 
+- one SSOT over duplicated definitions;
+- one canonical authority over competing authorities;
+- explicit interfaces over implicit coupling;
+- versioned contracts over undocumented assumptions;
+- deterministic state transitions over emergent behavior;
+- rebuildable projections over authoritative caches;
+- capability attenuation over privilege inheritance;
+- explicit failure modes over undefined behavior;
+- evidence-linked claims over status labels;
+- minimal cross-repository coupling;
+- standalone component correctness before ecosystem integration.
+ 
+## 35. ARCH-008 Gate
+ 
+Before a cross-domain architecture change is accepted:
+ 
+~~~text
+Requirement
+ → Domain Identification
+ → Authority Analysis
+ → State Ownership
+ → Interface / Schema
+ → Security Boundary
+ → Resource / Failure Model
+ → Lifecycle / Migration
+ → Implementation Mapping
+ → Test Mapping
+ → Exact-SHA CI
+ → Integration
+ → E2E
+ → Evidence / ADR
+~~~
+ 
+ARCH-008 is satisfied only at the architecture level when the affected contracts are explicit. Implementation and verification remain separate gates.
+
+
+---
+
+# ARCH-009 — System Lifecycle, Operational Semantics, Federation and Long-Term Evolution
+
+ARCH-009 closes remaining architecture gaps around system lifecycle, federation, operational semantics, governance of change, compatibility, observability, human factors and long-term evolution. It is an architecture contract and does not imply implementation.
+
+## 1. System-of-Systems Lifecycle
+
+The complete ecosystem lifecycle MUST be defined as:
+
+Plan → Specify → Implement → Verify → Integrate → Release → Deploy → Operate → Observe → Maintain → Upgrade → Migrate → Decommission → Archive.
+
+Each stage MUST have an owner, entry criteria, exit criteria, evidence and rollback/recovery boundary.
+
+## 2. Environment Promotion Contract
+
+Artifacts MUST progress through controlled promotion:
+
+Build → Verification → Development → Integration → Devnet/Testnet → Release Candidate → Production.
+
+Promotion MUST preserve artifact identity and provenance. Production artifacts MUST NOT be rebuilt implicitly during deployment.
+
+## 3. Release Train and Compatibility Window
+
+Every release MUST define:
+- source commit;
+- artifact identity;
+- protocol/schema/API versions;
+- dependency versions;
+- supported environments;
+- compatibility window;
+- migration requirements;
+- rollback boundary;
+- security status;
+- evidence package.
+
+## 4. Backward/Forward Compatibility
+
+Interfaces MUST explicitly classify compatibility as:
+- backward compatible;
+- forward compatible;
+- conditionally compatible;
+- breaking.
+
+Compatibility MUST be evaluated separately for protocol, storage, network, API, ABI, contract bytecode, OS services, Aurora models and Genesis saves/content.
+
+## 5. Deprecation and Removal Lifecycle
+
+Deprecated interfaces MUST follow:
+
+Announce → Compatibility Period → Migration Path → Warning/Telemetry → Removal Gate → Verification.
+
+Removal MUST NOT occur while a declared supported dependency still requires the interface unless an explicit migration contract exists.
+
+## 6. Feature Lifecycle
+
+Features MUST have:
+
+Proposal → Design → Experimental → Enabled → Stable → Deprecated → Removed.
+
+Experimental functionality MUST NOT silently become consensus-critical, security-critical or authoritative.
+
+## 7. Runtime Capability Negotiation
+
+Peers, services, clients and plugins MUST negotiate supported capabilities explicitly. Capability discovery MUST NOT itself grant permission to invoke a capability.
+
+## 8. Plugin and Extension Architecture
+
+Plugins/extensions MUST have:
+- identity;
+- version;
+- declared capabilities;
+- dependency constraints;
+- sandbox boundary;
+- resource limits;
+- lifecycle;
+- compatibility;
+- provenance;
+- signature/verification where required;
+- revocation/removal semantics.
+
+This applies to OS drivers/services, Aurora tools/providers, Genesis modules/mods and developer extensions.
+
+## 9. Federation and Trust-Domain Interoperability
+
+Federated domains MUST define:
+- trust anchor;
+- identity mapping;
+- credential validation;
+- authorization translation;
+- data classification;
+- revocation;
+- clock/freshness;
+- failure behavior;
+- audit;
+- trust termination.
+
+Trust MUST NOT be transitive merely because two domains trust the same intermediary.
+
+## 10. External Dependency Contract
+
+Every external dependency MUST declare:
+- owner/provider;
+- purpose;
+- interface;
+- version;
+- availability expectation;
+- data exchanged;
+- trust level;
+- failure mode;
+- fallback;
+- timeout;
+- security boundary;
+- replacement strategy.
+
+External availability MUST NOT become implicit protocol authority.
+
+## 11. Dependency Failure and Circuit Isolation
+
+Dependencies MUST define:
+- timeout;
+- retry budget;
+- circuit breaker;
+- bulkhead;
+- fallback;
+- degraded mode;
+- recovery;
+- dependency health.
+
+Failure of an optional dependency MUST NOT unnecessarily disable an unrelated authoritative domain.
+
+## 12. Data Lineage and Provenance
+
+Critical data MUST be traceable:
+
+Source → Ingestion → Transformation → Validation → Storage → Derivation → Publication.
+
+Lineage MUST identify source identity, version, transformation, timestamp/epoch, validation status and downstream consumers where applicable.
+
+## 13. Deterministic Replay Architecture
+
+Consensus, VM, Genesis authoritative simulation and critical workflows SHOULD support deterministic replay from declared inputs.
+
+Replay MUST define:
+- input set;
+- protocol/version;
+- configuration;
+- randomness source;
+- time source;
+- dependency versions;
+- expected state/output;
+- divergence detection.
+
+## 14. Auditability and Non-Repudiation
+
+Security-, financial-, governance- and protocol-critical actions MUST have attributable evidence.
+
+Audit records SHOULD bind:
+- principal/workload;
+- action;
+- target;
+- authorization;
+- timestamp/epoch;
+- request identity;
+- result;
+- source/artifact version.
+
+Audit evidence MUST be protected against unauthorized modification.
+
+## 15. Legal/Policy Data Boundary
+
+Where legal, regulatory or organizational policy affects operation, the architecture MUST separate policy metadata from canonical protocol semantics.
+
+Policy restrictions MAY constrain an application or deployment without silently changing consensus rules.
+
+## 16. Governance Parameter Registry
+
+Governed parameters MUST have:
+- parameter ID;
+- owner;
+- current value;
+- units;
+- valid range;
+- activation rule;
+- version;
+- approval;
+- effective scope;
+- migration;
+- audit.
+
+No undocumented parameter may silently affect canonical behavior.
+
+## 17. Emergency Change and Break-Glass Contract
+
+Emergency changes MUST define:
+- trigger;
+- authorized principal;
+- scope;
+- maximum duration;
+- approval requirements;
+- affected components;
+- evidence capture;
+- recovery;
+- expiry;
+- post-event review.
+
+Break-glass access MUST be separately auditable and MUST expire.
+
+## 18. Incident Command and Operational Roles
+
+Operational incidents MUST define roles such as:
+- incident commander;
+- technical lead;
+- security lead;
+- communications lead;
+- evidence custodian;
+- recovery authority.
+
+Operational role assignment MUST NOT alter protocol/domain authority.
+
+## 19. Runbook and Operational Procedure Contract
+
+Critical services MUST have versioned runbooks for:
+- startup;
+- shutdown;
+- upgrade;
+- rollback;
+- backup/restore;
+- key compromise;
+- validator failure;
+- storage corruption;
+- network partition;
+- dependency outage;
+- security incident.
+
+Runbooks SHOULD reference exact commands, expected evidence and stop conditions.
+
+## 20. SLO/SLA and Error-Budget Separation
+
+The architecture MUST distinguish:
+- protocol safety/liveness;
+- service SLO;
+- contractual SLA;
+- user experience objectives.
+
+A service SLO breach MUST NOT be interpreted as protocol failure without evidence.
+
+## 21. Availability and Consistency Classification
+
+Each distributed subsystem MUST explicitly classify its consistency requirement:
+- strongly consistent;
+- consensus-consistent;
+- eventually consistent;
+- causal;
+- session;
+- best effort.
+
+The classification MUST state what correctness means for that subsystem.
+
+## 22. Readiness, Liveness and Startup Semantics
+
+Services MUST distinguish:
+- process alive;
+- dependency-ready;
+- serving-ready;
+- degraded;
+- draining;
+- stopped.
+
+A process reporting alive MUST NOT imply it is safe to serve canonical state.
+
+## 23. Graceful Shutdown and Draining
+
+Stateful services MUST define:
+- stop admission;
+- drain in-flight work;
+- persist/commit safe state;
+- release leases;
+- close sessions;
+- flush audit;
+- terminate;
+- restart recovery.
+
+Shutdown MUST NOT produce ambiguous ownership or partial canonical transitions.
+
+## 24. Safe Startup and State Validation
+
+Startup MUST validate:
+- binary/artifact identity;
+- configuration;
+- protocol version;
+- schema version;
+- cryptographic material;
+- persistent state integrity;
+- dependency compatibility;
+- required invariants.
+
+A service MUST NOT serve authoritative state before startup validation completes.
+
+## 25. Data Lifecycle and Deletion Semantics
+
+Mutable data domains MUST define:
+Create → Classify → Use → Retain → Archive → Delete/Tombstone.
+
+Deletion MUST distinguish logical deletion, physical deletion, cryptographic erasure and immutable retention requirements.
+
+## 26. Backup Classification and Restore Authority
+
+Backups MUST identify:
+- source state;
+- point-in-time;
+- integrity;
+- encryption;
+- retention;
+- restore target;
+- restore authority.
+
+A backup is recovery input, not canonical authority until validation and protocol/domain acceptance succeed.
+
+## 27. Cross-Domain Transaction Identity
+
+Every cross-domain workflow SHOULD carry a stable correlation/transaction identity through:
+Request → Authorization → Domain Commands → Events → Projections → Audit → Recovery.
+
+Correlation identifiers MUST NOT themselves grant authority.
+
+## 28. Distributed Lock and Lease Ownership
+
+Where locks or leases are required, the architecture MUST define:
+- owner;
+- fencing token;
+- expiration;
+- renewal;
+- stale-owner handling;
+- recovery;
+- split-brain prevention.
+
+A lock MUST NOT be treated as proof of domain authorization unless explicitly bound to that authority.
+
+## 29. Quorum and Split-Brain Protection
+
+Any clustered service using quorum MUST define:
+- quorum rule;
+- membership;
+- leader/term;
+- fencing;
+- stale-node behavior;
+- recovery;
+- membership changes.
+
+Availability mechanisms MUST NOT create competing canonical writers.
+
+## 30. Human Factors and Operational Safety
+
+Critical operations SHOULD minimize operator ambiguity through:
+- explicit preconditions;
+- dry-run;
+- confirmation;
+- blast-radius display;
+- reversible steps;
+- evidence capture;
+- two-person approval where required;
+- post-action verification.
+
+Human error prevention is part of the architecture for critical operations.
+
+## 31. Observability Control Loop
+
+Operational observability MUST form:
+
+Telemetry → Detection → Classification → Decision → Action → Verification → Evidence.
+
+Automated remediation MUST have bounded scope, identity, policy, rate limits, rollback and audit.
+
+## 32. Autonomous Remediation Boundary
+
+Automation MAY remediate explicitly delegated operational faults but MUST NOT autonomously change:
+- consensus rules;
+- canonical monetary parameters;
+- domain ownership;
+- security policy;
+- cryptographic trust roots;
+- irreversible state
+
+unless an explicit governance contract authorizes that transition.
+
+## 33. Model/Data/Code Co-Versioning
+
+AI models, retrieval indexes, prompts/policies, tool schemas, application code and relevant data schemas MUST have explicit compatibility relationships where their behavior depends on each other.
+
+Runtime combinations MUST be identifiable and reproducible.
+
+## 34. Reproducible Execution Environment
+
+Critical builds/tests/replays MUST identify:
+- source SHA;
+- dependency lock state;
+- compiler/toolchain;
+- OS/image;
+- hardware/architecture;
+- configuration;
+- environment variables where relevant;
+- deterministic seed/randomness;
+- expected outputs.
+
+## 35. Architecture Drift Detection
+
+The ecosystem SHOULD continuously compare:
+Architecture Contract ↔ Repository Structure ↔ Interface Registry ↔ Dependency Graph ↔ Test Matrix ↔ CI Evidence ↔ Deployment Inventory.
+
+Drift MUST be classified as:
+- documentation drift;
+- implementation drift;
+- interface drift;
+- dependency drift;
+- evidence drift;
+- deployment drift;
+- authority drift.
+
+## 36. Master System Inventory
+
+The master architecture SHOULD maintain one canonical inventory for:
+- repositories;
+- components;
+- services;
+- processes;
+- APIs;
+- protocols;
+- schemas;
+- state stores;
+- keys;
+- identities;
+- environments;
+- deployment targets;
+- test gates;
+- evidence artifacts.
+
+Duplicate inventories MUST have explicit ownership or be derived from the master inventory.
+
+## 37. Architecture Quality Gates
+
+Architecture changes SHOULD be evaluated against:
+- correctness;
+- consistency;
+- security;
+- determinism;
+- availability;
+- recoverability;
+- operability;
+- maintainability;
+- scalability;
+- compatibility;
+- observability;
+- evidence;
+- simplicity.
+
+A feature that adds capability while weakening a canonical invariant MUST be rejected or redesigned.
+
+## 38. Complexity and Coupling Budget
+
+Cross-domain dependencies SHOULD have explicit budgets. New coupling MUST identify:
+- reason;
+- owner;
+- direction;
+- failure propagation;
+- test impact;
+- release coupling;
+- migration cost.
+
+Architecture SHOULD prefer one-way dependency flow and avoid cyclic authority dependencies.
+
+## 39. Canonical Reference Stack
+
+The optimized reference stack is:
+
+Hardware/Firmware
+→ Boot/Trusted Platform
+→ ShivaCore
+→ GlobusOS
+→ Identity/Capability
+→ Network/Storage Services
+→ A-TownChain Node
+→ Consensus/Finality
+→ Canonical State
+→ ATC-VM
+→ Protocol/Economic Domains
+→ Indexer/Interop/Oracle
+→ Aurora/Genesis/Application Domains
+→ Experience/API/Desktop
+
+Cross-cutting Governance, Security, Evidence and Control Planes intersect every layer without owning their state by default.
+
+## 40. ARCH-009 Gate
+
+Architecture acceptance MUST now evaluate:
+
+Scope
+→ Authority
+→ State Ownership
+→ Interface
+→ Security Boundary
+→ Resource Boundary
+→ Lifecycle
+→ Compatibility
+→ Failure / Recovery
+→ Observability
+→ Migration
+→ Implementation Mapping
+→ Test Mapping
+→ Exact-SHA CI
+→ Integration
+→ E2E
+→ Operational Evidence
+
+ARCH-009 is an architecture-level completeness and optimization gate; implementation status remains independently verified.

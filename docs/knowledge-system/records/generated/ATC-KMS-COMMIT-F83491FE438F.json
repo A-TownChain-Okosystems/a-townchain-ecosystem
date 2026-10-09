@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-F83491FE438F",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "Commit: fix(kernel): complete base-unit migration and hermetic e2e recovery",
+  "context": "Git commit f83491fe438f772bb2be1a295c3db2b996ca6875 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/f83491fe438f772bb2be1a295c3db2b996ca6875",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(kernel): complete base-unit migration and hermetic e2e recovery\n\n- Mempool/state/economics fully u128 base-unit based (ATC_BASE_UNITS = 1e18)\n- Wallet RPC transports u128 amounts as decimal string (JSON precision)\n- atc-node e2e tests: hermetic per-test data dirs and ephemeral P2P ports\n- Validator snapshot recovery sealed via (ValidatorWeights, ValidatorKeys)\n- Clippy: -D warnings clean across workspace; type aliases for snapshots\n- Workspace: 35 test suites green, cargo fmt clean"
+}

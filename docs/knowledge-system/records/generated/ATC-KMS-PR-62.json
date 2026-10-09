@@ -1,0 +1,27 @@
+{
+  "id": "ATC-KMS-PR-62",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "PR #62: docs: establish MASTER-ARCH-001 system-of-systems contracts",
+  "context": "Pull request 62 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "archived",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/62",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-63"
+    }
+  ],
+  "content": "State: closed\nMerged: False\nDraft: True\n\nSuperseded by the later, more complete MASTER-ARCH-001 implementation in PR #63 and subsequent architecture/P0 contract work."
+}

@@ -36,6 +36,7 @@ impl Scheduler {
         true
     }
 
+    #[allow(clippy::should_implement_trait)] // Domain-API: naechster lauffaehiger Prozess, kein Iterator
     pub fn next(&mut self) -> Option<ProcessId> {
         let max_priority = self
             .processes

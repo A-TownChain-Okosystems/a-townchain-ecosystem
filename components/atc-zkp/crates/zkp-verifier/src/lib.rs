@@ -101,9 +101,18 @@ mod tests {
 
     use zkp_prover::{prove_square, setup};
 
+    /// Deterministic test RNG (StdRng implements CryptoRng) with a fixed
+    /// seed, mirroring zkp-prover's determinism discipline. ark_std's
+    /// test_rng returns an `impl Rng` that does not satisfy `CryptoRng`
+    /// and is therefore unsuitable for Groth16 setup.
+    fn test_rng() -> ark_std::rand::rngs::StdRng {
+        use ark_std::rand::SeedableRng;
+        ark_std::rand::rngs::StdRng::seed_from_u64(0x4154435F5A4B50)
+    }
+
     #[test]
     fn registry_binds_verifying_key() {
-        let mut rng = ark_std::test_rng();
+        let mut rng = test_rng();
         let (pk, vk) = setup(&mut rng).expect("setup");
         let circuit = register_equality_square(&vk).expect("registry");
         let envelope = prove_square(

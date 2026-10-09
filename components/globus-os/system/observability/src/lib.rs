@@ -13,6 +13,12 @@ pub struct Observability {
     spans: Vec<Span>,
     next: u64,
 }
+/// Fehler bei invaliden Metrik-/Span-Namen (leer oder nur Whitespace).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ObservabilityError {
+    EmptyName,
+}
+
 impl Observability {
     pub fn new() -> Self {
         Self {
@@ -20,9 +26,9 @@ impl Observability {
             ..Self::default()
         }
     }
-    pub fn increment(&mut self, name: &str) -> Result<u64, ()> {
+    pub fn increment(&mut self, name: &str) -> Result<u64, ObservabilityError> {
         if name.trim().is_empty() {
-            return Err(());
+            return Err(ObservabilityError::EmptyName);
         }
         let v = self.counters.entry(name.to_owned()).or_default();
         *v = v.saturating_add(1);
@@ -31,9 +37,9 @@ impl Observability {
     pub fn counter(&self, name: &str) -> u64 {
         self.counters.get(name).copied().unwrap_or(0)
     }
-    pub fn start_span(&mut self, name: &str) -> Result<u64, ()> {
+    pub fn start_span(&mut self, name: &str) -> Result<u64, ObservabilityError> {
         if name.trim().is_empty() {
-            return Err(());
+            return Err(ObservabilityError::EmptyName);
         }
         let id = self.next;
         self.next = self.next.saturating_add(1);

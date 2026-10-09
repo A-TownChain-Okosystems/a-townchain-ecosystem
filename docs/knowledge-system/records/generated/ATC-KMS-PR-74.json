@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-74",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "PR #74: docs: separate master architecture from canonical specification",
+  "context": "Pull request 74 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "archived",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/74",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: closed\nMerged: False\nDraft: True\n\nSuperseded by the current canonical L0-L7+X architecture and specification separation already established in later architecture work; this intermediate documentation PR is no longer required."
+}

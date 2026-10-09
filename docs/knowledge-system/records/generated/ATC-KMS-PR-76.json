@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-76",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "PR #76: docs: add RELEASE-001 release readiness matrix",
+  "context": "Pull request 76 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/76",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\nAdds the machine-readable RELEASE-001 evidence matrix for all 32 repositories, its JSON Schema, and the gate rules. Current main SHAs without exact-SHA CI are recorded as BLOCKED; no repository is promoted to RELEASE READY from tags, documentation, or historical CI."
+}

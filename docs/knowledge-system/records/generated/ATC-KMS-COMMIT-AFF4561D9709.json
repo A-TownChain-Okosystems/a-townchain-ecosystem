@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-AFF4561D9709",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "Commit: fix(blockchain): preserve durable validator activation on finalize",
+  "context": "Git commit aff4561d97098335052e9836ec9209e1d61b0f13 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/aff4561d97098335052e9836ec9209e1d61b0f13",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(blockchain): preserve durable validator activation on finalize"
+}

@@ -25,6 +25,12 @@ pub enum SystemError {
 pub struct SystemManager {
     state: SystemState,
 }
+impl Default for SystemManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl SystemManager {
     pub const fn new() -> Self {
         Self {

@@ -185,7 +185,7 @@ pub fn validate_mapping_target(virt: u64, flags: MappingFlags) -> Result<(), Vmm
     VirtAddr::new(virt)?;
     flags.validate()?;
 
-    if flags.user_accessible && !(virt >= USER_SPACE_BASE && virt < USER_SPACE_TOP_EXCLUSIVE) {
+    if flags.user_accessible && !(USER_SPACE_BASE..USER_SPACE_TOP_EXCLUSIVE).contains(&virt) {
         return Err(VmmError::PrivilegeViolation);
     }
 
@@ -311,16 +311,25 @@ mod tests {
 
     #[test]
     fn kernel_high_half_cannot_be_user() {
+        // An address just below the HHDM base is non-canonical on x86-64,
+        // so canonicality (checked first) rejects it before the privilege rule.
         assert_eq!(
             validate_mapping_target(HHDM_BASE - 0x1000, MappingFlags::user_read_only()),
-            Err(VmmError::PrivilegeViolation)
+            Err(VmmError::AddressNotCanonical)
         );
         assert_eq!(
             validate_mapping_target(HHDM_BASE, MappingFlags::user_read_only()),
             Err(VmmError::PrivilegeViolation)
         );
+        // The user-space top itself is non-canonical on x86-64 (bit 47 set
+        // without sign extension), so canonicality rejects it first. The
+        // privilege rule is exercised below with a canonical address.
         assert_eq!(
             validate_mapping_target(USER_SPACE_TOP_EXCLUSIVE, MappingFlags::user_read_only()),
+            Err(VmmError::AddressNotCanonical)
+        );
+        assert_eq!(
+            validate_mapping_target(0, MappingFlags::user_read_only()),
             Err(VmmError::PrivilegeViolation)
         );
     }

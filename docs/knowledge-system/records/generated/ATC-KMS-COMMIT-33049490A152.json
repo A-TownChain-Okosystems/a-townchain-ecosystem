@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-33049490A152",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "Commit: fix(blockchain): port verified u128 and compile corrections",
+  "context": "Git commit 33049490a1521646c455db6c3e8c2d7e88d600ab on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/33049490a1521646c455db6c3e8c2d7e88d600ab",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(blockchain): port verified u128 and compile corrections"
+}

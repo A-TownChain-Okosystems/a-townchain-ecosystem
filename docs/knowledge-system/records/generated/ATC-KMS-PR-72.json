@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-72",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "PR #72: audit: implement master capability evidence contract",
+  "context": "Pull request 72 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/72",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: False\n\nImplements the Master Architecture evidence-audit control plane.\n\nChanges:\n- canonical capability evidence audit contract\n- explicit status semantics including EVIDENCE_STALE and CONTRACT_DRIFT\n- machine-readable critical-path/capability manifest\n- CI validation of the audit contract\n- Master Architecture section for exact-SHA evidence binding\n\nNo implementation claim is promoted by architecture text. This PR establishes the gate used before the subsequent fix gate."
+}

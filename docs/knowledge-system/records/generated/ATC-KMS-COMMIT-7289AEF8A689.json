@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-7289AEF8A689",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "Commit: ARCH-007: complete domain subsystems and cross-domain control contracts",
+  "context": "Git commit 7289aef8a68977390ae90f0553a5db1f42229ec0 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/7289aef8a68977390ae90f0553a5db1f42229ec0",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "ARCH-007: complete domain subsystems and cross-domain control contracts"
+}

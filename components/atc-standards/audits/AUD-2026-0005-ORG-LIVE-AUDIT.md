@@ -79,6 +79,8 @@ WF=Workflows, Tags=Release-Tags, STD-Dekl=ATC-STD-Versionserklaerungen in `.atc/
 
 **Massnahme:** Dependency Graph in Repo-/Org-Settings aktivieren (Owner-Aktion); danach Workflows gruen validieren.
 
+**RESOLVED 07.10.2026 (SCR-0130):** Vulnerability Alerts (= Dependency Graph) per API in allen 7 Repos aktiviert (je HTTP 204). Grune Workflow-Laeufe je Repo als Restvalidierung beim naechsten Push/PR offen.
+
 ### F-ORG-003 — P1: Evidence-Bindung-Gate rot (SCR-0086)
 **Betroffen:** atc-vm
 

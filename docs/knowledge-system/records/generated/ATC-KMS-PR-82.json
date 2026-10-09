@@ -1,0 +1,27 @@
+{
+  "id": "ATC-KMS-PR-82",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "PR #82: fix: align canonical layers and L1 ownership",
+  "context": "Pull request 82 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "archived",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/82",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-91"
+    }
+  ],
+  "content": "State: closed\nMerged: False\nDraft: True\n\nsuperseded by the later consolidated ecosystem architecture/ownership work in PR #91."
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-ISSUE-87",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "discussion",
+  "title": "Issue #87: P0: Fehlende Protokolle, Laufzeiten und Standardbibliothek systematisch schließen",
+  "context": "Issue 87 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "issue",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/87",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "issue"
+  ],
+  "links": [],
+  "content": "State: open\n\n## Ziel\n\nDie aktuell dokumentierte Architektur enthält mehrere definierte, aber nicht vollständig implementierte bzw. nicht CI-verifizierte Protokoll-, Runtime- und Library-Schichten. Diese Lücken müssen Existing-First erfasst, einer kanonischen Implementierung zugeordnet und anschließend durch Exact-SHA-Evidence geschlossen werden.\n\n## Gefundene Evidenz\n\n### 1. Runtime / Execution\n\n- `ATCLANG_BASELINE_V1.md` definiert die Kette Compiler → Verifier → ATVM → Runtime → Host Boundary.\n- Der aktuelle VM-Audit dokumentiert, dass `src/vm.rs` weder Gas-Budget, Gas-Meter, per-op Gas-Schedule noch Exhaustion Enforcement enthält.\n- Damit ist die dokumentierte Runtime-/Execution-Semantik nicht vollständig durchgesetzt.\n\nReferenzen:\n- `atclang/docs/ATCLANG_BASELINE_V1.md`\n- `a-townchain/components/vm/docs/audits/REPOSITORY-AUDIT-2026-09-16.md`\n\n### 2. Standard Library\n\nDie Architektur kennt eine Standard Library; zugleich existieren mehrere historische/archivierte ATCLang-Stdlib-Darstellungen. Die kanonische Produktionszuordnung muss eindeutig sein und darf nicht aus Legacy-/Reference-Code bestehen.\n\nRequired:\n- kanonischer Owner\n- vollständige API-/ABI-Liste\n- deterministische Implementierungen\n- Crypto/Math/Collections/Encoding/Chain-Primitives nach SSOT\n- Cross-language conformance vectors\n- keine konkurrierenden produktiven Implementierungen\n\n### 3. Protokolle\n\nDie Standards Registry enthält Protocol-Conformance- und Protocol-Security-Standards, aber definierte Protokollfamilien benötigen jeweils eine nachweisbare Implementierung und Evidence-Kette.\n\nRequired mindestens:\n- Network/P2P\n- Identity/Trust\n- State ownership / synchronization\n- transaction protocol\n- capability/policy protocol\n- interop/version negotiation\n- failure/recovery protocol\n- audit/evidence protocol\n\nFür jede Familie:\n`SPEC → canonical interface → implementation → tests → CI run → job → step → log → exact-SHA result`\n\n### 4. Laufzeiten\n\nAlle als Runtime bezeichneten Komponenten müssen klassifiziert werden als:\n- production runtime\n- reference runtime\n- host/runtime adapter\n- legacy/archive\n\nInsbesondere darf eine Python-Reference-VM nicht stillschweigend als Consensus Runtime verwendet werden. Die Rust-kanonische Runtime muss durch einen Production Entry Point und Integrationstest erzwungen werden.\n\n## Umsetzung\n\n1. Existing-First-Inventar über alle betroffenen Repositories.\n2. SSOT je Protokoll/Runtime/Library festlegen.\n3. Duplikate/Legacy eindeutig als archive/reference markieren oder konsolidieren.\n4. Fehlende Interfaces und Implementierungen ergänzen.\n5. Tests und negative tests ergänzen.\n6. Runtime-/Library-/Protocol-Conformance in CI integrieren.\n7. Laufzeitmessungen aufnehmen:\n   - build time\n   - test execution time\n   - protocol test duration\n   - runtime execution/gas accounting\n   - library conformance duration\n8. Maschinenlesbare Evidence erzeugen.\n9. Exact-SHA-Gate ausführen.\n10. Erst danach Status auf VERIFIED setzen.\n\n## Release-Regel\n\nKeine PASS-/VERIFIED-Aussage allein aufgrund von vorhandenen Dateien, Specs oder alten CI-Läufen. Jede geschlossene Lücke benötigt aktuelle Exact-SHA-Evidence.\n\nStatus initial: **OPEN / P0**."
+}

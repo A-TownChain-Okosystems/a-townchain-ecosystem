@@ -96,9 +96,12 @@ impl InodeTree {
         if normalized == "/" {
             return Err(FsError::InvalidPath);
         }
-        let mut parts = normalized.rsplitn(2, '/');
-        let name = parts.next().ok_or(FsError::InvalidPath)?.to_owned();
-        let parent = parts.next().unwrap_or("/");
+        let (parent, name) = normalized.rsplit_once('/').ok_or(FsError::InvalidPath)?;
+        let parent = if parent.is_empty() { "/" } else { parent };
+        let name = name.to_owned();
+        if name.is_empty() {
+            return Err(FsError::InvalidPath);
+        }
         Ok((self.lookup(parent)?, name))
     }
 

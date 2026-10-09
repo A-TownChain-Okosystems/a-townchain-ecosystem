@@ -1,0 +1,27 @@
+{
+  "id": "ATC-KMS-PR-66",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "PR #66: test(determinism): remove wall-clock test paths",
+  "context": "Pull request 66 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "archived",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/66",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-78"
+    }
+  ],
+  "content": "State: closed\nMerged: False\nDraft: False\n\nSuperseded by PR #78, which is the later dedicated correction for the same determinism wall-clock findings and replaces the test-only SystemTime paths without weakening the determinism gate."
+}

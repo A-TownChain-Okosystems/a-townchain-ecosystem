@@ -43,7 +43,9 @@ impl JournalRecord {
         };
         let mut bytes = [0u8; JOURNAL_RECORD_SIZE];
         record.encode_unchecked(&mut bytes);
-        record.checksum = checksum(&bytes[..24]);
+        // Decode() verifies the checksum over bytes 0..20 (fields without
+        // the checksum itself); the writer must use the identical range.
+        record.checksum = checksum(&bytes[..20]);
         record
     }
 
