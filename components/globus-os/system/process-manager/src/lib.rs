@@ -43,14 +43,13 @@ impl ProcessManager {
     }
 
     pub fn spawn(&mut self, parent: Option<ProcessId>) -> Result<ProcessId, ProcessManagerError> {
-        if let Some(pid) = parent {
-            if !self
+        if let Some(pid) = parent
+            && !self
                 .processes
                 .iter()
                 .any(|p| p.id == pid && p.state != ProcessState::Exited)
-            {
-                return Err(ProcessManagerError::InvalidParent);
-            }
+        {
+            return Err(ProcessManagerError::InvalidParent);
         }
         let id = self.allocate_pid();
         self.processes.push(ProcessRecord {

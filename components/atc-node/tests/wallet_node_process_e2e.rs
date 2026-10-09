@@ -1,4 +1,4 @@
-use atc_blockchain::chain_identity::NUMERIC_CHAIN_ID;
+use atc_blockchain::{chain_identity::NUMERIC_CHAIN_ID, economics::ATC_BASE_UNITS};
 use atc_wallet::keys::WalletKey;
 use atc_wallet::node::{NodeClient, TcpNodeClient};
 use atc_wallet::tx::{Transaction, TxType};
@@ -15,8 +15,21 @@ fn free_addr() -> String {
 }
 
 fn start_node(addr: &str) -> Child {
+    // Hermetic process test: a fresh data dir per run keeps the node from
+    // loading stale journals written by an older storage format.
+    let data_dir = std::env::temp_dir().join(format!(
+        "atc-wallet-node-e2e-{}-{}",
+        std::process::id(),
+        addr.replace(':', "-")
+    ));
+    let _ = std::fs::remove_dir_all(&data_dir);
+    // The node must not share the compiled-in default P2P port with any
+    // other node on this machine: bind an ephemeral port instead.
+    let p2p_addr = free_addr();
     Command::new(env!("CARGO_BIN_EXE_atc-node"))
         .env("ATC_RPC_ADDR", addr)
+        .env("ATC_P2P_ADDR", &p2p_addr)
+        .env("ATC_DATA_DIR", &data_dir)
         .stdin(Stdio::null())
         .stdout(Stdio::null())
         .stderr(Stdio::inherit())
@@ -56,7 +69,7 @@ fn wallet_to_atc_node_mempool_block_state_process_e2e() {
         tx_type: TxType::Transfer,
         sender_did: "alice".into(),
         recipient_did: Some("bob".into()),
-        amount: 100,
+        amount: 100 * ATC_BASE_UNITS,
         gas_price: 1,
         gas_limit: 2_000,
         nonce: 0,

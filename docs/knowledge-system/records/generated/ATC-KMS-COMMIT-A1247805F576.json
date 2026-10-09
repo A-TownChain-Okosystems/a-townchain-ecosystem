@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-A1247805F576",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "Commit: fix(sdk): record TypeScript workspace in lockfile",
+  "context": "Git commit a1247805f576c6184e86af6b8296972e6132848a on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/a1247805f576c6184e86af6b8296972e6132848a",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(sdk): record TypeScript workspace in lockfile"
+}

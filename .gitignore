@@ -1,0 +1,3 @@
+/target
+components/atc-node/data/
+components/*/target/

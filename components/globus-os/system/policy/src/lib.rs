@@ -59,7 +59,7 @@ pub struct PolicyRequest {
 }
 
 /// Explicit policy grant bound to one principal/resource/operation tuple.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct PolicyGrant {
     pub principal: PrincipalId,
     pub resource: Resource,

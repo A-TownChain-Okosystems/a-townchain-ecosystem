@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-4A82EE618003",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "Commit: fix(deps, SCR-0133): Sicherheits-Sync aus den Quell-Repos (Critical/High-Welle)",
+  "context": "Git commit 4a82ee618003d02091b8bab46865fb3fd646126a on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/4a82ee618003d02091b8bab46865fb3fd646126a",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(deps, SCR-0133): Sicherheits-Sync aus den Quell-Repos (Critical/High-Welle)\n\nChirurgischer Inkrementell-Sync der Dependabot-Fixes statt vollem\nsubtree-pull (Integration-Patches im Umbrella bleiben unberuehrt;\nvoller subtree-pull als Nachfolge):\n\n- components/a-townchain/components/explorer: next 16.3.8-Stand\n  + neue Module explorer.ts/mempool.ts/stats.ts aus dem Monorepo\n- components/a-townchain/components/indexer/modules/atc-analytics:\n  proxy-addr 2.0.8 (Critical)\n- components/aurora-ai/modules/atc-aistudio: komplette Fix-Welle\n  aus aurora-ai 15f328f (proxy-addr, grpc, dompurify, undici, ...)\n- components/a-townchain-os-docs/aistudio + wiki backend\n  requirements: Fix-Welle aus os-docs be6271e (inkl. Lockfile, das\n  im Umbrella fehlte)\n\nQuellen sind SSOT; Umbrella-Kopien folgen. Vollstaendiger\nsubtree-pull-Stand als Nachfolge-SCR.\n\nscr: SCR-0133 · agent: ATC-AI-ARCH-001 · owner-auftrag: Michael Wroblewski"
+}

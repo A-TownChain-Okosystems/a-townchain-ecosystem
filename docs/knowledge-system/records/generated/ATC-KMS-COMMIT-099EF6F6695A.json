@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-099EF6F6695A",
-  "timestamp": "2026-10-06T09:02:34.884974Z",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
   "category": "change",
   "title": "Commit: docs(architecture): remove remaining stale flow and status ordering",
   "context": "Git commit 099ef6f6695ae69792c61b304363e4a0753d79e9 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/099ef6f6695ae69792c61b304363e4a0753d79e9",
-    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
   },
   "tags": [
     "commit",

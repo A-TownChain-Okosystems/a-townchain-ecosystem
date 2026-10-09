@@ -23,8 +23,6 @@ pub struct RuntimeContext {
     pub vm_version: String,
 }
 
-
-
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct TransactionDomain {
     pub chain_id: String,

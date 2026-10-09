@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-C08EFFE87EAE",
-  "timestamp": "2026-10-06T09:02:34.884974Z",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
   "category": "change",
   "title": "Commit: ARCH-005: add production OS hardware security desktop and Aurora gates",
   "context": "Git commit c08effe87eaee40327afed99c1c562e833484dc5 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/c08effe87eaee40327afed99c1c562e833484dc5",
-    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
   },
   "tags": [
     "commit",

@@ -5,13 +5,20 @@
 //! Timer interrupts only request preemption; context switching remains outside
 //! the interrupt handler until the complete interrupt-frame switch path is active.
 
-use alloc::collections::VecDeque;
 use core::sync::atomic::{AtomicBool, AtomicU32, AtomicU64, Ordering};
 
 use crate::ats1000::Pid;
+// Boot-only pieces depend on the x86 address-space path; the library/test
+// build exposes only the scheduling facade below.
+#[cfg(feature = "x86-boot")]
 use crate::context::{self, BootstrapProcess, Context, UserContext};
+#[cfg(feature = "x86-boot")]
 use crate::memory::AddressSpace;
+#[cfg(feature = "x86-boot")]
+use alloc::collections::VecDeque;
+#[cfg(feature = "x86-boot")]
 use x86_64::registers::control::{Cr3, Cr3Flags};
+#[cfg(feature = "x86-boot")]
 use x86_64::structures::paging::PhysFrame;
 
 static CURRENT_PID: AtomicU32 = AtomicU32::new(0);
@@ -40,6 +47,7 @@ pub fn take_preemption_request() -> bool {
     PREEMPT_REQUESTED.swap(false, Ordering::AcqRel)
 }
 
+#[cfg(feature = "x86-boot")]
 pub struct ScheduledProcess {
     pub pid: Pid,
     process: BootstrapProcess,
@@ -48,6 +56,7 @@ pub struct ScheduledProcess {
     cr3_flags: Cr3Flags,
 }
 
+#[cfg(feature = "x86-boot")]
 impl ScheduledProcess {
     pub fn new(pid: Pid, process: BootstrapProcess, address_space: &AddressSpace) -> Self {
         Self {
@@ -77,11 +86,13 @@ impl ScheduledProcess {
     }
 }
 
+#[cfg(feature = "x86-boot")]
 pub struct ProcessScheduler {
     ready: VecDeque<ScheduledProcess>,
     current: Option<ScheduledProcess>,
 }
 
+#[cfg(feature = "x86-boot")]
 impl ProcessScheduler {
     pub const fn new() -> Self {
         Self {

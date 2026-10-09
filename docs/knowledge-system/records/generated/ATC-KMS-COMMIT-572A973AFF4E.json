@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-572A973AFF4E",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "Commit: fix(l1): align wallet and rpc amount types",
+  "context": "Git commit 572a973aff4eea64742f5dc9039f5de49845eb84 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/572a973aff4eea64742f5dc9039f5de49845eb84",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(l1): align wallet and rpc amount types"
+}

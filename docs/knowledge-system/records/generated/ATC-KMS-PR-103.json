@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-103",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "category": "change",
+  "title": "PR #103: docs(architecture): define decentralized AI OS architecture",
+  "context": "Pull request 103 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/103",
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: False\n\n## Summary\n\nAdds a system-level architecture specification for the decentralized AI operating system, aligned with the canonical L0–L7 + X architecture and existing SSOT boundaries.\n\n## Scope\n\n- Defines ShivaCore, GlobusOS, Aurora AI, decentralized identity/networking, and A-TownChain responsibilities.\n- Specifies the identity/key-management, policy/capability, and software/model supply-chain cross-cutting controls.\n- Defines the authorized Aurora action path from proposal through policy, capability enforcement, service boundary, authoritative execution, and evidence.\n- Defines isolated registries, repository ownership, phased delivery, acceptance criteria, and exact-SHA evidence semantics.\n- Explicitly labels the document as an architecture proposal, not implementation or production-readiness evidence.\n\n## SSOT / Governance\n\n- System-level architecture only; no component implementation is duplicated.\n- Normative standards remain owned by `atc-standards`.\n- Canonical ATC-VM and algorithm remain in `a-townchain/components/vm` and `a-townchain/components/algorithm`.\n- Related master architecture: #71.\n\n## Validation\n\n- Documentation-only change.\n- CI/evidence gates remain authoritative; no gate weakening.\n- This PR does not claim that the specified capabilities are implemented or verified.\n\nCloses no issue automatically; review and evidence are required before merge."
+}

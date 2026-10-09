@@ -1,27 +1,22 @@
 {
   "id": "ATC-KMS-PR-69",
-  "timestamp": "2026-10-06T09:02:34.884974Z",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
   "category": "change",
-  "title": "PR #69: fix(l1): preserve validator snapshots and correct E2E vote lifecycle",
+  "title": "PR #69: fix(kernel): complete base-unit migration and hermetic e2e recovery",
   "context": "Pull request 69 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
-  "status": "active",
+  "status": "completed",
   "version": "v1.0.0",
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/69",
-    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
   },
   "tags": [
     "generated",
     "github",
     "pull-request"
   ],
-  "links": [
-    {
-      "relation": "references",
-      "target": "ATC-KMS-PR-68"
-    }
-  ],
-  "content": "State: open\nMerged: False\nDraft: False\n\nFollow-up to PR #68.\n\nRoot-cause fixes only:\n- finalize_validator_snapshot() no longer appends a lower snapshot after recovery; durable pending activations are preserved.\n- multi-process E2E no longer submits the same validator vote twice after produce_reward_block()/block import already vote automatically.\n- L1 transaction lifecycle E2E migrates TRANSFER_AMOUNT from u64 to canonical u128.\n\nNo consensus duplicate-voter weakening, no snapshot regression bypass, no determinism allowlist, and no gate changes. Existing broad rustfmt failures in unrelated/pre-existing files are intentionally not mixed into this functional fix."
+  "links": [],
+  "content": "State: closed\nMerged: True\nDraft: False\n\n## Summary\n- Full u128 base-unit migration (ATC_BASE_UNITS = 1e18) across mempool/state/economics\n- Wallet RPC: u128 amounts transported as decimal string (JSON number precision)\n- Hermetic e2e tests: per-test data dirs, ephemeral RPC + P2P ports\n- Validator snapshot recovery sealed as (ValidatorWeights, ValidatorKeys) type aliases\n- Clippy `-D warnings` clean, cargo fmt clean\n\n## Evidence\n- Workspace: **35 test suites green** (`cargo test --workspace`, exit 0)\n- `cargo clippy --workspace --all-targets`: 0 warnings\n- Contains the previously unpushed Welle-3/L1-E2E work from this branch"
 }

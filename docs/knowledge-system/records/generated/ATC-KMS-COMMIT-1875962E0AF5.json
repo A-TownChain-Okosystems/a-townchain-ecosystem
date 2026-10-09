@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-1875962E0AF5",
-  "timestamp": "2026-10-06T09:02:34.884974Z",
+  "timestamp": "2026-10-09T09:10:07.160651Z",
   "category": "change",
   "title": "Commit: docs: define canonical Aurora GlobusOS control plane",
   "context": "Git commit 1875962e0af5483d3c3a07d2ad37a89e518a6e5e on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/1875962e0af5483d3c3a07d2ad37a89e518a6e5e",
-    "commit": "6018637ebe3d3dab5955024929b8d650e6b08364"
+    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
   },
   "tags": [
     "commit",
