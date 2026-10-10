@@ -1,0 +1,34 @@
+name: Component Function Catalog Gate
+
+on:
+  pull_request:
+    paths:
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-SPEC-001.json"
+      - "tools/validate_component_function_spec.py"
+      - ".github/workflows/component-function-catalog.yml"
+  push:
+    branches: [main]
+    paths:
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-SPEC-001.json"
+      - "tools/validate_component_function_spec.py"
+      - ".github/workflows/component-function-catalog.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-catalog:
+    name: Validate Soll-Ist catalog structure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate JSON schema invariants and evidence gates
+        run: python3 tools/validate_component_function_spec.py --output artifacts/component-function-catalog-report.json
+      - name: Upload machine-readable report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: component-function-catalog-report
+          path: artifacts/component-function-catalog-report.json
+          if-no-files-found: warn
