@@ -1,0 +1,838 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "ATC-DELIVERY-SSOT",
+  "updated_at": "2026-10-10",
+  "authority": {
+    "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+    "branch": "main",
+    "role": "integration/compliance/evidence/architecture control plane only"
+  },
+  "status_enum": [
+    "PLANNED",
+    "IN_PROGRESS",
+    "IMPLEMENTED",
+    "VERIFIED",
+    "BLOCKED",
+    "RESIDUAL",
+    "DEPRECATED"
+  ],
+  "priority_enum": [
+    "P0",
+    "P1",
+    "P2",
+    "P3"
+  ],
+  "evidence_policy": {
+    "rule": "IMPLEMENTED != VERIFIED; VERIFIED requires acceptance criteria evidenced against the exact source SHA and required gates.",
+    "required_fields": [
+      "evidence_refs",
+      "last_verified_sha",
+      "last_verified_at"
+    ],
+    "missing_evidence_status": "RESIDUAL",
+    "merge_policy": "Never auto-merge; preserve required gates and branch protections."
+  },
+  "documentation_index": [
+    {
+      "id": "DOC-ARCH-001",
+      "type": "architecture",
+      "title": "Architecture and system boundaries",
+      "url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/blob/main/ARCHITECTURE.md",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "owner_repo": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "component": "ecosystem-control-plane",
+      "depends_on": [],
+      "acceptance_criteria": [
+        "SSOT ownership and layer boundaries documented",
+        "Cross-repository conflicts linked to evidence"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "DOC-CTRL-001",
+      "type": "control-plane",
+      "title": "Control plane and status model",
+      "url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/tree/main/control-plane",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "owner_repo": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "component": "ecosystem-control-plane",
+      "depends_on": [
+        "DOC-ARCH-001"
+      ],
+      "acceptance_criteria": [
+        "Statuses distinguish implementation from verification",
+        "Evidence points to exact commits and gate runs"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "DOC-DELIVERY-001",
+      "type": "roadmap",
+      "title": "Machine-readable delivery registry and roadmap",
+      "url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/tree/main/control-plane",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "owner_repo": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "component": "ecosystem-control-plane",
+      "depends_on": [
+        "DOC-CTRL-001"
+      ],
+      "acceptance_criteria": [
+        "Roadmap, milestones, checkpoints, components, functions, sprints and TODOs have stable IDs",
+        "Updates derive from GitHub/CI evidence"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    }
+  ],
+  "roadmap": [
+    {
+      "id": "RM-01",
+      "title": "Governance and evidence control plane",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "milestone_id": "MS-01",
+      "component_ids": [
+        "COMP-ATC-ENG",
+        "COMP-ECOSYSTEM"
+      ],
+      "acceptance_criteria": [
+        "Registry and status schema consistent",
+        "Exact-SHA evidence audit trail exists"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RM-02",
+      "title": "ShivaCore development-kernel hardening",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "milestone_id": "MS-02",
+      "component_ids": [
+        "COMP-SHIVA",
+        "COMP-GLOBUS"
+      ],
+      "acceptance_criteria": [
+        "VMM mapping mutation and lifetime invariants tested",
+        "Rust/test/UEFI secure boot/ACPI evidence recorded"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RM-03",
+      "title": "A-TownChain protocol and consensus readiness",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "milestone_id": "MS-03",
+      "component_ids": [
+        "COMP-CHAIN",
+        "COMP-ALGO"
+      ],
+      "acceptance_criteria": [
+        "Protocol economics and TX-v2 vectors agree across canonical implementation and specs",
+        "Consensus choice not represented as final until formally decided"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RM-04",
+      "title": "ATC-VM and ATCLang deterministic toolchain",
+      "status": "IN_PROGRESS",
+      "priority": "P1",
+      "milestone_id": "MS-04",
+      "component_ids": [
+        "COMP-VM",
+        "COMP-LANG",
+        "COMP-TOOLCHAIN"
+      ],
+      "acceptance_criteria": [
+        "Bytecode format, resource limits and malformed-input rejection tested",
+        "Canonical VM ownership remains in a-townchain/components/vm"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RM-05",
+      "title": "Aurora AI and Genesis integration boundaries",
+      "status": "PLANNED",
+      "priority": "P1",
+      "milestone_id": "MS-05",
+      "component_ids": [
+        "COMP-AURORA",
+        "COMP-GENESIS",
+        "COMP-GLOBUS"
+      ],
+      "acceptance_criteria": [
+        "AI authority remains outside ShivaCore TCB and consensus",
+        "Intent-policy-capability-approval-tool-service boundary documented"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    }
+  ],
+  "milestones": [
+    {
+      "id": "MS-01",
+      "title": "Evidence-driven governance baseline",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "owner_repo": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "depends_on": [],
+      "acceptance_criteria": [
+        "Status schema published",
+        "Open failures have exact SHA/run/job/step/log/root cause/fix/retest fields",
+        "No gate weakening or automatic merge"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "MS-02",
+      "title": "ShivaCore kernel safety gates",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "owner_repo": "A-TownChain-Okosystems/globus-os",
+      "depends_on": [
+        "MS-01"
+      ],
+      "acceptance_criteria": [
+        "VMM mutation/rollback and mapping lifetime tests pass",
+        "Required Rust, boot, UEFI/ACPI evidence available at exact SHA"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "MS-03",
+      "title": "A-TownChain protocol conformance",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "owner_repo": "A-TownChain-Okosystems/a-townchain",
+      "depends_on": [
+        "MS-01"
+      ],
+      "acceptance_criteria": [
+        "Consensus decision explicitly recorded",
+        "TX-v2 vectors and encoding specs match canonical code",
+        "Supply/decimals/counters and chain ID are consistent"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "MS-04",
+      "title": "ATCLang/ATC-VM toolchain conformance",
+      "status": "IN_PROGRESS",
+      "priority": "P1",
+      "owner_repo": "A-TownChain-Okosystems/a-townchain",
+      "depends_on": [
+        "MS-03"
+      ],
+      "acceptance_criteria": [
+        "ATCB format and limits are unambiguous",
+        "Malformed bytecode and resource exhaustion tests pass"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "MS-05",
+      "title": "Aurora/Genesis ecosystem integration",
+      "status": "PLANNED",
+      "priority": "P1",
+      "owner_repo": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "depends_on": [
+        "MS-01",
+        "MS-02",
+        "MS-03"
+      ],
+      "acceptance_criteria": [
+        "Integration contracts and service boundaries reviewed",
+        "No duplicate canonical implementations introduced"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    }
+  ],
+  "checkpoints": [
+    {
+      "id": "CP-GATE-001",
+      "title": "Exact-SHA gate verification",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "acceptance_criteria": [
+        "Every required run resolves to the same tested commit SHA",
+        "Run/job/step outcomes and logs are retained",
+        "No pending required gate is treated as green"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "CP-SSOT-001",
+      "title": "Canonical ownership conflict scan",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "acceptance_criteria": [
+        "Every component has one canonical implementation owner",
+        "Specs/support repos are not silently treated as implementation owners"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "CP-KERNEL-001",
+      "title": "ShivaCore kernel readiness",
+      "status": "BLOCKED",
+      "priority": "P0",
+      "acceptance_criteria": [
+        "VMM and object lifetime criteria pass",
+        "Required boot/security evidence recorded"
+      ],
+      "evidence_refs": [
+        "Known context: globus-os main SHA 41ba1004... previously classified IMPLEMENTED/BLOCKED — Development Kernel; refresh exact SHA before relying on this"
+      ],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "CP-PR48-001",
+      "title": "globus-os PR #48 CI completion",
+      "status": "RESIDUAL",
+      "priority": "P0",
+      "acceptance_criteria": [
+        "All required gates pass at current PR head SHA",
+        "ATC evidence artifact satisfies governance semantics, not merely upload success"
+      ],
+      "evidence_refs": [
+        "https://github.com/A-TownChain-Okosystems/globus-os/pull/48",
+        "https://github.com/A-TownChain-Okosystems/globus-os/actions/runs/38087015982",
+        "https://github.com/A-TownChain-Okosystems/globus-os/actions/runs/38087016037",
+        "https://github.com/A-TownChain-Okosystems/globus-os/actions/runs/38087012785"
+      ],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    }
+  ],
+  "components": [
+    {
+      "id": "COMP-ATC-ENG",
+      "name": "atc-engineering",
+      "canonical_repo": "A-TownChain-Okosystems/atc-engineering",
+      "layer": "L7",
+      "role": "engineering governance, evidence and CI policy",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "COMP-ECOSYSTEM",
+      "name": "a-townchain-ecosystem",
+      "canonical_repo": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "layer": "L7",
+      "role": "integration/compliance/evidence/architecture control plane; not canonical VM/algorithm implementation",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "depends_on": [
+        "COMP-ATC-ENG"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "COMP-LANG",
+      "name": "ATCLang",
+      "canonical_repo": "A-TownChain-Okosystems/atclang",
+      "layer": "L0",
+      "role": "language/frontend and specifications",
+      "status": "IN_PROGRESS",
+      "priority": "P1",
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "COMP-SHIVA",
+      "name": "ShivaCore Kernel",
+      "canonical_repo": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+      "layer": "L1",
+      "role": "no_std capability microkernel and security boundary",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "COMP-AURORA",
+      "name": "Aurora AI",
+      "canonical_repo": "A-TownChain-Okosystems/aurora-ai",
+      "layer": "L2",
+      "role": "AI runtime/assistant; outside kernel TCB and consensus authority",
+      "status": "PLANNED",
+      "priority": "P1",
+      "depends_on": [
+        "COMP-SHIVA"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "COMP-CHAIN",
+      "name": "A-TownChain blockchain core",
+      "canonical_repo": "A-TownChain-Okosystems/a-townchain",
+      "layer": "L3",
+      "role": "L1 blockchain implementation",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "COMP-VM",
+      "name": "ATC-VM",
+      "canonical_repo": "A-TownChain-Okosystems/a-townchain/components/vm",
+      "layer": "L3",
+      "role": "canonical deterministic VM implementation",
+      "status": "IN_PROGRESS",
+      "priority": "P1",
+      "depends_on": [
+        "COMP-CHAIN"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "COMP-ALGO",
+      "name": "ATC-Algorithm",
+      "canonical_repo": "A-TownChain-Okosystems/a-townchain/components/algorithm",
+      "layer": "L3",
+      "role": "canonical consensus/algorithm implementation; protocol decision status must be explicit",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "depends_on": [
+        "COMP-CHAIN"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "COMP-GLOBUS",
+      "name": "GlobusOS",
+      "canonical_repo": "A-TownChain-Okosystems/globus-os",
+      "layer": "L4",
+      "role": "OS/service integration around ShivaCore",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "depends_on": [
+        "COMP-SHIVA"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "COMP-TOOLCHAIN",
+      "name": "ATC Toolchain",
+      "canonical_repo": "A-TownChain-Okosystems/atc-toolchain",
+      "layer": "L5",
+      "role": "compiler/build/test/package tooling",
+      "status": "IN_PROGRESS",
+      "priority": "P1",
+      "depends_on": [
+        "COMP-LANG",
+        "COMP-VM"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "COMP-STANDARDS",
+      "name": "ATC Standards",
+      "canonical_repo": "A-TownChain-Okosystems/atc-standards",
+      "layer": "L7",
+      "role": "standards, conformance and normative schemas",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "depends_on": [
+        "COMP-CHAIN",
+        "COMP-VM",
+        "COMP-LANG"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "COMP-GENESIS",
+      "name": "Genesis Engine",
+      "canonical_repo": "A-TownChain-Okosystems/genesis-engine",
+      "layer": "L7",
+      "role": "genesis/bootstrap orchestration; implementation status to be audited",
+      "status": "PLANNED",
+      "priority": "P1",
+      "depends_on": [
+        "COMP-CHAIN",
+        "COMP-ALGO"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    }
+  ],
+  "functions": [
+    {
+      "id": "FN-GOV-001",
+      "title": "Gate discovery and root-cause repair",
+      "component_id": "COMP-ATC-ENG",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "acceptance_criteria": [
+        "Failures tied to exact SHA/run/job/step",
+        "Fixes preserve all gates"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "FN-EVID-001",
+      "title": "Evidence lifecycle and verification",
+      "component_id": "COMP-ECOSYSTEM",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "acceptance_criteria": [
+        "REGISTERED→RUNNING→ANALYZED→VERIFIED lifecycle supported",
+        "Failures become FAILED/BLOCKED; verified items may be reopened as RESIDUAL"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "FN-KERNEL-001",
+      "title": "Capability security and process/resource isolation",
+      "component_id": "COMP-SHIVA",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "acceptance_criteria": [
+        "No ambient authority",
+        "Capability checks enforced at kernel boundary",
+        "Required isolation tests pass"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "FN-VMM-001",
+      "title": "Virtual memory mapping mutation and lifetime",
+      "component_id": "COMP-SHIVA",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "acceptance_criteria": [
+        "Mutation rollback and bottom-up table cleanup tested",
+        "Mapping/object lifetimes prevent stale references"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "FN-TX-001",
+      "title": "TX-V2 deterministic signing and encoding",
+      "component_id": "COMP-CHAIN",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "acceptance_criteria": [
+        "secp256k1 ECDSA RFC6979/SHA-256, low-S and compressed SEC1 key vectors pass",
+        "Legacy domains and Ed25519 transaction signing rejected"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "FN-VM-001",
+      "title": "ATCB validation, execution limits and gas",
+      "component_id": "COMP-VM",
+      "status": "IN_PROGRESS",
+      "priority": "P1",
+      "acceptance_criteria": [
+        "ATCB magic/version/count parsed deterministically",
+        "Program/stack/storage limits and malformed-bytecode rejection tested"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "FN-AI-001",
+      "title": "Aurora intent-policy-capability-approved tool execution",
+      "component_id": "COMP-AURORA",
+      "status": "PLANNED",
+      "priority": "P1",
+      "acceptance_criteria": [
+        "Proposal→Policy→Capability Check→Approval→Tool→Service Boundary→Authoritative Runtime",
+        "Aurora is not kernel TCB, consensus or chain authority"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "FN-INT-001",
+      "title": "Cross-repository integration and conformance",
+      "component_id": "COMP-ECOSYSTEM",
+      "status": "IN_PROGRESS",
+      "priority": "P1",
+      "acceptance_criteria": [
+        "Contracts and canonical owners mapped",
+        "No duplicate production implementations"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    }
+  ],
+  "sprints": [
+    {
+      "id": "SPRINT-CURRENT-01",
+      "title": "Gate closure and evidence integrity",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "timebox": "Not date-boxed; schedule to be confirmed from repository issue/milestone data",
+      "goals": [
+        "Resolve red required gates across active repos",
+        "Refresh exact-SHA evidence",
+        "Close residual evidence semantics for globus-os PR #48"
+      ],
+      "todo_ids": [
+        "TODO-GATE-001",
+        "TODO-EVID-001",
+        "TODO-PR48-001"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "SPRINT-NEXT-01",
+      "title": "SSOT and architecture inventory reconciliation",
+      "status": "PLANNED",
+      "priority": "P0",
+      "timebox": "Unscheduled",
+      "goals": [
+        "Audit all active repos/components against SSOT map",
+        "Reconcile roadmap statuses with actual CI and open PRs"
+      ],
+      "todo_ids": [
+        "TODO-SSOT-001",
+        "TODO-DOC-001"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "SPRINT-NEXT-02",
+      "title": "Kernel and protocol acceptance checkpoints",
+      "status": "PLANNED",
+      "priority": "P0",
+      "timebox": "Unscheduled",
+      "goals": [
+        "Recheck VMM and kernel gates",
+        "Resolve protocol/consensus/spec conflicts with evidence"
+      ],
+      "todo_ids": [
+        "TODO-KERNEL-001",
+        "TODO-PROTOCOL-001"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    }
+  ],
+  "todos": [
+    {
+      "id": "TODO-GATE-001",
+      "title": "Scan and fix failed required gates across all reachable active repositories",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "owner_repo": "A-TownChain-Okosystems/atc-engineering",
+      "component_ids": [
+        "COMP-ATC-ENG"
+      ],
+      "depends_on": [],
+      "acceptance_criteria": [
+        "Current failed runs triaged",
+        "Root cause and retest logged against exact SHA"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "TODO-EVID-001",
+      "title": "Validate evidence lifecycle and artifact semantics",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "owner_repo": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "component_ids": [
+        "COMP-ECOSYSTEM"
+      ],
+      "depends_on": [
+        "TODO-GATE-001"
+      ],
+      "acceptance_criteria": [
+        "Artifact availability not conflated with governance compliance",
+        "Evidence is discoverable and bound to tested SHA/run"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "TODO-PR48-001",
+      "title": "Finish globus-os PR #48 gate verification",
+      "status": "RESIDUAL",
+      "priority": "P0",
+      "owner_repo": "A-TownChain-Okosystems/globus-os",
+      "component_ids": [
+        "COMP-GLOBUS",
+        "COMP-SHIVA"
+      ],
+      "depends_on": [
+        "TODO-EVID-001"
+      ],
+      "acceptance_criteria": [
+        "Refresh current PR head",
+        "All required checks terminal and green",
+        "Confirm evidence artifact semantics",
+        "Leave PR unmerged until authorized and gates pass"
+      ],
+      "evidence_refs": [
+        "https://github.com/A-TownChain-Okosystems/globus-os/pull/48",
+        "https://github.com/A-TownChain-Okosystems/globus-os/actions/runs/38087015982",
+        "https://github.com/A-TownChain-Okosystems/globus-os/actions/runs/38087016037",
+        "https://github.com/A-TownChain-Okosystems/globus-os/actions/runs/38087012785"
+      ],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "TODO-SSOT-001",
+      "title": "Reconcile all active repositories, canonical component owners and migration residuals",
+      "status": "PLANNED",
+      "priority": "P0",
+      "owner_repo": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "component_ids": [
+        "COMP-ECOSYSTEM"
+      ],
+      "depends_on": [],
+      "acceptance_criteria": [
+        "Repo census current",
+        "No duplicate SSOT ownership",
+        "Migration inventory agrees with main branch evidence"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "TODO-DOC-001",
+      "title": "Maintain wiki/documentation index and repo-local documentation links",
+      "status": "IN_PROGRESS",
+      "priority": "P1",
+      "owner_repo": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "component_ids": [
+        "COMP-ECOSYSTEM"
+      ],
+      "depends_on": [
+        "TODO-SSOT-001"
+      ],
+      "acceptance_criteria": [
+        "Every component has authoritative docs link or explicit gap",
+        "GitHub Wiki disabled is noted; versioned docs serve as wiki index"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "TODO-KERNEL-001",
+      "title": "Reverify VMM M1.2/M1.3 and boot/security gates at current globus-os SHA",
+      "status": "BLOCKED",
+      "priority": "P0",
+      "owner_repo": "A-TownChain-Okosystems/globus-os",
+      "component_ids": [
+        "COMP-SHIVA",
+        "COMP-GLOBUS"
+      ],
+      "depends_on": [],
+      "acceptance_criteria": [
+        "Page-table mutation rollback verified",
+        "Mapping/object lifetime verified",
+        "Rust, UEFI Secure Boot and ACPI evidence available"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "TODO-PROTOCOL-001",
+      "title": "Reconcile chain economics, TX-V2 vectors and consensus decision across code/specs",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "owner_repo": "A-TownChain-Okosystems/a-townchain",
+      "component_ids": [
+        "COMP-CHAIN",
+        "COMP-ALGO",
+        "COMP-STANDARDS"
+      ],
+      "depends_on": [],
+      "acceptance_criteria": [
+        "Canonical parameters agree across repositories",
+        "Unfinalized consensus options remain explicitly unfinalized"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    }
+  ]
+}
