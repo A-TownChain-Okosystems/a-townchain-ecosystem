@@ -2403,5 +2403,47 @@
       "No function is promoted to IMPLEMENTED or VERIFIED by this inventory.",
       "Per-repository CI run/job/step/exit/log evidence has not yet been bound to these exact source SHAs."
     ]
+  },
+  "dependency_registry": {
+    "ATC-VM": {
+      "kind": "catalog_system",
+      "system_id": "ATCVM"
+    },
+    "ATC-ALGORITHM": {
+      "kind": "catalog_system",
+      "system_id": "ATCALGORITHM"
+    },
+    "A-TOWNCHAIN": {
+      "kind": "catalog_system",
+      "system_id": "ATOWNCHAIN"
+    },
+    "SHIVACORE": {
+      "kind": "catalog_system",
+      "system_id": "SHIVACORE"
+    },
+    "ATC-STANDARDS": {
+      "kind": "external_repository",
+      "repository_full_name": "A-TownChain-Okosystems/atc-standards",
+      "default_branch": "main"
+    },
+    "ATC-TOOLCHAIN": {
+      "kind": "external_repository",
+      "repository_full_name": "A-TownChain-Okosystems/atc-toolchain",
+      "default_branch": "main"
+    },
+    "AURORA-AI": {
+      "kind": "external_repository",
+      "repository_full_name": "A-TownChain-Okosystems/aurora-ai",
+      "default_branch": "main",
+      "status": "AUDIT_REQUIRED"
+    },
+    "HARDWARE_ABSTRACTION": {
+      "kind": "external_contract",
+      "status": "AUDIT_REQUIRED"
+    },
+    "BOOT_CHAIN": {
+      "kind": "external_contract",
+      "status": "AUDIT_REQUIRED"
+    }
   }
 }
