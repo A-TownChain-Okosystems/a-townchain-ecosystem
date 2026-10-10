@@ -30,6 +30,9 @@ pub struct GenesisRuntime<
     animations: HashMap<EntityId, AnimationBinding>,
     clips: HashMap<AnimationClipId, AnimationClip>,
     ecs_bridge: WorldEcsBridge,
+    /// Welle-3-Verdraerung (Runtime<->Physics-Subsystem) vorgehalten;
+    /// Lesender Zugriff erfolgt mit der ECS-Physik-Synchronisation.
+    #[allow(dead_code)]
     physics_bridge: WorldPhysicsBridge,
     frame: u64,
 }
