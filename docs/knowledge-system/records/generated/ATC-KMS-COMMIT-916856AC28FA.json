@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-916856AC28FA",
-  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "timestamp": "2026-10-10T08:33:51.513381Z",
   "category": "change",
   "title": "Commit: Merge pull request #97 from A-TownChain-Okosystems/ci/security-assurance-pipeline-20261005",
   "context": "Git commit 916856ac28fa463afd5e63f4e0e744fb279d35c3 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/916856ac28fa463afd5e63f4e0e744fb279d35c3",
-    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+    "commit": "32cfbcd2537d6be48e40a72e2aa6c2b3197067b0"
   },
   "tags": [
     "commit",

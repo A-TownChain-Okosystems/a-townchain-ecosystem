@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-ATC-STANDARDS-SDK-CARGO-TOML-C799EF4EB9",
-  "timestamp": "2026-10-09T09:10:07.160651Z",
+  "timestamp": "2026-10-10T08:33:51.513381Z",
   "category": "evidence",
   "title": "Indexed source: components/atc-standards/sdk/Cargo.toml",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-standards/sdk/Cargo.toml",
-    "commit": "7ba6584961ca922f080441e7aba526263298fd2f"
+    "commit": "32cfbcd2537d6be48e40a72e2aa6c2b3197067b0"
   },
   "tags": [
     "generated",
