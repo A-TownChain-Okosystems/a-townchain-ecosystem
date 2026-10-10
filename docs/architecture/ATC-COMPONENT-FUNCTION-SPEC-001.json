@@ -277,7 +277,8 @@
           "spec_refs": [
             "specs/language/SPEC.md",
             "specs/bytecode/ATCB-1.md"
-          ]
+          ],
+          "branch": "main"
         },
         "delta": {
           "status": "NOT_ASSESSED",
@@ -631,7 +632,8 @@
           "ci_evidence": [],
           "spec_refs": [
             "A-TownChain-Okosystems/atclang:specs/bytecode/ATCB-1.md"
-          ]
+          ],
+          "branch": "main"
         },
         "delta": {
           "status": "NOT_ASSESSED",
@@ -895,7 +897,8 @@
           "spec_refs": [
             "components/algorithm/specs/ATC-CONSENSUS-301-POH.md",
             "components/algorithm/specs/ATC-CONSENSUS-305-FORK-CHOICE.md"
-          ]
+          ],
+          "branch": "main"
         },
         "delta": {
           "status": "NOT_ASSESSED",
@@ -1250,7 +1253,8 @@
           "spec_refs": [
             "docs/SYSTEM_ARCHITECTURE.md",
             "modules/atc-shivacore/kernel/Cargo.toml"
-          ]
+          ],
+          "branch": "main"
         },
         "delta": {
           "status": "NOT_ASSESSED",
@@ -1572,7 +1576,8 @@
           "ci_evidence": [],
           "spec_refs": [
             "components/algorithm/specs/ATC-CONSENSUS-301-POH.md"
-          ]
+          ],
+          "branch": "main"
         },
         "delta": {
           "status": "NOT_ASSESSED",
@@ -1883,7 +1888,8 @@
           "spec_refs": [
             "docs/SYSTEM_ARCHITECTURE.md",
             "docs/architecture/GLOBUSOS_PLATFORM_ARCHITECTURE.md"
-          ]
+          ],
+          "branch": "main"
         },
         "delta": {
           "status": "NOT_ASSESSED",
@@ -2192,7 +2198,8 @@
           "ci_evidence": [],
           "spec_refs": [
             "docs/specs/GEN-DET-001-DETERMINISM.md"
-          ]
+          ],
+          "branch": "main"
         },
         "delta": {
           "status": "NOT_ASSESSED",
