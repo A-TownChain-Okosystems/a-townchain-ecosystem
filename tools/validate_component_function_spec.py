@@ -122,6 +122,23 @@ def validate(data: dict) -> dict:
                 if target not in known_ids:
                     fail(f"{system.get('id')}: dependency {dep!r} points to missing system {target!r}", errors)
 
+    all_functions = [
+        fn for system in data["systems"] for fn in system.get("functions", [])
+        if isinstance(fn, dict)
+    ]
+    source_mapped = sum(bool(fn.get("soll_ist", {}).get("ist", {}).get("source_paths")) for fn in all_functions)
+    tests_mapped = sum(bool(fn.get("soll_ist", {}).get("ist", {}).get("test_refs")) for fn in all_functions)
+    specs_mapped = sum(bool(fn.get("soll_ist", {}).get("ist", {}).get("spec_refs")) for fn in all_functions)
+    verified_functions = sum(
+        fn.get("soll_ist", {}).get("ist", {}).get("assessment") == "VERIFIED"
+        for fn in all_functions
+    )
+    system_inventory_count = sum(
+        bool(system.get("soll_ist", {}).get("ist", {}).get("repository_full_name")) and
+        bool(system.get("soll_ist", {}).get("ist", {}).get("commit_sha"))
+        for system in data["systems"]
+    )
+
     return {
         "schema_id": data.get("schema_id"),
         "schema_version": data.get("schema_version"),
@@ -129,6 +146,22 @@ def validate(data: dict) -> dict:
         "function_count": len(function_ids),
         "unique_system_ids": len(system_ids),
         "unique_function_ids": len(function_ids),
+        "repository_inventory": {
+            "systems_with_repository_and_sha": system_inventory_count,
+            "systems_total": len(data["systems"]),
+            "repository_snapshots": len(data.get("repository_inventory", {}).get("snapshots", [])),
+        },
+        "function_coverage": {
+            "source_refs_mapped": source_mapped,
+            "test_refs_mapped": tests_mapped,
+            "spec_refs_mapped": specs_mapped,
+            "verified_functions": verified_functions,
+            "functions_total": len(all_functions),
+            "source_ref_gaps": len(all_functions) - source_mapped,
+            "test_ref_gaps": len(all_functions) - tests_mapped,
+            "spec_ref_gaps": len(all_functions) - specs_mapped,
+            "note": "Unmapped references mean function-level reconciliation is incomplete; they do not prove the implementation or tests are absent.",
+        },
         "catalog_validation": "PASS" if not errors else "FAIL",
         "implementation_audit": "NOT_PERFORMED_BY_STRUCTURAL_VALIDATOR",
         "status": "PASS" if not errors else "FAIL",
