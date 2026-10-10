@@ -51,7 +51,10 @@ impl AuroraCore {
             .get_agent(agent_id)
             .ok_or_else(|| format!("Agent {} not registered", agent_id))?;
         let model = self.llm_router.route(prompt);
-        let response = self.model_hub.inference(&model, prompt);
+        let response = self
+            .model_hub
+            .inference(&model, prompt)
+            .map_err(|error| error.to_string())?;
         Ok(response)
     }
 
