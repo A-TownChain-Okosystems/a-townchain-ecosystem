@@ -1,6 +1,6 @@
 {
   "schema_id": "ATC-COMPONENT-FUNCTION-SPEC-001",
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "snapshot_date": "2026-10-11",
   "catalog_status": "INITIAL_BASELINE",
   "purpose": "Machine-readable component, function, specification, dependency and verification inventory",
@@ -38,7 +38,33 @@
             "Valid source produces deterministic tokens",
             "Invalid input produces explicit diagnostics",
             "Source locations are preserved"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Tokenize source and report invalid tokens with source locations",
+              "acceptance": [
+                "Valid source produces deterministic tokens",
+                "Invalid input produces explicit diagnostics",
+                "Source locations are preserved"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATCLANG-FUNC-002",
@@ -49,7 +75,33 @@
             "Valid and invalid grammar cases are tested",
             "Malformed input fails deterministically",
             "AST contract is documented"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Parse the versioned grammar and construct the AST",
+              "acceptance": [
+                "Valid and invalid grammar cases are tested",
+                "Malformed input fails deterministically",
+                "AST contract is documented"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATCLANG-FUNC-003",
@@ -60,7 +112,33 @@
             "Supported directives are documented",
             "Unsupported directives fail explicitly",
             "No competing production VM is introduced"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Process supported native directives and declarations without duplicating VM execution",
+              "acceptance": [
+                "Supported directives are documented",
+                "Unsupported directives fail explicitly",
+                "No competing production VM is introduced"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATCLANG-FUNC-004",
@@ -70,7 +148,32 @@
           "acceptance": [
             "Error categories are stable",
             "Source spans are included where available"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Emit stable, actionable frontend diagnostics",
+              "acceptance": [
+                "Error categories are stable",
+                "Source spans are included where available"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATCLANG-FUNC-005",
@@ -81,7 +184,33 @@
             "Output conforms to the normative bytecode format",
             "Version and instruction count are validated",
             "Output reproducibility is tested"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Define and validate the frontend boundary to canonical ATCB bytecode",
+              "acceptance": [
+                "Output conforms to the normative bytecode format",
+                "Version and instruction count are validated",
+                "Output reproducibility is tested"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         }
       ],
       "specifications": {
@@ -112,6 +241,37 @@
         ],
         "evidence_status": "NOT_COLLECTED",
         "verified_commit_sha": null
+      },
+      "soll_ist": {
+        "soll": {
+          "canonical_location": "A-TownChain-Okosystems/atclang",
+          "layer": "L0",
+          "mission": "Native language frontend, syntax, AST and compilation boundary for the A-TownChain execution ecosystem",
+          "dependencies": [
+            "ATCVM",
+            "ATCSTANDARDS"
+          ],
+          "prohibited_responsibilities": [
+            "Owning a second production VM",
+            "Executing blockchain consensus",
+            "Bypassing canonical bytecode validation"
+          ]
+        },
+        "ist": {
+          "assessment": "NOT_ASSESSED",
+          "repository_full_name": null,
+          "default_branch": null,
+          "commit_sha": null,
+          "source_paths": [],
+          "test_refs": [],
+          "ci_evidence": []
+        },
+        "delta": {
+          "status": "NOT_ASSESSED",
+          "gaps": [
+            "Source, API, test and exact-SHA CI audit not yet recorded"
+          ]
+        }
       }
     },
     {
@@ -131,7 +291,33 @@
             "Malformed and truncated bytecode is rejected",
             "Unsupported versions are rejected",
             "Canonical binary format is used"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Validate header, version, instruction count and instruction encoding before execution",
+              "acceptance": [
+                "Malformed and truncated bytecode is rejected",
+                "Unsupported versions are rejected",
+                "Canonical binary format is used"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATCVM-FUNC-002",
@@ -142,7 +328,33 @@
             "Equivalent input state and bytecode produce equivalent results",
             "Undefined opcodes fail closed",
             "Host-dependent nondeterminism is excluded"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Execute supported instructions with deterministic state transitions",
+              "acceptance": [
+                "Equivalent input state and bytecode produce equivalent results",
+                "Undefined opcodes fail closed",
+                "Host-dependent nondeterminism is excluded"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATCVM-FUNC-003",
@@ -155,6 +367,31 @@
           ],
           "limits": {
             "MAX_STACK_ITEMS": 4096
+          },
+          "soll_ist": {
+            "soll": {
+              "behavior": "Enforce maximum operand stack depth",
+              "acceptance": [
+                "Overflow and underflow are rejected",
+                "Boundary values are tested"
+              ],
+              "catalog_status": "SPECIFIED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
           }
         },
         {
@@ -168,6 +405,31 @@
           ],
           "limits": {
             "MAX_PROGRAM_OPS": 65536
+          },
+          "soll_ist": {
+            "soll": {
+              "behavior": "Enforce maximum instruction count",
+              "acceptance": [
+                "Programs above the limit are rejected",
+                "Boundary values are tested"
+              ],
+              "catalog_status": "SPECIFIED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
           }
         },
         {
@@ -181,6 +443,31 @@
           ],
           "limits": {
             "MAX_STORAGE_SLOTS": 65536
+          },
+          "soll_ist": {
+            "soll": {
+              "behavior": "Enforce storage slot limits and deterministic storage semantics",
+              "acceptance": [
+                "Limits cannot be bypassed",
+                "Invalid storage operations fail explicitly"
+              ],
+              "catalog_status": "SPECIFIED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
           }
         },
         {
@@ -192,7 +479,33 @@
             "Every executable opcode has defined cost semantics",
             "Insufficient budget terminates deterministically",
             "Cost boundaries are tested"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Define and enforce deterministic execution costs",
+              "acceptance": [
+                "Every executable opcode has defined cost semantics",
+                "Insufficient budget terminates deterministically",
+                "Cost boundaries are tested"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATCVM-FUNC-007",
@@ -203,7 +516,33 @@
             "Errors have stable categories",
             "Failed execution is never reported as success",
             "State commit and rollback semantics are specified"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Return deterministic results or structured execution failures",
+              "acceptance": [
+                "Errors have stable categories",
+                "Failed execution is never reported as success",
+                "State commit and rollback semantics are specified"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         }
       ],
       "specifications": {
@@ -245,6 +584,37 @@
         ],
         "evidence_status": "NOT_COLLECTED",
         "verified_commit_sha": null
+      },
+      "soll_ist": {
+        "soll": {
+          "canonical_location": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "layer": "L3",
+          "mission": "Canonical deterministic virtual machine implementation for ATC bytecode",
+          "dependencies": [
+            "ATCSTANDARDS",
+            "ATCALGORITHM"
+          ],
+          "prohibited_responsibilities": [
+            "Owning blockchain consensus",
+            "Expanding ShivaCore TCB by default",
+            "Maintaining a competing canonical VM in another repository"
+          ]
+        },
+        "ist": {
+          "assessment": "NOT_ASSESSED",
+          "repository_full_name": null,
+          "default_branch": null,
+          "commit_sha": null,
+          "source_paths": [],
+          "test_refs": [],
+          "ci_evidence": []
+        },
+        "delta": {
+          "status": "NOT_ASSESSED",
+          "gaps": [
+            "Source, API, test and exact-SHA CI audit not yet recorded"
+          ]
+        }
       }
     },
     {
@@ -264,7 +634,33 @@
             "Rules are versioned and normative",
             "Invalid blocks are rejected",
             "Evaluation is deterministic"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Evaluate candidate blocks and state transitions against normative consensus rules",
+              "acceptance": [
+                "Rules are versioned and normative",
+                "Invalid blocks are rejected",
+                "Evaluation is deterministic"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATCALG-FUNC-002",
@@ -275,7 +671,33 @@
             "Malformed inputs are rejected",
             "Validation is deterministic",
             "Responsibilities are not duplicated across layers"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Validate algorithm-owned structural and protocol requirements",
+              "acceptance": [
+                "Malformed inputs are rejected",
+                "Validation is deterministic",
+                "Responsibilities are not duplicated across layers"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATCALG-FUNC-003",
@@ -285,7 +707,32 @@
           "acceptance": [
             "Tie-breaking is specified",
             "Reorganizations and adversarial cases are tested"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Apply the normative chain-selection and tie-breaking rules",
+              "acceptance": [
+                "Tie-breaking is specified",
+                "Reorganizations and adversarial cases are tested"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATCALG-FUNC-004",
@@ -296,7 +743,33 @@
             "Invalid parameters are rejected",
             "Upgrades are versioned",
             "Runtime configuration cannot silently change consensus"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Validate parameters against active protocol version",
+              "acceptance": [
+                "Invalid parameters are rejected",
+                "Upgrades are versioned",
+                "Runtime configuration cannot silently change consensus"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATCALG-FUNC-005",
@@ -306,7 +779,32 @@
           "acceptance": [
             "Independent implementations reproduce results",
             "Protocol changes update affected vectors"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Maintain versioned positive, negative and boundary vectors",
+              "acceptance": [
+                "Independent implementations reproduce results",
+                "Protocol changes update affected vectors"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         }
       ],
       "specifications": {
@@ -340,6 +838,37 @@
         ],
         "evidence_status": "NOT_COLLECTED",
         "verified_commit_sha": null
+      },
+      "soll_ist": {
+        "soll": {
+          "canonical_location": "A-TownChain-Okosystems/a-townchain/components/algorithm",
+          "layer": "L3",
+          "mission": "Canonical consensus and algorithm implementation for A-TownChain",
+          "dependencies": [
+            "ATOWNCHAIN",
+            "ATCSTANDARDS"
+          ],
+          "prohibited_responsibilities": [
+            "Inventing undocumented consensus rules",
+            "Changing monetary/finality parameters outside protocol governance",
+            "Treating proposed consensus as finalized"
+          ]
+        },
+        "ist": {
+          "assessment": "NOT_ASSESSED",
+          "repository_full_name": null,
+          "default_branch": null,
+          "commit_sha": null,
+          "source_paths": [],
+          "test_refs": [],
+          "ci_evidence": []
+        },
+        "delta": {
+          "status": "NOT_ASSESSED",
+          "gaps": [
+            "Source, API, test and exact-SHA CI audit not yet recorded"
+          ]
+        }
       }
     },
     {
@@ -358,7 +887,33 @@
             "Unauthorized access is denied",
             "No ambient authority is introduced",
             "Capability lifecycle and revocation are specified"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Require explicit authority for kernel-managed objects and resources",
+              "acceptance": [
+                "Unauthorized access is denied",
+                "No ambient authority is introduced",
+                "Capability lifecycle and revocation are specified"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "SHIVA-FUNC-002",
@@ -369,7 +924,33 @@
             "Cross-process isolation is tested",
             "Invalid mappings are rejected",
             "Teardown is safe"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Isolate execution contexts and enforce memory permissions",
+              "acceptance": [
+                "Cross-process isolation is tested",
+                "Invalid mappings are rejected",
+                "Teardown is safe"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "SHIVA-FUNC-003",
@@ -380,7 +961,33 @@
             "Partial mutation rolls back safely",
             "Unmap and table reclamation preserve invariants",
             "Mapping lifetime is tested"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Manage page tables, mutation rollback, unmapping and mapping lifetime",
+              "acceptance": [
+                "Partial mutation rolls back safely",
+                "Unmap and table reclamation preserve invariants",
+                "Mapping lifetime is tested"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "SHIVA-FUNC-004",
@@ -391,7 +998,33 @@
             "Sender and receiver permissions are enforced",
             "Queue/resource limits are explicit",
             "Failure and cancellation are tested"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Provide controlled IPC and defined event semantics",
+              "acceptance": [
+                "Sender and receiver permissions are enforced",
+                "Queue/resource limits are explicit",
+                "Failure and cancellation are tested"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "SHIVA-FUNC-005",
@@ -402,7 +1035,33 @@
             "Invalid transitions are rejected",
             "Scheduler invariants are tested",
             "Resource cleanup is deterministic"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Manage process state transitions and scheduling",
+              "acceptance": [
+                "Invalid transitions are rejected",
+                "Scheduler invariants are tested",
+                "Resource cleanup is deterministic"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "SHIVA-FUNC-006",
@@ -413,7 +1072,33 @@
             "Interrupt state is managed safely",
             "Timer behavior is tested",
             "Supported targets are documented"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Provide minimal controlled architecture-specific hardware interfaces",
+              "acceptance": [
+                "Interrupt state is managed safely",
+                "Timer behavior is tested",
+                "Supported targets are documented"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "SHIVA-FUNC-007",
@@ -424,7 +1109,33 @@
             "Boot artifacts and assumptions are documented",
             "Secure Boot evidence exists for declared targets",
             "Required trust failures fail closed"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Define verifiable boot chain and platform trust-provider interfaces",
+              "acceptance": [
+                "Boot artifacts and assumptions are documented",
+                "Secure Boot evidence exists for declared targets",
+                "Required trust failures fail closed"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         }
       ],
       "specifications": {
@@ -467,6 +1178,39 @@
         ],
         "evidence_status": "NOT_COLLECTED",
         "verified_commit_sha": null
+      },
+      "soll_ist": {
+        "soll": {
+          "canonical_location": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel",
+          "layer": "L1",
+          "mission": "Rust no_std capability-based microkernel and minimal trusted computing base",
+          "dependencies": [
+            "HARDWARE_ABSTRACTION",
+            "BOOT_CHAIN",
+            "ATCSTANDARDS"
+          ],
+          "prohibited_responsibilities": [
+            "Owning blockchain consensus",
+            "Executing smart contracts inside TCB",
+            "Hosting Aurora AI decision logic in kernel",
+            "Embedding ordinary network stacks in kernel core"
+          ]
+        },
+        "ist": {
+          "assessment": "NOT_ASSESSED",
+          "repository_full_name": null,
+          "default_branch": null,
+          "commit_sha": null,
+          "source_paths": [],
+          "test_refs": [],
+          "ci_evidence": []
+        },
+        "delta": {
+          "status": "NOT_ASSESSED",
+          "gaps": [
+            "Source, API, test and exact-SHA CI audit not yet recorded"
+          ]
+        }
       }
     },
     {
@@ -485,7 +1229,33 @@
             "Encoding is byte-exact",
             "Invalid signatures are rejected",
             "Legacy domains are not silently accepted"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Validate canonical transaction encoding, signatures, signing domains and field constraints",
+              "acceptance": [
+                "Encoding is byte-exact",
+                "Invalid signatures are rejected",
+                "Legacy domains are not silently accepted"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATC-CHAIN-FUNC-002",
@@ -496,7 +1266,33 @@
             "Invalid blocks cannot commit state",
             "State transitions are deterministic",
             "Failure and rollback are tested"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Validate blocks and apply protocol-defined state transitions atomically",
+              "acceptance": [
+                "Invalid blocks cannot commit state",
+                "State transitions are deterministic",
+                "Failure and rollback are tested"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATC-CHAIN-FUNC-003",
@@ -507,7 +1303,33 @@
             "Overflow is rejected",
             "State encoding is canonical",
             "Ledger invariants are tested"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Maintain canonical balances, nonces and protocol state using exact arithmetic",
+              "acceptance": [
+                "Overflow is rejected",
+                "State encoding is canonical",
+                "Ledger invariants are tested"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATC-CHAIN-FUNC-004",
@@ -518,7 +1340,33 @@
             "Production and validation use the same rules",
             "Invalid execution results are rejected",
             "Failure cases are tested"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Integrate consensus, transaction validation and execution",
+              "acceptance": [
+                "Production and validation use the same rules",
+                "Invalid execution results are rejected",
+                "Failure cases are tested"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATC-CHAIN-FUNC-005",
@@ -529,7 +1377,33 @@
             "No competing VM is used",
             "Compatibility is explicit",
             "Limits and failures propagate"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Invoke the canonical VM through a versioned execution interface",
+              "acceptance": [
+                "No competing VM is used",
+                "Compatibility is explicit",
+                "Limits and failures propagate"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "ATC-CHAIN-FUNC-006",
@@ -549,6 +1423,32 @@
             "halving_interval_blocks": 360000,
             "amount_encoding": "u128, 16-byte big-endian",
             "counter_encoding": "u64, 8-byte big-endian"
+          },
+          "soll_ist": {
+            "soll": {
+              "behavior": "Enforce versioned monetary, timing and protocol parameters",
+              "acceptance": [
+                "Parameters match normative specification",
+                "Exact byte encodings are tested",
+                "Upgrades are versioned"
+              ],
+              "catalog_status": "SPECIFIED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
           }
         }
       ],
@@ -588,6 +1488,39 @@
         ],
         "evidence_status": "NOT_COLLECTED",
         "verified_commit_sha": null
+      },
+      "soll_ist": {
+        "soll": {
+          "canonical_location": "A-TownChain-Okosystems/a-townchain",
+          "layer": "L3",
+          "mission": "Canonical blockchain core integrating transactions, blocks, ledger state, consensus and execution",
+          "dependencies": [
+            "ATCVM",
+            "ATCALGORITHM",
+            "ATCSTANDARDS",
+            "ATCTOOLCHAIN"
+          ],
+          "prohibited_responsibilities": [
+            "Maintaining competing VM implementation",
+            "Using floating point for consensus-critical amounts",
+            "Changing consensus parameters without versioned governance"
+          ]
+        },
+        "ist": {
+          "assessment": "NOT_ASSESSED",
+          "repository_full_name": null,
+          "default_branch": null,
+          "commit_sha": null,
+          "source_paths": [],
+          "test_refs": [],
+          "ci_evidence": []
+        },
+        "delta": {
+          "status": "NOT_ASSESSED",
+          "gaps": [
+            "Source, API, test and exact-SHA CI audit not yet recorded"
+          ]
+        }
       }
     },
     {
@@ -606,7 +1539,33 @@
             "Boot failures are explicit",
             "Handoff parameters are validated",
             "Boot artifacts are reproducibly identified"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Initialize platform and transfer control to canonical ShivaCore kernel",
+              "acceptance": [
+                "Boot failures are explicit",
+                "Handoff parameters are validated",
+                "Boot artifacts are reproducibly identified"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "GLOBUS-FUNC-002",
@@ -617,7 +1576,33 @@
             "Service identities and permissions are explicit",
             "Failures do not grant authority",
             "Lifecycle transitions are tested"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Start, supervise, isolate and stop user-space services under explicit authority",
+              "acceptance": [
+                "Service identities and permissions are explicit",
+                "Failures do not grant authority",
+                "Lifecycle transitions are tested"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "GLOBUS-FUNC-003",
@@ -628,7 +1613,33 @@
             "Networking stays outside kernel core",
             "IPC and capability boundaries are enforced",
             "Network failure cannot bypass isolation"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Provide networking in service space rather than expanding kernel TCB",
+              "acceptance": [
+                "Networking stays outside kernel core",
+                "IPC and capability boundaries are enforced",
+                "Network failure cannot bypass isolation"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "GLOBUS-FUNC-004",
@@ -639,7 +1650,33 @@
             "Blockchain is not a kernel responsibility",
             "Interfaces are versioned",
             "Canonical implementations are reused"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Integrate node, VM, wallet and blockchain services through explicit interfaces",
+              "acceptance": [
+                "Blockchain is not a kernel responsibility",
+                "Interfaces are versioned",
+                "Canonical implementations are reused"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "GLOBUS-FUNC-005",
@@ -650,7 +1687,33 @@
             "AI has no implicit kernel authority",
             "Actions pass policy and capability checks",
             "Tool execution crosses explicit boundaries"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Host AI runtime and policy-mediated tools outside ShivaCore TCB",
+              "acceptance": [
+                "AI has no implicit kernel authority",
+                "Actions pass policy and capability checks",
+                "Tool execution crosses explicit boundaries"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "GLOBUS-FUNC-006",
@@ -661,7 +1724,33 @@
             "Supported platforms are enumerated",
             "Hardware failures are explicit",
             "HAL interfaces are tested"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Define interfaces for supported CPU, memory, timer, interrupt and device capabilities",
+              "acceptance": [
+                "Supported platforms are enumerated",
+                "Hardware failures are explicit",
+                "HAL interfaces are tested"
+              ],
+              "catalog_status": "AUDIT_REQUIRED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         }
       ],
       "specifications": {
@@ -696,6 +1785,39 @@
         ],
         "evidence_status": "NOT_COLLECTED",
         "verified_commit_sha": null
+      },
+      "soll_ist": {
+        "soll": {
+          "canonical_location": "A-TownChain-Okosystems/globus-os",
+          "layer": "L4",
+          "mission": "Operating-system integration and service platform built around ShivaCore",
+          "dependencies": [
+            "SHIVACORE",
+            "ATCSTANDARDS",
+            "ATCTOOLCHAIN",
+            "AURORAAI"
+          ],
+          "prohibited_responsibilities": [
+            "Duplicating canonical ShivaCore kernel",
+            "Moving ordinary networking/blockchain services into TCB",
+            "Giving AI ambient system authority"
+          ]
+        },
+        "ist": {
+          "assessment": "NOT_ASSESSED",
+          "repository_full_name": null,
+          "default_branch": null,
+          "commit_sha": null,
+          "source_paths": [],
+          "test_refs": [],
+          "ci_evidence": []
+        },
+        "delta": {
+          "status": "NOT_ASSESSED",
+          "gaps": [
+            "Source, API, test and exact-SHA CI audit not yet recorded"
+          ]
+        }
       }
     },
     {
@@ -714,7 +1836,33 @@
             "Required fields are enforced",
             "Schema version is explicit",
             "Unknown-field policy is defined"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Load and validate versioned genesis manifest against normative schema",
+              "acceptance": [
+                "Required fields are enforced",
+                "Schema version is explicit",
+                "Unknown-field policy is defined"
+              ],
+              "catalog_status": "PROPOSED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "GENESIS-FUNC-002",
@@ -725,7 +1873,33 @@
             "Identical inputs produce identical bytes",
             "Artifact format is versioned",
             "Artifacts have cryptographic digests"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Generate canonical genesis artifacts from validated configuration",
+              "acceptance": [
+                "Identical inputs produce identical bytes",
+                "Artifact format is versioned",
+                "Artifacts have cryptographic digests"
+              ],
+              "catalog_status": "PROPOSED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "GENESIS-FUNC-003",
@@ -736,7 +1910,33 @@
             "Allocation cannot exceed protocol supply",
             "Integer arithmetic is exact",
             "Duplicate recipients follow normative rules"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Validate initial balances, allocations and supply invariants",
+              "acceptance": [
+                "Allocation cannot exceed protocol supply",
+                "Integer arithmetic is exact",
+                "Duplicate recipients follow normative rules"
+              ],
+              "catalog_status": "PROPOSED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "GENESIS-FUNC-004",
@@ -747,7 +1947,33 @@
             "Serialization and hash inputs are normative",
             "Independent runs yield identical hashes",
             "Golden vectors are versioned"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Compute and independently verify genesis identifiers and hashes",
+              "acceptance": [
+                "Serialization and hash inputs are normative",
+                "Independent runs yield identical hashes",
+                "Golden vectors are versioned"
+              ],
+              "catalog_status": "PROPOSED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "GENESIS-FUNC-005",
@@ -758,7 +1984,33 @@
             "Canonical node accepts valid artifacts",
             "Mutated artifacts are rejected",
             "No divergent parallel rules exist"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Verify artifacts using canonical A-TownChain validation logic",
+              "acceptance": [
+                "Canonical node accepts valid artifacts",
+                "Mutated artifacts are rejected",
+                "No divergent parallel rules exist"
+              ],
+              "catalog_status": "PROPOSED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         },
         {
           "id": "GENESIS-FUNC-006",
@@ -769,7 +2021,33 @@
             "Artifacts trace to exact source/config",
             "Logs and test evidence are retained",
             "Unverified outputs are not marked VERIFIED"
-          ]
+          ],
+          "soll_ist": {
+            "soll": {
+              "behavior": "Record source SHA, configuration digest, tool versions and output evidence",
+              "acceptance": [
+                "Artifacts trace to exact source/config",
+                "Logs and test evidence are retained",
+                "Unverified outputs are not marked VERIFIED"
+              ],
+              "catalog_status": "PROPOSED"
+            },
+            "ist": {
+              "assessment": "NOT_ASSESSED",
+              "repository_full_name": null,
+              "branch": null,
+              "commit_sha": null,
+              "source_paths": [],
+              "test_refs": [],
+              "ci_evidence": []
+            },
+            "delta": {
+              "status": "NOT_ASSESSED",
+              "gaps": [
+                "Function-level source and test reconciliation pending"
+              ]
+            }
+          }
         }
       ],
       "specifications": {
@@ -804,6 +2082,39 @@
         ],
         "evidence_status": "NOT_COLLECTED",
         "verified_commit_sha": null
+      },
+      "soll_ist": {
+        "soll": {
+          "canonical_location": "AUDIT_REQUIRED",
+          "layer": "L7",
+          "mission": "Governed genesis configuration, deterministic artifact generation and initial-chain validation",
+          "dependencies": [
+            "ATOWNCHAIN",
+            "ATCALGORITHM",
+            "ATCSTANDARDS",
+            "ATCTOOLCHAIN"
+          ],
+          "prohibited_responsibilities": [
+            "Inventing monetary parameters",
+            "Changing consensus rules independently",
+            "Generating undocumented or non-reproducible artifacts"
+          ]
+        },
+        "ist": {
+          "assessment": "NOT_ASSESSED",
+          "repository_full_name": null,
+          "default_branch": null,
+          "commit_sha": null,
+          "source_paths": [],
+          "test_refs": [],
+          "ci_evidence": []
+        },
+        "delta": {
+          "status": "NOT_ASSESSED",
+          "gaps": [
+            "Source, API, test and exact-SHA CI audit not yet recorded"
+          ]
+        }
       }
     }
   ],
@@ -853,6 +2164,45 @@
     "Link each implemented function to source paths and tests",
     "Record exact SHA and CI Run-to-Job-to-Step evidence",
     "Resolve duplicate ownership, specification conflicts and missing dependencies",
-    "Do not promote AUDIT_REQUIRED or PROPOSED to VERIFIED without evidence"
-  ]
+    "Do not promote AUDIT_REQUIRED or PROPOSED to VERIFIED without evidence",
+    "For each system and function, record Soll separately from Ist; keep unassessed Ist explicit",
+    "Record source paths, test references and exact commit SHA for every Ist claim",
+    "Set delta to MATCH only when acceptance criteria are demonstrated by source and tests",
+    "Set VERIFIED only with exact-SHA Run-to-Job-to-Step evidence and passing exit status",
+    "Record gaps, conflicts and blockers instead of silently upgrading status"
+  ],
+  "state_model": {
+    "description": "Machine-readable Soll/Ist comparison. Soll is the target defined by this catalog; Ist is only populated from inspected source and reproducible evidence. Unknown is never treated as absent or passing.",
+    "states": [
+      "NOT_ASSESSED",
+      "MISSING",
+      "PARTIAL",
+      "PRESENT_UNVERIFIED",
+      "IMPLEMENTED",
+      "VERIFIED",
+      "RESIDUAL",
+      "BLOCKED"
+    ],
+    "delta_states": [
+      "NOT_ASSESSED",
+      "MATCH",
+      "PARTIAL",
+      "GAP",
+      "CONFLICT",
+      "BLOCKED"
+    ],
+    "evidence_required_for_verified": [
+      "repository_full_name",
+      "branch",
+      "commit_sha",
+      "source_paths",
+      "test_refs",
+      "workflow_run_id",
+      "job_name",
+      "step_name",
+      "exit_code",
+      "log_or_artifact_url"
+    ],
+    "rule": "Do not infer IST from the existing catalog status, file presence, PR state, or unverified claims."
+  }
 }
