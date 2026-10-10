@@ -860,7 +860,7 @@
   ],
   "repository_inventory": [
     {
-      "id": "REPO-001",
+      "id": "REPO-A-TOWNCHAIN-OS",
       "repository": "A-TownChain-Okosystems/a-townchain-os",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -889,7 +889,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-002",
+      "id": "REPO-ATCLANG",
       "repository": "A-TownChain-Okosystems/atclang",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -920,7 +920,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-003",
+      "id": "REPO-A-TOWNCHAIN-OS-DOCS",
       "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -949,7 +949,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-004",
+      "id": "REPO-ATC-SHIVACORE",
       "repository": "A-TownChain-Okosystems/atc-shivacore",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -978,7 +978,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-005",
+      "id": "REPO-A-TOWNCHAIN",
       "repository": "A-TownChain-Okosystems/a-townchain",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1011,7 +1011,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-006",
+      "id": "REPO-GLOBUS-OS",
       "repository": "A-TownChain-Okosystems/globus-os",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1043,7 +1043,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-007",
+      "id": "REPO-AURORA-AI",
       "repository": "A-TownChain-Okosystems/aurora-ai",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1074,7 +1074,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-008",
+      "id": "REPO-GENESIS-ENGINE",
       "repository": "A-TownChain-Okosystems/genesis-engine",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1105,7 +1105,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-009",
+      "id": "REPO-ATC-SDK",
       "repository": "A-TownChain-Okosystems/atc-sdk",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1134,7 +1134,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-010",
+      "id": "REPO-ATC-NODE",
       "repository": "A-TownChain-Okosystems/atc-node",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1163,7 +1163,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-011",
+      "id": "REPO-ATC-CONTRACTS",
       "repository": "A-TownChain-Okosystems/atc-contracts",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1192,7 +1192,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-012",
+      "id": "REPO-ATC-WALLET",
       "repository": "A-TownChain-Okosystems/atc-wallet",
       "default_branch": "main",
       "repository_state": "ARCHIVED",
@@ -1221,7 +1221,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-013",
+      "id": "REPO-ATC-EXPLORER",
       "repository": "A-TownChain-Okosystems/atc-explorer",
       "default_branch": "main",
       "repository_state": "ARCHIVED",
@@ -1250,7 +1250,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-014",
+      "id": "REPO-ATC-INDEXER",
       "repository": "A-TownChain-Okosystems/atc-indexer",
       "default_branch": "main",
       "repository_state": "ARCHIVED",
@@ -1279,7 +1279,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-015",
+      "id": "REPO-ATC-MINING",
       "repository": "A-TownChain-Okosystems/atc-mining",
       "default_branch": "main",
       "repository_state": "ARCHIVED",
@@ -1308,7 +1308,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-016",
+      "id": "REPO-ATC-INTEROP",
       "repository": "A-TownChain-Okosystems/atc-interop",
       "default_branch": "main",
       "repository_state": "ARCHIVED",
@@ -1337,7 +1337,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-017",
+      "id": "REPO-GENESIS-CHRONICLES",
       "repository": "A-TownChain-Okosystems/genesis-chronicles",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1366,7 +1366,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-018",
+      "id": "REPO-ATC-ORACLE",
       "repository": "A-TownChain-Okosystems/atc-oracle",
       "default_branch": "main",
       "repository_state": "ARCHIVED",
@@ -1395,7 +1395,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-019",
+      "id": "REPO-ATC-STORAGE",
       "repository": "A-TownChain-Okosystems/atc-storage",
       "default_branch": "main",
       "repository_state": "ARCHIVED",
@@ -1424,7 +1424,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-020",
+      "id": "REPO-ATC-LAUNCHPAD",
       "repository": "A-TownChain-Okosystems/atc-launchpad",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1453,7 +1453,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-021",
+      "id": "REPO-ATC-MARKETPLACE",
       "repository": "A-TownChain-Okosystems/atc-marketplace",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1482,7 +1482,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-022",
+      "id": "REPO-ATC-COMPUTE",
       "repository": "A-TownChain-Okosystems/atc-compute",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1511,7 +1511,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-023",
+      "id": "REPO-ATC-STANDARDS",
       "repository": "A-TownChain-Okosystems/atc-standards",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1542,7 +1542,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-024",
+      "id": "REPO-ATC-VM",
       "repository": "A-TownChain-Okosystems/atc-vm",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1571,7 +1571,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-025",
+      "id": "REPO-ATC-ALGORITHM",
       "repository": "A-TownChain-Okosystems/atc-algorithm",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1600,7 +1600,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-026",
+      "id": "REPO-ATC-ZKP",
       "repository": "A-TownChain-Okosystems/atc-zkp",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1629,7 +1629,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-027",
+      "id": "REPO-GITHUB",
       "repository": "A-TownChain-Okosystems/.github",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1658,7 +1658,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-028",
+      "id": "REPO-DEMO-REPOSITORY",
       "repository": "A-TownChain-Okosystems/demo-repository",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1687,7 +1687,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-029",
+      "id": "REPO-ATC-IDE",
       "repository": "A-TownChain-Okosystems/atc-ide",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1716,7 +1716,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-030",
+      "id": "REPO-GENESIS-FRANCHISE-FACTORY",
       "repository": "A-TownChain-Okosystems/genesis-franchise-factory",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1745,7 +1745,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-031",
+      "id": "REPO-ATC-ENGINEERING",
       "repository": "A-TownChain-Okosystems/atc-engineering",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1776,7 +1776,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-032",
+      "id": "REPO-A-TOWNCHAIN-ECOSYSTEM",
       "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1807,7 +1807,7 @@
       "evidence_refs": []
     },
     {
-      "id": "REPO-033",
+      "id": "REPO-ATC-TOOLCHAIN",
       "repository": "A-TownChain-Okosystems/atc-toolchain",
       "default_branch": "main",
       "repository_state": "ACTIVE",
@@ -1840,7 +1840,7 @@
   ],
   "repository_delivery_plans": [
     {
-      "id": "RPLAN-001",
+      "id": "RPLAN-A-TOWNCHAIN-OS",
       "repository": "A-TownChain-Okosystems/a-townchain-os",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -1899,7 +1899,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-002",
+      "id": "RPLAN-ATCLANG",
       "repository": "A-TownChain-Okosystems/atclang",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -1958,7 +1958,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-003",
+      "id": "RPLAN-A-TOWNCHAIN-OS-DOCS",
       "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -2017,7 +2017,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-004",
+      "id": "RPLAN-ATC-SHIVACORE",
       "repository": "A-TownChain-Okosystems/atc-shivacore",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -2076,7 +2076,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-005",
+      "id": "RPLAN-A-TOWNCHAIN",
       "repository": "A-TownChain-Okosystems/a-townchain",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -2135,7 +2135,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-006",
+      "id": "RPLAN-GLOBUS-OS",
       "repository": "A-TownChain-Okosystems/globus-os",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -2194,7 +2194,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-007",
+      "id": "RPLAN-AURORA-AI",
       "repository": "A-TownChain-Okosystems/aurora-ai",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -2253,7 +2253,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-008",
+      "id": "RPLAN-GENESIS-ENGINE",
       "repository": "A-TownChain-Okosystems/genesis-engine",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -2312,7 +2312,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-009",
+      "id": "RPLAN-ATC-SDK",
       "repository": "A-TownChain-Okosystems/atc-sdk",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -2371,7 +2371,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-010",
+      "id": "RPLAN-ATC-NODE",
       "repository": "A-TownChain-Okosystems/atc-node",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -2430,7 +2430,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-011",
+      "id": "RPLAN-ATC-CONTRACTS",
       "repository": "A-TownChain-Okosystems/atc-contracts",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -2489,7 +2489,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-012",
+      "id": "RPLAN-ATC-WALLET",
       "repository": "A-TownChain-Okosystems/atc-wallet",
       "status": "RESIDUAL",
       "priority": "P2",
@@ -2548,7 +2548,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-013",
+      "id": "RPLAN-ATC-EXPLORER",
       "repository": "A-TownChain-Okosystems/atc-explorer",
       "status": "RESIDUAL",
       "priority": "P2",
@@ -2607,7 +2607,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-014",
+      "id": "RPLAN-ATC-INDEXER",
       "repository": "A-TownChain-Okosystems/atc-indexer",
       "status": "RESIDUAL",
       "priority": "P2",
@@ -2666,7 +2666,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-015",
+      "id": "RPLAN-ATC-MINING",
       "repository": "A-TownChain-Okosystems/atc-mining",
       "status": "RESIDUAL",
       "priority": "P2",
@@ -2725,7 +2725,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-016",
+      "id": "RPLAN-ATC-INTEROP",
       "repository": "A-TownChain-Okosystems/atc-interop",
       "status": "RESIDUAL",
       "priority": "P2",
@@ -2784,7 +2784,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-017",
+      "id": "RPLAN-GENESIS-CHRONICLES",
       "repository": "A-TownChain-Okosystems/genesis-chronicles",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -2843,7 +2843,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-018",
+      "id": "RPLAN-ATC-ORACLE",
       "repository": "A-TownChain-Okosystems/atc-oracle",
       "status": "RESIDUAL",
       "priority": "P2",
@@ -2902,7 +2902,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-019",
+      "id": "RPLAN-ATC-STORAGE",
       "repository": "A-TownChain-Okosystems/atc-storage",
       "status": "RESIDUAL",
       "priority": "P2",
@@ -2961,7 +2961,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-020",
+      "id": "RPLAN-ATC-LAUNCHPAD",
       "repository": "A-TownChain-Okosystems/atc-launchpad",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -3020,7 +3020,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-021",
+      "id": "RPLAN-ATC-MARKETPLACE",
       "repository": "A-TownChain-Okosystems/atc-marketplace",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -3079,7 +3079,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-022",
+      "id": "RPLAN-ATC-COMPUTE",
       "repository": "A-TownChain-Okosystems/atc-compute",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -3138,7 +3138,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-023",
+      "id": "RPLAN-ATC-STANDARDS",
       "repository": "A-TownChain-Okosystems/atc-standards",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -3197,7 +3197,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-024",
+      "id": "RPLAN-ATC-VM",
       "repository": "A-TownChain-Okosystems/atc-vm",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -3256,7 +3256,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-025",
+      "id": "RPLAN-ATC-ALGORITHM",
       "repository": "A-TownChain-Okosystems/atc-algorithm",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -3315,7 +3315,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-026",
+      "id": "RPLAN-ATC-ZKP",
       "repository": "A-TownChain-Okosystems/atc-zkp",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -3374,7 +3374,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-027",
+      "id": "RPLAN-GITHUB",
       "repository": "A-TownChain-Okosystems/.github",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -3433,7 +3433,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-028",
+      "id": "RPLAN-DEMO-REPOSITORY",
       "repository": "A-TownChain-Okosystems/demo-repository",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -3492,7 +3492,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-029",
+      "id": "RPLAN-ATC-IDE",
       "repository": "A-TownChain-Okosystems/atc-ide",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -3551,7 +3551,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-030",
+      "id": "RPLAN-GENESIS-FRANCHISE-FACTORY",
       "repository": "A-TownChain-Okosystems/genesis-franchise-factory",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -3610,7 +3610,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-031",
+      "id": "RPLAN-ATC-ENGINEERING",
       "repository": "A-TownChain-Okosystems/atc-engineering",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -3669,7 +3669,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-032",
+      "id": "RPLAN-A-TOWNCHAIN-ECOSYSTEM",
       "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
       "status": "RESIDUAL",
       "priority": "P1",
@@ -3728,7 +3728,7 @@
       "last_verified_at": null
     },
     {
-      "id": "RPLAN-033",
+      "id": "RPLAN-ATC-TOOLCHAIN",
       "repository": "A-TownChain-Okosystems/atc-toolchain",
       "status": "RESIDUAL",
       "priority": "P1",
