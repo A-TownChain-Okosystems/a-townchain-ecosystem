@@ -833,6 +833,2958 @@
       "evidence_refs": [],
       "last_verified_sha": null,
       "last_verified_at": null
+    },
+    {
+      "id": "TODO-REPO-CENSUS-001",
+      "title": "Complete per-repository documentation and delivery-plan audit for all 33 visible repositories",
+      "status": "IN_PROGRESS",
+      "priority": "P0",
+      "owner_repo": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "component_ids": [
+        "COMP-ECOSYSTEM"
+      ],
+      "depends_on": [
+        "TODO-SSOT-001",
+        "TODO-DOC-001"
+      ],
+      "acceptance_criteria": [
+        "All 33 repositories appear in repository_inventory with active/archive state and audit status",
+        "Each repository has a repository_delivery_plans record covering documentation, roadmap, milestones, checkpoints, components, functions, sprints and TODOs",
+        "Loop inspects repository default-branch SHA, docs, open PRs and required CI; it records exact evidence and updates each plan",
+        "Unknown or inaccessible data remains RESIDUAL/BLOCKED; no repository is marked VERIFIED merely because it exists"
+      ],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    }
+  ],
+  "repository_inventory": [
+    {
+      "id": "REPO-001",
+      "repository": "A-TownChain-Okosystems/a-townchain-os",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-002",
+      "repository": "A-TownChain-Okosystems/atclang",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [
+        "COMP-LANG"
+      ],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-003",
+      "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-004",
+      "repository": "A-TownChain-Okosystems/atc-shivacore",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-005",
+      "repository": "A-TownChain-Okosystems/a-townchain",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [
+        "COMP-CHAIN",
+        "COMP-VM",
+        "COMP-ALGO"
+      ],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-006",
+      "repository": "A-TownChain-Okosystems/globus-os",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [
+        "COMP-SHIVA",
+        "COMP-GLOBUS"
+      ],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-007",
+      "repository": "A-TownChain-Okosystems/aurora-ai",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [
+        "COMP-AURORA"
+      ],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-008",
+      "repository": "A-TownChain-Okosystems/genesis-engine",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [
+        "COMP-GENESIS"
+      ],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-009",
+      "repository": "A-TownChain-Okosystems/atc-sdk",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-010",
+      "repository": "A-TownChain-Okosystems/atc-node",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-011",
+      "repository": "A-TownChain-Okosystems/atc-contracts",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-012",
+      "repository": "A-TownChain-Okosystems/atc-wallet",
+      "default_branch": "main",
+      "repository_state": "ARCHIVED",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-013",
+      "repository": "A-TownChain-Okosystems/atc-explorer",
+      "default_branch": "main",
+      "repository_state": "ARCHIVED",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-014",
+      "repository": "A-TownChain-Okosystems/atc-indexer",
+      "default_branch": "main",
+      "repository_state": "ARCHIVED",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-015",
+      "repository": "A-TownChain-Okosystems/atc-mining",
+      "default_branch": "main",
+      "repository_state": "ARCHIVED",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-016",
+      "repository": "A-TownChain-Okosystems/atc-interop",
+      "default_branch": "main",
+      "repository_state": "ARCHIVED",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-017",
+      "repository": "A-TownChain-Okosystems/genesis-chronicles",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-018",
+      "repository": "A-TownChain-Okosystems/atc-oracle",
+      "default_branch": "main",
+      "repository_state": "ARCHIVED",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-019",
+      "repository": "A-TownChain-Okosystems/atc-storage",
+      "default_branch": "main",
+      "repository_state": "ARCHIVED",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-020",
+      "repository": "A-TownChain-Okosystems/atc-launchpad",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-021",
+      "repository": "A-TownChain-Okosystems/atc-marketplace",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-022",
+      "repository": "A-TownChain-Okosystems/atc-compute",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-023",
+      "repository": "A-TownChain-Okosystems/atc-standards",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [
+        "COMP-STANDARDS"
+      ],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-024",
+      "repository": "A-TownChain-Okosystems/atc-vm",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-025",
+      "repository": "A-TownChain-Okosystems/atc-algorithm",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-026",
+      "repository": "A-TownChain-Okosystems/atc-zkp",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-027",
+      "repository": "A-TownChain-Okosystems/.github",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-028",
+      "repository": "A-TownChain-Okosystems/demo-repository",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-029",
+      "repository": "A-TownChain-Okosystems/atc-ide",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-030",
+      "repository": "A-TownChain-Okosystems/genesis-franchise-factory",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-031",
+      "repository": "A-TownChain-Okosystems/atc-engineering",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [
+        "COMP-ATC-ENG"
+      ],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-032",
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [
+        "COMP-ECOSYSTEM"
+      ],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    },
+    {
+      "id": "REPO-033",
+      "repository": "A-TownChain-Okosystems/atc-toolchain",
+      "default_branch": "main",
+      "repository_state": "ACTIVE",
+      "audit_status": "RESIDUAL",
+      "canonical_component_ids": [
+        "COMP-TOOLCHAIN"
+      ],
+      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "required_records": [
+        "documentation_index",
+        "roadmap",
+        "milestones",
+        "checkpoints",
+        "components",
+        "functions",
+        "sprints",
+        "todos"
+      ],
+      "required_evidence": [
+        "default-branch SHA",
+        "README/docs inventory",
+        "open PRs",
+        "required CI runs/jobs/steps",
+        "canonical ownership decision"
+      ],
+      "last_audited_sha": null,
+      "last_audited_at": null,
+      "evidence_refs": []
+    }
+  ],
+  "repository_delivery_plans": [
+    {
+      "id": "RPLAN-001",
+      "repository": "A-TownChain-Okosystems/a-townchain-os",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-002",
+      "repository": "A-TownChain-Okosystems/atclang",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-003",
+      "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-004",
+      "repository": "A-TownChain-Okosystems/atc-shivacore",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-005",
+      "repository": "A-TownChain-Okosystems/a-townchain",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-006",
+      "repository": "A-TownChain-Okosystems/globus-os",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-007",
+      "repository": "A-TownChain-Okosystems/aurora-ai",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-008",
+      "repository": "A-TownChain-Okosystems/genesis-engine",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-009",
+      "repository": "A-TownChain-Okosystems/atc-sdk",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-010",
+      "repository": "A-TownChain-Okosystems/atc-node",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-011",
+      "repository": "A-TownChain-Okosystems/atc-contracts",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-012",
+      "repository": "A-TownChain-Okosystems/atc-wallet",
+      "status": "RESIDUAL",
+      "priority": "P2",
+      "repository_state": "ARCHIVED",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-013",
+      "repository": "A-TownChain-Okosystems/atc-explorer",
+      "status": "RESIDUAL",
+      "priority": "P2",
+      "repository_state": "ARCHIVED",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-014",
+      "repository": "A-TownChain-Okosystems/atc-indexer",
+      "status": "RESIDUAL",
+      "priority": "P2",
+      "repository_state": "ARCHIVED",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-015",
+      "repository": "A-TownChain-Okosystems/atc-mining",
+      "status": "RESIDUAL",
+      "priority": "P2",
+      "repository_state": "ARCHIVED",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-016",
+      "repository": "A-TownChain-Okosystems/atc-interop",
+      "status": "RESIDUAL",
+      "priority": "P2",
+      "repository_state": "ARCHIVED",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-017",
+      "repository": "A-TownChain-Okosystems/genesis-chronicles",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-018",
+      "repository": "A-TownChain-Okosystems/atc-oracle",
+      "status": "RESIDUAL",
+      "priority": "P2",
+      "repository_state": "ARCHIVED",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-019",
+      "repository": "A-TownChain-Okosystems/atc-storage",
+      "status": "RESIDUAL",
+      "priority": "P2",
+      "repository_state": "ARCHIVED",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-020",
+      "repository": "A-TownChain-Okosystems/atc-launchpad",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-021",
+      "repository": "A-TownChain-Okosystems/atc-marketplace",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-022",
+      "repository": "A-TownChain-Okosystems/atc-compute",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-023",
+      "repository": "A-TownChain-Okosystems/atc-standards",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-024",
+      "repository": "A-TownChain-Okosystems/atc-vm",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-025",
+      "repository": "A-TownChain-Okosystems/atc-algorithm",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-026",
+      "repository": "A-TownChain-Okosystems/atc-zkp",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-027",
+      "repository": "A-TownChain-Okosystems/.github",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-028",
+      "repository": "A-TownChain-Okosystems/demo-repository",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-029",
+      "repository": "A-TownChain-Okosystems/atc-ide",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-030",
+      "repository": "A-TownChain-Okosystems/genesis-franchise-factory",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-031",
+      "repository": "A-TownChain-Okosystems/atc-engineering",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-032",
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
+    },
+    {
+      "id": "RPLAN-033",
+      "repository": "A-TownChain-Okosystems/atc-toolchain",
+      "status": "RESIDUAL",
+      "priority": "P1",
+      "repository_state": "ACTIVE",
+      "documentation_index": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Link README and authoritative specifications, or record an explicit gap"
+        ]
+      },
+      "roadmap": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Record repository-specific outcomes and dependencies based on source evidence"
+        ]
+      },
+      "milestones": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define milestones with stable IDs and measurable exit criteria"
+        ]
+      },
+      "checkpoints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Define acceptance checkpoints and exact-SHA evidence requirements"
+        ]
+      },
+      "components": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Enumerate components and identify canonical owner; record conflicts explicitly"
+        ]
+      },
+      "functions": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Inventory externally visible functions, capabilities, interfaces and tests"
+        ]
+      },
+      "sprints": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Map prioritized work to existing issue/milestone data; do not invent dates"
+        ]
+      },
+      "todos": {
+        "status": "PLANNED",
+        "acceptance_criteria": [
+          "Create prioritized TODOs linked to issues, dependencies and acceptance evidence"
+        ]
+      },
+      "depends_on": [],
+      "evidence_refs": [],
+      "last_verified_sha": null,
+      "last_verified_at": null
     }
   ]
 }
