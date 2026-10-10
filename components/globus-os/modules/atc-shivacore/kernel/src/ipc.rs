@@ -49,12 +49,6 @@ pub struct IpcSubsystem {
     next_channel_id: AtomicU64,
 }
 
-impl Default for IpcSubsystem {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl IpcSubsystem {
     pub fn new() -> Self {
         Self {

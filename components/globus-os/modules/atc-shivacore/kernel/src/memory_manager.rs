@@ -33,9 +33,6 @@ pub const HEAP_START: u64 = 0x_4444_4444_0000;
 pub const HEAP_SIZE: u64 = 100 * 1024; // 100 KiB — identisch zu allocator.rs
 pub const HEAP_END: u64 = HEAP_START + HEAP_SIZE;
 pub const USERSPACE_BASE: u64 = 0x_5555_5555_0000; // Getrennt vom Kernel-Heap
-
-// Userspace muss ausserhalb des Kernel-Heaps liegen (Compile-Zeit-Invariante).
-const _: () = assert!(USERSPACE_BASE > HEAP_END);
 pub const USERSPACE_MAX: u64 = 100 * 1024 * 1024; // 100 MiB Userspace-Simulation
 
 /// Verwaltete Speicherregion
@@ -93,12 +90,6 @@ pub struct KernelMemoryManager {
     /// Schwelle: Allokationen <= threshold gehen an Kernel-Heap
     /// Allokationen > threshold gehen an Userspace-Bump
     heap_threshold: u64,
-}
-
-impl Default for KernelMemoryManager {
-    fn default() -> Self {
-        Self::new()
-    }
 }
 
 impl KernelMemoryManager {
@@ -321,12 +312,12 @@ impl KernelMemoryManager {
 
     /// Prueft, ob eine Adresse im Kernel-Heap-Bereich liegt
     pub fn is_heap_address(addr: u64) -> bool {
-        (HEAP_START..HEAP_END).contains(&addr)
+        addr >= HEAP_START && addr < HEAP_END
     }
 
     /// Prueft, ob eine Adresse im Userspace-Bereich liegt
     pub fn is_userspace_address(addr: u64) -> bool {
-        (USERSPACE_BASE..USERSPACE_BASE + USERSPACE_MAX).contains(&addr)
+        addr >= USERSPACE_BASE && addr < USERSPACE_BASE + USERSPACE_MAX
     }
 }
 
@@ -350,12 +341,6 @@ pub struct MemStats {
 pub struct MemorySubsystem {
     pub manager: KernelMemoryManager,
     pub caps: CapabilityTable,
-}
-
-impl Default for MemorySubsystem {
-    fn default() -> Self {
-        Self::new()
-    }
 }
 
 impl MemorySubsystem {
@@ -820,8 +805,8 @@ mod tests {
         assert_eq!(HEAP_START, 0x_4444_4444_0000);
         assert_eq!(HEAP_SIZE, 100 * 1024);
         assert_eq!(HEAP_END, HEAP_START + HEAP_SIZE);
-        // Userspace muss ausserhalb des Kernel-Heaps liegen:
-        // zur Compile-Zzeit garantiert (siehe const-Assertion im Modul).
+        // Userspace muss ausserhalb des Kernel-Heaps liegen
+        assert!(USERSPACE_BASE > HEAP_END);
     }
 
     #[test]

@@ -19,7 +19,6 @@ extern crate alloc;
 use alloc::collections::BTreeMap;
 use alloc::format;
 use alloc::string::{String, ToString};
-use alloc::vec;
 use alloc::vec::Vec;
 use core::sync::atomic::{AtomicU64, Ordering};
 
@@ -91,12 +90,6 @@ pub struct QueryPattern {
     pub subject: Option<EntityId>,
     pub predicate: Option<String>,
     pub object: Option<ObjectValue>,
-}
-
-impl Default for KnowledgeGraph {
-    fn default() -> Self {
-        Self::new()
-    }
 }
 
 impl KnowledgeGraph {
@@ -272,7 +265,8 @@ impl KnowledgeGraph {
         max_depth: usize,
     ) -> Vec<EntityId> {
         let mut visited = alloc::collections::BTreeSet::new();
-        let mut frontier = vec![start];
+        let mut frontier = Vec::new();
+        frontier.push(start);
         let mut result = Vec::new();
 
         for _ in 0..max_depth {

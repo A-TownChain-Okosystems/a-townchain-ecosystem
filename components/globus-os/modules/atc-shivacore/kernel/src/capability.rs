@@ -38,6 +38,7 @@ impl Rights {
     pub const WRITE: Rights = Rights(2);
     pub const EXEC: Rights = Rights(4);
     pub const DELEGATE: Rights = Rights(8);
+    /// Observing capability/metadata without mutating (query, list, inspect).
     pub const INSPECT: Rights = Rights(16);
     pub const ALL: Rights = Rights(1 | 2 | 4 | 8 | 16);
 
@@ -45,7 +46,7 @@ impl Rights {
         (self.0 & other.0) == other.0
     }
     pub fn from_bits_truncate(bits: u8) -> Rights {
-        Rights(bits & 0x1F)
+        Rights(bits & 0x0F)
     }
     pub fn bits(self) -> u8 {
         self.0
@@ -103,12 +104,6 @@ pub struct CapabilityTable {
     caps: BTreeMap<CapId, Capability>,
     by_pid: BTreeMap<Pid, Vec<CapId>>,
     next_id: u64,
-}
-
-impl Default for CapabilityTable {
-    fn default() -> Self {
-        Self::new()
-    }
 }
 
 impl CapabilityTable {

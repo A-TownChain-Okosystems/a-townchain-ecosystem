@@ -110,12 +110,6 @@ pub struct DaHeftScheduler {
     accel_free_at: BTreeMap<u64, f64>,
 }
 
-impl Default for DaHeftScheduler {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl DaHeftScheduler {
     pub fn new() -> Self {
         Self {

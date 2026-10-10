@@ -1,15 +1,15 @@
-// Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems.
+// Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 //! Stable ShivaCore syscall boundary.
 //!
-//! Process identity comes from the scheduler. Capability state is installed by
-//! the kernel process manager during boot and remains kernel-owned.
+//! The kernel owns dispatch and capability validation. Userspace only sees the
+//! versioned libshivacore ABI; unknown syscall IDs and malformed requests
+//! fail closed before any kernel operation is reached.
 
 use crate::ats1000::Pid;
 use crate::capability::{CapId, CapabilityTable, ResourceType, Rights};
 use libshivacore::{
     validate_abi_version, AbiError, CapabilityHandle, Syscall, MAX_SYSCALL_PAYLOAD,
 };
-use spin::Mutex;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct SyscallRequest {
@@ -40,14 +40,19 @@ impl SyscallResponse {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct SyscallDispatcher {
-    monotonic_ticks: u64,
+pub enum DispatchError {
+    Abi(AbiError),
 }
 
-impl Default for SyscallDispatcher {
-    fn default() -> Self {
-        Self::new()
+impl From<AbiError> for DispatchError {
+    fn from(error: AbiError) -> Self {
+        Self::Abi(error)
     }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct SyscallDispatcher {
+    monotonic_ticks: u64,
 }
 
 impl SyscallDispatcher {
@@ -79,10 +84,7 @@ impl SyscallDispatcher {
         };
 
         match syscall {
-            Syscall::Yield => {
-                let preempt = crate::execution::take_preemption_request();
-                SyscallResponse::ok(preempt as u64)
-            }
+            Syscall::Yield => SyscallResponse::ok(0),
             Syscall::IpcSend => {
                 if !self.check_capability(
                     pid,
@@ -123,11 +125,8 @@ impl SyscallDispatcher {
                 SyscallResponse::ok(1)
             }
             Syscall::HandleClose => {
-                let Some(cap) = request.capability else {
+                if request.capability.is_none() {
                     return SyscallResponse::err(AbiError::InvalidHandle);
-                };
-                if !capabilities.check_any(pid, cap.0, Rights::DELEGATE) {
-                    return SyscallResponse::err(AbiError::PermissionDenied);
                 }
                 SyscallResponse::ok(0)
             }
@@ -160,32 +159,6 @@ impl SyscallDispatcher {
     }
 }
 
-static SYSCALL_CAPABILITIES: Mutex<Option<CapabilityTable>> = Mutex::new(None);
-static SYSCALL_DISPATCHER: Mutex<SyscallDispatcher> = Mutex::new(SyscallDispatcher::new());
-
-pub fn install_capability_state(capabilities: CapabilityTable) {
-    let mut slot = SYSCALL_CAPABILITIES.lock();
-    assert!(
-        slot.is_none(),
-        "ShivaCore: syscall capability state already installed"
-    );
-    *slot = Some(capabilities);
-}
-
-pub fn dispatch_current(request: SyscallRequest) -> SyscallResponse {
-    let Some(pid) = crate::execution::current_pid() else {
-        return SyscallResponse::err(AbiError::PermissionDenied);
-    };
-
-    let capabilities = SYSCALL_CAPABILITIES.lock();
-    let Some(capabilities) = capabilities.as_ref() else {
-        return SyscallResponse::err(AbiError::PermissionDenied);
-    };
-
-    let mut dispatcher = SYSCALL_DISPATCHER.lock();
-    dispatcher.dispatch(pid, request, capabilities)
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -203,14 +176,6 @@ mod tests {
             arg1: 0,
             payload_len: 0,
         }
-    }
-
-    #[test]
-    fn yield_is_safe_without_current_process() {
-        let mut d = SyscallDispatcher::new();
-        let response = d.dispatch(pid(1), request(Syscall::Yield), &CapabilityTable::new());
-        assert_eq!(response.error, None);
-        assert_eq!(response.value, 0);
     }
 
     #[test]

@@ -136,12 +136,6 @@ pub struct Contract {
 pub struct ContractStorage {
     data: Mutex<BTreeMap<(String, u64), u64>>,
 }
-impl Default for ContractStorage {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl ContractStorage {
     pub fn new() -> Self {
         ContractStorage {
@@ -165,12 +159,6 @@ impl ContractStorage {
 pub struct ContractRegistry {
     pub contracts: Mutex<BTreeMap<String, Contract>>,
 }
-impl Default for ContractRegistry {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl ContractRegistry {
     pub fn new() -> Self {
         ContractRegistry {
@@ -449,11 +437,11 @@ impl ShivaVM {
                 });
             }
             Opcode::Self_ => {
-                let h = crate::security::simple_hash(self.contract_addr.as_bytes());
+                let h = shivacore::security::simple_hash(self.contract_addr.as_bytes());
                 self.push(u64::from_be_bytes(h[..8].try_into().unwrap()))?;
             }
             Opcode::Caller => {
-                let h = crate::security::simple_hash(self.caller_did.as_bytes());
+                let h = shivacore::security::simple_hash(self.caller_did.as_bytes());
                 self.push(u64::from_be_bytes(h[..8].try_into().unwrap()))?;
             }
             Opcode::Balance => {

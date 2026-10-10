@@ -42,8 +42,20 @@ jobs:
             fi
 
             git fetch --no-tags "${repo}" main
-            git subtree pull --prefix="${prefix}" "${repo}" main --no-squash -X theirs -m "sync: ${repo} into ${prefix}"
+            # NOTE: kein "-X theirs" — git-subtree (2.39) akzeptiert keine
+            # Merge-Strategy-Optionen fuer pull (Usage-Fehler, laesst jeden
+            # Sync-Run seit 2026-09-21 fehlschlagen). Konflikte schlagen nun
+            # sichtbar fehl statt stillschweigend aufloesbar zu sein.
+            git subtree pull --prefix="${prefix}" "${repo}" main --no-squash -m "sync: ${repo} into ${prefix}"
           }
+
+          # globus-os wird hier NICHT per subtree gepullt: das Umbrella hat
+          # components/globus-os ohne gemeinsame Subtree-Historie importiert
+          # (refusing to merge unrelated histories). Der Sync erfolgt
+          # chirurgisch per Overlay (Muster: SCR-0133 / 4a82ee618) als
+          # separater PR durch den AI-Developer; umbrella-only Komponenten
+          # (atc-globus-browser, system/*-manager, sdk/abi.rs,
+          # user_transition.rs, execution.rs, context.rs) bleiben erhalten.
 
           sync_subtree "components/atclang" "atclang"
           sync_subtree "components/a-townchain" "a-townchain"

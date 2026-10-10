@@ -1,9 +1,6 @@
 //! Virtual filesystem namespace, mount policy, and persistent-disk discovery.
 
 pub mod allocator;
-pub mod block;
-
-pub use block::{BlockDevice, BlockError, BlockGeometry, Partition, validate_geometry};
 pub mod bitmap;
 pub mod dir_store;
 pub mod directory;

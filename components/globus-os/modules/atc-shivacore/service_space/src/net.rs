@@ -39,12 +39,9 @@ impl MacAddress {
     pub fn is_zero(&self) -> bool {
         self.0 == [0; 6]
     }
-}
 
-impl core::fmt::Display for MacAddress {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        write!(
-            f,
+    pub fn to_string(&self) -> String {
+        format!(
             "{:02x}:{:02x}:{:02x}:{:02x}:{:02x}:{:02x}",
             self.0[0], self.0[1], self.0[2], self.0[3], self.0[4], self.0[5]
         )
@@ -74,11 +71,9 @@ impl Ipv4Address {
     pub fn is_zero(&self) -> bool {
         self.0 == [0; 4]
     }
-}
 
-impl core::fmt::Display for Ipv4Address {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        write!(f, "{}.{}.{}.{}", self.0[0], self.0[1], self.0[2], self.0[3])
+    pub fn to_string(&self) -> String {
+        format!("{}.{}.{}.{}", self.0[0], self.0[1], self.0[2], self.0[3])
     }
 }
 

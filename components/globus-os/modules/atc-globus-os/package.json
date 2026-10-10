@@ -5,10 +5,12 @@
   "author": "Michael Wroblewski",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "tsc --project tsconfig.production.json --pretty false"
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "typescript": "^6.0.3"
+    "typescript": "^7"
   },
   "devDependencies": {
     "@types/node": "^26",

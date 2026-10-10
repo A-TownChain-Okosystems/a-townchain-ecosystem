@@ -1,6 +1,6 @@
 //! Codec-independent video playback pipeline.
 
-use crate::{MediaError, MediaState, Timeline, VideoFrame, VideoFrameSpec};
+use crate::{MediaError, MediaState, PixelFormat, Timeline, VideoFrame, VideoFrameSpec};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct VideoPacket {
@@ -102,6 +102,7 @@ impl<D: VideoDecoder> VideoPipeline<D> {
         }
         match self.decoder.decode_next()? {
             Some(frame) => {
+                self.clock.position_us = self.clock.position_us.max(0);
                 self.last_frame = Some(frame);
                 Ok(self.last_frame.as_ref())
             }
@@ -116,7 +117,6 @@ impl<D: VideoDecoder> VideoPipeline<D> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::PixelFormat;
     struct Decoder {
         spec: VideoFrameSpec,
         done: bool,

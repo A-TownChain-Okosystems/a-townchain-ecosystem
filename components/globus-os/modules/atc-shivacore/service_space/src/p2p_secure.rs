@@ -30,7 +30,7 @@ use alloc::vec::Vec;
 use spin::Mutex;
 
 use crate::p2p::{MessageType, P2pMessage, P2pNode, CHAIN_ID};
-use crate::security::TokenBucket;
+use shivacore::security::TokenBucket;
 
 // ─── Protokoll-Konstanten (ATC-PROTO-P2P-001 §1/§3/§11/§18) ──────────────────
 
@@ -447,13 +447,7 @@ impl SeenSet {
     pub fn len(&self) -> usize {
         self.seen.len()
     }
-    pub fn is_empty(&self) -> bool {
-        self.seen.is_empty()
-    }
 }
-
-/// Geparstes Hello: (Protokoll-Version, unterstuetzte Versionsmuster, Peer-Public-Key).
-pub type HelloInfo = (u16, Vec<(u8, u8, u8)>, [u8; 32]);
 
 // ─── Secure-Peer-Verwaltung (§5/§8/§10/§14) ───────────────────────────────────
 
@@ -503,12 +497,6 @@ impl SecurePeer {
 
 pub struct SecurePeerTable {
     peers: Mutex<BTreeMap<u64, Box<SecurePeer>>>,
-}
-
-impl Default for SecurePeerTable {
-    fn default() -> Self {
-        Self::new()
-    }
 }
 
 impl SecurePeerTable {
@@ -658,7 +646,7 @@ impl SecureP2pNode {
             *mc += 1;
             v
         };
-        n[8..].copy_from_slice(&c.to_be_bytes());
+        n[8..].copy_from_slice(&(c as u64).to_be_bytes());
         n
     }
 
@@ -714,7 +702,7 @@ impl SecureP2pNode {
         p
     }
 
-    pub fn parse_hello(payload: &[u8]) -> Result<HelloInfo, V1Error> {
+    pub fn parse_hello(payload: &[u8]) -> Result<(u16, Vec<(u8, u8, u8)>, [u8; 32]), V1Error> {
         if payload.len() < 3 {
             return Err(V1Error::MessageTooShort);
         }
@@ -1200,7 +1188,7 @@ mod tests {
             p.phase = HandshakePhase::Established;
             p.verified = true;
         });
-        assert!(n.handle_v1(1, env.clone(), TS).is_ok());
+        assert!(matches!(n.handle_v1(1, env.clone(), TS), Ok(_)));
         // Gleiche Nonce erneut → NonceReuse (012)
         let mut env2 = n.build_envelope(5, TS, vec![]);
         env2.nonce = env.nonce;
@@ -1214,7 +1202,7 @@ mod tests {
         let n = node(13);
         n.peers.update(1, |p| p.phase = HandshakePhase::Established);
         let env = n.build_envelope(5, TS, vec![]);
-        assert!(n.handle_v1(1, env.clone(), TS).is_ok());
+        assert!(matches!(n.handle_v1(1, env.clone(), TS), Ok(_)));
         let mut env2 = n.build_envelope(5, TS, vec![]);
         env2.message_id = env.message_id;
         let err = n.handle_v1(1, env2, TS).unwrap_err();
@@ -1514,14 +1502,14 @@ mod tests {
     fn test_regression_k14_v09_untouched() {
         // K14-Basis bleibt voll funktionsfähig (v0.9-Stabilität, §3.2/§18).
         let inner = Arc::new(P2pNode::new("did:shivacore:ed25519:reg".into(), 9000, 50));
-        let (peer_id, wire) = inner.connect_peer(ipv4(10, 0, 0, 2), 9100, TS).unwrap();
+        let (peer_id, wire) = inner.connect_peer(Ipv4Addr(10, 0, 0, 2), 9100, TS).unwrap();
         let ack = inner.handle_handshake(peer_id, &wire, TS).unwrap();
         let parsed = P2pMessage::from_bytes(&ack).unwrap();
         assert_eq!(parsed.msg_type as u8, 4); // HandshakeAck
     }
 
     use crate::net::Ipv4Address;
-    fn ipv4(a: u8, b: u8, c: u8, d: u8) -> Ipv4Address {
+    fn Ipv4Addr(a: u8, b: u8, c: u8, d: u8) -> Ipv4Address {
         Ipv4Address::new(a, b, c, d)
     }
 }

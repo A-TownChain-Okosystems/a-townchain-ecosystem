@@ -1,8 +1,5 @@
 //! Package metadata and verification policy. Installation is deny-by-default.
 
-pub mod gpkg;
-pub use gpkg::{GpkgError, GpkgManifest};
-
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Package {
     pub name: String,

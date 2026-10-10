@@ -1,12 +1,12 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // K-Sprint 18 — Block-Proposal-Pipeline
 use crate::consensus::ConsensusEngine;
+use crate::mempool::{Transaction, TxStatus, TxType};
 use alloc::collections::BTreeMap;
 use alloc::string::{String, ToString};
 use alloc::sync::Arc;
 use alloc::vec;
 use alloc::vec::Vec;
-use shivacore::mempool::{Transaction, TxStatus, TxType};
 use shivacore::security::simple_hash;
 use spin::Mutex;
 #[derive(Clone, Debug, PartialEq)]
@@ -78,12 +78,6 @@ pub struct BlockChain {
     current_height: Mutex<u64>,
     genesis_hash: Mutex<Option<[u8; 32]>>,
 }
-impl Default for BlockChain {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl BlockChain {
     pub fn new() -> Self {
         BlockChain {
@@ -147,21 +141,21 @@ impl BlockChain {
     }
 }
 pub struct ProposalPipeline {
-    mempool: Arc<shivacore::mempool::MemoryPool>,
-    validator: Arc<shivacore::mempool::TxValidator>,
+    mempool: Arc<crate::mempool::MemoryPool>,
+    validator: Arc<crate::mempool::TxValidator>,
     consensus: Arc<ConsensusEngine>,
     chain: Arc<BlockChain>,
-    state: Arc<shivacore::mempool::StateDb>,
+    state: Arc<crate::mempool::StateDb>,
     our_did: String,
     block_height: Mutex<u64>,
 }
 impl ProposalPipeline {
     pub fn new(
-        mempool: Arc<shivacore::mempool::MemoryPool>,
-        validator: Arc<shivacore::mempool::TxValidator>,
+        mempool: Arc<crate::mempool::MemoryPool>,
+        validator: Arc<crate::mempool::TxValidator>,
         consensus: Arc<ConsensusEngine>,
         chain: Arc<BlockChain>,
-        state: Arc<shivacore::mempool::StateDb>,
+        state: Arc<crate::mempool::StateDb>,
         our_did: String,
     ) -> Self {
         ProposalPipeline {
@@ -245,13 +239,13 @@ impl ProposalPipeline {
     pub fn chain(&self) -> &Arc<BlockChain> {
         &self.chain
     }
-    pub fn mempool(&self) -> &Arc<shivacore::mempool::MemoryPool> {
+    pub fn mempool(&self) -> &Arc<crate::mempool::MemoryPool> {
         &self.mempool
     }
     pub fn consensus(&self) -> &Arc<ConsensusEngine> {
         &self.consensus
     }
-    pub fn state(&self) -> &Arc<shivacore::mempool::StateDb> {
+    pub fn state(&self) -> &Arc<crate::mempool::StateDb> {
         &self.state
     }
     pub fn current_height(&self) -> u64 {
@@ -274,16 +268,12 @@ pub enum PipelineError {
 mod tests {
     use super::*;
     use crate::consensus::ConsensusEngine;
-    use shivacore::mempool::{MemoryPool, NonceTracker, TxType};
+    use crate::mempool::{MemoryPool, NonceTracker, TxType};
     fn setup() -> ProposalPipeline {
-        let state = Arc::new(shivacore::mempool::StateDb::new());
+        let state = Arc::new(crate::mempool::StateDb::new());
         let nonces = Arc::new(NonceTracker::new());
         let mp = Arc::new(MemoryPool::new(1000, 300));
-        let val = Arc::new(shivacore::mempool::TxValidator::new(
-            state.clone(),
-            nonces,
-            1,
-        ));
+        let val = Arc::new(crate::mempool::TxValidator::new(state.clone(), nonces, 1));
         let con = Arc::new(ConsensusEngine::new("did:p".into(), [0x42; 32]));
         let ch = Arc::new(BlockChain::new());
         state.deposit("did:alice", 100_000_000);
@@ -453,7 +443,7 @@ mod tests {
             let tid = t.id;
             p.mempool().add(t, 1000).unwrap();
             p.mempool().validate_tx(&tid, 1000).unwrap();
-            p.propose_block(10, 2000 + i).unwrap();
+            p.propose_block(10, 2000 + i as u64).unwrap();
         }
         assert_eq!(p.current_height(), 2);
         assert_eq!(p.chain().block_count(), 3);

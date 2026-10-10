@@ -273,7 +273,7 @@ impl ExportedSymbol {
 // MODULE STATISTICS
 // ══════════════════════════════════════════════════════════════════════════════
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct ModuleStats {
     pub load_count: u64,
     pub unload_count: u64,
@@ -286,6 +286,24 @@ pub struct ModuleStats {
     pub memory_used: u64,
     pub symbols_exported: usize,
     pub symbols_imported: usize,
+}
+
+impl Default for ModuleStats {
+    fn default() -> Self {
+        ModuleStats {
+            load_count: 0,
+            unload_count: 0,
+            init_time_us: 0,
+            exit_time_us: 0,
+            last_load_timestamp: 0,
+            last_unload_timestamp: 0,
+            error_count: 0,
+            last_error: None,
+            memory_used: 0,
+            symbols_exported: 0,
+            symbols_imported: 0,
+        }
+    }
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -565,15 +583,26 @@ impl ModuleEventType {
 // DEPENDENCY GRAPH
 // ══════════════════════════════════════════════════════════════════════════════
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct DependencyGraph {
     nodes: BTreeSet<String>,
-    /// Nodes explicitly registered via `add_node`. `add_edge` only implies
-    /// node existence; load-order resolution requires every dependency to be
-    /// explicitly registered, which is how missing dependencies are detected.
-    registered: BTreeSet<String>,
+    /// Nodes the graph vouches for: explicitly added via add_node or
+    /// introduced as the SOURCE of an edge. Pure edge targets are reachable
+    /// transitively but are not resolvable modules on their own.
+    declared: BTreeSet<String>,
     edges: HashMap<String, BTreeSet<String>>, // module -> set of dependencies
     reverse_edges: HashMap<String, BTreeSet<String>>, // module -> set of dependents
+}
+
+impl Default for DependencyGraph {
+    fn default() -> Self {
+        DependencyGraph {
+            nodes: BTreeSet::new(),
+            declared: BTreeSet::new(),
+            edges: HashMap::new(),
+            reverse_edges: HashMap::new(),
+        }
+    }
 }
 
 impl DependencyGraph {
@@ -582,8 +611,8 @@ impl DependencyGraph {
     }
 
     pub fn add_node(&mut self, name: &str) {
-        self.registered.insert(name.to_string());
         self.nodes.insert(name.to_string());
+        self.declared.insert(name.to_string());
         self.edges.entry(name.to_string()).or_default();
         self.reverse_edges.entry(name.to_string()).or_default();
     }
@@ -591,6 +620,9 @@ impl DependencyGraph {
     pub fn add_edge(&mut self, from: &str, to: &str) {
         self.nodes.insert(from.to_string());
         self.nodes.insert(to.to_string());
+        // The edge source is a resolvable module; the target is only
+        // vouched for when it is itself added or used as a source.
+        self.declared.insert(from.to_string());
         self.edges
             .entry(from.to_string())
             .or_default()
@@ -604,7 +636,6 @@ impl DependencyGraph {
     }
 
     pub fn remove_node(&mut self, name: &str) {
-        self.registered.remove(name);
         self.nodes.remove(name);
         self.edges.remove(name);
         self.reverse_edges.remove(name);
@@ -741,6 +772,21 @@ impl DependencyGraph {
 
     pub fn load_order(&self, target: &str) -> Result<Vec<String>, String> {
         // Get the load order for a specific module (all its transitive deps first)
+        // Every DIRECT dependency of the requested module must be a declared
+        // node (registered or itself a dependent). A dangling target that was
+        // never vouched for cannot be resolved and fails the whole order.
+        if let Some(deps) = self.edges.get(target) {
+            let mut sorted: Vec<&String> = deps.iter().collect();
+            sorted.sort();
+            for dep in sorted {
+                if !self.declared.contains(dep) {
+                    return Err(format!(
+                        "Dependency '{}' not found (required by '{}')",
+                        dep, target
+                    ));
+                }
+            }
+        }
         let mut order = Vec::new();
         let mut visited = BTreeSet::new();
         self.dfs_load_order(target, &mut visited, &mut order)?;
@@ -768,7 +814,7 @@ impl DependencyGraph {
             let mut sorted_deps: Vec<String> = deps.iter().cloned().collect();
             sorted_deps.sort();
             for dep in &sorted_deps {
-                if !self.registered.contains(dep) {
+                if !self.nodes.contains(dep) {
                     return Err(format!(
                         "Dependency '{}' not found (required by '{}')",
                         dep, node
@@ -794,10 +840,19 @@ impl DependencyGraph {
 // SYMBOL TABLE
 // ══════════════════════════════════════════════════════════════════════════════
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct SymbolTable {
     symbols: HashMap<String, ExportedSymbol>,
     by_module: HashMap<u64, Vec<String>>,
+}
+
+impl Default for SymbolTable {
+    fn default() -> Self {
+        SymbolTable {
+            symbols: HashMap::new(),
+            by_module: HashMap::new(),
+        }
+    }
 }
 
 impl SymbolTable {
@@ -1072,28 +1127,17 @@ impl ModuleRegistry {
             if module.state.is_loading() {
                 return Err(format!("Module '{}' is already loading", name));
             }
-            // Load-time conflict check: a declared conflict against an
-            // already-active module must fail the load (fail-closed).
-            for conflict in &module.conflicts {
-                if let Some(other) = self.modules.get(conflict) {
-                    if other.state.is_active() {
-                        return Err(format!(
-                            "Module '{}' conflicts with active module '{}'",
-                            name, conflict
-                        ));
-                    }
-                }
-            }
             (module.id, module.name.clone())
         };
 
-        let load_order = self.dep_graph.load_order(&module_name).inspect_err(|e| {
+        let load_order = self.dep_graph.load_order(&module_name).map_err(|e| {
             self.log_event(
                 ModuleEventType::DependencyMissing,
                 &module_name,
                 module_id,
-                e,
+                &e,
             );
+            e
         })?;
 
         for dep_name in &load_order {
@@ -1116,6 +1160,29 @@ impl ModuleRegistry {
             }
         }
 
+        // A module may never become active while one of its declared
+        // conflicts is active (mirrors the register-time check).
+        {
+            let module = self.modules.get(name).unwrap();
+            for conflict in &module.conflicts {
+                if let Some(other) = self.modules.get(conflict) {
+                    if other.state.is_active() {
+                        let msg = format!(
+                            "Module '{}' conflicts with active module '{}'",
+                            module_name, conflict
+                        );
+                        self.log_event(
+                            ModuleEventType::ConflictDetected,
+                            &module_name,
+                            module_id,
+                            &msg,
+                        );
+                        return Err(msg);
+                    }
+                }
+            }
+        }
+
         self.modules.get_mut(name).unwrap().state = ModuleState::Loading;
         self.log_event(
             ModuleEventType::LoadStarted,
@@ -1132,6 +1199,7 @@ impl ModuleRegistry {
             module.state = ModuleState::Failed;
             module.stats.error_count += 1;
             module.stats.last_error = Some(message.clone());
+            drop(module);
             self.log_event(
                 ModuleEventType::SymbolUnresolved,
                 &module_name,
@@ -1308,13 +1376,16 @@ impl ModuleRegistry {
         sorted
             .into_iter()
             .map(|(name, _)| {
-                // A module pulled in earlier as a dependency of another
-                // auto-load entry is already active: report its handle
-                // idempotently instead of failing the auto-load batch.
-                if let Some(m) = self.modules.get(&name) {
-                    if m.state.is_active() {
-                        return Ok(m.id);
-                    }
+                // An earlier module in this pass may already have pulled this
+                // module in as one of its dependencies. That is success, not
+                // a failure, so treat it as already satisfied.
+                if self
+                    .modules
+                    .get(&name)
+                    .map(|m| m.state.is_active())
+                    .unwrap_or(false)
+                {
+                    return Ok(0);
                 }
                 self.load(&name)
             })
@@ -1436,7 +1507,7 @@ impl ModuleRegistry {
             .values()
             .filter(|m| m.state.is_active())
             .collect();
-        mods.sort_by_key(|m| m.load_order);
+        mods.sort_by(|a, b| a.load_order.cmp(&b.load_order));
         mods
     }
 
@@ -1713,8 +1784,10 @@ impl ModuleBuilder {
 // ══════════════════════════════════════════════════════════════════════════════
 
 pub fn create_builtin_modules() -> Vec<ModuleDescriptor> {
-    let modules = vec![
-        // Core: Memory Allocator
+    let mut modules = Vec::new();
+
+    // Core: Memory Allocator
+    modules.push(
         ModuleBuilder::new("kalloc", "1.0.0")
             .description("Kernel slab/page allocator")
             .author("ShivaCore")
@@ -1737,7 +1810,10 @@ pub fn create_builtin_modules() -> Vec<ModuleDescriptor> {
             )
             .auto_load()
             .build(),
-        // Core: Scheduler
+    );
+
+    // Core: Scheduler
+    modules.push(
         ModuleBuilder::new("ksched", "1.0.0")
             .description("Kernel process scheduler (CFS)")
             .author("ShivaCore")
@@ -1761,7 +1837,10 @@ pub fn create_builtin_modules() -> Vec<ModuleDescriptor> {
             )
             .auto_load()
             .build(),
-        // Driver: Block Device
+    );
+
+    // Driver: Block Device
+    modules.push(
         ModuleBuilder::new("blkdev", "1.0.0")
             .description("Block device layer with caching")
             .author("ShivaCore")
@@ -1785,7 +1864,10 @@ pub fn create_builtin_modules() -> Vec<ModuleDescriptor> {
             )
             .auto_load()
             .build(),
-        // Driver: Network Device
+    );
+
+    // Driver: Network Device
+    modules.push(
         ModuleBuilder::new("netdev", "1.0.0")
             .description("Network device driver framework")
             .author("ShivaCore")
@@ -1799,7 +1881,10 @@ pub fn create_builtin_modules() -> Vec<ModuleDescriptor> {
             .param("rx_queue_len", ParamType::Uint, "1000", "RX queue length")
             .auto_load()
             .build(),
-        // Filesystem: ATCFS
+    );
+
+    // Filesystem: ATCFS
+    modules.push(
         ModuleBuilder::new("atcfs", "1.0.0")
             .description("A-TownChain filesystem")
             .author("ShivaCore")
@@ -1819,7 +1904,10 @@ pub fn create_builtin_modules() -> Vec<ModuleDescriptor> {
             .param("journal", ParamType::Bool, "true", "Enable journaling")
             .auto_load()
             .build(),
-        // Network: TCP/IP Stack
+    );
+
+    // Network: TCP/IP Stack
+    modules.push(
         ModuleBuilder::new("tcpip", "1.0.0")
             .description("TCP/IP protocol stack")
             .author("ShivaCore")
@@ -1845,7 +1933,10 @@ pub fn create_builtin_modules() -> Vec<ModuleDescriptor> {
             )
             .auto_load()
             .build(),
-        // Security: Capability System
+    );
+
+    // Security: Capability System
+    modules.push(
         ModuleBuilder::new("cap", "1.0.0")
             .description("Capability-based security module")
             .author("ShivaCore")
@@ -1870,7 +1961,10 @@ pub fn create_builtin_modules() -> Vec<ModuleDescriptor> {
             )
             .auto_load()
             .build(),
-        // Security: Audit Module
+    );
+
+    // Security: Audit Module
+    modules.push(
         ModuleBuilder::new("kaudit", "1.0.0")
             .description("Kernel security audit log")
             .author("ShivaCore")
@@ -1890,7 +1984,10 @@ pub fn create_builtin_modules() -> Vec<ModuleDescriptor> {
             .param("log_syscalls", ParamType::Bool, "true", "Log system calls")
             .auto_load()
             .build(),
-        // Utility: Kernel Tracing
+    );
+
+    // Utility: Kernel Tracing
+    modules.push(
         ModuleBuilder::new("ktrace", "1.0.0")
             .description("Kernel function/syscall tracing")
             .author("ShivaCore")
@@ -1908,7 +2005,10 @@ pub fn create_builtin_modules() -> Vec<ModuleDescriptor> {
             )
             .param("filter", ParamType::String, "*", "Trace filter pattern")
             .build(),
-        // Utility: Container Runtime
+    );
+
+    // Utility: Container Runtime
+    modules.push(
         ModuleBuilder::new("kcontainer", "1.0.0")
             .description("Container isolation and runtime")
             .author("ShivaCore")
@@ -1931,7 +2031,7 @@ pub fn create_builtin_modules() -> Vec<ModuleDescriptor> {
                 "Namespace types to isolate",
             )
             .build(),
-    ];
+    );
 
     modules
 }
@@ -2352,12 +2452,7 @@ mod tests {
 
     #[test]
     fn test_dep_graph_load_order() {
-        // load_order only resolves explicitly registered nodes; add_edge
-        // alone does not make a dependency loadable (missing-dep detection).
         let mut g = DependencyGraph::new();
-        g.add_node("a");
-        g.add_node("b");
-        g.add_node("c");
         g.add_edge("c", "b");
         g.add_edge("b", "a");
         let order = g.load_order("c").unwrap();

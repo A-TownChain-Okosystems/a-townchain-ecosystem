@@ -435,12 +435,6 @@ pub struct GenesisState {
     pub contracts: BTreeMap<String, [u8; 32]>,
 }
 
-impl Default for GenesisState {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl GenesisState {
     pub fn new() -> Self {
         Self {
@@ -656,7 +650,7 @@ impl GenesisBuilder {
         }
         s.push_str("  ],\n");
         s.push_str(&format!("  \"memo\": \"{}\"\n", block.memo));
-        s.push('}');
+        s.push_str("}");
         s
     }
 }

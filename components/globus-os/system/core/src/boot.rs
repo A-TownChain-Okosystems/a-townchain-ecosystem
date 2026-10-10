@@ -47,6 +47,13 @@ const IPC: &[BootService] = &[
     BootService::Process,
     BootService::Ipc,
 ];
+const DEVICES: &[BootService] = &[
+    BootService::Security,
+    BootService::Memory,
+    BootService::Process,
+    BootService::Ipc,
+    BootService::Devices,
+];
 const VFS: &[BootService] = &[
     BootService::Security,
     BootService::Memory,

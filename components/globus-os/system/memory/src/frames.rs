@@ -27,7 +27,7 @@ impl FrameAllocator {
         if page_size == 0 || !page_size.is_power_of_two() {
             return Err(FrameError::InvalidPageSize);
         }
-        if !start.is_multiple_of(page_size) || !end.is_multiple_of(page_size) {
+        if start % page_size != 0 || end % page_size != 0 {
             return Err(FrameError::Unaligned);
         }
         if start >= end {

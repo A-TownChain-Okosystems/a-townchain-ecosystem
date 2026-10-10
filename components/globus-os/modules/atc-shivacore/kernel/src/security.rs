@@ -46,7 +46,7 @@ impl MultiSigProposal {
             required_sigs: required,
             total_signers: total,
             signatures: Vec::new(),
-            created_at,
+            created_at: created_at,
             executed: false,
         }
     }
@@ -94,12 +94,6 @@ impl MultiSigProposal {
 pub struct MultiSigManager {
     proposals: Mutex<BTreeMap<u64, MultiSigProposal>>,
     next_id: Mutex<u64>,
-}
-
-impl Default for MultiSigManager {
-    fn default() -> Self {
-        Self::new()
-    }
 }
 
 impl MultiSigManager {
@@ -187,12 +181,6 @@ pub enum AuditResult {
 pub struct AuditLog {
     entries: Mutex<Vec<AuditEntry>>,
     last_hash: Mutex<[u8; 32]>,
-}
-
-impl Default for AuditLog {
-    fn default() -> Self {
-        Self::new()
-    }
 }
 
 impl AuditLog {
@@ -310,12 +298,6 @@ pub struct PeerReputation {
 
 pub struct ReputationSystem {
     peers: Mutex<BTreeMap<u64, PeerReputation>>,
-}
-
-impl Default for ReputationSystem {
-    fn default() -> Self {
-        Self::new()
-    }
 }
 
 impl ReputationSystem {
@@ -529,12 +511,6 @@ pub struct SecureChannelManager {
     channels: Mutex<BTreeMap<String, SecureChannel>>,
 }
 
-impl Default for SecureChannelManager {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl SecureChannelManager {
     pub fn new() -> Self {
         SecureChannelManager {
@@ -594,12 +570,6 @@ pub struct SecurityManager {
     pub reputation: Arc<ReputationSystem>,
     pub rate_limiter: Arc<RateLimiter>,
     pub channels: Arc<SecureChannelManager>,
-}
-
-impl Default for SecurityManager {
-    fn default() -> Self {
-        Self::new()
-    }
 }
 
 impl SecurityManager {
