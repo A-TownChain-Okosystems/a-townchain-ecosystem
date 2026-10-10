@@ -25,16 +25,43 @@ pub struct SyncReport {
 pub fn serve_gossip(addr: &str, kette: Arc<Mutex<Chain>>) -> std::io::Result<()> {
     let listener = TcpListener::bind(addr)?;
     for stream in listener.incoming() {
-        let mut s = stream?;
-        let mut reader = BufReader::new(s.try_clone()?);
+        let mut s = match stream {
+            Ok(stream) => stream,
+            Err(err) => {
+                eprintln!("gossip accept error: {}", err);
+                continue;
+            }
+        };
+        let mut reader = match s.try_clone().map(BufReader::new) {
+            Ok(reader) => reader,
+            Err(err) => {
+                eprintln!("gossip connection clone error: {}", err);
+                continue;
+            }
+        };
         let mut line = String::new();
-        reader.read_line(&mut line)?;
+        if let Err(err) = reader.read_line(&mut line) {
+            eprintln!("gossip request read error: {}", err);
+            continue;
+        }
+        if line.len() > 64 * 1024 {
+            eprintln!("gossip request too large: {} bytes", line.len());
+            continue;
+        }
         let befehl = line.trim().to_string();
-        let k = kette.lock().expect("Chain-Lock vergiftet");
+        let k = match kette.lock() {
+            Ok(k) => k,
+            Err(_) => {
+                return Err(std::io::Error::other("chain mutex poisoned"));
+            }
+        };
         if befehl == "STATUS" {
             writeln!(s, "{} {}", k.height(), k.best_hash())?;
         } else if let Some(rest) = befehl.strip_prefix("BLOCKS ") {
-            let from: usize = rest.trim().parse().unwrap_or(0);
+            let from: usize = rest
+                .trim()
+                .parse()
+                .map_err(|_| std::io::Error::new(std::io::ErrorKind::InvalidInput, "invalid BLOCKS offset"))?;
             let teile: Vec<String> = k
                 .blocks_from(from)
                 .iter()
@@ -49,11 +76,12 @@ pub fn serve_gossip(addr: &str, kette: Arc<Mutex<Chain>>) -> std::io::Result<()>
 }
 
 fn peer_antwort(peer_addr: &str, befehl: &str) -> Result<String, String> {
-    let mut s =
-        TcpStream::connect(peer_addr).map_err(|e| format!("connect {}: {}", peer_addr, e))?;
+    let mut s = TcpStream::connect(peer_addr)
+        .map_err(|e| format!("connect {}: {}", peer_addr, e))?;
     s.set_read_timeout(Some(Duration::from_secs(5)))
         .map_err(|e| format!("timeout: {}", e))?;
-    s.write_all(format!("{}\n", befehl).as_bytes())
+    s.write_all(format!("{}
+", befehl).as_bytes())
         .map_err(|e| format!("send: {}", e))?;
     let mut line = String::new();
     BufReader::new(s)
@@ -76,11 +104,7 @@ pub fn sync_pull(kette: &mut Chain, peer_addr: &str) -> Result<SyncReport, Strin
         return Ok(SyncReport {
             adopted: false,
             neue_hoehe: kette.height(),
-            grund: format!(
-                "Peer-Hoehe {} <= eigene Hoehe {}",
-                peer_hoehe,
-                kette.height()
-            ),
+            grund: format!("Peer-Hoehe {} <= eigene Hoehe {}", peer_hoehe, kette.height()),
         });
     }
     let daten = peer_antwort(peer_addr, "BLOCKS 0")?;
@@ -104,11 +128,7 @@ pub fn sync_pull(kette: &mut Chain, peer_addr: &str) -> Result<SyncReport, Strin
         neue_hoehe
     );
     *kette = kandidat;
-    Ok(SyncReport {
-        adopted: true,
-        neue_hoehe,
-        grund,
-    })
+    Ok(SyncReport { adopted: true, neue_hoehe, grund })
 }
 
 fn parse_bloecke(daten: &str) -> Result<Vec<Block>, String> {
@@ -174,11 +194,7 @@ mod tests {
         let rep = sync_pull(&mut b, &format!("127.0.0.1:{}", port)).expect("sync fehlgeschlagen");
         assert!(rep.adopted, "Adoption erwartet: {}", rep.grund);
         assert_eq!(b.height(), 3);
-        assert_eq!(
-            b.best_hash(),
-            ziel,
-            "uebernommene Kette muss identisch sein"
-        );
+        assert_eq!(b.best_hash(), ziel, "uebernommene Kette muss identisch sein");
         assert!(b.verify().is_ok());
     }
 
@@ -191,11 +207,7 @@ mod tests {
         b.produce("eigener-block").expect("produce b");
         let alt = b.best_hash();
         let rep = sync_pull(&mut b, &format!("127.0.0.1:{}", port)).expect("sync fehlgeschlagen");
-        assert!(
-            !rep.adopted,
-            "kuerzerer Peer darf nicht adoptieren: {}",
-            rep.grund
-        );
+        assert!(!rep.adopted, "kuerzerer Peer darf nicht adoptieren: {}", rep.grund);
         assert_eq!(b.best_hash(), alt, "eigene Kette unangetastet");
     }
 
@@ -206,17 +218,23 @@ mod tests {
         let port = listener.local_addr().expect("keine Adresse").port();
         std::thread::spawn(move || {
             for s in listener.incoming() {
-                let mut s = match s {
-                    Ok(s) => s,
+                let mut s = match s { Ok(s) => s, Err(_) => break };
+                let mut reader = BufReader::new(match s.try_clone() {
+                    Ok(stream) => stream,
                     Err(_) => break,
-                };
-                let mut reader = BufReader::new(s.try_clone().unwrap());
+                });
                 let mut line = String::new();
-                reader.read_line(&mut line).unwrap();
+                if reader.read_line(&mut line).is_err() {
+                    continue;
+                }
                 if line.trim() == "STATUS" {
-                    writeln!(s, "5 999").unwrap();
+                    if writeln!(s, "5 999").is_err() {
+                        break;
+                    }
                 } else {
-                    writeln!(s, "0|111|gefaelscht|222;1|333|tx|444").unwrap();
+                    if writeln!(s, "0|111|gefaelscht|222;1|333|tx|444").is_err() {
+                        break;
+                    }
                 }
             }
         });
@@ -241,10 +259,7 @@ mod tests {
         let g = Genesis::devnet();
         let mut b = Chain::from_genesis(&g);
         let ergebnis = sync_pull(&mut b, &format!("127.0.0.1:{}", port));
-        assert!(
-            ergebnis.is_err(),
-            "abweichende Genesis muss abgelehnt werden"
-        );
+        assert!(ergebnis.is_err(), "abweichende Genesis muss abgelehnt werden");
         assert_eq!(b.height(), 0, "keine Adoption");
     }
 

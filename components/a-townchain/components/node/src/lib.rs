@@ -4,7 +4,9 @@
 pub mod bootstrap;
 pub mod chain;
 pub mod config;
+pub mod discovery;
 pub mod gossip;
 pub mod identity;
 pub mod peers;
 pub mod rpc;
+pub mod validator;
