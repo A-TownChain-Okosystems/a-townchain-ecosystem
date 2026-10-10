@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-9952D3673E7F",
+  "timestamp": "2026-10-10T22:24:16.002358Z",
+  "category": "change",
+  "title": "Commit: docs(control-plane): add machine-readable delivery registry",
+  "context": "Git commit 9952d3673e7fe830f33c64a640b088c052ea6780 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/9952d3673e7fe830f33c64a640b088c052ea6780",
+    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs(control-plane): add machine-readable delivery registry"
+}

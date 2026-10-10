@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-3CF10082EA88",
-  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "timestamp": "2026-10-10T22:24:16.002358Z",
   "category": "change",
   "title": "Commit: test(atc-cli): Devnet-E2E — Serve-Thread nicht mehr durch Probe toeten",
   "context": "Git commit 3cf10082ea88a0f3bbf0063ffe02098afdc1e0a7 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/3cf10082ea88a0f3bbf0063ffe02098afdc1e0a7",
-    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
   },
   "tags": [
     "commit",

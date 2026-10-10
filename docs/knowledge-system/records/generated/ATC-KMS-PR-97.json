@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-97",
-  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "timestamp": "2026-10-10T22:24:16.002358Z",
   "category": "change",
   "title": "PR #97: ci: add security assurance pipeline",
   "context": "Pull request 97 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/97",
-    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
   },
   "tags": [
     "generated",

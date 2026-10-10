@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-90",
-  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "timestamp": "2026-10-10T22:24:16.002358Z",
   "category": "change",
   "title": "PR #90: P0: align registry with canonical system/protocol layer model",
   "context": "Pull request 90 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/90",
-    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
   },
   "tags": [
     "generated",

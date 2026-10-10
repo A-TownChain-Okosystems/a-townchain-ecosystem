@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-7DBFAF69D097",
-  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "timestamp": "2026-10-10T22:24:16.002358Z",
   "category": "change",
   "title": "Commit: chore(evidence): bound_commit + test_run aktualisiert (SCR-0086) [skip ci]",
   "context": "Git commit 7dbfaf69d0978b57f6ca7bbd302038dd7c51899d on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/7dbfaf69d0978b57f6ca7bbd302038dd7c51899d",
-    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
   },
   "tags": [
     "commit",

@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-0A15D2359BE5",
+  "timestamp": "2026-10-10T22:24:16.002358Z",
+  "category": "change",
+  "title": "Commit: docs(control-plane): use stable repository-derived IDs",
+  "context": "Git commit 0a15d2359be5edb9cc7269e09214b5976c5e8b1d on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/0a15d2359be5edb9cc7269e09214b5976c5e8b1d",
+    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs(control-plane): use stable repository-derived IDs"
+}

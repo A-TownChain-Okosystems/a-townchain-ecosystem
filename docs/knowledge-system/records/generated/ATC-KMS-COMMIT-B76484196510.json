@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-B76484196510",
-  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "timestamp": "2026-10-10T22:24:16.002358Z",
   "category": "change",
   "title": "Commit: fix(gff): Upstream-Syntaxfehler in spec_loader.py behoben (Regex-Zeilenumbruch in FORBIDDEN_RE; identischer Fix als Upstream-PR)",
   "context": "Git commit b76484196510e13f1644635e2dd4f8bd8badbc8e on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/b76484196510e13f1644635e2dd4f8bd8badbc8e",
-    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
   },
   "tags": [
     "commit",

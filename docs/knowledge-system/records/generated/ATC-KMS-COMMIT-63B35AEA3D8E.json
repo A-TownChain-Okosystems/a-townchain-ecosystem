@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-63B35AEA3D8E",
+  "timestamp": "2026-10-10T22:24:16.002358Z",
+  "category": "change",
+  "title": "Commit: docs(roadmap): add delivery control plane and wiki index",
+  "context": "Git commit 63b35aea3d8e09f954ff24db0a98e29643599b75 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/63b35aea3d8e09f954ff24db0a98e29643599b75",
+    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs(roadmap): add delivery control plane and wiki index"
+}

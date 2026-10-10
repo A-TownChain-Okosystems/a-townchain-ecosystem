@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-061734D08F75",
+  "timestamp": "2026-10-10T22:24:16.002358Z",
+  "category": "change",
+  "title": "Commit: Merge pull request #107 from A-TownChain-Okosystems/docs/machine-readable-roadmap-loop",
+  "context": "Git commit 061734d08f75eab3f10eb455e6e9191cb5fc8588 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/061734d08f75eab3f10eb455e6e9191cb5fc8588",
+    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "Merge pull request #107 from A-TownChain-Okosystems/docs/machine-readable-roadmap-loop\n\ndocs(control-plane): machine-readable roadmap, milestones and sprint loop"
+}

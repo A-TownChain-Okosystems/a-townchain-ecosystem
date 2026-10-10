@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-0D96DCE7E3B8",
+  "timestamp": "2026-10-10T22:24:16.002358Z",
+  "category": "change",
+  "title": "Commit: docs(control-plane): document repository-wide delivery audit contract",
+  "context": "Git commit 0d96dce7e3b8cec886fb293d855958a1f8be24e7 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/0d96dce7e3b8cec886fb293d855958a1f8be24e7",
+    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs(control-plane): document repository-wide delivery audit contract"
+}

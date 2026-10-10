@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-C0C227F36455",
-  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "timestamp": "2026-10-10T22:24:16.002358Z",
   "category": "change",
   "title": "Commit: sync: atclang into components/atclang (Konflikt ci_independent_audit-Allowlist: Incoming-Seite, Referenz-Dateien verifiziert)",
   "context": "Git commit c0c227f364555db60421a2b0d50b7c4ef17b0ecd on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/c0c227f364555db60421a2b0d50b7c4ef17b0ecd",
-    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
   },
   "tags": [
     "commit",
