@@ -16,7 +16,11 @@ pub struct DevnetRpc {
 
 impl DevnetRpc {
     pub fn from_state(genesis: &Genesis, peers: &PeerTable) -> Self {
-        DevnetRpc { chain_id: genesis.chain_id.clone(), boot_hash: genesis.boot_hash(), peer_count: peers.len() }
+        DevnetRpc {
+            chain_id: genesis.chain_id.clone(),
+            boot_hash: genesis.boot_hash(),
+            peer_count: peers.len(),
+        }
     }
 
     pub fn answer(&self, req: &str) -> String {
@@ -48,9 +52,11 @@ pub fn serve(addr: &str, state: DevnetRpc) -> std::io::Result<()> {
 }
 
 fn handle(stream: TcpStream, state: &DevnetRpc) -> std::io::Result<()> {
-    let mut reader = BufReader::new(stream.try_clone()?);
+    let reader = BufReader::new(stream.try_clone()?);
     let mut line = String::new();
-    let bytes_read = reader.take((MAX_RPC_REQUEST_BYTES + 1) as u64).read_line(&mut line)?;
+    let bytes_read = reader
+        .take((MAX_RPC_REQUEST_BYTES + 1) as u64)
+        .read_line(&mut line)?;
     if bytes_read == 0 {
         return Ok(());
     }
@@ -60,17 +66,24 @@ fn handle(stream: TcpStream, state: &DevnetRpc) -> std::io::Result<()> {
             "RPC request too large or missing newline",
         ));
     }
-    let resp = if line.trim().starts_with('{') { state.answer_json(&line) } else { state.answer(&line) };
+    let resp = if line.trim().starts_with('{') {
+        state.answer_json(&line)
+    } else {
+        state.answer(&line)
+    };
     let mut w = stream;
     w.write_all(resp.as_bytes())?;
-    w.write_all(b"
-")?;
+    w.write_all(
+        b"
+",
+    )?;
     Ok(())
 }
 
 impl DevnetRpc {
     pub fn answer_json(&self, req: &str) -> String {
-        let id = match extract_between(req, "\"id\":", ',') {
+        // ID steht nicht immer vor einem Komma; auch "...,\"id\":7}" (letztes Feld) ist valider JSON-RPC.
+        let id = match extract_between(req, "\"id\":", ',').or_else(|| extract_between(req, "\"id\":", '}')) {
             Some(raw) => match raw.trim().trim_end_matches('}').parse::<u64>() {
                 Ok(id) => id,
                 Err(_) => return "{\"jsonrpc\":\"2.0\",\"id\":null,\"error\":{\"code\":-32600,\"message\":\"invalid request\"}}".to_string(),
@@ -88,8 +101,10 @@ impl DevnetRpc {
             "ping" => "pong".to_string(),
             _ => return format!("{{\"jsonrpc\":\"2.0\",\"id\":{},\"error\":{{\"code\":-32601,\"message\":\"method not found\"}}}}", id),
         };
-        format!("{{\"jsonrpc\":\"2.0\",\"id\":{},\"result\":\"{}\"}}", id, result)
-
+        format!(
+            "{{\"jsonrpc\":\"2.0\",\"id\":{},\"result\":\"{}\"}}",
+            id, result
+        )
     }
 }
 
@@ -107,7 +122,8 @@ mod tests {
 
     fn test_state() -> DevnetRpc {
         let g = Genesis::devnet();
-        let (peers, _) = devnet_boot(&g, &[(1, "addr1".to_string()), (2, "addr2".to_string())]).unwrap();
+        let (peers, _) =
+            devnet_boot(&g, &[(1, "addr1".to_string()), (2, "addr2".to_string())]).unwrap();
         DevnetRpc::from_state(&g, &peers)
     }
 

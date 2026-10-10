@@ -20,7 +20,9 @@ pub struct ValidatorSet {
 
 impl ValidatorSet {
     pub fn new() -> Self {
-        ValidatorSet { validators: Vec::new() }
+        ValidatorSet {
+            validators: Vec::new(),
+        }
     }
 
     pub fn add(&mut self, val: Validator) -> Result<(), String> {
@@ -48,7 +50,10 @@ impl ValidatorSet {
     }
 
     pub fn total_voting_power(&self) -> u64 {
-        self.active_validators().iter().map(|v| v.voting_power).sum()
+        self.active_validators()
+            .iter()
+            .map(|v| v.voting_power)
+            .sum()
     }
 
     /// Deterministische Proposer-Auswahl fuer eine gegebenen Blockhoehe (Weighted Round Robin)
@@ -82,13 +87,26 @@ pub struct ValidatorProposal {
 }
 
 impl ValidatorProposal {
-    pub fn compute_signature(height: u64, proposer_id: u64, block_hash: u64, secret_key: &str) -> String {
-        let payload = format!("PROPOSE:{}:{}:{}:{}", height, proposer_id, block_hash, secret_key);
+    pub fn compute_signature(
+        height: u64,
+        proposer_id: u64,
+        block_hash: u64,
+        secret_key: &str,
+    ) -> String {
+        let payload = format!(
+            "PROPOSE:{}:{}:{}:{}",
+            height, proposer_id, block_hash, secret_key
+        );
         let digest = atc_hash(payload.as_bytes());
         hex::encode(digest)
     }
 
-    pub fn create(height: u64, proposer: &Validator, block_hash: u64, secret_key: &str) -> Result<Self, String> {
+    pub fn create(
+        height: u64,
+        proposer: &Validator,
+        block_hash: u64,
+        secret_key: &str,
+    ) -> Result<Self, String> {
         if !proposer.is_active {
             return Err("Inaktiver Validator kann keine Proposals erstellen".to_string());
         }
@@ -113,7 +131,8 @@ impl ValidatorProposal {
             ));
         }
 
-        let expected_sig = Self::compute_signature(self.height, self.proposer_id, self.block_hash, secret_key);
+        let expected_sig =
+            Self::compute_signature(self.height, self.proposer_id, self.block_hash, secret_key);
         if self.signature != expected_sig {
             return Err("Ungueltige Proposal-Signatur".to_string());
         }
@@ -140,16 +159,42 @@ mod tests {
 
     fn setup_val_set() -> ValidatorSet {
         let mut set = ValidatorSet::new();
-        set.add(Validator { id: 1, pubkey: "pub1".into(), voting_power: 10, is_active: true }).unwrap();
-        set.add(Validator { id: 2, pubkey: "pub2".into(), voting_power: 20, is_active: true }).unwrap();
+        set.add(Validator {
+            id: 1,
+            pubkey: "pub1".into(),
+            voting_power: 10,
+            is_active: true,
+        })
+        .unwrap();
+        set.add(Validator {
+            id: 2,
+            pubkey: "pub2".into(),
+            voting_power: 20,
+            is_active: true,
+        })
+        .unwrap();
         set
     }
 
     #[test]
     fn validator_set_add_und_duplikat() {
         let mut set = ValidatorSet::new();
-        assert!(set.add(Validator { id: 1, pubkey: "p1".into(), voting_power: 5, is_active: true }).is_ok());
-        assert!(set.add(Validator { id: 1, pubkey: "p1".into(), voting_power: 5, is_active: true }).is_err());
+        assert!(set
+            .add(Validator {
+                id: 1,
+                pubkey: "p1".into(),
+                voting_power: 5,
+                is_active: true
+            })
+            .is_ok());
+        assert!(set
+            .add(Validator {
+                id: 1,
+                pubkey: "p1".into(),
+                voting_power: 5,
+                is_active: true
+            })
+            .is_err());
     }
 
     #[test]
@@ -186,8 +231,13 @@ mod tests {
 
     #[test]
     fn proposal_inaktiver_validator_abgelehnt() {
-        let mut set = ValidatorSet::new();
-        let v = Validator { id: 1, pubkey: "p1".into(), voting_power: 10, is_active: false };
+        let _set = ValidatorSet::new();
+        let v = Validator {
+            id: 1,
+            pubkey: "p1".into(),
+            voting_power: 10,
+            is_active: false,
+        };
         let secret = "sec123";
 
         assert!(ValidatorProposal::create(0, &v, 1234, secret).is_err());
