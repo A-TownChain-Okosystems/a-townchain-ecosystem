@@ -4,19 +4,36 @@
 //! checked-Arithmetik (Overflow ist ein Fehler, kein Wrap) und fester
 //! Aufruftiefe (fail-closed).
 
+<<<<<<< HEAD
+=======
+use crate::artifact::VerifiedArtifact;
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805
 use crate::bytecode::Instruction;
 use crate::lower::CompiledProgram;
 
 /// Deterministischer Laufzeitfehler (kein Panic-Pfad).
 #[derive(Debug, Clone, PartialEq)]
 pub enum RunError {
+<<<<<<< HEAD
     DivisionByZero { function: String, pc: usize },
     ArithmeticOverflow { function: String, pc: usize },
     CallDepthExceeded { max_depth: usize },
+=======
+    InvalidProgram { message: String },
+    DivisionByZero { function: String, pc: usize },
+    ArithmeticOverflow { function: String, pc: usize },
+    CallDepthExceeded { max_depth: usize },
+    ExecutionLimitExceeded { max_steps: u64 },
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805
 }
 
 /// Feste maximale Aufruftiefe — kein Stack-Overflow, immer ein Fehler.
 pub const MAX_CALL_DEPTH: usize = 1024;
+<<<<<<< HEAD
+=======
+/// Hard deterministic execution bound until the canonical gas model is wired in.
+pub const MAX_STEPS: u64 = 1_000_000;
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805
 
 struct Frame {
     function_idx: usize,
@@ -36,10 +53,33 @@ enum Step {
 }
 
 /// Fuehrt das Kompilat ab der Entry-Funktion aus; Ergebnis = Rueckgabewert.
+<<<<<<< HEAD
 pub fn execute(prog: &CompiledProgram) -> Result<i64, RunError> {
     let entry = prog.entry as usize;
     let mut frames: Vec<Frame> = vec![new_frame(entry, 0, Vec::new(), prog)];
     loop {
+=======
+/// L1-facing execution entry point. Only a cryptographically and structurally
+/// verified ATCA artifact may cross this boundary.
+pub fn execute_verified(artifact: &VerifiedArtifact) -> Result<i64, RunError> {
+    let program = artifact.clone().into_program();
+    execute(&program)
+}
+
+pub(crate) fn execute(prog: &CompiledProgram) -> Result<i64, RunError> {
+    prog.verify()
+        .map_err(|e| RunError::InvalidProgram { message: e.message })?;
+    let entry = prog.entry as usize;
+    let mut steps = 0u64;
+    let mut frames: Vec<Frame> = vec![new_frame(entry, 0, Vec::new(), prog)];
+    loop {
+        steps = steps.saturating_add(1);
+        if steps > MAX_STEPS {
+            return Err(RunError::ExecutionLimitExceeded {
+                max_steps: MAX_STEPS,
+            });
+        }
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805
         let step = {
             let depth = frames.len();
             let frame = frames.last_mut().expect("mindestens ein Frame aktiv");
@@ -111,6 +151,40 @@ pub fn execute(prog: &CompiledProgram) -> Result<i64, RunError> {
                         }
                     }
                 }
+<<<<<<< HEAD
+=======
+                Instruction::Eq
+                | Instruction::Ne
+                | Instruction::Lt
+                | Instruction::Gt
+                | Instruction::Le
+                | Instruction::Ge => {
+                    let (b, a) = pop2(&mut frame.stack);
+                    let v = match instruction {
+                        Instruction::Eq => a == b,
+                        Instruction::Ne => a != b,
+                        Instruction::Lt => a < b,
+                        Instruction::Gt => a > b,
+                        Instruction::Le => a <= b,
+                        _ => a >= b,
+                    };
+                    // Booleans sind i64 0/1 (SCR-0128 Stufe 1, deterministisch).
+                    frame.stack.push(if v { 1 } else { 0 });
+                    Step::Continue
+                }
+                Instruction::Jump(d) => {
+                    // Ziel vom Verifizierer geprueft (Grenzen); Basis: pc + 1.
+                    frame.pc = (pc as i64 + 1 + d as i64) as usize;
+                    Step::Continue
+                }
+                Instruction::JumpIfFalse(d) => {
+                    let v = frame.stack.pop().expect("verifiziert");
+                    if v == 0 {
+                        frame.pc = (pc as i64 + 1 + d as i64) as usize;
+                    }
+                    Step::Continue
+                }
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805
                 Instruction::Neg => {
                     let v = frame.stack.pop().expect("verifiziert");
                     match v.checked_neg() {
@@ -190,3 +264,63 @@ fn pop2(stack: &mut Vec<i64>) -> (i64, i64) {
     let a = stack.pop().expect("verifiziert");
     (b, a)
 }
+<<<<<<< HEAD
+=======
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::bytecode::{Bytecode, Instruction};
+    use crate::lower::CompiledFunction;
+
+    fn program(instructions: Vec<Instruction>) -> CompiledProgram {
+        CompiledProgram {
+            functions: vec![CompiledFunction {
+                name: "__main__".into(),
+                param_count: 0,
+                local_count: 0,
+                bytecode: Bytecode { instructions },
+            }],
+            entry: 0,
+        }
+    }
+
+    #[test]
+    fn execute_rejects_invalid_program_without_panicking() {
+        let p = program(vec![Instruction::Add]);
+        assert!(matches!(execute(&p), Err(RunError::InvalidProgram { .. })));
+    }
+
+    #[test]
+    fn execute_bounds_non_terminating_program() {
+        let p = program(vec![
+            Instruction::ConstI64(1),
+            Instruction::Pop,
+            Instruction::Jump(-3),
+        ]);
+        assert_eq!(
+            execute(&p),
+            Err(RunError::ExecutionLimitExceeded {
+                max_steps: MAX_STEPS
+            })
+        );
+    }
+
+    #[test]
+    fn execute_detects_overflow_deterministically() {
+        let p = program(vec![
+            Instruction::ConstI64(i64::MAX),
+            Instruction::ConstI64(1),
+            Instruction::Add,
+            Instruction::Return,
+        ]);
+        assert_eq!(
+            execute(&p),
+            Err(RunError::ArithmeticOverflow {
+                function: "__main__".into(),
+                pc: 2,
+            })
+        );
+    }
+}
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805

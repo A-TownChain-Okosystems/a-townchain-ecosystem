@@ -1,5 +1,10 @@
 // Copyright (c) 2026 Michael Wroblewski — Apache-2.0
+<<<<<<< HEAD
 //! AST -> Bytecode-Lowering (Welle 2, SCR-0085-Fortschreibung).
+=======
+//! AST -> Bytecode-Lowering (Welle 2, Fortschreibung SCR-0128 Stufe 1:
+//! if/else, while, Vergleiche mit PC-relativen Spruengen, i16-Distanzen).
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805
 //! Fail-closed: jede nicht im Subset unterstuetzte Form ist ein Lowering-Fehler,
 //! jede erzeugte Funktion wird vor Rueckgabe gegen den Bytecode-Verifizierer
 //! geprueft (verify vor trust).
@@ -48,6 +53,37 @@ impl CompiledProgram {
     pub fn function_count(&self) -> u16 {
         self.functions.len() as u16
     }
+<<<<<<< HEAD
+=======
+
+    /// Re-validates the complete compiled program before execution/trust.
+    pub fn verify(&self) -> Result<(), LowerError> {
+        if self.functions.is_empty() {
+            return Err(LowerError::new("Programm enthaelt keine Funktionen"));
+        }
+        if self.entry as usize >= self.functions.len() {
+            return Err(LowerError::new("ungueltige Entry-Funktion"));
+        }
+        if self.functions.len() > u16::MAX as usize {
+            return Err(LowerError::new("zu viele Funktionen"));
+        }
+        let signatures: Vec<u16> = self.functions.iter().map(|f| f.param_count).collect();
+        for f in &self.functions {
+            if f.param_count > f.local_count {
+                return Err(LowerError::new(format!(
+                    "Funktion {} hat mehr Parameter als lokale Slots",
+                    f.name
+                )));
+            }
+            f.bytecode
+                .verify_with_signatures(f.local_count, &signatures)
+                .map_err(|e| {
+                    LowerError::new(format!("Verifizierer lehnte Funktion {} ab: {e:?}", f.name))
+                })?;
+        }
+        Ok(())
+    }
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805
 }
 
 const ENTRY: &str = "__main__";
@@ -78,6 +114,20 @@ impl<'a> FnLowerer<'a> {
         Ok(i)
     }
 
+<<<<<<< HEAD
+=======
+    /// PC-relative Sprungdistanz (Basis: Folgeinstruktion), i16-bereichsgeprueft.
+    fn disp(&self, from: usize, to: usize) -> Result<i16, LowerError> {
+        let d = to as i64 - (from as i64 + 1);
+        if d < i16::MIN as i64 || d > i16::MAX as i64 {
+            return Err(LowerError::new(
+                "Sprungdistanz ueberschreitet i16-Bereich (Funktion zu gross)",
+            ));
+        }
+        Ok(d as i16)
+    }
+
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805
     fn lower_stmt(&mut self, s: &Stmt, top_level: bool) -> Result<(), LowerError> {
         match s {
             Stmt::Let(l) => {
@@ -110,6 +160,54 @@ impl<'a> FnLowerer<'a> {
                 self.out.push(Instruction::Pop);
                 Ok(())
             }
+<<<<<<< HEAD
+=======
+            Stmt::If {
+                cond,
+                then_body,
+                else_body,
+            } => {
+                self.lower_expr(cond)?;
+                let jif = self.out.len();
+                self.out.push(Instruction::JumpIfFalse(0));
+                for s in then_body {
+                    self.lower_stmt(s, top_level)?;
+                }
+                match else_body {
+                    Some(eb) => {
+                        let jend = self.out.len();
+                        self.out.push(Instruction::Jump(0));
+                        let d = self.disp(jif, self.out.len())?;
+                        self.out[jif] = Instruction::JumpIfFalse(d);
+                        for s in eb {
+                            self.lower_stmt(s, top_level)?;
+                        }
+                        let d2 = self.disp(jend, self.out.len())?;
+                        self.out[jend] = Instruction::Jump(d2);
+                    }
+                    None => {
+                        let d = self.disp(jif, self.out.len())?;
+                        self.out[jif] = Instruction::JumpIfFalse(d);
+                    }
+                }
+                Ok(())
+            }
+            Stmt::While { cond, body } => {
+                let start = self.out.len();
+                self.lower_expr(cond)?;
+                let jif = self.out.len();
+                self.out.push(Instruction::JumpIfFalse(0));
+                for s in body {
+                    self.lower_stmt(s, top_level)?;
+                }
+                // Ruecksprung zum Schleifenkopf (i16, negativ).
+                let d_back = self.disp(self.out.len(), start)?;
+                self.out.push(Instruction::Jump(d_back));
+                let d_fwd = self.disp(jif, self.out.len())?;
+                self.out[jif] = Instruction::JumpIfFalse(d_fwd);
+                Ok(())
+            }
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805
             Stmt::Fn(_) => Err(LowerError::new(format!(
                 "Funktionsdefinition ist nur auf Programmebene erlaubt (in {})",
                 self.function_name
@@ -150,6 +248,15 @@ impl<'a> FnLowerer<'a> {
                     "-" => self.out.push(Instruction::Sub),
                     "*" => self.out.push(Instruction::Mul),
                     "/" => self.out.push(Instruction::Div),
+<<<<<<< HEAD
+=======
+                    "==" => self.out.push(Instruction::Eq),
+                    "!=" => self.out.push(Instruction::Ne),
+                    "<" => self.out.push(Instruction::Lt),
+                    ">" => self.out.push(Instruction::Gt),
+                    "<=" => self.out.push(Instruction::Le),
+                    ">=" => self.out.push(Instruction::Ge),
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805
                     other => {
                         return Err(LowerError::new(format!(
                             "Operator '{other}' ist nicht im Subset"
@@ -204,6 +311,14 @@ fn finish_function(
     }
     let bytecode = Bytecode { instructions };
     let local_count = l.next_local;
+<<<<<<< HEAD
+=======
+    if param_count > local_count {
+        return Err(LowerError::new(format!(
+            "Parameterzahl ueberschreitet lokale Slots in Funktion {name}"
+        )));
+    }
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805
     let function_count = l.fn_ids.len() as u16;
     bytecode
         .verify(local_count, function_count)
@@ -251,6 +366,20 @@ pub fn lower_program(prog: &Program) -> Result<CompiledProgram, LowerError> {
     fn_ids.insert(ENTRY.to_string(), (0, 0));
     for s in &prog.statements {
         if let Stmt::Fn(f) = s {
+<<<<<<< HEAD
+=======
+            if fn_ids.len() >= u16::MAX as usize {
+                return Err(LowerError::new(
+                    "Funktionsanzahl ueberschreitet kanonisches Limit",
+                ));
+            }
+            if f.params.len() >= u16::MAX as usize {
+                return Err(LowerError::new(format!(
+                    "Parameterzahl ueberschreitet kanonisches Limit in Funktion {}",
+                    f.name
+                )));
+            }
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805
             let idx = fn_ids.len() as u16;
             if fn_ids
                 .insert(f.name.clone(), (idx, f.params.len() as u16))
@@ -294,5 +423,109 @@ pub fn lower_program(prog: &Program) -> Result<CompiledProgram, LowerError> {
             functions.push(lower_user_function(f, &fn_ids)?);
         }
     }
+<<<<<<< HEAD
     Ok(CompiledProgram { functions, entry })
+=======
+    let compiled = CompiledProgram { functions, entry };
+    compiled.verify()?;
+    Ok(compiled)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn run(src: &str) -> i64 {
+        let prog = crate::parser::parse_program(src).expect("Parse-Fehler");
+        let compiled = lower_program(&prog).expect("Lowering-Fehler");
+        crate::vm::execute(&compiled).expect("Run-Fehler")
+    }
+
+    #[test]
+    fn if_ohne_else_waehlt_zweig() {
+        // fn m(a) { if a < 0 { return 0 - a; } return a; } — keine main-Nutzerfn,
+        // Entry = __main__ leer -> main nutzen
+        assert_eq!(
+            run(
+                "fn abs(x: i64) -> i64 { if x < 0 { return 0 - x; } return x; }
+                 fn main() -> i64 { return abs(0 - 5); }"
+            ),
+            5
+        );
+        assert_eq!(
+            run(
+                "fn abs(x: i64) -> i64 { if x < 0 { return 0 - x; } return x; }
+                 fn main() -> i64 { return abs(7); }"
+            ),
+            7
+        );
+    }
+
+    #[test]
+    fn if_else_beide_zweige() {
+        assert_eq!(
+            run(
+                "fn max(a: i64, b: i64) -> i64 { if a < b { return b; } else { return a; } }
+                 fn main() -> i64 { return max(3, 9) + max(9, 3); }"
+            ),
+            18
+        );
+    }
+
+    #[test]
+    fn while_fakultaet() {
+        assert_eq!(
+            run("fn fact(n: i64) -> i64 { let r = 1; let i = 2; while i < n + 1 { let r = r * i; let i = i + 1; } return r; }
+                 fn main() -> i64 { return fact(5); }"),
+            120
+        );
+    }
+
+    #[test]
+    fn while_nulldurchlauf() {
+        assert_eq!(
+            run(
+                "fn f(n: i64) -> i64 { while n < 0 { let n = n + 1; } return n; }
+                 fn main() -> i64 { return f(42); }"
+            ),
+            42
+        );
+    }
+
+    #[test]
+    fn vergleichsoperatoren_ende_zu_ende() {
+        let src = "fn cmp(a: i64, b: i64) -> i64 { return a < b; }
+                   fn main() -> i64 { return cmp(1, 2) + 10 * cmp(2, 1) + 100 * (1 == 1) + 1000 * (1 != 1); }";
+        // 1 + 0 + 100 + 0
+        assert_eq!(run(src), 101);
+    }
+
+    #[test]
+    fn else_if_kette() {
+        assert_eq!(
+            run("fn sign(x: i64) -> i64 { if x < 0 { return 0 - 1; } else if 0 < x { return 1; } return 0; }
+                 fn main() -> i64 { return sign(0 - 3) + 2 * sign(0) + 3 * sign(9); }"),
+            2
+        );
+    }
+
+    #[test]
+    fn while_laenge_begrenzt_nicht_endlos() {
+        // Endlosschleife-Schutz ist Laufzeit-Ende nicht — aber deterministisch:
+        // hier nur Korrektheit des Ruecksprungs ueber 3 Iterationen.
+        assert_eq!(
+            run(
+                "fn f() -> i64 { let i = 0; while i < 3 { let i = i + 1; } return i; }
+                 fn main() -> i64 { return f(); }"
+            ),
+            3
+        );
+    }
+
+    #[test]
+    fn unbekannter_operator_nach_wie_vor_fail_closed() {
+        let prog = crate::parser::parse_program("fn main() -> i64 { return 1 && 2; }");
+        assert!(prog.is_err()); // '&&' lexikographisch nicht im Subset
+    }
+>>>>>>> 99e722c5cc75a612160958211a4741425291b805
 }
