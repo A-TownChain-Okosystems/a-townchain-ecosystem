@@ -1,0 +1,807 @@
+{
+  "schema_id": "ATC-ORG-REPOSITORY-INTEGRATION-001",
+  "schema_version": "1.0.0",
+  "snapshot_date": "2026-10-11",
+  "organization": "A-TownChain-Okosystems",
+  "status": "BASELINE_AUDIT_REQUIRED",
+  "purpose": "Organization-wide repository integration registry and fail-closed integration plan. Records current inventory and proposed ownership/boundary mappings without claiming that integration or conformance is already verified.",
+  "principles": {
+    "standalone_first_ecosystem_second": true,
+    "single_source_of_truth_per_domain": true,
+    "no_duplicate_implementations": true,
+    "archived_repositories_are_read_only_reference": true,
+    "exact_sha_evidence_required": true,
+    "merge_authorized_by_manifest": false
+  },
+  "inventory": {
+    "observed_repository_count": 33,
+    "active_repository_count": 26,
+    "archived_repository_count": 7,
+    "evidence": "GitHub organization repository listing; default branch observed as main for all listed repositories. Full repository HEAD/tree SHAs must be captured by the inventory workflow before any implementation is marked verified."
+  },
+  "integration_gates": [
+    {
+      "id": "INT-001",
+      "name": "Inventory and provenance",
+      "requirement": "Record repository URL, default branch, full HEAD SHA, tree SHA, archive flag, and snapshot timestamp for every repository.",
+      "pass_status": "VERIFIED"
+    },
+    {
+      "id": "INT-002",
+      "name": "Canonical ownership",
+      "requirement": "Exactly one canonical implementation owner per capability; mirrors and spec-only repositories explicitly labeled.",
+      "pass_status": "VERIFIED"
+    },
+    {
+      "id": "INT-003",
+      "name": "Dependency and interface graph",
+      "requirement": "Every active repository declares upstream/downstream dependencies and versioned interface/contract references; unresolved edges remain RESIDUAL.",
+      "pass_status": "VERIFIED"
+    },
+    {
+      "id": "INT-004",
+      "name": "Standards conformance",
+      "requirement": "Validate each active repository against atc-standards using exact checked-out SHA; manual/hybrid checks remain not evaluated until evidence exists.",
+      "pass_status": "VERIFIED"
+    },
+    {
+      "id": "INT-005",
+      "name": "Build and test evidence",
+      "requirement": "Record per-repository required workflow run, job, step, exit code, logs/artifacts and exact SHA; historical or branch-only CI is insufficient.",
+      "pass_status": "VERIFIED"
+    },
+    {
+      "id": "INT-006",
+      "name": "Cross-repository integration",
+      "requirement": "Run contract/API compatibility tests for declared edges without copying canonical implementations into the ecosystem repository.",
+      "pass_status": "VERIFIED"
+    },
+    {
+      "id": "INT-007",
+      "name": "Archive and migration decision",
+      "requirement": "For migrated-but-active repos, verify source-to-subtree history/SHA and make an explicit KEEP, SYNC, ARCHIVE, or REACTIVATE decision.",
+      "pass_status": "VERIFIED"
+    },
+    {
+      "id": "INT-008",
+      "name": "Release readiness",
+      "requirement": "No repository is release-ready unless required exact-SHA gates pass and no unapproved critical residual remains.",
+      "pass_status": "VERIFIED"
+    }
+  ],
+  "repositories": [
+    {
+      "name": "a-townchain-os",
+      "full_name": "A-TownChain-Okosystems/a-townchain-os",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "orchestrator / system integration",
+      "canonicality": "ORCHESTRATOR_BOUNDARY_CONFLICT",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Integration/orchestration role requires reconciliation with current X control-plane architecture; do not duplicate component implementations."
+    },
+    {
+      "name": "atclang",
+      "full_name": "A-TownChain-Okosystems/atclang",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "programming language",
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "integration_anchor": "A-TownChain-Okosystems/atclang",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Canonical ATCLang language implementation."
+    },
+    {
+      "name": "a-townchain-os-docs",
+      "full_name": "A-TownChain-Okosystems/a-townchain-os-docs",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "architecture documentation",
+      "canonicality": "DOCUMENTATION_SSOT",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain-os-docs",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Canonical documentation domain; cross-link to ecosystem architecture and avoid competing normative specs."
+    },
+    {
+      "name": "atc-shivacore",
+      "full_name": "A-TownChain-Okosystems/atc-shivacore",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "kernel specifications and governance",
+      "canonicality": "SPECIFICATION_SUPPORT",
+      "integration_anchor": "A-TownChain-Okosystems/globus-os",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Kernel implementation SSOT is globus-os/modules/atc-shivacore/kernel; this repository is specs/governance/support only."
+    },
+    {
+      "name": "a-townchain",
+      "full_name": "A-TownChain-Okosystems/a-townchain",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "blockchain core",
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Canonical blockchain core; canonical ATC-VM and algorithm paths are components/vm and components/algorithm."
+    },
+    {
+      "name": "globus-os",
+      "full_name": "A-TownChain-Okosystems/globus-os",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "operating system and kernel",
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "integration_anchor": "A-TownChain-Okosystems/globus-os",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Canonical GlobusOS and ShivaCore kernel tree."
+    },
+    {
+      "name": "aurora-ai",
+      "full_name": "A-TownChain-Okosystems/aurora-ai",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "AI runtime and agents",
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "integration_anchor": "A-TownChain-Okosystems/aurora-ai",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Canonical Aurora AI implementation; must not own kernel TCB, chain consensus, or ATC-VM authority."
+    },
+    {
+      "name": "genesis-engine",
+      "full_name": "A-TownChain-Okosystems/genesis-engine",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "Genesis Engine and application runtime",
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "integration_anchor": "A-TownChain-Okosystems/genesis-engine",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Canonical Genesis Engine implementation."
+    },
+    {
+      "name": "atc-sdk",
+      "full_name": "A-TownChain-Okosystems/atc-sdk",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "developer SDK",
+      "canonicality": "AUDIT_REQUIRED",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Check whether canonical SDK implementation was migrated into a-townchain/components/sdk before setting standalone role."
+    },
+    {
+      "name": "atc-node",
+      "full_name": "A-TownChain-Okosystems/atc-node",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "node runtime",
+      "canonicality": "MIGRATED_SOURCE_CANDIDATE",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Registry states node implementation was migrated to a-townchain/components/node; repository is not archived, so owner decision and source sync must be audited."
+    },
+    {
+      "name": "atc-contracts",
+      "full_name": "A-TownChain-Okosystems/atc-contracts",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "contract tooling/runtime",
+      "canonicality": "MIGRATED_SOURCE_CANDIDATE",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Registry states contracts were migrated; verify exact subtree SHA and determine archive/sync policy."
+    },
+    {
+      "name": "atc-wallet",
+      "full_name": "A-TownChain-Okosystems/atc-wallet",
+      "default_branch": "main",
+      "observed_archive_state": "ARCHIVED",
+      "ownership_role": "wallet",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "ARCHIVED_REFERENCE_ONLY",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Archived repository; preserve history, do not treat as active build source without an explicit reactivation decision."
+    },
+    {
+      "name": "atc-explorer",
+      "full_name": "A-TownChain-Okosystems/atc-explorer",
+      "default_branch": "main",
+      "observed_archive_state": "ARCHIVED",
+      "ownership_role": "explorer application",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "ARCHIVED_REFERENCE_ONLY",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Archived repository; preserve history, do not treat as active build source without an explicit reactivation decision."
+    },
+    {
+      "name": "atc-indexer",
+      "full_name": "A-TownChain-Okosystems/atc-indexer",
+      "default_branch": "main",
+      "observed_archive_state": "ARCHIVED",
+      "ownership_role": "indexer service",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "ARCHIVED_REFERENCE_ONLY",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Archived repository; preserve history, do not treat as active build source without an explicit reactivation decision."
+    },
+    {
+      "name": "atc-mining",
+      "full_name": "A-TownChain-Okosystems/atc-mining",
+      "default_branch": "main",
+      "observed_archive_state": "ARCHIVED",
+      "ownership_role": "mining service",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "ARCHIVED_REFERENCE_ONLY",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Archived repository; preserve history, do not treat as active build source without an explicit reactivation decision."
+    },
+    {
+      "name": "atc-interop",
+      "full_name": "A-TownChain-Okosystems/atc-interop",
+      "default_branch": "main",
+      "observed_archive_state": "ARCHIVED",
+      "ownership_role": "interoperability service",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "ARCHIVED_REFERENCE_ONLY",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Archived repository; preserve history, do not treat as active build source without an explicit reactivation decision."
+    },
+    {
+      "name": "genesis-chronicles",
+      "full_name": "A-TownChain-Okosystems/genesis-chronicles",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "Genesis content / narrative application",
+      "canonicality": "APPLICATION",
+      "integration_anchor": "A-TownChain-Okosystems/genesis-engine",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Application/content integration; verify interface and release dependency against Genesis Engine."
+    },
+    {
+      "name": "atc-oracle",
+      "full_name": "A-TownChain-Okosystems/atc-oracle",
+      "default_branch": "main",
+      "observed_archive_state": "ARCHIVED",
+      "ownership_role": "oracle service",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "ARCHIVED_REFERENCE_ONLY",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Archived repository; preserve history, do not treat as active build source without an explicit reactivation decision."
+    },
+    {
+      "name": "atc-storage",
+      "full_name": "A-TownChain-Okosystems/atc-storage",
+      "default_branch": "main",
+      "observed_archive_state": "ARCHIVED",
+      "ownership_role": "storage service",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "ARCHIVED_REFERENCE_ONLY",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Archived repository; preserve history, do not treat as active build source without an explicit reactivation decision."
+    },
+    {
+      "name": "atc-launchpad",
+      "full_name": "A-TownChain-Okosystems/atc-launchpad",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "launchpad service",
+      "canonicality": "SERVICE",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Service integration via documented API and release contract; implementation stays in its canonical repository."
+    },
+    {
+      "name": "atc-marketplace",
+      "full_name": "A-TownChain-Okosystems/atc-marketplace",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "marketplace service",
+      "canonicality": "SERVICE",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Service integration via documented API and release contract; implementation stays in its canonical repository."
+    },
+    {
+      "name": "atc-compute",
+      "full_name": "A-TownChain-Okosystems/atc-compute",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "compute service",
+      "canonicality": "SERVICE",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Service integration via documented API and release contract; implementation stays in its canonical repository."
+    },
+    {
+      "name": "atc-standards",
+      "full_name": "A-TownChain-Okosystems/atc-standards",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "normative standards",
+      "canonicality": "CANONICAL_GOVERNANCE",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Canonical normative standards; standards flow one-way into repository conformance checks."
+    },
+    {
+      "name": "atc-vm",
+      "full_name": "A-TownChain-Okosystems/atc-vm",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "VM specification/support",
+      "canonicality": "SPECIFICATION_SUPPORT",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Canonical VM implementation is a-townchain/components/vm; this repository is spec/support only unless migration governance changes."
+    },
+    {
+      "name": "atc-algorithm",
+      "full_name": "A-TownChain-Okosystems/atc-algorithm",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "consensus algorithm specification/support",
+      "canonicality": "SPECIFICATION_SUPPORT",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Canonical algorithm implementation is a-townchain/components/algorithm; this repository is spec/support only unless migration governance changes."
+    },
+    {
+      "name": "atc-zkp",
+      "full_name": "A-TownChain-Okosystems/atc-zkp",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "zero-knowledge proofs",
+      "canonicality": "MIGRATED_SOURCE_CANDIDATE",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Registry states ZKP was migrated to a-townchain/components/zkp; verify exact source/mirror SHA and archive/sync policy."
+    },
+    {
+      "name": ".github",
+      "full_name": "A-TownChain-Okosystems/.github",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "organization-wide GitHub governance",
+      "canonicality": "ORG_GOVERNANCE",
+      "integration_anchor": "A-TownChain-Okosystems/.github",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Organization defaults, templates and reusable governance; avoid conflicting repository-specific policy."
+    },
+    {
+      "name": "demo-repository",
+      "full_name": "A-TownChain-Okosystems/demo-repository",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "template / integration fixture",
+      "canonicality": "TEMPLATE_FIXTURE",
+      "integration_anchor": "A-TownChain-Okosystems/.github",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Treat as a test fixture/template, not a production subsystem."
+    },
+    {
+      "name": "atc-ide",
+      "full_name": "A-TownChain-Okosystems/atc-ide",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "developer IDE",
+      "canonicality": "APPLICATION",
+      "integration_anchor": "A-TownChain-Okosystems/atc-toolchain",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Integrate through stable language/compiler/toolchain interfaces; verify compatibility tests."
+    },
+    {
+      "name": "genesis-franchise-factory",
+      "full_name": "A-TownChain-Okosystems/genesis-franchise-factory",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "Genesis franchise tooling",
+      "canonicality": "APPLICATION",
+      "integration_anchor": "A-TownChain-Okosystems/genesis-engine",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Verify whether this is standalone SSOT or already integrated into Genesis Engine; do not duplicate active implementation."
+    },
+    {
+      "name": "atc-engineering",
+      "full_name": "A-TownChain-Okosystems/atc-engineering",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "engineering assurance and fleet governance",
+      "canonicality": "ENGINEERING_CONTROL_PLANE",
+      "integration_anchor": "A-TownChain-Okosystems/atc-standards",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Canonical fleet engineering/governance controls; reads standards, never becomes standards SSOT."
+    },
+    {
+      "name": "a-townchain-ecosystem",
+      "full_name": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "system-of-systems integration and evidence",
+      "canonicality": "INTEGRATION_CONTROL_PLANE",
+      "integration_anchor": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Architecture, integration, compliance, evidence and cross-repository control plane; not canonical implementation for component code."
+    },
+    {
+      "name": "atc-toolchain",
+      "full_name": "A-TownChain-Okosystems/atc-toolchain",
+      "default_branch": "main",
+      "observed_archive_state": "ACTIVE",
+      "ownership_role": "compiler/build/developer toolchain",
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "integration_anchor": "A-TownChain-Okosystems/atclang",
+      "integration_status": "AUDIT_REQUIRED",
+      "last_verified_head_sha": null,
+      "tree_sha": null,
+      "required_evidence": {
+        "exact_head_sha": null,
+        "tree_sha": null,
+        "required_ci_run": null,
+        "required_ci_job": null,
+        "required_ci_step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "open_decisions": "Canonical toolchain implementation; integration with ATCLang/ATC-VM must use published ABI and specs."
+    }
+  ],
+  "explicit_residuals": [
+    "a-townchain-os versus a-townchain-ecosystem orchestration/control-plane boundary requires reconciliation against the latest approved architecture.",
+    "atc-node, atc-contracts, and atc-zkp are currently unarchived despite registry claims that implementation was migrated into a-townchain; verify source-to-subtree SHA and decide KEEP/SYNC/ARCHIVE.",
+    "atc-sdk is active; confirm whether a canonical implementation was migrated into a-townchain/components/sdk.",
+    "Repository names, default branches and archive flags are inventory observations only; no HEAD/tree SHA or CI success is asserted by this baseline.",
+    "Repository dependency edges and API compatibility are not yet verified across all active repositories."
+  ]
+}
