@@ -64,7 +64,7 @@ jobs:
               if not re.fullmatch(r"ATC-KMS-[A-Z0-9-]+", rid):
                   raise SystemExit(f"{path}: invalid record ID {rid}")
 
-              if not re.fullmatch(r"v[0-9]+\\.[0-9]+\\.[0-9]+", record["version"]):
+              if not re.fullmatch(r"v[0-9]+\.[0-9]+\.[0-9]+", record["version"]):
                   raise SystemExit(f"{path}: invalid version {record['version']}")
 
           print("ATC-KMS integrity validation passed.")
