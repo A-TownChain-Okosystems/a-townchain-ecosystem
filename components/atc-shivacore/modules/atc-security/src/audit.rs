@@ -87,6 +87,12 @@ impl SecurityAuditor {
     }
 }
 
+impl Default for SecurityAuditor {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

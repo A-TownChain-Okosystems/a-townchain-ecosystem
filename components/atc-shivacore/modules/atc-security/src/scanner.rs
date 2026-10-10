@@ -1,10 +1,11 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Vulnerability scanner
+
 pub struct VulnerabilityScanner {
     findings: Vec<ScanResult>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct ScanResult {
     pub id: String,
     pub vuln_type: String,
@@ -13,18 +14,8 @@ pub struct ScanResult {
     pub description: String,
 }
 
-impl Default for VulnerabilityScanner {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl VulnerabilityScanner {
-    pub fn new() -> Self {
-        Self {
-            findings: Vec::new(),
-        }
-    }
+    pub fn new() -> Self { Self { findings: Vec::new() } }
 
     pub fn scan_reentrancy(&mut self, contracts: &[String]) {
         for contract in contracts {
@@ -54,14 +45,15 @@ impl VulnerabilityScanner {
         }
     }
 
-    pub fn findings(&self) -> &Vec<ScanResult> {
-        &self.findings
-    }
+    pub fn findings(&self) -> &Vec<ScanResult> { &self.findings }
     pub fn critical_count(&self) -> usize {
-        self.findings
-            .iter()
-            .filter(|f| f.severity == "Critical")
-            .count()
+        self.findings.iter().filter(|f| f.severity == "Critical").count()
+    }
+}
+
+impl Default for VulnerabilityScanner {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -79,7 +71,8 @@ mod tests {
     #[test]
     fn test_overflow_detection() {
         let mut s = VulnerabilityScanner::new();
-        s.scan_overflow(&[100, u64::MAX - 1]);
+        s.scan_overflow(&[10, 20, u64::MAX]);
         assert_eq!(s.findings().len(), 1);
+        assert_eq!(s.findings()[0].vuln_type, "Integer Overflow");
     }
 }
