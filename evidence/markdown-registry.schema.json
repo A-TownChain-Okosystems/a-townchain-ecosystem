@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ATC-MD-001.1",
+  "title": "ATC Markdown Registry",
+  "type": "object",
+  "required": [
+    "schema",
+    "repository",
+    "source_commit",
+    "generated_from",
+    "generated_at",
+    "markdown_count",
+    "entries"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schema": {
+      "const": "ATC-MD-001.1"
+    },
+    "repository": {
+      "type": "string"
+    },
+    "source_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "generated_from": {
+      "const": "git-tree-recursive"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "markdown_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "machine_readable_projection": {
+      "type": "string"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "blob_sha",
+          "type",
+          "lifecycle",
+          "filename"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "\\.md$"
+          },
+          "blob_sha": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "type": {
+            "enum": [
+              "architecture",
+              "agent-instructions",
+              "archive",
+              "readme",
+              "status",
+              "roadmap",
+              "changelog",
+              "security",
+              "contributing",
+              "document"
+            ]
+          },
+          "lifecycle": {
+            "enum": [
+              "active",
+              "archived"
+            ]
+          },
+          "filename": {
+            "type": "string",
+            "pattern": "\\.md$"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
