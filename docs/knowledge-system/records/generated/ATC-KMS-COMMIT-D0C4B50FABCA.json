@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-D0C4B50FABCA",
-  "timestamp": "2026-10-10T22:24:16.002358Z",
+  "timestamp": "2026-10-10T22:27:01.136470Z",
   "category": "change",
   "title": "Commit: fix(explorer): typescript auf ^6.0.3 zurückgepinnt (ts-jest-Peer-Konflikt unter npm 11)",
   "context": "Git commit d0c4b50fabca08050930e5e5700868e7d43b6471 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/d0c4b50fabca08050930e5e5700868e7d43b6471",
-    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
+    "commit": "c65a7af3ce0d1675d906d016079848e014343e60"
   },
   "tags": [
     "commit",

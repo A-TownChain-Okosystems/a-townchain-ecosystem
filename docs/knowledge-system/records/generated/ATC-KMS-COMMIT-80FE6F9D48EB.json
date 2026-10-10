@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-80FE6F9D48EB",
-  "timestamp": "2026-10-10T22:24:16.002358Z",
+  "timestamp": "2026-10-10T22:27:01.136470Z",
   "category": "change",
   "title": "Commit: Merge pull request #46 from A-TownChain-Okosystems/fix/zkp-proof-length-overflow-20261002",
   "context": "Git commit 80fe6f9d48eb767228245f8d843d51763282ea0e on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/80fe6f9d48eb767228245f8d843d51763282ea0e",
-    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
+    "commit": "c65a7af3ce0d1675d906d016079848e014343e60"
   },
   "tags": [
     "commit",

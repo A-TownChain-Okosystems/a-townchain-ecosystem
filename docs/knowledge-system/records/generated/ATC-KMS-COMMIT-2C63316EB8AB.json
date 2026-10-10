@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-2C63316EB8AB",
-  "timestamp": "2026-10-10T22:24:16.002358Z",
+  "timestamp": "2026-10-10T22:27:01.136470Z",
   "category": "change",
   "title": "Commit: fix(deps, SCR-0132): Dependabot-Welle 1 — 2 Critical behoben, tote ecdsa-Dependency entfernt",
   "context": "Git commit 2c63316eb8ab3bdacfc4882a67ddd13e77f207fa on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/2c63316eb8ab3bdacfc4882a67ddd13e77f207fa",
-    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
+    "commit": "c65a7af3ce0d1675d906d016079848e014343e60"
   },
   "tags": [
     "commit",

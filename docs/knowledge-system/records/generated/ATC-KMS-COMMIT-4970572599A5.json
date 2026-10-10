@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-4970572599A5",
-  "timestamp": "2026-10-10T22:24:16.002358Z",
+  "timestamp": "2026-10-10T22:27:01.136470Z",
   "category": "change",
   "title": "Commit: sync: a-townchain into components/a-townchain (365 Commits: Critical/High-Security-Welle RPC/VM/ZKP/Storage/Gossip, u128-Amount-Migration, Devnet-E2E-Fix upstreamed)",
   "context": "Git commit 4970572599a5b55a4a6436cc355c0308e4325d14 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/4970572599a5b55a4a6436cc355c0308e4325d14",
-    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
+    "commit": "c65a7af3ce0d1675d906d016079848e014343e60"
   },
   "tags": [
     "commit",

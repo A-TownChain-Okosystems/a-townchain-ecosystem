@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-DDD92E63308A",
-  "timestamp": "2026-10-10T22:24:16.002358Z",
+  "timestamp": "2026-10-10T22:27:01.136470Z",
   "category": "change",
   "title": "Commit: fix(determinism): 6 SCR-0126-Wallet-Allowlist-Einträge nach Subtree-Merge wiederhergestellt",
   "context": "Git commit ddd92e63308a828a483196d15623150fe7f049d5 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/ddd92e63308a828a483196d15623150fe7f049d5",
-    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
+    "commit": "c65a7af3ce0d1675d906d016079848e014343e60"
   },
   "tags": [
     "commit",

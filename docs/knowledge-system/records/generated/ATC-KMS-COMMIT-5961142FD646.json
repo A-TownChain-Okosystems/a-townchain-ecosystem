@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-5961142FD646",
-  "timestamp": "2026-10-10T22:24:16.002358Z",
+  "timestamp": "2026-10-10T22:27:01.136470Z",
   "category": "change",
   "title": "Commit: style(atc-governance): treasury.rs rustfmt-konform formatiert (CI rust-components rot)",
   "context": "Git commit 5961142fd6469d870df40fcf9a1f8a46d6bdad77 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/5961142fd6469d870df40fcf9a1f8a46d6bdad77",
-    "commit": "061734d08f75eab3f10eb455e6e9191cb5fc8588"
+    "commit": "c65a7af3ce0d1675d906d016079848e014343e60"
   },
   "tags": [
     "commit",
