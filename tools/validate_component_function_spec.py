@@ -65,7 +65,8 @@ def validate(data: dict) -> dict:
                 if not any(
                     e.get("workflow_run_id") and e.get("job_name") and
                     e.get("step_name") and e.get("exit_code") == 0 and
-                    (e.get("log_url") or e.get("artifact_url"))
+                    (e.get("log_url") or e.get("artifact_url")) and
+                    e.get("commit_sha") == ist.get("commit_sha")
                     for e in (ist.get("ci_evidence") or []) if isinstance(e, dict)
                 ):
                     fail(f"{sid}: VERIFIED without exact Run/Job/Step/exit/log evidence", errors)
