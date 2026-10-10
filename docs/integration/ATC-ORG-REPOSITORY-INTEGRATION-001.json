@@ -67,8 +67,9 @@
       "id": "INT-007",
       "name": "Archive and migration decision",
       "requirement": "For migrated-but-active repos, verify source-to-subtree history/SHA and make an explicit KEEP, SYNC, ARCHIVE, or REACTIVATE decision.",
-      "status": "NOT_RUN",
-      "required_terminal_status": "VERIFIED"
+      "status": "RESIDUAL",
+      "required_terminal_status": "VERIFIED",
+      "result": "All four canonical component directories exist, but source-root tree SHAs differ from target subtree SHAs; migration completeness/history and KEEP/SYNC/ARCHIVE decisions remain unresolved."
     },
     {
       "id": "INT-008",
@@ -307,11 +308,22 @@
         "exit_code": null,
         "log_or_artifact_url": null
       },
-      "open_decisions": "Check whether canonical SDK implementation was migrated into a-townchain/components/sdk before setting standalone role.",
+      "open_decisions": "Canonical target exists. Source root tree and target subtree tree differ; several root-file blob SHAs match but root-tree identity does not prove complete history or synchronization. KEEP/SYNC/ARCHIVE requires review.",
       "observed_head_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
       "observed_tree_sha": "e8e5979cc795aa587ef182e831ecc4765bfee120",
       "observed_at": "2026-10-11",
-      "observation_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-sdk/commits/main"
+      "observation_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-sdk/commits/main",
+      "migration_audit": {
+        "source_head_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
+        "source_tree_sha": "e8e5979cc795aa587ef182e831ecc4765bfee120",
+        "canonical_target": "A-TownChain-Okosystems/a-townchain/components/sdk",
+        "target_tree_sha": "7aea255cd09f0907a387220b05788233ee1c1049",
+        "tree_match": false,
+        "decision": "UNRESOLVED",
+        "finding": "Canonical target exists. Source root tree and target subtree tree differ; several root-file blob SHAs match but root-tree identity does not prove complete history or synchronization. KEEP/SYNC/ARCHIVE requires review.",
+        "observed_at": "2026-10-11",
+        "evidence_scope": "GitHub API root tree SHA and canonical component directory tree SHA; no history equivalence inferred"
+      }
     },
     {
       "name": "atc-node",
@@ -333,11 +345,22 @@
         "exit_code": null,
         "log_or_artifact_url": null
       },
-      "open_decisions": "Registry states node implementation was migrated to a-townchain/components/node; repository is not archived, so owner decision and source sync must be audited.",
+      "open_decisions": "Canonical target exists. Source root tree and target subtree tree differ; several root-file blob SHAs match but root-tree identity does not prove complete history or synchronization. KEEP/SYNC/ARCHIVE requires review.",
       "observed_head_sha": "1ee3a3aee6d66681debca7934cd9aaa9e1051ee2",
       "observed_tree_sha": "07f76e4848f17da7706bd29b96bd8d7d647ba35c",
       "observed_at": "2026-10-11",
-      "observation_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-node/commits/main"
+      "observation_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-node/commits/main",
+      "migration_audit": {
+        "source_head_sha": "1ee3a3aee6d66681debca7934cd9aaa9e1051ee2",
+        "source_tree_sha": "07f76e4848f17da7706bd29b96bd8d7d647ba35c",
+        "canonical_target": "A-TownChain-Okosystems/a-townchain/components/node",
+        "target_tree_sha": "25d6dd99eea87871b0fa9f60413c03b7270e5a85",
+        "tree_match": false,
+        "decision": "UNRESOLVED",
+        "finding": "Canonical target exists. Source root tree and target subtree tree differ; several root-file blob SHAs match but root-tree identity does not prove complete history or synchronization. KEEP/SYNC/ARCHIVE requires review.",
+        "observed_at": "2026-10-11",
+        "evidence_scope": "GitHub API root tree SHA and canonical component directory tree SHA; no history equivalence inferred"
+      }
     },
     {
       "name": "atc-contracts",
@@ -359,11 +382,22 @@
         "exit_code": null,
         "log_or_artifact_url": null
       },
-      "open_decisions": "Registry states contracts were migrated; verify exact subtree SHA and determine archive/sync policy.",
+      "open_decisions": "Canonical target exists. Source root tree and target subtree tree differ; several root-file blob SHAs match but root-tree identity does not prove complete history or synchronization. KEEP/SYNC/ARCHIVE requires review.",
       "observed_head_sha": "a7c8b417f482665ef30e94fcacae6469c28b1125",
       "observed_tree_sha": "026851749bdff7ff5a686dfc9fab6beacd9fce72",
       "observed_at": "2026-10-11",
-      "observation_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-contracts/commits/main"
+      "observation_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-contracts/commits/main",
+      "migration_audit": {
+        "source_head_sha": "a7c8b417f482665ef30e94fcacae6469c28b1125",
+        "source_tree_sha": "026851749bdff7ff5a686dfc9fab6beacd9fce72",
+        "canonical_target": "A-TownChain-Okosystems/a-townchain/components/contracts",
+        "target_tree_sha": "9a0dff3c4cead28e89fcd519b5fe188cfbd3acad",
+        "tree_match": false,
+        "decision": "UNRESOLVED",
+        "finding": "Canonical target exists. Source root tree and target subtree tree differ; several root-file blob SHAs match but root-tree identity does not prove complete history or synchronization. KEEP/SYNC/ARCHIVE requires review.",
+        "observed_at": "2026-10-11",
+        "evidence_scope": "GitHub API root tree SHA and canonical component directory tree SHA; no history equivalence inferred"
+      }
     },
     {
       "name": "atc-wallet",
@@ -749,11 +783,22 @@
         "exit_code": null,
         "log_or_artifact_url": null
       },
-      "open_decisions": "Registry states ZKP was migrated to a-townchain/components/zkp; verify exact source/mirror SHA and archive/sync policy.",
+      "open_decisions": "Canonical target exists. Source root tree and target subtree tree differ; several root-file blob SHAs match but root-tree identity does not prove complete history or synchronization. KEEP/SYNC/ARCHIVE requires review.",
       "observed_head_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f",
       "observed_tree_sha": "b9ac1abf479be23234af5afa4178887d2b3cae6a",
       "observed_at": "2026-10-11",
-      "observation_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-zkp/commits/main"
+      "observation_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-zkp/commits/main",
+      "migration_audit": {
+        "source_head_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f",
+        "source_tree_sha": "b9ac1abf479be23234af5afa4178887d2b3cae6a",
+        "canonical_target": "A-TownChain-Okosystems/a-townchain/components/zkp",
+        "target_tree_sha": "0c76a0f54d6dcb1d2865b52a2a070b154bd4d011",
+        "tree_match": false,
+        "decision": "UNRESOLVED",
+        "finding": "Canonical target exists. Source root tree and target subtree tree differ; several root-file blob SHAs match but root-tree identity does not prove complete history or synchronization. KEEP/SYNC/ARCHIVE requires review.",
+        "observed_at": "2026-10-11",
+        "evidence_scope": "GitHub API root tree SHA and canonical component directory tree SHA; no history equivalence inferred"
+      }
     },
     {
       "name": ".github",
