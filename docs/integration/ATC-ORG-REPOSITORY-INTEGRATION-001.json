@@ -24,49 +24,57 @@
       "id": "INT-001",
       "name": "Inventory and provenance",
       "requirement": "Record repository URL, default branch, full HEAD SHA, tree SHA, archive flag, and snapshot timestamp for every repository.",
-      "pass_status": "VERIFIED"
+      "status": "NOT_RUN",
+      "required_terminal_status": "VERIFIED"
     },
     {
       "id": "INT-002",
       "name": "Canonical ownership",
       "requirement": "Exactly one canonical implementation owner per capability; mirrors and spec-only repositories explicitly labeled.",
-      "pass_status": "VERIFIED"
+      "status": "NOT_RUN",
+      "required_terminal_status": "VERIFIED"
     },
     {
       "id": "INT-003",
       "name": "Dependency and interface graph",
       "requirement": "Every active repository declares upstream/downstream dependencies and versioned interface/contract references; unresolved edges remain RESIDUAL.",
-      "pass_status": "VERIFIED"
+      "status": "NOT_RUN",
+      "required_terminal_status": "VERIFIED"
     },
     {
       "id": "INT-004",
       "name": "Standards conformance",
       "requirement": "Validate each active repository against atc-standards using exact checked-out SHA; manual/hybrid checks remain not evaluated until evidence exists.",
-      "pass_status": "VERIFIED"
+      "status": "NOT_RUN",
+      "required_terminal_status": "VERIFIED"
     },
     {
       "id": "INT-005",
       "name": "Build and test evidence",
       "requirement": "Record per-repository required workflow run, job, step, exit code, logs/artifacts and exact SHA; historical or branch-only CI is insufficient.",
-      "pass_status": "VERIFIED"
+      "status": "NOT_RUN",
+      "required_terminal_status": "VERIFIED"
     },
     {
       "id": "INT-006",
       "name": "Cross-repository integration",
       "requirement": "Run contract/API compatibility tests for declared edges without copying canonical implementations into the ecosystem repository.",
-      "pass_status": "VERIFIED"
+      "status": "NOT_RUN",
+      "required_terminal_status": "VERIFIED"
     },
     {
       "id": "INT-007",
       "name": "Archive and migration decision",
       "requirement": "For migrated-but-active repos, verify source-to-subtree history/SHA and make an explicit KEEP, SYNC, ARCHIVE, or REACTIVATE decision.",
-      "pass_status": "VERIFIED"
+      "status": "NOT_RUN",
+      "required_terminal_status": "VERIFIED"
     },
     {
       "id": "INT-008",
       "name": "Release readiness",
       "requirement": "No repository is release-ready unless required exact-SHA gates pass and no unapproved critical residual remains.",
-      "pass_status": "VERIFIED"
+      "status": "NOT_RUN",
+      "required_terminal_status": "VERIFIED"
     }
   ],
   "repositories": [
