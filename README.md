@@ -1,14 +1,10 @@
 # A-TownChain Ecosystem
 
-System-of-Systems-Integration des A-TownChain-Ökosystems: alle Kern-Systeme laufen
-hier als ein Gesamtsystem zusammen. Vollständige Komponenten-Überführung per
-`git subtree` **mit voller Historie** (siehe `MIGRATION_MANIFEST.yaml`).
+System-of-Systems-Integrations- und Evidence-Control-Plane des A-TownChain-Ökosystems. Importierte `git subtree`-Verzeichnisse sind Integrations-Snapshots; sie verschieben keine SSOT-Verantwortung und beweisen nicht, dass alle Komponenten synchron oder end-to-end verifiziert sind.
 
 ## Purpose
 
-Ein Dach-Repository, das ATCLang, ATC-VM, ATC-Algorithm, ShivaCore-Kernel,
-A-TownChain, Aurora AI und Genesis Engine als ein Gesamtsystem integriert,
-bündelt und systemübergreifend verifiziert.
+Dieses Repository koordiniert die Integration dieser Systeme, dokumentiert Cross-Repo-Verträge und aggregiert Evidence. Ein Import, ein grüner Einzel-Gate oder ein vorhandener Integrationstest beweist nicht, dass alle Komponenten als Gesamtsystem vollständig verifiziert sind.
 
 ## Scope
 
@@ -20,8 +16,8 @@ kanonischen Quell-Repos statt (SSOT-Disziplin, ATC-STD-000).
 |---|---|---|
 | ATCLang (Programmiersprache) | `components/atclang` | atclang |
 | ATC-VM | `components/a-townchain/components/vm` | a-townchain (L1-Monorepo) |
-| ATC-Algorithm | `components/a-townchain/components/algorithm` | a-townchain (L1-Monorepo) |
-| ShivaCore-Kernel | `components/atc-shivacore` | atc-shivacore |
+| Algorithmus/Konsens | `components/a-townchain/components/algorithm` | a-townchain (L1-Monorepo) |
+| ShivaCore-Kernel | `components/globus-os/modules/atc-shivacore/kernel` (Importpfad, falls vorhanden) | globus-os (kanonische Kernel-Quelle) |
 | A-TownChain (L1, 13 Komponenten) | `components/a-townchain` | a-townchain |
 | Aurora AI | `components/aurora-ai` | aurora-ai |
 | Genesis Engine | `components/genesis-engine` | genesis-engine |
@@ -33,12 +29,12 @@ ATC-Algorithm/Node (A-TownChain L1) → Aurora AI (Policy/Agent-Ebene) →
 Genesis Engine (Game-Plattform) → Anwendungen (Genesis Chronicles, Flagship).
 Details: `ARCHITECTURE.md`.
 
-## Features
+## Capabilities and limits
 
-- 5 Komponenten-Importe mit voller Git-Historie (subtree, kein Squash)
-- Komponenten-eigene Determinism-Gates mit eigenen Allowlists
-- Governance-Audit gegen die Org-Registry (ATC-STD-201/202/203)
-- System-Mapping der 7 Kern-Systeme auf kanonische Pfade
+- Imported component trees are integration snapshots; their freshness must be checked against the canonical source SHA.
+- Component-specific Determinism Gates use their own tools and allowlists; a pass in one component does not verify another.
+- Governance checks validate repository policy and registry alignment; they do not prove production readiness.
+- The seven-system map records intended ownership and paths, not complete runtime connectivity.
 
 ## Installation
 
@@ -49,13 +45,13 @@ git clone https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem.git
 
 ## L1 Integration Contract
 
-The canonical runtime path is now explicitly verified as a connected chain:
+The intended end-to-end runtime path to be verified is:
 
 `wallet/SDK transaction → mempool → proposer → block → network block validation → state transition → reward → validator vote → weighted finality → durable persistence → restart recovery → next block`.
 
-Multi-node operation uses the canonical `atc-node` runtime and the `atc-blockchain` consensus/network boundary. Network handshakes bind chain identity and expose the accepting node's own height/tip; received blocks are validated before state adoption, and finality/evidence state is persisted for restart recovery.
+This path is an integration contract, not by itself proof that the whole chain is currently verified. Each edge requires evidence tied to the exact source SHA and the relevant workflow run/job/step/logs. Multi-node behavior, chain-identity binding, block validation, finality and restart recovery must be reported separately where their evidence differs.
 
-A successful CI run is required before any production-readiness claim. Current development status remains **not production-ready** until all mandatory gates are green.
+A successful relevant CI run is required before any verification claim, and all applicable release gates are required before production-readiness claims. Current development status remains **not production-ready** until mandatory gates and exact-SHA evidence support the claim.
 
 ## Testing
 
@@ -76,11 +72,12 @@ Fach-Commits im Umbrella sind zu unterlassen.
 Criticality: critical (aggregiert alle Kern-Systeme). Security-Policy je
 Komponente siehe `components/<name>/SECURITY.md`; Meldewege siehe SECURITY.md.
 
-## Roadmap
+## Roadmap / open verification work
 
-1. PR genesis-engine#13 mergen → Genesis-Komponente grün, danach subtree pull
-2. Registry-Decommission-Mapping (repositories.yaml) für die 13 L1-Quell-Repos
-3. Systemübergreifende Integrationstests (ATCLang → VM → Node → Engine)
+1. Reconcile the imported component snapshots against current canonical source SHAs and record any lag.
+2. Complete the repository-registry decommission mapping for the migrated source repositories; do not archive or decommission sources without an explicit governance decision.
+3. Run and record cross-component integration tests (ATCLang → canonical VM → node/chain runtime → consuming service) against exact SHAs.
+4. Keep failed or pending integration and determinism gates visible; do not infer end-to-end verification from component-level green checks.
 
 ## Version
 
