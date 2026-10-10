@@ -2405,15 +2405,15 @@
     ]
   },
   "dependency_registry": {
-    "ATC-VM": {
+    "ATCVM": {
       "kind": "catalog_system",
       "system_id": "ATCVM"
     },
-    "ATC-ALGORITHM": {
+    "ATCALGORITHM": {
       "kind": "catalog_system",
       "system_id": "ATCALGORITHM"
     },
-    "A-TOWNCHAIN": {
+    "ATOWNCHAIN": {
       "kind": "catalog_system",
       "system_id": "ATOWNCHAIN"
     },
@@ -2421,17 +2421,17 @@
       "kind": "catalog_system",
       "system_id": "SHIVACORE"
     },
-    "ATC-STANDARDS": {
+    "ATCSTANDARDS": {
       "kind": "external_repository",
       "repository_full_name": "A-TownChain-Okosystems/atc-standards",
       "default_branch": "main"
     },
-    "ATC-TOOLCHAIN": {
+    "ATCTOOLCHAIN": {
       "kind": "external_repository",
       "repository_full_name": "A-TownChain-Okosystems/atc-toolchain",
       "default_branch": "main"
     },
-    "AURORA-AI": {
+    "AURORAAI": {
       "kind": "external_repository",
       "repository_full_name": "A-TownChain-Okosystems/aurora-ai",
       "default_branch": "main",
