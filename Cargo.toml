@@ -11,6 +11,9 @@ members = [
   "components/atc-sdk",
   "components/atc-indexer",
   "components/atc-wallet",
+  "components/aurora-ai/modules/atc-aurora-core",
+  "components/aurora-ai/modules/atc-aurora-memory",
+  "components/aurora-ai/modules/atc-aurora-runtime",
 ]
 
 [workspace.package]
