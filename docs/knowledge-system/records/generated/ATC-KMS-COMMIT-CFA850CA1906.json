@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-CFA850CA1906",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: sync: aurora-ai into components/aurora-ai (Konflikte auf Source-SSOT-Seite)",
+  "context": "Git commit cfa850ca1906a2beaef8fe641314af45348fb77d on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/cfa850ca1906a2beaef8fe641314af45348fb77d",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "sync: aurora-ai into components/aurora-ai (Konflikte auf Source-SSOT-Seite)"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-2C63316EB8AB",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: fix(deps, SCR-0132): Dependabot-Welle 1 — 2 Critical behoben, tote ecdsa-Dependency entfernt",
+  "context": "Git commit 2c63316eb8ab3bdacfc4882a67ddd13e77f207fa on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/2c63316eb8ab3bdacfc4882a67ddd13e77f207fa",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(deps, SCR-0132): Dependabot-Welle 1 — 2 Critical behoben, tote ecdsa-Dependency entfernt\n\ncomponents/explorer/package-lock.json (Critical next-Alert entkraeftet):\n- next@16.3.8 bereits ueber Fix-Schwelle 16.3.6 (RCE next/og) — no-op\n- sharp 0.35.4 -> 0.35.5 (HIGH, librsvg CVE-2026-96889)\n- source-map-js 1.2.1 -> 1.2.2 (HIGH, Event-Loop-DoS)\n- brace-expansion 5.0.9 -> 5.0.12 / nested 2.1.4 -> 2.1.7 (HIGH/MEDIUM, DoS)\n\ncomponents/indexer/modules/atc-analytics/package-lock.json:\n- proxy-addr 2.0.7 -> 2.0.8 (CRITICAL, IPv4-mapped-IPv6 IP-Spoofing)\n- brace-expansion auf fixe Versionen angehoben\n\ncomponents/wallet/modules/atc-wallet/requirements.txt:\n- ecdsa>=0.19.2 ENTFERNT — Abhaengigkeit wurde nirgends importiert\n  (0 Treffer), trug aber HIGH-Exposure (Minerva-Timing-Attack,\n  kein Upstream-Fix). Presence is not permission (ATC-STD-220).\n\nVerifikation: Lockfile-only-Updates via npm audit fix /\nnpm install --package-lock-only --legacy-peer-deps; keine\nInstallations- oder Verhaltensaenderung im Runtime-Betrieb.\n\nscr: SCR-0132 · agent: ATC-AI-ARCH-001 · owner-auftrag: Michael Wroblewski"
+}

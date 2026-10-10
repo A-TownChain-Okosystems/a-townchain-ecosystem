@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-859F3E0344DA",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: fix(tools, SCR-0100): gebrochene Patch-Literale in dependency_review.py repariert",
+  "context": "Git commit 859f3e0344da1361108d620b161e1b6b3bff51f9 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/859f3e0344da1361108d620b161e1b6b3bff51f9",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(tools, SCR-0100): gebrochene Patch-Literale in dependency_review.py repariert\n\nVierter und letzter Fund des Broken-Patch-Musters; beide\nwrite_text-Aufrufe wiederhergestellt (Komma-Verlust in der\nArgumentliste behoben). py_compile + --help + atcnet-Suite (4/4) gruen.\nAlle 3 portierten Python-Dateien jetzt syntaxgeprueft.\n\nscr: SCR-0100 · agent: ATC-AI-ARCH-001"
+}

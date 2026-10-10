@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-F18AE4999802",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: chore(components): finale Evidence-/README-Pariität für oracle+storage (SCR-0127 Decommission-Gate)",
+  "context": "Git commit f18ae49998025f5f4fbcbb97c5b94bb139e932d2 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/f18ae49998025f5f4fbcbb97c5b94bb139e932d2",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "chore(components): finale Evidence-/README-Pariität für oracle+storage (SCR-0127 Decommission-Gate)\n\nLetzter Quellzustand (atc-oracle @ 8087d34 evidence-pr-promotion,\natc-storage @ 230746c Evidence-Update) in components/* nachgezogen —\nBestandteil des Exact-SHA-Decommission-Gates."
+}

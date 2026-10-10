@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-BCF565D05F74",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: fix: make Aurora quality gates manifest-aware",
+  "context": "Git commit bcf565d05f745f318ebe3053fd93eeb8870ba896 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/bcf565d05f745f318ebe3053fd93eeb8870ba896",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix: make Aurora quality gates manifest-aware"
+}

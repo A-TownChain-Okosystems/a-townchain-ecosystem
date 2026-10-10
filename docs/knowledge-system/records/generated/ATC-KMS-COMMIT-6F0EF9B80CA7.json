@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-6F0EF9B80CA7",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: Merge pull request #48 from A-TownChain-Okosystems/fix/zkp-circuit-witness-bounds-20261002",
+  "context": "Git commit 6f0ef9b80ca7c71fe9d5844ead1cb4bf108e3857 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/6f0ef9b80ca7c71fe9d5844ead1cb4bf108e3857",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "Merge pull request #48 from A-TownChain-Okosystems/fix/zkp-circuit-witness-bounds-20261002\n\nfix(zkp): reject out-of-bounds witness indices"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-82071EACDFF6",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: sync(globus-os): Overlay-Sync aus Source-SSOT (aad164f) — #45-Serie inkl. VMM M1.2/M1.3",
+  "context": "Git commit 82071eacdff67c1c76340ae1ed31c7433ec2a9d4 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/82071eacdff67c1c76340ae1ed31c7433ec2a9d4",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "sync(globus-os): Overlay-Sync aus Source-SSOT (aad164f) — #45-Serie inkl. VMM M1.2/M1.3\n\nChirurgischer Overlay-Sync von globus-os main (aad164f) in components/globus-os\n(Muster SCR-0133), da kein gemeinsamer Subtree-Vorfaehler existiert:\n\n- 159 Dateien auf Source-Stand gebracht, 16 neue Dateien uebernommen\n  (u.a. kernel/service_space-Restrukturierung #45 Stufe 1+2, VMM M1.2\n  Hardware-Mutationspfad + transaktionaler Rollback, M1.3 Mapping-Lifetime,\n  W^X-Zweiphasen-Install, vfs-Test-Bugfixes, missing_docs-Schulden)\n- 10 superseded-Moves aus kernel/src entfernt (p2p, vm, net, sockets,\n  tcpip, ai, mempool, contract, container_net, p2p_secure — alle in\n  service_space migriert, Source-Historie verifiziert) + 1 tmp-Datei\n- Umbrella-only Komponenten unberuehrt erhalten: atc-globus-browser,\n  25 system/*-Manager-Crates, sdk/abi.rs, kernel user_transition.rs,\n  execution.rs, context.rs, tsconfig.production.json, measured_boot.rs\n- Root-Cargo.toml bleibt Union-Manifest (Superset, keine Aenderung)\n- Evidence: cargo test --workspace --exclude boot = 1310 passed, 0 failed\n  (Quell-Repo: 1265 + Umbrella-only-Komponenten: 45)\n\nAuerdem: ecosystem-subtree-sync.yml repariert — '-X theirs' wurde von\ngit-subtree 2.39 nicht akzeptiert (Usage-Fehler; Ursache fuer 4 fehlge-\nschlagene Sync-Runs seit 2026-09-21) und durch einen Kommentar zur\nglobus-os-Ausnahme ergaenzt."
+}

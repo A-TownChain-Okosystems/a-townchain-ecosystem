@@ -1,0 +1,21 @@
+{
+  "id": "ATC-KMS-SOURCE-COMPONENTS-AURORA-AI-DOCS-DECENTRALIZED-MEMORY-ARCHITECTURE--17A70DED35",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "evidence",
+  "title": "Indexed source: components/aurora-ai/docs/DECENTRALIZED_MEMORY_ARCHITECTURE.md",
+  "context": "Repository architecture, release, security, migration, or build source.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "file",
+    "ref": "components/aurora-ai/docs/DECENTRALIZED_MEMORY_ARCHITECTURE.md",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "generated",
+    "source"
+  ],
+  "links": [],
+  "content": "Source file present at components/aurora-ai/docs/DECENTRALIZED_MEMORY_ARCHITECTURE.md."
+}

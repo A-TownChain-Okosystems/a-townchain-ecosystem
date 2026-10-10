@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-AURORA-AI-1C5D3633B6",
-  "timestamp": "2026-10-10T08:33:51.513381Z",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
   "category": "module",
   "title": "Component: aurora-ai",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/aurora-ai",
-    "commit": "32cfbcd2537d6be48e40a72e2aa6c2b3197067b0"
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
   },
   "tags": [
     "aurora-ai",
@@ -23,5 +23,5 @@
       "target": "ATC-KMS-REPOSITORY-STRUCTURE"
     }
   ],
-  "content": "Files: 433\n\nManifests: components/aurora-ai/modules/atc-aistudio/package.json, components/aurora-ai/modules/atc-aurora-agents/Cargo.toml, components/aurora-ai/modules/atc-aurora-core/Cargo.toml, components/aurora-ai/modules/atc-aurora-memory/Cargo.toml, components/aurora-ai/sdk/Cargo.toml"
+  "content": "Files: 459\n\nManifests: components/aurora-ai/modules/atc-aistudio/package.json, components/aurora-ai/modules/atc-aurora-agents/Cargo.toml, components/aurora-ai/modules/atc-aurora-core/Cargo.toml, components/aurora-ai/modules/atc-aurora-localization/Cargo.toml, components/aurora-ai/modules/atc-aurora-memory/Cargo.toml, components/aurora-ai/sdk/Cargo.toml"
 }

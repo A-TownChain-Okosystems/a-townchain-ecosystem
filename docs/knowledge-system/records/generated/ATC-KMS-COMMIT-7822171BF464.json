@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-7822171BF464",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: fix(atc-governance): dao.rs an Treasury-Amount-Typwechsel (u64 -> u128) angepasst",
+  "context": "Git commit 7822171bf46470d28365d7c36a15bb02fef6fb12 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/7822171bf46470d28365d7c36a15bb02fef6fb12",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(atc-governance): dao.rs an Treasury-Amount-Typwechsel (u64 -> u128) angepasst\n\nDer Subtree-Sync brachte treasury.rs mit Amount=u128 (Quell-Migration);\ndao.rs (umbrella-exklusiv) rief Treasury::new noch mit u64. Fix: .into()\nam Aufruf. cargo build + test lokal OK."
+}

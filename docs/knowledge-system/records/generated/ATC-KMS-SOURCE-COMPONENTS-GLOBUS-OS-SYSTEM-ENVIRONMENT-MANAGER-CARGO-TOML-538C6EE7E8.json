@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-GLOBUS-OS-SYSTEM-ENVIRONMENT-MANAGER-CARGO-TOML-538C6EE7E8",
-  "timestamp": "2026-10-10T08:33:51.513381Z",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
   "category": "evidence",
   "title": "Indexed source: components/globus-os/system/environment-manager/Cargo.toml",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/globus-os/system/environment-manager/Cargo.toml",
-    "commit": "32cfbcd2537d6be48e40a72e2aa6c2b3197067b0"
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
   },
   "tags": [
     "generated",

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-ATC-COMPUTE-EE882A5384",
-  "timestamp": "2026-10-10T08:33:51.513381Z",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
   "category": "module",
   "title": "Component: atc-compute",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-compute",
-    "commit": "32cfbcd2537d6be48e40a72e2aa6c2b3197067b0"
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
   },
   "tags": [
     "atc-compute",
@@ -23,5 +23,5 @@
       "target": "ATC-KMS-REPOSITORY-STRUCTURE"
     }
   ],
-  "content": "Files: 44\n\nManifests: components/atc-compute/Cargo.toml"
+  "content": "Files: 45\n\nManifests: components/atc-compute/Cargo.toml"
 }

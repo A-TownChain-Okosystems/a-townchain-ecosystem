@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-15F328FAF735",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: fix(deps, SCR-0133): Dependabot-Welle 2 — Critical und High behoben",
+  "context": "Git commit 15f328faf735d2a4d9abd3b0fec547fa14897335 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/15f328faf735d2a4d9abd3b0fec547fa14897335",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(deps, SCR-0133): Dependabot-Welle 2 — Critical und High behoben\n\nOverrides: proxy-addr 2.0.8, @grpc/grpc-js 1.13.6 (Auth-Bypass-GHSA),\n@esbuild-kit/core-utils > esbuild 0.25.0, dompurify 3.4.16, undici 7.29.1,\n@fastify/busboy 3.2.2, nanoid 3.3.18, postcss 8.5.23, source-map-js 1.2.2\nvia npm audit fix + gezielte Overrides.\n\nVerifikation: build ok, vitest 6 Dateien / 27 Tests gruen.\nLokaler npm audit: 0 Critical/High verbleibend.\n\nscr: SCR-0133 · agent: ATC-AI-ARCH-001 · owner-auftrag: Michael Wroblewski"
+}

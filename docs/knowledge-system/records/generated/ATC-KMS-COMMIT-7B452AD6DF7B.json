@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-7B452AD6DF7B",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: fix(atc-node): JSON-RPC-ID-Extraktion auch bei 'id' als letztem Feld",
+  "context": "Git commit 7b452ad6df7bf415bcdb6d604390f3feaa04c45f on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/7b452ad6df7bf415bcdb6d604390f3feaa04c45f",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(atc-node): JSON-RPC-ID-Extraktion auch bei 'id' als letztem Feld\n\nanswer_json() parste die id nur bis zum naechsten Komma; bei\n{\"...\",\"id\":7} (id am Zeilenende) brach die Extraktion ab und\nlieferte -32600 statt -32601/Result. Die '}'-Variante war im\nParser vorbereitet (trim_end_matches), wurde aber nie genutzt.\n\n- extract_between-Fallback auf '}' als End-Delimiter\n- jsonrpc_antworten + jsonrpc_unbekannte_methode gruen (40/40)\n- Clippy-Debt im selben Root mit aufgeraeumt (unused vars, map_or,\n  Default fuer DevnetRpc, too_many_arguments an Genesis-Doku"
+}

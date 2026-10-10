@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-DDD92E63308A",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: fix(determinism): 6 SCR-0126-Wallet-Allowlist-Einträge nach Subtree-Merge wiederhergestellt",
+  "context": "Git commit ddd92e63308a828a483196d15623150fe7f049d5 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/ddd92e63308a828a483196d15623150fe7f049d5",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(determinism): 6 SCR-0126-Wallet-Allowlist-Einträge nach Subtree-Merge wiederhergestellt\n\nDer Merge mit -X theirs hat die umbrella-seitigen Wallet-Einträge\n(components/wallet Duplikatbaum: ECDSA-Wall-Clock 82/83, Keygen-random)\naus determinism_allowlist.yaml verdrängt. Identische Einträge wie im\nUpstream-PR (a-townchain) ergänzt; lokale Validierung: 42 allowlistete\nFundstellen, Gate PASS."
+}

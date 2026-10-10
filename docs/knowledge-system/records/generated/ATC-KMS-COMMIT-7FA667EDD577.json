@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-7FA667EDD577",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: feat(SCR-0100): Security-Module gehaertet — atc-security (sandbox, scanner, audit) und sdk/lib erweitert. 10 Tests gruen.",
+  "context": "Git commit 7fa667edd577a72b08118d645ac9460e401ee60f on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/7fa667edd577a72b08118d645ac9460e401ee60f",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "feat(SCR-0100): Security-Module gehaertet — atc-security (sandbox, scanner, audit) und sdk/lib erweitert. 10 Tests gruen.\n\nscr: SCR-0100 · agent: ATC-AI-ARCH-001 · owner-auftrag: Michael Wroblewski"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-D0C4B50FABCA",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: fix(explorer): typescript auf ^6.0.3 zurückgepinnt (ts-jest-Peer-Konflikt unter npm 11)",
+  "context": "Git commit d0c4b50fabca08050930e5e5700868e7d43b6471 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/d0c4b50fabca08050930e5e5700868e7d43b6471",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(explorer): typescript auf ^6.0.3 zurückgepinnt (ts-jest-Peer-Konflikt unter npm 11)\n\nDer Subtree-Sync brachte typescript ^7 in den verschachtelten Explorer.\nts-jest@29.4.14 verlangt peer typescript >=4.3 <7 — npm 11 (CI) validiert\nPeer-Konflikte auch bei npm ci und scheitert mit ERESOLVE. Pin zurück auf\n^6.0.3 (Stand vor dem Sync), Lockfile neu generiert (6.0.3). npm test +\nbuild lokal OK. Upstream-PR (a-townchain) folgt; das Quell-Repo testet\ncomponents/* selbst nicht (test-suite.yml schließt es aus), der Konflikt\nwar dort latent."
+}

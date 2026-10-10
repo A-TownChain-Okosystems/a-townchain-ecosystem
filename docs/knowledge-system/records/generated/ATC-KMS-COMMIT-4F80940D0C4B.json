@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-4F80940D0C4B",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: fix(ci): KMS-Versions-Regex repariert (\\\\. war Literal-Backslash) + ruff auf dokumentierten Pin 0.16.7 festgelegt",
+  "context": "Git commit 4f80940d0c4b82175cd0a99edf689a041a591fad on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/4f80940d0c4b82175cd0a99edf689a041a591fad",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(ci): KMS-Versions-Regex repariert (\\\\. war Literal-Backslash) + ruff auf dokumentierten Pin 0.16.7 festgelegt\n\n- knowledge-system.yml: re.fullmatch(r\"v[0-9]+\\\\.[0-9]+\\\\.[0-9]+\") verlangte\n  durch den doppelten Backslash im Raw-String ein Literal-Backslash im\n  Versionsfeld — jedes v1.0.0 scheiterte. Gate seit 72ad95aea (24.09.) auf\n  allen Branches rot. Alle 1108 Records validieren mit korrektem Muster.\n- test-suite.yml + ecosystem-release-readiness.yml: ruff-Installation auf den\n  in components/a-townchain/ruff.toml dokumentierten Pin 0.16.7 festgelegt;\n  vorher installierte CI die neueste Version (isort-Verhalten weicht ab)."
+}

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-AURORA-AI-MODULES-ATC-AURORA-CORE-ARCHITECTURE-MD-512DABA216",
-  "timestamp": "2026-10-10T08:33:51.513381Z",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
   "category": "evidence",
   "title": "Indexed source: components/aurora-ai/modules/atc-aurora-core/ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/aurora-ai/modules/atc-aurora-core/ARCHITECTURE.md",
-    "commit": "32cfbcd2537d6be48e40a72e2aa6c2b3197067b0"
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
   },
   "tags": [
     "generated",

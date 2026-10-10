@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-EAD3493480BF",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: fix(sync): umbrella-only Workspace-Anker in shivacore/aurora sdk/Cargo.toml restauriert",
+  "context": "Git commit ead3493480bfe53e2add5e381208f740521eeaf5 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/ead3493480bfe53e2add5e381208f740521eeaf5",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(sync): umbrella-only Workspace-Anker in shivacore/aurora sdk/Cargo.toml restauriert"
+}

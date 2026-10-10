@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-FAC3D7E9016B",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: feat(components, SCR-0100): SCR-0100-Implementierungen portiert — mining, oracle, storage",
+  "context": "Git commit fac3d7e9016b8c3ba24de9fd9d36c821dc77f1c2 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/fac3d7e9016b8c3ba24de9fd9d36c821dc77f1c2",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "feat(components, SCR-0100): SCR-0100-Implementierungen portiert — mining, oracle, storage\n\nPortierung der SCR-0100-Runde-2-Arbeit aus den laut SCR-0127\narchivierten Quellrepos in den kanonischen Monorepo-Standort\n(components/<name>). Keine Feature-Commits an archivierte Repos.\n\ncomponents/mining (aus atc-mining, 19 Tests gruen):\n- Neue Module algorithms, manager, network, telemetry; miner erweitert\n- lib.rs 3 -> 7 Module (executor/miner/reward bleiben)\n\ncomponents/oracle (aus atc-oracle, 14 Tests gruen):\n- Neue Module adapter (Datenquellen-Trait), consensus_bridge,\n  verification (REQ-TUD-011: keine Eigenbau-Kryptografie)\n- Neue Integration-Suite tests/oracle_new_tests.rs\n\ncomponents/storage (aus atc-storage, 14 Tests gruen):\n- Neue Module cas (Content-Addressing), chunking, retrieval\n- Neue Integration-Suite tests/storage_new_tests.rs\n\nVerifikation: cargo test je Component im Monorepo-Kontext —\n19/14/14 passed, 0 failed. Cargo.lock bewusst nicht uebernommen\n(Monorepo-Lockfile-Regime). Patches: git apply --directory,\nCargo.lock-Hunks ausgeschlossen.\n\nscr: SCR-0100 · agent: ATC-AI-ARCH-001 · owner-auftrag: Michael Wroblewski"
+}

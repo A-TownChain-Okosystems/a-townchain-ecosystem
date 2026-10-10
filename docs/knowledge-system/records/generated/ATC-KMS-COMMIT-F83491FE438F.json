@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-F83491FE438F",
-  "timestamp": "2026-10-10T08:33:51.513381Z",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
   "category": "change",
   "title": "Commit: fix(kernel): complete base-unit migration and hermetic e2e recovery",
   "context": "Git commit f83491fe438f772bb2be1a295c3db2b996ca6875 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/f83491fe438f772bb2be1a295c3db2b996ca6875",
-    "commit": "32cfbcd2537d6be48e40a72e2aa6c2b3197067b0"
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
   },
   "tags": [
     "commit",

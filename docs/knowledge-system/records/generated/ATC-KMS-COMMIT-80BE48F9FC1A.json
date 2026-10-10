@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-80BE48F9FC1A",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: Merge pull request #52 from A-TownChain-Okosystems/fix/storage-classify-mvp-fnv-root-20261002",
+  "context": "Git commit 80be48f9fc1a55c14a7261f190485f21b1b07f5c on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/80be48f9fc1a55c14a7261f190485f21b1b07f5c",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "Merge pull request #52 from A-TownChain-Okosystems/fix/storage-classify-mvp-fnv-root-20261002\n\nfix(storage): classify FNV root as development-only"
+}

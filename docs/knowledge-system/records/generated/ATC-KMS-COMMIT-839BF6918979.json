@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-839BF6918979",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: sync: atc-shivacore into components/atc-shivacore (5 Konflikte auf Source-SSOT-Seite)",
+  "context": "Git commit 839bf69189796cbd8733f09f24da374415b733e3 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/839bf69189796cbd8733f09f24da374415b733e3",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "sync: atc-shivacore into components/atc-shivacore (5 Konflikte auf Source-SSOT-Seite)"
+}

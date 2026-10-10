@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-FF02B1D4B342",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: Merge pull request #31 from A-TownChain-Okosystems/docs/refresh-status-evidence-2026-10-09",
+  "context": "Git commit ff02b1d4b342155e2b6279739ef4f1b57cea4f00 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/ff02b1d4b342155e2b6279739ef4f1b57cea4f00",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "Merge pull request #31 from A-TownChain-Okosystems/docs/refresh-status-evidence-2026-10-09\n\ndocs: mark Aurora AI status metrics as historical pending SHA evidence"
+}

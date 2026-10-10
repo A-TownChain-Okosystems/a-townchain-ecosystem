@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-008B9BD60643",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: feat(components, SCR-0100): Portierungswelle 2 — node, vm, explorer, contracts + Monorepo-Kleinteile",
+  "context": "Git commit 008b9bd6064323717091238736b7e97885acad8f on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/008b9bd6064323717091238736b7e97885acad8f",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "feat(components, SCR-0100): Portierungswelle 2 — node, vm, explorer, contracts + Monorepo-Kleinteile\n\nPortiert aus SCR-0100-Arbeitskopien der gefrorenen/archivierten\nQuellrepos in den kanonischen Monorepo-Standort (SCR-0127-Regel).\n\ncomponents/node (aus atc-node, 38 Tests gruen):\n- Neue Module discovery.rs, validator.rs (waren ungetrackt)\n- gossip.rs, rpc.rs, lib.rs erweitert; two_node_devnet-Test aktualisiert\n\ncomponents/vm (aus atc-vm, 52 Tests gruen):\n- assembler.rs: Exec-Chain-Ausgabe + 1 gebrochenes Patch-Literal repariert\n- ops.rs erweitert; examples/exec_receipt.rs + tests/exec_chain_e2e.rs\n\ncomponents/explorer (aus atc-explorer, tsc --noEmit sauber):\n- Neue Module explorer.ts, mempool.ts, stats.ts; search.ts/index.ts erweitert\n\ncomponents/contracts: exec_chain/assemble.atc aktualisiert\n\nMonorepo-Kleinteile (aus a-townchain-Arbeitskopie):\n- shiva_consensus.py, test_atcnet.py, dependency_review.py\n\nNICHT portiert (Duplikat — Monorepo bereits weiter entwickelt):\ninterop, sdk (rpc_client/repl), wallet, zkp. Die Agenten-Hunks zielten\nauf APIs, die der Monorepo bereits in reiferer Form enthaelt\n(FeeCalculator, JSON-RPC-Formatierung, TxError/InvalidChainId,\nIdentityError). Backup-Patches archiviert unter\nscr0100b/a-townchain-mixed-backup.patch bzw. port-patches/.\n\nVerifikation: cargo test je Component gruen (node 38, vm 52),\ntsc --noEmit fuer explorer, py_compile fuer Python-Teile.\n\nscr: SCR-0100 · agent: ATC-AI-ARCH-001 · owner-auftrag: Michael Wroblewski"
+}

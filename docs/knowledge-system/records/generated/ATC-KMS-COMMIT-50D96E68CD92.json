@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-50D96E68CD92",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: fix(wallet-module): Pfad-Dep auf atc-wallet-legacy umbenannt (package=-Rename) + rustfmt",
+  "context": "Git commit 50d96e68cd92e47da2155d286f442b816dbf05f8 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/50d96e68cd92e47da2155d286f442b816dbf05f8",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(wallet-module): Pfad-Dep auf atc-wallet-legacy umbenannt (package=-Rename) + rustfmt\n\nDer Subtree-Sync brachte das neue ATCLang-Wallet-Integrationsmodul\n(atc_wallet_module mit Pfad-Dep auf das Wallet-Root-Paket). Im Umbrella\nheißt das Root-Paket umbrella-seitig atc-wallet-legacy (Legacy-Duplikat,\nIsolation per 43e8e24ed), im Quell-Repo atc_wallet. Fix: Dependency-\nRename atc_wallet = { path = \"../..\", package = \"atc-wallet-legacy\" } —\nCode bleibt bei use atc_wallet::. cargo check OK."
+}

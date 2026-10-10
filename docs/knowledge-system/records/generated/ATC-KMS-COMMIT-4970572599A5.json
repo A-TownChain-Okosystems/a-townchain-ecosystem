@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-4970572599A5",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: sync: a-townchain into components/a-townchain (365 Commits: Critical/High-Security-Welle RPC/VM/ZKP/Storage/Gossip, u128-Amount-Migration, Devnet-E2E-Fix upstreamed)",
+  "context": "Git commit 4970572599a5b55a4a6436cc355c0308e4325d14 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/4970572599a5b55a4a6436cc355c0308e4325d14",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "sync: a-townchain into components/a-townchain (365 Commits: Critical/High-Security-Welle RPC/VM/ZKP/Storage/Gossip, u128-Amount-Migration, Devnet-E2E-Fix upstreamed)\n\nAlle 36 Konflikte auf Source-Seite (SSOT, ADR-0001) aufgeloest; verifiziert:\n46ed5479b hatte keine a-townchain-Dateien, Devnet-E2E-Fix (atc-cli)\nals 3cf10082e im Source angekommen. Kein Umbrella-Patch verloren."
+}

@@ -1,0 +1,27 @@
+{
+  "id": "ATC-KMS-COMMIT-729912425E00",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: Merge PR #106: sync+fix: Umbrella-Subtree-Sync 2026-10-10 + rust-manifests-Gate vollstaendig gruen (184/184)",
+  "context": "Git commit 729912425e00585686a6a24de34ae8ebaba1af0c on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/729912425e00585686a6a24de34ae8ebaba1af0c",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-106"
+    }
+  ],
+  "content": "Merge PR #106: sync+fix: Umbrella-Subtree-Sync 2026-10-10 + rust-manifests-Gate vollstaendig gruen (184/184)\n\nAlle Gates auf Branch-Head c165077 gruen: Ecosystem Release Readiness (rust-manifests/javascript/python/integrity), ATC Test Suite, Determinism, Blockchain Core, Ecosystem Integration, L1 E2E, Knowledge, Governance, Security, CodeQL 1353. Owner-Merge per Kommando."
+}

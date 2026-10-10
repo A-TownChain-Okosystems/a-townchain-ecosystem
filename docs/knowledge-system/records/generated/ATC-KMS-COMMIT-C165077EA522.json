@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-C165077EA522",
+  "timestamp": "2026-10-10T16:29:58.903938Z",
+  "category": "change",
+  "title": "Commit: fix(clippy): Rust-Lint-Debt ueber alle Komponenten aufgeraeumt",
+  "context": "Git commit c165077ea522ca413b8f862c7a5c6cfa6ba09c3a on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/c165077ea522ca413b8f862c7a5c6cfa6ba09c3a",
+    "commit": "729912425e00585686a6a24de34ae8ebaba1af0c"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(clippy): Rust-Lint-Debt ueber alle Komponenten aufgeraeumt\n\nMacht den rust-manifests-Job der ecosystem-release-readiness\nvollstaendig gruen (184/184 Gates, Replik lokal verifiziert).\n\n- globus-os: 18 Lints (Scheduler next->pick_next, Default-Impls,\n  is_empty, Display statt to_string, Dead-Code, vec!-Init, clamp);\n  fmt; 1310 Tests gruen\n- a-townchain/components: algorithm, interop/bridge, node, oracle,\n  sdk, vm: fmt-Debt + clippy (Default Lockbox, repeat().take());\n  vm: normative ATC-STD-600-Vorhaltungen (Gate, Gas-Tabelle,\n  Chain-ID, Limits) als dokumentierte Welle-3-Items mit\n  allow(dead_code), kein stilles Loeschen von Standard-Code\n- wallet: main.rs-Lib-Referenz atc_wallet_legacy (Rename-Fix),\n  fmt/clippy-Debt\n- atc-security: fmt + Default fuer RateLimiter\n- aurora-ai: atc-aurora-localization als eigenstaendiger Workspace\n  ([workspace], Konvention wie atc-aurora-memory; war nicht\n  member im Root-Workspace und brach damit jeden Cargo-Aufruf),\n  Locale um PartialOrd/Ord fuer BTreeMap-Key ergaenzt\n- Cargo.lock-Vervollstaendigung fuer Komponenten-Roots"
+}
