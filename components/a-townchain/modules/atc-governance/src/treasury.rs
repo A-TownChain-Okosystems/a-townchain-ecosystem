@@ -12,35 +12,58 @@ pub struct Treasury {
 
 impl Treasury {
     pub fn new(initial: Amount) -> Self {
-        Self { balance: initial, allocations: HashMap::new(), total_allocated: 0 }
+        Self {
+            balance: initial,
+            allocations: HashMap::new(),
+            total_allocated: 0,
+        }
     }
 
     pub fn deposit(&mut self, amount: Amount) -> Result<(), String> {
-        self.balance = self.balance.checked_add(amount).ok_or("Treasury balance overflow")?;
+        self.balance = self
+            .balance
+            .checked_add(amount)
+            .ok_or("Treasury balance overflow")?;
         Ok(())
     }
 
     pub fn allocate(&mut self, recipient: &str, amount: Amount) -> Result<(), String> {
-        let available = self.balance.checked_sub(self.total_allocated).ok_or("Treasury accounting invariant violated")?;
+        let available = self
+            .balance
+            .checked_sub(self.total_allocated)
+            .ok_or("Treasury accounting invariant violated")?;
         if available < amount {
             return Err("Insufficient treasury".into());
         }
-        let new_total = self.total_allocated.checked_add(amount).ok_or("Treasury allocation overflow")?;
+        let new_total = self
+            .total_allocated
+            .checked_add(amount)
+            .ok_or("Treasury allocation overflow")?;
         let entry = self.allocations.entry(recipient.into()).or_insert(0);
-        *entry = entry.checked_add(amount).ok_or("Treasury recipient allocation overflow")?;
+        *entry = entry
+            .checked_add(amount)
+            .ok_or("Treasury recipient allocation overflow")?;
         self.total_allocated = new_total;
         Ok(())
     }
 
     pub fn release(&mut self, recipient: &str) -> Result<Amount, String> {
         let amount = self.allocations.remove(recipient).ok_or("No allocation")?;
-        self.total_allocated = self.total_allocated.checked_sub(amount).ok_or("Treasury accounting invariant violated")?;
-        self.balance = self.balance.checked_sub(amount).ok_or("Treasury balance invariant violated")?;
+        self.total_allocated = self
+            .total_allocated
+            .checked_sub(amount)
+            .ok_or("Treasury accounting invariant violated")?;
+        self.balance = self
+            .balance
+            .checked_sub(amount)
+            .ok_or("Treasury balance invariant violated")?;
         Ok(amount)
     }
 
     pub fn available(&self) -> Result<Amount, String> {
-        self.balance.checked_sub(self.total_allocated).ok_or("Treasury accounting invariant violated".into())
+        self.balance
+            .checked_sub(self.total_allocated)
+            .ok_or("Treasury accounting invariant violated".into())
     }
 
     pub fn balance(&self) -> Amount {
@@ -82,6 +105,9 @@ mod tests {
     fn accounting_invariant_violation_is_reported() {
         let mut t = Treasury::new(10);
         t.total_allocated = 11;
-        assert_eq!(t.available(), Err("Treasury accounting invariant violated".into()));
+        assert_eq!(
+            t.available(),
+            Err("Treasury accounting invariant violated".into())
+        );
     }
 }
