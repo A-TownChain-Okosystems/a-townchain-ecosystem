@@ -4,8 +4,7 @@ pub struct EncryptionUtil;
 
 impl EncryptionUtil {
     pub fn xor_encrypt(data: &[u8], key: &[u8]) -> Vec<u8> {
-        data.iter()
-            .enumerate()
+        data.iter().enumerate()
             .map(|(i, &b)| b ^ key[i % key.len()])
             .collect()
     }
@@ -19,9 +18,7 @@ impl EncryptionUtil {
     }
 
     pub fn constant_time_eq(a: &[u8], b: &[u8]) -> bool {
-        if a.len() != b.len() {
-            return false;
-        }
+        if a.len() != b.len() { return false; }
         let mut result = 0u8;
         for (x, y) in a.iter().zip(b.iter()) {
             result |= x ^ y;
