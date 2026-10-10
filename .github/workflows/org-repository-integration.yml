@@ -1,0 +1,37 @@
+name: Organization Repository Integration Baseline
+
+on:
+  pull_request:
+    paths:
+      - "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json"
+      - "tools/validate_org_repository_integration.py"
+      - ".github/workflows/org-repository-integration.yml"
+  push:
+    branches: [main]
+    paths:
+      - "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json"
+      - "tools/validate_org_repository_integration.py"
+      - ".github/workflows/org-repository-integration.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-inventory:
+    name: Validate integration inventory
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact workflow SHA
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate JSON and fail-closed status/evidence rules
+        run: python3 tools/validate_org_repository_integration.py --input docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json --report org-repository-integration-report.json
+      - name: Upload structural report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: org-repository-integration-report
+          path: org-repository-integration-report.json
+          if-no-files-found: warn
