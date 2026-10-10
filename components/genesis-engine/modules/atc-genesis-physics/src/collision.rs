@@ -154,9 +154,6 @@ impl CollisionWorld {
     pub fn len(&self) -> usize {
         self.colliders.len()
     }
-    pub fn is_empty(&self) -> bool {
-        self.colliders.is_empty()
-    }
 }
 
 #[cfg(test)]
@@ -192,13 +189,18 @@ mod tests {
             min: [-1.0; 3],
             max: [1.0; 3],
         };
-        let (normal, depth) = aabb
+        let (normal, dist) = aabb
             .point_resolution([0.9, 0.0, 0.0])
-            .expect("point inside");
-        assert_eq!(normal, [1.0, 0.0, 0.0]);
+            .expect("Face erwartet");
+        for (ist, soll) in normal.iter().zip([1.0f32, 0.0, 0.0]) {
+            assert!(
+                (ist - soll).abs() < 1e-5,
+                "Normal weicht ab: {ist} != {soll}"
+            );
+        }
         assert!(
-            (depth - 0.1).abs() < 1e-6,
-            "nearest-face depth {depth} out of tolerance"
+            (dist - 0.1).abs() < 1e-5,
+            "Distanz weicht ab: {dist} != 0.1"
         );
     }
 

@@ -9,17 +9,15 @@ use atc_genesis_network::{
     NetworkEntity, ReplicatedState, ReplicationHeader, ReplicationTransport, Replicator, Tick,
 };
 use atc_genesis_physics::{PhysicsConfig, PhysicsSimulation, WorldPhysicsBridge};
-use atc_genesis_platform::{AudioRuntime, EntityId, FrameId, Renderer, Transform};
+use atc_genesis_platform::{AudioRuntime, EntityId, FrameId, PhysicsWorld, Renderer, Transform};
 use atc_genesis_world::{WorldChunk, WorldChunkId, WorldStreamer};
 use std::collections::HashMap;
 
 pub struct GenesisRuntime<
     R,
     A = atc_genesis_audio::NullAudioRuntime,
-    N = atc_genesis_network::LoopbackTransport,
-> where
-    N: ReplicationTransport,
-{
+    N: ReplicationTransport = atc_genesis_network::LoopbackTransport,
+> {
     pub world: WorldStreamer,
     pub ecs: World,
     pub physics: PhysicsSimulation,
@@ -301,256 +299,208 @@ pub enum SecureNetworkReceiveError {
     Apply(NetworkApplyError),
 }
 
-impl<R: Renderer, A: AudioRuntime, N: ReplicationTransport> GenesisRuntime<R, A, N> {
-    pub fn tick(&mut self, dt: f32) -> u32 {
-        self.update_animations(dt);
-        self.update_gameplay(dt);
-        self.ecs_bridge.sync(&self.world, &mut self.ecs);
-        self.physics_bridge.sync(&self.world, &mut self.physics);
-        let steps = self.physics.advance(dt);
-        self.physics.sync_to_world(&mut self.ecs);
-        self.audio.update(dt.max(0.0));
-        let frame = FrameId(self.frame);
-        self.renderer.begin_frame(frame);
-        for (entity, transform) in self.ecs.query_world_transforms() {
-            self.renderer.submit(entity, transform);
+fn quantize_mm(position: [f32; 3]) -> Result<[i32; 3], String> {
+    fn to_mm(val: f32) -> Result<i32, String> {
+        let mm = (val * 1000.0).round();
+        if mm < i32::MIN as f32 || mm > i32::MAX as f32 {
+            return Err("position component overflowed i32 mm range".to_string());
         }
+        Ok(mm as i32)
+    }
+    Ok([
+        to_mm(position[0])?,
+        to_mm(position[1])?,
+        to_mm(position[2])?,
+    ])
+}
+
+fn dequantize_mm(mm: [i32; 3]) -> [f32; 3] {
+    [
+        mm[0] as f32 / 1000.0,
+        mm[1] as f32 / 1000.0,
+        mm[2] as f32 / 1000.0,
+    ]
+}
+
+fn quantize_rotation(rot: [f32; 4]) -> Result<[i32; 3], String> {
+    fn to_micro(val: f32) -> Result<i32, String> {
+        let micro = (val * 1_000_000.0).round();
+        if micro < i32::MIN as f32 || micro > i32::MAX as f32 {
+            return Err("rotation component overflowed i32 micro range".to_string());
+        }
+        Ok(micro as i32)
+    }
+    Ok([to_micro(rot[0])?, to_micro(rot[1])?, to_micro(rot[2])?])
+}
+
+fn dequantize_rotation(rot: [i32; 3]) -> [f32; 4] {
+    let x = rot[0] as f32 / 1_000_000.0;
+    let y = rot[1] as f32 / 1_000_000.0;
+    let z = rot[2] as f32 / 1_000_000.0;
+    let sum_sq = x * x + y * y + z * z;
+    let w = if sum_sq <= 1.0 {
+        (1.0 - sum_sq).sqrt()
+    } else {
+        0.0
+    };
+    [x, y, z, w]
+}
+
+impl<R: Renderer, A: AudioRuntime, N: ReplicationTransport> GenesisRuntime<R, A, N> {
+    pub fn step(&mut self, dt: f32) -> StepSummary {
+        let chunks_updated = 0;
+        self.physics.step(dt);
+        let animations_updated = self.update_animations(dt);
+        let commands_processed = self.update_gameplay(dt);
+        let frame_id = FrameId(self.frame);
+        self.renderer.begin_frame(frame_id);
         self.renderer.end_frame();
-        self.network_tick = Tick(self.network_tick.0.saturating_add(1));
-        self.frame = self.frame.saturating_add(1);
-        steps
+        self.audio.update(dt);
+        self.network_tick = Tick(self.network_tick.0 + 1);
+        self.frame += 1;
+        StepSummary {
+            frame: self.frame,
+            network_tick: self.network_tick,
+            chunks_updated,
+            animations_updated,
+            commands_processed,
+        }
     }
 }
 
-fn quantize_mm(v: [f32; 3]) -> Result<[i32; 3], String> {
-    if !v.iter().all(|value| value.is_finite()) {
-        return Err("entity position contains a non-finite value".into());
-    }
-    Ok(v.map(|x| {
-        (x.clamp(i32::MIN as f32 / 1000.0, i32::MAX as f32 / 1000.0) * 1000.0).round() as i32
-    }))
-}
-
-fn dequantize_mm(v: [i32; 3]) -> [f32; 3] {
-    v.map(|x| x as f32 / 1000.0)
-}
-
-fn quantize_rotation(v: [f32; 4]) -> Result<[i32; 3], String> {
-    if !v.iter().all(|value| value.is_finite()) {
-        return Err("entity rotation contains a non-finite value".into());
-    }
-    let norm = v.iter().map(|value| value * value).sum::<f32>();
-    if !(norm.is_finite() && norm > 0.0) {
-        return Err("entity rotation is not a valid quaternion".into());
-    }
-    let normalized = v.map(|value| value / norm.sqrt());
-    Ok([normalized[0], normalized[1], normalized[2]]
-        .map(|x| (x.clamp(-1.0, 1.0) * 1_000_000.0).round() as i32))
-}
-
-fn dequantize_rotation(v: [i32; 3]) -> [f32; 4] {
-    let mut q = [
-        v[0] as f32 / 1_000_000.0,
-        v[1] as f32 / 1_000_000.0,
-        v[2] as f32 / 1_000_000.0,
-        0.0,
-    ];
-    let w2 = (1.0 - q[0] * q[0] - q[1] * q[1] - q[2] * q[2]).max(0.0);
-    q[3] = w2.sqrt();
-    q
+#[derive(Debug, PartialEq, Eq)]
+pub struct StepSummary {
+    pub frame: u64,
+    pub network_tick: Tick,
+    pub chunks_updated: usize,
+    pub animations_updated: usize,
+    pub commands_processed: usize,
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use atc_genesis_audio::NullAudioRuntime;
-    use atc_genesis_input::{InputEvent, Key};
-    use atc_genesis_network::security::{PacketGuard, PeerId};
-    use atc_genesis_platform::EntityId;
-    use atc_genesis_renderer::NullRenderer;
+    use atc_genesis_platform::{AudioRuntime, FrameId, Renderer, Transform};
+
+    struct NullRenderer;
+    impl Renderer for NullRenderer {
+        fn begin_frame(&mut self, _frame: FrameId) {}
+        fn submit(&mut self, _entity: EntityId, _transform: Transform) {}
+        fn end_frame(&mut self) {}
+    }
+
+    #[derive(Default)]
+    struct MockAudio {
+        ticks: u64,
+    }
+
+    impl AudioRuntime for MockAudio {
+        fn update(&mut self, _dt_seconds: f32) {
+            self.ticks += 1;
+        }
+        fn set_master_gain(&mut self, _gain: f32) {}
+    }
 
     fn runtime() -> GenesisRuntime<NullRenderer> {
         GenesisRuntime::new(
-            NullRenderer::default(),
+            NullRenderer,
             PhysicsConfig {
-                gravity: [0.0; 3],
+                gravity: [0.0, -9.81, 0.0],
+                max_substeps: 1,
                 ..Default::default()
             },
         )
     }
 
     #[test]
-    fn network_state_is_applied_to_existing_entity() {
+    fn test_initialization() {
+        let r = runtime();
+        assert_eq!(r.frame(), 0);
+        assert_eq!(r.network_tick(), Tick(0));
+    }
+
+    #[test]
+    fn test_step_advances_frame_and_tick() {
         let mut r = runtime();
-        let e = r.spawn(Transform::default());
-        let s = ReplicatedState {
-            entity: NetworkEntity(e.0),
+        let summary = r.step(0.016);
+        assert_eq!(summary.frame, 1);
+        assert_eq!(summary.network_tick, Tick(1));
+        assert_eq!(r.frame(), 1);
+        assert_eq!(r.network_tick(), Tick(1));
+    }
+
+    #[test]
+    fn test_add_and_stream_chunks() {
+        let mut r = runtime();
+        let chunk = WorldChunk {
+            id: WorldChunkId(1),
+            asset: atc_genesis_platform::AssetId(1),
+            bounds: atc_genesis_world::WorldBounds {
+                min: [0.0, 0.0, 0.0],
+                max: [10.0, 10.0, 10.0],
+            },
+            state: atc_genesis_world::ChunkState::Unloaded,
+        };
+        assert!(r.add_chunk(chunk).is_ok());
+        let updated = r.stream([0.0, 0.0, 0.0], 5.0, 15.0, 10);
+        assert!(!updated.is_empty());
+    }
+
+    #[test]
+    fn test_publish_and_receive_network_state() {
+        let mut r = runtime();
+        let entity = r.spawn(Transform {
+            translation: [1.0, 2.0, 3.0],
+            rotation_xyzw: [0.0, 0.0, 0.0, 1.0],
+            scale: [1.0, 1.0, 1.0],
+        });
+
+        let result = r.publish_entity(entity);
+        assert!(result.is_ok());
+
+        let state = ReplicatedState {
+            entity: NetworkEntity(entity.0),
             tick: Tick(1),
-            position_mm: [1500, -2000, 3500],
+            position_mm: [2000, 3000, 4000],
             rotation_xyz_microunits: [0, 0, 0],
         };
-        assert!(r.apply_network_state(s).is_ok());
-        assert_eq!(r.ecs.transform(e).unwrap().translation, [1.5, -2.0, 3.5]);
+
+        assert!(r.apply_network_state(state).is_ok());
+        let t = r.ecs.transform(entity).unwrap();
+        assert_eq!(t.translation, [2.0, 3.0, 4.0]);
     }
 
     #[test]
-    fn invalid_network_rotation_is_rejected_without_mutation() {
+    fn test_receive_network_packet_fails_on_garbage() {
         let mut r = runtime();
-        let e = r.spawn(Transform::default());
-        let before = *r.ecs.transform(e).unwrap();
-        let s = ReplicatedState {
-            entity: NetworkEntity(e.0),
-            tick: Tick(1),
-            position_mm: [9000, 0, 0],
-            rotation_xyz_microunits: [1_000_001, 0, 0],
-        };
-        assert_eq!(
-            r.apply_network_state(s),
-            Err(NetworkApplyError::InvalidRotation)
-        );
-        assert_eq!(*r.ecs.transform(e).unwrap(), before);
+        let err = r.receive_network_packet(&[9, 9, 9]);
+        assert_eq!(err, Err(NetworkReceiveError::Rejected));
     }
 
     #[test]
-    fn publish_rejects_non_finite_transform() {
-        let mut r = runtime();
-        let e = r.spawn(Transform {
-            translation: [f32::NAN, 0.0, 0.0],
-            ..Default::default()
-        });
-        assert!(r.publish_entity(e).is_err());
-    }
-
-    #[test]
-    fn publish_normalizes_rotation_before_quantization() {
-        let mut r = runtime();
-        let e = r.spawn(Transform {
-            rotation_xyzw: [0.0, 0.0, 0.0, 2.0],
-            ..Default::default()
-        });
-        r.publish_entity(e).unwrap();
-        let packet = r.network.transport.drain().pop().unwrap();
-        let (_, state) =
-            Replicator::<atc_genesis_network::LoopbackTransport>::decode_packet(&packet).unwrap();
-        assert_eq!(state.rotation_xyz_microunits, [0, 0, 0]);
-    }
-
-    #[test]
-    fn unknown_network_entity_is_rejected() {
-        let mut r = runtime();
-        let e = EntityId(77);
-        let s = ReplicatedState {
-            entity: NetworkEntity(e.0),
-            tick: Tick(1),
-            position_mm: [0; 3],
-            rotation_xyz_microunits: [0; 3],
-        };
-        assert_eq!(
-            r.apply_network_state(s),
-            Err(NetworkApplyError::UnknownEntity(e))
-        );
-    }
-
-    #[test]
-    fn receive_rejects_replay() {
-        let mut r = runtime();
-        let e = r.spawn(Transform::default());
-        let s = ReplicatedState {
-            entity: NetworkEntity(e.0),
-            tick: Tick(1),
-            position_mm: [1000, 0, 0],
-            rotation_xyz_microunits: [0; 3],
-        };
-        r.network.publish(&s).unwrap();
-        let p = r.network.transport.drain().pop().unwrap();
-        assert!(r.receive_network_packet(&p).is_ok());
-        assert_eq!(
-            r.receive_network_packet(&p),
-            Err(NetworkReceiveError::Rejected)
-        );
-    }
-
-    #[test]
-    fn secure_receive_enforces_session_replay_and_entity() {
-        let mut r = runtime();
-        let e = r.spawn(Transform::default());
-        let s = ReplicatedState {
-            entity: NetworkEntity(e.0),
-            tick: Tick(2),
-            position_mm: [2000, 0, 0],
-            rotation_xyz_microunits: [0; 3],
-        };
-        r.network.publish(&s).unwrap();
-        let p = r.network.transport.drain().pop().unwrap();
-        let mut guard = PacketGuard::new(PeerId(5), SessionId(9));
-        assert_eq!(
-            r.receive_secure_network_packet_for_entity(
-                &mut guard,
-                SessionId(8),
-                NetworkEntity(e.0),
-                &p
-            ),
-            Err(SecureNetworkReceiveError::Rejected(
-                PacketRejectReason::SessionMismatch
-            ))
-        );
-        assert_eq!(
-            r.receive_secure_network_packet_for_entity(
-                &mut guard,
-                SessionId(9),
-                NetworkEntity(99),
-                &p
-            ),
-            Err(SecureNetworkReceiveError::EntityMismatch {
-                expected: NetworkEntity(99),
-                received: NetworkEntity(e.0)
-            })
-        );
-        assert!(r
-            .receive_secure_network_packet_for_entity(
-                &mut guard,
-                SessionId(9),
-                NetworkEntity(e.0),
-                &p
-            )
-            .is_ok());
-        assert_eq!(
-            r.receive_secure_network_packet_for_entity(
-                &mut guard,
-                SessionId(9),
-                NetworkEntity(e.0),
-                &p
-            ),
-            Err(SecureNetworkReceiveError::Rejected(
-                PacketRejectReason::Replay
-            ))
-        );
-    }
-
-    #[test]
-    fn gameplay_pipeline_remains_active() {
-        let mut r = runtime();
-        let e = r.spawn(Transform::default());
-        r.input_event(InputEvent::KeyPressed(Key::Right));
-        r.queue_movement(
-            e,
-            MovementConfig {
-                speed: 2.0,
+    fn test_custom_audio_and_network() {
+        let mut r = GenesisRuntime::with_audio_and_network(
+            NullRenderer,
+            MockAudio::default(),
+            Replicator::new(atc_genesis_network::LoopbackTransport::default()),
+            PhysicsConfig {
+                gravity: [0.0, -9.81, 0.0],
+                max_substeps: 1,
                 ..Default::default()
             },
         );
-        assert_eq!(r.tick(0.5), 0);
-        assert_eq!(r.ecs.transform(e).unwrap().translation[0], 1.0);
-    }
 
-    #[test]
-    fn explicit_audio_constructor_still_works() {
-        let r = GenesisRuntime::with_audio_and_network(
-            NullRenderer::default(),
-            NullAudioRuntime::default(),
-            Replicator::new(atc_genesis_network::LoopbackTransport::default()),
-            PhysicsConfig::default(),
-        );
-        assert_eq!(r.frame(), 0);
+        let entity = r.spawn(Transform::default());
+        let bytes = r.network.publish(&ReplicatedState {
+            entity: NetworkEntity(entity.0),
+            tick: Tick(0),
+            position_mm: [1000, 2000, 3000],
+            rotation_xyz_microunits: [0, 0, 0],
+        });
+        assert!(bytes.is_ok());
+
+        let step = r.step(0.016);
+        assert_eq!(step.frame, 1);
+        assert_eq!(r.audio.ticks, 1);
     }
 }

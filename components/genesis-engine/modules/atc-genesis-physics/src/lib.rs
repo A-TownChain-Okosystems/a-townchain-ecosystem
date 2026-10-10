@@ -98,16 +98,16 @@ impl PhysicsSimulation {
                 break;
             };
             let correction = penetration + 1e-5;
-            for (pos, n) in body.position.iter_mut().zip(normal) {
-                *pos += n * correction;
+            for i in 0..3 {
+                body.position[i] += normal[i] * correction;
             }
             let inward_velocity = body.velocity[0] * normal[0]
                 + body.velocity[1] * normal[1]
                 + body.velocity[2] * normal[2];
             if inward_velocity < 0.0 {
                 let impulse = (1.0 + body.restitution.clamp(0.0, 1.0)) * inward_velocity;
-                for (v, n) in body.velocity.iter_mut().zip(normal) {
-                    *v -= n * impulse;
+                for i in 0..3 {
+                    body.velocity[i] -= normal[i] * impulse;
                 }
             }
         }
@@ -136,11 +136,6 @@ impl PhysicsSimulation {
     }
 
     pub fn advance(&mut self, dt: f32) -> u32 {
-        if self.bodies.is_empty() {
-            // Nothing to simulate: do not accumulate fixed steps.
-            self.accumulator = 0.0;
-            return 0;
-        }
         self.accumulator += dt.clamp(0.0, 1.0);
         let mut steps = 0;
         while self.accumulator >= self.config.fixed_dt && steps < self.config.max_substeps {
@@ -268,11 +263,9 @@ mod tests {
 
     #[test]
     fn floor_stops_body() {
-        let c = PhysicsConfig {
-            gravity: [0.0, -10.0, 0.0],
-            floor_y: Some(0.0),
-            ..PhysicsConfig::default()
-        };
+        let mut c = PhysicsConfig::default();
+        c.gravity = [0.0, -10.0, 0.0];
+        c.floor_y = Some(0.0);
         let mut s = PhysicsSimulation::new(c);
         s.add_body(RigidBody::dynamic(EntityId(1), [0.0, 0.01, 0.0], 1.0));
         for _ in 0..10 {
