@@ -1,5 +1,5 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
-use atc_wallet::{balance::Balance, keys::WalletKey};
+use atc_wallet_legacy::{balance::Balance, keys::WalletKey};
 
 fn main() {
     let key = WalletKey::from_seed([1u8; 32]).expect("demo seed must be a valid secp256k1 secret");

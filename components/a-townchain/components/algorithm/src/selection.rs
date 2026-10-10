@@ -75,7 +75,10 @@ mod tests {
     #[test]
     fn u128_stake_boundary_is_supported() {
         let vs = vec![
-            Validator { id: 1, stake: u128::MAX - 1 },
+            Validator {
+                id: 1,
+                stake: u128::MAX - 1,
+            },
             Validator { id: 2, stake: 1 },
         ];
         assert!(select_proposer(&vs, 0).is_some());
@@ -84,7 +87,10 @@ mod tests {
     #[test]
     fn total_stake_overflow_fails_closed() {
         let vs = vec![
-            Validator { id: 1, stake: u128::MAX },
+            Validator {
+                id: 1,
+                stake: u128::MAX,
+            },
             Validator { id: 2, stake: 1 },
         ];
         assert!(select_proposer(&vs, 0).is_none());

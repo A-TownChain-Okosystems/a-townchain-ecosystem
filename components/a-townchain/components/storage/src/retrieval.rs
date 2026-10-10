@@ -47,8 +47,8 @@ impl Default for StorageService {
 impl StorageRetrieval for StorageService {
     fn put_blob(&mut self, blob: &[u8]) -> Result<ContentAddress, StorageError> {
         let root_addr = ContentAddress::compute(blob);
-        let chunks = Chunker::chunk_data(blob, self.chunk_size)
-            .map_err(StorageError::ChunkError)?;
+        let chunks =
+            Chunker::chunk_data(blob, self.chunk_size).map_err(StorageError::ChunkError)?;
 
         let mut manifest = Vec::new();
         for chunk in chunks {
@@ -61,11 +61,19 @@ impl StorageRetrieval for StorageService {
     }
 
     fn get_blob(&self, address: &ContentAddress) -> Result<Vec<u8>, StorageError> {
-        let manifest = self.blob_manifests.get(address).ok_or(StorageError::NotFound)?;
+        let manifest = self
+            .blob_manifests
+            .get(address)
+            .ok_or(StorageError::NotFound)?;
         let mut chunks = Vec::new();
 
         for (idx, chunk_addr) in manifest.iter().enumerate() {
-            let chunk = self.chunk_store.get(chunk_addr).ok_or(StorageError::ChunkError(ChunkError::MissingChunk { index: idx }))?;
+            let chunk = self
+                .chunk_store
+                .get(chunk_addr)
+                .ok_or(StorageError::ChunkError(ChunkError::MissingChunk {
+                    index: idx,
+                }))?;
             chunks.push(chunk.clone());
         }
 
@@ -88,9 +96,17 @@ impl StorageRetrieval for StorageService {
     }
 
     fn get_chunk(&self, address: &ContentAddress, index: usize) -> Result<Chunk, StorageError> {
-        let manifest = self.blob_manifests.get(address).ok_or(StorageError::NotFound)?;
-        let chunk_addr = manifest.get(index).ok_or(StorageError::ChunkError(ChunkError::MissingChunk { index }))?;
-        self.chunk_store.get(chunk_addr).cloned().ok_or(StorageError::NotFound)
+        let manifest = self
+            .blob_manifests
+            .get(address)
+            .ok_or(StorageError::NotFound)?;
+        let chunk_addr = manifest
+            .get(index)
+            .ok_or(StorageError::ChunkError(ChunkError::MissingChunk { index }))?;
+        self.chunk_store
+            .get(chunk_addr)
+            .cloned()
+            .ok_or(StorageError::NotFound)
     }
 
     fn verify_integrity(&self, address: &ContentAddress) -> Result<bool, StorageError> {

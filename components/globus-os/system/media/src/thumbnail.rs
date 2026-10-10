@@ -26,6 +26,10 @@ impl ThumbnailCache {
     pub fn len(&self) -> usize {
         self.entries.len()
     }
+
+    pub fn is_empty(&self) -> bool {
+        self.entries.is_empty()
+    }
     pub fn get(&mut self, id: u64) -> Option<&Thumbnail> {
         let pos = self.entries.iter().position(|x| x.id == id)?;
         let item = self.entries.remove(pos)?;

@@ -47,7 +47,10 @@ impl DataSource for StaticDataSource {
                 source: self.id,
                 value: val,
             }),
-            None => Err(AdapterError::FetchFailed(format!("Key '{}' nicht vorhanden", key))),
+            None => Err(AdapterError::FetchFailed(format!(
+                "Key '{}' nicht vorhanden",
+                key
+            ))),
         }
     }
 }

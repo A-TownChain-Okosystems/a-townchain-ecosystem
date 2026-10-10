@@ -52,7 +52,9 @@ impl Chunker {
         let mut blob = Vec::new();
         for (expected_idx, chunk) in chunks.iter().enumerate() {
             if chunk.index != expected_idx {
-                return Err(ChunkError::MissingChunk { index: expected_idx });
+                return Err(ChunkError::MissingChunk {
+                    index: expected_idx,
+                });
             }
             let actual_addr = ContentAddress::compute(&chunk.data);
             if actual_addr != chunk.address {

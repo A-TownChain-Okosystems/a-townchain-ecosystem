@@ -15,7 +15,11 @@ pub struct ScanResult {
 }
 
 impl VulnerabilityScanner {
-    pub fn new() -> Self { Self { findings: Vec::new() } }
+    pub fn new() -> Self {
+        Self {
+            findings: Vec::new(),
+        }
+    }
 
     pub fn scan_reentrancy(&mut self, contracts: &[String]) {
         for contract in contracts {
@@ -45,9 +49,14 @@ impl VulnerabilityScanner {
         }
     }
 
-    pub fn findings(&self) -> &Vec<ScanResult> { &self.findings }
+    pub fn findings(&self) -> &Vec<ScanResult> {
+        &self.findings
+    }
     pub fn critical_count(&self) -> usize {
-        self.findings.iter().filter(|f| f.severity == "Critical").count()
+        self.findings
+            .iter()
+            .filter(|f| f.severity == "Critical")
+            .count()
     }
 }
 

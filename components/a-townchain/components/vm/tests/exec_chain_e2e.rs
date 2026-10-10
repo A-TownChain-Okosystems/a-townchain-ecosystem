@@ -44,9 +44,12 @@ fn direct_program_matches_assembler_sequence() {
 
 #[test]
 fn fail_closed_on_wrong_expectation() {
-    let prog = atc_vm::ops::parse_ops("Push 1
+    let prog = atc_vm::ops::parse_ops(
+        "Push 1
 Halt
-").expect("gueltiges .ops");
+",
+    )
+    .expect("gueltiges .ops");
     let mut machine = Vm::new(prog);
     let stack = machine.run().expect("ATVM-Ausfuehrung");
     let result = stack.last().copied().unwrap_or(0);
@@ -56,14 +59,16 @@ Halt
 #[test]
 fn div_executes_deterministically() {
     // Governance-Quorum-Formel: 21_000_000 * 10 / 100 = 2_100_000 (10 % von 21M)
-    let prog = atc_vm::ops::parse_ops("Push 21000000
+    let prog = atc_vm::ops::parse_ops(
+        "Push 21000000
 Push 10
 Mul
 Push 100
 Div
 Halt
-")
-        .expect("gueltiges .ops");
+",
+    )
+    .expect("gueltiges .ops");
     let mut machine = Vm::new(prog);
     let stack = machine.run().expect("ATVM-Ausfuehrung");
     assert_eq!(stack.last(), Some(&2_100_000));
@@ -81,14 +86,16 @@ fn div_by_zero_fails_closed() {
 #[test]
 fn storage_round_trip_persists_state() {
     // Mint-Buchhaltung ueber Storage: Load 0 + amount -> Store 0 -> Load 0
-    let prog = atc_vm::ops::parse_ops("Load 0
+    let prog = atc_vm::ops::parse_ops(
+        "Load 0
 Push 1000
 Add
 Store 0
 Load 0
 Halt
-")
-        .expect("gueltiges .ops");
+",
+    )
+    .expect("gueltiges .ops");
     let mut machine = Vm::new(prog);
     let stack = machine.run().expect("ATVM");
     assert_eq!(stack.last(), Some(&1000));
@@ -97,9 +104,12 @@ Halt
 
 #[test]
 fn unwritten_slot_defaults_to_zero() {
-    let prog = atc_vm::ops::parse_ops("Load 7
+    let prog = atc_vm::ops::parse_ops(
+        "Load 7
 Halt
-").expect("gueltiges .ops");
+",
+    )
+    .expect("gueltiges .ops");
     let mut machine = Vm::new(prog);
     let stack = machine.run().expect("ATVM");
     assert_eq!(stack.last(), Some(&0));
@@ -108,9 +118,12 @@ Halt
 #[test]
 fn caller_is_host_set_and_readable() {
     // Permission-Modell: Caller kommt aus dem Host-Kontext, nicht vom Stack
-    let prog = atc_vm::ops::parse_ops("Caller
+    let prog = atc_vm::ops::parse_ops(
+        "Caller
 Halt
-").expect("gueltiges .ops");
+",
+    )
+    .expect("gueltiges .ops");
     let mut machine = Vm::with_context(prog, 42, vec![]);
     let stack = machine.run().expect("ATVM");
     assert_eq!(stack.last(), Some(&42));
@@ -134,7 +147,8 @@ Halt
 Push 0
 Halt
 ",
-    ).expect("gueltiges .ops");
+    )
+    .expect("gueltiges .ops");
     let mut machine = Vm::with_context(prog, 42, vec![0, 42]); // Slot 1 = owner 42
     let stack = machine.run().expect("ATVM");
     assert_eq!(stack.last(), Some(&1), "Owner-Mint muss erlaubt sein");
@@ -157,7 +171,8 @@ Halt
 Push 0
 Halt
 ",
-    ).expect("gueltiges .ops");
+    )
+    .expect("gueltiges .ops");
     let mut machine = Vm::with_context(prog, 7, vec![0, 42]);
     let stack = machine.run().expect("ATVM");
     assert_eq!(
@@ -189,7 +204,8 @@ Halt
 Push 0
 Halt
 ",
-    ).expect("gueltiges .ops");
+    )
+    .expect("gueltiges .ops");
     let mut machine = Vm::with_context(prog, 0, vec![0, 0, 100, 0]);
     let stack = machine.run().expect("ATVM");
     assert_eq!(stack.last(), Some(&0));
@@ -220,7 +236,8 @@ Halt
 Push 0
 Halt
 ",
-    ).expect("gueltiges .ops");
+    )
+    .expect("gueltiges .ops");
     let mut machine = Vm::with_context(prog, 0, vec![0, 0, 100, 0]);
     let stack = machine.run().expect("ATVM");
     assert_eq!(stack.last(), Some(&1));

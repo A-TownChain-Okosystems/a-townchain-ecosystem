@@ -55,7 +55,10 @@ fn test_06_consensus_bridge_successful_commit() {
 
     buffer.stage_payload(SignedOraclePayload {
         key: "ATC/USD".to_string(),
-        report: Report { source: 1, value: 100 },
+        report: Report {
+            source: 1,
+            value: 100,
+        },
         timestamp: 1000,
         signature: b"VALID_1".to_vec(),
         pubkey: b"KEY1".to_vec(),
@@ -63,7 +66,10 @@ fn test_06_consensus_bridge_successful_commit() {
 
     buffer.stage_payload(SignedOraclePayload {
         key: "ATC/USD".to_string(),
-        report: Report { source: 2, value: 102 },
+        report: Report {
+            source: 2,
+            value: 102,
+        },
         timestamp: 1002,
         signature: b"VALID_2".to_vec(),
         pubkey: b"KEY2".to_vec(),
@@ -85,7 +91,10 @@ fn test_07_consensus_bridge_rejects_unverified_oracle_data() {
 
     buffer.stage_payload(SignedOraclePayload {
         key: "ATC/USD".to_string(),
-        report: Report { source: 1, value: 100 },
+        report: Report {
+            source: 1,
+            value: 100,
+        },
         timestamp: 1000,
         signature: b"INVALID_SIG".to_vec(),
         pubkey: b"KEY1".to_vec(),
@@ -93,14 +102,22 @@ fn test_07_consensus_bridge_rejects_unverified_oracle_data() {
 
     buffer.stage_payload(SignedOraclePayload {
         key: "ATC/USD".to_string(),
-        report: Report { source: 2, value: 102 },
+        report: Report {
+            source: 2,
+            value: 102,
+        },
         timestamp: 1002,
         signature: b"VALID_2".to_vec(),
         pubkey: b"KEY2".to_vec(),
     });
 
     let res = buffer.commit_to_consensus_truth(&verifier, 1005);
-    assert!(matches!(res, Err(ConsensusBridgeError::VerificationFailed(VerificationError::InvalidSignature))));
+    assert!(matches!(
+        res,
+        Err(ConsensusBridgeError::VerificationFailed(
+            VerificationError::InvalidSignature
+        ))
+    ));
 }
 
 #[test]
@@ -110,7 +127,10 @@ fn test_08_consensus_bridge_rejects_stale_data() {
 
     buffer.stage_payload(SignedOraclePayload {
         key: "ATC/USD".to_string(),
-        report: Report { source: 1, value: 100 },
+        report: Report {
+            source: 1,
+            value: 100,
+        },
         timestamp: 1000,
         signature: b"VALID_1".to_vec(),
         pubkey: b"KEY1".to_vec(),
@@ -128,7 +148,10 @@ fn test_09_consensus_bridge_rejects_excessive_deviation() {
 
     buffer.stage_payload(SignedOraclePayload {
         key: "ATC/USD".to_string(),
-        report: Report { source: 1, value: 100 },
+        report: Report {
+            source: 1,
+            value: 100,
+        },
         timestamp: 1000,
         signature: b"VALID_1".to_vec(),
         pubkey: b"KEY1".to_vec(),
@@ -136,7 +159,10 @@ fn test_09_consensus_bridge_rejects_excessive_deviation() {
 
     buffer.stage_payload(SignedOraclePayload {
         key: "ATC/USD".to_string(),
-        report: Report { source: 2, value: 200 }, // Deviation 100 > 5
+        report: Report {
+            source: 2,
+            value: 200,
+        }, // Deviation 100 > 5
         timestamp: 1000,
         signature: b"VALID_2".to_vec(),
         pubkey: b"KEY2".to_vec(),
@@ -153,7 +179,10 @@ fn test_10_consensus_bridge_rejects_insufficient_sources() {
 
     buffer.stage_payload(SignedOraclePayload {
         key: "ATC/USD".to_string(),
-        report: Report { source: 1, value: 100 },
+        report: Report {
+            source: 1,
+            value: 100,
+        },
         timestamp: 1000,
         signature: b"VALID_1".to_vec(),
         pubkey: b"KEY1".to_vec(),
@@ -174,7 +203,10 @@ fn test_11_consensus_bridge_emergency_pause() {
 
     buffer.stage_payload(SignedOraclePayload {
         key: "ATC/USD".to_string(),
-        report: Report { source: 1, value: 100 },
+        report: Report {
+            source: 1,
+            value: 100,
+        },
         timestamp: 1000,
         signature: b"VALID_1".to_vec(),
         pubkey: b"KEY1".to_vec(),
@@ -191,7 +223,10 @@ fn test_12_consensus_bridge_staging_isolation() {
 
     buffer.stage_payload(SignedOraclePayload {
         key: "ATC/USD".to_string(),
-        report: Report { source: 1, value: 100 },
+        report: Report {
+            source: 1,
+            value: 100,
+        },
         timestamp: 1000,
         signature: b"VALID_1".to_vec(),
         pubkey: b"KEY1".to_vec(),

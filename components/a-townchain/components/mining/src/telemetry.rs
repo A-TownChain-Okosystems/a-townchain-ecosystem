@@ -1,8 +1,8 @@
 // Copyright (c) 2026 Michael Wroblewski — Apache-2.0
 //! Telemetry & MinerWatcherGPT event interface with double-claim protection.
 
-use std::collections::HashSet;
 use crate::miner::MiningError;
+use std::collections::HashSet;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum TelemetryEvent {
@@ -40,6 +40,12 @@ impl DoubleClaimGuard {
 pub struct TelemetryEmitter {
     events: Vec<TelemetryEvent>,
     guard: DoubleClaimGuard,
+}
+
+impl Default for TelemetryEmitter {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl TelemetryEmitter {
@@ -80,7 +86,10 @@ mod tests {
         assert!(guard.register_claim(claim_id).is_ok());
         assert!(guard.is_claimed(&claim_id));
 
-        assert_eq!(guard.register_claim(claim_id), Err(MiningError::DoubleClaim));
+        assert_eq!(
+            guard.register_claim(claim_id),
+            Err(MiningError::DoubleClaim)
+        );
     }
 
     #[test]
@@ -89,11 +98,20 @@ mod tests {
         let claim_id = [0x01u8; 32];
 
         assert!(emitter.claim_reward(claim_id, 5000).is_ok());
-        assert_eq!(emitter.claim_reward(claim_id, 5000), Err(MiningError::DoubleClaim));
+        assert_eq!(
+            emitter.claim_reward(claim_id, 5000),
+            Err(MiningError::DoubleClaim)
+        );
 
         let events = emitter.events();
         assert_eq!(events.len(), 2);
-        assert_eq!(events[0], TelemetryEvent::RewardClaimed { claim_id, amount: 5000 });
+        assert_eq!(
+            events[0],
+            TelemetryEvent::RewardClaimed {
+                claim_id,
+                amount: 5000
+            }
+        );
         assert_eq!(events[1], TelemetryEvent::DoubleClaimAttempted { claim_id });
     }
 }

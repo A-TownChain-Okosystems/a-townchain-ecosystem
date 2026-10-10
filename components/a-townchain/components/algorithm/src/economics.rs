@@ -27,21 +27,35 @@ pub struct MonetaryPolicy;
 impl MonetaryPolicy {
     pub const fn epoch(height: u64) -> u32 {
         let epoch = height / HALVING_INTERVAL_BLOCKS;
-        if epoch >= MAX_HALVINGS as u64 { MAX_HALVINGS } else { epoch as u32 }
+        if epoch >= MAX_HALVINGS as u64 {
+            MAX_HALVINGS
+        } else {
+            epoch as u32
+        }
     }
 
     pub const fn raw_subsidy(height: u64) -> u128 {
         let epoch = Self::epoch(height);
-        if epoch >= MAX_HALVINGS { return 0; }
+        if epoch >= MAX_HALVINGS {
+            return 0;
+        }
         INITIAL_SUBSIDY >> epoch
     }
 
     pub const fn subsidy(height: u64, issued_before_block: u128) -> u128 {
-        if issued_before_block >= MAX_SUPPLY { return 0; }
+        if issued_before_block >= MAX_SUPPLY {
+            return 0;
+        }
         let remaining = MAX_SUPPLY - issued_before_block;
         let raw = Self::raw_subsidy(height);
-        if height == FINAL_EMISSION_BLOCK && raw > 0 { return remaining; }
-        if raw < remaining { raw } else { remaining }
+        if height == FINAL_EMISSION_BLOCK && raw > 0 {
+            return remaining;
+        }
+        if raw < remaining {
+            raw
+        } else {
+            remaining
+        }
     }
 }
 

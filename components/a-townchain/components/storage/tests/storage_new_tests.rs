@@ -62,7 +62,10 @@ fn test_07_chunking_reassemble_corrupted_chunk() {
     // Tamper with chunk data without updating hash
     chunks[0].data[0] ^= 0xFF;
     let res = Chunker::reassemble(chunks);
-    assert!(matches!(res, Err(ChunkError::IntegrityMismatch { index: 0 })));
+    assert!(matches!(
+        res,
+        Err(ChunkError::IntegrityMismatch { index: 0 })
+    ));
 }
 
 #[test]
@@ -110,7 +113,9 @@ fn test_11_storage_service_verify_integrity() {
     let data = b"Verifiable content address integrity";
     let addr = store.put_blob(data).unwrap();
 
-    let is_valid = store.verify_integrity(&addr).expect("verify_integrity failed");
+    let is_valid = store
+        .verify_integrity(&addr)
+        .expect("verify_integrity failed");
     assert!(is_valid);
 }
 

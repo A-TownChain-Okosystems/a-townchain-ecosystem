@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Michael Wroblewski — Apache-2.0
 //! Mining manager & work distribution primitives.
 
-use crate::miner::{MiningJob, MiningError};
+use crate::miner::{MiningError, MiningJob};
 
 pub struct MiningManager {
     current_target: [u8; 32],
@@ -81,6 +81,9 @@ mod tests {
         assert!(mgr.update_target(new_target).is_ok());
         assert_eq!(mgr.current_target(), new_target);
 
-        assert_eq!(mgr.update_target([0u8; 32]), Err(MiningError::InvalidTarget));
+        assert_eq!(
+            mgr.update_target([0u8; 32]),
+            Err(MiningError::InvalidTarget)
+        );
     }
 }

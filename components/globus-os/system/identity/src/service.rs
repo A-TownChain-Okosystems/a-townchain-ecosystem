@@ -84,6 +84,7 @@ impl IdentityService {
         Ok((result, wallet))
     }
 
+    #[allow(clippy::too_many_arguments)] // Restore-Semantik: vollstaendiger Identity-Datensatz, Parametrisierung wuerge den Aufruf
     pub fn restore(
         &mut self,
         user_id: UserId,

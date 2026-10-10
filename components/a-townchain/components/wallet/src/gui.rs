@@ -10,7 +10,12 @@ pub struct WalletUiState {
 
 impl Default for WalletUiState {
     fn default() -> Self {
-        Self { address: String::new(), available: 0, locked: 0, status: "Ready".into() }
+        Self {
+            address: String::new(),
+            available: 0,
+            locked: 0,
+            status: "Ready".into(),
+        }
     }
 }
 

@@ -37,8 +37,7 @@ impl ContentAddress {
         }
         let mut bytes = [0u8; 32];
         for i in 0..32 {
-            bytes[i] = u8::from_str_radix(&hex[i * 2..i * 2 + 2], 16)
-                .map_err(|e| e.to_string())?;
+            bytes[i] = u8::from_str_radix(&hex[i * 2..i * 2 + 2], 16).map_err(|e| e.to_string())?;
         }
         Ok(ContentAddress(bytes))
     }

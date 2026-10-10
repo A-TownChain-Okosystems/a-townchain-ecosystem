@@ -15,9 +15,7 @@ pub fn compute_hash(
     nonce: u64,
 ) -> Result<[u8; 32], MiningError> {
     match kind {
-        AlgorithmKind::Sha3Atc | AlgorithmKind::ProvisionalPoW => {
-            hash_candidate(header, nonce)
-        }
+        AlgorithmKind::Sha3Atc | AlgorithmKind::ProvisionalPoW => hash_candidate(header, nonce),
     }
 }
 
