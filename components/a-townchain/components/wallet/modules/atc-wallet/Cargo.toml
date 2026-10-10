@@ -9,4 +9,4 @@ authors = ["Michael Wroblewski"]
 license = "Apache-2.0"
 
 [dependencies]
-atc_wallet = { path = "../.." }
+atc_wallet = { path = "../..", package = "atc-wallet-legacy" }
