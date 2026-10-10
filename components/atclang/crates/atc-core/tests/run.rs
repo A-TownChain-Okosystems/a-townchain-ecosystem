@@ -3,11 +3,6 @@
 //! Deckt Welle 2 ab: Lowering-Fehler (fail-closed) und deterministische
 //! Laufzeitfehler (checked-Arithmetik, feste Aufruftiefe).
 
-<<<<<<< HEAD
-use atc_core::lower::{lower_program, LowerError};
-use atc_core::parser::parse_program;
-use atc_core::vm::execute;
-=======
 use atc_core::artifact::{Artifact, ArtifactMetadata};
 use atc_core::lower::{lower_program, LowerError};
 use atc_core::parser::parse_program;
@@ -21,19 +16,14 @@ fn test_metadata() -> ArtifactMetadata {
         capabilities: vec!["state.read".into(), "state.write".into()],
     }
 }
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
 
 fn run(src: &str) -> Result<i64, String> {
     let prog = parse_program(src).map_err(|e| e.message)?;
     let compiled = lower_program(&prog).map_err(|LowerError { message }| message)?;
-<<<<<<< HEAD
-    execute(&compiled).map_err(|e| format!("{e:?}"))
-=======
     let artifact =
         Artifact::from_program(&compiled, test_metadata()).map_err(|e| format!("{e:?}"))?;
     let verified = artifact.verify().map_err(|e| format!("{e:?}"))?;
     execute_verified(&verified).map_err(|e| format!("{e:?}"))
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
 }
 
 #[test]

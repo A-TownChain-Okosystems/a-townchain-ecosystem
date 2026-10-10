@@ -112,8 +112,6 @@ jobs:
           echo "Executing SHA: $SHA"
           echo "EXECUTION_SHA=$SHA" >> "$GITHUB_ENV"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-<<<<<<< HEAD
-=======
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
@@ -129,7 +127,6 @@ jobs:
             echo "::error::Execution SHA mismatch"
             exit 1
           fi
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
       - uses: dtolnay/rust-toolchain@fa04a1451ff1842e2626ccb99004d0195b455a88 # master@2026-06-30
         with:
           toolchain: stable

@@ -4,36 +4,24 @@
 //! checked-Arithmetik (Overflow ist ein Fehler, kein Wrap) und fester
 //! Aufruftiefe (fail-closed).
 
-<<<<<<< HEAD
-=======
 use crate::artifact::VerifiedArtifact;
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
 use crate::bytecode::Instruction;
 use crate::lower::CompiledProgram;
 
 /// Deterministischer Laufzeitfehler (kein Panic-Pfad).
 #[derive(Debug, Clone, PartialEq)]
 pub enum RunError {
-<<<<<<< HEAD
-    DivisionByZero { function: String, pc: usize },
-    ArithmeticOverflow { function: String, pc: usize },
-    CallDepthExceeded { max_depth: usize },
-=======
     InvalidProgram { message: String },
     DivisionByZero { function: String, pc: usize },
     ArithmeticOverflow { function: String, pc: usize },
     CallDepthExceeded { max_depth: usize },
     ExecutionLimitExceeded { max_steps: u64 },
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
 }
 
 /// Feste maximale Aufruftiefe — kein Stack-Overflow, immer ein Fehler.
 pub const MAX_CALL_DEPTH: usize = 1024;
-<<<<<<< HEAD
-=======
 /// Hard deterministic execution bound until the canonical gas model is wired in.
 pub const MAX_STEPS: u64 = 1_000_000;
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
 
 struct Frame {
     function_idx: usize,
@@ -53,12 +41,6 @@ enum Step {
 }
 
 /// Fuehrt das Kompilat ab der Entry-Funktion aus; Ergebnis = Rueckgabewert.
-<<<<<<< HEAD
-pub fn execute(prog: &CompiledProgram) -> Result<i64, RunError> {
-    let entry = prog.entry as usize;
-    let mut frames: Vec<Frame> = vec![new_frame(entry, 0, Vec::new(), prog)];
-    loop {
-=======
 /// L1-facing execution entry point. Only a cryptographically and structurally
 /// verified ATCA artifact may cross this boundary.
 pub fn execute_verified(artifact: &VerifiedArtifact) -> Result<i64, RunError> {
@@ -79,7 +61,6 @@ pub(crate) fn execute(prog: &CompiledProgram) -> Result<i64, RunError> {
                 max_steps: MAX_STEPS,
             });
         }
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
         let step = {
             let depth = frames.len();
             let frame = frames.last_mut().expect("mindestens ein Frame aktiv");
@@ -151,8 +132,6 @@ pub(crate) fn execute(prog: &CompiledProgram) -> Result<i64, RunError> {
                         }
                     }
                 }
-<<<<<<< HEAD
-=======
                 Instruction::Eq
                 | Instruction::Ne
                 | Instruction::Lt
@@ -184,7 +163,6 @@ pub(crate) fn execute(prog: &CompiledProgram) -> Result<i64, RunError> {
                     }
                     Step::Continue
                 }
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
                 Instruction::Neg => {
                     let v = frame.stack.pop().expect("verifiziert");
                     match v.checked_neg() {
@@ -264,8 +242,6 @@ fn pop2(stack: &mut Vec<i64>) -> (i64, i64) {
     let a = stack.pop().expect("verifiziert");
     (b, a)
 }
-<<<<<<< HEAD
-=======
 
 #[cfg(test)]
 mod tests {
@@ -323,4 +299,3 @@ mod tests {
         );
     }
 }
->>>>>>> 99e722c5cc75a612160958211a4741425291b805

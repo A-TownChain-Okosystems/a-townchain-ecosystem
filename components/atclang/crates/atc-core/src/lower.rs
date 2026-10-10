@@ -1,10 +1,6 @@
 // Copyright (c) 2026 Michael Wroblewski — Apache-2.0
-<<<<<<< HEAD
-//! AST -> Bytecode-Lowering (Welle 2, SCR-0085-Fortschreibung).
-=======
 //! AST -> Bytecode-Lowering (Welle 2, Fortschreibung SCR-0128 Stufe 1:
 //! if/else, while, Vergleiche mit PC-relativen Spruengen, i16-Distanzen).
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
 //! Fail-closed: jede nicht im Subset unterstuetzte Form ist ein Lowering-Fehler,
 //! jede erzeugte Funktion wird vor Rueckgabe gegen den Bytecode-Verifizierer
 //! geprueft (verify vor trust).
@@ -53,8 +49,6 @@ impl CompiledProgram {
     pub fn function_count(&self) -> u16 {
         self.functions.len() as u16
     }
-<<<<<<< HEAD
-=======
 
     /// Re-validates the complete compiled program before execution/trust.
     pub fn verify(&self) -> Result<(), LowerError> {
@@ -83,7 +77,6 @@ impl CompiledProgram {
         }
         Ok(())
     }
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
 }
 
 const ENTRY: &str = "__main__";
@@ -114,8 +107,6 @@ impl<'a> FnLowerer<'a> {
         Ok(i)
     }
 
-<<<<<<< HEAD
-=======
     /// PC-relative Sprungdistanz (Basis: Folgeinstruktion), i16-bereichsgeprueft.
     fn disp(&self, from: usize, to: usize) -> Result<i16, LowerError> {
         let d = to as i64 - (from as i64 + 1);
@@ -127,7 +118,6 @@ impl<'a> FnLowerer<'a> {
         Ok(d as i16)
     }
 
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
     fn lower_stmt(&mut self, s: &Stmt, top_level: bool) -> Result<(), LowerError> {
         match s {
             Stmt::Let(l) => {
@@ -160,8 +150,6 @@ impl<'a> FnLowerer<'a> {
                 self.out.push(Instruction::Pop);
                 Ok(())
             }
-<<<<<<< HEAD
-=======
             Stmt::If {
                 cond,
                 then_body,
@@ -207,7 +195,6 @@ impl<'a> FnLowerer<'a> {
                 self.out[jif] = Instruction::JumpIfFalse(d_fwd);
                 Ok(())
             }
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
             Stmt::Fn(_) => Err(LowerError::new(format!(
                 "Funktionsdefinition ist nur auf Programmebene erlaubt (in {})",
                 self.function_name
@@ -248,15 +235,12 @@ impl<'a> FnLowerer<'a> {
                     "-" => self.out.push(Instruction::Sub),
                     "*" => self.out.push(Instruction::Mul),
                     "/" => self.out.push(Instruction::Div),
-<<<<<<< HEAD
-=======
                     "==" => self.out.push(Instruction::Eq),
                     "!=" => self.out.push(Instruction::Ne),
                     "<" => self.out.push(Instruction::Lt),
                     ">" => self.out.push(Instruction::Gt),
                     "<=" => self.out.push(Instruction::Le),
                     ">=" => self.out.push(Instruction::Ge),
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
                     other => {
                         return Err(LowerError::new(format!(
                             "Operator '{other}' ist nicht im Subset"
@@ -311,14 +295,11 @@ fn finish_function(
     }
     let bytecode = Bytecode { instructions };
     let local_count = l.next_local;
-<<<<<<< HEAD
-=======
     if param_count > local_count {
         return Err(LowerError::new(format!(
             "Parameterzahl ueberschreitet lokale Slots in Funktion {name}"
         )));
     }
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
     let function_count = l.fn_ids.len() as u16;
     bytecode
         .verify(local_count, function_count)
@@ -366,8 +347,6 @@ pub fn lower_program(prog: &Program) -> Result<CompiledProgram, LowerError> {
     fn_ids.insert(ENTRY.to_string(), (0, 0));
     for s in &prog.statements {
         if let Stmt::Fn(f) = s {
-<<<<<<< HEAD
-=======
             if fn_ids.len() >= u16::MAX as usize {
                 return Err(LowerError::new(
                     "Funktionsanzahl ueberschreitet kanonisches Limit",
@@ -379,7 +358,6 @@ pub fn lower_program(prog: &Program) -> Result<CompiledProgram, LowerError> {
                     f.name
                 )));
             }
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
             let idx = fn_ids.len() as u16;
             if fn_ids
                 .insert(f.name.clone(), (idx, f.params.len() as u16))
@@ -423,9 +401,6 @@ pub fn lower_program(prog: &Program) -> Result<CompiledProgram, LowerError> {
             functions.push(lower_user_function(f, &fn_ids)?);
         }
     }
-<<<<<<< HEAD
-    Ok(CompiledProgram { functions, entry })
-=======
     let compiled = CompiledProgram { functions, entry };
     compiled.verify()?;
     Ok(compiled)
@@ -527,5 +502,4 @@ mod tests {
         let prog = crate::parser::parse_program("fn main() -> i64 { return 1 && 2; }");
         assert!(prog.is_err()); // '&&' lexikographisch nicht im Subset
     }
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
 }

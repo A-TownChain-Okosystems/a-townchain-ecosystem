@@ -23,11 +23,7 @@ Implementierung definiert Semantik, Bytecode-Encoding und Sicherheits-Gates
 - ATCLang-Frontend mit deterministischer Semantik (Konsens-Pflicht)
 - Rust-Consensus-Core (`crates/atc-core`): Bytecode-Verifizierer mit
   fail-closed Bounds-Checking (Stack, Locals, Functions)
-<<<<<<< HEAD
-- Python-Referenz-VM (`src/atclang/vm`) für Tests und Simulation
-=======
 - Rust-only implementation path; Python reference VM removed from the active repository on 2026-09-17
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
 - Security-Gate (Static Analysis, fail-closed): Verbots-Import- und
   Hostcall-Detektion auf Contract-Quellen
 - Determinism-Gate (SCR-0126 Checker v2, allowlist-geprüft)
@@ -39,11 +35,7 @@ Implementierung definiert Semantik, Bytecode-Encoding und Sicherheits-Gates
 (Former: `src/atclang`) ist seit 2026-09-17 vollstaendig dokumentiert unter
 `docs/reference/python/` und aus dem Repository entfernt — Rust-only.
 
-<<<<<<< HEAD
-ATCLang is the language and contract-development layer of A-TownChain. The repository deliberately uses a dual-stack model:
-=======
 ATCLang is the language and contract-development layer of A-TownChain. The repository documents a **Rust-only active implementation path**. The former Python reference pipeline was removed from the active tree on 2026-09-17; older documentation and historical tests that mention it must not be read as a current runtime component.
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
 
 ```text
 ATCLang source

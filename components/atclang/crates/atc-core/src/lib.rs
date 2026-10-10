@@ -8,9 +8,6 @@ pub mod ast;
 pub mod bytecode;
 pub mod lexer;
 pub mod lower;
-<<<<<<< HEAD
-=======
 pub mod native;
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
 pub mod parser;
 pub mod vm;

@@ -49,13 +49,10 @@ pub struct Bytecode {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum VerifyError {
-<<<<<<< HEAD
-=======
     EmptyBytecode,
     UnexpectedEnd {
         pc: usize,
     },
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
     StackUnderflow {
         pc: usize,
     },
@@ -75,8 +72,6 @@ pub enum VerifyError {
         expected: usize,
         actual: usize,
     },
-<<<<<<< HEAD
-=======
     /// Control-flow path ends without an explicit Return.
     MissingReturn {
         pc: usize,
@@ -94,7 +89,6 @@ pub enum VerifyError {
         first: usize,
         second: usize,
     },
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
 }
 
 impl Instruction {
@@ -159,41 +153,6 @@ impl Bytecode {
         out
     }
 
-<<<<<<< HEAD
-    pub fn verify(&self, local_count: u16, function_count: u16) -> Result<(), VerifyError> {
-        let mut stack = 0usize;
-        // Letzter Konstantenwert: faengt 'ConstI64(0), Div' (Div/0) statisch ab.
-        let mut last_const: Option<i64> = None;
-        for (pc, instruction) in self.instructions.iter().enumerate() {
-            match instruction {
-                Instruction::ConstI64(v) => {
-                    last_const = Some(*v);
-                    stack += 1;
-                }
-                Instruction::LoadLocal(index) => {
-                    last_const = None;
-                    if *index >= local_count {
-                        return Err(VerifyError::InvalidLocal { pc, index: *index });
-                    }
-                    stack += 1;
-                }
-                Instruction::StoreLocal(index) => {
-                    last_const = None;
-                    if *index >= local_count {
-                        return Err(VerifyError::InvalidLocal { pc, index: *index });
-                    }
-                    if stack < 1 {
-                        return Err(VerifyError::StackUnderflow { pc });
-                    }
-                    stack -= 1;
-                }
-                Instruction::Add | Instruction::Sub | Instruction::Mul => {
-                    last_const = None;
-                    if stack < 2 {
-                        return Err(VerifyError::StackUnderflow { pc });
-                    }
-                    stack -= 1;
-=======
     /// Sprungziel zu einer Instruktion (Bezugsbasis: Folgeinstruktion).
     fn jump_target(pc: usize, distanz: i16) -> i64 {
         pc as i64 + 1 + distanz as i64
@@ -372,29 +331,11 @@ impl Bytecode {
                         return Err(VerifyError::MissingReturn { pc });
                     }
                     work.push((pc + 1, stack - 1, None));
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
                 }
                 Instruction::Div => {
                     if last_const == Some(0) {
                         return Err(VerifyError::DivisionByZeroConstant { pc });
                     }
-<<<<<<< HEAD
-                    last_const = None;
-                    if stack < 2 {
-                        return Err(VerifyError::StackUnderflow { pc });
-                    }
-                    stack -= 1;
-                }
-                Instruction::Neg => {
-                    last_const = None;
-                    if stack < 1 {
-                        return Err(VerifyError::StackUnderflow { pc });
-                    }
-                }
-                Instruction::Call { function, argc } => {
-                    last_const = None;
-                    if *function >= function_count {
-=======
                     if stack < 2 {
                         return Err(VerifyError::StackUnderflow { pc });
                     }
@@ -428,22 +369,12 @@ impl Bytecode {
                 }
                 Instruction::Call { function, argc } => {
                     if (*function as usize) >= function_params.len() {
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
                         return Err(VerifyError::InvalidFunction {
                             pc,
                             function: *function,
                         });
                     }
                     let argc = *argc as usize;
-<<<<<<< HEAD
-                    if stack < argc {
-                        return Err(VerifyError::StackUnderflow { pc });
-                    }
-                    stack = stack - argc + 1;
-                }
-                Instruction::Return => {
-                    last_const = None;
-=======
                     let expected = function_params[*function as usize];
                     if expected != u16::MAX && argc != usize::from(expected) {
                         return Err(VerifyError::InvalidFunction {
@@ -460,7 +391,6 @@ impl Bytecode {
                     work.push((pc + 1, stack - argc + 1, None));
                 }
                 Instruction::Return => {
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
                     if stack != 1 {
                         return Err(VerifyError::InvalidStackHeight {
                             pc,
@@ -468,15 +398,6 @@ impl Bytecode {
                             actual: stack,
                         });
                     }
-<<<<<<< HEAD
-                }
-                Instruction::Pop => {
-                    last_const = None;
-                    if stack < 1 {
-                        return Err(VerifyError::StackUnderflow { pc });
-                    }
-                    stack -= 1;
-=======
                     // Kein Nachfolger.
                 }
                 Instruction::Pop => {
@@ -507,7 +428,6 @@ impl Bytecode {
                     // Reihenfolge (Determinismus): erst Sprungziel, dann Fall-through.
                     work.push((target as usize, stack - 1, None));
                     work.push((pc + 1, stack - 1, None));
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
                 }
             }
         }
@@ -661,8 +581,6 @@ mod tests {
             bc.verify(1, 1),
             Err(VerifyError::InvalidLocal { pc: 0, index: 2 })
         );
-<<<<<<< HEAD
-=======
     }
 
     #[test]
@@ -724,6 +642,5 @@ mod tests {
                 second: 0,
             })
         ));
->>>>>>> 99e722c5cc75a612160958211a4741425291b805
     }
 }
