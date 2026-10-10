@@ -12,7 +12,7 @@ pub struct RewardPolicy {
     pub max_supply: u128,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub struct RewardLedger {
     pub issued: u128,
 }
@@ -41,12 +41,6 @@ impl RewardPolicy {
             return Err(RewardError::SupplyExceeded);
         }
         Ok(())
-    }
-}
-
-impl Default for RewardLedger {
-    fn default() -> Self {
-        Self::new()
     }
 }
 

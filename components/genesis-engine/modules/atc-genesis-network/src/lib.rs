@@ -189,7 +189,6 @@ impl PredictionBuffer {
     pub fn len(&self) -> usize {
         self.inputs.len()
     }
-
     pub fn is_empty(&self) -> bool {
         self.inputs.is_empty()
     }
@@ -349,12 +348,13 @@ mod tests {
             rotation_xyz_microunits: [100000, 200000, 300000],
         };
         let p = InterpolatedTransform::between(&a, &b, 0.5).unwrap();
-        for (actual, expected) in p.position.iter().zip([0.5, 1.0, 1.5]) {
-            assert!((actual - expected).abs() < 1e-5);
+        for (ist, soll) in p.position.iter().zip([0.5f32, 1.0, 1.5]) {
+            assert!(
+                (ist - soll).abs() < 1e-5,
+                "Interpolation weicht ab: {ist} != {soll}"
+            );
         }
-        for (actual, expected) in p.rotation.iter().zip([0.05, 0.1, 0.15]) {
-            assert!((actual - expected).abs() < 1e-6);
-        }
+        assert_eq!(p.rotation, [0.05, 0.1, 0.15])
     }
     #[test]
     fn invalid_rotation_blocks_interpolation() {

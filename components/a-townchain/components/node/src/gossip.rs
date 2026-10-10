@@ -25,16 +25,42 @@ pub struct SyncReport {
 pub fn serve_gossip(addr: &str, kette: Arc<Mutex<Chain>>) -> std::io::Result<()> {
     let listener = TcpListener::bind(addr)?;
     for stream in listener.incoming() {
-        let mut s = stream?;
-        let mut reader = BufReader::new(s.try_clone()?);
+        let mut s = match stream {
+            Ok(stream) => stream,
+            Err(err) => {
+                eprintln!("gossip accept error: {}", err);
+                continue;
+            }
+        };
+        let mut reader = match s.try_clone().map(BufReader::new) {
+            Ok(reader) => reader,
+            Err(err) => {
+                eprintln!("gossip connection clone error: {}", err);
+                continue;
+            }
+        };
         let mut line = String::new();
-        reader.read_line(&mut line)?;
+        if let Err(err) = reader.read_line(&mut line) {
+            eprintln!("gossip request read error: {}", err);
+            continue;
+        }
+        if line.len() > 64 * 1024 {
+            eprintln!("gossip request too large: {} bytes", line.len());
+            continue;
+        }
         let befehl = line.trim().to_string();
-        let k = kette.lock().expect("Chain-Lock vergiftet");
+        let k = match kette.lock() {
+            Ok(k) => k,
+            Err(_) => {
+                return Err(std::io::Error::other("chain mutex poisoned"));
+            }
+        };
         if befehl == "STATUS" {
             writeln!(s, "{} {}", k.height(), k.best_hash())?;
         } else if let Some(rest) = befehl.strip_prefix("BLOCKS ") {
-            let from: usize = rest.trim().parse().unwrap_or(0);
+            let from: usize = rest.trim().parse().map_err(|_| {
+                std::io::Error::new(std::io::ErrorKind::InvalidInput, "invalid BLOCKS offset")
+            })?;
             let teile: Vec<String> = k
                 .blocks_from(from)
                 .iter()
@@ -53,8 +79,15 @@ fn peer_antwort(peer_addr: &str, befehl: &str) -> Result<String, String> {
         TcpStream::connect(peer_addr).map_err(|e| format!("connect {}: {}", peer_addr, e))?;
     s.set_read_timeout(Some(Duration::from_secs(5)))
         .map_err(|e| format!("timeout: {}", e))?;
-    s.write_all(format!("{}\n", befehl).as_bytes())
-        .map_err(|e| format!("send: {}", e))?;
+    s.write_all(
+        format!(
+            "{}
+",
+            befehl
+        )
+        .as_bytes(),
+    )
+    .map_err(|e| format!("send: {}", e))?;
     let mut line = String::new();
     BufReader::new(s)
         .read_line(&mut line)
@@ -210,13 +243,22 @@ mod tests {
                     Ok(s) => s,
                     Err(_) => break,
                 };
-                let mut reader = BufReader::new(s.try_clone().unwrap());
+                let mut reader = BufReader::new(match s.try_clone() {
+                    Ok(stream) => stream,
+                    Err(_) => break,
+                });
                 let mut line = String::new();
-                reader.read_line(&mut line).unwrap();
+                if reader.read_line(&mut line).is_err() {
+                    continue;
+                }
                 if line.trim() == "STATUS" {
-                    writeln!(s, "5 999").unwrap();
+                    if writeln!(s, "5 999").is_err() {
+                        break;
+                    }
                 } else {
-                    writeln!(s, "0|111|gefaelscht|222;1|333|tx|444").unwrap();
+                    if writeln!(s, "0|111|gefaelscht|222;1|333|tx|444").is_err() {
+                        break;
+                    }
                 }
             }
         });

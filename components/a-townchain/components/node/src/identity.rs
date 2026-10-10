@@ -8,6 +8,8 @@ pub const CHAIN_ID: &str = "atc";
 pub const DEVNET_NETWORK_ID: &str = "devnet";
 pub const PROTOCOL_VERSION: &str = "1.0.0";
 pub const VM_VERSION: &str = "1.0.0";
+pub const TX_DOMAIN: &str = "ATC-TX-DOMAIN";
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ChainIdentity {
     pub chain_id: String,
@@ -22,55 +24,116 @@ pub struct RuntimeContext {
     pub vm_version: String,
 }
 
-/// Fail-closed identity validation errors (ATC-STD-600).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct TransactionDomain {
+    pub chain_id: String,
+    pub network_id: String,
+    pub protocol_version: String,
+    pub transaction_type: String,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum IdentityError {
-    EmptyField,
+    EmptyField(&'static str),
+    InvalidChainId(String),
+    InvalidNetworkId(String),
+    InvalidGenesisId(String),
     GenesisMismatch {
         configured: String,
         computed: String,
     },
+    ProtocolMismatch {
+        expected: String,
+        actual: String,
+    },
+    VmMismatch {
+        expected: String,
+        actual: String,
+    },
 }
-
-impl std::fmt::Display for IdentityError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            IdentityError::EmptyField => {
-                write!(f, "chain identity has an empty field")
-            }
-            IdentityError::GenesisMismatch {
-                configured,
-                computed,
-            } => {
-                write!(
-                    f,
-                    "genesis identity mismatch: configured {configured}, computed {computed}"
-                )
-            }
-        }
-    }
-}
-
-impl std::error::Error for IdentityError {}
 
 impl ChainIdentity {
-    /// Fail-closed structural validation: every identity field MUST be non-empty.
     pub fn validate(&self) -> Result<(), IdentityError> {
-        if self.chain_id.trim().is_empty() {
-            return Err(IdentityError::EmptyField);
+        if self.chain_id.is_empty() {
+            return Err(IdentityError::EmptyField("chain_id"));
         }
-        if self.network_id.trim().is_empty() {
-            return Err(IdentityError::EmptyField);
+        if self.network_id.is_empty() {
+            return Err(IdentityError::EmptyField("network_id"));
         }
-        if self.genesis_id.trim().is_empty() {
-            return Err(IdentityError::EmptyField);
+        if self.genesis_id.is_empty() {
+            return Err(IdentityError::EmptyField("genesis_id"));
+        }
+        if self.chain_id != CHAIN_ID {
+            return Err(IdentityError::InvalidChainId(self.chain_id.clone()));
+        }
+        if !matches!(self.network_id.as_str(), "devnet" | "testnet" | "mainnet") {
+            return Err(IdentityError::InvalidNetworkId(self.network_id.clone()));
+        }
+        if self.genesis_id.len() != 64 || !self.genesis_id.bytes().all(|b| b.is_ascii_hexdigit()) {
+            return Err(IdentityError::InvalidGenesisId(self.genesis_id.clone()));
         }
         Ok(())
     }
 }
 
+impl RuntimeContext {
+    pub fn validate(
+        &self,
+        expected_protocol: &str,
+        expected_vm: &str,
+    ) -> Result<(), IdentityError> {
+        self.identity.validate()?;
+        if self.protocol_version != expected_protocol {
+            return Err(IdentityError::ProtocolMismatch {
+                expected: expected_protocol.into(),
+                actual: self.protocol_version.clone(),
+            });
+        }
+        if self.vm_version != expected_vm {
+            return Err(IdentityError::VmMismatch {
+                expected: expected_vm.into(),
+                actual: self.vm_version.clone(),
+            });
+        }
+        Ok(())
+    }
+}
+
+impl TransactionDomain {
+    pub fn signing_bytes(
+        &self,
+        nonce: u64,
+        sender: &str,
+        recipient: &str,
+        value: u64,
+        fee: u64,
+        payload: &[u8],
+    ) -> Vec<u8> {
+        let payload_hex = hex_encode(payload);
+        let nonce_s = nonce.to_string();
+        let value_s = value.to_string();
+        let fee_s = fee.to_string();
+        canonical_fields(&[
+            ("domain", TX_DOMAIN),
+            ("chain_id", self.chain_id.as_str()),
+            ("network_id", self.network_id.as_str()),
+            ("protocol_version", self.protocol_version.as_str()),
+            ("transaction_type", self.transaction_type.as_str()),
+            ("nonce", nonce_s.as_str()),
+            ("sender", sender),
+            ("recipient", recipient),
+            ("value", value_s.as_str()),
+            ("fee", fee_s.as_str()),
+            ("payload_hex", payload_hex.as_str()),
+        ])
+    }
+}
+
 /// Genesis identity = HASH(CANONICAL_ENCODE(genesis_document)).
 /// The genesis_id itself is excluded from its own preimage.
+///
+/// Parameterliste ist durch ATC-STD-600-Genesis-Dokument vorgegeben; Bündling in
+/// ein Struct wäre ein ABI-Break für alle Aufrufer.
 #[allow(clippy::too_many_arguments)]
 pub fn compute_genesis_id(
     chain_id: &str,
@@ -163,7 +226,7 @@ mod tests {
             DEVNET_NETWORK_ID,
             0,
             &p,
-            "0".repeat(64).as_str(),
+            &"0".repeat(64),
             PROTOCOL_VERSION,
             VM_VERSION,
         );
@@ -173,7 +236,7 @@ mod tests {
             DEVNET_NETWORK_ID,
             0,
             &p,
-            "0".repeat(64).as_str(),
+            &"0".repeat(64),
             PROTOCOL_VERSION,
             VM_VERSION,
         );
@@ -189,7 +252,7 @@ mod tests {
             DEVNET_NETWORK_ID,
             0,
             &p,
-            "0".repeat(64).as_str(),
+            &"0".repeat(64),
             PROTOCOL_VERSION,
             VM_VERSION,
         );
@@ -203,10 +266,23 @@ mod tests {
             "A-TownChain Devnet",
             0,
             &p,
-            "0".repeat(64).as_str(),
+            &"0".repeat(64),
             PROTOCOL_VERSION,
             VM_VERSION
         )
         .is_ok());
+    }
+    #[test]
+    fn transaction_encoding_is_unambiguous() {
+        let d = TransactionDomain {
+            chain_id: CHAIN_ID.into(),
+            network_id: DEVNET_NETWORK_ID.into(),
+            protocol_version: PROTOCOL_VERSION.into(),
+            transaction_type: "transfer".into(),
+        };
+        assert_ne!(
+            d.signing_bytes(1, "alice", "bob", 10, 1, b"ab"),
+            d.signing_bytes(1, "alice", "bob", 10, 1, b"a\0b")
+        );
     }
 }

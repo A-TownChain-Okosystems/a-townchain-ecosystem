@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 // Sandbox isolation
 pub struct Sandbox {
-    _id: u64,
+    id: u64,
     memory_limit: usize,
     cpu_limit_ms: u64,
     active: bool,
@@ -10,11 +10,24 @@ pub struct Sandbox {
 impl Sandbox {
     pub fn new(id: u64, memory_limit: usize, cpu_limit_ms: u64) -> Self {
         Self {
-            _id: id,
+            id,
             memory_limit,
             cpu_limit_ms,
             active: false,
         }
+    }
+
+    pub fn id(&self) -> u64 {
+        self.id
+    }
+    pub fn is_active(&self) -> bool {
+        self.active
+    }
+    pub fn memory_limit(&self) -> usize {
+        self.memory_limit
+    }
+    pub fn cpu_limit_ms(&self) -> u64 {
+        self.cpu_limit_ms
     }
 
     pub fn start(&mut self) -> Result<(), String> {
@@ -32,16 +45,6 @@ impl Sandbox {
         self.active = false;
         Ok(())
     }
-
-    pub fn is_active(&self) -> bool {
-        self.active
-    }
-    pub fn memory_limit(&self) -> usize {
-        self.memory_limit
-    }
-    pub fn cpu_limit_ms(&self) -> u64 {
-        self.cpu_limit_ms
-    }
 }
 
 #[cfg(test)]
@@ -51,6 +54,7 @@ mod tests {
     #[test]
     fn test_sandbox_lifecycle() {
         let mut sb = Sandbox::new(1, 4096, 1000);
+        assert_eq!(sb.id(), 1);
         assert!(!sb.is_active());
         assert!(sb.start().is_ok());
         assert!(sb.is_active());

@@ -150,8 +150,11 @@ fn lerp_pose(a: PoseTransform, b: PoseTransform, t: f32) -> PoseTransform {
         out.scale[i] = a.scale[i] + (b.scale[i] - a.scale[i]) * t;
     }
     let mut q = [0.0; 4];
-    for (i, item) in q.iter_mut().enumerate() {
-        *item = a.rotation_xyzw[i] + (b.rotation_xyzw[i] - a.rotation_xyzw[i]) * t;
+    for (q, (a, b)) in q
+        .iter_mut()
+        .zip(a.rotation_xyzw.iter().zip(b.rotation_xyzw.iter()))
+    {
+        *q = a + (b - a) * t;
     }
     let n = (q.iter().map(|v| v * v).sum::<f32>()).sqrt();
     out.rotation_xyzw = if n > f32::EPSILON {

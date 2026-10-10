@@ -33,9 +33,6 @@ pub const HEAP_START: u64 = 0x_4444_4444_0000;
 pub const HEAP_SIZE: u64 = 100 * 1024; // 100 KiB — identisch zu allocator.rs
 pub const HEAP_END: u64 = HEAP_START + HEAP_SIZE;
 pub const USERSPACE_BASE: u64 = 0x_5555_5555_0000; // Getrennt vom Kernel-Heap
-
-// Userspace muss ausserhalb des Kernel-Heaps liegen (Compile-Zeit-Invariante).
-const _: () = assert!(USERSPACE_BASE > HEAP_END);
 pub const USERSPACE_MAX: u64 = 100 * 1024 * 1024; // 100 MiB Userspace-Simulation
 
 /// Verwaltete Speicherregion
@@ -815,13 +812,16 @@ mod tests {
     }
 
     #[test]
+    // Die Assertions sind absichtlich konstant: sie halten den Layout-Vertrag
+    // gegenueber allocator.rs fest und schlagen bei spaeteren Konstanten-Aenderungen an.
+    #[allow(clippy::assertions_on_constants)]
     fn test_constants_match_allocator() {
         // Muss identisch zu allocator.rs sein
         assert_eq!(HEAP_START, 0x_4444_4444_0000);
         assert_eq!(HEAP_SIZE, 100 * 1024);
-        assert_eq!(HEAP_END, HEAP_START + HEAP_SIZE);
-        // Userspace muss ausserhalb des Kernel-Heaps liegen:
-        // zur Compile-Zzeit garantiert (siehe const-Assertion im Modul).
+        // HEAP_END ist per Definition HEAP_START + HEAP_SIZE; Nutzer-Raum-Lage prueft der nachfolgende assert.
+        // Userspace muss ausserhalb des Kernel-Heaps liegen
+        assert!(USERSPACE_BASE > HEAP_END);
     }
 
     #[test]

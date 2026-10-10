@@ -22,12 +22,6 @@ pub struct SecurityAuditor {
     checks: Vec<AuditReport>,
 }
 
-impl Default for SecurityAuditor {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl SecurityAuditor {
     pub fn new() -> Self {
         Self { checks: Vec::new() }
@@ -84,6 +78,12 @@ impl SecurityAuditor {
 
     pub fn has_critical(&self) -> bool {
         self.checks.iter().any(|c| c.severity == Severity::Critical)
+    }
+}
+
+impl Default for SecurityAuditor {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

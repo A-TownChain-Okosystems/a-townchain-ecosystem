@@ -32,12 +32,10 @@ impl MountTable {
     pub fn resolve(&self, path: &str) -> Option<&Mount> {
         let normalized = path::normalize(path).ok()?;
         self.mounts.iter().find(|m| {
-            let prefix = if m.mountpoint == "/" {
-                "/".to_string()
-            } else {
-                format!("{}/", m.mountpoint)
-            };
-            normalized == m.mountpoint || normalized.starts_with(&prefix)
+            // "/" ist der Root-Mount und matcht jeden absoluten Pfad.
+            m.mountpoint == "/"
+                || normalized == m.mountpoint
+                || normalized.starts_with(&(m.mountpoint.clone() + "/"))
         })
     }
     pub fn mounts(&self) -> &[Mount] {

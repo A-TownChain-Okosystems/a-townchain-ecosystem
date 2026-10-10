@@ -26,7 +26,7 @@ impl Dao {
         Ok(Self {
             proposals: BTreeMap::new(),
             voting: VotingSystem::new(),
-            treasury: Treasury::new(initial_treasury),
+            treasury: Treasury::new(initial_treasury.into()),
             timelock: Timelock::new(timelock_blocks),
             delegation: Delegation::new(),
             quorum,

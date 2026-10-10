@@ -37,7 +37,7 @@ jobs:
       - name: a-townchain ruff (kern-scoped)
         working-directory: components/a-townchain
         run: |
-          python3 -m pip install -q ruff
+          python3 -m pip install -q ruff==0.16.7
           ruff check tools specs
   shivacore-tests:
     runs-on: ubuntu-latest

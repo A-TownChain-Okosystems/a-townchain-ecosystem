@@ -1,6 +1,16 @@
 use std::{env, fs, path::Path};
 fn usage() {
-    println!("Genesis Engine CLI\n\nCommands:\n  create <name>       Create a project skeleton\n  build [debug|release]  Validate/build the workspace\n  test                Run the engine test suite\n  run                 Start the game runtime\n  package             Prepare a distributable package\n  doctor              Check local toolchain prerequisites");
+    println!(
+        "Genesis Engine CLI
+
+Commands:
+  create <name>       Create a project skeleton
+  build [debug|release]  Validate/build the workspace
+  test                Run the engine test suite
+  run                 Start the game runtime
+  package             Prepare a distributable package
+  doctor              Check local toolchain prerequisites"
+    );
 }
 fn main() {
     let mut args = env::args().skip(1);
@@ -44,12 +54,18 @@ fn create_project(name: &str) -> Result<(), String> {
     fs::create_dir_all(root.join("src")).map_err(|e| e.to_string())?;
     fs::write(
         root.join("README.md"),
-        format!("# {name}\n\nGenesis Engine project.\n"),
+        format!(
+            "# {name}
+
+Genesis Engine project.
+"
+        ),
     )
     .map_err(|e| e.to_string())?;
     fs::write(
         root.join("src/main.rs"),
-        "fn main() { println!(\"Genesis Engine game runtime\"); }\n",
+        "fn main() { println!(\"Genesis Engine game runtime\"); }
+",
     )
     .map_err(|e| e.to_string())?;
     Ok(())

@@ -84,7 +84,10 @@ mod tests {
     fn identity_mismatch_fails_closed() {
         let mut c = ctx();
         c.network_id = "invalid-network".into();
-        assert!(execution_gate(&c, &"a".repeat(64), "1.0.0", "1.0.0").is_err());
+        assert_eq!(
+            execution_gate(&c, &"a".repeat(64), "1.0.0", "1.0.0"),
+            Err(ContextError::InvalidNetworkId)
+        );
     }
 
     #[test]
