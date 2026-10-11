@@ -43,10 +43,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile scanner, orchestrator and tests
-        run: python -m py_compile tools/scan_public_symbols.py tools/run_org_source_census.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py
+        run: python -m py_compile tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py
       - name: Run scanner and organization census tests
         run: |
-          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census -v
+          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog -v
       - name: Clone all active repositories at observed clean HEADs
         env:
           GH_OWNER: A-TownChain-Okosystems
@@ -95,12 +95,22 @@ jobs:
           assert summary["active_scanned"] == 26
           assert summary["active_blocked"] == 0
           PY
+      - name: Reconcile catalog against census evidence
+        if: always()
+        run: |
+          set -euo pipefail
+          if test -f artifacts/ATC-ORG-SOURCE-CENSUS-001.json; then
+            python tools/reconcile_component_function_catalog.py \
+              --catalog docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json \
+              --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
+              --output artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json
+          fi
       - name: Upload exact-SHA census artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: atc-org-source-census-\${{ github.event.pull_request.head.sha || github.sha }}
-          path: artifacts/ATC-ORG-SOURCE-CENSUS-001.json
+          path: artifacts/ATC-ORG-SOURCE-CENSUS-001.json\n          # Include catalog reconciliation when census generation succeeds.\n          if-no-files-found: warn
           if-no-files-found: warn
       - name: Validate organization repository manifest
         run: |
