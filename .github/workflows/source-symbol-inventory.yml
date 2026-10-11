@@ -108,17 +108,28 @@ jobs:
           set -euo pipefail
           workspace="$RUNNER_TEMP/atc-org-checkouts"
           mkdir -p artifacts
+          census_exit=0
           python tools/run_org_source_census.py \
             --workspace "$workspace" \
             --manifest docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json \
-            --output artifacts/ATC-ORG-SOURCE-CENSUS-001.json
+            --output artifacts/ATC-ORG-SOURCE-CENSUS-001.json || census_exit=$?
           python - <<'PY'
           import json
           from pathlib import Path
           census = json.loads(Path("artifacts/ATC-ORG-SOURCE-CENSUS-001.json").read_text(encoding="utf-8"))
           summary = census["summary"]
           print(json.dumps({"status": census["status"], **summary}, sort_keys=True))
-          assert summary["active_expected"] == 26
+          assert summary["active_expected"] == 26, "manifest coverage must include all 26 active repositories"
+          PY
+          if [[ "$census_exit" -ne 0 ]]; then
+            echo "::error::Census report was generated but is BLOCKED; inspect the artifact for missing, dirty, or SHA-mismatched repositories."
+            exit "$census_exit"
+          fi
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          census = json.loads(Path("artifacts/ATC-ORG-SOURCE-CENSUS-001.json").read_text(encoding="utf-8"))
+          summary = census["summary"]
           assert summary["active_scanned"] == 26
           assert summary["active_blocked"] == 0
           PY
