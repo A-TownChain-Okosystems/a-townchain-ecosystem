@@ -73,21 +73,34 @@ jobs:
               if not repo.get("archived", False) and repo["name"] != "a-townchain-ecosystem":
                   print(repo["name"])
           PY
+          clone_failures=0
           while IFS= read -r name; do
             test -n "$name"
+            clone_ok=0
             if [[ -n "${ATC_CENSUS_TOKEN:-}" ]]; then
               auth_header="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$ATC_CENSUS_TOKEN" | base64 -w0)"
-              git -c http.extraheader="$auth_header" clone --no-tags "https://github.com/$GH_OWNER/$name.git" "$workspace/$name"
+              if git -c http.extraheader="$auth_header" clone --no-tags "https://github.com/$GH_OWNER/$name.git" "$workspace/$name"; then
+                clone_ok=1
+              fi
               unset auth_header
             else
-              git clone --no-tags "https://github.com/$GH_OWNER/$name.git" "$workspace/$name" || {
-                echo "::error::Checkout failed for $name. Configure the repository secret ATC_CENSUS_TOKEN with read-only Contents access to all 26 active repositories."
-                exit 1
-              }
+              if git clone --no-tags "https://github.com/$GH_OWNER/$name.git" "$workspace/$name"; then
+                clone_ok=1
+              fi
             fi
-            test -z "$(git -C "$workspace/$name" status --porcelain --untracked-files=all)"
+            if [[ "$clone_ok" -ne 1 ]]; then
+              clone_failures=$((clone_failures + 1))
+              echo "::warning::Checkout unavailable for $name; census will record CHECKOUT_MISSING and continue."
+              continue
+            fi
+            if [[ -n "$(git -C "$workspace/$name" status --porcelain --untracked-files=all)" ]]; then
+              clone_failures=$((clone_failures + 1))
+              echo "::warning::Checkout is not clean for $name; census will record it as blocked."
+              continue
+            fi
             printf '%s %s\n' "$name" "$(git -C "$workspace/$name" rev-parse HEAD)"
           done < "$RUNNER_TEMP/active-repositories.txt"
+          echo "Repository checkout failures: $clone_failures; census remains fail-closed for missing/dirty checkouts."
           test -z "$(git -C "$workspace/a-townchain-ecosystem" status --porcelain --untracked-files=all)"
           printf 'a-townchain-ecosystem %s\n' "$(git -C "$workspace/a-townchain-ecosystem" rev-parse HEAD)"
       - name: Run exact-HEAD organization source census
