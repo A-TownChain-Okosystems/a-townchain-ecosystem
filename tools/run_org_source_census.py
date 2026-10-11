@@ -14,7 +14,11 @@ import subprocess
 import sys
 from pathlib import Path
 
-from tools.scan_public_symbols import scan
+try:
+    # Package import for unittest/module execution; sibling import for direct CLI.
+    from tools.scan_public_symbols import scan
+except ModuleNotFoundError:
+    from scan_public_symbols import scan
 
 
 def git(root: Path, *args: str) -> str:
