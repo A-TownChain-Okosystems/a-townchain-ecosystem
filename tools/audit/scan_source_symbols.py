@@ -73,11 +73,11 @@ def request_bytes(url: str, token: str | None = None) -> bytes:
     with urlopen(req, timeout=30) as response:
         return response.read()
 
-def get_tree(repo: str, sha: str, token: str | None) -> list[dict]:
-    url = f"https://api.github.com/repos/{repo}/git/trees/{sha}?recursive=1"
+def get_tree(repo: str, tree_sha: str, token: str | None) -> tuple[list[dict], str | None]:
+    url = f"https://api.github.com/repos/{repo}/git/trees/{tree_sha}?recursive=1"
     data = json.loads(request_bytes(url, token))
     if data.get("truncated"):
-        raise RuntimeError(f"{repo}@{sha}: GitHub returned a truncated recursive tree")
+        raise RuntimeError(f"{repo} tree {tree_sha}: GitHub returned a truncated recursive tree")
     return data.get("tree", []), data.get("sha")
 
 def language(ext: str) -> str:
@@ -140,8 +140,10 @@ def main() -> int:
         repo = repo_entry["full_name"]
         sha = repo_entry["head_sha"]
         try:
-            tree, observed_tree_sha = get_tree(repo, sha, token)
             expected_tree_sha = repo_entry.get("tree_sha")
+            if not expected_tree_sha:
+                raise RuntimeError(f"{repo}@{sha}: inventory has no tree_sha")
+            tree, observed_tree_sha = get_tree(repo, expected_tree_sha, token)
             if expected_tree_sha and observed_tree_sha != expected_tree_sha:
                 raise RuntimeError(f"{repo}@{sha}: tree SHA mismatch: inventory={expected_tree_sha}, API={observed_tree_sha}")
         except Exception as exc:
