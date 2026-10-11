@@ -78,7 +78,7 @@ def get_tree(repo: str, sha: str, token: str | None) -> list[dict]:
     data = json.loads(request_bytes(url, token))
     if data.get("truncated"):
         raise RuntimeError(f"{repo}@{sha}: GitHub returned a truncated recursive tree")
-    return data.get("tree", [])
+    return data.get("tree", []), data.get("sha")
 
 def language(ext: str) -> str:
     if ext == ".rs": return "rust"
@@ -140,7 +140,10 @@ def main() -> int:
         repo = repo_entry["full_name"]
         sha = repo_entry["head_sha"]
         try:
-            tree = get_tree(repo, sha, token)
+            tree, observed_tree_sha = get_tree(repo, sha, token)
+            expected_tree_sha = repo_entry.get("tree_sha")
+            if expected_tree_sha and observed_tree_sha != expected_tree_sha:
+                raise RuntimeError(f"{repo}@{sha}: tree SHA mismatch: inventory={expected_tree_sha}, API={observed_tree_sha}")
         except Exception as exc:
             errors.append({"repository": repo, "source_sha": sha, "stage": "TREE_FETCH", "error": str(exc)})
             continue
