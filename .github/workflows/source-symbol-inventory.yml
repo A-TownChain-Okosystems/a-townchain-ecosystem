@@ -56,7 +56,10 @@ jobs:
           mkdir -p "$workspace"
           # Clone this exact PR revision, not the default branch, so the census
           # is bound to the workflow's source SHA.
+          source_sha="$(git rev-parse HEAD)"
           git clone --no-hardlinks "$GITHUB_WORKSPACE" "$workspace/a-townchain-ecosystem"
+          git -C "$workspace/a-townchain-ecosystem" checkout --detach "$source_sha"
+          test "$(git -C "$workspace/a-townchain-ecosystem" rev-parse HEAD)" = "$source_sha"
           python - <<'PY' > "$RUNNER_TEMP/active-repositories.txt"
           import json
           from pathlib import Path
