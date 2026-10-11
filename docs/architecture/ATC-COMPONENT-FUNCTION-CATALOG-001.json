@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-11",
-  "catalog_revision_note": "Full 33-repository coverage added from the integration registry. Detailed component/function contracts and production evidence remain residual unless explicitly verified.",
+  "catalog_revision_note": "Extended with source-README-grounded function contracts for additional active repositories. All added contracts remain RESIDUAL/BLOCKED pending source-level implementation and exact-SHA evidence.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -1095,6 +1095,918 @@
             "unit",
             "negative",
             "integration"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-SDK",
+      "name": "ATC SDK / CLI / Package Tooling",
+      "layer": "L5",
+      "canonical_owner": "A-TownChain-Okosystems/atc-sdk",
+      "role": "Rust and TypeScript protocol clients, typed RPC, CLI and package tooling",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-CHAIN",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-SDK-001",
+          "name": "Typed protocol/RPC client",
+          "purpose": "Provide typed client calls and fail-closed handling of remote responses.",
+          "inputs": [
+            "endpoint configuration",
+            "typed request",
+            "network response"
+          ],
+          "outputs": [
+            "typed result or explicit error"
+          ],
+          "failure_modes": [
+            "timeout",
+            "malformed response",
+            "protocol mismatch",
+            "unauthorized response"
+          ],
+          "acceptance": [
+            "Invalid or incomplete responses fail closed",
+            "Protocol versions and error types are documented",
+            "Rust and TypeScript clients pass shared contract vectors"
+          ],
+          "test_classes": [
+            "unit",
+            "contract",
+            "integration",
+            "negative"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-SDK-002",
+          "name": "CLI and package workflow",
+          "purpose": "Expose developer operations and package workflows without redefining chain or VM semantics.",
+          "inputs": [
+            "command",
+            "project/package manifest",
+            "toolchain configuration"
+          ],
+          "outputs": [
+            "artifact or structured command result"
+          ],
+          "failure_modes": [
+            "invalid manifest",
+            "unsupported command",
+            "build failure"
+          ],
+          "acceptance": [
+            "Commands have stable help and exit codes",
+            "Packages bind to exact tool versions",
+            "Failures are actionable and nonzero"
+          ],
+          "test_classes": [
+            "CLI integration",
+            "package tests",
+            "reproducibility"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-NODE",
+      "name": "ATC Node Runtime",
+      "layer": "L5",
+      "canonical_owner": "A-TownChain-Okosystems/atc-node",
+      "role": "Full-node executable, P2P, RPC, storage integration, configuration and lifecycle",
+      "readiness": "RESIDUAL",
+      "criticality": "P0",
+      "depends_on": [
+        "COMP-CHAIN",
+        "COMP-ALGO",
+        "COMP-VM"
+      ],
+      "functions": [
+        {
+          "id": "FN-NODE-001",
+          "name": "Node lifecycle and configuration",
+          "purpose": "Start, configure, monitor and stop a node instance using canonical protocol configuration.",
+          "inputs": [
+            "node configuration",
+            "network/genesis identity",
+            "runtime dependencies"
+          ],
+          "outputs": [
+            "node lifecycle state",
+            "health diagnostics"
+          ],
+          "failure_modes": [
+            "invalid configuration",
+            "dependency unavailable",
+            "startup failure",
+            "crash loop"
+          ],
+          "acceptance": [
+            "Chain/network identity is sourced from canonical configuration",
+            "Startup failures are explicit and do not create partial healthy state",
+            "Shutdown and restart behavior are tested"
+          ],
+          "test_classes": [
+            "integration",
+            "fault-injection",
+            "configuration-negative"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-NODE-002",
+          "name": "P2P/RPC boundary",
+          "purpose": "Expose network and RPC operations while preserving canonical chain validation.",
+          "inputs": [
+            "peer messages",
+            "RPC request",
+            "protocol context"
+          ],
+          "outputs": [
+            "validated event or typed RPC response"
+          ],
+          "failure_modes": [
+            "malformed message",
+            "peer timeout",
+            "rate limit",
+            "invalid transaction"
+          ],
+          "acceptance": [
+            "Untrusted input is validated and bounded",
+            "RPC errors are typed and stable",
+            "Node cannot bypass core transaction/block validation"
+          ],
+          "test_classes": [
+            "protocol",
+            "fuzz",
+            "multi-node",
+            "security-review"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-CONTRACTS",
+      "name": "ATC Contracts and Registry",
+      "layer": "L5",
+      "canonical_owner": "A-TownChain-Okosystems/atc-contracts",
+      "role": "Contract catalogue, registry references and license/conformance gate definitions",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-VM",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-CONTRACT-001",
+          "name": "Contract manifest and registry validation",
+          "purpose": "Validate contract metadata and references against versioned normative standards.",
+          "inputs": [
+            "contract manifest",
+            "registry version",
+            "license metadata"
+          ],
+          "outputs": [
+            "validated contract descriptor or diagnostics"
+          ],
+          "failure_modes": [
+            "missing metadata",
+            "duplicate ID",
+            "invalid license",
+            "stale schema"
+          ],
+          "acceptance": [
+            "Malformed and unlicensed references are rejected according to normative policy",
+            "Registry schema is versioned",
+            "Contract metadata tests cover boundary and negative cases"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "conformance"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-CONTRACT-002",
+          "name": "VM conformance packaging",
+          "purpose": "Package contract inputs and conformance fixtures without implementing a competing VM.",
+          "inputs": [
+            "contract source/artifact",
+            "VM format version",
+            "test vectors"
+          ],
+          "outputs": [
+            "conformance bundle",
+            "validation report"
+          ],
+          "failure_modes": [
+            "unsupported bytecode",
+            "version mismatch",
+            "missing vector"
+          ],
+          "acceptance": [
+            "Canonical VM owns execution semantics",
+            "Package declares exact VM/spec versions",
+            "Malformed bytecode is rejected by canonical VM tests"
+          ],
+          "test_classes": [
+            "integration",
+            "compatibility",
+            "negative"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-ZKP",
+      "name": "ATC Zero-Knowledge Proof Layer",
+      "layer": "L5",
+      "canonical_owner": "A-TownChain-Okosystems/atc-zkp",
+      "role": "Proof verification, off-chain proving, circuit registry and cryptographic primitives",
+      "readiness": "BLOCKED",
+      "criticality": "P0",
+      "depends_on": [
+        "COMP-CHAIN",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-ZKP-001",
+          "name": "Proof verification",
+          "purpose": "Verify proof bytes and public inputs against an explicit proof-system and circuit version.",
+          "inputs": [
+            "proof bytes",
+            "public inputs",
+            "circuit/proof-system ID"
+          ],
+          "outputs": [
+            "verified/rejected result or typed error"
+          ],
+          "failure_modes": [
+            "malformed proof",
+            "wrong circuit version",
+            "invalid public inputs",
+            "resource exhaustion"
+          ],
+          "acceptance": [
+            "Invalid proofs are rejected deterministically",
+            "Circuit and proof-system versions are explicit",
+            "Adversarial vectors and independent cryptographic review are required"
+          ],
+          "test_classes": [
+            "vectors",
+            "negative",
+            "fuzz",
+            "security-review"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-ZKP-002",
+          "name": "Circuit registry and proving contract",
+          "purpose": "Resolve versioned circuits and define the off-chain proving interface.",
+          "inputs": [
+            "circuit descriptor",
+            "version",
+            "witness input"
+          ],
+          "outputs": [
+            "circuit artifact or proof result"
+          ],
+          "failure_modes": [
+            "unknown circuit",
+            "invalid witness",
+            "unsupported backend"
+          ],
+          "acceptance": [
+            "Circuit artifacts are reproducible and content-identified",
+            "Proving is separated from on-chain verification",
+            "Trusted-setup requirements are documented where applicable"
+          ],
+          "test_classes": [
+            "unit",
+            "reproducibility",
+            "integration",
+            "security-review"
+          ],
+          "readiness": "BLOCKED"
+        }
+      ]
+    },
+    {
+      "id": "COMP-STORAGE",
+      "name": "ATC Storage",
+      "layer": "L5",
+      "canonical_owner": "A-TownChain-Okosystems/atc-storage",
+      "role": "Content-addressed storage, chunking, replication, encryption and storage APIs",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-SHIVA",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-STORAGE-001",
+          "name": "Content-addressed blob storage",
+          "purpose": "Store and retrieve content-addressed data using the documented hash and manifest contract.",
+          "inputs": [
+            "blob bytes",
+            "content metadata",
+            "access policy"
+          ],
+          "outputs": [
+            "content ID",
+            "retrieved blob or typed error"
+          ],
+          "failure_modes": [
+            "hash mismatch",
+            "missing blob",
+            "corrupt chunk",
+            "unauthorized access"
+          ],
+          "acceptance": [
+            "Content ID is verified on read",
+            "Partial/corrupt data is not reported as valid",
+            "Size limits and integrity errors are tested"
+          ],
+          "test_classes": [
+            "unit",
+            "integrity",
+            "property",
+            "negative"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-STORAGE-002",
+          "name": "Replication and encrypted access",
+          "purpose": "Replicate data under explicit policy and protect confidential content.",
+          "inputs": [
+            "content ID",
+            "replication policy",
+            "encryption/access key context"
+          ],
+          "outputs": [
+            "replication status",
+            "authorized data access"
+          ],
+          "failure_modes": [
+            "peer unavailable",
+            "key failure",
+            "replication lag",
+            "permission denial"
+          ],
+          "acceptance": [
+            "Replication state is observable",
+            "Access controls are enforced at service boundary",
+            "Key handling and failure recovery receive security review"
+          ],
+          "test_classes": [
+            "integration",
+            "fault-injection",
+            "security-review"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-COMPUTE",
+      "name": "ATC Compute",
+      "layer": "L5",
+      "canonical_owner": "A-TownChain-Okosystems/atc-compute",
+      "role": "Distributed AI/engine workload scheduling and result verification",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-AURORA",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-COMPUTE-001",
+          "name": "Bounded job scheduling",
+          "purpose": "Schedule declared compute jobs under explicit resource and capability limits.",
+          "inputs": [
+            "job manifest",
+            "resource budget",
+            "capability/policy context"
+          ],
+          "outputs": [
+            "scheduled job ID or rejection"
+          ],
+          "failure_modes": [
+            "invalid manifest",
+            "quota exhaustion",
+            "worker unavailable",
+            "unauthorized request"
+          ],
+          "acceptance": [
+            "No job starts without authorization and quota",
+            "Cancellation and timeouts are bounded",
+            "Scheduler state transitions are tested"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "fault-injection"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-COMPUTE-002",
+          "name": "Result attestation and validation",
+          "purpose": "Validate workload outputs and retain provenance before publishing results.",
+          "inputs": [
+            "job ID",
+            "result artifact",
+            "execution provenance"
+          ],
+          "outputs": [
+            "validated result or rejection"
+          ],
+          "failure_modes": [
+            "missing provenance",
+            "digest mismatch",
+            "partial output",
+            "untrusted worker"
+          ],
+          "acceptance": [
+            "Results are not trusted solely because a worker returned them",
+            "Digest/provenance checks are mandatory",
+            "Failure and retry behavior is deterministic where required"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "adversarial"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-LAUNCHPAD",
+      "name": "ATC Launchpad",
+      "layer": "L5",
+      "canonical_owner": "A-TownChain-Okosystems/atc-launchpad",
+      "role": "Token/NFT launch, presale, whitelist and vesting service",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-CONTRACTS",
+        "COMP-CHAIN"
+      ],
+      "functions": [
+        {
+          "id": "FN-LAUNCH-001",
+          "name": "Launch configuration validation",
+          "purpose": "Validate launch parameters and schedules before publishing or executing a launch.",
+          "inputs": [
+            "launch manifest",
+            "token/NFT metadata",
+            "schedule and eligibility rules"
+          ],
+          "outputs": [
+            "validated launch plan or diagnostics"
+          ],
+          "failure_modes": [
+            "invalid schedule",
+            "duplicate allocation",
+            "invalid eligibility",
+            "contract mismatch"
+          ],
+          "acceptance": [
+            "Amounts and schedule boundaries are checked",
+            "Invalid plans cannot partially activate",
+            "Contract and chain versions are explicit"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-LAUNCH-002",
+          "name": "Vesting and whitelist enforcement",
+          "purpose": "Enforce declared eligibility and release schedules through canonical contracts.",
+          "inputs": [
+            "participant identity",
+            "eligibility proof",
+            "vesting schedule"
+          ],
+          "outputs": [
+            "eligibility/release decision"
+          ],
+          "failure_modes": [
+            "unauthorized participant",
+            "replay",
+            "boundary-time error",
+            "contract failure"
+          ],
+          "acceptance": [
+            "Boundary times and duplicate claims are tested",
+            "Wallet/identity assumptions are explicit",
+            "Execution is verified by canonical chain/VM"
+          ],
+          "test_classes": [
+            "unit",
+            "property",
+            "integration",
+            "security-review"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-MARKET",
+      "name": "ATC Marketplace",
+      "layer": "L5",
+      "canonical_owner": "A-TownChain-Okosystems/atc-marketplace",
+      "role": "DEX and asset/NFT registry application services",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-CONTRACTS",
+        "COMP-CHAIN"
+      ],
+      "functions": [
+        {
+          "id": "FN-MARKET-001",
+          "name": "Asset registry validation",
+          "purpose": "Validate asset identifiers, metadata and ownership references.",
+          "inputs": [
+            "asset descriptor",
+            "metadata URI/content ID",
+            "ownership reference"
+          ],
+          "outputs": [
+            "registered/validated asset or error"
+          ],
+          "failure_modes": [
+            "duplicate ID",
+            "invalid metadata",
+            "ownership mismatch"
+          ],
+          "acceptance": [
+            "Asset identifiers are unique within the normative scope",
+            "Metadata integrity and ownership checks are enforced",
+            "Invalid entries fail closed"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-MARKET-002",
+          "name": "DEX order/swap contract",
+          "purpose": "Validate trade requests and surface execution results from canonical contracts.",
+          "inputs": [
+            "order/swap request",
+            "quote/context",
+            "contract version"
+          ],
+          "outputs": [
+            "execution receipt or typed rejection"
+          ],
+          "failure_modes": [
+            "stale quote",
+            "slippage bound",
+            "invalid signature",
+            "contract revert"
+          ],
+          "acceptance": [
+            "Economic constraints and error semantics are documented",
+            "No off-chain result is represented as final chain state",
+            "Adversarial and boundary tests cover trade paths"
+          ],
+          "test_classes": [
+            "unit",
+            "property",
+            "integration",
+            "adversarial"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-IDE",
+      "name": "ATC IDE",
+      "layer": "L6",
+      "canonical_owner": "A-TownChain-Okosystems/atc-ide",
+      "role": "Developer IDE panels for VM simulation, standards compliance, repository docs and scaffolding",
+      "readiness": "BLOCKED",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-LANG",
+        "COMP-VM",
+        "COMP-STANDARDS",
+        "COMP-TOOLCHAIN"
+      ],
+      "functions": [
+        {
+          "id": "FN-IDE-001",
+          "name": "Project editing and diagnostics",
+          "purpose": "Provide source editing and surface compiler diagnostics with source locations.",
+          "inputs": [
+            "project files",
+            "language/toolchain version"
+          ],
+          "outputs": [
+            "editor state",
+            "diagnostics"
+          ],
+          "failure_modes": [
+            "invalid project",
+            "compiler unavailable",
+            "stale diagnostics"
+          ],
+          "acceptance": [
+            "Diagnostics identify the matching source revision",
+            "Missing compiler/test service is surfaced, not simulated",
+            "Application build and test suites pass"
+          ],
+          "test_classes": [
+            "component",
+            "application",
+            "integration"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-IDE-002",
+          "name": "VM simulator and standards compliance panels",
+          "purpose": "Present canonical VM simulation and standards results without replacing their authoritative validators.",
+          "inputs": [
+            "bytecode/program",
+            "standards reference",
+            "validator result"
+          ],
+          "outputs": [
+            "simulation trace",
+            "compliance report"
+          ],
+          "failure_modes": [
+            "unsupported format",
+            "validator unavailable",
+            "stale spec"
+          ],
+          "acceptance": [
+            "Simulation matches canonical VM vectors",
+            "Compliance result links exact standards version and evidence",
+            "No locally fabricated PASS state"
+          ],
+          "test_classes": [
+            "contract",
+            "integration",
+            "conformance"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-CHRONICLES",
+      "name": "Genesis Chronicles",
+      "layer": "L6",
+      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles",
+      "role": "Reference game with gameplay, battle, breeding and NFT integration",
+      "readiness": "RESIDUAL",
+      "criticality": "P2",
+      "depends_on": [
+        "COMP-GENESIS",
+        "COMP-CHAIN"
+      ],
+      "functions": [
+        {
+          "id": "FN-CHRON-001",
+          "name": "Gameplay state lifecycle",
+          "purpose": "Manage game-specific state transitions using the generic Genesis Engine boundary.",
+          "inputs": [
+            "player/game state",
+            "game action",
+            "engine context"
+          ],
+          "outputs": [
+            "validated gameplay transition"
+          ],
+          "failure_modes": [
+            "invalid action",
+            "inconsistent state",
+            "engine unavailable"
+          ],
+          "acceptance": [
+            "Game-specific rules stay in this repository",
+            "Generic engine features are not duplicated",
+            "State transitions have deterministic regression tests where required"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "property"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-CHRON-002",
+          "name": "NFT mint integration",
+          "purpose": "Submit and reconcile NFT-related game actions through canonical chain interfaces.",
+          "inputs": [
+            "game asset metadata",
+            "player authorization",
+            "chain transaction context"
+          ],
+          "outputs": [
+            "transaction request and confirmed receipt state"
+          ],
+          "failure_modes": [
+            "invalid metadata",
+            "signature failure",
+            "chain rejection",
+            "reorg"
+          ],
+          "acceptance": [
+            "No transaction is treated as final before canonical confirmation policy",
+            "Metadata and identity references are validated",
+            "Failure/retry/reorg behavior is tested"
+          ],
+          "test_classes": [
+            "integration",
+            "negative",
+            "reorg"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-GFF",
+      "name": "Genesis Franchise Factory",
+      "layer": "L6",
+      "canonical_owner": "A-TownChain-Okosystems/genesis-franchise-factory",
+      "role": "Franchise registry, staged content pipeline, DAO model and lifecycle tooling",
+      "readiness": "RESIDUAL",
+      "criticality": "P2",
+      "depends_on": [
+        "COMP-GENESIS",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-GFF-001",
+          "name": "Factory spec validation",
+          "purpose": "Validate versioned .atc factory descriptors and their required mappings without acting as an ATCLang compiler.",
+          "inputs": [
+            "factory .atc descriptor",
+            "AD/standard mapping",
+            "required metadata"
+          ],
+          "outputs": [
+            "validated factory plan or diagnostics"
+          ],
+          "failure_modes": [
+            "missing descriptor",
+            "invalid mapping",
+            "unsupported schema"
+          ],
+          "acceptance": [
+            "All required factories and mappings are validated by CI",
+            "Spec loader remains separate from canonical ATCLang compiler",
+            "Invalid specs fail closed"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-GFF-002",
+          "name": "Pipeline orchestration and lifecycle",
+          "purpose": "Run the declared pipeline stages and lifecycle transitions while reporting real outputs only.",
+          "inputs": [
+            "franchise record",
+            "pipeline stages",
+            "executor configuration"
+          ],
+          "outputs": [
+            "stage result",
+            "lifecycle/provenance record"
+          ],
+          "failure_modes": [
+            "executor failure",
+            "partial stage",
+            "invalid transition"
+          ],
+          "acceptance": [
+            "Dry-run is explicitly marked and never fabricates output",
+            "Lifecycle transitions are validated",
+            "Retries and partial failures are traceable"
+          ],
+          "test_classes": [
+            "unit",
+            "state-machine",
+            "fault-injection"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-OS-INTEGRATION",
+      "name": "A-TownChain OS Integration",
+      "layer": "L7",
+      "canonical_owner": "A-TownChain-Okosystems/a-townchain-os",
+      "role": "Workspace/module integration, sync tooling, system tests and orchestration",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-ECOSYSTEM",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-OSINT-001",
+          "name": "Module synchronization",
+          "purpose": "Synchronize declared module sources into integration targets while preserving source-of-truth boundaries.",
+          "inputs": [
+            "source repo/path/SHA",
+            "target path",
+            "sync policy"
+          ],
+          "outputs": [
+            "sync report",
+            "changed paths and provenance"
+          ],
+          "failure_modes": [
+            "source drift",
+            "target conflict",
+            "missing path",
+            "SHA mismatch"
+          ],
+          "acceptance": [
+            "Source and target SHAs are recorded",
+            "Conflicts are explicit and not silently overwritten",
+            "No sync process creates a competing canonical implementation"
+          ],
+          "test_classes": [
+            "integration",
+            "provenance",
+            "negative"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-OSINT-002",
+          "name": "System integration validation",
+          "purpose": "Run cross-component builds and tests against declared versions and contracts.",
+          "inputs": [
+            "component version matrix",
+            "integration profile",
+            "required tests"
+          ],
+          "outputs": [
+            "integration report",
+            "blocking residuals"
+          ],
+          "failure_modes": [
+            "incompatible API",
+            "missing component",
+            "partial test execution"
+          ],
+          "acceptance": [
+            "Only configured and executed tests count as evidence",
+            "Exact source SHAs are captured for each dependency",
+            "No successful report hides skipped required checks"
+          ],
+          "test_classes": [
+            "integration",
+            "multi-component",
+            "negative"
           ],
           "readiness": "RESIDUAL"
         }
