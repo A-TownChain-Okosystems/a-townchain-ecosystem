@@ -25,6 +25,8 @@ def validate(doc: dict) -> tuple[list[str], dict]:
     components = doc.get("components")
     gates = doc.get("production_gates")
     interfaces = doc.get("cross_component_interfaces")
+    repository_coverage = doc.get("repository_coverage")
+    scope = doc.get("scope", {})
     if doc.get("schema_id") != "ATC-COMPONENT-FUNCTION-CATALOG-001":
         errors.append("schema_id must be ATC-COMPONENT-FUNCTION-CATALOG-001")
     if not isinstance(components, list) or not components:
@@ -36,6 +38,49 @@ def validate(doc: dict) -> tuple[list[str], dict]:
     if not isinstance(interfaces, list):
         errors.append("cross_component_interfaces must be an array")
         interfaces = []
+    if not isinstance(repository_coverage, list):
+        errors.append("repository_coverage must be an array")
+        repository_coverage = []
+    repo_names = []
+    active_repos = 0
+    archived_repos = 0
+    for index, repo in enumerate(repository_coverage):
+        if not isinstance(repo, dict):
+            errors.append(f"repository_coverage[{index}] must be an object")
+            continue
+        name = repo.get("repository")
+        if not isinstance(name, str) or "/" not in name:
+            errors.append(f"repository_coverage[{index}] must include full repository name")
+            continue
+        repo_names.append(name)
+        for field in ("role", "canonicality", "observed_archive_state", "function_inventory_status", "production_readiness"):
+            if not repo.get(field):
+                errors.append(f"{name}: repository_coverage missing {field}")
+        archive_state = repo.get("observed_archive_state")
+        if archive_state == "ACTIVE":
+            active_repos += 1
+            if repo.get("function_inventory_status") != "RESIDUAL":
+                errors.append(f"{name}: active repository function inventory must remain RESIDUAL until audited")
+            if repo.get("production_readiness") == "PRODUCTION_READY":
+                errors.append(f"{name}: repository coverage cannot certify production readiness")
+        elif archive_state == "ARCHIVED":
+            archived_repos += 1
+            if repo.get("function_inventory_status") != "REFERENCE_ONLY":
+                errors.append(f"{name}: archived repository must be REFERENCE_ONLY")
+            if repo.get("production_readiness") != "ARCHIVED_REFERENCE_ONLY":
+                errors.append(f"{name}: archived repository must not be treated as production target")
+        else:
+            errors.append(f"{name}: invalid observed_archive_state {archive_state!r}")
+    if len(repo_names) != len(set(repo_names)):
+        errors.append("duplicate full repository names in repository_coverage")
+    if scope.get("organization_repository_count") != len(repository_coverage):
+        errors.append("scope organization_repository_count does not match repository_coverage")
+    if scope.get("active_repository_count") != active_repos:
+        errors.append("scope active_repository_count does not match observed ACTIVE repositories")
+    if scope.get("archived_repository_count") != archived_repos:
+        errors.append("scope archived_repository_count does not match observed ARCHIVED repositories")
+    if active_repos + archived_repos != len(repository_coverage):
+        errors.append("every covered repository must be ACTIVE or ARCHIVED")
 
     component_ids: list[str] = []
     function_ids: list[str] = []
@@ -147,6 +192,9 @@ def validate(doc: dict) -> tuple[list[str], dict]:
         "schema_id": doc.get("schema_id"),
         "schema_version": doc.get("schema_version"),
         "components_total": len(components),
+        "repositories_covered": len(repository_coverage),
+        "active_repositories_audit_required": active_repos,
+        "archived_repositories_reference_only": archived_repos,
         "functions_total": total_functions,
         "interfaces_total": len(interfaces),
         "production_gates_total": len(gates),
