@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-11",
-  "catalog_revision_note": "Expanded support, documentation and governance roles. Canonical implementation boundaries are explicit; all readiness claims remain evidence-gated.",
+  "catalog_revision_note": "Source-audit fields added to bind every component to the observed repository census and explicitly mark each function as not source-verified until path/symbol/exact-SHA evidence is attached. Existing function contracts remain a baseline, not a claim of complete source coverage.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -133,7 +133,15 @@
             "policy fixtures",
             "integration"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-ATC-ENG-002",
@@ -164,9 +172,29 @@
             "negative",
             "integration"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-engineering",
+        "canonical_path": ".",
+        "observed_head_sha": "470e6a9f500fdade0ea33065d30dd76b58d6492b",
+        "observed_tree_sha": "c42f803fea64d3e2e1e0aee3d681fc6c914a8d1a",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-engineering/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-STANDARDS",
@@ -206,7 +234,15 @@
             "consistency",
             "governance"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-STD-002",
@@ -235,9 +271,29 @@
             "contract",
             "integration"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-standards",
+        "canonical_path": ".",
+        "observed_head_sha": "01368510be5d9325a8f051c881650161ee11f9fd",
+        "observed_tree_sha": "57bc1fbf5ca9f187457c2eb2443c2a29ddc06a58",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-standards/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-LANG",
@@ -278,7 +334,15 @@
             "golden",
             "fuzz"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-LANG-002",
@@ -307,9 +371,29 @@
             "property",
             "compatibility"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atclang",
+        "canonical_path": ".",
+        "observed_head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+        "observed_tree_sha": "4649b749ce4be530a2acdf1c5446df4752d73198",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atclang/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-SHIVA",
@@ -350,7 +434,15 @@
             "isolation",
             "security-review"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-SHIVA-002",
@@ -381,7 +473,15 @@
             "isolation",
             "fuzz"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-SHIVA-003",
@@ -412,9 +512,29 @@
             "fault-injection",
             "emulator"
           ],
-          "readiness": "BLOCKED"
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/globus-os",
+        "canonical_path": "modules/atc-shivacore/kernel",
+        "observed_head_sha": "fef3af85ff9ecab90c25bc179e2a3284fa17f633",
+        "observed_tree_sha": "8bb320d5b7c4d86462f8a0f27840d6dc260c1f90",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/globus-os/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-CHAIN",
@@ -462,7 +582,15 @@
             "fuzz",
             "integration"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-CHAIN-002",
@@ -494,7 +622,15 @@
             "property",
             "compatibility"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-CHAIN-003",
@@ -525,9 +661,29 @@
             "multi-node",
             "adversarial"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/a-townchain",
+        "canonical_path": ".",
+        "observed_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+        "observed_tree_sha": "3868f0f6db0aa2ea05452c88846f981a0242988d",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-ALGO",
@@ -570,7 +726,15 @@
             "simulation",
             "adversarial"
           ],
-          "readiness": "BLOCKED"
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-ALGO-002",
@@ -602,9 +766,29 @@
             "property",
             "cross-platform"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/a-townchain",
+        "canonical_path": "components/algorithm",
+        "observed_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+        "observed_tree_sha": "3868f0f6db0aa2ea05452c88846f981a0242988d",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-VM",
@@ -648,7 +832,15 @@
             "fuzz",
             "vectors"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-VM-002",
@@ -679,9 +871,29 @@
             "differential",
             "fuzz"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/a-townchain",
+        "canonical_path": "components/vm",
+        "observed_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+        "observed_tree_sha": "3868f0f6db0aa2ea05452c88846f981a0242988d",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-GLOBUS",
@@ -724,7 +936,15 @@
             "fault-injection",
             "isolation"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-GLOBUS-002",
@@ -755,9 +975,29 @@
             "negative",
             "security-review"
           ],
-          "readiness": "BLOCKED"
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/globus-os",
+        "canonical_path": ".",
+        "observed_head_sha": "fef3af85ff9ecab90c25bc179e2a3284fa17f633",
+        "observed_tree_sha": "8bb320d5b7c4d86462f8a0f27840d6dc260c1f90",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/globus-os/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-AURORA",
@@ -800,7 +1040,15 @@
             "policy",
             "adversarial"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-AURORA-002",
@@ -832,7 +1080,15 @@
             "negative",
             "security-review"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-AURORA-003",
@@ -863,9 +1119,29 @@
             "fault-injection",
             "security-review"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/aurora-ai",
+        "canonical_path": ".",
+        "observed_head_sha": "b16a64fc09b295d7c96234cda4f334fb129d6790",
+        "observed_tree_sha": "e558add3cd61b99b3027282a4bb849c3c26c134b",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/aurora-ai/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-TOOLCHAIN",
@@ -911,7 +1187,15 @@
             "reproducibility",
             "compatibility"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-TOOL-002",
@@ -942,9 +1226,29 @@
             "negative",
             "conformance"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-toolchain",
+        "canonical_path": ".",
+        "observed_head_sha": "82fe4a238603476d7c6c19d5c3044c88b71c5f2d",
+        "observed_tree_sha": "dc853d005a8c68ebbdc88f8a4f47586102ec837a",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-toolchain/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-GENESIS",
@@ -990,7 +1294,15 @@
             "negative",
             "reproducibility"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-GENESIS-002",
@@ -1020,9 +1332,29 @@
             "fault-injection",
             "security-review"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/genesis-engine",
+        "canonical_path": ".",
+        "observed_head_sha": "c16b2898c67159a7a7d3b30309a503a11a268d67",
+        "observed_tree_sha": "bbe3cbb0b4a03c98e7c0424bbfd2e6d9209917ff",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/genesis-engine/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-ECOSYSTEM",
@@ -1065,7 +1397,15 @@
             "graph",
             "governance"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-ECO-002",
@@ -1096,9 +1436,29 @@
             "negative",
             "integration"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+        "canonical_path": ".",
+        "observed_head_sha": "4bc2c63868ee0b4df2456929d3a7d310bc7f4588",
+        "observed_tree_sha": "415f6dccc7bf892c5b90132323febd2cb5bdb763",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain-ecosystem/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-SDK",
@@ -1142,7 +1502,15 @@
             "integration",
             "negative"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-SDK-002",
@@ -1171,9 +1539,29 @@
             "package tests",
             "reproducibility"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-sdk",
+        "canonical_path": ".",
+        "observed_head_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
+        "observed_tree_sha": "e8e5979cc795aa587ef182e831ecc4765bfee120",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-sdk/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-NODE",
@@ -1218,7 +1606,15 @@
             "fault-injection",
             "configuration-negative"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-NODE-002",
@@ -1249,9 +1645,29 @@
             "multi-node",
             "security-review"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-node",
+        "canonical_path": ".",
+        "observed_head_sha": "1ee3a3aee6d66681debca7934cd9aaa9e1051ee2",
+        "observed_tree_sha": "07f76e4848f17da7706bd29b96bd8d7d647ba35c",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-node/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-CONTRACTS",
@@ -1295,7 +1711,15 @@
             "negative",
             "conformance"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-CONTRACT-002",
@@ -1325,9 +1749,29 @@
             "compatibility",
             "negative"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-contracts",
+        "canonical_path": ".",
+        "observed_head_sha": "a7c8b417f482665ef30e94fcacae6469c28b1125",
+        "observed_tree_sha": "026851749bdff7ff5a686dfc9fab6beacd9fce72",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-contracts/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-ZKP",
@@ -1371,7 +1815,15 @@
             "fuzz",
             "security-review"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-ZKP-002",
@@ -1401,9 +1853,29 @@
             "integration",
             "security-review"
           ],
-          "readiness": "BLOCKED"
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-zkp",
+        "canonical_path": ".",
+        "observed_head_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f",
+        "observed_tree_sha": "b9ac1abf479be23234af5afa4178887d2b3cae6a",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-zkp/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-STORAGE",
@@ -1448,7 +1920,15 @@
             "property",
             "negative"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-STORAGE-002",
@@ -1479,9 +1959,29 @@
             "fault-injection",
             "security-review"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-storage",
+        "canonical_path": ".",
+        "observed_head_sha": "230746c1dc5e4c1355c2707368de50d6c1008660",
+        "observed_tree_sha": "307d3d2a179de1ed5d82618dfbe78f072ba6d4c0",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-storage/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-COMPUTE",
@@ -1524,7 +2024,15 @@
             "integration",
             "fault-injection"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-COMPUTE-002",
@@ -1554,9 +2062,29 @@
             "integration",
             "adversarial"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-compute",
+        "canonical_path": ".",
+        "observed_head_sha": "d0831dfb72590537d8b0ca4d435a3649e71cdb61",
+        "observed_tree_sha": "b7e219595b16167f098db6414c9d7d1ea3b335cc",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-compute/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-LAUNCHPAD",
@@ -1600,7 +2128,15 @@
             "negative",
             "integration"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-LAUNCH-002",
@@ -1631,9 +2167,29 @@
             "integration",
             "security-review"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-launchpad",
+        "canonical_path": ".",
+        "observed_head_sha": "bd1a48c69983247a8428f90a77edd061ba79316b",
+        "observed_tree_sha": "b67a4f6a50ab578a8e82ac82748aecaf5bba003c",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-launchpad/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-MARKET",
@@ -1676,7 +2232,15 @@
             "negative",
             "integration"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-MARKET-002",
@@ -1707,9 +2271,29 @@
             "integration",
             "adversarial"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-marketplace",
+        "canonical_path": ".",
+        "observed_head_sha": "5c3bab7da8a80d58af725b7dea2478ece2456f39",
+        "observed_tree_sha": "c86fcc7f48d478a460419cbb075c7dea05a1fabb",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-marketplace/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-IDE",
@@ -1753,7 +2337,15 @@
             "application",
             "integration"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-IDE-002",
@@ -1783,9 +2375,29 @@
             "integration",
             "conformance"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-ide",
+        "canonical_path": ".",
+        "observed_head_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
+        "observed_tree_sha": "553ef11c7d2ced67ac06662b91bc0e28f1cc23a4",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-ide/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-CHRONICLES",
@@ -1827,7 +2439,15 @@
             "integration",
             "property"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-CHRON-002",
@@ -1857,9 +2477,29 @@
             "negative",
             "reorg"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/genesis-chronicles",
+        "canonical_path": ".",
+        "observed_head_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+        "observed_tree_sha": "1bc74a2c40394d8c76e3223de272ec3281db23e4",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/genesis-chronicles/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-GFF",
@@ -1902,7 +2542,15 @@
             "negative",
             "integration"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-GFF-002",
@@ -1932,9 +2580,29 @@
             "state-machine",
             "fault-injection"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/genesis-franchise-factory",
+        "canonical_path": ".",
+        "observed_head_sha": "673fa560322b1449e8f23cc38bf839de1b246361",
+        "observed_tree_sha": "cbc461e067f5d46d0d5b7a378b80867673f92dd3",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/genesis-franchise-factory/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-OS-INTEGRATION",
@@ -1978,7 +2646,15 @@
             "provenance",
             "negative"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-OSINT-002",
@@ -2008,9 +2684,29 @@
             "multi-component",
             "negative"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/a-townchain-os",
+        "canonical_path": ".",
+        "observed_head_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
+        "observed_tree_sha": "85368a3f351bf8b07a41c7aff1ffc5c57c713635",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain-os/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-SHIVA-SPEC",
@@ -2053,7 +2749,15 @@
             "consistency",
             "governance"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-SHIVA-SPEC-002",
@@ -2082,9 +2786,29 @@
             "architecture-review",
             "security-review"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-shivacore",
+        "canonical_path": ".",
+        "observed_head_sha": "21c99769654ff5915c421c3446e62c2a29c22b40",
+        "observed_tree_sha": "7110f2aac94aaccdb1f0dfc8c4c9140db29c7456",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-shivacore/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-VM-SPEC",
@@ -2127,7 +2851,15 @@
             "conformance",
             "compatibility"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-VM-SPEC-002",
@@ -2156,9 +2888,29 @@
             "property",
             "integration"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-vm",
+        "canonical_path": ".",
+        "observed_head_sha": "21132a49355eb5fd6ea4b8a7b4e4deb5d9be60f0",
+        "observed_tree_sha": "d60af19553baf4ff88a3098c81a683d77ba7096e",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-vm/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-ALGO-SPEC",
@@ -2201,7 +2953,15 @@
             "architecture-review",
             "adversarial-analysis"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-ALGO-SPEC-002",
@@ -2230,9 +2990,29 @@
             "cross-platform",
             "property"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-algorithm",
+        "canonical_path": ".",
+        "observed_head_sha": "5a5628044ef4daacca943062eac3fd27a2eaec93",
+        "observed_tree_sha": "861497f8142d9f9be7f5c2bd8a98b2cbffb48109",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-algorithm/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-DOCS",
@@ -2275,7 +3055,15 @@
             "consistency",
             "review"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-DOCS-002",
@@ -2305,9 +3093,29 @@
             "governance",
             "audit"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+        "canonical_path": ".",
+        "observed_head_sha": "6b311f70dc12517d2e09b83297e96035aebed035",
+        "observed_tree_sha": "81989f43c3a5ab08c3f226e788c973b504eacaa8",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain-os-docs/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-ORG-GOV",
@@ -2350,7 +3158,15 @@
             "policy-fixtures",
             "integration"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-ORG-002",
@@ -2380,9 +3196,29 @@
             "integration",
             "negative"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/.github",
+        "canonical_path": ".",
+        "observed_head_sha": "eeacedf33fd4b81046a3ee56eb1c815836bd9833",
+        "observed_tree_sha": "b04a2d3c7d6f34508ec1e731f9f2f2107481a151",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/.github/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     },
     {
       "id": "COMP-DEMO",
@@ -2421,7 +3257,15 @@
             "workflow-integration",
             "governance"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         },
         {
           "id": "FN-DEMO-002",
@@ -2448,9 +3292,29 @@
             "repository-audit",
             "security-scan"
           ],
-          "readiness": "RESIDUAL"
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+          }
         }
-      ]
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/demo-repository",
+        "canonical_path": ".",
+        "observed_head_sha": "d9b0da9c966dea02586b6be64139e6b3cd669dfd",
+        "observed_tree_sha": "f916f6cbe96ebe274c338e71ff6c7f6806112bfd",
+        "census_date": "2026-10-11",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/demo-repository/commits/main",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+      }
     }
   ],
   "cross_component_interfaces": [
@@ -2519,9 +3383,14 @@
     "organization_repository_count": 33,
     "active_repository_count": 26,
     "archived_repository_count": 7,
-    "coverage_state": "INVENTORY_COVERAGE_COMPLETE_FUNCTION_AUDIT_RESIDUAL",
+    "coverage_state": "REPOSITORY_CENSUS_RECORDED_FUNCTION_SOURCE_RECONCILIATION_PENDING",
     "source_registry": "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json",
-    "rule": "Every repository is represented below. Coverage does not certify a repository's functions or production readiness; active repositories require a repository-specific function inventory and exact-SHA evidence."
+    "rule": "Repository and component census entries are not proof of function completeness. Every component records its observed source repository/head and every catalog function records source_binding status; only source paths, exported symbols/entrypoints and exact-SHA evidence can advance these fields. Unknown functions must be added; unrepresented files/functions require a reasoned exclusion.",
+    "function_inventory_status": "SOURCE_RECONCILIATION_PENDING",
+    "component_source_bindings": 30,
+    "function_source_bindings": 63,
+    "source_verified_components": 0,
+    "source_verified_functions": 0
   },
   "repository_coverage": [
     {
