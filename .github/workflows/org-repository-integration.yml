@@ -18,6 +18,7 @@ on:
       - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
       - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md"
       - "tools/validate_component_function_catalog.py"
+      - "docs/DELIVERY_CONTROL_PLANE.md"
       - ".github/workflows/org-repository-integration.yml"
   workflow_dispatch:
 
