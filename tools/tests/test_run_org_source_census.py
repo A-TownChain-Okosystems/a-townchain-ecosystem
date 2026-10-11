@@ -43,6 +43,24 @@ class OrganizationCensusTests(unittest.TestCase):
             self.assertEqual(report["repositories"][0]["source_sha"], sha)
             self.assertEqual(report["repositories"][0]["report"]["functional_verification"], "NOT_PERFORMED")
 
+    def test_expected_sha_mismatch_blocks_checkout(self):
+        with tempfile.TemporaryDirectory() as temp:
+            workspace = Path(temp)
+            actual_sha = self._clean_checkout(workspace / "sample")
+            manifest = {
+                "owner": "example",
+                "repositories": [{
+                    "name": "sample",
+                    "archived": False,
+                    "expected_sha": "0" * 40 if actual_sha != "0" * 40 else "1" * 40,
+                }],
+            }
+            report = run_census(workspace, manifest)
+            self.assertEqual(report["status"], "BLOCKED")
+            self.assertIn("EXPECTED_SHA_MISMATCH", report["repositories"][0]["residuals"])
+            self.assertEqual(report["repositories"][0]["source_sha"], actual_sha)
+            self.assertFalse(report["repositories"][0]["working_tree_clean"])
+
     def test_dirty_checkout_is_blocked_not_silently_scanned(self):
         with tempfile.TemporaryDirectory() as temp:
             workspace = Path(temp)
