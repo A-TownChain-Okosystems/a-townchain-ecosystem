@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-ATC-SHIVACORE-C68541EA29",
-  "timestamp": "2026-10-10T22:27:01.136470Z",
+  "timestamp": "2026-10-11T08:58:22.435525Z",
   "category": "module",
   "title": "Component: atc-shivacore",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-shivacore",
-    "commit": "c65a7af3ce0d1675d906d016079848e014343e60"
+    "commit": "4bc2c63868ee0b4df2456929d3a7d310bc7f4588"
   },
   "tags": [
     "atc-shivacore",

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-64",
-  "timestamp": "2026-10-10T22:27:01.136470Z",
+  "timestamp": "2026-10-11T08:58:22.435525Z",
   "category": "change",
   "title": "PR #64: fix(blockchain): correct validator recovery and storage lifetimes",
   "context": "Pull request 64 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/64",
-    "commit": "c65a7af3ce0d1675d906d016079848e014343e60"
+    "commit": "4bc2c63868ee0b4df2456929d3a7d310bc7f4588"
   },
   "tags": [
     "generated",

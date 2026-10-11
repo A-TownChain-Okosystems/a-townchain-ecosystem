@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-114",
+  "timestamp": "2026-10-11T08:58:22.435525Z",
+  "category": "change",
+  "title": "PR #114: docs: bind component/function catalog to source audit evidence",
+  "context": "Pull request 114 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/114",
+    "commit": "4bc2c63868ee0b4df2456929d3a7d310bc7f4588"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\n## Zweck\n\nErweitert den maschinenlesbaren Komponenten- und Funktionskatalog um explizite Source-Audit-Bindungen.\n\n## Änderungen\n- Alle 30 Komponenten erhalten kanonisches Repository, Pfad, im Census beobachtete HEAD-/Tree-SHA und einen expliziten Residualstatus.\n- Alle 63 Funktionsverträge erhalten `source_binding` mit Quellpfad, Symbol/Entry-Point, exaktem SHA und Beleg zunächst leer sowie Status `NOT_SOURCE_VERIFIED`.\n- Scope-Metadaten erklären ausdrücklich, dass der Census keine Quellcodevollständigkeit beweist.\n- Es werden keine Implementierungen, Repository-Lifecycles oder CI-Gates geändert.\n\n## Grenzen / Abnahme\nDies ist ein Audit-Tracking-Schritt, kein abgeschlossener Source-to-Catalog-Abgleich. `source_verified_components=0` und `source_verified_functions=0` bleiben absichtlich gesetzt, bis tatsächliche Quellbäume, öffentliche Symbole und Schnittstellen auf exakten SHAs geprüft sind. Unbekannte Funktionen müssen anschließend ergänzt werden; keine automatische Merge-Freigabe."
+}
