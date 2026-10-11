@@ -50,6 +50,7 @@ jobs:
       - name: Clone all active repositories at observed clean HEADs
         env:
           GH_OWNER: A-TownChain-Okosystems
+          ATC_CENSUS_TOKEN: ${{ secrets.ATC_CENSUS_TOKEN }}
         run: |
           set -euo pipefail
           workspace="$RUNNER_TEMP/atc-org-checkouts"
@@ -70,7 +71,16 @@ jobs:
           PY
           while IFS= read -r name; do
             test -n "$name"
-            git clone --no-tags "https://github.com/$GH_OWNER/$name.git" "$workspace/$name"
+            if [[ -n "${ATC_CENSUS_TOKEN:-}" ]]; then
+              auth_header="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$ATC_CENSUS_TOKEN" | base64 -w0)"
+              git -c http.extraheader="$auth_header" clone --no-tags "https://github.com/$GH_OWNER/$name.git" "$workspace/$name"
+              unset auth_header
+            else
+              git clone --no-tags "https://github.com/$GH_OWNER/$name.git" "$workspace/$name" || {
+                echo "::error::Checkout failed for $name. Configure the repository secret ATC_CENSUS_TOKEN with read-only Contents access to all 26 active repositories."
+                exit 1
+              }
+            fi
             test -z "$(git -C "$workspace/$name" status --porcelain --untracked-files=all)"
             printf '%s %s\n' "$name" "$(git -C "$workspace/$name" rev-parse HEAD)"
           done < "$RUNNER_TEMP/active-repositories.txt"
