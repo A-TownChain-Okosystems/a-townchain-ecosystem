@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
@@ -170,7 +171,19 @@ def main() -> int:
     root = args.root.resolve()
     if not root.is_dir():
         parser.error("--root must be an existing directory")
-    result = scan(root, args.repository, args.source_sha.lower())
+    try:
+        actual_sha = subprocess.run(
+            ["git", "-C", str(root), "rev-parse", "HEAD"],
+            check=True, capture_output=True, text=True,
+        ).stdout.strip().lower()
+    except (OSError, subprocess.CalledProcessError):
+        parser.error("--root must be a Git checkout with a readable HEAD")
+    if actual_sha != args.source_sha.lower():
+        parser.error(
+            f"--source-sha mismatch: supplied {args.source_sha.lower()}, "
+            f"actual HEAD {actual_sha}"
+        )
+    result = scan(root, args.repository, actual_sha)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"repository": args.repository, "source_sha": args.source_sha.lower(), **result["summary"], "completeness_status": "RESIDUAL", "output": str(args.output)}, sort_keys=True))
