@@ -110,7 +110,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: atc-org-source-census-${{ github.event.pull_request.head.sha || github.sha }}
-          path: artifacts/ATC-ORG-SOURCE-CENSUS-001.json\n          # Include catalog reconciliation when census generation succeeds.\n          if-no-files-found: warn
+          path: |
+            artifacts/ATC-ORG-SOURCE-CENSUS-001.json
+            artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json
           if-no-files-found: warn
       - name: Validate organization repository manifest
         run: |
