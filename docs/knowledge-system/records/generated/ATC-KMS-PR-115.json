@@ -1,0 +1,35 @@
+{
+  "id": "ATC-KMS-PR-115",
+  "timestamp": "2026-10-11T21:35:32.359509Z",
+  "category": "change",
+  "title": "PR #115: audit: add exact-SHA source symbol discovery for catalog completion",
+  "context": "Pull request 115 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/115",
+    "commit": "66928968018d9af428bc4d983467d1ff93d14a8c"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-ISSUE-112"
+    },
+    {
+      "relation": "references",
+      "target": "ATC-KMS-ISSUE-112"
+    },
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-114"
+    }
+  ],
+  "content": "State: open\nMerged: False\nDraft: True\n\n## Zweck\nLegt den nächsten ausführbaren Schritt für Issue #112 an: eine deterministische, mehrsprachige Kandidateninventur öffentlicher Quellcode-Symbole, damit Komponenten-/Funktionsverträge gegen tatsächliche Source-Bäume abgeglichen werden können.\n\n## Änderungen\n- `tools/scan_public_symbols.py`: scannt einen ausgecheckten Repository-Baum und erfasst erkannte öffentliche/exportierte Symbole für Rust, Python, JavaScript/TypeScript, Go, Java, C#, C/C++, Swift, Kotlin, Ruby und PHP.\n- Pro Datei: SHA-256, Pfad, Sprache und erkannte Symbolkandidaten.\n- Pro Scan: Repository, exakt vom Aufrufer übergebener 40-stelliger Source-Commit-SHA, Abdeckung und Fehlerzählung.\n- `tools/tests/test_scan_public_symbols.py`: Regressionstests für Rust-, Python- und TypeScript-Kandidaten.\n- `.github/workflows/source-symbol-inventory.yml`: bindet den Workflow an den exakten PR-/Push-SHA, kompiliert und testet den Scanner.\n\n## Fail-closed / Einschränkungen\n- Der Scanner markiert alle Ergebnisse ausdrücklich als `LEXICAL_CANDIDATE_DISCOVERY`, `RESIDUAL` und `NOT_PERFORMED` für funktionale Verifikation.\n- Ein Symbolfund ist **kein** Funktionsvertrag, kein Beweis der Laufzeitkorrektheit und kein `VERIFIED`-Status.\n- Regex-Erkennung kann Makros, dynamische Registrierungen, bedingte Kompilierung und indirekte Einstiegspunkte übersehen. AST-/Compiler-Abgleich, Ausschlussregeln und Quellbaum-zu-Katalog-Reconciliation bleiben erforderlich.\n- Dieses PR scannt noch nicht automatisch alle 26 aktiven Repositories und schließt Issue #112 nicht.\n- Keine Merge-Automatisierung, keine Gate-Abschwächung, keine Repository-Lifecycle-Änderungen.\n\n## Abhängigkeit\nGestapelt auf `audit/complete-component-function-inventory-2026-10-11` / PR #114, damit der Quellscanner erst nach der Audit-Bindung integriert wird."
+}

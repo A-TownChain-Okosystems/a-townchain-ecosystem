@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-ECDBA9EC4787",
-  "timestamp": "2026-10-11T08:58:22.435525Z",
+  "timestamp": "2026-10-11T21:35:32.359509Z",
   "category": "change",
   "title": "Commit: fix(indexer, SCR-0133): proxy-addr 2.0.8 via overrides (Critical)",
   "context": "Git commit ecdba9ec478737d4f7b25e80c8ed7c31d96d7a83 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/ecdba9ec478737d4f7b25e80c8ed7c31d96d7a83",
-    "commit": "4bc2c63868ee0b4df2456929d3a7d310bc7f4588"
+    "commit": "66928968018d9af428bc4d983467d1ff93d14a8c"
   },
   "tags": [
     "commit",

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-8AA39EE70850",
-  "timestamp": "2026-10-11T08:58:22.435525Z",
+  "timestamp": "2026-10-11T21:35:32.359509Z",
   "category": "change",
   "title": "Commit: fix(aurora): model3d-Domäne-Erkennung in graphicsAi (3D-Keyword zu eng, identischer Fix als Upstream-PR aurora-ai)",
   "context": "Git commit 8aa39ee708507a78b90ea9dc9c2c4517447c318e on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/8aa39ee708507a78b90ea9dc9c2c4517447c318e",
-    "commit": "4bc2c63868ee0b4df2456929d3a7d310bc7f4588"
+    "commit": "66928968018d9af428bc4d983467d1ff93d14a8c"
   },
   "tags": [
     "commit",
