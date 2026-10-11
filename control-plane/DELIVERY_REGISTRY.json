@@ -866,7 +866,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Integration monorepo for assembling and validating the ecosystem",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -917,7 +917,11 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "ORCHESTRATOR_BOUNDARY_CONFLICT",
+      "ssot_conflicts": [
+        "orchestrator/evidence control-plane boundary"
+      ]
     },
     {
       "id": "REPO-ATCLANG",
@@ -928,7 +932,7 @@
       "canonical_component_ids": [
         "COMP-LANG"
       ],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "System and smart-contract language, compiler, bytecode and standard library",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -979,7 +983,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-A-TOWNCHAIN-OS-DOCS",
@@ -988,7 +994,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Documentation, architecture and governance hub",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1039,7 +1045,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "DOCUMENTATION_SSOT",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-SHIVACORE",
@@ -1048,7 +1056,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Kernel specification/governance/support; kernel implementation is in GlobusOS",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1099,7 +1107,11 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "SPECIFICATION_SUPPORT",
+      "ssot_conflicts": [
+        "kernel SSOT is globus-os/modules/atc-shivacore/kernel"
+      ]
     },
     {
       "id": "REPO-A-TOWNCHAIN",
@@ -1112,7 +1124,7 @@
         "COMP-VM",
         "COMP-ALGO"
       ],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Canonical chain/orchestration layer; README says not production-ready",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1163,7 +1175,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-GLOBUS-OS",
@@ -1175,7 +1189,7 @@
         "COMP-SHIVA",
         "COMP-GLOBUS"
       ],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "AI-native OS/userspace platform built on ShivaCore",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1226,7 +1240,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-AURORA-AI",
@@ -1237,7 +1253,7 @@
       "canonical_component_ids": [
         "COMP-AURORA"
       ],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "AI services, agent infrastructure and integration layer",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1288,7 +1304,11 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "ssot_conflicts": [
+        "must remain outside kernel TCB, consensus and VM authority"
+      ]
     },
     {
       "id": "REPO-GENESIS-ENGINE",
@@ -1299,7 +1319,7 @@
       "canonical_component_ids": [
         "COMP-GENESIS"
       ],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Genesis Engine/bootstrap runtime; readiness needs audit",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1350,7 +1370,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-SDK",
@@ -1359,7 +1381,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Developer SDK, CLI and package tooling",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1410,7 +1432,11 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "AUDIT_REQUIRED",
+      "ssot_conflicts": [
+        "source-to-target parity/ownership unresolved"
+      ]
     },
     {
       "id": "REPO-ATC-NODE",
@@ -1419,7 +1445,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Full-node binary/runtime; protocol semantics stay in canonical chain components",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1470,7 +1496,11 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "MIGRATED_SOURCE_CANDIDATE",
+      "ssot_conflicts": [
+        "migration parity and KEEP/SYNC/ARCHIVE unresolved"
+      ]
     },
     {
       "id": "REPO-ATC-CONTRACTS",
@@ -1479,7 +1509,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Smart-contract and registry tooling targeting ATCLang",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1530,7 +1560,11 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "MIGRATED_SOURCE_CANDIDATE",
+      "ssot_conflicts": [
+        "vault restoration noted; source-target history parity pending"
+      ]
     },
     {
       "id": "REPO-ATC-WALLET",
@@ -1539,7 +1573,7 @@
       "repository_state": "ARCHIVED",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Wallet core, key management and transaction signing (historical)",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1590,7 +1624,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": false,
-      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED"
+      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-EXPLORER",
@@ -1599,7 +1635,7 @@
       "repository_state": "ARCHIVED",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Block explorer (archived reference)",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1650,7 +1686,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": false,
-      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED"
+      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-INDEXER",
@@ -1659,7 +1697,7 @@
       "repository_state": "ARCHIVED",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Chain indexing and analytics (archived reference)",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1710,7 +1748,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": false,
-      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED"
+      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-MINING",
@@ -1719,7 +1759,7 @@
       "repository_state": "ARCHIVED",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Mining/rewards/emissions stack (archived reference)",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1770,7 +1810,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": false,
-      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED"
+      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-INTEROP",
@@ -1779,7 +1821,7 @@
       "repository_state": "ARCHIVED",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Cross-chain interoperability (archived reference)",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1830,7 +1872,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": false,
-      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED"
+      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-GENESIS-CHRONICLES",
@@ -1839,7 +1883,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Reference game for Genesis Engine; game logic stays here",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1890,7 +1934,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "APPLICATION",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-ORACLE",
@@ -1899,7 +1945,7 @@
       "repository_state": "ARCHIVED",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "External-data/oracle service (archived reference)",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -1950,7 +1996,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": false,
-      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED"
+      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-STORAGE",
@@ -1959,7 +2007,7 @@
       "repository_state": "ARCHIVED",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Decentralized storage for assets and metadata (archived reference)",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2010,7 +2058,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": false,
-      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED"
+      "migration_deprecation_status": "RESIDUAL_MIGRATION_DECOMMISSION_REVIEW_REQUIRED",
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-LAUNCHPAD",
@@ -2019,7 +2069,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Token/NFT launch service; historical audit label is not current readiness",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2070,7 +2120,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "SERVICE",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-MARKETPLACE",
@@ -2079,7 +2131,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "DEX and NFT/asset registry service",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2130,7 +2182,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "SERVICE",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-COMPUTE",
@@ -2139,7 +2193,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Decentralized compute for AI workloads and engine calculations",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2190,7 +2244,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "SERVICE",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-STANDARDS",
@@ -2201,7 +2257,7 @@
       "canonical_component_ids": [
         "COMP-STANDARDS"
       ],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Normative standards registry and conformance tooling",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2252,7 +2308,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "CANONICAL_GOVERNANCE",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-VM",
@@ -2261,7 +2319,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Standalone VM runtime/spec support; README describes runtime-engine behavior",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2312,7 +2370,11 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "SPECIFICATION_SUPPORT",
+      "ssot_conflicts": [
+        "canonical implementation is a-townchain/components/vm"
+      ]
     },
     {
       "id": "REPO-ATC-ALGORITHM",
@@ -2321,7 +2383,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Consensus specification/support; README calls it canonical target",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2372,7 +2434,11 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "SPECIFICATION_SUPPORT",
+      "ssot_conflicts": [
+        "canonical implementation is a-townchain/components/algorithm"
+      ]
     },
     {
       "id": "REPO-ATC-ZKP",
@@ -2381,7 +2447,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Zero-knowledge proof verification layer",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2432,7 +2498,11 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "MIGRATED_SOURCE_CANDIDATE",
+      "ssot_conflicts": [
+        "source-to-canonical migration unresolved"
+      ]
     },
     {
       "id": "REPO-GITHUB",
@@ -2441,7 +2511,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Organization-wide inheritable agent-governance hub",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2492,7 +2562,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "ORG_GOVERNANCE",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-DEMO-REPOSITORY",
@@ -2501,7 +2573,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "GitHub demo/template fixture with web app and governance workflows",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2552,7 +2624,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "TEMPLATE_FIXTURE",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-IDE",
@@ -2561,7 +2635,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Developer IDE with VM simulation and standards panels",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2612,7 +2686,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "APPLICATION",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-GENESIS-FRANCHISE-FACTORY",
@@ -2621,7 +2697,7 @@
       "repository_state": "ACTIVE",
       "audit_status": "RESIDUAL",
       "canonical_component_ids": [],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Genesis franchise content-pipeline orchestrator",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2672,7 +2748,11 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "APPLICATION",
+      "ssot_conflicts": [
+        "verify distinct scope versus Genesis Engine"
+      ]
     },
     {
       "id": "REPO-ATC-ENGINEERING",
@@ -2683,7 +2763,7 @@
       "canonical_component_ids": [
         "COMP-ATC-ENG"
       ],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Engineering assurance and repository-fleet governance platform",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2734,7 +2814,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "ENGINEERING_CONTROL_PLANE",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-A-TOWNCHAIN-ECOSYSTEM",
@@ -2745,7 +2827,7 @@
       "canonical_component_ids": [
         "COMP-ECOSYSTEM"
       ],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "System-of-systems integration/evidence control plane; imported subtrees do not move SSOT",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2796,7 +2878,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "INTEGRATION_CONTROL_PLANE",
+      "ssot_conflicts": []
     },
     {
       "id": "REPO-ATC-TOOLCHAIN",
@@ -2807,7 +2891,7 @@
       "canonical_component_ids": [
         "COMP-TOOLCHAIN"
       ],
-      "role": "Repository-local purpose, ownership and capabilities must be verified from repository content; do not infer completion from repository existence.",
+      "role": "Developer/build/governance tooling, CLI and code-generation orchestration",
       "required_records": [
         "documentation_index",
         "roadmap",
@@ -2858,7 +2942,9 @@
         "completeness_status": "RESIDUAL"
       },
       "active_development_target": true,
-      "migration_deprecation_status": "NOT_FULLY_AUDITED"
+      "migration_deprecation_status": "NOT_FULLY_AUDITED",
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "ssot_conflicts": []
     }
   ],
   "repository_delivery_plans": [
@@ -2920,6 +3006,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/a-townchain-os/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Integration monorepo for assembling and validating the ecosystem"
         ]
       },
       "functions": {
@@ -2932,6 +3021,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/a-townchain-os/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Integration monorepo for assembling and validating the ecosystem"
         ]
       },
       "sprints": {
@@ -2986,7 +3078,11 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "ORCHESTRATOR_BOUNDARY_CONFLICT",
+      "ssot_conflicts": [
+        "orchestrator/evidence control-plane boundary"
+      ]
     },
     {
       "id": "RPLAN-ATCLANG",
@@ -3046,6 +3142,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atclang/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "System and smart-contract language, compiler, bytecode and standard library"
         ]
       },
       "functions": {
@@ -3058,6 +3157,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atclang/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "System and smart-contract language, compiler, bytecode and standard library"
         ]
       },
       "sprints": {
@@ -3112,7 +3214,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-A-TOWNCHAIN-OS-DOCS",
@@ -3172,6 +3276,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Documentation, architecture and governance hub"
         ]
       },
       "functions": {
@@ -3184,6 +3291,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Documentation, architecture and governance hub"
         ]
       },
       "sprints": {
@@ -3238,7 +3348,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "DOCUMENTATION_SSOT",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-SHIVACORE",
@@ -3298,6 +3410,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-shivacore/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Kernel specification/governance/support; kernel implementation is in GlobusOS"
         ]
       },
       "functions": {
@@ -3310,6 +3425,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-shivacore/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Kernel specification/governance/support; kernel implementation is in GlobusOS"
         ]
       },
       "sprints": {
@@ -3364,7 +3482,11 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "SPECIFICATION_SUPPORT",
+      "ssot_conflicts": [
+        "kernel SSOT is globus-os/modules/atc-shivacore/kernel"
+      ]
     },
     {
       "id": "RPLAN-A-TOWNCHAIN",
@@ -3424,6 +3546,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/a-townchain/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Canonical chain/orchestration layer; README says not production-ready"
         ]
       },
       "functions": {
@@ -3436,6 +3561,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/a-townchain/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Canonical chain/orchestration layer; README says not production-ready"
         ]
       },
       "sprints": {
@@ -3490,7 +3618,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-GLOBUS-OS",
@@ -3550,6 +3680,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/globus-os/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "AI-native OS/userspace platform built on ShivaCore"
         ]
       },
       "functions": {
@@ -3562,6 +3695,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/globus-os/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "AI-native OS/userspace platform built on ShivaCore"
         ]
       },
       "sprints": {
@@ -3616,7 +3752,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-AURORA-AI",
@@ -3676,6 +3814,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/aurora-ai/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "AI services, agent infrastructure and integration layer"
         ]
       },
       "functions": {
@@ -3688,6 +3829,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/aurora-ai/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "AI services, agent infrastructure and integration layer"
         ]
       },
       "sprints": {
@@ -3742,7 +3886,11 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "ssot_conflicts": [
+        "must remain outside kernel TCB, consensus and VM authority"
+      ]
     },
     {
       "id": "RPLAN-GENESIS-ENGINE",
@@ -3802,6 +3950,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/genesis-engine/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Genesis Engine/bootstrap runtime; readiness needs audit"
         ]
       },
       "functions": {
@@ -3814,6 +3965,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/genesis-engine/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Genesis Engine/bootstrap runtime; readiness needs audit"
         ]
       },
       "sprints": {
@@ -3868,7 +4022,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-SDK",
@@ -3928,6 +4084,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Developer SDK, CLI and package tooling"
         ]
       },
       "functions": {
@@ -3940,6 +4099,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Developer SDK, CLI and package tooling"
         ]
       },
       "sprints": {
@@ -3994,7 +4156,11 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "AUDIT_REQUIRED",
+      "ssot_conflicts": [
+        "source-to-target parity/ownership unresolved"
+      ]
     },
     {
       "id": "RPLAN-ATC-NODE",
@@ -4054,6 +4220,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-node/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Full-node binary/runtime; protocol semantics stay in canonical chain components"
         ]
       },
       "functions": {
@@ -4066,6 +4235,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-node/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Full-node binary/runtime; protocol semantics stay in canonical chain components"
         ]
       },
       "sprints": {
@@ -4120,7 +4292,11 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "MIGRATED_SOURCE_CANDIDATE",
+      "ssot_conflicts": [
+        "migration parity and KEEP/SYNC/ARCHIVE unresolved"
+      ]
     },
     {
       "id": "RPLAN-ATC-CONTRACTS",
@@ -4180,6 +4356,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-contracts/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Smart-contract and registry tooling targeting ATCLang"
         ]
       },
       "functions": {
@@ -4192,6 +4371,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-contracts/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Smart-contract and registry tooling targeting ATCLang"
         ]
       },
       "sprints": {
@@ -4246,7 +4428,11 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "MIGRATED_SOURCE_CANDIDATE",
+      "ssot_conflicts": [
+        "vault restoration noted; source-target history parity pending"
+      ]
     },
     {
       "id": "RPLAN-ATC-WALLET",
@@ -4306,6 +4492,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-wallet/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Wallet core, key management and transaction signing (historical)"
         ]
       },
       "functions": {
@@ -4318,6 +4507,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-wallet/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Wallet core, key management and transaction signing (historical)"
         ]
       },
       "sprints": {
@@ -4372,7 +4564,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-EXPLORER",
@@ -4432,6 +4626,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-explorer/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Block explorer (archived reference)"
         ]
       },
       "functions": {
@@ -4444,6 +4641,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-explorer/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Block explorer (archived reference)"
         ]
       },
       "sprints": {
@@ -4498,7 +4698,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-INDEXER",
@@ -4558,6 +4760,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-indexer/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Chain indexing and analytics (archived reference)"
         ]
       },
       "functions": {
@@ -4570,6 +4775,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-indexer/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Chain indexing and analytics (archived reference)"
         ]
       },
       "sprints": {
@@ -4624,7 +4832,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-MINING",
@@ -4684,6 +4894,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-mining/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Mining/rewards/emissions stack (archived reference)"
         ]
       },
       "functions": {
@@ -4696,6 +4909,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-mining/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Mining/rewards/emissions stack (archived reference)"
         ]
       },
       "sprints": {
@@ -4750,7 +4966,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-INTEROP",
@@ -4810,6 +5028,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-interop/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Cross-chain interoperability (archived reference)"
         ]
       },
       "functions": {
@@ -4822,6 +5043,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-interop/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Cross-chain interoperability (archived reference)"
         ]
       },
       "sprints": {
@@ -4876,7 +5100,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-GENESIS-CHRONICLES",
@@ -4936,6 +5162,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/genesis-chronicles/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Reference game for Genesis Engine; game logic stays here"
         ]
       },
       "functions": {
@@ -4948,6 +5177,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/genesis-chronicles/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Reference game for Genesis Engine; game logic stays here"
         ]
       },
       "sprints": {
@@ -5002,7 +5234,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "APPLICATION",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-ORACLE",
@@ -5062,6 +5296,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-oracle/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "External-data/oracle service (archived reference)"
         ]
       },
       "functions": {
@@ -5074,6 +5311,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-oracle/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "External-data/oracle service (archived reference)"
         ]
       },
       "sprints": {
@@ -5128,7 +5368,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-STORAGE",
@@ -5188,6 +5430,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-storage/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Decentralized storage for assets and metadata (archived reference)"
         ]
       },
       "functions": {
@@ -5200,6 +5445,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-storage/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Decentralized storage for assets and metadata (archived reference)"
         ]
       },
       "sprints": {
@@ -5254,7 +5502,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "ARCHIVED_REFERENCE_ONLY",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-LAUNCHPAD",
@@ -5314,6 +5564,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-launchpad/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Token/NFT launch service; historical audit label is not current readiness"
         ]
       },
       "functions": {
@@ -5326,6 +5579,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-launchpad/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Token/NFT launch service; historical audit label is not current readiness"
         ]
       },
       "sprints": {
@@ -5380,7 +5636,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "SERVICE",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-MARKETPLACE",
@@ -5440,6 +5698,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-marketplace/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "DEX and NFT/asset registry service"
         ]
       },
       "functions": {
@@ -5452,6 +5713,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-marketplace/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "DEX and NFT/asset registry service"
         ]
       },
       "sprints": {
@@ -5506,7 +5770,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "SERVICE",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-COMPUTE",
@@ -5566,6 +5832,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-compute/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Decentralized compute for AI workloads and engine calculations"
         ]
       },
       "functions": {
@@ -5578,6 +5847,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-compute/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Decentralized compute for AI workloads and engine calculations"
         ]
       },
       "sprints": {
@@ -5632,7 +5904,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "SERVICE",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-STANDARDS",
@@ -5692,6 +5966,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-standards/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Normative standards registry and conformance tooling"
         ]
       },
       "functions": {
@@ -5704,6 +5981,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-standards/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Normative standards registry and conformance tooling"
         ]
       },
       "sprints": {
@@ -5758,7 +6038,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "CANONICAL_GOVERNANCE",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-VM",
@@ -5818,6 +6100,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-vm/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Standalone VM runtime/spec support; README describes runtime-engine behavior"
         ]
       },
       "functions": {
@@ -5830,6 +6115,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-vm/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Standalone VM runtime/spec support; README describes runtime-engine behavior"
         ]
       },
       "sprints": {
@@ -5884,7 +6172,11 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "SPECIFICATION_SUPPORT",
+      "ssot_conflicts": [
+        "canonical implementation is a-townchain/components/vm"
+      ]
     },
     {
       "id": "RPLAN-ATC-ALGORITHM",
@@ -5944,6 +6236,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-algorithm/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Consensus specification/support; README calls it canonical target"
         ]
       },
       "functions": {
@@ -5956,6 +6251,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-algorithm/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Consensus specification/support; README calls it canonical target"
         ]
       },
       "sprints": {
@@ -6010,7 +6308,11 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "SPECIFICATION_SUPPORT",
+      "ssot_conflicts": [
+        "canonical implementation is a-townchain/components/algorithm"
+      ]
     },
     {
       "id": "RPLAN-ATC-ZKP",
@@ -6070,6 +6372,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-zkp/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Zero-knowledge proof verification layer"
         ]
       },
       "functions": {
@@ -6082,6 +6387,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-zkp/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Zero-knowledge proof verification layer"
         ]
       },
       "sprints": {
@@ -6136,7 +6444,11 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "MIGRATED_SOURCE_CANDIDATE",
+      "ssot_conflicts": [
+        "source-to-canonical migration unresolved"
+      ]
     },
     {
       "id": "RPLAN-GITHUB",
@@ -6196,6 +6508,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/.github/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Organization-wide inheritable agent-governance hub"
         ]
       },
       "functions": {
@@ -6208,6 +6523,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/.github/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Organization-wide inheritable agent-governance hub"
         ]
       },
       "sprints": {
@@ -6262,7 +6580,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "ORG_GOVERNANCE",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-DEMO-REPOSITORY",
@@ -6322,6 +6642,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/demo-repository/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "GitHub demo/template fixture with web app and governance workflows"
         ]
       },
       "functions": {
@@ -6334,6 +6657,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/demo-repository/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "GitHub demo/template fixture with web app and governance workflows"
         ]
       },
       "sprints": {
@@ -6388,7 +6714,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "TEMPLATE_FIXTURE",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-IDE",
@@ -6448,6 +6776,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-ide/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Developer IDE with VM simulation and standards panels"
         ]
       },
       "functions": {
@@ -6460,6 +6791,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-ide/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Developer IDE with VM simulation and standards panels"
         ]
       },
       "sprints": {
@@ -6514,7 +6848,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "APPLICATION",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-GENESIS-FRANCHISE-FACTORY",
@@ -6574,6 +6910,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/genesis-franchise-factory/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Genesis franchise content-pipeline orchestrator"
         ]
       },
       "functions": {
@@ -6586,6 +6925,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/genesis-franchise-factory/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Genesis franchise content-pipeline orchestrator"
         ]
       },
       "sprints": {
@@ -6640,7 +6982,11 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "APPLICATION",
+      "ssot_conflicts": [
+        "verify distinct scope versus Genesis Engine"
+      ]
     },
     {
       "id": "RPLAN-ATC-ENGINEERING",
@@ -6700,6 +7046,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-engineering/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Engineering assurance and repository-fleet governance platform"
         ]
       },
       "functions": {
@@ -6712,6 +7061,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-engineering/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Engineering assurance and repository-fleet governance platform"
         ]
       },
       "sprints": {
@@ -6766,7 +7118,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "ENGINEERING_CONTROL_PLANE",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-A-TOWNCHAIN-ECOSYSTEM",
@@ -6826,6 +7180,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "System-of-systems integration/evidence control plane; imported subtrees do not move SSOT"
         ]
       },
       "functions": {
@@ -6838,6 +7195,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "System-of-systems integration/evidence control plane; imported subtrees do not move SSOT"
         ]
       },
       "sprints": {
@@ -6892,7 +7252,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "INTEGRATION_CONTROL_PLANE",
+      "ssot_conflicts": []
     },
     {
       "id": "RPLAN-ATC-TOOLCHAIN",
@@ -6952,6 +7314,9 @@
         "completeness_status": "README_ONLY_NOT_EXHAUSTIVE",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-toolchain/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Developer/build/governance tooling, CLI and code-generation orchestration"
         ]
       },
       "functions": {
@@ -6964,6 +7329,9 @@
         "completeness_status": "NO_FUNCTION_COMPLETENESS_CLAIM",
         "evidence_refs": [
           "https://github.com/A-TownChain-Okosystems/atc-toolchain/blob/main/README.md"
+        ],
+        "observed_capabilities": [
+          "Developer/build/governance tooling, CLI and code-generation orchestration"
         ]
       },
       "sprints": {
@@ -7018,7 +7386,9 @@
         "open_prs_status": "PARTIAL",
         "source_tree_status": "NOT_ENUMERATED",
         "completeness_status": "RESIDUAL"
-      }
+      },
+      "canonicality": "CANONICAL_IMPLEMENTATION",
+      "ssot_conflicts": []
     }
   ],
   "repository_census": {
