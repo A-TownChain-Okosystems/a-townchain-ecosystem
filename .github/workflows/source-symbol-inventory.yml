@@ -3,13 +3,19 @@ on:
   pull_request:
     paths:
       - "tools/scan_public_symbols.py"
+      - "tools/run_org_source_census.py"
       - "tools/tests/test_scan_public_symbols.py"
+      - "tools/tests/test_run_org_source_census.py"
+      - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
       - ".github/workflows/source-symbol-inventory.yml"
   push:
     branches: [main]
     paths:
       - "tools/scan_public_symbols.py"
+      - "tools/run_org_source_census.py"
       - "tools/tests/test_scan_public_symbols.py"
+      - "tools/tests/test_run_org_source_census.py"
+      - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
       - ".github/workflows/source-symbol-inventory.yml"
   workflow_dispatch:
 
@@ -36,7 +42,23 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Compile scanner and tests
-        run: python -m py_compile tools/scan_public_symbols.py tools/tests/test_scan_public_symbols.py
-      - name: Run scanner unit tests
-        run: python -m unittest tools.tests.test_scan_public_symbols -v
+      - name: Compile scanner, orchestrator and tests
+        run: python -m py_compile tools/scan_public_symbols.py tools/run_org_source_census.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py
+      - name: Run scanner and organization census tests
+        run: |
+          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census -v
+      - name: Validate organization repository manifest
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path("docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json")
+          manifest = json.loads(path.read_text(encoding="utf-8"))
+          repos = manifest["repositories"]
+          names = [item["name"] for item in repos]
+          assert len(names) == 33, f"expected 33 repositories, got {len(names)}"
+          assert len(set(names)) == len(names), "duplicate repository names"
+          assert sum(bool(item.get("archived")) for item in repos) == 7, "expected 7 archived repositories"
+          assert sum(not bool(item.get("archived")) for item in repos) == 26, "expected 26 active repositories"
+          print(f"manifest OK: {len(names)} repositories; 26 active; 7 archived")
+          PY
