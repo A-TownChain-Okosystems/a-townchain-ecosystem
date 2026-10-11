@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-11",
-  "catalog_revision_note": "Extended with source-README-grounded function contracts for additional active repositories. All added contracts remain RESIDUAL/BLOCKED pending source-level implementation and exact-SHA evidence.",
+  "catalog_revision_note": "Expanded support, documentation and governance roles. Canonical implementation boundaries are explicit; all readiness claims remain evidence-gated.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -2007,6 +2007,446 @@
             "integration",
             "multi-component",
             "negative"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-SHIVA-SPEC",
+      "name": "ShivaCore Specification Support",
+      "layer": "L7",
+      "canonical_owner": "A-TownChain-Okosystems/atc-shivacore",
+      "role": "Kernel specifications, governance and support only; canonical kernel code remains in GlobusOS",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-SHIVA",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-SHIVA-SPEC-001",
+          "name": "Kernel contract registry",
+          "purpose": "Maintain versioned kernel requirements and link each requirement to the canonical implementation and tests.",
+          "inputs": [
+            "specification version",
+            "requirement ID",
+            "canonical source/evidence references"
+          ],
+          "outputs": [
+            "versioned requirement record",
+            "unresolved delta report"
+          ],
+          "failure_modes": [
+            "duplicate normative statement",
+            "stale source reference",
+            "missing evidence"
+          ],
+          "acceptance": [
+            "Specifications do not claim implementation ownership",
+            "Every requirement links to a test or explicit review",
+            "Unresolved differences remain visible"
+          ],
+          "test_classes": [
+            "schema",
+            "consistency",
+            "governance"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-SHIVA-SPEC-002",
+          "name": "Architecture delta review",
+          "purpose": "Compare declared kernel interfaces and security boundaries against the canonical GlobusOS kernel.",
+          "inputs": [
+            "architecture proposal",
+            "current kernel interface",
+            "threat boundary"
+          ],
+          "outputs": [
+            "review decision",
+            "residual list"
+          ],
+          "failure_modes": [
+            "TCB boundary conflict",
+            "ABI mismatch",
+            "unreviewed authority expansion"
+          ],
+          "acceptance": [
+            "No unreviewed TCB expansion is approved",
+            "Review references exact source SHA",
+            "Decision is traceable"
+          ],
+          "test_classes": [
+            "architecture-review",
+            "security-review"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-VM-SPEC",
+      "name": "ATC-VM Specification Support",
+      "layer": "L7",
+      "canonical_owner": "A-TownChain-Okosystems/atc-vm",
+      "role": "VM format/specification and conformance support only; canonical VM remains in a-townchain/components/vm",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-VM",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-VM-SPEC-001",
+          "name": "Bytecode normative contract",
+          "purpose": "Maintain versioned magic/header/opcode/gas and resource-limit requirements.",
+          "inputs": [
+            "spec version",
+            "format proposal",
+            "opcode/limit table"
+          ],
+          "outputs": [
+            "normative format contract",
+            "compatibility notes"
+          ],
+          "failure_modes": [
+            "ATCB/ATC1 conflict",
+            "unspecified opcode",
+            "ambiguous gas rule"
+          ],
+          "acceptance": [
+            "One normative bytecode format is identified",
+            "Spec changes include migration/compatibility policy",
+            "Canonical VM implementation is not duplicated here"
+          ],
+          "test_classes": [
+            "schema",
+            "conformance",
+            "compatibility"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-SPEC-002",
+          "name": "VM conformance vectors",
+          "purpose": "Publish valid, invalid and boundary vectors for the canonical VM.",
+          "inputs": [
+            "normative spec version",
+            "program bytes",
+            "expected result"
+          ],
+          "outputs": [
+            "versioned conformance vectors"
+          ],
+          "failure_modes": [
+            "missing negative case",
+            "stale expected result",
+            "cross-version drift"
+          ],
+          "acceptance": [
+            "Vectors cover malformed input and resource limits",
+            "Expected outcomes are versioned and reproducible",
+            "Canonical VM CI consumes the vectors"
+          ],
+          "test_classes": [
+            "vectors",
+            "property",
+            "integration"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-ALGO-SPEC",
+      "name": "ATC-Algorithm Specification Support",
+      "layer": "L7",
+      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm",
+      "role": "Consensus/algorithm specification and support only; canonical implementation remains in a-townchain/components/algorithm",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-ALGO",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-ALGO-SPEC-001",
+          "name": "Consensus decision record",
+          "purpose": "Track approved consensus algorithm, parameters, threat model and protocol version.",
+          "inputs": [
+            "proposal",
+            "safety/liveness analysis",
+            "governance approval"
+          ],
+          "outputs": [
+            "versioned consensus decision",
+            "open questions"
+          ],
+          "failure_modes": [
+            "conflicting algorithm proposal",
+            "missing approval",
+            "incomplete threat model"
+          ],
+          "acceptance": [
+            "PoH/PoW/PoS/PoI options are not labelled final without approval evidence",
+            "Protocol parameters are versioned",
+            "Safety and liveness assumptions are explicit"
+          ],
+          "test_classes": [
+            "governance",
+            "architecture-review",
+            "adversarial-analysis"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-ALGO-SPEC-002",
+          "name": "Determinism vector registry",
+          "purpose": "Maintain cross-platform vectors for hashing, participant selection and state transitions.",
+          "inputs": [
+            "spec version",
+            "canonical input",
+            "expected output"
+          ],
+          "outputs": [
+            "versioned deterministic vectors"
+          ],
+          "failure_modes": [
+            "seed mismatch",
+            "encoding drift",
+            "vector stale"
+          ],
+          "acceptance": [
+            "Vectors bind to exact spec version",
+            "Canonical implementation consumes the same vectors",
+            "Adversarial/boundary cases are included"
+          ],
+          "test_classes": [
+            "vectors",
+            "cross-platform",
+            "property"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-DOCS",
+      "name": "Architecture Documentation Hub",
+      "layer": "L7",
+      "canonical_owner": "A-TownChain-Okosystems/a-townchain-os-docs",
+      "role": "Architecture/wiki-style documentation, decision register and roadmap navigation",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-ECOSYSTEM",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-DOCS-001",
+          "name": "Architecture and SSOT index",
+          "purpose": "Maintain navigable references to canonical implementation and normative specifications without creating competing sources of truth.",
+          "inputs": [
+            "repository inventory",
+            "approved architecture decisions",
+            "canonical URLs"
+          ],
+          "outputs": [
+            "versioned documentation index",
+            "broken-link report"
+          ],
+          "failure_modes": [
+            "stale link",
+            "contradictory source",
+            "outdated status"
+          ],
+          "acceptance": [
+            "Canonical owners are linked explicitly",
+            "Historical claims are labelled historical",
+            "Current status distinguishes declaration from exact-SHA evidence"
+          ],
+          "test_classes": [
+            "link-check",
+            "consistency",
+            "review"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-DOCS-002",
+          "name": "Roadmap and decision traceability",
+          "purpose": "Map milestones and decisions to issues, acceptance criteria and evidence.",
+          "inputs": [
+            "decision ID",
+            "milestone/checkpoint",
+            "issue and evidence refs"
+          ],
+          "outputs": [
+            "traceability matrix",
+            "unresolved-decision list"
+          ],
+          "failure_modes": [
+            "missing owner",
+            "orphaned milestone",
+            "unsupported completion claim"
+          ],
+          "acceptance": [
+            "No milestone is VERIFIED without evidence",
+            "Dates/statuses are not invented",
+            "Superseded decisions are linked"
+          ],
+          "test_classes": [
+            "schema",
+            "governance",
+            "audit"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-ORG-GOV",
+      "name": "Organization GitHub Governance",
+      "layer": "L7",
+      "canonical_owner": "A-TownChain-Okosystems/.github",
+      "role": "Organization-wide agent policy, repository scope and reusable governance",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-ATC-ENG",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-ORG-001",
+          "name": "Agent policy distribution",
+          "purpose": "Publish hierarchical agent instructions and policy manifests for repository adoption.",
+          "inputs": [
+            "policy version",
+            "role/capability definitions",
+            "repository scope"
+          ],
+          "outputs": [
+            "versioned policy files",
+            "coverage report"
+          ],
+          "failure_modes": [
+            "missing policy file",
+            "conflicting precedence",
+            "stale manifest"
+          ],
+          "acceptance": [
+            "Policy precedence is explicit",
+            "Generated scope is not hand-edited",
+            "Required bindings and schemas are validated"
+          ],
+          "test_classes": [
+            "schema",
+            "policy-fixtures",
+            "integration"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-ORG-002",
+          "name": "Organization repository scope inventory",
+          "purpose": "Generate and validate the list of governed repositories and policy adoption status.",
+          "inputs": [
+            "live repository inventory",
+            "scope rules",
+            "repository manifests"
+          ],
+          "outputs": [
+            "machine-readable scope report",
+            "ungoverned repository list"
+          ],
+          "failure_modes": [
+            "API failure",
+            "stale inventory",
+            "missing repository binding"
+          ],
+          "acceptance": [
+            "Unknown/missing repositories are reported",
+            "Counts derive from observed data, not hand-written totals",
+            "Failed API access is not interpreted as empty scope"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "negative"
+          ],
+          "readiness": "RESIDUAL"
+        }
+      ]
+    },
+    {
+      "id": "COMP-DEMO",
+      "name": "Demo Repository Fixture",
+      "layer": "L7",
+      "canonical_owner": "A-TownChain-Okosystems/demo-repository",
+      "role": "Minimal integration/template fixture; not a production component",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-ATC-ENG"
+      ],
+      "functions": [
+        {
+          "id": "FN-DEMO-001",
+          "name": "Governance fixture validation",
+          "purpose": "Provide a small controlled repository for validating reusable workflow and policy behavior.",
+          "inputs": [
+            "fixture source",
+            "expected workflow/policy behavior"
+          ],
+          "outputs": [
+            "fixture test result"
+          ],
+          "failure_modes": [
+            "fixture drift",
+            "missing workflow",
+            "false-positive pass"
+          ],
+          "acceptance": [
+            "Fixture is clearly labelled non-production",
+            "Expected results are versioned",
+            "Fixture success is not used as product readiness evidence"
+          ],
+          "test_classes": [
+            "workflow-integration",
+            "governance"
+          ],
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-DEMO-002",
+          "name": "Template hygiene",
+          "purpose": "Keep the demonstration fixture minimal, reproducible and isolated from canonical product code.",
+          "inputs": [
+            "template contents",
+            "approved fixture scope"
+          ],
+          "outputs": [
+            "validated fixture tree"
+          ],
+          "failure_modes": [
+            "accidental secrets",
+            "unrelated implementation code",
+            "dependency drift"
+          ],
+          "acceptance": [
+            "No production secrets or product authority are embedded",
+            "Changes do not imply a product release",
+            "Fixture remains isolated"
+          ],
+          "test_classes": [
+            "repository-audit",
+            "security-scan"
           ],
           "readiness": "RESIDUAL"
         }
