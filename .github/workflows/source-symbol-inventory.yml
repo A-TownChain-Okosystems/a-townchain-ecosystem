@@ -47,6 +47,58 @@ jobs:
       - name: Run scanner and organization census tests
         run: |
           python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census -v
+      - name: Clone all active repositories at observed clean HEADs
+        env:
+          GH_OWNER: A-TownChain-Okosystems
+        run: |
+          set -euo pipefail
+          workspace="$RUNNER_TEMP/atc-org-checkouts"
+          mkdir -p "$workspace"
+          # Clone this exact PR revision, not the default branch, so the census
+          # is bound to the workflow's source SHA.
+          git clone --no-hardlinks "$GITHUB_WORKSPACE" "$workspace/a-townchain-ecosystem"
+          python - <<'PY' > "$RUNNER_TEMP/active-repositories.txt"
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path("docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json").read_text(encoding="utf-8"))
+          for repo in sorted(manifest["repositories"], key=lambda item: item["name"].lower()):
+              if not repo.get("archived", False) and repo["name"] != "a-townchain-ecosystem":
+                  print(repo["name"])
+          PY
+          while IFS= read -r name; do
+            test -n "$name"
+            git clone --no-tags "https://github.com/$GH_OWNER/$name.git" "$workspace/$name"
+            test -z "$(git -C "$workspace/$name" status --porcelain --untracked-files=all)"
+            printf '%s %s\n' "$name" "$(git -C "$workspace/$name" rev-parse HEAD)"
+          done < "$RUNNER_TEMP/active-repositories.txt"
+          test -z "$(git -C "$workspace/a-townchain-ecosystem" status --porcelain --untracked-files=all)"
+          printf 'a-townchain-ecosystem %s\n' "$(git -C "$workspace/a-townchain-ecosystem" rev-parse HEAD)"
+      - name: Run exact-HEAD organization source census
+        run: |
+          set -euo pipefail
+          workspace="$RUNNER_TEMP/atc-org-checkouts"
+          mkdir -p artifacts
+          python tools/run_org_source_census.py \
+            --workspace "$workspace" \
+            --manifest docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json \
+            --output artifacts/ATC-ORG-SOURCE-CENSUS-001.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          census = json.loads(Path("artifacts/ATC-ORG-SOURCE-CENSUS-001.json").read_text(encoding="utf-8"))
+          summary = census["summary"]
+          print(json.dumps({"status": census["status"], **summary}, sort_keys=True))
+          assert summary["active_expected"] == 26
+          assert summary["active_scanned"] == 26
+          assert summary["active_blocked"] == 0
+          PY
+      - name: Upload exact-SHA census artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atc-org-source-census-\${{ github.event.pull_request.head.sha || github.sha }}
+          path: artifacts/ATC-ORG-SOURCE-CENSUS-001.json
+          if-no-files-found: warn
       - name: Validate organization repository manifest
         run: |
           python - <<'PY'
