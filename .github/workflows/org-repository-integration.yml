@@ -5,12 +5,18 @@ on:
     paths:
       - "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json"
       - "tools/validate_org_repository_integration.py"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md"
+      - "tools/validate_component_function_catalog.py"
       - ".github/workflows/org-repository-integration.yml"
   push:
     branches: [main]
     paths:
       - "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json"
       - "tools/validate_org_repository_integration.py"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md"
+      - "tools/validate_component_function_catalog.py"
       - ".github/workflows/org-repository-integration.yml"
   workflow_dispatch:
 
@@ -28,10 +34,16 @@ jobs:
           persist-credentials: false
       - name: Validate JSON and fail-closed status/evidence rules
         run: python3 tools/validate_org_repository_integration.py --input docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json --report org-repository-integration-report.json
-      - name: Upload structural report
+      - name: Validate component/function catalog structure and evidence rules
+        run: |
+          python3 -m json.tool docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json > /dev/null
+          python3 tools/validate_component_function_catalog.py --input docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json --report component-function-catalog-report.json
+      - name: Upload structural reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: org-repository-integration-report
-          path: org-repository-integration-report.json
+          name: organization-integration-reports
+          path: |
+            org-repository-integration-report.json
+            component-function-catalog-report.json
           if-no-files-found: warn
