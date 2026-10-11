@@ -436,12 +436,13 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
-            "source_path": null,
-            "symbol_or_entrypoint": null,
-            "exact_source_sha": null,
-            "evidence": null,
-            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/capability.rs",
+            "symbol_or_entrypoint": "CapabilityTable::check",
+            "exact_source_sha": "fef3af85ff9ecab90c25bc179e2a3284fa17f633",
+            "file_blob_sha": "dd5d4f7a0330f91badf1a956a210f4f745104e66",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/fef3af85ff9ecab90c25bc179e2a3284fa17f633/modules/atc-shivacore/kernel/src/capability.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
           }
         },
         {
@@ -475,12 +476,13 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
-            "source_path": null,
-            "symbol_or_entrypoint": null,
-            "exact_source_sha": null,
-            "evidence": null,
-            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/ipc.rs",
+            "symbol_or_entrypoint": "IpcSubsystem::{create_channel,send,recv,close_channel}",
+            "exact_source_sha": "fef3af85ff9ecab90c25bc179e2a3284fa17f633",
+            "file_blob_sha": "d95aebd8e48c47346ca282c79bef35d19bdbc6b8",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/fef3af85ff9ecab90c25bc179e2a3284fa17f633/modules/atc-shivacore/kernel/src/ipc.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
           }
         },
         {
@@ -514,12 +516,13 @@
           ],
           "readiness": "BLOCKED",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
-            "source_path": null,
-            "symbol_or_entrypoint": null,
-            "exact_source_sha": null,
-            "evidence": null,
-            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/vmm.rs",
+            "symbol_or_entrypoint": "Vmm::{map_page,unmap_page,map_owned,unmap}",
+            "exact_source_sha": "fef3af85ff9ecab90c25bc179e2a3284fa17f633",
+            "file_blob_sha": "a3ad9e0d727d5644ae500ff0bb80f10606121f3f",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/fef3af85ff9ecab90c25bc179e2a3284fa17f633/modules/atc-shivacore/kernel/src/vmm.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
           }
         }
       ],
@@ -530,10 +533,115 @@
         "observed_tree_sha": "8bb320d5b7c4d86462f8a0f27840d6dc260c1f90",
         "census_date": "2026-10-11",
         "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/globus-os/commits/main",
-        "source_paths_examined": [],
+        "source_paths_examined": [
+          "modules/atc-shivacore/kernel/src/capability.rs",
+          "modules/atc-shivacore/kernel/src/ipc.rs",
+          "modules/atc-shivacore/kernel/src/vmm.rs"
+        ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Selected source files have been enumerated at the recorded repository HEAD. This is not a full repository/tree scan; unexamined files and additional exported symbols may exist.",
+        "observed_public_symbol_inventory": [
+          {
+            "path": "modules/atc-shivacore/kernel/src/capability.rs",
+            "repository_head_sha": "fef3af85ff9ecab90c25bc179e2a3284fa17f633",
+            "file_blob_sha": "dd5d4f7a0330f91badf1a956a210f4f745104e66",
+            "public_functions": [
+              "has",
+              "from_bits_truncate",
+              "bits",
+              "is_empty",
+              "new",
+              "create",
+              "delegate",
+              "check",
+              "check_any",
+              "get",
+              "revoke",
+              "list_for",
+              "count"
+            ],
+            "public_types": [
+              "ResourceType",
+              "Rights",
+              "CapId",
+              "Capability",
+              "CapabilityError",
+              "CapabilityTable"
+            ],
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+          },
+          {
+            "path": "modules/atc-shivacore/kernel/src/ipc.rs",
+            "repository_head_sha": "fef3af85ff9ecab90c25bc179e2a3284fa17f633",
+            "file_blob_sha": "d95aebd8e48c47346ca282c79bef35d19bdbc6b8",
+            "public_functions": [
+              "new",
+              "create_channel",
+              "send",
+              "recv",
+              "close_channel",
+              "close_all_for",
+              "grant_access",
+              "channel_count",
+              "pending_messages"
+            ],
+            "public_types": [
+              "ChannelId",
+              "Message",
+              "Channel",
+              "IpcSubsystem",
+              "IpcError"
+            ],
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+          },
+          {
+            "path": "modules/atc-shivacore/kernel/src/vmm.rs",
+            "repository_head_sha": "fef3af85ff9ecab90c25bc179e2a3284fa17f633",
+            "file_blob_sha": "a3ad9e0d727d5644ae500ff0bb80f10606121f3f",
+            "public_functions": [
+              "new",
+              "is_user",
+              "is_hhdm",
+              "page_offset",
+              "page_base",
+              "user_read_only",
+              "user_read_write",
+              "user_execute_read",
+              "kernel_rw_nx",
+              "validate",
+              "to_x86_flags",
+              "validate_user_range",
+              "validate_mapping_target",
+              "validate_hhdm_entry",
+              "huge_page_bit_is_ps",
+              "reject_huge_page",
+              "translate",
+              "table_index",
+              "map_page",
+              "unmap_page",
+              "map_owned",
+              "unmap",
+              "refcount",
+              "mapping_count"
+            ],
+            "public_types": [
+              "VmmError",
+              "VirtAddr",
+              "PhysFrame",
+              "MappingFlags",
+              "UserAccess",
+              "PageTableLevel",
+              "BootstrapMapping",
+              "FrameBackend",
+              "MapJournal",
+              "HardwareMapper",
+              "Vmm"
+            ],
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+          }
+        ],
+        "symbols_enumerated_for_selected_paths": true
       }
     },
     {
@@ -768,12 +876,13 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
-            "source_path": null,
-            "symbol_or_entrypoint": null,
-            "exact_source_sha": null,
-            "evidence": null,
-            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/algorithm/src/selection.rs",
+            "symbol_or_entrypoint": "select_proposer",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "eab1723f3a3652df84a6c676bd252c9880469d9c",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/algorithm/src/selection.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
           }
         }
       ],
@@ -784,10 +893,73 @@
         "observed_tree_sha": "3868f0f6db0aa2ea05452c88846f981a0242988d",
         "census_date": "2026-10-11",
         "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain/commits/main",
-        "source_paths_examined": [],
+        "source_paths_examined": [
+          "components/algorithm/src/economics.rs",
+          "components/algorithm/src/hash.rs",
+          "components/algorithm/src/poh.rs",
+          "components/algorithm/src/selection.rs"
+        ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Selected source files have been enumerated at the recorded repository HEAD. This is not a full repository/tree scan; unexamined files and additional exported symbols may exist.",
+        "observed_public_symbol_inventory": [
+          {
+            "path": "components/algorithm/src/economics.rs",
+            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "f415428712ad99302ff54d6e090cb72e600570b6",
+            "public_functions": [
+              "epoch",
+              "raw_subsidy",
+              "subsidy"
+            ],
+            "public_types": [
+              "MonetaryPolicy"
+            ],
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+          },
+          {
+            "path": "components/algorithm/src/hash.rs",
+            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "97d3bee54f95caf2439765383041b0e120d1ab46",
+            "public_functions": [
+              "atc_hash",
+              "atc_hash_hex"
+            ],
+            "public_types": [],
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+          },
+          {
+            "path": "components/algorithm/src/poh.rs",
+            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "75a62238e2a3e4083caa6e420c2de3f215e28450",
+            "public_functions": [
+              "genesis",
+              "tick",
+              "verify",
+              "ticks"
+            ],
+            "public_types": [
+              "Tick",
+              "PohError",
+              "PohChain"
+            ],
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+          },
+          {
+            "path": "components/algorithm/src/selection.rs",
+            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "eab1723f3a3652df84a6c676bd252c9880469d9c",
+            "public_functions": [
+              "select_proposer"
+            ],
+            "public_types": [
+              "Stake",
+              "Validator"
+            ],
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+          }
+        ],
+        "symbols_enumerated_for_selected_paths": true
       }
     },
     {
@@ -873,12 +1045,13 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
-            "source_path": null,
-            "symbol_or_entrypoint": null,
-            "exact_source_sha": null,
-            "evidence": null,
-            "note": "Contract is a catalog requirement; source implementation mapping remains pending."
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/vm/src/vm.rs",
+            "symbol_or_entrypoint": "Vm::execute_state_transition_with_gas",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
           }
         }
       ],
@@ -889,10 +1062,66 @@
         "observed_tree_sha": "3868f0f6db0aa2ea05452c88846f981a0242988d",
         "census_date": "2026-10-11",
         "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain/commits/main",
-        "source_paths_examined": [],
+        "source_paths_examined": [
+          "components/vm/src/vm.rs",
+          "components/vm/src/ops.rs",
+          "components/vm/src/context.rs"
+        ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Selected source files have been enumerated at the recorded repository HEAD. This is not a full repository/tree scan; unexamined files and additional exported symbols may exist.",
+        "observed_public_symbol_inventory": [
+          {
+            "path": "components/vm/src/vm.rs",
+            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "public_functions": [
+              "new",
+              "with_context",
+              "caller",
+              "state",
+              "execute_state_transition",
+              "execute_state_transition_with_gas",
+              "verify",
+              "run_with_gas",
+              "run"
+            ],
+            "public_types": [
+              "Op",
+              "VmError",
+              "Vm"
+            ],
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+          },
+          {
+            "path": "components/vm/src/ops.rs",
+            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "2b5efdff367b72e0025a6bfe7c05e89d23cf0a43",
+            "public_functions": [
+              "parse_ops"
+            ],
+            "public_types": [
+              "OpsError"
+            ],
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+          },
+          {
+            "path": "components/vm/src/context.rs",
+            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "ef0a0cee2ff6a73adc19870a75fc1ed5e00ac7bc",
+            "public_functions": [
+              "validate",
+              "verify_genesis_id",
+              "execution_gate"
+            ],
+            "public_types": [
+              "ChainContext",
+              "ContextError"
+            ],
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+          }
+        ],
+        "symbols_enumerated_for_selected_paths": true
       }
     },
     {
@@ -3390,7 +3619,9 @@
     "component_source_bindings": 30,
     "function_source_bindings": 63,
     "source_verified_components": 0,
-    "source_verified_functions": 0
+    "source_verified_functions": 0,
+    "selected_source_files_examined": 10,
+    "selected_source_public_symbol_groups": 10
   },
   "repository_coverage": [
     {
