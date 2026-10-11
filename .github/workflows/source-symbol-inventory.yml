@@ -1,0 +1,42 @@
+name: Source Symbol Inventory
+on:
+  pull_request:
+    paths:
+      - "tools/scan_public_symbols.py"
+      - "tools/tests/test_scan_public_symbols.py"
+      - ".github/workflows/source-symbol-inventory.yml"
+  push:
+    branches: [main]
+    paths:
+      - "tools/scan_public_symbols.py"
+      - "tools/tests/test_scan_public_symbols.py"
+      - ".github/workflows/source-symbol-inventory.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scanner-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact workflow revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact source SHA
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$EXPECTED_SHA"
+          printf 'Execution SHA bound: %s\n' "$actual"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile scanner and tests
+        run: python -m py_compile tools/scan_public_symbols.py tools/tests/test_scan_public_symbols.py
+      - name: Run scanner unit tests
+        run: python -m unittest tools.tests.test_scan_public_symbols -v
