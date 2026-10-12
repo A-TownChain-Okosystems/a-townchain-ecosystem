@@ -233,3 +233,10 @@ The previous Genesis Engine ↔ L1 genesis interface `IF-015` is now `BLOCKED`: 
 The catalog now contains **31 components, 173 function/capability records and 17 interfaces**. Source mapping count is 139; functional verification remains 0. The atc-node Devnet RPC, gossip, peer-table, configuration and process surfaces have been individually bound to exact source paths, source HEAD `a817db43a089d172dd4688f366286c60dbf71a0e` and file blobs. Each remains residual until terminal test evidence is attached.
 
 `FN-NODE-022` explicitly records `TransactionDomain::signing_bytes` as a blocked legacy implementation: source constant `ATC-TX-DOMAIN` and string-field serialization conflict with TX-V2. Consequently `IF-017` is `BLOCKED` until the legacy path is rejected/isolated and cross-client TX-V2 vectors pass. No runtime code changed.
+
+
+## 17. Canonical storage source inventory and crypto blocker (2026-10-13)
+
+The current catalog is **32 components, 193 function/capability records and 18 interfaces**; 159 function records are source-mapped and 0 are functionally verified. `COMP-STORAGE-CORE` now identifies the active `a-townchain/components/storage` subsystem separately from the archived standalone service (`COMP-STORAGE-ARCHIVED`). Twenty source functions are bound to exact file blobs and HEAD `c631249ed6ff450bf45338e78cb14e2bf5c65c74`.
+
+A security-critical source discrepancy is documented: `ContentAddress::compute` is described as BLAKE3-compatible but uses an FNV-1a-derived construction; `mvp_root_hash` is explicitly non-cryptographic. The blob/KV stores are in-memory, not durable canonical block/state persistence. `COMP-STORAGE-CORE` and `IF-018` are `BLOCKED` for production state-storage use. No storage implementation was changed.
