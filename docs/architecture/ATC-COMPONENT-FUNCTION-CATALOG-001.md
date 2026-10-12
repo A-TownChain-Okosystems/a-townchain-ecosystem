@@ -65,7 +65,7 @@ The validator's `PASS_STRUCTURAL_ONLY` means the registry is structurally consis
 
 Canonical implementation owner: [`a-townchain/components/vm`](https://github.com/A-TownChain-Okosystems/a-townchain/tree/main/components/vm), source HEAD `0419b444dec4749cec7b146950d1304f5a406c25`.
 
-The machine-readable `COMP-VM` entry now contains **13 function contracts**:
+The machine-readable `COMP-VM` entry now contains **29 function contracts**:
 
 - `FN-VM-001` — textual `.ops` parser (`parse_ops`)
 - `FN-VM-002` — gated state transition with explicit gas budget
@@ -76,11 +76,31 @@ The machine-readable `COMP-VM` entry now contains **13 function contracts**:
 
 Source-level limits recorded from `vm.rs`: `MAX_PROGRAM_OPS=65,536`, `MAX_STACK_ITEMS=4,096`, `MAX_STORAGE_SLOTS=65,536`. The public raw `Vm::run()` path is unmetered and does not enforce all bounds; it is documented as local/unit-only, not the consensus state-transition entrypoint. The catalog records this as a residual risk.
 
-The inventory also records `assembler.rs`, `main.rs` and `tests/exec_chain_e2e.rs` as inspected surfaces, but does **not** claim their function contracts are complete. All 13 VM function records remain `RESIDUAL`; exact-SHA workflow Run/Job/Step/exit/log evidence and functional verification are still required. Release remains `BLOCKED`.
+The inventory also records `assembler.rs`, `main.rs` and `tests/exec_chain_e2e.rs` as inspected surfaces, but does **not** claim their function contracts are complete. All 29 VM function records remain `RESIDUAL`; exact-SHA workflow Run/Job/Step/exit/log evidence and functional verification are still required. Release remains `BLOCKED`.
+
+## ATC-VM assembler and runner reconciliation (2026-10-12)
+
+The `COMP-VM` catalog now maps **29 function contracts** from the canonical VM source surface at `a-townchain` HEAD `0419b444dec4749cec7b146950d1304f5a406c25`. The organization-wide catalog now lists **98 functions across 30 components**.
+
+Additional contracts cover:
+
+- `assemble`: restricted EXEC-GATE source/vector to textual `.ops` generation, with local simulation before writing output.
+- Parser helpers: `Parser::new`, `peek`, `take`, `expr`, `term`, `factor`, `tokenize`.
+- Source/vector helpers: `find_function`, `json_u64_for_key`, `simulate`.
+- Runner helpers: `parse_slot_pair`, `parse_args`, `run_ops_file`, `main`, and `usage`.
+
+### Newly documented residuals
+
+- `find_function` locates source constructs by substring scanning; it is not a complete language parser and does not robustly handle nested braces.
+- `json_u64_for_key` scans text rather than parsing standards-compliant JSON; duplicate/nested key ambiguity remains.
+- The local CLI calls raw unmetered `Vm::run()`. Its `--set-slot` path may resize storage based on a user-supplied index without a maximum bound. This requires a defensive limit before allocation.
+- The assembler emits textual `.ops`, not serialized `ATCB` bytecode. No canonical binary `ATCB` decoder was found in the inspected source surface.
+
+These findings are cataloged as `RESIDUAL`, not silently promoted to implementation or verification. No cargo test, clippy, schema-validation or runtime result is claimed by this catalog edit. The release decision remains `BLOCKED`.
 
 ## Organization-wide coverage
 
-The machine-readable catalog currently defines **30 components**, **82 functions**, **7 cross-component interfaces** and **7 production gates**. It also includes a `repository_coverage` entry for all **33 observed repositories** from the organization integration registry: **26 active** and **7 archived**. The validator checks unique full repository names, archive-state totals and the required fail-closed status of each entry.
+The machine-readable catalog currently defines **30 components**, **98 functions**, **7 cross-component interfaces** and **7 production gates**. It also includes a `repository_coverage` entry for all **33 observed repositories** from the organization integration registry: **26 active** and **7 archived**. The validator checks unique full repository names, archive-state totals and the required fail-closed status of each entry.
 
 This is deliberately not equivalent to 33 complete function inventories. The current catalog defines 30 component records and 71 function contracts across core, developer tooling, node/service and application domains. Every remaining active repository is still `RESIDUAL` / `AUDIT_REQUIRED` until its actual source tree, README/specs, exported APIs, tests, dependencies and exact-SHA CI evidence are inspected. Archived repositories are `REFERENCE_ONLY`, not active production targets. The audit must not invent functions from repository names.
 
