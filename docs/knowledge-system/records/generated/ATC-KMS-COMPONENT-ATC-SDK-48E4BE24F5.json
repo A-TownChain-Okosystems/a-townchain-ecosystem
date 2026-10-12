@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-ATC-SDK-48E4BE24F5",
-  "timestamp": "2026-10-12T15:57:48.690199Z",
+  "timestamp": "2026-10-12T20:22:25.936806Z",
   "category": "module",
   "title": "Component: atc-sdk",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-sdk",
-    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
+    "commit": "60c04814508892166128aa0c2af32d734cb86bd7"
   },
   "tags": [
     "atc-sdk",

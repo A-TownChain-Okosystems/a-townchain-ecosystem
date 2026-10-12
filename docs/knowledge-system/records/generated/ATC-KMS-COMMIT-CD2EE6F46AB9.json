@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-CD2EE6F46AB9",
-  "timestamp": "2026-10-12T15:57:48.690199Z",
+  "timestamp": "2026-10-12T20:22:25.936806Z",
   "category": "change",
   "title": "Commit: fix(deps): resolve umbrella javascript security advisories",
   "context": "Git commit cd2ee6f46ab9107d2f5d0243f8e401c295263ec4 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/cd2ee6f46ab9107d2f5d0243f8e401c295263ec4",
-    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
+    "commit": "60c04814508892166128aa0c2af32d734cb86bd7"
   },
   "tags": [
     "commit",

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-4D5F514C40C8",
-  "timestamp": "2026-10-12T15:57:48.690199Z",
+  "timestamp": "2026-10-12T20:22:25.936806Z",
   "category": "change",
   "title": "Commit: Merge pull request #119 from A-TownChain-Okosystems/security/dependabot-p0-upgrades-2026-10-12",
   "context": "Git commit 4d5f514c40c8e38fd2596f1785884c86be48973b on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/4d5f514c40c8e38fd2596f1785884c86be48973b",
-    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
+    "commit": "60c04814508892166128aa0c2af32d734cb86bd7"
   },
   "tags": [
     "commit",

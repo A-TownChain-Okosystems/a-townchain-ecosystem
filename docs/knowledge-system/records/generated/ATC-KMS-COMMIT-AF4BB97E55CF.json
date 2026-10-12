@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-AF4BB97E55CF",
-  "timestamp": "2026-10-12T15:57:48.690199Z",
+  "timestamp": "2026-10-12T20:22:25.936806Z",
   "category": "change",
   "title": "Commit: fix(ci): repair census artifact paths and workflow expression",
   "context": "Git commit af4bb97e55cf473bf8f25f8603118c925b92cfdd on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/af4bb97e55cf473bf8f25f8603118c925b92cfdd",
-    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
+    "commit": "60c04814508892166128aa0c2af32d734cb86bd7"
   },
   "tags": [
     "commit",

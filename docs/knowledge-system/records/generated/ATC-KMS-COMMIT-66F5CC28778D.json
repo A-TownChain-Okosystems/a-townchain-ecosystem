@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-66F5CC28778D",
-  "timestamp": "2026-10-12T15:57:48.690199Z",
+  "timestamp": "2026-10-12T20:22:25.936806Z",
   "category": "change",
   "title": "Commit: docs(governance): propose immutable git tag and release policy",
   "context": "Git commit 66f5cc28778dc4952dfb4a2d33d84a77e929c86a on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/66f5cc28778dc4952dfb4a2d33d84a77e929c86a",
-    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
+    "commit": "60c04814508892166128aa0c2af32d734cb86bd7"
   },
   "tags": [
     "commit",

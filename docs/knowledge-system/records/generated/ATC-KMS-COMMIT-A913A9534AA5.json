@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-A913A9534AA5",
+  "timestamp": "2026-10-12T20:22:25.936806Z",
+  "category": "change",
+  "title": "Commit: docs(governance): add machine-readable ARR record schema",
+  "context": "Git commit a913a9534aa5509cdd07218f6125d56be19ea741 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/a913a9534aa5509cdd07218f6125d56be19ea741",
+    "commit": "60c04814508892166128aa0c2af32d734cb86bd7"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs(governance): add machine-readable ARR record schema"
+}

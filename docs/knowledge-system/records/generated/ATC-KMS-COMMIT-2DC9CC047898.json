@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-2DC9CC047898",
-  "timestamp": "2026-10-12T15:57:48.690199Z",
+  "timestamp": "2026-10-12T20:22:25.936806Z",
   "category": "change",
   "title": "Commit: Merge pull request #108 from A-TownChain-Okosystems/governance/org-wide-tag-audit-2026-10-11",
   "context": "Git commit 2dc9cc047898a180f15dce8d1b67aa63b40ca00a on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/2dc9cc047898a180f15dce8d1b67aa63b40ca00a",
-    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
+    "commit": "60c04814508892166128aa0c2af32d734cb86bd7"
   },
   "tags": [
     "commit",
