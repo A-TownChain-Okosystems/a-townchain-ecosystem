@@ -6,7 +6,7 @@
 
 This catalog is the architecture/control-plane inventory. It does not replace component source code, normative standards, or repository-local API documentation.
 
-**Current machine-readable count (2026-10-13):** 31 components · 146 function/capability contracts · 17 cross-component interfaces · 0 functionally verified. **Source reconciliation:** `RESIDUAL` until every runtime candidate is mapped or explicitly excluded; the strict completion gate is fail-closed. The last completed census is historical for its recorded exact HEAD; the current-head rerun must finish before its counts are treated as current.
+**Current machine-readable count (2026-10-13):** 31 components · 173 function/capability contracts · 17 interfaces · 0 functionally verified. **Source reconciliation:** `RESIDUAL` until every runtime candidate is mapped or explicitly excluded; the strict completion gate is fail-closed. The last completed census is historical for its recorded exact HEAD; the current-head rerun must finish before its counts are treated as current.
 
 ## Rules
 
@@ -241,3 +241,10 @@ Added `IF-017` for wallet-to-chain TX-V2 interoperability. Source mapping confir
 Current count: **31 components, 146 function/capability contracts, 17 interfaces**. Of the 146 function/capability records, 112 are exact-HEAD source-mapped (lexical/source mapping only), 12 still have no identified satisfying source surface, 3 are blocked by normative consensus decisions, and 19 are explicitly classified as non-function/test/archived/private-reference exclusions. **0 are functionally verified.**
 
 The current source inventory distinguishes runtime candidates from inline Rust test-only functions and records test-only symbols as reasoned exclusions. The strict reconciliation gate remains blocked until every runtime candidate is mapped or has a reviewed exclusion and every source binding resolves at the exact recorded SHA.
+
+
+## Node runtime source contract expansion (2026-10-13)
+
+Added exact-HEAD source contracts for NodeConfig construction/validation, PeerTable lifecycle, Devnet RPC state/dispatch/listener/handler/parsing, gossip listener/peer request/sync/block parsing, and the process entrypoint. The catalog now has 173 function/capability records; 139 have exact source mappings, but this remains lexical evidence only.
+
+Critical finding: `FN-NODE-022` records `TransactionDomain::signing_bytes` in `atc-node` as a **BLOCKED legacy path** because it uses `ATC-TX-DOMAIN` and string-field encoding rather than the approved TX-V2 domain/encoding. `IF-017` is therefore `BLOCKED`; no code was changed. The canonical TX-V2 wallet side is source-bound, but chain-side verifier compatibility remains unresolved.
