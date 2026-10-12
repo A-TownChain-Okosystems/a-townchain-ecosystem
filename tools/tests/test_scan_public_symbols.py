@@ -44,9 +44,9 @@ class PublicSymbolScanTests(unittest.TestCase):
             root = Path(temp)
             (root / "tests").mkdir()
             (root / "tests" / "stdlib_reference_conformance.rs").write_text(
-                "fn encode_be(value: u64) -> Vec<u8> { value.to_be_bytes().to_vec() }\\n"
-                "#[test]\\n"
-                "fn test_reference_vector() { assert_eq!(encode_be(1).len(), 8); }\\n",
+                "fn encode_be(value: u64) -> Vec<u8> { value.to_be_bytes().to_vec() }\n"
+                "#[test]\n"
+                "fn test_reference_vector() { assert_eq!(encode_be(1).len(), 8); }\n",
                 encoding="utf-8",
             )
             report = scan(root, "example/repo", "b" * 40)
