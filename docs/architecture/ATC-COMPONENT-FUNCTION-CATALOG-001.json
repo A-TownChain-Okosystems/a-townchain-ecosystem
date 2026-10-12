@@ -17463,14 +17463,14 @@
     "specification_id": "ATC-COMPONENT-FUNCTION-SPECIFICATION-001",
     "specification_version": "1.0.0",
     "applied": true,
-    "function_contracts_checked": 139,
-    "component_contracts_checked": 30,
+    "function_contracts_checked": 144,
+    "component_contracts_checked": 31,
     "missing_required_field_values_are_explicit_residuals": true,
     "functional_verification_performed": false,
     "release_decision": "BLOCKED",
-    "last_component_updated": "CROSS_COMPONENT_INTERFACES",
-    "last_component_update_source_sha": null,
-    "component_function_contract_count": 139,
+    "last_component_updated": "COMP-WALLET",
+    "last_component_update_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+    "component_function_contract_count": 144,
     "component_function_catalog_status": "RESIDUAL_SOURCE_RECONCILIATION_PENDING"
   }
 }
