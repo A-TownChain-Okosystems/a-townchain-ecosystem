@@ -142,3 +142,29 @@ Correction committed on the existing PR branch in commit `7aca949d1826b5cba38dc8
 Current exact-source drift was also observed: `A-TownChain-Okosystems/a-townchain` default branch `main` resolves to `c631249ed6ff450bf45338e78cb14e2bf5c65c74`, while the catalog's recorded source baseline for `COMP-CHAIN` is `a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9`. Until a complete scan at a pinned current HEAD is reconciled, the old source bindings must not be silently relabeled as current.
 
 At this checkpoint, 21 catalog functions have no source path/symbol/exact SHA: 11 new L1 contracts, 5 new consensus decision contracts, 1 toolchain contract explicitly lacking an identified implementation surface, 2 archived-storage contracts, and 2 demo-fixture contracts without source symbols. The last five require reasoned scope/ownership decisions rather than fabricated source mappings. Consensus/finality/fork-choice remain `BLOCKED` until normative approval.
+
+## 12. Exact-HEAD census and symbol reconciliation (2026-10-13)
+
+Successful run: [Source Symbol Inventory #38319690185](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319690185). Machine-readable evidence artifact: [ATC organization source census + function reconciliation](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319690185/artifacts/11778885556).
+
+### Census result
+
+- Manifest: 33 repositories; 26 active, 7 archived.
+- 25 active repositories scanned at exact source HEADs; 1 private active repository (`demo-repository`) excluded explicitly because CI has no authorized checkout; 0 active repositories blocked.
+- All 7 archived repositories are `ARCHIVED_REFERENCE_ONLY`, not failed active scans.
+- 1,363 source files scanned; 15,000 files excluded under explicit path-level scope rules.
+- Source candidates in scope: 7,849 public symbols + 4,014 Rust internal-function symbols = 11,863 candidates.
+- Noncanonical/historical source mirrors excluded with documented reasons: `a-townchain-ecosystem/components/` (10,962 files) and `a-townchain-os-docs` paths under `docs/archive/` (2,763), `docs/wiki/` (184), `wiki/` (1,059), and `atclang/` (32).
+
+### Function reconciliation result
+
+- 30 components and 114 catalog records.
+- 0 component source-HEAD mismatches; one explicit self-reference observation records that the catalog repository is scanned at the PR HEAD, not its default-branch SHA.
+- 82 records have exact source path/symbol matches at the recorded source SHA. These are `LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING`, not verified implementations.
+- 32 records remain residual or blocked: 4 related source surfaces, 2 test surfaces, 10 declarative/specification artifacts, 9 source surfaces not identified, 3 consensus decision gates, 2 archived references and 2 private-repository exclusions.
+- Of 11,863 candidate symbols, 84 are bound to catalog records, 10,838 remain unbound, and 941 test/example symbols are recorded as reasoned policy exclusions with exact path and symbol.
+- Functional verification remains `NOT_PERFORMED`; release remains `BLOCKED`. The next task is to reconcile the 10,838 remaining candidates into contracts or individually justified exclusions, prioritizing canonical kernel/chain/VM surfaces.
+
+### Scope / safety
+
+These changes affect only the catalog, source census, reconciliation tooling and audit evidence. No blockchain/VM/kernel implementation was changed, no CI gate was weakened, and no merge or release was performed. Consensus, quorum/finality and fork-choice remain `BLOCKED` until an authoritative versioned protocol decision is approved.
