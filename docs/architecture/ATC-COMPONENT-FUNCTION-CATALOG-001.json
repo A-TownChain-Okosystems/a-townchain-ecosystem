@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-13",
-  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings. Cross-component interfaces now carry machine-readable request/response, error/timeout, authorization, compatibility, test, and exact-SHA evidence fields; unresolved fields remain explicit RESIDUAL. Added IF-014 Node↔SDK RPC, IF-015 Genesis Engine↔L1 core, and IF-016 Node P2P boundary. Embedded specification summary now reflects 139 function/capability records and 16 interface records; no functional verification is claimed. Added COMP-WALLET as a distinct canonical component inside a-townchain/components/wallet, with five exact-HEAD TX-V2 source bindings and IF-017. The archived standalone atc-wallet repository remains reference-only and is not reactivated. Rebound related type/value entries to actual function symbols where available; static roadmap data is explicitly a non-function artifact. Narrowed Devnet-only chain/PoH functions to their actual source semantics and added separate unresolved canonical L1 block-candidate and chain-reorganization contracts. IF-015 is BLOCKED because Genesis Engine's inspected ECS/world source is not proven to be the L1 genesis owner. Added exact-HEAD source contracts for the Devnet SDK RPC transport, constructor, typed accessors, and minimal result/ID parsing helpers; the client remains explicitly Devnet-only and not production-safe. Added exact-HEAD contracts for NodeConfig construction and the full PeerTable lifecycle (new/add/verify/ban/remove/is_banned/len/is_empty). These local state helpers do not imply cryptographic peer authentication or consensus validation. Added exact-HEAD contracts for Devnet RPC, gossip, peer request/sync, block parsing and process entrypoint. Added FN-NODE-022 documenting a legacy ATC-TX-DOMAIN signing function as BLOCKED and blocked IF-017 because the current atc-node source conflicts with TX-V2. Added COMP-STORAGE-CORE for active a-townchain/components/storage and reclassified the standalone archived atc-storage as COMP-STORAGE-ARCHIVED. Twenty exact-HEAD storage function bindings expose a critical blocker: ContentAddress::compute is FNV-1a-derived, not cryptographic, and persistence is in-memory only; IF-018 is BLOCKED.",
+  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings. Cross-component interfaces now carry machine-readable request/response, error/timeout, authorization, compatibility, test, and exact-SHA evidence fields; unresolved fields remain explicit RESIDUAL. Added IF-014 Node↔SDK RPC, IF-015 Genesis Engine↔L1 core, and IF-016 Node P2P boundary. Embedded specification summary now reflects 139 function/capability records and 16 interface records; no functional verification is claimed. Added COMP-WALLET as a distinct canonical component inside a-townchain/components/wallet, with five exact-HEAD TX-V2 source bindings and IF-017. The archived standalone atc-wallet repository remains reference-only and is not reactivated. Rebound related type/value entries to actual function symbols where available; static roadmap data is explicitly a non-function artifact. Narrowed Devnet-only chain/PoH functions to their actual source semantics and added separate unresolved canonical L1 block-candidate and chain-reorganization contracts. IF-015 is BLOCKED because Genesis Engine's inspected ECS/world source is not proven to be the L1 genesis owner. Added exact-HEAD source contracts for the Devnet SDK RPC transport, constructor, typed accessors, and minimal result/ID parsing helpers; the client remains explicitly Devnet-only and not production-safe. Added exact-HEAD contracts for NodeConfig construction and the full PeerTable lifecycle (new/add/verify/ban/remove/is_banned/len/is_empty). These local state helpers do not imply cryptographic peer authentication or consensus validation. Added exact-HEAD contracts for Devnet RPC, gossip, peer request/sync, block parsing and process entrypoint. Added FN-NODE-022 documenting a legacy ATC-TX-DOMAIN signing function as BLOCKED and blocked IF-017 because the current atc-node source conflicts with TX-V2. Added COMP-STORAGE-CORE for active a-townchain/components/storage and reclassified the standalone archived atc-storage as COMP-STORAGE-ARCHIVED. Twenty exact-HEAD storage function bindings expose a critical blocker: ContentAddress::compute is FNV-1a-derived, not cryptographic, and persistence is in-memory only; IF-018 is BLOCKED. Added COMP-SDK-TS with ten executable TX-V2/identity functions and seven exact-HEAD type/value artifact exclusions. IF-019 is BLOCKED because canonicalTransactionId does not enforce all validation preconditions applied by canonicalSigningPreimage.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -19574,6 +19574,1324 @@
         "status": "BLOCKED",
         "reason": "Not production-capable as canonical blockchain state storage until cryptographic address semantics, durable atomic persistence and canonical state-root rules are approved and verified."
       }
+    },
+    {
+      "id": "COMP-SDK-TS",
+      "name": "Canonical TypeScript L1 Protocol Primitives",
+      "layer": "L3",
+      "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+      "canonical_path": "components/sdk/typescript",
+      "role": "TypeScript chain-identity validation and canonical TX-V2/TX-ID-V2 byte construction used by clients and cross-language vectors; not a consensus implementation.",
+      "readiness": "BLOCKED",
+      "criticality": "P0",
+      "depends_on": [
+        "COMP-CHAIN",
+        "COMP-WALLET"
+      ],
+      "functions": [
+        {
+          "id": "FN-SDK-TS-001",
+          "name": "Chain identity validation",
+          "purpose": "Require the canonical numeric chain ID, a recognized network ID and a 64-hex-character genesis ID.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [
+            "ChainIdentity"
+          ],
+          "outputs": [
+            "void or thrown validation error"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Input validity and caller sequencing require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Byte-level behavior needs exact-SHA cross-client vector evidence."
+          },
+          "failure_modes": [
+            "wrong chain ID",
+            "unknown network ID",
+            "malformed genesis ID"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Payload bounds and allocation exhaustion are not specified by this primitive."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Protocol primitive; malformed inputs and trust boundaries require exact conformance tests."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Domain constants are source-bound; cross-client compatibility remains unverified."
+          },
+          "dependencies": [
+            "COMP-WALLET",
+            "COMP-CHAIN"
+          ],
+          "acceptance": [
+            "chain_id equals 658467",
+            "network_id is devnet/testnet/mainnet",
+            "genesis_id is exactly 64 hexadecimal characters"
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "identity-vectors"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "validateIdentity",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L37",
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA cross-client verification evidence is attached.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-002",
+          "name": "u32 big-endian encoder",
+          "purpose": "Append a number as four big-endian bytes using JavaScript bitwise operations.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [
+            "number array",
+            "numeric value"
+          ],
+          "outputs": [
+            "four bytes appended"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Input validity and caller sequencing require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Byte-level behavior needs exact-SHA cross-client vector evidence."
+          },
+          "failure_modes": [
+            "out-of-range value truncation/wrap",
+            "caller passes non-integer"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Payload bounds and allocation exhaustion are not specified by this primitive."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Protocol primitive; malformed inputs and trust boundaries require exact conformance tests."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Domain constants are source-bound; cross-client compatibility remains unverified."
+          },
+          "dependencies": [
+            "COMP-WALLET",
+            "COMP-CHAIN"
+          ],
+          "acceptance": [
+            "output width is four bytes",
+            "caller must validate value range before use",
+            "byte-level vectors match Rust"
+          ],
+          "test_classes": [
+            "unit",
+            "boundary",
+            "cross-language-vectors"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "pushU32BE",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L47",
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA cross-client verification evidence is attached.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-003",
+          "name": "u128 big-endian encoder",
+          "purpose": "Encode an unsigned bigint into exactly 16 big-endian bytes and reject values outside u128.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [
+            "number array",
+            "bigint"
+          ],
+          "outputs": [
+            "16 bytes appended or RangeError"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Input validity and caller sequencing require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Byte-level behavior needs exact-SHA cross-client vector evidence."
+          },
+          "failure_modes": [
+            "negative bigint",
+            "value exceeds u128"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Payload bounds and allocation exhaustion are not specified by this primitive."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Protocol primitive; malformed inputs and trust boundaries require exact conformance tests."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Domain constants are source-bound; cross-client compatibility remains unverified."
+          },
+          "dependencies": [
+            "COMP-WALLET",
+            "COMP-CHAIN"
+          ],
+          "acceptance": [
+            "negative and over-u128 values are rejected",
+            "valid values encode to exactly 16 bytes",
+            "boundary vectors match Rust"
+          ],
+          "test_classes": [
+            "unit",
+            "boundary",
+            "property",
+            "cross-language-vectors"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "pushU128BE",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L51",
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA cross-client verification evidence is attached.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-004",
+          "name": "u64 big-endian encoder",
+          "purpose": "Encode an unsigned bigint into exactly eight big-endian bytes and reject values outside u64.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [
+            "number array",
+            "bigint"
+          ],
+          "outputs": [
+            "8 bytes appended or RangeError"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Input validity and caller sequencing require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Byte-level behavior needs exact-SHA cross-client vector evidence."
+          },
+          "failure_modes": [
+            "negative bigint",
+            "value exceeds u64"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Payload bounds and allocation exhaustion are not specified by this primitive."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Protocol primitive; malformed inputs and trust boundaries require exact conformance tests."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Domain constants are source-bound; cross-client compatibility remains unverified."
+          },
+          "dependencies": [
+            "COMP-WALLET",
+            "COMP-CHAIN"
+          ],
+          "acceptance": [
+            "negative and over-u64 values are rejected",
+            "valid values encode to exactly 8 bytes",
+            "boundary vectors match Rust"
+          ],
+          "test_classes": [
+            "unit",
+            "boundary",
+            "property",
+            "cross-language-vectors"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "pushU64BE",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L58",
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA cross-client verification evidence is attached.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-005",
+          "name": "Length-prefixed byte encoder",
+          "purpose": "Append a u32 big-endian byte length followed by the supplied byte sequence.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [
+            "number array",
+            "Uint8Array"
+          ],
+          "outputs": [
+            "length prefix and bytes appended"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Input validity and caller sequencing require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Byte-level behavior needs exact-SHA cross-client vector evidence."
+          },
+          "failure_modes": [
+            "u32 length truncation boundary",
+            "allocation exhaustion"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Payload bounds and allocation exhaustion are not specified by this primitive."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Protocol primitive; malformed inputs and trust boundaries require exact conformance tests."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Domain constants are source-bound; cross-client compatibility remains unverified."
+          },
+          "dependencies": [
+            "COMP-WALLET",
+            "COMP-CHAIN"
+          ],
+          "acceptance": [
+            "length prefix precedes payload",
+            "byte order matches Rust",
+            "oversized inputs are bounded by callers"
+          ],
+          "test_classes": [
+            "unit",
+            "boundary",
+            "cross-language-vectors"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "pushBytes",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L65",
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA cross-client verification evidence is attached.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-006",
+          "name": "Optional string encoder",
+          "purpose": "Encode null/undefined as tag 0; encode a string as tag 1 followed by UTF-8 bytes with a u32 length prefix.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [
+            "number array",
+            "optional string"
+          ],
+          "outputs": [
+            "tagged optional string bytes"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Input validity and caller sequencing require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Byte-level behavior needs exact-SHA cross-client vector evidence."
+          },
+          "failure_modes": [
+            "invalid Unicode handling",
+            "length prefix boundary"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Payload bounds and allocation exhaustion are not specified by this primitive."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Protocol primitive; malformed inputs and trust boundaries require exact conformance tests."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Domain constants are source-bound; cross-client compatibility remains unverified."
+          },
+          "dependencies": [
+            "COMP-WALLET",
+            "COMP-CHAIN"
+          ],
+          "acceptance": [
+            "null/undefined encode as tag 0",
+            "present string encodes as tag 1 plus length-prefixed UTF-8",
+            "Rust optional-recipient vectors match"
+          ],
+          "test_classes": [
+            "unit",
+            "golden-vectors",
+            "cross-language-vectors"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "pushOptionalString",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L70",
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA cross-client verification evidence is attached.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-007",
+          "name": "32-byte field length assertion",
+          "purpose": "Require a Uint8Array to contain exactly 32 bytes.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [
+            "field name",
+            "Uint8Array"
+          ],
+          "outputs": [
+            "void or thrown error"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Input validity and caller sequencing require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Byte-level behavior needs exact-SHA cross-client vector evidence."
+          },
+          "failure_modes": [
+            "length below 32",
+            "length above 32"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Payload bounds and allocation exhaustion are not specified by this primitive."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Protocol primitive; malformed inputs and trust boundaries require exact conformance tests."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Domain constants are source-bound; cross-client compatibility remains unverified."
+          },
+          "dependencies": [
+            "COMP-WALLET",
+            "COMP-CHAIN"
+          ],
+          "acceptance": [
+            "only exactly 32 bytes are accepted",
+            "error names the field"
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "boundary"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "assert32Bytes",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L79",
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA cross-client verification evidence is attached.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-008",
+          "name": "Canonical TX-V2 signing preimage",
+          "purpose": "Validate chain ID, tx_type, non-empty sender and 32-byte PoH hash, then encode ATC-TX-DOMAIN-V2 plus canonical fields.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [
+            "TransactionSigningInput"
+          ],
+          "outputs": [
+            "canonical TX-V2 preimage bytes"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Input validity and caller sequencing require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Byte-level behavior needs exact-SHA cross-client vector evidence."
+          },
+          "failure_modes": [
+            "wrong chain ID",
+            "tx_type outside u8",
+            "empty sender",
+            "PoH hash not 32 bytes",
+            "numeric field overflow"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Payload bounds and allocation exhaustion are not specified by this primitive."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Protocol primitive; malformed inputs and trust boundaries require exact conformance tests."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Domain constants are source-bound; cross-client compatibility remains unverified."
+          },
+          "dependencies": [
+            "COMP-WALLET",
+            "COMP-CHAIN"
+          ],
+          "acceptance": [
+            "domain is ATC-TX-DOMAIN-V2",
+            "chain ID/u64 fields are BE u64",
+            "amount is BE u128",
+            "tx_type is u8",
+            "recipient has explicit presence tag",
+            "PoH hash is exactly 32 bytes"
+          ],
+          "test_classes": [
+            "unit",
+            "golden-vectors",
+            "negative",
+            "cross-language-vectors",
+            "fuzz"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "canonicalSigningPreimage",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L106",
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA cross-client verification evidence is attached.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-009",
+          "name": "Canonical TX-ID field serializer",
+          "purpose": "Serialize the canonical transaction fields without the signing domain prefix for transaction-ID hashing.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [
+            "TransactionSigningInput"
+          ],
+          "outputs": [
+            "canonical field bytes"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Input validity and caller sequencing require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Byte-level behavior needs exact-SHA cross-client vector evidence."
+          },
+          "failure_modes": [
+            "invalid chain ID accepted",
+            "tx_type range not checked",
+            "PoH hash length not checked"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Payload bounds and allocation exhaustion are not specified by this primitive."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Protocol primitive; malformed inputs and trust boundaries require exact conformance tests."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Domain constants are source-bound; cross-client compatibility remains unverified."
+          },
+          "dependencies": [
+            "COMP-WALLET",
+            "COMP-CHAIN"
+          ],
+          "acceptance": [
+            "field order and byte widths match the canonical signing field layout",
+            "callers must validate transaction fields before use",
+            "this helper is not a standalone transaction validator"
+          ],
+          "test_classes": [
+            "unit",
+            "golden-vectors",
+            "invalid-input-review",
+            "cross-language-vectors"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "canonicalIdFields",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L83",
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA cross-client verification evidence is attached.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-010",
+          "name": "TX-ID-V2 SHA-256 derivation",
+          "purpose": "Hash ATC-TX-ID-V2 followed by canonical transaction fields and return the 32-byte SHA-256 digest.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [
+            "TransactionSigningInput"
+          ],
+          "outputs": [
+            "32-byte transaction ID"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Input validity and caller sequencing require normative and source review."
+          },
+          "postconditions": {
+            "status": "BLOCKED",
+            "reason": "Canonical ID derivation validation preconditions are unresolved and must not be treated as a verified protocol contract."
+          },
+          "failure_modes": [
+            "invalid chain ID accepted",
+            "tx_type range not checked",
+            "PoH hash length not checked",
+            "caller validation assumptions unspecified"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Payload bounds and allocation exhaustion are not specified by this primitive."
+          },
+          "security_boundary": {
+            "status": "BLOCKED",
+            "reason": "ID derivation can hash fields without the same validation as canonicalSigningPreimage; caller/validator behavior must be normatively defined."
+          },
+          "versioning_compatibility": {
+            "status": "BLOCKED",
+            "reason": "TX-ID-V2 validation semantics are not fully aligned with the signing-preimage contract."
+          },
+          "dependencies": [
+            "COMP-WALLET",
+            "COMP-CHAIN"
+          ],
+          "acceptance": [
+            "domain is ATC-TX-ID-V2",
+            "signature is excluded",
+            "output is exactly 32 bytes",
+            "must not be treated as validation of the transaction itself"
+          ],
+          "test_classes": [
+            "unit",
+            "golden-vectors",
+            "negative",
+            "cross-language-vectors",
+            "security-review"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "canonicalTransactionId",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L124",
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "Known input-validation contract gap; keep blocked until normative caller/validator semantics and vectors are established.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-SURFACE-001",
+          "name": "ATC_CHAIN_ID constant",
+          "purpose": "Canonical numeric L1 chain ID constant used by TypeScript protocol primitives.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [],
+          "outputs": [
+            "constant value"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Static source artifact; runtime behavior is not implied."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Schema compatibility and conformance remain to be verified."
+          },
+          "failure_modes": [],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Not applicable to a static artifact."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Not an executable function."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Must remain aligned with the normative TX-V2 contract."
+          },
+          "dependencies": [
+            "COMP-SDK-TS"
+          ],
+          "acceptance": [
+            "artifact is explicitly classified as non-function",
+            "source mapping is exact and not counted as function implementation"
+          ],
+          "test_classes": [
+            "schema-consistency"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "ATC_CHAIN_ID",
+            "symbol_kind": "value",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L8",
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Static artifact mapping only.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "required_evidence": [
+              "source_sha",
+              "schema_consistency_check"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-SURFACE-002",
+          "name": "ATC_TX_DOMAIN_V2 constant",
+          "purpose": "TX-V2 signing-domain separator constant.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [],
+          "outputs": [
+            "constant value"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Static source artifact; runtime behavior is not implied."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Schema compatibility and conformance remain to be verified."
+          },
+          "failure_modes": [],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Not applicable to a static artifact."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Not an executable function."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Must remain aligned with the normative TX-V2 contract."
+          },
+          "dependencies": [
+            "COMP-SDK-TS"
+          ],
+          "acceptance": [
+            "artifact is explicitly classified as non-function",
+            "source mapping is exact and not counted as function implementation"
+          ],
+          "test_classes": [
+            "schema-consistency"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "ATC_TX_DOMAIN_V2",
+            "symbol_kind": "value",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L9",
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Static artifact mapping only.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "required_evidence": [
+              "source_sha",
+              "schema_consistency_check"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-SURFACE-003",
+          "name": "ATC_TX_ID_V2 constant",
+          "purpose": "TX-ID-V2 identifier-domain separator constant.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [],
+          "outputs": [
+            "constant value"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Static source artifact; runtime behavior is not implied."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Schema compatibility and conformance remain to be verified."
+          },
+          "failure_modes": [],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Not applicable to a static artifact."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Not an executable function."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Must remain aligned with the normative TX-V2 contract."
+          },
+          "dependencies": [
+            "COMP-SDK-TS"
+          ],
+          "acceptance": [
+            "artifact is explicitly classified as non-function",
+            "source mapping is exact and not counted as function implementation"
+          ],
+          "test_classes": [
+            "schema-consistency"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "ATC_TX_ID_V2",
+            "symbol_kind": "value",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L10",
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Static artifact mapping only.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "required_evidence": [
+              "source_sha",
+              "schema_consistency_check"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-SURFACE-004",
+          "name": "NetworkId type alias",
+          "purpose": "Type-level allowed network identifiers devnet/testnet/mainnet.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [],
+          "outputs": [
+            "type declaration"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Static source artifact; runtime behavior is not implied."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Schema compatibility and conformance remain to be verified."
+          },
+          "failure_modes": [],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Not applicable to a static artifact."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Not an executable function."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Must remain aligned with the normative TX-V2 contract."
+          },
+          "dependencies": [
+            "COMP-SDK-TS"
+          ],
+          "acceptance": [
+            "artifact is explicitly classified as non-function",
+            "source mapping is exact and not counted as function implementation"
+          ],
+          "test_classes": [
+            "schema-consistency"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "NetworkId",
+            "symbol_kind": "type",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L7",
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Static artifact mapping only.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "required_evidence": [
+              "source_sha",
+              "schema_consistency_check"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-SURFACE-005",
+          "name": "ChainIdentity interface",
+          "purpose": "Type-level identity contract for chain ID, network ID and genesis ID.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [],
+          "outputs": [
+            "type declaration"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Static source artifact; runtime behavior is not implied."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Schema compatibility and conformance remain to be verified."
+          },
+          "failure_modes": [],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Not applicable to a static artifact."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Not an executable function."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Must remain aligned with the normative TX-V2 contract."
+          },
+          "dependencies": [
+            "COMP-SDK-TS"
+          ],
+          "acceptance": [
+            "artifact is explicitly classified as non-function",
+            "source mapping is exact and not counted as function implementation"
+          ],
+          "test_classes": [
+            "schema-consistency"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "ChainIdentity",
+            "symbol_kind": "type",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L12",
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Static artifact mapping only.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "required_evidence": [
+              "source_sha",
+              "schema_consistency_check"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-SURFACE-006",
+          "name": "RuntimeContext interface",
+          "purpose": "Type-level chain identity plus protocol and VM version fields.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [],
+          "outputs": [
+            "type declaration"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Static source artifact; runtime behavior is not implied."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Schema compatibility and conformance remain to be verified."
+          },
+          "failure_modes": [],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Not applicable to a static artifact."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Not an executable function."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Must remain aligned with the normative TX-V2 contract."
+          },
+          "dependencies": [
+            "COMP-SDK-TS"
+          ],
+          "acceptance": [
+            "artifact is explicitly classified as non-function",
+            "source mapping is exact and not counted as function implementation"
+          ],
+          "test_classes": [
+            "schema-consistency"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "RuntimeContext",
+            "symbol_kind": "type",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L18",
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Static artifact mapping only.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "required_evidence": [
+              "source_sha",
+              "schema_consistency_check"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-TS-SURFACE-007",
+          "name": "TransactionSigningInput interface",
+          "purpose": "Type-level transaction fields consumed by TX-V2 byte-encoding primitives.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [],
+          "outputs": [
+            "type declaration"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Static source artifact; runtime behavior is not implied."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Schema compatibility and conformance remain to be verified."
+          },
+          "failure_modes": [],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Not applicable to a static artifact."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Not an executable function."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Must remain aligned with the normative TX-V2 contract."
+          },
+          "dependencies": [
+            "COMP-SDK-TS"
+          ],
+          "acceptance": [
+            "artifact is explicitly classified as non-function",
+            "source mapping is exact and not counted as function implementation"
+          ],
+          "test_classes": [
+            "schema-consistency"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "source_path": "components/sdk/typescript/chain-identity.ts",
+            "symbol_or_entrypoint": "TransactionSigningInput",
+            "symbol_kind": "type",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L23",
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Static artifact mapping only.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "required_evidence": [
+              "source_sha",
+              "schema_consistency_check"
+            ]
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/a-townchain",
+        "canonical_path": "components/sdk/typescript/chain-identity.ts",
+        "observed_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "observed_tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38320206333; file blob SHA recorded.",
+        "source_paths_examined": [
+          "components/sdk/typescript/chain-identity.ts",
+          "components/sdk/typescript/test/canonical-tx-v2.test.ts"
+        ],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "TX-V2 primitives are bound to exact source; canonicalTransactionId does not enforce the same validation as canonicalSigningPreimage. Cross-language tests and caller validation rules must be reviewed."
+      },
+      "role_and_non_goals": {
+        "role": "Canonical TS chain identity and TX-V2 encoding primitives.",
+        "non_goals": {
+          "status": "RESIDUAL",
+          "reason": "No consensus, transaction admission, key custody or node-authority semantics are owned by this component."
+        }
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-WALLET",
+          "interface_version": "TX-V2",
+          "status": "BLOCKED",
+          "reason": "Cross-language field/domain conformance and invalid-input semantics are not verified."
+        },
+        {
+          "component_id": "COMP-CHAIN",
+          "interface_version": "TX-V2",
+          "status": "BLOCKED",
+          "reason": "Canonical chain-side consumer remains blocked by legacy TX-domain source in atc-node."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "Exported functions and types are cataloged; internal helpers and all call sites remain subject to source reconciliation."
+      },
+      "security_and_trust_boundaries": {
+        "status": "BLOCKED",
+        "reason": "canonicalTransactionId hashes fields without enforcing the same preconditions as canonicalSigningPreimage; callers must not assume ID derivation validates a transaction."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "No protocol-wide payload cap is enforced by these primitives."
+      },
+      "source_inventory_with_exact_head_and_tree_sha": {
+        "repository": "A-TownChain-Okosystems/a-townchain",
+        "canonical_path": "components/sdk/typescript/chain-identity.ts",
+        "observed_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "observed_tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD census run 38320206333; file blob SHA recorded.",
+        "source_paths_examined": [
+          "components/sdk/typescript/chain-identity.ts",
+          "components/sdk/typescript/test/canonical-tx-v2.test.ts"
+        ],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "All 10 executable functions and 7 type/value surfaces in this file are cataloged; cross-file calls and test evidence remain open.",
+        "status": "RESIDUAL"
+      },
+      "test_and_ci_gates": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "Rust/TypeScript signing-preimage vectors",
+          "TX-ID-V2 vectors",
+          "invalid chain ID",
+          "invalid tx_type",
+          "invalid PoH hash length",
+          "u64/u128 boundaries",
+          "optional recipient encoding",
+          "exact-SHA test evidence"
+        ]
+      },
+      "known_conflicts_and_residuals": {
+        "status": "BLOCKED",
+        "reason": "TX-ID derivation bypasses validation that canonicalSigningPreimage performs; wallet-to-node TX-V2 consumer is separately blocked by legacy ATC-TX-DOMAIN in atc-node."
+      },
+      "verification_evidence": {
+        "status": "BLOCKED",
+        "reason": "No terminal exact-SHA cross-language conformance evidence is attached; known validation discrepancy remains open."
+      }
     }
   ],
   "cross_component_interfaces": [
@@ -20821,6 +22139,94 @@
         "interface_test_source_sha": null
       },
       "resolution_rule": "Remain BLOCKED until cryptographic content identity, durable atomic storage, canonical state-root semantics and exact-SHA cross-component tests are implemented and verified."
+    },
+    {
+      "id": "IF-019",
+      "producer": "COMP-WALLET",
+      "consumer": "COMP-SDK-TS",
+      "contract": "Cross-language TX-V2 signing and TX-ID encoding contract between Rust wallet and TypeScript L1 protocol primitives. Field order, fixed widths, optional recipient tags, PoH hash and domain separation must be byte-identical.",
+      "status": "BLOCKED",
+      "status_reason": "TypeScript canonicalTransactionId derives an ID without enforcing the same chain_id/tx_type/PoH-length preconditions as canonicalSigningPreimage; Rust/TypeScript golden vectors and invalid-input semantics are not yet proven.",
+      "contract_version": "TX-V2 / TX-ID-V2",
+      "version_status": "BLOCKED",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": "TransactionSigningInput / Rust transaction fields",
+        "fields": [
+          "chain_id:u64 BE",
+          "tx_type:u8",
+          "sender_did:length-prefixed UTF-8",
+          "recipient_did:tagged optional UTF-8",
+          "amount:u128 BE",
+          "gas_price:u64 BE",
+          "gas_limit:u64 BE",
+          "nonce:u64 BE",
+          "timestamp:u64 BE",
+          "payload:length-prefixed bytes",
+          "poh_hash:32 bytes"
+        ],
+        "notes": "The signing preimage validates chain_id, tx_type, sender and PoH hash length; the ID derivation path currently bypasses some of these checks."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": "byte preimage or 32-byte SHA-256 TX ID",
+        "fields": [
+          "ATC-TX-DOMAIN-V2 preimage",
+          "ATC-TX-ID-V2 SHA-256 ID"
+        ],
+        "notes": "Cross-language golden vectors must establish exact byte equality and consistent invalid-input handling."
+      },
+      "error_timeout_semantics": {
+        "status": "BLOCKED",
+        "typed_errors": [
+          "invalid chain ID",
+          "tx_type range error",
+          "u128/u64 range error",
+          "invalid PoH hash length"
+        ],
+        "timeout_behavior": null,
+        "partial_failure_behavior": "No state mutation occurs in these pure encoding functions.",
+        "retry_idempotency": "Deterministic for identical valid inputs."
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "Pure protocol encoding functions; callers remain responsible for transaction admission and signature authorization.",
+        "fail_closed_rule": "Invalid transaction fields must be rejected before a canonical TX ID is used for admission."
+      },
+      "compatibility": {
+        "status": "BLOCKED",
+        "policy": "TX-V2 and TX-ID-V2 only; cross-language byte layout and input-validation semantics must be normatively consistent.",
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "Rust/TypeScript golden vectors",
+          "invalid-input parity",
+          "u64/u128 boundary vectors",
+          "optional recipient cases",
+          "PoH hash length negative",
+          "TX-ID signature exclusion"
+        ],
+        "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "producer_path": "components/wallet/src/tx.rs",
+        "producer_file_blob_sha": "2693b7ba015456addcc8d129455b7e5a9e2f1860",
+        "consumer_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "consumer_path": "components/sdk/typescript/chain-identity.ts",
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Remain BLOCKED until invalid-input semantics are explicitly approved, Rust and TypeScript functions are source-mapped at exact SHAs, and cross-language golden/negative vectors pass."
     }
   ],
   "release_decision": {
@@ -20842,8 +22248,8 @@
     "source_registry": "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json",
     "rule": "The exact-HEAD census covers 25 active repositories; one private active repository is explicitly excluded for lack of CI access; seven archived repositories are reference-only. 10,815 candidate symbols remain unbound after 941 test/example policy exclusions. No lexical source match is functional verification.",
     "function_inventory_status": "SOURCE_RECONCILIATION_RESIDUAL",
-    "component_source_bindings": 32,
-    "function_source_bindings": 159,
+    "component_source_bindings": 33,
+    "function_source_bindings": 169,
     "source_verified_components": 0,
     "source_verified_functions": 0,
     "selected_source_files_examined": 10,
@@ -20897,14 +22303,14 @@
     },
     "interface_contracts": 13,
     "blocked_interface_contracts": 3,
-    "function_contracts_total": 193,
+    "function_contracts_total": 210,
     "function_source_surface_pending": 12,
     "function_normative_blocked": 3,
-    "function_reasoned_exclusions": 19,
-    "interface_contracts_total": 18,
+    "function_reasoned_exclusions": 26,
+    "interface_contracts_total": 19,
     "interface_status_counts": {
       "RESIDUAL": 12,
-      "BLOCKED": 6
+      "BLOCKED": 7
     }
   },
   "repository_coverage": [
@@ -21309,16 +22715,16 @@
     "specification_id": "ATC-COMPONENT-FUNCTION-SPECIFICATION-001",
     "specification_version": "1.0.0",
     "applied": true,
-    "function_contracts_checked": 193,
-    "component_contracts_checked": 32,
+    "function_contracts_checked": 210,
+    "component_contracts_checked": 33,
     "missing_required_field_values_are_explicit_residuals": true,
     "functional_verification_performed": false,
     "release_decision": "BLOCKED",
     "last_component_updated": "COMP-CHAIN_COMP-LANG_COMP-SDK_COMP-NODE_COMP-MARKET_COMP-IDE_COMP-DOCS_COMP-GENESIS_COMP-ALGO",
     "last_component_update_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
-    "component_function_contract_count": 193,
+    "component_function_contract_count": 210,
     "component_function_catalog_status": "RESIDUAL_SOURCE_RECONCILIATION_PENDING",
-    "source_mapped_functions_reported": 159,
+    "source_mapped_functions_reported": 169,
     "source_verified_functions_reported": 0
   }
 }
