@@ -46,7 +46,7 @@ PATTERNS = {
     ],
     "typescript": [
         ("function", re.compile(r"^\s*export\s+(?:default\s+)?(?:declare\s+)?(?:async\s+)?function\*?\s+([A-Za-z_$][\w$]*)", re.M)),
-        ("function", re.compile(r"^\s*(?:(?:public|protected|private|static|async|override|readonly|abstract)\s+)*([A-Za-z_$][\w$]*)\s*\([^;\n]*\)\s*:\s*.*\{\s*$", re.M)),
+        ("function", re.compile(r"^\s*(?:(?:public|static|async|override|readonly|abstract)\s+)*([A-Za-z_$][\w$]*)\s*\([^;\n]*\)\s*:\s*.*\{\s*$", re.M)),
         ("type", re.compile(r"^\s*export\s+(?:default\s+)?(?:abstract\s+)?(?:class|interface|type|enum)\s+([A-Za-z_$][\w$]*)", re.M)),
         ("value", re.compile(r"^\s*export\s+(?:const|let|var)\s+([A-Za-z_$][\w$]*)", re.M)),
     ],
@@ -92,6 +92,15 @@ PATTERNS = {
 RUST_INTERNAL_FUNCTION_PATTERN = re.compile(
     r"^\s*(?:async\s+)?(?:unsafe\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)", re.M
 )
+TYPESCRIPT_INTERNAL_FUNCTION_PATTERNS = {
+    "typescript": [
+        re.compile(r"^\s*(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(", re.M),
+        re.compile(r"^\s*(?:(?:private|protected)\s+)+([A-Za-z_$][\w$]*)\s*\([^;\n]*\)\s*:\s*.*\{\s*$", re.M),
+    ],
+    "javascript": [
+        re.compile(r"^\s*(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(", re.M),
+    ],
+}
 
 
 def _find_matching_brace(source: str, opening: int) -> int | None:
@@ -293,6 +302,12 @@ def scan(root: Path, repository: str, source_sha: str, scope_exclusions: list[di
                 name = match.group(1)
                 if ("function", name) not in found:
                     internal_found.add(("function", name))
+        elif language in TYPESCRIPT_INTERNAL_FUNCTION_PATTERNS:
+            for pattern in TYPESCRIPT_INTERNAL_FUNCTION_PATTERNS[language]:
+                for match in pattern.finditer(scan_source):
+                    name = match.group(1)
+                    if ("function", name) not in found:
+                        internal_found.add(("function", name))
         symbols = [{"kind": kind, "name": name} for kind, name in sorted(found)]
         internal_symbols = [{"kind": kind, "name": name} for kind, name in sorted(internal_found)]
         test_symbols = [{"kind": "function", "name": name} for name in test_names]
