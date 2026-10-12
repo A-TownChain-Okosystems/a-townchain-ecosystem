@@ -73,6 +73,37 @@ class CatalogReconciliationTests(unittest.TestCase):
         )
         self.assertEqual(report["summary"]["functional_verification"], "NOT_PERFORMED")
 
+    def test_reasoned_source_gap_is_not_reported_as_missing_binding(self):
+        fn = self.catalog["components"][0]["functions"][0]
+        fn["source_binding"] = {"status": "SOURCE_SURFACE_NOT_IDENTIFIED", "source_path": None, "symbol_or_entrypoint": None}
+        report = reconcile(self.catalog, self.census)
+        self.assertEqual(report["function_findings"][0]["finding"], "SOURCE_SURFACE_NOT_IDENTIFIED")
+        self.assertEqual(report["function_findings"][0]["status"], "RESIDUAL")
+
+    def test_non_function_artifact_is_excluded_from_symbol_matching(self):
+        fn = self.catalog["components"][0]["functions"][0]
+        fn["source_binding"] = {
+            "status": "NON_FUNCTION_SOURCE_ARTIFACT",
+            "source_path": "specs/contract.yaml",
+            "symbol_or_entrypoint": None,
+            "exact_source_sha": "a" * 40,
+        }
+        report = reconcile(self.catalog, self.census)
+        self.assertEqual(
+            report["function_findings"][0]["finding"],
+            "NON_FUNCTION_SOURCE_ARTIFACT_EXCLUDED_FROM_SYMBOL_SCAN",
+        )
+
+    def test_related_source_surface_remains_residual_not_verified(self):
+        fn = self.catalog["components"][0]["functions"][0]
+        fn["source_binding"]["status"] = "RELATED_SOURCE_SURFACE_ONLY"
+        report = reconcile(self.catalog, self.census)
+        self.assertEqual(
+            report["function_findings"][0]["finding"],
+            "RELATED_SOURCE_SURFACE_ONLY_CONTRACT_RESIDUAL",
+        )
+        self.assertEqual(report["function_findings"][0]["status"], "RESIDUAL")
+
     def test_sha_mismatch_is_not_accepted_as_a_binding(self):
         self.catalog["components"][0]["functions"][0]["source_binding"]["exact_source_sha"] = "b" * 40
         report = reconcile(self.catalog, self.census)
