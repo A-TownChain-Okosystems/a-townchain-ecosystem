@@ -156,7 +156,7 @@
   ],
   "current_application_status": {
     "catalog_reference": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
-    "catalog_functions_reported": 144,
+    "catalog_functions_reported": 146,
     "catalog_components_reported": 31,
     "specification_contract_defined": true,
     "all_existing_entries_fully_checked_against_this_contract": false,
