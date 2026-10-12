@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-13",
-  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings. Cross-component interfaces now carry machine-readable request/response, error/timeout, authorization, compatibility, test, and exact-SHA evidence fields; unresolved fields remain explicit RESIDUAL. Added IF-014 Node↔SDK RPC, IF-015 Genesis Engine↔L1 core, and IF-016 Node P2P boundary. Embedded specification summary now reflects 139 function/capability records and 16 interface records; no functional verification is claimed. Added COMP-WALLET as a distinct canonical component inside a-townchain/components/wallet, with five exact-HEAD TX-V2 source bindings and IF-017. The archived standalone atc-wallet repository remains reference-only and is not reactivated. Rebound related type/value entries to actual function symbols where available; static roadmap data is explicitly a non-function artifact. Narrowed Devnet-only chain/PoH functions to their actual source semantics and added separate unresolved canonical L1 block-candidate and chain-reorganization contracts. IF-015 is BLOCKED because Genesis Engine's inspected ECS/world source is not proven to be the L1 genesis owner. Added exact-HEAD source contracts for the Devnet SDK RPC transport, constructor, typed accessors, and minimal result/ID parsing helpers; the client remains explicitly Devnet-only and not production-safe.",
+  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings. Cross-component interfaces now carry machine-readable request/response, error/timeout, authorization, compatibility, test, and exact-SHA evidence fields; unresolved fields remain explicit RESIDUAL. Added IF-014 Node↔SDK RPC, IF-015 Genesis Engine↔L1 core, and IF-016 Node P2P boundary. Embedded specification summary now reflects 139 function/capability records and 16 interface records; no functional verification is claimed. Added COMP-WALLET as a distinct canonical component inside a-townchain/components/wallet, with five exact-HEAD TX-V2 source bindings and IF-017. The archived standalone atc-wallet repository remains reference-only and is not reactivated. Rebound related type/value entries to actual function symbols where available; static roadmap data is explicitly a non-function artifact. Narrowed Devnet-only chain/PoH functions to their actual source semantics and added separate unresolved canonical L1 block-candidate and chain-reorganization contracts. IF-015 is BLOCKED because Genesis Engine's inspected ECS/world source is not proven to be the L1 genesis owner. Added exact-HEAD source contracts for the Devnet SDK RPC transport, constructor, typed accessors, and minimal result/ID parsing helpers; the client remains explicitly Devnet-only and not production-safe. Added exact-HEAD contracts for NodeConfig construction and the full PeerTable lifecycle (new/add/verify/ban/remove/is_banned/len/is_empty). These local state helpers do not imply cryptographic peer authentication or consensus validation.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -11690,32 +11690,28 @@
         },
         {
           "id": "FN-NODE-002",
-          "name": "P2P/RPC boundary",
-          "purpose": "Expose network and RPC operations while preserving canonical chain validation.",
+          "name": "Peer verification state transition",
+          "purpose": "Mark an existing peer ID as Verified and return whether the peer existed; this state change is not cryptographic peer authentication.",
           "inputs": [
-            "peer messages",
-            "RPC request",
-            "protocol context"
+            "PeerTable",
+            "peer ID u64"
           ],
           "outputs": [
-            "validated event or typed RPC response"
+            "true if peer exists and state changed to Verified, otherwise false"
           ],
           "failure_modes": [
-            "malformed message",
-            "peer timeout",
-            "rate limit",
-            "invalid transaction"
+            "unknown peer ID returns false",
+            "state is set to Verified without cryptographic handshake in this method"
           ],
           "acceptance": [
-            "Untrusted input is validated and bounded",
-            "RPC errors are typed and stable",
-            "Node cannot bypass core transaction/block validation"
+            "existing peer transitions to Verified",
+            "unknown peer remains absent and returns false",
+            "method is not represented as authentication or consensus validation"
           ],
           "test_classes": [
-            "protocol",
-            "fuzz",
-            "multi-node",
-            "security-review"
+            "unit",
+            "unknown-peer-negative",
+            "peer-lifecycle"
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
@@ -11767,6 +11763,574 @@
               "log_or_artifact_url"
             ]
           }
+        },
+        {
+          "id": "FN-NODE-003",
+          "name": "Node configuration constructor",
+          "purpose": "Construct a NodeConfig with current Devnet chain/network constants, supplied listen address, and supplied max peer count; validation is a separate call.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "listen address",
+            "max_peers"
+          ],
+          "outputs": [
+            "NodeConfig"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller and node lifecycle assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transition semantics require exact unit/integration evidence."
+          },
+          "failure_modes": [
+            "empty address accepted until valid() is called",
+            "zero max_peers accepted until valid() is called"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Peer count and memory bounds are enforced only where explicitly stated; global limits need review."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Peer IDs/addresses are untrusted inputs; authentication and network identity are not established by this table helper."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node implementation is Devnet-only; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "constructor applies CHAIN_ID and NETWORK_ID constants",
+            "constructor performs no network side effects",
+            "validation remains explicit"
+          ],
+          "test_classes": [
+            "unit",
+            "invalid-config",
+            "lifecycle"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/config.rs",
+            "symbol_or_entrypoint": "new",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "c8fa47ffec07388015013853df2fc040f3d5dc66",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/config.rs#L18",
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-004",
+          "name": "Peer table constructor",
+          "purpose": "Create an empty PeerTable with no registered peers.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [],
+          "outputs": [
+            "empty PeerTable"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller and node lifecycle assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transition semantics require exact unit/integration evidence."
+          },
+          "failure_modes": [],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Peer count and memory bounds are enforced only where explicitly stated; global limits need review."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Peer IDs/addresses are untrusted inputs; authentication and network identity are not established by this table helper."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node implementation is Devnet-only; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "table starts empty",
+            "no peer is implicitly trusted"
+          ],
+          "test_classes": [
+            "unit",
+            "lifecycle"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/peers.rs",
+            "symbol_or_entrypoint": "new",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L24",
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-005",
+          "name": "Peer registration",
+          "purpose": "Register a peer as Connected unless its ID already exists.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "peer ID u64",
+            "peer address"
+          ],
+          "outputs": [
+            "true if added, false if duplicate ID"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller and node lifecycle assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transition semantics require exact unit/integration evidence."
+          },
+          "failure_modes": [
+            "duplicate peer ID rejected",
+            "address not authenticated here"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Peer count and memory bounds are enforced only where explicitly stated; global limits need review."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Peer IDs/addresses are untrusted inputs; authentication and network identity are not established by this table helper."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node implementation is Devnet-only; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "duplicate IDs do not create a second entry",
+            "new peers start in Connected state"
+          ],
+          "test_classes": [
+            "unit",
+            "duplicate-negative",
+            "lifecycle"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/peers.rs",
+            "symbol_or_entrypoint": "add",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L28",
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-006",
+          "name": "Peer ban state transition",
+          "purpose": "Mark an existing peer as Banned and report whether it existed.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "peer ID u64"
+          ],
+          "outputs": [
+            "true if peer exists and was marked Banned, otherwise false"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller and node lifecycle assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transition semantics require exact unit/integration evidence."
+          },
+          "failure_modes": [
+            "unknown peer ID",
+            "ban is local state only"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Peer count and memory bounds are enforced only where explicitly stated; global limits need review."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Peer IDs/addresses are untrusted inputs; authentication and network identity are not established by this table helper."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node implementation is Devnet-only; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "existing peer state becomes Banned",
+            "unknown IDs return false",
+            "ban does not itself disconnect or cryptographically block network traffic"
+          ],
+          "test_classes": [
+            "unit",
+            "unknown-peer-negative",
+            "lifecycle"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/peers.rs",
+            "symbol_or_entrypoint": "ban",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L45",
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-007",
+          "name": "Peer removal",
+          "purpose": "Remove all peer entries matching the supplied ID and report whether the table changed.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "peer ID u64"
+          ],
+          "outputs": [
+            "true if at least one entry was removed, otherwise false"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller and node lifecycle assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transition semantics require exact unit/integration evidence."
+          },
+          "failure_modes": [
+            "unknown peer ID",
+            "duplicate entries would all be removed if present"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Peer count and memory bounds are enforced only where explicitly stated; global limits need review."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Peer IDs/addresses are untrusted inputs; authentication and network identity are not established by this table helper."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node implementation is Devnet-only; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "removal result reflects before/after length",
+            "unknown ID returns false"
+          ],
+          "test_classes": [
+            "unit",
+            "unknown-peer-negative",
+            "lifecycle"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/peers.rs",
+            "symbol_or_entrypoint": "remove",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L54",
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-008",
+          "name": "Peer ban-state query",
+          "purpose": "Return whether a peer ID is present and marked Banned.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "peer ID u64"
+          ],
+          "outputs": [
+            "boolean"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller and node lifecycle assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transition semantics require exact unit/integration evidence."
+          },
+          "failure_modes": [
+            "unknown ID returns false"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Peer count and memory bounds are enforced only where explicitly stated; global limits need review."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Peer IDs/addresses are untrusted inputs; authentication and network identity are not established by this table helper."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node implementation is Devnet-only; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "only Banned state returns true",
+            "unknown IDs return false"
+          ],
+          "test_classes": [
+            "unit",
+            "state-transition"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/peers.rs",
+            "symbol_or_entrypoint": "is_banned",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L60",
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-009",
+          "name": "Peer table size query",
+          "purpose": "Return the number of peer entries in the local table.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [],
+          "outputs": [
+            "usize count"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller and node lifecycle assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transition semantics require exact unit/integration evidence."
+          },
+          "failure_modes": [],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Peer count and memory bounds are enforced only where explicitly stated; global limits need review."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Peer IDs/addresses are untrusted inputs; authentication and network identity are not established by this table helper."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node implementation is Devnet-only; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "count equals stored peer entries",
+            "count does not imply peer authenticity or network reachability"
+          ],
+          "test_classes": [
+            "unit",
+            "lifecycle"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/peers.rs",
+            "symbol_or_entrypoint": "len",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L64",
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-010",
+          "name": "Peer table emptiness query",
+          "purpose": "Return whether the local peer table contains no entries.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [],
+          "outputs": [
+            "boolean"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller and node lifecycle assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transition semantics require exact unit/integration evidence."
+          },
+          "failure_modes": [],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Peer count and memory bounds are enforced only where explicitly stated; global limits need review."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Peer IDs/addresses are untrusted inputs; authentication and network identity are not established by this table helper."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node implementation is Devnet-only; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "true for empty table",
+            "false after a peer is added and before it is removed"
+          ],
+          "test_classes": [
+            "unit",
+            "lifecycle"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/peers.rs",
+            "symbol_or_entrypoint": "is_empty",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L68",
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
         }
       ],
       "source_inventory": {
@@ -11778,11 +12342,18 @@
         "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [
           "src/config.rs",
-          "src/peers.rs"
+          "src/peers.rs",
+          "src/rpc.rs",
+          "src/gossip.rs",
+          "src/chain.rs",
+          "src/bootstrap.rs",
+          "src/identity.rs",
+          "src/lib.rs",
+          "src/main.rs"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "status_reason": "Configuration and peer-table functions are source-bound at the exact recorded HEAD. The RPC/gossip/chain/bootstrap/identity/main surfaces are inspected but their individual function contracts still require mapping or reasoned exclusion; the component remains RESIDUAL.",
         "current_head_reconciliation": {
           "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
@@ -17690,7 +18261,7 @@
     "rule": "The exact-HEAD census covers 25 active repositories; one private active repository is explicitly excluded for lack of CI access; seven archived repositories are reference-only. 10,815 candidate symbols remain unbound after 941 test/example policy exclusions. No lexical source match is functional verification.",
     "function_inventory_status": "SOURCE_RECONCILIATION_RESIDUAL",
     "component_source_bindings": 31,
-    "function_source_bindings": 119,
+    "function_source_bindings": 127,
     "source_verified_components": 0,
     "source_verified_functions": 0,
     "selected_source_files_examined": 10,
@@ -17744,7 +18315,7 @@
     },
     "interface_contracts": 13,
     "blocked_interface_contracts": 3,
-    "function_contracts_total": 153,
+    "function_contracts_total": 161,
     "function_source_surface_pending": 12,
     "function_normative_blocked": 3,
     "function_reasoned_exclusions": 19,
@@ -18156,16 +18727,16 @@
     "specification_id": "ATC-COMPONENT-FUNCTION-SPECIFICATION-001",
     "specification_version": "1.0.0",
     "applied": true,
-    "function_contracts_checked": 153,
+    "function_contracts_checked": 161,
     "component_contracts_checked": 31,
     "missing_required_field_values_are_explicit_residuals": true,
     "functional_verification_performed": false,
     "release_decision": "BLOCKED",
     "last_component_updated": "COMP-CHAIN_COMP-LANG_COMP-SDK_COMP-NODE_COMP-MARKET_COMP-IDE_COMP-DOCS_COMP-GENESIS_COMP-ALGO",
     "last_component_update_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
-    "component_function_contract_count": 153,
+    "component_function_contract_count": 161,
     "component_function_catalog_status": "RESIDUAL_SOURCE_RECONCILIATION_PENDING",
-    "source_mapped_functions_reported": 119,
+    "source_mapped_functions_reported": 127,
     "source_verified_functions_reported": 0
   }
 }
