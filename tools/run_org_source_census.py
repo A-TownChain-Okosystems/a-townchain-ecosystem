@@ -119,6 +119,7 @@ def run_census(workspace: Path, manifest: dict) -> dict:
             "archived_reference_repositories": sum(1 for r in repositories if r["archived"]),
             "source_files_scanned": sum((r["summary"] or {}).get("source_files_scanned", 0) for r in repositories),
             "candidate_public_symbols": sum((r["summary"] or {}).get("candidate_public_symbols", 0) for r in repositories),
+            "candidate_internal_symbols": sum((r["summary"] or {}).get("candidate_internal_symbols", 0) for r in repositories),
         },
         "blocked_active_repositories": missing_active,
         "limitations": [
