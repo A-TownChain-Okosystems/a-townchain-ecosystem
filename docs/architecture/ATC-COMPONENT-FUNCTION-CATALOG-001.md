@@ -200,7 +200,7 @@ Latest successful source inventory: [run 38319690185](https://github.com/A-TownC
 
 The prior 114-record snapshot is superseded by the latest catalog revision: **139 records across 30 components**. The catalog gained 18 ShivaCore kernel contracts and 7 GlobusOS service/platform contracts.
 
-Latest exact-HEAD evidence: [Source Symbol Inventory #38319988637](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319988637), [machine-readable artifact](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319988637/artifacts/11778062105).
+Latest exact-HEAD evidence: [Source Symbol Inventory #38320206333](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38320206333), [machine-readable artifact](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38320206333/artifacts/11778097539).
 
 - 107 exact path/symbol lexical matches; 0 functions functionally verified.
 - 10,815 candidate symbols remain unbound; 941 test/example symbols are explicitly excluded by path/symbol policy with reasons.
