@@ -11030,9 +11030,9 @@
             "symbol_kind": "function",
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L16",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L17",
             "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
-            "line_start": 16
+            "line_start": 17
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11107,9 +11107,9 @@
             "symbol_kind": "function",
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L31",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L35",
             "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
-            "line_start": 31
+            "line_start": 35
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11184,9 +11184,9 @@
             "symbol_kind": "function",
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L34",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L38",
             "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
-            "line_start": 34
+            "line_start": 38
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11261,9 +11261,9 @@
             "symbol_kind": "function",
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L37",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L41",
             "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
-            "line_start": 37
+            "line_start": 41
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11339,9 +11339,9 @@
             "symbol_kind": "function",
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L40",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L44",
             "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
-            "line_start": 40
+            "line_start": 44
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11418,9 +11418,9 @@
             "symbol_kind": "function",
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L44",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L49",
             "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
-            "line_start": 44
+            "line_start": 49
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11495,9 +11495,9 @@
             "symbol_kind": "function",
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L50",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L56",
             "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
-            "line_start": 50
+            "line_start": 56
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11730,9 +11730,10 @@
             "symbol_or_entrypoint": "verify",
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L36",
             "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: verify at src/peers.rs (additional related symbols in the original qualified mapping: peers::{add,remove,ban,is_banned,verify}).",
-            "symbol_kind": "function"
+            "symbol_kind": "function",
+            "line_start": 36
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-node",
           "preconditions": {
