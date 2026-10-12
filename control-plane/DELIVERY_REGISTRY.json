@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "registry_id": "ATC-DELIVERY-SSOT",
-  "updated_at": "2026-10-12T21:02:55.623Z",
+  "updated_at": "2026-10-12T21:09:58.084Z",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
     "branch": "main",
@@ -10563,7 +10563,7 @@
     "note": "Census is current; README presence and blob SHA were checked. Repository tree, wiki availability, specifications, functions, tests, workflows and branch protection are not claimed complete."
   },
   "open_pr_audit": {
-    "observed_at": "2026-10-12T21:02:55.623Z",
+    "observed_at": "2026-10-12T21:09:58.084Z",
     "unique_pr_urls_discovered": 158,
     "method": "Union of latest-100 and oldest-100 organization PR search results, filtered by is:open",
     "completeness_status": "RESIDUAL",
@@ -10688,16 +10688,19 @@
         "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
         "url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/113",
         "title": "docs(audit): add exact-SHA source inventory baseline",
-        "status": "RESIDUAL",
-        "head_sha": null,
-        "base_sha": null,
-        "mergeable": null,
+        "status": "BLOCKED",
+        "head_sha": "c6b1b6a673f909be0241dc62dfa98c685dbefe57",
+        "base_sha": "f0593d81d7265e6873dfeb56d0b828fea76699bb",
+        "mergeable": true,
         "mergeable_state": "NOT_FETCHED",
-        "ahead_by": null,
-        "behind_by": null,
+        "ahead_by": 6,
+        "behind_by": 79,
         "review_status": "NOT_FETCHED",
         "required_checks_status": "NOT_FETCHED",
-        "blocker": "Detailed PR metadata and required-check evidence pending."
+        "blocker": "Current-main comparison is diverged (6 ahead, 79 behind). Governance run 38270835190/job 114884387636/step 4 failed V-16; baseline run 38270835158/job 114884386468/step 5 failed with 25/26 active trees scanned and one fetch error. Safe base integration and private-repository access are required.",
+        "base_ref": "integration/org-wide-repository-integration-001-2026-10-11",
+        "draft": true,
+        "files_changed": 4
       },
       {
         "id": "PR-ATC-VM-17",
@@ -10722,14 +10725,14 @@
         "title": "audit: add exact-SHA source symbol discovery for catalog completion",
         "status": "BLOCKED",
         "head_sha": "def9560cda219d1dce9d8790b79876b7fd5259e7",
-        "base_sha": null,
+        "base_sha": "5f4323983e96f5ac6544032ebde2a58a680d0250",
         "mergeable": true,
         "mergeable_state": "NOT_FETCHED",
-        "ahead_by": null,
-        "behind_by": null,
+        "ahead_by": 0,
+        "behind_by": 35,
         "review_status": "NOT_FETCHED",
         "required_checks_status": "5 SUCCESS, SOURCE SYMBOL INVENTORY FAILURE",
-        "blocker": "Owner must configure ATC_FLEET_READ_TOKEN read-only access; linked atc-engineering issue #2.",
+        "blocker": "No unique diff against current main 2b6b885; branch is 35 commits behind. Historical census run 38257182744/job 114838146943 failed because the private demo-repository checkout was unavailable.",
         "base_ref": "audit/complete-component-function-inventory-2026-10-11",
         "draft": true,
         "files_changed": null,
@@ -10739,7 +10742,8 @@
         "exit_code": 1,
         "root_cause": "Private demo-repository checkout unavailable to runner; exact-HEAD census fails closed with AssertionError.",
         "artifact_id": 11749794771,
-        "artifact_sha256": "258e4112adb395d6273a1f1db19ac101634fd9b245b3099ebcb30dd700896a66"
+        "artifact_sha256": "258e4112adb395d6273a1f1db19ac101634fd9b245b3099ebcb30dd700896a66",
+        "files_changed_vs_current_main": 0
       },
       {
         "id": "PR-GLOBUS-OS-74",
@@ -11195,14 +11199,14 @@
         "title": "docs: bind component/function catalog to source audit evidence",
         "status": "BLOCKED",
         "head_sha": "5f4323983e96f5ac6544032ebde2a58a680d0250",
-        "base_sha": null,
+        "base_sha": "f0593d81d7265e6873dfeb56d0b828fea76699bb",
         "mergeable": true,
         "mergeable_state": "NOT_FETCHED",
-        "ahead_by": null,
-        "behind_by": null,
+        "ahead_by": 0,
+        "behind_by": 77,
         "review_status": "NO_REVIEW_SUBMISSIONS",
         "required_checks_status": "3 SUCCESS, GOVERNANCE FAILURE",
-        "blocker": "Fix branch exists but PR creation blocked by GitHub connector safety checks; no retest evidence.",
+        "blocker": "No unique diff against current main 2b6b885; branch is 77 commits behind. Historical V-16 failure is not a current-main retest.",
         "base_sha_at_pr": "f0593d81d7265e6873dfeb56d0b828fea76699bb",
         "draft": true,
         "files_changed": 1,
@@ -11216,7 +11220,9 @@
           "e7cee6586d515f1307fc9f15b7a23cecd83b57b8",
           "5569b35440534ab6acefa98249e56e748dc69733"
         ],
-        "fix_pr_url": null
+        "fix_pr_url": null,
+        "base_ref": "integration/org-wide-repository-integration-001-2026-10-11",
+        "files_changed_vs_current_main": 0
       },
       {
         "id": "PR-AURORA-AI-25",
@@ -13216,6 +13222,43 @@
       "exit_code": 1,
       "root_cause": "Private demo-repository checkout unavailable; ATC_FLEET_READ_TOKEN missing or not authorized.",
       "next_action": "Owner configures read-only token and reruns census."
+    }
+  ],
+  "closed_pr_audit": [
+    {
+      "repository": "a-townchain-ecosystem",
+      "number": 107,
+      "url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/107",
+      "state": "CLOSED_MERGED",
+      "head_sha": "0a15d2359be5edb9cc7269e09214b5976c5e8b1d",
+      "base_sha": "6db3e70b1cdcbf60d411a6d931fba8b22f273b20",
+      "merge_commit_sha": "061734d08f75eab3f10eb455e6e9191cb5fc8588",
+      "head_workflows_success": 8,
+      "head_workflows_failure": 0,
+      "merge_commit_status_checks": 0,
+      "evidence_status": "RESIDUAL_POST_MERGE_NOT_VERIFIED"
+    },
+    {
+      "repository": "globus-os",
+      "number": 48,
+      "url": "https://github.com/A-TownChain-Okosystems/globus-os/pull/48",
+      "state": "CLOSED_MERGED",
+      "head_sha": "8711115c7dec5f91e5a1f3cf324ec971efa49be5",
+      "base_sha": "ca1a60010a9ab765e78703c66c7410980e5b51a9",
+      "merge_commit_sha": "fef3af85ff9ecab90c25bc179e2a3284fa17f633",
+      "head_workflows_success": 9,
+      "head_workflows_failure": 0,
+      "merge_commit_status_checks": 0,
+      "evidence_artifact": {
+        "run_id": 38087015982,
+        "job_id": 114315784219,
+        "artifact_id": 11682259060,
+        "sha256": "7c12e3ac3743dae39465fd87396e71eae201c5050c0c7fabb40b204ca4e57025",
+        "pr_head_sha": "8711115c7dec5f91e5a1f3cf324ec971efa49be5",
+        "bound_commit": "644d084067a2923b1c44244c5ca930357fc796d0",
+        "final_merge_commit_sha": "fef3af85ff9ecab90c25bc179e2a3284fa17f633",
+        "status": "RESIDUAL_EVIDENCE_TARGET_DIFFERS_FROM_FINAL_MERGE"
+      }
     }
   ]
 }
