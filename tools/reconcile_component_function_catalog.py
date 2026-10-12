@@ -19,10 +19,12 @@ def reconcile(catalog: dict, census: dict) -> dict:
         if isinstance(entry, dict) and entry.get("repository")
     }
     symbols_by_repo: dict[str, set[tuple[str, str, str]]] = {}
+    test_symbols_by_repo: dict[str, set[tuple[str, str, str]]] = {}
     file_metadata_by_repo: dict[str, dict[str, dict]] = {}
     for repository, entry in census_repos.items():
         report = entry.get("report") or {}
         found: set[tuple[str, str, str]] = set()
+        test_found: set[tuple[str, str, str]] = set()
         file_metadata: dict[str, dict] = {}
         for file in report.get("files", []):
             path = file.get("path", "")
@@ -32,7 +34,10 @@ def reconcile(catalog: dict, census: dict) -> dict:
             }
             for symbol in file.get("candidate_public_symbols", []) + file.get("candidate_internal_symbols", []):
                 found.add((path, symbol.get("kind", "unknown"), symbol.get("name", "")))
+            for symbol in file.get("candidate_test_symbols", []):
+                test_found.add((path, symbol.get("kind", "function"), symbol.get("name", "")))
         symbols_by_repo[repository] = found
+        test_symbols_by_repo[repository] = test_found
         file_metadata_by_repo[repository] = file_metadata
 
     bound: dict[str, set[tuple[str, str, str]]] = {};
@@ -114,17 +119,17 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 item["finding"] = reasoned_statuses[binding_status]
             elif binding_status in {"TEST_SURFACE_ONLY", "RELATED_SOURCE_SURFACE_ONLY"}:
                 if path and symbol and repo in census_repos and census_repos[repo].get("report"):
-                    if key not in symbols_by_repo.get(repo, set()):
+                    candidates = test_symbols_by_repo.get(repo, set()) if binding_status == "TEST_SURFACE_ONLY" else symbols_by_repo.get(repo, set())
+                    if key not in candidates:
                         item["finding"] = "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN"
                     elif binding.get("exact_source_sha") != census_repos[repo].get("source_sha"):
                         item["finding"] = "FUNCTION_BINDING_SHA_MISMATCH"
                     else:
-                        bound.setdefault(repo, set()).add(key)
-                        item["finding"] = (
-                            "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION"
-                            if binding_status == "TEST_SURFACE_ONLY"
-                            else "RELATED_SOURCE_SURFACE_ONLY_CONTRACT_RESIDUAL"
-                        )
+                        if binding_status == "TEST_SURFACE_ONLY":
+                            item["finding"] = "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION"
+                        else:
+                            bound.setdefault(repo, set()).add(key)
+                            item["finding"] = "RELATED_SOURCE_SURFACE_ONLY_CONTRACT_RESIDUAL"
                 else:
                     item["finding"] = (
                         "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION"
@@ -147,6 +152,24 @@ def reconcile(catalog: dict, census: dict) -> dict:
 
     unmatched_candidates = []
     excluded_candidates = []
+    # Inline Rust test functions are scanned separately from runtime candidates.
+    # Preserve exact source/file identity and an explicit reason for excluding them
+    # from the runtime function catalog.
+    for repo, found in sorted(test_symbols_by_repo.items()):
+        for path, symbol_kind, symbol in sorted(found):
+            file_meta = file_metadata_by_repo.get(repo, {}).get(path, {})
+            excluded_candidates.append({
+                "repository": repo,
+                "source_sha": (census_repos.get(repo) or {}).get("source_sha"),
+                "source_path": path,
+                "source_file_sha256": file_meta.get("file_sha256"),
+                "language": file_meta.get("language"),
+                "symbol_kind": symbol_kind,
+                "symbol_or_entrypoint": symbol,
+                "status": "EXCLUDED_BY_POLICY",
+                "finding": "INLINE_TEST_FUNCTION_EXCLUDED_FROM_RUNTIME_CATALOG",
+                "reason": "Function is inside an inline Rust cfg(test) module or has a test-only attribute. It is retained as a verification surface, not a runtime function contract.",
+            })
     for repo, found in sorted(symbols_by_repo.items()):
         for path, symbol_kind, symbol in sorted(found - bound.get(repo, set())):
             file_meta = file_metadata_by_repo.get(repo, {}).get(path, {})
