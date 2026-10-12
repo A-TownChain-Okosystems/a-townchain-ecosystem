@@ -168,3 +168,17 @@ Successful run: [Source Symbol Inventory #38319690185](https://github.com/A-Town
 ### Scope / safety
 
 These changes affect only the catalog, source census, reconciliation tooling and audit evidence. No blockchain/VM/kernel implementation was changed, no CI gate was weakened, and no merge or release was performed. Consensus, quorum/finality and fork-choice remain `BLOCKED` until an authoritative versioned protocol decision is approved.
+
+## 13. Kernel/OS contract expansion and refreshed reconciliation (2026-10-13)
+
+The catalog was expanded from 114 to **139 records**: 18 additional ShivaCore kernel contracts and 7 additional GlobusOS service/platform contracts. These are contract definitions with exact path/symbol bindings at source SHA `7dbc7753032016cf6aeaf1a99807cd9c5173d090`; each remains `RESIDUAL`, not functionally verified.
+
+Successful reconciliation run: [#38319988637](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319988637). Artifact: [census and function reconciliation JSON](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319988637/artifacts/11778062105).
+
+- 139 catalog records; 107 exact path/symbol lexical matches.
+- 11,863 candidate symbols in scope; 107 bound, 10,815 unbound, 941 test/example candidates excluded by documented policy.
+- 32 function records remain residual/blocked: 4 related source surfaces, 2 test surfaces, 10 non-function artifacts, 9 source surfaces not identified, 3 consensus decisions blocked, 2 archived-reference records, 2 private-repository exclusions.
+- 0 component HEAD mismatches; self-reference is explicitly recorded because the catalog repository is scanned at the PR HEAD.
+- No function is functionally verified. The remaining 10,815 symbols must be mapped to contracts or individually justified exclusions before the catalog can be declared complete.
+
+The next catalog tranche should prioritize canonical `globus-os` kernel/service symbols, then A-TownChain/ATC-VM/ATCLang. Consensus selection, quorum/finality and fork-choice remain `BLOCKED` until an authoritative versioned decision is approved.
