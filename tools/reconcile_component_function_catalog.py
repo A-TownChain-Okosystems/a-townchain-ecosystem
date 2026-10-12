@@ -228,7 +228,9 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 for item in function_findings
             ),
             "component_findings": len(component_findings),
-            "candidate_symbols_total": sum(len(found) for found in symbols_by_repo.values()),
+            "candidate_symbols_total": sum(len(found) for found in symbols_by_repo.values()) + sum(len(found) for found in test_symbols_by_repo.values()),
+            "candidate_runtime_symbols_total": sum(len(found) for found in symbols_by_repo.values()),
+            "candidate_test_symbols_total": sum(len(found) for found in test_symbols_by_repo.values()),
             "candidate_symbols_bound": sum(len(bound.get(repo, set())) for repo in symbols_by_repo),
             "candidate_symbols_unbound": len(unmatched_candidates),
             "candidate_symbols_excluded_by_policy": len(excluded_candidates),
