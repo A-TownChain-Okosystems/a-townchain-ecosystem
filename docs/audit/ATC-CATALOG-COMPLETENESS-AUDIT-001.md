@@ -208,3 +208,9 @@ Post-change CI must run against the exact updated PR HEAD before this correction
 Added machine-readable request/response, error/timeout, authorization/capability, compatibility, test-class, source-evidence and resolution fields to the 13 existing interface records. Added three residual interface contracts: `IF-014` Node↔SDK RPC, `IF-015` Genesis Engine↔L1 core, and `IF-016` Node peer ingress↔canonical chain admission.
 
 Catalog now has 30 components, 139 function/capability records and 16 cross-component interfaces. The interface field structure is machine-readable, but schemas, versions, source evidence and contract tests remain residual unless explicitly resolved. Existing blocked conflicts remain blocked. No runtime implementation changed.
+
+## 13. Canonical wallet component and TX-V2 binding (2026-10-13)
+
+Added component `COMP-WALLET` to represent the canonical implementation in `a-townchain/components/wallet`; the archived standalone `atc-wallet` remains reference-only. Added five exact-HEAD function bindings for `signing_bytes`, `id`, `sign`, `verify`, and `append_canonical_fields`, each tied to repository SHA `c631249ed6ff450bf45338e78cb14e2bf5c65c74` and blob SHA `2693b7ba015456addcc8d129455b7e5a9e2f1860`. Added `IF-017` for TX-V2 wallet-to-chain interoperability.
+
+Updated catalog count: 31 components, 144 function/capability contracts, 17 interfaces. The five source bindings are mapping evidence only; functional verification remains zero and release remains BLOCKED. Chain-side TX-V2 consumer binding and shared conformance vectors remain open.
