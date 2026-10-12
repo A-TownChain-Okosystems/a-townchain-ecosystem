@@ -42,6 +42,7 @@ class OrganizationCensusTests(unittest.TestCase):
             self.assertEqual(report["summary"]["active_scanned"], 1)
             self.assertEqual(report["repositories"][0]["source_sha"], sha)
             self.assertEqual(report["repositories"][0]["report"]["functional_verification"], "NOT_PERFORMED")
+        self.assertIn("candidate_internal_symbols", report["summary"])
 
     def test_expected_sha_mismatch_blocks_checkout(self):
         with tempfile.TemporaryDirectory() as temp:
