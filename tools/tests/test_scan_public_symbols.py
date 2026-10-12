@@ -50,8 +50,12 @@ class PublicSymbolScanTests(unittest.TestCase):
                 "  return new Uint8Array();\n"
                 "}\n"
                 "export class Api {\n"
-                "  private decode(value: string): string { return value; }\n"
-                "  public encode(value: string): string { return value; }\n"
+                "  private decode(value: string): string {\n"
+                "    return value;\n"
+                "  }\n"
+                "  public encode(value: string): string {\n"
+                "    return value;\n"
+                "  }\n"
                 "}\n",
                 encoding="utf-8",
             )
