@@ -93,6 +93,147 @@ RUST_INTERNAL_FUNCTION_PATTERN = re.compile(
 )
 
 
+def _find_matching_brace(source: str, opening: int) -> int | None:
+    """Find a matching Rust block brace while skipping comments and strings."""
+    depth = 0
+    i = opening
+    state = "normal"
+    block_depth = 0
+    raw_end: str | None = None
+    while i < len(source):
+        char = source[i]
+        nxt = source[i + 1] if i + 1 < len(source) else ""
+        if state == "line_comment":
+            if char == "\n":
+                state = "normal"
+            i += 1
+            continue
+        if state == "block_comment":
+            if char == "/" and nxt == "*":
+                block_depth += 1
+                i += 2
+            elif char == "*" and nxt == "/":
+                block_depth -= 1
+                i += 2
+                if block_depth == 0:
+                    state = "normal"
+            else:
+                i += 1
+            continue
+        if state == "string":
+            if char == "\\":
+                i += 2
+            elif char == '"':
+                state = "normal"
+                i += 1
+            else:
+                i += 1
+            continue
+        if state == "raw_string":
+            if raw_end and source.startswith(raw_end, i):
+                i += len(raw_end)
+                state = "normal"
+                raw_end = None
+            else:
+                i += 1
+            continue
+        if char == "/" and nxt == "/":
+            state = "line_comment"
+            i += 2
+            continue
+        if char == "/" and nxt == "*":
+            state = "block_comment"
+            block_depth = 1
+            i += 2
+            continue
+        if char == '"':
+            state = "string"
+            i += 1
+            continue
+        # Raw Rust strings: r"...", r#"..."#, and r###"..."###.
+        if char == "r":
+            raw = re.match(r'r(#+)?\"', source[i:])
+            if raw:
+                hashes = raw.group(1) or ""
+                raw_end = '"' + hashes
+                state = "raw_string"
+                i += len(raw.group(0))
+                continue
+        # Character literals are short; do not treat Rust lifetimes as chars.
+        if char == "'" and i + 2 < len(source):
+            if source[i + 1] == "\\":
+                close = source.find("'", i + 2, min(len(source), i + 6))
+                if close != -1:
+                    i = close + 1
+                    continue
+            elif source[i + 2] == "'":
+                i += 3
+                continue
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return i
+        i += 1
+    return None
+
+
+def _mask_rust_test_only_source(source: str) -> tuple[str, list[str]]:
+    """Remove inline cfg(test) modules and test functions from runtime scan.
+
+    Test-only function names are returned separately for traceability. This is
+    still lexical discovery, not a Rust AST or proof of complete visibility.
+    """
+    ranges: list[tuple[int, int]] = []
+    test_names: set[str] = set()
+    module_pattern = re.compile(
+        r"#\\s*\\[\\s*cfg\\s*\\(\\s*test\\s*\\)\\s*\\]\\s*(?:pub(?:\\([^)]*\\))?\\s+)?mod\\s+[A-Za-z_][A-Za-z0-9_]*\\s*\\{",
+        re.M,
+    )
+    for match in module_pattern.finditer(source):
+        opening = match.end() - 1
+        closing = _find_matching_brace(source, opening)
+        if closing is None:
+            # Malformed/unbalanced source stays visible and is caught as residual.
+            continue
+        ranges.append((match.start(), closing + 1))
+        region = source[opening:closing + 1]
+        for pattern in (PATTERNS["rust"][0][1], RUST_INTERNAL_FUNCTION_PATTERN):
+            for symbol_match in pattern.finditer(region):
+                test_names.add(symbol_match.group(1))
+    # Also identify direct #[test], #[tokio::test], and cfg(test) functions
+    # that are not enclosed in a cfg(test) module.
+    attr_pattern = re.compile(r"#\\s*\\[\\s*(?:tokio::\\s*test|test|cfg\\s*\\(\\s*test\\s*\\))\\s*\\]")
+    for attr in attr_pattern.finditer(source):
+        tail = source[attr.end():]
+        fn_match = re.search(r"\\b(?:async\\s+)?fn\\s+([A-Za-z_][A-Za-z0-9_]*)", tail)
+        if not fn_match:
+            continue
+        name = fn_match.group(1)
+        test_names.add(name)
+        fn_start = attr.start()
+        body_open = source.find("{", attr.end() + fn_match.end())
+        if body_open < 0:
+            continue
+        body_close = _find_matching_brace(source, body_open)
+        if body_close is not None:
+            ranges.append((fn_start, body_close + 1))
+    # Merge nested/overlapping ranges before masking.
+    merged: list[list[int]] = []
+    for start, end in sorted(ranges):
+        if merged and start <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], end)
+        else:
+            merged.append([start, end])
+    masked = list(source)
+    for start, end in merged:
+        for pos in range(start, end):
+            if masked[pos] != "\\n":
+                masked[pos] = " "
+    return "".join(masked), sorted(test_names)
+
+
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -109,6 +250,7 @@ def scan(root: Path, repository: str, source_sha: str, scope_exclusions: list[di
     files = []
     symbols_total = 0
     internal_symbols_total = 0
+    test_symbols_total = 0
     scope_exclusions = scope_exclusions or []
     exclusion_counts = {str(item.get("path", "")).strip("/"): 0 for item in scope_exclusions}
     language_counts: Counter[str] = Counter()
@@ -134,30 +276,38 @@ def scan(root: Path, repository: str, source_sha: str, scope_exclusions: list[di
             continue
         found = set()
         internal_found = set()
+        test_names: list[str] = []
+        scan_source = source
+        if language == "rust":
+            scan_source, test_names = _mask_rust_test_only_source(source)
         for kind, pattern in PATTERNS.get(language, []):
-            for match in pattern.finditer(source):
+            for match in pattern.finditer(scan_source):
                 name = match.group(1)
                 # Exclude common test-only/private symbols from the public API candidate set.
                 if language == "python" and name.startswith("_"):
                     continue
                 found.add((kind, name))
         if language == "rust":
-            for match in RUST_INTERNAL_FUNCTION_PATTERN.finditer(source):
+            for match in RUST_INTERNAL_FUNCTION_PATTERN.finditer(scan_source):
                 name = match.group(1)
                 if ("function", name) not in found:
                     internal_found.add(("function", name))
         symbols = [{"kind": kind, "name": name} for kind, name in sorted(found)]
         internal_symbols = [{"kind": kind, "name": name} for kind, name in sorted(internal_found)]
+        test_symbols = [{"kind": "function", "name": name} for name in test_names]
         symbols_total += len(symbols)
         internal_symbols_total += len(internal_symbols)
+        test_symbols_total += len(test_symbols)
         files.append({
             "path": path.relative_to(root).as_posix(),
             "language": language,
             "file_sha256": sha256_file(path),
             "candidate_public_symbols": symbols,
             "candidate_internal_symbols": internal_symbols,
+            "candidate_test_symbols": test_symbols,
             "candidate_symbol_count": len(symbols),
             "candidate_internal_symbol_count": len(internal_symbols),
+            "candidate_test_symbol_count": len(test_symbols),
         })
     return {
         "schema_id": "ATC-SOURCE-SYMBOL-INVENTORY-001",
@@ -178,6 +328,7 @@ def scan(root: Path, repository: str, source_sha: str, scope_exclusions: list[di
             "source_files_scanned": len(files),
             "candidate_public_symbols": symbols_total,
             "candidate_internal_symbols": internal_symbols_total,
+            "candidate_test_symbols": test_symbols_total,
             "files_excluded_by_scope": sum(exclusion_counts.values()),
             "files_by_language": dict(sorted(language_counts.items())),
             "files_with_read_errors": len(unclassified),
