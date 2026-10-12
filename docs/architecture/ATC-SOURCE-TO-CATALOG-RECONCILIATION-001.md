@@ -112,3 +112,52 @@ No source symbol scan, API/ABI compatibility test, or terminal CI evidence is im
 - Do not fast-forward or overwrite repositories merely because a commit-search result differs from a previous inventory. Resolve each repository's actual `main` ref and tree SHA, compare with the recorded source snapshot and integration/subtree pins, then inspect divergence and CI evidence.
 - The next full audit must record, for each repository: `main` HEAD SHA, tree SHA, observation timestamp (UTC), ahead/behind relationship where a comparison base exists, open PRs affecting canonical paths, required workflow results, and documentation/catalog drift.
 - Documentation and generated inventories must be refreshed from those resolved refs. Keep status `BLOCKED` or `RESIDUAL` where evidence is missing; do not imply that green repository-level CI proves cross-repository integration or production readiness.
+
+
+## Exact default-branch ref snapshot — 2026-10-13
+
+The previous refresh limitation is narrowed: direct GitHub REST reads of `refs/heads/main` succeeded for all 33 repositories in the organization inventory. The values below are **observed branch HEAD commit SHAs**, not commit-search hits. This establishes ref identity at observation time; it does not by itself establish CI health, tree-level reproducibility, integration compatibility, or that a repository needs a content sync.
+
+| Repository | Lifecycle | Default branch | Observed `main` HEAD |
+|---|---|---|---|
+| `a-townchain-os` | active | `main` | `3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8` |
+| `atclang` | active | `main` | `21c595dc389b0c62e1531a8c5fbbcd2c68794efb` |
+| `a-townchain-os-docs` | active | `main` | `f65992609ffcdd7e8eee4c29ac7a455da07fa947` |
+| `atc-shivacore` | active | `main` | `21c99769654ff5915c421c3446e62c2a29c22b40` |
+| `a-townchain` | active | `main` | `c631249ed6ff450bf45338e78cb14e2bf5c65c74` |
+| `globus-os` | active | `main` | `7dbc7753032016cf6aeaf1a99807cd9c5173d090` |
+| `aurora-ai` | active | `main` | `ef880fc5b4469f9757839c3b0f3ef2ed368357c2` |
+| `genesis-engine` | active | `main` | `8326eb53e3e10cf08518e6769b44d4f034de1144` |
+| `atc-sdk` | active | `main` | `34eef345907935cdaf279e0546f230c03c86bb0c` |
+| `atc-node` | active | `main` | `a817db43a089d172dd4688f366286c60dbf71a0e` |
+| `atc-contracts` | active | `main` | `a7c8b417f482665ef30e94fcacae6469c28b1125` |
+| `atc-wallet` | archived | `main` | `812a31d292364304c72cae8be6f448c130d7428e` |
+| `atc-explorer` | archived | `main` | `c4da05304f214bb68bd942e7705c96c35d9a18ae` |
+| `atc-indexer` | archived | `main` | `7f3da49f30464471c8c1597ed59f6223050e79e4` |
+| `atc-mining` | archived | `main` | `227f2d700307191f59596c5a78ccfd3a4b657aa9` |
+| `atc-interop` | archived | `main` | `5905fca02274704a00bdf708948180bc211a46d3` |
+| `genesis-chronicles` | active | `main` | `a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab` |
+| `atc-oracle` | archived | `main` | `8087d34ddb8c2d40a60178e8f3b4c52ea67d52a8` |
+| `atc-storage` | archived | `main` | `230746c1dc5e4c1355c2707368de50d6c1008660` |
+| `atc-launchpad` | active | `main` | `bd1a48c69983247a8428f90a77edd061ba79316b` |
+| `atc-marketplace` | active | `main` | `5c3bab7da8a80d58af725b7dea2478ece2456f39` |
+| `atc-compute` | active | `main` | `89d833edf338085d6141b0c703ebf92a0db83a5e` |
+| `atc-standards` | active | `main` | `d6556168a21ed5a9b5d917262bd2a4ee196fdd46` |
+| `atc-vm` | active | `main` | `21132a49355eb5fd6ea4b8a7b4e4deb5d9be60f0` |
+| `atc-algorithm` | active | `main` | `5a5628044ef4daacca943062eac3fd27a2eaec93` |
+| `atc-zkp` | active | `main` | `ffa8ec1098c5ae0aa0145964843abe0c6806276f` |
+| `.github` | active | `main` | `af5d803dace369b83e4bffd2e4e6ba001d4aa000` |
+| `demo-repository` | active | `main` | `d9b0da9c966dea02586b6be64139e6b3cd669dfd` |
+| `atc-ide` | active | `main` | `2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a` |
+| `genesis-franchise-factory` | active | `main` | `673fa560322b1449e8f23cc38bf839de1b246361` |
+| `atc-engineering` | active | `main` | `c2a4b93fb01178ef905f62d8a5fa6f42215d25a2` |
+| `a-townchain-ecosystem` | active | `main` | `2b6b885221416673333a49fb9327374d4deebf8c` |
+| `atc-toolchain` | active | `main` | `82fe4a238603476d7c6c19d5c3044c88b71c5f2d` |
+
+### Synchronization decision
+
+- Repository inventory: **33/33 refs resolved**; 26 active and 7 archived.
+- Archived repositories were read only; no writes were made to them.
+- This snapshot does **not** declare all repositories synchronized. No repository has been advanced, reset, force-pushed, or merged as part of this pass.
+- Remaining gates before any source synchronization: resolve each commit's tree SHA; compare canonical source repositories with integration/catalog pins; inspect ahead/behind and open PR divergence; collect required CI status for each exact HEAD; then create narrowly scoped PRs for confirmed drift.
+- Status: `REF_SNAPSHOT=VERIFIED`; `TREE_AND_CI_AUDIT=RESIDUAL`; `CROSS_REPOSITORY_SYNC=BLOCKED_PENDING_DIFF_AND_GATE_EVIDENCE`.
