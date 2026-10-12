@@ -37,6 +37,31 @@ class PublicSymbolScanTests(unittest.TestCase):
             self.assertEqual(report["completeness_status"], "RESIDUAL")
             self.assertEqual(report["functional_verification"], "NOT_PERFORMED")
 
+
+    def test_rust_inline_cfg_test_module_is_separated_from_runtime_candidates(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "src").mkdir()
+            (root / "src" / "lib.rs").write_text(
+                "pub fn run() {}\\n"
+                "#[cfg(test)]\\nmod tests {\\n"
+                "  #[test] fn regression_case() { let _ = \\\"{ brace }\\\"; }\\n"
+                "  fn helper_only_for_tests() {}\\n"
+                "}\\n",
+                encoding="utf-8",
+            )
+            report = scan(root, "example/repo", "d" * 40)
+            file = report["files"][0]
+            runtime = {(x["kind"], x["name"]) for x in file["candidate_public_symbols"]}
+            internal = {(x["kind"], x["name"]) for x in file["candidate_internal_symbols"]}
+            test_symbols = {x["name"] for x in file["candidate_test_symbols"]}
+            self.assertIn(("function", "run"), runtime)
+            self.assertNotIn(("function", "regression_case"), runtime)
+            self.assertNotIn(("function", "helper_only_for_tests"), internal)
+            self.assertIn("regression_case", test_symbols)
+            self.assertIn("helper_only_for_tests", test_symbols)
+            self.assertEqual(report["summary"]["candidate_test_symbols"], 2)
+
     def test_documented_scope_exclusion_records_reason_and_count(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
