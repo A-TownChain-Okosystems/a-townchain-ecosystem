@@ -61,6 +61,18 @@ class CatalogReconciliationTests(unittest.TestCase):
             "SELF_REFERENCE_PR_HEAD_DIFFERS_FROM_DEFAULT_BRANCH",
         )
 
+    def test_internal_symbol_can_be_reconciled_without_becoming_public_api(self):
+        self.census["repositories"][0]["report"]["files"][0]["candidate_public_symbols"] = []
+        self.census["repositories"][0]["report"]["files"][0]["candidate_internal_symbols"] = [
+            {"kind": "function", "name": "execute"}
+        ]
+        report = reconcile(self.catalog, self.census)
+        self.assertEqual(
+            report["function_findings"][0]["finding"],
+            "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING",
+        )
+        self.assertEqual(report["summary"]["functional_verification"], "NOT_PERFORMED")
+
     def test_sha_mismatch_is_not_accepted_as_a_binding(self):
         self.catalog["components"][0]["functions"][0]["source_binding"]["exact_source_sha"] = "b" * 40
         report = reconcile(self.catalog, self.census)
