@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-12",
-  "catalog_revision_note": "2026-10-12: Expanded canonical COMP-VM from 2 to 13 function contracts by mapping public VM methods and execution-context gates at exact a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Corrected FN-VM-001 to describe parse_ops textual parsing rather than binary ATCB decoding. Binary decoder, assembler/CLI contract completeness and exact-SHA functional verification remain residual; release stays BLOCKED.",
+  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -3785,6 +3785,1360 @@
             ]
           },
           "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-014",
+          "name": "Assemble EXEC-GATE source to .ops",
+          "purpose": "Read a constrained ATCLang-like function and JSON vector, lower a supported arithmetic subset to .ops instructions, simulate it against expected output, and write generated text.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/assembler.rs",
+            "symbol_or_entrypoint": "assemble",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
+            "note": "Assembler implements only let/return, u64 literals/parameters, + - * / and parentheses. Current body scan is brace-naive and function selection uses the first 'fn ' token; grammar robustness remains residual."
+          },
+          "inputs": [
+            "contract: &Path",
+            "vector: &Path",
+            "out_dir: &Path"
+          ],
+          "outputs": [
+            "Result<PathBuf, String>; generated .ops path"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Source contains one parseable function with supported let/return arithmetic.",
+              "Vector text contains numeric expected and every parsed parameter key."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Output directory is created and <contract-stem>.ops is written only after simulation succeeds.",
+              "Output is textual .ops, not binary ATCB."
+            ]
+          },
+          "failure_modes": [
+            "File read/write errors",
+            "Malformed function/parameter list/body",
+            "Missing/invalid vector values",
+            "Unsupported tokens/identifiers",
+            "Arithmetic overflow/underflow",
+            "DivisionByZero",
+            "Missing return"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "No input byte limit, AST-level parser, full Rust grammar, or output artifact size limit is enforced."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary.",
+            "additional": "This is a constrained source-to-text assembler and simulator, not a complete ATCLang compiler or ATCB encoder."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-015",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            },
+            {
+              "component_or_function": "FN-VM-016",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            },
+            {
+              "component_or_function": "FN-VM-017",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            },
+            {
+              "component_or_function": "FN-VM-018",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            },
+            {
+              "component_or_function": "FN-VM-019",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            },
+            {
+              "component_or_function": "FN-VM-020",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            }
+          ],
+          "acceptance": [
+            "Reject unsupported syntax rather than silently compiling it.",
+            "Simulation result must equal vector expected value before output write.",
+            "Generated .ops can be parsed by parse_ops.",
+            "No claim of binary ATCB encoding."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "integration",
+            "boundary"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-015",
+          "name": "Initialize expression parser",
+          "purpose": "Create parser state from token list and variable environment.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/assembler.rs",
+            "symbol_or_entrypoint": "Parser::new",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+          },
+          "inputs": [
+            "tokens: Vec<String>",
+            "env: HashMap<String, Vec<String>>"
+          ],
+          "outputs": [
+            "Parser { tokens, pos=0, env }"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Caller has tokenized input and supplied environment."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Parser cursor begins at zero and supplied tokens/environment are owned."
+            ]
+          },
+          "failure_modes": [
+            "Allocation failure is not represented as a typed error."
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "No explicit CPU, memory, input-size or wall-clock budget is enforced by this helper."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-016",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            }
+          ],
+          "acceptance": [
+            "Initial peek refers to first token when present.",
+            "No source text is evaluated at construction."
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-016",
+          "name": "Inspect next expression token",
+          "purpose": "Return the current token without advancing parser cursor.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/assembler.rs",
+            "symbol_or_entrypoint": "Parser::peek",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+          },
+          "inputs": [
+            "&self"
+          ],
+          "outputs": [
+            "Option<&str>"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Parser is initialized."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Returns current token or None at end; cursor unchanged."
+            ]
+          },
+          "failure_modes": [
+            "No typed error path."
+          ],
+          "resource_limits": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Constant-time in-memory cursor lookup."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-015",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            }
+          ],
+          "acceptance": [
+            "Repeated peek returns same token until take/parse advances cursor."
+          ],
+          "test_classes": [
+            "unit",
+            "property"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-017",
+          "name": "Consume next expression token",
+          "purpose": "Advance parser cursor and return next token or a parse error at end.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/assembler.rs",
+            "symbol_or_entrypoint": "Parser::take",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+          },
+          "inputs": [
+            "&mut self"
+          ],
+          "outputs": [
+            "Result<String, String>"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Parser is initialized."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "On success cursor advances exactly one token."
+            ]
+          },
+          "failure_modes": [
+            "Unexpected end of expression."
+          ],
+          "resource_limits": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Single-token cursor operation; whole-input bounds remain unspecified."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-015",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            }
+          ],
+          "acceptance": [
+            "Empty input fails explicitly.",
+            "Cursor advances exactly once on success."
+          ],
+          "test_classes": [
+            "unit",
+            "negative"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-018",
+          "name": "Parse additive expression",
+          "purpose": "Parse terms separated by + or - and emit postfix VM instruction text.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/assembler.rs",
+            "symbol_or_entrypoint": "Parser::expr",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+          },
+          "inputs": [
+            "&mut self"
+          ],
+          "outputs": [
+            "Result<Vec<String>, String>"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Tokens have been produced by tokenize and identifiers exist in env."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Addition/subtraction are emitted after operand operations; returns at first non-additive token."
+            ]
+          },
+          "failure_modes": [
+            "Unexpected end, malformed nested factor, unknown identifier."
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "No explicit CPU, memory, input-size or wall-clock budget is enforced by this helper."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-019",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            },
+            {
+              "component_or_function": "FN-VM-020",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            }
+          ],
+          "acceptance": [
+            "Subtraction/addition are left-associative.",
+            "Precedence: multiplication/division handled by term before additive operations.",
+            "Caller rejects unconsumed trailing tokens."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "property"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-019",
+          "name": "Parse multiplicative term",
+          "purpose": "Parse factors separated by * or / and emit postfix VM instruction text.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/assembler.rs",
+            "symbol_or_entrypoint": "Parser::term",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+          },
+          "inputs": [
+            "&mut self"
+          ],
+          "outputs": [
+            "Result<Vec<String>, String>"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Parser is initialized and environment is available."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Multiplication/division are emitted after operand operations; returns at first non-multiplicative token."
+            ]
+          },
+          "failure_modes": [
+            "Unexpected end, malformed factor, unknown identifier."
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "No explicit CPU, memory, input-size or wall-clock budget is enforced by this helper."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-020",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            }
+          ],
+          "acceptance": [
+            "Multiplication/division bind more tightly than addition/subtraction.",
+            "Operator order is deterministic."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "property"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-020",
+          "name": "Parse expression factor",
+          "purpose": "Consume a parenthesized expression, u64 decimal literal, or identifier from environment.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/assembler.rs",
+            "symbol_or_entrypoint": "Parser::factor",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+          },
+          "inputs": [
+            "&mut self"
+          ],
+          "outputs": [
+            "Result<Vec<String>, String>"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Parser has remaining token for the factor."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Returns postfix instruction sequence for literal/identifier/grouped expression."
+            ]
+          },
+          "failure_modes": [
+            "Unexpected end",
+            "Unbalanced parentheses",
+            "Invalid u64 literal",
+            "Unknown identifier"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "No explicit CPU, memory, input-size or wall-clock budget is enforced by this helper."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-017",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            },
+            {
+              "component_or_function": "FN-VM-018",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            }
+          ],
+          "acceptance": [
+            "Out-of-range decimal literal is rejected.",
+            "Parentheses must be balanced.",
+            "Unknown names fail closed."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "boundary"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-021",
+          "name": "Tokenize restricted expression",
+          "purpose": "Split expression into decimal numbers, ASCII identifiers, operators and parentheses; reject other characters.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/assembler.rs",
+            "symbol_or_entrypoint": "tokenize",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+          },
+          "inputs": [
+            "source: &str"
+          ],
+          "outputs": [
+            "Result<Vec<String>, String>"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Input is a string."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Whitespace is skipped; tokens preserve source order."
+            ]
+          },
+          "failure_modes": [
+            "Invalid character in expression."
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "No maximum source length or token count."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [],
+          "acceptance": [
+            "Non-ASCII identifier characters are rejected.",
+            "Supported operators are + - * / ( ).",
+            "Empty expression returns empty tokens and is rejected by parser use."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "boundary",
+            "fuzz"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-022",
+          "name": "Extract function parameters and body",
+          "purpose": "Locate first textual fn declaration, parse parameter names and extract body substring.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/assembler.rs",
+            "symbol_or_entrypoint": "find_function",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
+            "note": "Current implementation finds the first 'fn ', next ')' and first '{' and '}' by substring search; nested-brace grammar remains a known correctness risk."
+          },
+          "inputs": [
+            "source: &str"
+          ],
+          "outputs": [
+            "Result<(Vec<String>, String), String>"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Input resembles a single function definition in the restricted syntax."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Returns comma-separated parameter names and body between first detected braces."
+            ]
+          },
+          "failure_modes": [
+            "No function definition",
+            "Missing/unclosed parameter list",
+            "Missing/unclosed body"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "String scanning does not implement Rust/ATCLang grammar and does not correctly account for nested braces, comments or strings."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [],
+          "acceptance": [
+            "Malformed function headers fail closed where detected.",
+            "Tests cover nested blocks/comments/string edge cases before use with untrusted contracts."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "fuzz"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-023",
+          "name": "Read numeric u64 from JSON-like vector",
+          "purpose": "Find a named quoted key and parse the following unsigned decimal prefix as u64.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/assembler.rs",
+            "symbol_or_entrypoint": "json_u64_for_key",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
+            "note": "Do not treat this helper as standards-compliant JSON decoding."
+          },
+          "inputs": [
+            "json: &str",
+            "key: &str"
+          ],
+          "outputs": [
+            "Result<u64, String>"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Input text contains JSON-like key/value syntax."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Returns parsed u64 from digits following the located key's colon."
+            ]
+          },
+          "failure_modes": [
+            "Missing key",
+            "Missing colon",
+            "Missing/invalid unsigned integer",
+            "u64 overflow"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "This is substring scanning, not a JSON parser; key matching may be fooled by nested/duplicate keys or malformed JSON."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [],
+          "acceptance": [
+            "Malformed JSON is rejected by a real JSON parser before production use.",
+            "Duplicate/nested key ambiguity has explicit tests or is eliminated."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "fuzz"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-024",
+          "name": "Simulate generated arithmetic instructions",
+          "purpose": "Execute supported Push/Add/Sub/Mul/Div/Halt subset with checked arithmetic and compare final top-of-stack value to expected.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/assembler.rs",
+            "symbol_or_entrypoint": "simulate",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+          },
+          "inputs": [
+            "ops: &[String]",
+            "expected: u64"
+          ],
+          "outputs": [
+            "Result<(), String>"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Operations are in the assembler-supported subset."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Returns Ok only when simulated result equals expected."
+            ]
+          },
+          "failure_modes": [
+            "Stack underflow",
+            "Arithmetic overflow/underflow",
+            "DivisionByZero",
+            "Unsupported opcode",
+            "Expected-result mismatch"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "No stack-depth or operation-count budget is enforced; simulator is not the canonical VM."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary.",
+            "additional": "This is a compile-time/local validation simulation, not the consensus interpreter."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-009",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            }
+          ],
+          "acceptance": [
+            "Checked arithmetic rejects overflow/underflow.",
+            "Division by zero fails.",
+            "Unsupported operations fail.",
+            "Expected output mismatch fails."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "boundary",
+            "differential"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-025",
+          "name": "Parse CLI slot/value pair",
+          "purpose": "Parse --set-slot/--expect-slot argument in <slot>:<value> form.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/main.rs",
+            "symbol_or_entrypoint": "parse_slot_pair",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/main.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+          },
+          "inputs": [
+            "flag: &str",
+            "raw: &str"
+          ],
+          "outputs": [
+            "Result<(usize, u64), String>"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "raw is one CLI argument."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Exactly two colon-separated fields are parsed as usize and u64."
+            ]
+          },
+          "failure_modes": [
+            "Wrong field count",
+            "Invalid slot index",
+            "Invalid u64 value"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Slot index is parsed but no maximum slot bound is enforced in this helper."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [],
+          "acceptance": [
+            "Extra/missing separators fail.",
+            "Numeric overflow fails.",
+            "Huge slot index is rejected before allocation on execution path."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "boundary"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-026",
+          "name": "Parse runner CLI arguments",
+          "purpose": "Parse --ops/--contract/--vector/--out/--expect/--caller/--set-slot/--expect-slot options into Args.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/main.rs",
+            "symbol_or_entrypoint": "parse_args",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/main.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+          },
+          "inputs": [
+            "args: Vec<String>"
+          ],
+          "outputs": [
+            "Result<Args, String>"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Argument vector includes executable name at index 0."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Recognized options populate Args; unknown options or invalid/missing values return errors."
+            ]
+          },
+          "failure_modes": [
+            "Unknown argument",
+            "Missing option value",
+            "Invalid u64",
+            "Malformed slot pair"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "No duplicate-option policy, mutual-exclusion policy, path validation or argument count/size bound is specified."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-025",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            }
+          ],
+          "acceptance": [
+            "Unknown flags fail closed.",
+            "Missing --vector/--out for --contract fails at dispatch.",
+            "Conflicting --ops and --contract behavior is explicitly tested."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "integration"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-027",
+          "name": "Execute a .ops file through runner",
+          "purpose": "Read .ops text, parse operations, initialize VM context/storage, execute raw VM, and optionally compare result and storage.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/main.rs",
+            "symbol_or_entrypoint": "run_ops_file",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/main.rs",
+            "note": "The current runner resizes storage to idx+1 for --set-slot; untrusted large indices may trigger excessive allocation. Bound and reject before resize."
+          },
+          "inputs": [
+            "args: &Args",
+            "path: &str"
+          ],
+          "outputs": [
+            "RunOutcome::Passed or RunOutcome::Failed"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "File is readable and contains supported .ops text."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Returns pass only when execution and supplied expected result/slot checks succeed."
+            ]
+          },
+          "failure_modes": [
+            "File read error",
+            "Parse error",
+            "VM error",
+            "Expected result mismatch",
+            "Expected slot mismatch"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "This CLI path invokes Vm::run(), which is unmetered and does not enforce all bounded execution limits."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "trust_boundary": "Local CLI/test runner only; it must not be wired into consensus execution or exposed as a production contract execution boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-001",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            },
+            {
+              "component_or_function": "FN-VM-010",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            }
+          ],
+          "acceptance": [
+            "No production consensus path calls this raw runner.",
+            "Slot initialization and expectation checks are covered for empty and large indexes.",
+            "Errors return Failed and process dispatch exits nonzero."
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "negative",
+            "security"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-028",
+          "name": "Dispatch VM runner and assembler CLI",
+          "purpose": "Select assembly mode or .ops execution mode, enforce required flags, print outcome and exit with status code.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/main.rs",
+            "symbol_or_entrypoint": "main",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/main.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+          },
+          "inputs": [
+            "process arguments"
+          ],
+          "outputs": [
+            "Process exit status 0 on pass, 1 on execution/assembly error, 2 on usage/argument error"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Invoked as local executable."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Dispatches to assembler when --contract is present; otherwise requires --ops and invokes run_ops_file."
+            ]
+          },
+          "failure_modes": [
+            "Missing required option",
+            "Argument parse error",
+            "Assembly/execution failure"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "No global runtime, memory, input-size or execution-time budget is enforced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "trust_boundary": "Executable is a local developer/test runner; assembly simulation success is not proof of ATCB conformance or consensus-safe execution."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-014",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            },
+            {
+              "component_or_function": "FN-VM-026",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            },
+            {
+              "component_or_function": "FN-VM-027",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source call/dependency identified; normative interface version and compatibility evidence are not established."
+            }
+          ],
+          "acceptance": [
+            "Exit code 0 only for reported pass.",
+            "Assembler and runner modes have integration tests.",
+            "No production release claim based on CLI pass output."
+          ],
+          "test_classes": [
+            "integration",
+            "negative",
+            "security"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-029",
+          "name": "Print runner usage and exit",
+          "purpose": "Print supported CLI forms/options and terminate with usage exit code 2.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/main.rs",
+            "symbol_or_entrypoint": "usage",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/main.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+          },
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "never returns; exits process with code 2"
+          ],
+          "preconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "CLI usage is requested after invalid/missing mode."
+            ]
+          },
+          "postconditions": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Usage text documents supported flags and process exits 2."
+            ]
+          },
+          "failure_modes": [
+            "Process exit is intentional; stderr output may fail at OS level."
+          ],
+          "resource_limits": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Help/usage path; no VM execution budget."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Inputs may be user-controlled local source/vector files; parser and file handling are not a consensus authorization boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate is version 0.1.0; stable API/format compatibility and migration rules are not defined or verified."
+          },
+          "dependencies": [],
+          "acceptance": [
+            "Usage matches parse_args options.",
+            "Automated test captures exit code 2 and usage output."
+          ],
+          "test_classes": [
+            "integration",
+            "negative"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
         }
       ],
       "source_inventory": {
@@ -3806,7 +5160,7 @@
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Public API functions in vm.rs, ops.rs and context.rs are mapped at exact HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding is not present in the examined canonical crate surface; assembler/CLI paths are inventoried but not yet exhaustively mapped into function contracts. Functional verification and repository-wide AST reconciliation remain open.",
+        "status_reason": "VM library, assembler and CLI function contracts are now mapped from selected files at exact HEAD. Repository-wide AST reconciliation is not complete; no binary ATCB decoder was found in the inspected source; functional verification remains open.",
         "observed_public_symbol_inventory": [
           {
             "path": "components/vm/src/vm.rs",
@@ -3884,6 +5238,41 @@
             "public_functions": [],
             "public_types": [],
             "enumeration_method": "Integration test surface inspected; tests cover arithmetic, parse/execute, storage, caller, branches and transfer examples; test success not inferred from source presence."
+          },
+          {
+            "path": "components/vm/src/assembler.rs",
+            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "92306119c9384b44a9241d7293eb1f08d41dcc29",
+            "public_functions": [
+              "assemble"
+            ],
+            "internal_helpers": [
+              "Parser::new",
+              "Parser::peek",
+              "Parser::take",
+              "Parser::expr",
+              "Parser::term",
+              "Parser::factor",
+              "tokenize",
+              "find_function",
+              "json_u64_for_key",
+              "simulate"
+            ],
+            "enumeration_method": "Manual source enumeration; function contracts added for public assembler entrypoint and material parsing/simulation helpers; no AST-based completeness claim."
+          },
+          {
+            "path": "components/vm/src/main.rs",
+            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "6c4ebf320c0f54131f77372c17e21b813aa9cb32",
+            "public_functions": [],
+            "internal_functions": [
+              "parse_slot_pair",
+              "usage",
+              "parse_args",
+              "run_ops_file",
+              "main"
+            ],
+            "enumeration_method": "Manual source enumeration; runner functions mapped; process-level behavior and resource limits remain residual."
           }
         ],
         "symbols_enumerated_for_selected_paths": true
@@ -4058,7 +5447,7 @@
           "ATCB binary format conformance tests (blocked until canonical decoder/spec conflict resolved)",
           "exact-SHA Run→Job→Step→exit/log capture"
         ],
-        "reason": "Test source surfaces are mapped but no commands were executed by this catalog update and no terminal workflow evidence is claimed."
+        "reason": "Source test surfaces are inventoried, but no commands were executed by this catalog update and no terminal workflow evidence is claimed. Required: cargo fmt, cargo test, clippy, assembler parser edge cases, runner allocation bounds, ATCB binary format conformance, exact-SHA Run→Job→Step→exit/log capture."
       },
       "known_conflicts_and_residuals": {
         "status": "RESIDUAL",
@@ -4090,6 +5479,18 @@
             "code": "VM-VER-001",
             "issue": "Source has targeted unit/integration tests, but no exact-SHA terminal CI evidence was attached by this update.",
             "status": "OPEN"
+          },
+          {
+            "code": "VM-ASM-002",
+            "issue": "Assembler's find_function() and json_u64_for_key() use substring scanning instead of a full language/JSON parser; nested braces, duplicate/nested JSON keys and malformed source can be misinterpreted.",
+            "status": "OPEN",
+            "impact": "Do not treat assembler as a complete ATCLang compiler or standards-compliant JSON parser."
+          },
+          {
+            "code": "VM-CLI-001",
+            "issue": "Runner's run_ops_file() calls raw unmetered Vm::run(); --set-slot can resize storage based on caller-supplied index without a maximum slot bound.",
+            "status": "OPEN",
+            "impact": "Local runner only; add bounds before allocation and ensure it cannot be used as consensus execution."
           }
         ]
       },
@@ -10308,7 +11709,7 @@
     "release_decision": "BLOCKED",
     "last_component_updated": "COMP-VM",
     "last_component_update_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-    "component_function_contract_count": 13,
+    "component_function_contract_count": 29,
     "component_function_catalog_status": "RESIDUAL_SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED"
   }
 }
