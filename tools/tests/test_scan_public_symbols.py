@@ -44,12 +44,12 @@ class PublicSymbolScanTests(unittest.TestCase):
             root = Path(temp)
             (root / "src").mkdir()
             (root / "src" / "lib.rs").write_text(
-                "impl First {\\n"
-                "  pub fn new() -> Self { Self }\\n"
-                "}\\n"
-                "impl Second {\\n"
-                "  pub fn new() -> Self { Self }\\n"
-                "}\\n",
+                "impl First {\n"
+                "  pub fn new() -> Self { Self }\n"
+                "}\n"
+                "impl Second {\n"
+                "  pub fn new() -> Self { Self }\n"
+                "}\n",
                 encoding="utf-8",
             )
             report = scan(root, "example/repo", "a" * 40)
