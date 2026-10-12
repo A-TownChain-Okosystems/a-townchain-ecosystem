@@ -17153,7 +17153,7 @@
     "rule": "The exact-HEAD census covers 25 active repositories; one private active repository is explicitly excluded for lack of CI access; seven archived repositories are reference-only. 10,815 candidate symbols remain unbound after 941 test/example policy exclusions. No lexical source match is functional verification.",
     "function_inventory_status": "SOURCE_RECONCILIATION_RESIDUAL",
     "component_source_bindings": 31,
-    "function_source_bindings": 146,
+    "function_source_bindings": 112,
     "source_verified_components": 0,
     "source_verified_functions": 0,
     "selected_source_files_examined": 10,
@@ -17206,7 +17206,16 @@
       "next_gate": "Reconcile the 10,815 remaining unbound candidates into function contracts or individually justified exclusions; prioritize canonical GlobusOS/ShivaCore, A-TownChain, ATC-VM and ATCLang surfaces."
     },
     "interface_contracts": 13,
-    "blocked_interface_contracts": 3
+    "blocked_interface_contracts": 3,
+    "function_contracts_total": 146,
+    "function_source_surface_pending": 12,
+    "function_normative_blocked": 3,
+    "function_reasoned_exclusions": 19,
+    "interface_contracts_total": 17,
+    "interface_status_counts": {
+      "RESIDUAL": 13,
+      "BLOCKED": 4
+    }
   },
   "repository_coverage": [
     {
@@ -17618,6 +17627,8 @@
     "last_component_updated": "COMP-CHAIN_COMP-LANG_COMP-SDK_COMP-NODE_COMP-MARKET_COMP-IDE_COMP-DOCS_COMP-GENESIS_COMP-ALGO",
     "last_component_update_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
     "component_function_contract_count": 146,
-    "component_function_catalog_status": "RESIDUAL_SOURCE_RECONCILIATION_PENDING"
+    "component_function_catalog_status": "RESIDUAL_SOURCE_RECONCILIATION_PENDING",
+    "source_mapped_functions_reported": 112,
+    "source_verified_functions_reported": 0
   }
 }
