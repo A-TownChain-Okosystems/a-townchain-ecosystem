@@ -202,3 +202,9 @@ The exact-HEAD census artifact (`38320206333`, source HEAD `47656950be68205ed474
 Known catalog bindings that point to type/value surfaces are now marked `RELATED_SOURCE_SURFACE_ONLY` with an explicit kind. The two catalog entries bound to test/conformance functions are marked `TEST_SURFACE_ONLY`. Neither status is functional verification. New regression tests cover type/function name collisions and explicit type bindings.
 
 Post-change CI must run against the exact updated PR HEAD before this correction is considered verified. The earlier census counts remain historical evidence for HEAD `47656950be68205ed474e48993bda39b0e0faada`; they must not be presented as a successful reconciliation of the updated catalog/reconciler.
+
+## 12. Interface contract schema completion (2026-10-13)
+
+Added machine-readable request/response, error/timeout, authorization/capability, compatibility, test-class, source-evidence and resolution fields to the 13 existing interface records. Added three residual interface contracts: `IF-014` Node↔SDK RPC, `IF-015` Genesis Engine↔L1 core, and `IF-016` Node peer ingress↔canonical chain admission.
+
+Catalog now has 30 components, 139 function/capability records and 16 cross-component interfaces. The interface field structure is machine-readable, but schemas, versions, source evidence and contract tests remain residual unless explicitly resolved. Existing blocked conflicts remain blocked. No runtime implementation changed.
