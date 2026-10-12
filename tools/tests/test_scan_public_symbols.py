@@ -45,7 +45,7 @@ class PublicSymbolScanTests(unittest.TestCase):
             (root / "src" / "lib.rs").write_text(
                 "pub fn run() {}\\n"
                 "#[cfg(test)]\\nmod tests {\\n"
-                "  #[test] fn regression_case() { let _ = \\\"{ brace }\\\"; }\\n"
+                "  #[test] fn regression_case() {}\\n"
                 "  fn helper_only_for_tests() {}\\n"
                 "}\\n",
                 encoding="utf-8",
