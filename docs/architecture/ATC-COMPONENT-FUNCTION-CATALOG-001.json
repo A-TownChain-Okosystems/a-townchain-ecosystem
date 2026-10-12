@@ -15388,7 +15388,8 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence.",
+      "status_reason": "Canonical ATCLang AST, diagnostics and toolchain input/version contract must be bound to exact source symbols and conformance tests."
     },
     {
       "id": "IF-002",
@@ -15454,7 +15455,8 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence.",
+      "status_reason": "BLOCKED: normative bytecode magic conflicts between ATCB and ATC1. No compiler/VM wire format may be selected by inference."
     },
     {
       "id": "IF-003",
@@ -15520,7 +15522,8 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence.",
+      "status_reason": "BLOCKED: consensus selection, finality, quorum and fork-choice are not finalized by an authoritative versioned protocol decision."
     },
     {
       "id": "IF-004",
@@ -15586,7 +15589,8 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence.",
+      "status_reason": "Chain-to-VM execution context, state access, gas/resource accounting and deterministic result/error semantics need exact source and vector reconciliation."
     },
     {
       "id": "IF-005",
@@ -15652,7 +15656,8 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence.",
+      "status_reason": "Kernel syscall, capability and IPC ABI versions and privilege rules require exact kernel/service source binding and integration evidence."
     },
     {
       "id": "IF-006",
@@ -15718,7 +15723,8 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence.",
+      "status_reason": "GlobusOS-to-Aurora service API, capability grant, approval, quotas and audit semantics need explicit versioned request/response contracts."
     },
     {
       "id": "IF-007",
@@ -15784,7 +15790,8 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence.",
+      "status_reason": "Standards-to-engineering enforcement mapping and versioned conformance obligations need exact policy and gate evidence."
     },
     {
       "id": "IF-008",
@@ -15850,7 +15857,8 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence.",
+      "status_reason": "TX-V2 details are specified, but canonical source bindings and cross-client golden-vector results remain to be verified at exact SHAs."
     },
     {
       "id": "IF-009",
@@ -15916,7 +15924,8 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence.",
+      "status_reason": "Canonical node admission semantics, transaction validation and state mutation boundary need source binding and negative/integration test evidence."
     },
     {
       "id": "IF-010",
@@ -15982,7 +15991,8 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence.",
+      "status_reason": "BLOCKED: the storage repository is archived; canonical production ownership and replacement decision are unresolved."
     },
     {
       "id": "IF-011",
@@ -16048,7 +16058,8 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence.",
+      "status_reason": "L1 normative protocol contract and decision-record links must be reconciled against canonical chain source and shared vectors."
     },
     {
       "id": "IF-012",
@@ -16114,7 +16125,8 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence.",
+      "status_reason": "Proof format/version/domain, public-input encoding, errors and resource limits require an approved versioned contract and exact source/test evidence."
     },
     {
       "id": "IF-013",
@@ -16180,7 +16192,8 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence.",
+      "status_reason": "Kernel boot and service-space boundary need exact ABI, privilege-transition, health/rollback semantics and boot evidence."
     },
     {
       "id": "IF-014",
