@@ -182,3 +182,15 @@ Successful reconciliation run: [#38319988637](https://github.com/A-TownChain-Oko
 - No function is functionally verified. The remaining 10,815 symbols must be mapped to contracts or individually justified exclusions before the catalog can be declared complete.
 
 The next catalog tranche should prioritize canonical `globus-os` kernel/service symbols, then A-TownChain/ATC-VM/ATCLang. Consensus selection, quorum/finality and fork-choice remain `BLOCKED` until an authoritative versioned decision is approved.
+
+## 14. Cross-component interface contract expansion (2026-10-13)
+
+The catalog now contains 13 cross-component interface records. Added `IF-008` TX-V2 serialization/signing, `IF-009` chain/node admission, `IF-010` canonical persistence, `IF-011` L1 standards, `IF-012` ZKP verification, and `IF-013` the ShivaCore/GlobusOS boot-service boundary.
+
+Fail-closed decisions:
+
+- `IF-002` remains `BLOCKED` due to the unresolved ATCB versus ATC1 bytecode magic conflict.
+- `IF-003` remains `BLOCKED` because consensus algorithm selection, quorum/finality and fork-choice are not frozen by an authoritative versioned decision.
+- `IF-010` remains `BLOCKED` because the storage repository is archived and canonical persistence ownership is unresolved.
+
+No implementation was changed to resolve these conflicts. They are recorded as normative blockers for the catalog-first phase.
