@@ -207,3 +207,9 @@ Latest exact-HEAD evidence: [Source Symbol Inventory #38319988637](https://githu
 - 32 catalog records remain residual or blocked, including 9 source surfaces not identified and 3 consensus decision gates blocked.
 - Source census: 25 active repositories scanned, 1 private repository excluded for lack of CI access, 7 archived repositories reference-only, 0 active repositories blocked.
 - Catalog remains `BASELINE_RESIDUAL`; implementation work must not begin until the remaining candidates are reconciled or explicitly excluded.
+
+## Cross-component interface contracts — 2026-10-13
+
+The machine-readable catalog now contains **13 cross-component interfaces**. Added explicit contracts for TX-V2 serialization/signing (`IF-008`), L1 node admission (`IF-009`), canonical persistence (`IF-010`), L1 standards (`IF-011`), ZKP verification (`IF-012`) and the ShivaCore/GlobusOS boot-service boundary (`IF-013`).
+
+`IF-002` is `BLOCKED` while the ATCB-versus-ATC1 bytecode magic conflict remains unresolved. `IF-003` is `BLOCKED` while consensus algorithm, finality and fork-choice lack an authoritative versioned decision. `IF-010` is `BLOCKED` because the storage repository is archived and canonical persistence ownership is unresolved.
