@@ -221,3 +221,9 @@ Every lexical source binding must carry an explicit `symbol_kind` (`function`, `
 Bindings to supporting types/values are `RELATED_SOURCE_SURFACE_ONLY`, not runtime function matches. Symbols found only in test/conformance paths are `TEST_SURFACE_ONLY` and must be linked to test evidence, not counted as runtime implementation coverage. Unmatched symbol records retain the repository HEAD SHA and source-file SHA-256 so every residual is traceable.
 
 This is a source-mapping integrity gate only. It does not upgrade any record to `VERIFIED`; source parsing remains lexical and functional verification remains `NOT_PERFORMED`.
+
+## Interface contract expansion — 2026-10-13
+
+The catalog now contains 16 cross-component interface records. Each record carries explicit fields for contract version, request schema, response schema, error/timeout semantics, authorization/capability boundary, compatibility policy, contract-test classes, exact-SHA evidence, and a resolution rule. Unresolved schema/evidence fields remain `RESIDUAL`; the three pre-existing normative conflicts remain `BLOCKED`.
+
+New records: `IF-014` Node ↔ SDK RPC/client boundary; `IF-015` Genesis Engine ↔ canonical L1 core; `IF-016` Node peer-ingress ↔ canonical chain admission. No wire format, protocol version, or consensus semantics is assumed where the source contract is not yet proven.
