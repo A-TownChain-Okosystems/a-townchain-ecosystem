@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-13",
-  "catalog_revision_note": "Added explicit cross-component contracts for TX-V2, L1 node admission, storage persistence, normative standards, ZKP verification and the kernel/service boot boundary. ATCB/ATC1 bytecode conflict and consensus/finality/fork-choice remain BLOCKED.",
+  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -278,7 +278,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "c2a4b93fb01178ef905f62d8a5fa6f42215d25a2",
           "tree_sha": "1d72f70552da76514efa925cba5d18209aa19b15",
@@ -532,7 +532,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "d6556168a21ed5a9b5d917262bd2a4ee196fdd46",
           "tree_sha": "1830c1afe2ad28aa062b450ea5da21b39820717d",
@@ -1393,7 +1393,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
           "tree_sha": "4649b749ce4be530a2acdf1c5446df4752d73198",
@@ -3378,7 +3378,7 @@
         ],
         "symbols_enumerated_for_selected_paths": true,
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
           "tree_sha": "c98f07d4af1a862247eeda24b0d54c19f93cfef8",
@@ -4755,7 +4755,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
           "tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
@@ -5485,7 +5485,7 @@
         ],
         "symbols_enumerated_for_selected_paths": true,
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
           "tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
@@ -8315,7 +8315,7 @@
         ],
         "symbols_enumerated_for_selected_paths": true,
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
           "tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
@@ -9334,7 +9334,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
           "tree_sha": "c98f07d4af1a862247eeda24b0d54c19f93cfef8",
@@ -9674,7 +9674,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
           "tree_sha": "63eb0ad422c80fe7eb9b2227f6368f2e7a154464",
@@ -9940,7 +9940,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "82fe4a238603476d7c6c19d5c3044c88b71c5f2d",
           "tree_sha": "dc853d005a8c68ebbdc88f8a4f47586102ec837a",
@@ -10210,7 +10210,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "8326eb53e3e10cf08518e6769b44d4f034de1144",
           "tree_sha": "bbe3cbb0b4a03c98e7c0424bbfd2e6d9209917ff",
@@ -10479,10 +10479,10 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "SELF_REFERENCE_PR_HEAD_DIFFERS_FROM_DEFAULT_BRANCH",
-          "head_sha": "dc7d7a298ff102600ffb2b85131ebe617f82f24c",
-          "tree_sha": "5160dfb2b62c423f0cfc3ed0cf14b76470a7cf56",
+          "head_sha": "47656950be68205ed474e48993bda39b0e0faada",
+          "tree_sha": "c49e79811e60ebc4902298e9774d94e914f152f3",
           "source_files_scanned": 10,
           "candidate_public_symbols": 48,
           "candidate_internal_symbols": 6,
@@ -10740,7 +10740,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
           "tree_sha": "e8e5979cc795aa587ef182e831ecc4765bfee120",
@@ -11004,7 +11004,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
           "tree_sha": "07f76e4848f17da7706bd29b96bd8d7d647ba35c",
@@ -11270,7 +11270,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "a7c8b417f482665ef30e94fcacae6469c28b1125",
           "tree_sha": "026851749bdff7ff5a686dfc9fab6beacd9fce72",
@@ -11529,7 +11529,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f",
           "tree_sha": "b9ac1abf479be23234af5afa4178887d2b3cae6a",
@@ -11790,7 +11790,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "ARCHIVED_REFERENCE_ONLY",
           "head_sha": null,
           "tree_sha": null,
@@ -12043,7 +12043,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "89d833edf338085d6141b0c703ebf92a0db83a5e",
           "tree_sha": "e140d5a5bc884bd56d037296397c0de879adea94",
@@ -12303,7 +12303,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "bd1a48c69983247a8428f90a77edd061ba79316b",
           "tree_sha": "b67a4f6a50ab578a8e82ac82748aecaf5bba003c",
@@ -12562,7 +12562,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "5c3bab7da8a80d58af725b7dea2478ece2456f39",
           "tree_sha": "c86fcc7f48d478a460419cbb075c7dea05a1fabb",
@@ -12821,7 +12821,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
           "tree_sha": "553ef11c7d2ced67ac06662b91bc0e28f1cc23a4",
@@ -13090,7 +13090,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
           "tree_sha": "1bc74a2c40394d8c76e3223de272ec3281db23e4",
@@ -13348,7 +13348,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "673fa560322b1449e8f23cc38bf839de1b246361",
           "tree_sha": "cbc461e067f5d46d0d5b7a378b80867673f92dd3",
@@ -13607,7 +13607,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
           "tree_sha": "85368a3f351bf8b07a41c7aff1ffc5c57c713635",
@@ -13862,7 +13862,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "21c99769654ff5915c421c3446e62c2a29c22b40",
           "tree_sha": "7110f2aac94aaccdb1f0dfc8c4c9140db29c7456",
@@ -14120,7 +14120,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "21132a49355eb5fd6ea4b8a7b4e4deb5d9be60f0",
           "tree_sha": "d60af19553baf4ff88a3098c81a683d77ba7096e",
@@ -14375,7 +14375,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "5a5628044ef4daacca943062eac3fd27a2eaec93",
           "tree_sha": "861497f8142d9f9be7f5c2bd8a98b2cbffb48109",
@@ -14633,7 +14633,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
           "tree_sha": "02d7c551989ecd345d4dbc656ef3a79fc59a0c84",
@@ -14893,7 +14893,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "af5d803dace369b83e4bffd2e4e6ba001d4aa000",
           "tree_sha": "b04a2d3c7d6f34508ec1e731f9f2f2107481a151",
@@ -15145,7 +15145,7 @@
         "completeness_status": "RESIDUAL",
         "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list.",
         "current_head_reconciliation": {
-          "source_census_run_id": 38319988637,
+          "source_census_run_id": 38320206333,
           "status": "EXCLUDED_PRIVATE_NO_CI_ACCESS",
           "head_sha": null,
           "tree_sha": null,
@@ -15330,11 +15330,11 @@
     "selected_source_files_examined": 10,
     "selected_source_public_symbol_groups": 10,
     "source_census_evidence": {
-      "run_id": 38319988637,
-      "workflow_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319988637",
-      "source_head_sha": "dc7d7a298ff102600ffb2b85131ebe617f82f24c",
-      "artifact_id": 11778062105,
-      "artifact_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319988637/artifacts/11778062105",
+      "run_id": 38320206333,
+      "workflow_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38320206333",
+      "source_head_sha": "47656950be68205ed474e48993bda39b0e0faada",
+      "artifact_id": 11778097539,
+      "artifact_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38320206333/artifacts/11778097539",
       "status": "RESIDUAL",
       "active_expected": 26,
       "active_scanned": 25,
@@ -15356,7 +15356,7 @@
       "functional_verification": "NOT_PERFORMED"
     },
     "source_symbol_reconciliation": {
-      "run_id": 38319988637,
+      "run_id": 38320206333,
       "status": "RESIDUAL",
       "catalog_function_records": 139,
       "exact_path_symbol_matches": 107,
