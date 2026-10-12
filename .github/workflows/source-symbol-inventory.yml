@@ -180,7 +180,8 @@ jobs:
             python tools/reconcile_component_function_catalog.py \
               --catalog docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json \
               --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
-              --output artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json
+              --output artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json \
+              --require-complete
           fi
       - name: Print reconciliation summary
         if: always()
