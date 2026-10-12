@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-13",
-  "catalog_revision_note": "Expanded from source-bound baseline to include explicit L1 chain and consensus decision contracts before further implementation work. Newly added contracts remain NOT_SOURCE_VERIFIED; no code or readiness claim is implied.",
+  "catalog_revision_note": "Exact-HEAD source census recorded on 2026-10-13. Existing path/symbol bindings refreshed only where the census found the same pair at the current source HEAD. Lexical discovery remains non-verifying; catalog completeness is not claimed.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -138,10 +138,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "scripts/standards_enforcement_audit.py",
             "symbol_or_entrypoint": "audit_repo",
-            "exact_source_sha": "2e91ec61ac6680566cbe9b525406a9752c31e539",
+            "exact_source_sha": "c2a4b93fb01178ef905f62d8a5fa6f42215d25a2",
             "file_blob_sha": "7bf813773120e0b8bb225862fcace1bda00bfb25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-engineering/blob/2e91ec61ac6680566cbe9b525406a9752c31e539/scripts/standards_enforcement_audit.py",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: audit_repo at scripts/standards_enforcement_audit.py (additional related symbols in the original qualified mapping: audit_repo, main)."
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-engineering/blob/c2a4b93fb01178ef905f62d8a5fa6f42215d25a2/scripts/standards_enforcement_audit.py",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: audit_repo at scripts/standards_enforcement_audit.py (additional related symbols in the original qualified mapping: audit_repo, main). Rebound to current exact-HEAD census c2a4b93fb01178ef905f62d8a5fa6f42215d25a2 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-engineering",
           "preconditions": {
@@ -217,10 +217,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "crates/atc-evidence/src/lib.rs",
             "symbol_or_entrypoint": "validate",
-            "exact_source_sha": "2e91ec61ac6680566cbe9b525406a9752c31e539",
+            "exact_source_sha": "c2a4b93fb01178ef905f62d8a5fa6f42215d25a2",
             "file_blob_sha": "5bea1f27a09dfda18d59bfd91550cde77a3aa599",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-engineering/blob/2e91ec61ac6680566cbe9b525406a9752c31e539/crates/atc-evidence/src/lib.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: validate at crates/atc-evidence/src/lib.rs (additional related symbols in the original qualified mapping: EvidenceRecord::{validate,to_json,write_to})."
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-engineering/blob/c2a4b93fb01178ef905f62d8a5fa6f42215d25a2/crates/atc-evidence/src/lib.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: validate at crates/atc-evidence/src/lib.rs (additional related symbols in the original qualified mapping: EvidenceRecord::{validate,to_json,write_to}). Rebound to current exact-HEAD census c2a4b93fb01178ef905f62d8a5fa6f42215d25a2 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-engineering",
           "preconditions": {
@@ -266,17 +266,30 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/atc-engineering",
         "canonical_path": ".",
-        "observed_head_sha": "2e91ec61ac6680566cbe9b525406a9752c31e539",
-        "observed_tree_sha": "c42f803fea64d3e2e1e0aee3d681fc6c914a8d1a",
-        "census_date": "2026-10-12",
-        "evidence_source": "local org census 2026-10-12 (workspace clone at 2e91ec61ac6680566cbe9b525406a9752c31e539)",
+        "observed_head_sha": "c2a4b93fb01178ef905f62d8a5fa6f42215d25a2",
+        "observed_tree_sha": "1d72f70552da76514efa925cba5d18209aa19b15",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree 1d72f70552da76514efa925cba5d18209aa19b15; repository HEAD c2a4b93fb01178ef905f62d8a5fa6f42215d25a2",
         "source_paths_examined": [
           "crates/atc-evidence/src/lib.rs",
           "scripts/standards_enforcement_audit.py"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA refreshed and all catalog functions carry explicit source bindings (lexical mapping, not functional verification). Source-path coverage beyond the catalog baseline remains RESIDUAL."
+        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "current_head_reconciliation": {
+          "head_sha": "c2a4b93fb01178ef905f62d8a5fa6f42215d25a2",
+          "tree_sha": "1d72f70552da76514efa925cba5d18209aa19b15",
+          "source_census_run_id": 38318248013,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "source_files_scanned": null,
+          "candidate_public_symbols": null,
+          "limitations": [
+            "lexical scan only",
+            "functional verification not performed",
+            "unmatched candidates and API/declarative/generated surfaces remain residual"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -378,10 +391,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "tools/consistency/check_cross_registry.py",
             "symbol_or_entrypoint": "main",
-            "exact_source_sha": "dc0ff69d8f1abb4bc4ba7a409d5bad20cf5e8f41",
+            "exact_source_sha": "d6556168a21ed5a9b5d917262bd2a4ee196fdd46",
             "file_blob_sha": "f6c4420e143076d280ffaa41768409ce31d09720",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/blob/dc0ff69d8f1abb4bc4ba7a409d5bad20cf5e8f41/tools/consistency/check_cross_registry.py",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: main at tools/consistency/check_cross_registry.py (additional related symbols in the original qualified mapping: main, norm (cross-registry consistency gate over registry/standards.yaml SSOT))."
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/blob/d6556168a21ed5a9b5d917262bd2a4ee196fdd46/tools/consistency/check_cross_registry.py",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: main at tools/consistency/check_cross_registry.py (additional related symbols in the original qualified mapping: main, norm (cross-registry consistency gate over registry/standards.yaml SSOT)). Rebound to current exact-HEAD census d6556168a21ed5a9b5d917262bd2a4ee196fdd46 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-standards",
           "preconditions": {
@@ -455,10 +468,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "sdk/src/lib.rs",
             "symbol_or_entrypoint": "conformance",
-            "exact_source_sha": "dc0ff69d8f1abb4bc4ba7a409d5bad20cf5e8f41",
+            "exact_source_sha": "d6556168a21ed5a9b5d917262bd2a4ee196fdd46",
             "file_blob_sha": "a415029075f2c07dd6040390c4c29a5490e1ba68",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/blob/dc0ff69d8f1abb4bc4ba7a409d5bad20cf5e8f41/sdk/src/lib.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: conformance at sdk/src/lib.rs (additional related symbols in the original qualified mapping: conformance, ConformanceResult)."
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/blob/d6556168a21ed5a9b5d917262bd2a4ee196fdd46/sdk/src/lib.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: conformance at sdk/src/lib.rs (additional related symbols in the original qualified mapping: conformance, ConformanceResult). Rebound to current exact-HEAD census d6556168a21ed5a9b5d917262bd2a4ee196fdd46 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-standards",
           "preconditions": {
@@ -504,17 +517,30 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/atc-standards",
         "canonical_path": ".",
-        "observed_head_sha": "dc0ff69d8f1abb4bc4ba7a409d5bad20cf5e8f41",
-        "observed_tree_sha": "57bc1fbf5ca9f187457c2eb2443c2a29ddc06a58",
-        "census_date": "2026-10-12",
-        "evidence_source": "local org census 2026-10-12 (workspace clone at dc0ff69d8f1abb4bc4ba7a409d5bad20cf5e8f41)",
+        "observed_head_sha": "d6556168a21ed5a9b5d917262bd2a4ee196fdd46",
+        "observed_tree_sha": "1830c1afe2ad28aa062b450ea5da21b39820717d",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree 1830c1afe2ad28aa062b450ea5da21b39820717d; repository HEAD d6556168a21ed5a9b5d917262bd2a4ee196fdd46",
         "source_paths_examined": [
           "sdk/src/lib.rs",
           "tools/consistency/check_cross_registry.py"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA refreshed and all catalog functions carry explicit source bindings (lexical mapping, not functional verification). Source-path coverage beyond the catalog baseline remains RESIDUAL."
+        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "current_head_reconciliation": {
+          "head_sha": "d6556168a21ed5a9b5d917262bd2a4ee196fdd46",
+          "tree_sha": "1830c1afe2ad28aa062b450ea5da21b39820717d",
+          "source_census_run_id": 38318248013,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "source_files_scanned": null,
+          "candidate_public_symbols": null,
+          "limitations": [
+            "lexical scan only",
+            "functional verification not performed",
+            "unmatched candidates and API/declarative/generated surfaces remain residual"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -1476,10 +1502,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "modules/atc-shivacore/kernel/src/capability.rs",
             "symbol_or_entrypoint": "check",
-            "exact_source_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
             "file_blob_sha": "dd5d4f7a0330f91badf1a956a210f4f745104e66",
-            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/c7337ef4fcff447ad0ee31c54e8adfee7f895bf6/modules/atc-shivacore/kernel/src/capability.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: check at modules/atc-shivacore/kernel/src/capability.rs (additional related symbols in the original qualified mapping: CapabilityTable::check)."
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/capability.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: check at modules/atc-shivacore/kernel/src/capability.rs (additional related symbols in the original qualified mapping: CapabilityTable::check). Rebound to current exact-HEAD census 7dbc7753032016cf6aeaf1a99807cd9c5173d090 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
           "preconditions": {
@@ -1555,10 +1581,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "modules/atc-shivacore/kernel/src/ipc.rs",
             "symbol_or_entrypoint": "create_channel",
-            "exact_source_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
             "file_blob_sha": "d95aebd8e48c47346ca282c79bef35d19bdbc6b8",
-            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/c7337ef4fcff447ad0ee31c54e8adfee7f895bf6/modules/atc-shivacore/kernel/src/ipc.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: create_channel at modules/atc-shivacore/kernel/src/ipc.rs (additional related symbols in the original qualified mapping: IpcSubsystem::{create_channel,send,recv,close_channel})."
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/ipc.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: create_channel at modules/atc-shivacore/kernel/src/ipc.rs (additional related symbols in the original qualified mapping: IpcSubsystem::{create_channel,send,recv,close_channel}). Rebound to current exact-HEAD census 7dbc7753032016cf6aeaf1a99807cd9c5173d090 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
           "preconditions": {
@@ -1634,10 +1660,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "modules/atc-shivacore/kernel/src/vmm.rs",
             "symbol_or_entrypoint": "map_page",
-            "exact_source_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
             "file_blob_sha": "a3ad9e0d727d5644ae500ff0bb80f10606121f3f",
-            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/c7337ef4fcff447ad0ee31c54e8adfee7f895bf6/modules/atc-shivacore/kernel/src/vmm.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: map_page at modules/atc-shivacore/kernel/src/vmm.rs (additional related symbols in the original qualified mapping: Vmm::{map_page,unmap_page,map_owned,unmap})."
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/vmm.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: map_page at modules/atc-shivacore/kernel/src/vmm.rs (additional related symbols in the original qualified mapping: Vmm::{map_page,unmap_page,map_owned,unmap}). Rebound to current exact-HEAD census 7dbc7753032016cf6aeaf1a99807cd9c5173d090 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
           "preconditions": {
@@ -1683,10 +1709,10 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/globus-os",
         "canonical_path": "modules/atc-shivacore/kernel",
-        "observed_head_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
-        "observed_tree_sha": "8bb320d5b7c4d86462f8a0f27840d6dc260c1f90",
-        "census_date": "2026-10-12",
-        "evidence_source": "local org census 2026-10-12 (workspace clone at c7337ef4fcff447ad0ee31c54e8adfee7f895bf6)",
+        "observed_head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+        "observed_tree_sha": "c98f07d4af1a862247eeda24b0d54c19f93cfef8",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree c98f07d4af1a862247eeda24b0d54c19f93cfef8; repository HEAD 7dbc7753032016cf6aeaf1a99807cd9c5173d090",
         "source_paths_examined": [
           "modules/atc-shivacore/kernel/src/capability.rs",
           "modules/atc-shivacore/kernel/src/ipc.rs",
@@ -1694,11 +1720,11 @@
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA refreshed and all catalog functions carry explicit source bindings (lexical mapping, not functional verification). Source-path coverage beyond the catalog baseline remains RESIDUAL.",
+        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
         "observed_public_symbol_inventory": [
           {
             "path": "modules/atc-shivacore/kernel/src/capability.rs",
-            "repository_head_sha": "fef3af85ff9ecab90c25bc179e2a3284fa17f633",
+            "repository_head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
             "file_blob_sha": "dd5d4f7a0330f91badf1a956a210f4f745104e66",
             "public_functions": [
               "has",
@@ -1723,11 +1749,11 @@
               "CapabilityError",
               "CapabilityTable"
             ],
-            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized; current tree blob confirmed by exact-HEAD census follow-up"
           },
           {
             "path": "modules/atc-shivacore/kernel/src/ipc.rs",
-            "repository_head_sha": "fef3af85ff9ecab90c25bc179e2a3284fa17f633",
+            "repository_head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
             "file_blob_sha": "d95aebd8e48c47346ca282c79bef35d19bdbc6b8",
             "public_functions": [
               "new",
@@ -1747,11 +1773,11 @@
               "IpcSubsystem",
               "IpcError"
             ],
-            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized; current tree blob confirmed by exact-HEAD census follow-up"
           },
           {
             "path": "modules/atc-shivacore/kernel/src/vmm.rs",
-            "repository_head_sha": "fef3af85ff9ecab90c25bc179e2a3284fa17f633",
+            "repository_head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
             "file_blob_sha": "a3ad9e0d727d5644ae500ff0bb80f10606121f3f",
             "public_functions": [
               "new",
@@ -1792,10 +1818,23 @@
               "HardwareMapper",
               "Vmm"
             ],
-            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized; current tree blob confirmed by exact-HEAD census follow-up"
           }
         ],
-        "symbols_enumerated_for_selected_paths": true
+        "symbols_enumerated_for_selected_paths": true,
+        "current_head_reconciliation": {
+          "head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+          "tree_sha": "c98f07d4af1a862247eeda24b0d54c19f93cfef8",
+          "source_census_run_id": 38318248013,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "source_files_scanned": null,
+          "candidate_public_symbols": null,
+          "limitations": [
+            "lexical scan only",
+            "functional verification not performed",
+            "unmatched candidates and API/declarative/generated surfaces remain residual"
+          ]
+        }
       },
       "canonical_path": "modules/atc-shivacore/kernel",
       "role_and_non_goals": {
@@ -2000,10 +2039,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/node/src/validator.rs",
             "symbol_or_entrypoint": "verify",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ee5d3817e2c67c4ef82a595a47711588cf967c64",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/node/src/validator.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: verify at components/node/src/validator.rs (additional related symbols in the original qualified mapping: verify, compute_signature)."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/node/src/validator.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: verify at components/node/src/validator.rs (additional related symbols in the original qualified mapping: verify, compute_signature). Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -2080,10 +2119,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/sdk/src/lib.rs",
             "symbol_or_entrypoint": "validate_amount",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "998154660957916ad2d6d4e8b9390d62dd59ac0c",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/sdk/src/lib.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/src/lib.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -2159,10 +2198,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/vm.rs",
             "symbol_or_entrypoint": "execute_state_transition",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: execute_state_transition at components/vm/src/vm.rs (additional related symbols in the original qualified mapping: execute_state_transition, execute_state_transition_with_gas)."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/vm.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: execute_state_transition at components/vm/src/vm.rs (additional related symbols in the original qualified mapping: execute_state_transition, execute_state_transition_with_gas). Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -3146,14 +3185,27 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/a-townchain",
         "canonical_path": ".",
-        "observed_head_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-        "observed_tree_sha": "3868f0f6db0aa2ea05452c88846f981a0242988d",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain/commits/main",
+        "observed_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "observed_tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree b1e2c32cea934a1a7f4d6de90b20b192461faef8; repository HEAD c631249ed6ff450bf45338e78cb14e2bf5c65c74",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "current_head_reconciliation": {
+          "head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+          "tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
+          "source_census_run_id": 38318248013,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "source_files_scanned": null,
+          "candidate_public_symbols": null,
+          "limitations": [
+            "lexical scan only",
+            "functional verification not performed",
+            "unmatched candidates and API/declarative/generated surfaces remain residual"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -3261,10 +3313,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/algorithm/src/poh.rs",
             "symbol_or_entrypoint": "verify",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "75a62238e2a3e4083caa6e420c2de3f215e28450",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/algorithm/src/poh.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: verify at components/algorithm/src/poh.rs (additional related symbols in the original qualified mapping: PohChain::{tick,verify})."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/algorithm/src/poh.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: verify at components/algorithm/src/poh.rs (additional related symbols in the original qualified mapping: PohChain::{tick,verify}). Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
           "preconditions": {
@@ -3341,10 +3393,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/algorithm/src/selection.rs",
             "symbol_or_entrypoint": "select_proposer",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "eab1723f3a3652df84a6c676bd252c9880469d9c",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/algorithm/src/selection.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/algorithm/src/selection.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
           "preconditions": {
@@ -3813,10 +3865,10 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/a-townchain",
         "canonical_path": "components/algorithm",
-        "observed_head_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-        "observed_tree_sha": "3868f0f6db0aa2ea05452c88846f981a0242988d",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain/commits/main",
+        "observed_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "observed_tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree b1e2c32cea934a1a7f4d6de90b20b192461faef8; repository HEAD c631249ed6ff450bf45338e78cb14e2bf5c65c74",
         "source_paths_examined": [
           "components/algorithm/src/economics.rs",
           "components/algorithm/src/hash.rs",
@@ -3825,11 +3877,11 @@
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Selected source files have been enumerated at the recorded repository HEAD. This is not a full repository/tree scan; unexamined files and additional exported symbols may exist.",
+        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
         "observed_public_symbol_inventory": [
           {
             "path": "components/algorithm/src/economics.rs",
-            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "repository_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "f415428712ad99302ff54d6e090cb72e600570b6",
             "public_functions": [
               "epoch",
@@ -3839,22 +3891,22 @@
             "public_types": [
               "MonetaryPolicy"
             ],
-            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized; current tree blob confirmed by exact-HEAD census follow-up"
           },
           {
             "path": "components/algorithm/src/hash.rs",
-            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "repository_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "97d3bee54f95caf2439765383041b0e120d1ab46",
             "public_functions": [
               "atc_hash",
               "atc_hash_hex"
             ],
             "public_types": [],
-            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized; current tree blob confirmed by exact-HEAD census follow-up"
           },
           {
             "path": "components/algorithm/src/poh.rs",
-            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "repository_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "75a62238e2a3e4083caa6e420c2de3f215e28450",
             "public_functions": [
               "genesis",
@@ -3867,11 +3919,11 @@
               "PohError",
               "PohChain"
             ],
-            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized; current tree blob confirmed by exact-HEAD census follow-up"
           },
           {
             "path": "components/algorithm/src/selection.rs",
-            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "repository_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "eab1723f3a3652df84a6c676bd252c9880469d9c",
             "public_functions": [
               "select_proposer"
@@ -3880,10 +3932,23 @@
               "Stake",
               "Validator"
             ],
-            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized; current tree blob confirmed by exact-HEAD census follow-up"
           }
         ],
-        "symbols_enumerated_for_selected_paths": true
+        "symbols_enumerated_for_selected_paths": true,
+        "current_head_reconciliation": {
+          "head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+          "tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
+          "source_census_run_id": 38318248013,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "source_files_scanned": null,
+          "candidate_public_symbols": null,
+          "limitations": [
+            "lexical scan only",
+            "functional verification not performed",
+            "unmatched candidates and API/declarative/generated surfaces remain residual"
+          ]
+        }
       },
       "canonical_path": "components/algorithm",
       "role_and_non_goals": {
@@ -4050,10 +4115,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/ops.rs",
             "symbol_or_entrypoint": "parse_ops",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "2b5efdff367b72e0025a6bfe7c05e89d23cf0a43",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/ops.rs",
-            "note": "This function parses textual .ops, not serialized ATCB bytecode. Binary decoding remains an identified gap."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/ops.rs",
+            "note": "This function parses textual .ops, not serialized ATCB bytecode. Binary decoding remains an identified gap. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "preconditions": {
@@ -4147,10 +4212,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
             "symbol_or_entrypoint": "execute_state_transition_with_gas",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
-            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "preconditions": {
@@ -4241,10 +4306,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
             "symbol_or_entrypoint": "new",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
-            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "inputs": [
             "program: Vec<Op>"
@@ -4316,10 +4381,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
             "symbol_or_entrypoint": "with_context",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
-            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "inputs": [
             "program: Vec<Op>",
@@ -4399,10 +4464,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
             "symbol_or_entrypoint": "caller",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
-            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "inputs": [
             "&self"
@@ -4472,10 +4537,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
             "symbol_or_entrypoint": "state",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
-            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "inputs": [
             "&self"
@@ -4554,10 +4619,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
             "symbol_or_entrypoint": "execute_state_transition",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
-            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "inputs": [
             "&ChainContext",
@@ -4649,10 +4714,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
             "symbol_or_entrypoint": "verify",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
-            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "inputs": [
             "&self; program, stack and storage currently held by VM"
@@ -4738,10 +4803,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
             "symbol_or_entrypoint": "run_with_gas",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
-            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "inputs": [
             "gas_remaining: u64"
@@ -4830,10 +4895,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
             "symbol_or_entrypoint": "run",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
-            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "inputs": [
             "&mut self"
@@ -4908,10 +4973,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/context.rs",
             "symbol_or_entrypoint": "validate",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ef0a0cee2ff6a73adc19870a75fc1ed5e00ac7bc",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/context.rs",
-            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/context.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "inputs": [
             "&self",
@@ -4990,10 +5055,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/context.rs",
             "symbol_or_entrypoint": "verify_genesis_id",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ef0a0cee2ff6a73adc19870a75fc1ed5e00ac7bc",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/context.rs",
-            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/context.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "inputs": [
             "&self",
@@ -5066,10 +5131,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/context.rs",
             "symbol_or_entrypoint": "execution_gate",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ef0a0cee2ff6a73adc19870a75fc1ed5e00ac7bc",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/context.rs",
-            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/context.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "inputs": [
             "&ChainContext",
@@ -5157,9 +5222,10 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "assemble",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
-            "note": "Assembler implements only let/return, u64 literals/parameters, + - * / and parentheses. Current body scan is brace-naive and function selection uses the first 'fn ' token; grammar robustness remains residual."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/assembler.rs",
+            "note": "Assembler implements only let/return, u64 literals/parameters, + - * / and parentheses. Current body scan is brace-naive and function selection uses the first 'fn ' token; grammar robustness remains residual. Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified.",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4"
           },
           "inputs": [
             "contract: &Path",
@@ -6520,10 +6586,10 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/a-townchain",
         "canonical_path": "components/vm",
-        "observed_head_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-        "observed_tree_sha": "3868f0f6db0aa2ea05452c88846f981a0242988d",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain/commits/main",
+        "observed_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "observed_tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree b1e2c32cea934a1a7f4d6de90b20b192461faef8; repository HEAD c631249ed6ff450bf45338e78cb14e2bf5c65c74",
         "source_paths_examined": [
           "components/vm/Cargo.toml",
           "components/vm/src/lib.rs",
@@ -6536,11 +6602,11 @@
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "VM library, assembler and CLI function contracts are now mapped from selected files at exact HEAD. Repository-wide AST reconciliation is not complete; no binary ATCB decoder was found in the inspected source; functional verification remains open.",
+        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
         "observed_public_symbol_inventory": [
           {
             "path": "components/vm/src/vm.rs",
-            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "repository_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
             "public_functions": [
               "Vm::new",
@@ -6558,11 +6624,11 @@
               "VmError",
               "Vm"
             ],
-            "enumeration_method": "Manual enumeration from complete file at exact HEAD; test module reviewed; not compiler/AST generated."
+            "enumeration_method": "Manual enumeration from complete file at exact HEAD; test module reviewed; not compiler/AST generated.; current tree blob confirmed by exact-HEAD census follow-up"
           },
           {
             "path": "components/vm/src/ops.rs",
-            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "repository_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "2b5efdff367b72e0025a6bfe7c05e89d23cf0a43",
             "public_functions": [
               "parse_ops"
@@ -6570,11 +6636,11 @@
             "public_types": [
               "OpsError"
             ],
-            "enumeration_method": "Manual enumeration from complete file at exact HEAD; test module reviewed; textual parser only."
+            "enumeration_method": "Manual enumeration from complete file at exact HEAD; test module reviewed; textual parser only.; current tree blob confirmed by exact-HEAD census follow-up"
           },
           {
             "path": "components/vm/src/context.rs",
-            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "repository_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ef0a0cee2ff6a73adc19870a75fc1ed5e00ac7bc",
             "public_functions": [
               "ChainContext::validate",
@@ -6585,40 +6651,40 @@
               "ChainContext",
               "ContextError"
             ],
-            "enumeration_method": "Manual enumeration from complete file at exact HEAD; test module reviewed."
+            "enumeration_method": "Manual enumeration from complete file at exact HEAD; test module reviewed.; current tree blob confirmed by exact-HEAD census follow-up"
           },
           {
             "path": "components/vm/src/assembler.rs",
-            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "file_blob_sha": "92306119c9384b44a9241d7293eb1f08d41dcc29",
+            "repository_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4",
             "public_functions": [
               "assemble"
             ],
             "public_types": [],
-            "enumeration_method": "File examined; binary-local module used by runner, not part of lib.rs exports; full function contract not yet cataloged."
+            "enumeration_method": "File examined; binary-local module used by runner, not part of lib.rs exports; full function contract not yet cataloged.; current tree blob confirmed by exact-HEAD census follow-up"
           },
           {
             "path": "components/vm/src/main.rs",
-            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "file_blob_sha": "6c4ebf320c0f54131f77372c17e21b813aa9cb32",
+            "repository_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "ae010fc16ac310e8a98316f63c89e7d9b96cbca8",
             "public_functions": [],
             "public_types": [
               "atc-vm-runner CLI entrypoint"
             ],
-            "enumeration_method": "File examined; executable CLI path and argument parsing exist; not exhaustively cataloged as function-level contracts."
+            "enumeration_method": "File examined; executable CLI path and argument parsing exist; not exhaustively cataloged as function-level contracts.; current tree blob confirmed by exact-HEAD census follow-up"
           },
           {
             "path": "components/vm/tests/exec_chain_e2e.rs",
-            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "repository_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "129122feb41a1af630a59a0f04c2cf679853bc27",
             "public_functions": [],
             "public_types": [],
-            "enumeration_method": "Integration test surface inspected; tests cover arithmetic, parse/execute, storage, caller, branches and transfer examples; test success not inferred from source presence."
+            "enumeration_method": "Integration test surface inspected; tests cover arithmetic, parse/execute, storage, caller, branches and transfer examples; test success not inferred from source presence.; current tree blob confirmed by exact-HEAD census follow-up"
           },
           {
             "path": "components/vm/src/assembler.rs",
-            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "file_blob_sha": "92306119c9384b44a9241d7293eb1f08d41dcc29",
+            "repository_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4",
             "public_functions": [
               "assemble"
             ],
@@ -6634,12 +6700,12 @@
               "json_u64_for_key",
               "simulate"
             ],
-            "enumeration_method": "Manual source enumeration; function contracts added for public assembler entrypoint and material parsing/simulation helpers; no AST-based completeness claim."
+            "enumeration_method": "Manual source enumeration; function contracts added for public assembler entrypoint and material parsing/simulation helpers; no AST-based completeness claim.; current tree blob confirmed by exact-HEAD census follow-up"
           },
           {
             "path": "components/vm/src/main.rs",
-            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "file_blob_sha": "6c4ebf320c0f54131f77372c17e21b813aa9cb32",
+            "repository_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "ae010fc16ac310e8a98316f63c89e7d9b96cbca8",
             "public_functions": [],
             "internal_functions": [
               "parse_slot_pair",
@@ -6648,10 +6714,23 @@
               "run_ops_file",
               "main"
             ],
-            "enumeration_method": "Manual source enumeration; runner functions mapped; process-level behavior and resource limits remain residual."
+            "enumeration_method": "Manual source enumeration; runner functions mapped; process-level behavior and resource limits remain residual.; current tree blob confirmed by exact-HEAD census follow-up"
           }
         ],
-        "symbols_enumerated_for_selected_paths": true
+        "symbols_enumerated_for_selected_paths": true,
+        "current_head_reconciliation": {
+          "head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+          "tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
+          "source_census_run_id": 38318248013,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "source_files_scanned": null,
+          "candidate_public_symbols": null,
+          "limitations": [
+            "lexical scan only",
+            "functional verification not performed",
+            "unmatched candidates and API/declarative/generated surfaces remain residual"
+          ]
+        }
       },
       "canonical_path": "components/vm",
       "role_and_non_goals": {
@@ -6930,10 +7009,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "modules/atc-shivacore/kernel/src/process.rs",
             "symbol_or_entrypoint": "spawn",
-            "exact_source_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
             "file_blob_sha": "960c80753ca3a7c9ff54887ca00501e150127554",
-            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/c7337ef4fcff447ad0ee31c54e8adfee7f895bf6/modules/atc-shivacore/kernel/src/process.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: spawn at modules/atc-shivacore/kernel/src/process.rs (additional related symbols in the original qualified mapping: spawn, spawn_child)."
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/process.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: spawn at modules/atc-shivacore/kernel/src/process.rs (additional related symbols in the original qualified mapping: spawn, spawn_child). Rebound to current exact-HEAD census 7dbc7753032016cf6aeaf1a99807cd9c5173d090 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
@@ -7009,10 +7088,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "modules/atc-bootloader/src/boot.rs",
             "symbol_or_entrypoint": "next_stage",
-            "exact_source_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
             "file_blob_sha": "7147afd7964dbc5c31a5272e4075faa35f098089",
-            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/c7337ef4fcff447ad0ee31c54e8adfee7f895bf6/modules/atc-bootloader/src/boot.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: next_stage at modules/atc-bootloader/src/boot.rs (additional related symbols in the original qualified mapping: BootSequence::{new,next_stage,current_stage})."
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-bootloader/src/boot.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: next_stage at modules/atc-bootloader/src/boot.rs (additional related symbols in the original qualified mapping: BootSequence::{new,next_stage,current_stage}). Rebound to current exact-HEAD census 7dbc7753032016cf6aeaf1a99807cd9c5173d090 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
@@ -7058,17 +7137,30 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/globus-os",
         "canonical_path": ".",
-        "observed_head_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
-        "observed_tree_sha": "8bb320d5b7c4d86462f8a0f27840d6dc260c1f90",
-        "census_date": "2026-10-12",
-        "evidence_source": "local org census 2026-10-12 (workspace clone at c7337ef4fcff447ad0ee31c54e8adfee7f895bf6)",
+        "observed_head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+        "observed_tree_sha": "c98f07d4af1a862247eeda24b0d54c19f93cfef8",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree c98f07d4af1a862247eeda24b0d54c19f93cfef8; repository HEAD 7dbc7753032016cf6aeaf1a99807cd9c5173d090",
         "source_paths_examined": [
           "modules/atc-bootloader/src/boot.rs",
           "modules/atc-shivacore/kernel/src/process.rs"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA refreshed and all catalog functions carry explicit source bindings (lexical mapping, not functional verification). Source-path coverage beyond the catalog baseline remains RESIDUAL."
+        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "current_head_reconciliation": {
+          "head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+          "tree_sha": "c98f07d4af1a862247eeda24b0d54c19f93cfef8",
+          "source_census_run_id": 38318248013,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "source_files_scanned": null,
+          "candidate_public_symbols": null,
+          "limitations": [
+            "lexical scan only",
+            "functional verification not performed",
+            "unmatched candidates and API/declarative/generated surfaces remain residual"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -7173,10 +7265,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "modules/atc-aurora-core/src/aurora_core.rs",
             "symbol_or_entrypoint": "process_request",
-            "exact_source_sha": "1b5ff1824bb032958b9a2ae4e53365d7af01c3af",
-            "file_blob_sha": "cc649331479373d6dd2918441b8477dd1528e3ef",
-            "evidence": "https://github.com/A-TownChain-Okosystems/aurora-ai/blob/1b5ff1824bb032958b9a2ae4e53365d7af01c3af/modules/atc-aurora-core/src/aurora_core.rs",
-            "note": "Bound to the core request entry; a dedicated intent-to-proposal planning module was not lexically identifiable in the current census. Census-verified symbol: process_request at modules/atc-aurora-core/src/aurora_core.rs (additional related symbols in the original qualified mapping: AuroraCore::process_request)."
+            "exact_source_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
+            "file_blob_sha": "b106e52d6cc3ee4fc4e1f3bf5ccc6ba0c30568a6",
+            "evidence": "https://github.com/A-TownChain-Okosystems/aurora-ai/blob/ef880fc5b4469f9757839c3b0f3ef2ed368357c2/modules/atc-aurora-core/src/aurora_core.rs",
+            "note": "Bound to the core request entry; a dedicated intent-to-proposal planning module was not lexically identifiable in the current census. Census-verified symbol: process_request at modules/atc-aurora-core/src/aurora_core.rs (additional related symbols in the original qualified mapping: AuroraCore::process_request). Rebound to current exact-HEAD census ef880fc5b4469f9757839c3b0f3ef2ed368357c2 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
           "preconditions": {
@@ -7253,10 +7345,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "modules/atc-aurora-agents/src/agent_pool.rs",
             "symbol_or_entrypoint": "execute",
-            "exact_source_sha": "1b5ff1824bb032958b9a2ae4e53365d7af01c3af",
+            "exact_source_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
             "file_blob_sha": "34f672015b0945e6f4a511cc66b788f3930ba404",
-            "evidence": "https://github.com/A-TownChain-Okosystems/aurora-ai/blob/1b5ff1824bb032958b9a2ae4e53365d7af01c3af/modules/atc-aurora-agents/src/agent_pool.rs",
-            "note": "Bound to the agent execution path; an explicit policy/capability gate module was not lexically identifiable in the current census and remains a residual. Census-verified symbol: execute at modules/atc-aurora-agents/src/agent_pool.rs (additional related symbols in the original qualified mapping: AgentPool::{register,execute})."
+            "evidence": "https://github.com/A-TownChain-Okosystems/aurora-ai/blob/ef880fc5b4469f9757839c3b0f3ef2ed368357c2/modules/atc-aurora-agents/src/agent_pool.rs",
+            "note": "Bound to the agent execution path; an explicit policy/capability gate module was not lexically identifiable in the current census and remains a residual. Census-verified symbol: execute at modules/atc-aurora-agents/src/agent_pool.rs (additional related symbols in the original qualified mapping: AgentPool::{register,execute}). Rebound to current exact-HEAD census ef880fc5b4469f9757839c3b0f3ef2ed368357c2 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
           "preconditions": {
@@ -7332,10 +7424,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "modules/atc-aurora-core/src/agent_registry.rs",
             "symbol_or_entrypoint": "register",
-            "exact_source_sha": "1b5ff1824bb032958b9a2ae4e53365d7af01c3af",
+            "exact_source_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
             "file_blob_sha": "ad2d7826e66ef3c20924ae10e16b6bb5abd1c32a",
-            "evidence": "https://github.com/A-TownChain-Okosystems/aurora-ai/blob/1b5ff1824bb032958b9a2ae4e53365d7af01c3af/modules/atc-aurora-core/src/agent_registry.rs",
-            "note": "Bound to the agent registry; a dedicated swarm-coordination module was not lexically identifiable in the current census. Census-verified symbol: register at modules/atc-aurora-core/src/agent_registry.rs (additional related symbols in the original qualified mapping: AgentRegistry::{register,list_active,get_agent})."
+            "evidence": "https://github.com/A-TownChain-Okosystems/aurora-ai/blob/ef880fc5b4469f9757839c3b0f3ef2ed368357c2/modules/atc-aurora-core/src/agent_registry.rs",
+            "note": "Bound to the agent registry; a dedicated swarm-coordination module was not lexically identifiable in the current census. Census-verified symbol: register at modules/atc-aurora-core/src/agent_registry.rs (additional related symbols in the original qualified mapping: AgentRegistry::{register,list_active,get_agent}). Rebound to current exact-HEAD census ef880fc5b4469f9757839c3b0f3ef2ed368357c2 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
           "preconditions": {
@@ -7381,10 +7473,10 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/aurora-ai",
         "canonical_path": ".",
-        "observed_head_sha": "1b5ff1824bb032958b9a2ae4e53365d7af01c3af",
-        "observed_tree_sha": "e558add3cd61b99b3027282a4bb849c3c26c134b",
-        "census_date": "2026-10-12",
-        "evidence_source": "local org census 2026-10-12 (workspace clone at 1b5ff1824bb032958b9a2ae4e53365d7af01c3af)",
+        "observed_head_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
+        "observed_tree_sha": "63eb0ad422c80fe7eb9b2227f6368f2e7a154464",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree 63eb0ad422c80fe7eb9b2227f6368f2e7a154464; repository HEAD ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
         "source_paths_examined": [
           "modules/atc-aurora-agents/src/agent_pool.rs",
           "modules/atc-aurora-core/src/agent_registry.rs",
@@ -7392,7 +7484,20 @@
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA refreshed and all catalog functions carry explicit source bindings (lexical mapping, not functional verification). Source-path coverage beyond the catalog baseline remains RESIDUAL."
+        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "current_head_reconciliation": {
+          "head_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
+          "tree_sha": "63eb0ad422c80fe7eb9b2227f6368f2e7a154464",
+          "source_census_run_id": 38318248013,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "source_files_scanned": null,
+          "candidate_public_symbols": null,
+          "limitations": [
+            "lexical scan only",
+            "functional verification not performed",
+            "unmatched candidates and API/declarative/generated surfaces remain residual"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -9492,10 +9597,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "src/scheduler.rs",
             "symbol_or_entrypoint": "enqueue",
-            "exact_source_sha": "d0831dfb72590537d8b0ca4d435a3649e71cdb61",
-            "file_blob_sha": "2c023471e97e6599846f5a4f8d2a350863caa3eb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-compute/blob/d0831dfb72590537d8b0ca4d435a3649e71cdb61/src/scheduler.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: enqueue at src/scheduler.rs (additional related symbols in the original qualified mapping: enqueue, dispatch, Job)."
+            "exact_source_sha": "89d833edf338085d6141b0c703ebf92a0db83a5e",
+            "file_blob_sha": "975d22aa06089f64e760daff80416c3965f26c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-compute/blob/89d833edf338085d6141b0c703ebf92a0db83a5e/src/scheduler.rs",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: enqueue at src/scheduler.rs (additional related symbols in the original qualified mapping: enqueue, dispatch, Job). Rebound to current exact-HEAD census 89d833edf338085d6141b0c703ebf92a0db83a5e in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-compute",
           "preconditions": {
@@ -9570,10 +9675,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "src/scheduler.rs",
             "symbol_or_entrypoint": "finish",
-            "exact_source_sha": "d0831dfb72590537d8b0ca4d435a3649e71cdb61",
-            "file_blob_sha": "2c023471e97e6599846f5a4f8d2a350863caa3eb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-compute/blob/d0831dfb72590537d8b0ca4d435a3649e71cdb61/src/scheduler.rs",
-            "note": "No separate result-attestation surface was identified; job completion is recorded via Scheduler::finish. Attestation remains a residual, not a verified claim."
+            "exact_source_sha": "89d833edf338085d6141b0c703ebf92a0db83a5e",
+            "file_blob_sha": "975d22aa06089f64e760daff80416c3965f26c25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-compute/blob/89d833edf338085d6141b0c703ebf92a0db83a5e/src/scheduler.rs",
+            "note": "No separate result-attestation surface was identified; job completion is recorded via Scheduler::finish. Attestation remains a residual, not a verified claim. Rebound to current exact-HEAD census 89d833edf338085d6141b0c703ebf92a0db83a5e in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-compute",
           "preconditions": {
@@ -9619,14 +9724,27 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/atc-compute",
         "canonical_path": ".",
-        "observed_head_sha": "d0831dfb72590537d8b0ca4d435a3649e71cdb61",
-        "observed_tree_sha": "b7e219595b16167f098db6414c9d7d1ea3b335cc",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-compute/commits/main",
+        "observed_head_sha": "89d833edf338085d6141b0c703ebf92a0db83a5e",
+        "observed_tree_sha": "e140d5a5bc884bd56d037296397c0de879adea94",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree e140d5a5bc884bd56d037296397c0de879adea94; repository HEAD 89d833edf338085d6141b0c703ebf92a0db83a5e",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "current_head_reconciliation": {
+          "head_sha": "89d833edf338085d6141b0c703ebf92a0db83a5e",
+          "tree_sha": "e140d5a5bc884bd56d037296397c0de879adea94",
+          "source_census_run_id": 38318248013,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "source_files_scanned": null,
+          "candidate_public_symbols": null,
+          "limitations": [
+            "lexical scan only",
+            "functional verification not performed",
+            "unmatched candidates and API/declarative/generated surfaces remain residual"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -11925,10 +12043,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "aistudio/src/components/ArchitectureView.tsx",
             "symbol_or_entrypoint": "ArchitectureView",
-            "exact_source_sha": "6b311f70dc12517d2e09b83297e96035aebed035",
+            "exact_source_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
             "file_blob_sha": "9dc72fd057dcced2d10af5bad0ccffffcd2a1a1b",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/6b311f70dc12517d2e09b83297e96035aebed035/aistudio/src/components/ArchitectureView.tsx",
-            "note": "Bound to the architecture view of the docs-site application; the normative markdown architecture documents in this repository are not symbol-scannable and remain covered by the documentation census residual."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/f65992609ffcdd7e8eee4c29ac7a455da07fa947/aistudio/src/components/ArchitectureView.tsx",
+            "note": "Bound to the architecture view of the docs-site application; the normative markdown architecture documents in this repository are not symbol-scannable and remain covered by the documentation census residual. Rebound to current exact-HEAD census f65992609ffcdd7e8eee4c29ac7a455da07fa947 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain-os-docs",
           "preconditions": {
@@ -12003,10 +12121,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "aistudio/src/atcLangRoadmapData.ts",
             "symbol_or_entrypoint": "ATC_LANG_ROADMAP_DATA",
-            "exact_source_sha": "6b311f70dc12517d2e09b83297e96035aebed035",
+            "exact_source_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
             "file_blob_sha": "1821e6577e3488f50d4ce92df8961065185a63f1",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/6b311f70dc12517d2e09b83297e96035aebed035/aistudio/src/atcLangRoadmapData.ts",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: ATC_LANG_ROADMAP_DATA at aistudio/src/atcLangRoadmapData.ts (additional related symbols in the original qualified mapping: ATC_LANG_ROADMAP_DATA, RoadmapPhase)."
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/f65992609ffcdd7e8eee4c29ac7a455da07fa947/aistudio/src/atcLangRoadmapData.ts",
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: ATC_LANG_ROADMAP_DATA at aistudio/src/atcLangRoadmapData.ts (additional related symbols in the original qualified mapping: ATC_LANG_ROADMAP_DATA, RoadmapPhase). Rebound to current exact-HEAD census f65992609ffcdd7e8eee4c29ac7a455da07fa947 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain-os-docs",
           "preconditions": {
@@ -12052,14 +12170,27 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
         "canonical_path": ".",
-        "observed_head_sha": "6b311f70dc12517d2e09b83297e96035aebed035",
-        "observed_tree_sha": "81989f43c3a5ab08c3f226e788c973b504eacaa8",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain-os-docs/commits/main",
+        "observed_head_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
+        "observed_tree_sha": "02d7c551989ecd345d4dbc656ef3a79fc59a0c84",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree 02d7c551989ecd345d4dbc656ef3a79fc59a0c84; repository HEAD f65992609ffcdd7e8eee4c29ac7a455da07fa947",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "current_head_reconciliation": {
+          "head_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
+          "tree_sha": "02d7c551989ecd345d4dbc656ef3a79fc59a0c84",
+          "source_census_run_id": 38318248013,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "source_files_scanned": null,
+          "candidate_public_symbols": null,
+          "limitations": [
+            "lexical scan only",
+            "functional verification not performed",
+            "unmatched candidates and API/declarative/generated surfaces remain residual"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -12674,7 +12805,21 @@
     "source_verified_components": 0,
     "source_verified_functions": 0,
     "selected_source_files_examined": 10,
-    "selected_source_public_symbol_groups": 10
+    "selected_source_public_symbol_groups": 10,
+    "source_census_evidence": {
+      "run_id": 38318248013,
+      "workflow_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38318248013",
+      "status": "RESIDUAL",
+      "active_expected": 26,
+      "active_scanned": 25,
+      "active_excluded_private": 1,
+      "active_blocked": 0,
+      "archived_reference_repositories": 7,
+      "source_files_scanned": 4934,
+      "candidate_public_symbols": 35663,
+      "artifact_id": 11777103105,
+      "artifact_name": "atc-org-source-census-ff5f58476a6ef2584ec1bec2c5bb26b92cfb5760"
+    }
   },
   "repository_coverage": [
     {
