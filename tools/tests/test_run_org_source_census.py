@@ -62,6 +62,27 @@ class OrganizationCensusTests(unittest.TestCase):
             self.assertEqual(report["repositories"][0]["source_sha"], actual_sha)
             self.assertFalse(report["repositories"][0]["working_tree_clean"])
 
+    def test_manifest_scope_exclusions_are_passed_to_symbol_scanner(self):
+        with tempfile.TemporaryDirectory() as temp:
+            workspace = Path(temp)
+            root = workspace / "repo"
+            root.mkdir()
+            subprocess.run(["git", "init", str(root)], check=True, capture_output=True)
+            (root / "archive").mkdir()
+            (root / "archive" / "old.rs").write_text("pub fn archived() {}\\n", encoding="utf-8")
+            (root / "lib.rs").write_text("pub fn live() {}\\n", encoding="utf-8")
+            subprocess.run(["git", "-C", str(root), "config", "user.email", "test@example.com"], check=True)
+            subprocess.run(["git", "-C", str(root), "config", "user.name", "Test"], check=True)
+            subprocess.run(["git", "-C", str(root), "add", "."], check=True)
+            subprocess.run(["git", "-C", str(root), "commit", "-m", "init"], check=True, capture_output=True)
+            manifest = {"owner": "example", "repositories": [{"name": "repo", "archived": False, "source_scope_exclusions": [{"path": "archive/", "reason": "historical mirror"}]}]}
+            report = run_census(workspace, manifest)
+            repo_report = report["repositories"][0]["report"]
+            paths = {entry["path"] for entry in repo_report["files"]}
+            self.assertIn("lib.rs", paths)
+            self.assertNotIn("archive/old.rs", paths)
+            self.assertEqual(repo_report["scope_exclusions"][0]["files_excluded"], 1)
+
     def test_archived_repository_is_reference_only_not_blocked(self):
         with tempfile.TemporaryDirectory() as temp:
             manifest = {"owner": "example", "repositories": [{"name": "old", "archived": True}]}
