@@ -208,12 +208,10 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 })
             elif example_surface:
                 excluded_candidates.append({
-                    "repository": repo,
-                    "source_path": path,
-                    "symbol_or_entrypoint": symbol,
+                    **common,
                     "status": "EXCLUDED_BY_POLICY",
                     "finding": "EXAMPLE_OR_SAMPLE_FUNCTION_EXCLUDED_FROM_RUNTIME_CATALOG",
-                    "reason": "Example/sample code is not a canonical runtime entrypoint. Keep the exact path and symbol for traceability; validate conformance separately if it is normative.",
+                    "reason": "Example/sample code is not a canonical runtime entrypoint. Keep the exact repository, source SHA, path, file hash and symbol for traceability; validate conformance separately if it is normative.",
                 })
             else:
                 unmatched_candidates.append({
