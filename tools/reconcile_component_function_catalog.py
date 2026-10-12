@@ -225,11 +225,48 @@ def reconcile(catalog: dict, census: dict) -> dict:
     }
 
 
+def completion_gaps(report: dict) -> list[str]:
+    """Return blockers for the strict source-to-catalog completeness gate.
+
+    A PASS means every scanned candidate is bound or has a documented policy
+    exclusion and every catalog entry has a resolved source disposition. It
+    does not mean functional verification or production readiness.
+    """
+    gaps: list[str] = []
+    summary = report.get("summary") or {}
+    if summary.get("candidate_symbols_unbound", 0):
+        gaps.append(f'{summary["candidate_symbols_unbound"]} source symbol candidates remain unbound and without a reasoned exclusion')
+    if summary.get("component_findings", 0):
+        gaps.append(f'{summary["component_findings"]} component source inventory findings remain unresolved')
+    if report.get("census_status") == "BLOCKED":
+        gaps.append("organization source census is BLOCKED")
+    allowed_findings = {
+        "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING",
+        "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION",
+        "NON_FUNCTION_SOURCE_ARTIFACT_EXCLUDED_FROM_SYMBOL_SCAN",
+        "NORMATIVE_DECISION_BLOCKED",
+        "BLOCKED_ARCHIVED_REFERENCE_ONLY",
+        "BLOCKED_PRIVATE_REPOSITORY_EXCLUDED",
+    }
+    unresolved = [
+        item for item in report.get("function_findings", [])
+        if item.get("finding") not in allowed_findings
+    ]
+    if unresolved:
+        counts: dict[str, int] = {}
+        for item in unresolved:
+            finding = str(item.get("finding") or "UNCLASSIFIED")
+            counts[finding] = counts.get(finding, 0) + 1
+        gaps.append("unresolved catalog source bindings: " + ", ".join(f"{key}={value}" for key, value in sorted(counts.items())))
+    return gaps
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--catalog", required=True, type=Path)
     parser.add_argument("--census", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--require-complete", action="store_true", help="Fail unless all scanned candidates and catalog bindings are reconciled; functional verification remains separate.")
     args = parser.parse_args()
     catalog = json.loads(args.catalog.read_text(encoding="utf-8"))
     census = json.loads(args.census.read_text(encoding="utf-8"))
@@ -240,7 +277,13 @@ def main() -> int:
     report = reconcile(catalog, census)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({"status": report["status"], **report["summary"], "output": str(args.output)}, sort_keys=True))
+    gaps = completion_gaps(report)
+    report["completion_gate"] = "PASS" if not gaps else "BLOCKED"
+    report["completion_gaps"] = gaps
+    args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\\n", encoding="utf-8")
+    print(json.dumps({"status": report["status"], "completion_gate": report["completion_gate"], "completion_gaps": gaps, **report["summary"], "output": str(args.output)}, sort_keys=True))
+    if args.require_complete and gaps:
+        return 2
     return 0 if report["status"] == "RESIDUAL" else 2
 
 
