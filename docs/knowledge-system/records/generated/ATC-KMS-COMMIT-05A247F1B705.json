@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-05A247F1B705",
-  "timestamp": "2026-10-11T21:35:32.359509Z",
+  "timestamp": "2026-10-12T09:17:58.712693Z",
   "category": "change",
   "title": "Commit: docs: remove unsupported ecosystem-wide verification claims",
   "context": "Git commit 05a247f1b7052a8aa3626d922f3338767e550cd1 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/05a247f1b7052a8aa3626d922f3338767e550cd1",
-    "commit": "66928968018d9af428bc4d983467d1ff93d14a8c"
+    "commit": "a4264a2a03ff092e5e90cb5f971e769bb5704eec"
   },
   "tags": [
     "commit",

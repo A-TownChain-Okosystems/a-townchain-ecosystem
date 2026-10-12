@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-COMPONENTS-ZKP-CRATES-ZKP-VERIFIER-CA-134603DA37",
-  "timestamp": "2026-10-11T21:35:32.359509Z",
+  "timestamp": "2026-10-12T09:17:58.712693Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain/components/zkp/crates/zkp-verifier/Cargo.toml",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain/components/zkp/crates/zkp-verifier/Cargo.toml",
-    "commit": "66928968018d9af428bc4d983467d1ff93d14a8c"
+    "commit": "a4264a2a03ff092e5e90cb5f971e769bb5704eec"
   },
   "tags": [
     "generated",
