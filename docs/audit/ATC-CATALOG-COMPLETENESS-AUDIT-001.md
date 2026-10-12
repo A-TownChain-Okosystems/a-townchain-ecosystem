@@ -194,3 +194,11 @@ Fail-closed decisions:
 - `IF-010` remains `BLOCKED` because the storage repository is archived and canonical persistence ownership is unresolved.
 
 No implementation was changed to resolve these conflicts. They are recorded as normative blockers for the catalog-first phase.
+
+## 11. Symbol-kind reconciliation correction (2026-10-13)
+
+The exact-HEAD census artifact (`38320206333`, source HEAD `47656950be68205ed474e48993bda39b0e0faada`) contains 11,863 lexical symbol candidates. The prior reconciler keyed candidates by path and spelling only, so a same-named type/value could incorrectly satisfy a function binding. This is corrected in the reconciler: the key now includes `symbol_kind`, and unmatched records include repository source SHA, source path, source-file SHA-256, language, kind and symbol name.
+
+Known catalog bindings that point to type/value surfaces are now marked `RELATED_SOURCE_SURFACE_ONLY` with an explicit kind. The two catalog entries bound to test/conformance functions are marked `TEST_SURFACE_ONLY`. Neither status is functional verification. New regression tests cover type/function name collisions and explicit type bindings.
+
+Post-change CI must run against the exact updated PR HEAD before this correction is considered verified. The earlier census counts remain historical evidence for HEAD `47656950be68205ed474e48993bda39b0e0faada`; they must not be presented as a successful reconciliation of the updated catalog/reconciler.
