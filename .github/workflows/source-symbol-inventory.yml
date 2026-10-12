@@ -162,7 +162,7 @@ jobs:
             print(json.dumps({
                 "status": report.get("status"),
                 **report.get("summary", {}),
-                "function_findings_by_kind": dict(sorted(counts.items())),
+                "function_findings_by_kind": dict(sorted(counts.items(), key=lambda item: str(item[0]))),
                 "component_findings": len(report.get("component_findings", [])),
                 "self_reference_observations": len(report.get("self_reference_observations", [])),
             }, sort_keys=True))
