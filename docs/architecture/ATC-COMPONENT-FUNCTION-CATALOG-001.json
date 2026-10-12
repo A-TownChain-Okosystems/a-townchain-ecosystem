@@ -18512,7 +18512,7 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L39",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L42",
             "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
           },
           "verification_evidence": {
@@ -18589,7 +18589,7 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L45",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L48",
             "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
           },
           "verification_evidence": {
@@ -18665,7 +18665,7 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L60",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L63",
             "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
           },
           "verification_evidence": {
@@ -18737,7 +18737,7 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L71",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L75",
             "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
           },
           "verification_evidence": {
@@ -18808,7 +18808,7 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L81",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L86",
             "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
           },
           "verification_evidence": {
@@ -18883,7 +18883,7 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L85",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L90",
             "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
           },
           "verification_evidence": {
@@ -18958,7 +18958,7 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L92",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L96",
             "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
           },
           "verification_evidence": {
@@ -19033,7 +19033,7 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "3755e0ce0f41e645ad40d00838403a624244a730",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L35",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L64",
             "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
           },
           "verification_evidence": {
@@ -19106,7 +19106,7 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "3755e0ce0f41e645ad40d00838403a624244a730",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L38",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L34",
             "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
           },
           "verification_evidence": {
@@ -19177,7 +19177,7 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "3755e0ce0f41e645ad40d00838403a624244a730",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L41",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L37",
             "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
           },
           "verification_evidence": {
@@ -19245,7 +19245,7 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "3755e0ce0f41e645ad40d00838403a624244a730",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L44",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L40",
             "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
           },
           "verification_evidence": {
@@ -19318,7 +19318,7 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "3755e0ce0f41e645ad40d00838403a624244a730",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L25",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L21",
             "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
           },
           "verification_evidence": {
@@ -19466,7 +19466,7 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "851b0b98923475ddcea8ee6414d35220fe4e6a3b",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/cas.rs#L55",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/cas.rs#L48",
             "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
           },
           "verification_evidence": {
