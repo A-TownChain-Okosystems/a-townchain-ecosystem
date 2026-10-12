@@ -18,16 +18,24 @@ def reconcile(catalog: dict, census: dict) -> dict:
         for entry in census.get("repositories", [])
         if isinstance(entry, dict) and entry.get("repository")
     }
-    symbols_by_repo: dict[str, set[tuple[str, str]]] = {}
+    symbols_by_repo: dict[str, set[tuple[str, str, str]]] = {}
+    file_metadata_by_repo: dict[str, dict[str, dict]] = {}
     for repository, entry in census_repos.items():
         report = entry.get("report") or {}
-        found: set[tuple[str, str]] = set()
+        found: set[tuple[str, str, str]] = set()
+        file_metadata: dict[str, dict] = {}
         for file in report.get("files", []):
+            path = file.get("path", "")
+            file_metadata[path] = {
+                "file_sha256": file.get("file_sha256"),
+                "language": file.get("language"),
+            }
             for symbol in file.get("candidate_public_symbols", []) + file.get("candidate_internal_symbols", []):
-                found.add((file.get("path", ""), symbol.get("name", "")))
+                found.add((path, symbol.get("kind", "unknown"), symbol.get("name", "")))
         symbols_by_repo[repository] = found
+        file_metadata_by_repo[repository] = file_metadata
 
-    bound: dict[str, set[tuple[str, str]]] = {}
+    bound: dict[str, set[tuple[str, str, str]]] = {};
     function_findings = []
     component_findings = []
     self_reference_observations = []
@@ -78,7 +86,8 @@ def reconcile(catalog: dict, census: dict) -> dict:
             repo = inventory_repo or owner
             path = binding.get("source_path")
             symbol = binding.get("symbol_or_entrypoint")
-            key = (path or "", symbol or "")
+            symbol_kind = binding.get("symbol_kind") or "function"
+            key = (path or "", symbol_kind, symbol or "")
             item = {
                 "component_id": component.get("id"),
                 "component": component.get("name"),
@@ -87,6 +96,7 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 "repository": repo,
                 "source_path": path,
                 "symbol_or_entrypoint": symbol,
+                "symbol_kind": symbol_kind,
                 "catalog_source_sha": binding.get("exact_source_sha"),
                 "census_source_sha": (census_repos.get(repo) or {}).get("source_sha"),
                 "status": "RESIDUAL",
@@ -138,16 +148,25 @@ def reconcile(catalog: dict, census: dict) -> dict:
     unmatched_candidates = []
     excluded_candidates = []
     for repo, found in sorted(symbols_by_repo.items()):
-        for path, symbol in sorted(found - bound.get(repo, set())):
+        for path, symbol_kind, symbol in sorted(found - bound.get(repo, set())):
+            file_meta = file_metadata_by_repo.get(repo, {}).get(path, {})
+            source_sha = (census_repos.get(repo) or {}).get("source_sha")
+            common = {
+                "repository": repo,
+                "source_sha": source_sha,
+                "source_path": path,
+                "source_file_sha256": file_meta.get("file_sha256"),
+                "language": file_meta.get("language"),
+                "symbol_kind": symbol_kind,
+                "symbol_or_entrypoint": symbol,
+            }
             parts = [part.lower() for part in path.replace("\\\\", "/").split("/")]
             filename = parts[-1] if parts else ""
             test_surface = any(part in {"tests", "test", "__tests__", "benches", "bench", "fuzz", "fuzzing", "fixtures", "fixture"} for part in parts[:-1]) or filename.startswith("test_") or filename.endswith("_test.py") or filename.endswith("_test.rs") or filename.endswith("_tests.py")
             example_surface = any(part in {"examples", "example", "samples", "sample"} for part in parts[:-1])
             if test_surface:
                 excluded_candidates.append({
-                    "repository": repo,
-                    "source_path": path,
-                    "symbol_or_entrypoint": symbol,
+                    **common,
                     "status": "EXCLUDED_BY_POLICY",
                     "finding": "TEST_OR_FIXTURE_FUNCTION_EXCLUDED_FROM_RUNTIME_CATALOG",
                     "reason": "Test, fixture, benchmark, or fuzz-harness functions are inventoried as verification surfaces, not runtime function contracts. They must be linked to test evidence rather than counted as production API functions.",
@@ -163,9 +182,7 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 })
             else:
                 unmatched_candidates.append({
-                    "repository": repo,
-                    "source_path": path,
-                    "symbol_or_entrypoint": symbol,
+                    **common,
                     "status": "RESIDUAL",
                     "finding": "CANDIDATE_NOT_BOUND_TO_CATALOG_FUNCTION",
                 })
