@@ -2000,9 +2000,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/node/src/validator.rs",
             "symbol_or_entrypoint": "verify",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "ee5d3817e2c67c4ef82a595a47711588cf967c64",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/node/src/validator.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/node/src/validator.rs",
             "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: verify at components/node/src/validator.rs (additional related symbols in the original qualified mapping: verify, compute_signature)."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
@@ -2080,9 +2080,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/sdk/src/lib.rs",
             "symbol_or_entrypoint": "validate_amount",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "998154660957916ad2d6d4e8b9390d62dd59ac0c",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/sdk/src/lib.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/sdk/src/lib.rs",
             "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
@@ -2159,9 +2159,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/vm.rs",
             "symbol_or_entrypoint": "execute_state_transition",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
             "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: execute_state_transition at components/vm/src/vm.rs (additional related symbols in the original qualified mapping: execute_state_transition, execute_state_transition_with_gas)."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
@@ -2208,7 +2208,7 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/a-townchain",
         "canonical_path": ".",
-        "observed_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+        "observed_head_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
         "observed_tree_sha": "3868f0f6db0aa2ea05452c88846f981a0242988d",
         "census_date": "2026-10-11",
         "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain/commits/main",
@@ -2323,9 +2323,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/algorithm/src/poh.rs",
             "symbol_or_entrypoint": "verify",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "75a62238e2a3e4083caa6e420c2de3f215e28450",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/algorithm/src/poh.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/algorithm/src/poh.rs",
             "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: verify at components/algorithm/src/poh.rs (additional related symbols in the original qualified mapping: PohChain::{tick,verify})."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
@@ -2403,9 +2403,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/algorithm/src/selection.rs",
             "symbol_or_entrypoint": "select_proposer",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "eab1723f3a3652df84a6c676bd252c9880469d9c",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/algorithm/src/selection.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/algorithm/src/selection.rs",
             "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
@@ -2452,7 +2452,7 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/a-townchain",
         "canonical_path": "components/algorithm",
-        "observed_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+        "observed_head_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
         "observed_tree_sha": "3868f0f6db0aa2ea05452c88846f981a0242988d",
         "census_date": "2026-10-11",
         "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain/commits/main",
@@ -2689,9 +2689,9 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/ops.rs",
             "symbol_or_entrypoint": "parse_ops",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "2b5efdff367b72e0025a6bfe7c05e89d23cf0a43",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/ops.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/ops.rs",
             "note": "This function parses textual .ops, not serialized ATCB bytecode. Binary decoding remains an identified gap."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
@@ -2785,10 +2785,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
-            "symbol_or_entrypoint": "Vm::execute_state_transition_with_gas",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "symbol_or_entrypoint": "execute_state_transition_with_gas",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
             "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
@@ -2879,10 +2879,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
-            "symbol_or_entrypoint": "Vm::new",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "symbol_or_entrypoint": "new",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
             "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
           },
           "inputs": [
@@ -2954,10 +2954,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
-            "symbol_or_entrypoint": "Vm::with_context",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "symbol_or_entrypoint": "with_context",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
             "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
           },
           "inputs": [
@@ -3037,10 +3037,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
-            "symbol_or_entrypoint": "Vm::caller",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "symbol_or_entrypoint": "caller",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
             "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
           },
           "inputs": [
@@ -3110,10 +3110,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
-            "symbol_or_entrypoint": "Vm::state",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "symbol_or_entrypoint": "state",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
             "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
           },
           "inputs": [
@@ -3192,10 +3192,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
-            "symbol_or_entrypoint": "Vm::execute_state_transition",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "symbol_or_entrypoint": "execute_state_transition",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
             "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
           },
           "inputs": [
@@ -3287,10 +3287,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
-            "symbol_or_entrypoint": "Vm::verify",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "symbol_or_entrypoint": "verify",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
             "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
           },
           "inputs": [
@@ -3376,10 +3376,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
-            "symbol_or_entrypoint": "Vm::run_with_gas",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "symbol_or_entrypoint": "run_with_gas",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
             "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
           },
           "inputs": [
@@ -3468,10 +3468,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
-            "symbol_or_entrypoint": "Vm::run",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "symbol_or_entrypoint": "run",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
             "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
           },
           "inputs": [
@@ -3546,10 +3546,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/context.rs",
-            "symbol_or_entrypoint": "ChainContext::validate",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "symbol_or_entrypoint": "validate",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "ef0a0cee2ff6a73adc19870a75fc1ed5e00ac7bc",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/context.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/context.rs",
             "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
           },
           "inputs": [
@@ -3628,10 +3628,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/context.rs",
-            "symbol_or_entrypoint": "ChainContext::verify_genesis_id",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "symbol_or_entrypoint": "verify_genesis_id",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "ef0a0cee2ff6a73adc19870a75fc1ed5e00ac7bc",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/context.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/context.rs",
             "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
           },
           "inputs": [
@@ -3705,9 +3705,9 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/context.rs",
             "symbol_or_entrypoint": "execution_gate",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "file_blob_sha": "ef0a0cee2ff6a73adc19870a75fc1ed5e00ac7bc",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/context.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/context.rs",
             "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
           },
           "inputs": [
@@ -3796,8 +3796,8 @@
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "assemble",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
             "note": "Assembler implements only let/return, u64 literals/parameters, + - * / and parentheses. Current body scan is brace-naive and function selection uses the first 'fn ' token; grammar robustness remains residual."
           },
           "inputs": [
@@ -3916,13 +3916,14 @@
           "purpose": "Create parser state from token list and variable environment.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/assembler.rs",
-            "symbol_or_entrypoint": "Parser::new",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+            "symbol_or_entrypoint": "new",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "tokens: Vec<String>",
@@ -3995,13 +3996,14 @@
           "purpose": "Return the current token without advancing parser cursor.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/assembler.rs",
-            "symbol_or_entrypoint": "Parser::peek",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+            "symbol_or_entrypoint": "peek",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "&self"
@@ -4073,13 +4075,14 @@
           "purpose": "Advance parser cursor and return next token or a parse error at end.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/assembler.rs",
-            "symbol_or_entrypoint": "Parser::take",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+            "symbol_or_entrypoint": "take",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "&mut self"
@@ -4152,13 +4155,14 @@
           "purpose": "Parse terms separated by + or - and emit postfix VM instruction text.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/assembler.rs",
-            "symbol_or_entrypoint": "Parser::expr",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+            "symbol_or_entrypoint": "expr",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "&mut self"
@@ -4239,13 +4243,14 @@
           "purpose": "Parse factors separated by * or / and emit postfix VM instruction text.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/assembler.rs",
-            "symbol_or_entrypoint": "Parser::term",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+            "symbol_or_entrypoint": "term",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "&mut self"
@@ -4319,13 +4324,14 @@
           "purpose": "Consume a parenthesized expression, u64 decimal literal, or identifier from environment.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/assembler.rs",
-            "symbol_or_entrypoint": "Parser::factor",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+            "symbol_or_entrypoint": "factor",
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "&mut self"
@@ -4409,13 +4415,14 @@
           "purpose": "Split expression into decimal numbers, ASCII identifiers, operators and parentheses; reject other characters.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "tokenize",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "source: &str"
@@ -4484,13 +4491,14 @@
           "purpose": "Locate first textual fn declaration, parse parameter names and extract body substring.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "find_function",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
-            "note": "Current implementation finds the first 'fn ', next ')' and first '{' and '}' by substring search; nested-brace grammar remains a known correctness risk."
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
+            "note": "Current implementation finds the first 'fn ', next ')' and first '{' and '}' by substring search; nested-brace grammar remains a known correctness risk.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "source: &str"
@@ -4559,13 +4567,14 @@
           "purpose": "Find a named quoted key and parse the following unsigned decimal prefix as u64.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "json_u64_for_key",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
-            "note": "Do not treat this helper as standards-compliant JSON decoding."
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
+            "note": "Do not treat this helper as standards-compliant JSON decoding.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "json: &str",
@@ -4636,13 +4645,14 @@
           "purpose": "Execute supported Push/Add/Sub/Mul/Div/Halt subset with checked arithmetic and compare final top-of-stack value to expected.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "simulate",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "ops: &[String]",
@@ -4725,13 +4735,14 @@
           "purpose": "Parse --set-slot/--expect-slot argument in <slot>:<value> form.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/main.rs",
             "symbol_or_entrypoint": "parse_slot_pair",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/main.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "flag: &str",
@@ -4802,13 +4813,14 @@
           "purpose": "Parse --ops/--contract/--vector/--out/--expect/--caller/--set-slot/--expect-slot options into Args.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/main.rs",
             "symbol_or_entrypoint": "parse_args",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/main.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "args: Vec<String>"
@@ -4886,13 +4898,14 @@
           "purpose": "Read .ops text, parse operations, initialize VM context/storage, execute raw VM, and optionally compare result and storage.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/main.rs",
             "symbol_or_entrypoint": "run_ops_file",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/main.rs",
-            "note": "The current runner resizes storage to idx+1 for --set-slot; untrusted large indices may trigger excessive allocation. Bound and reject before resize."
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
+            "note": "The current runner resizes storage to idx+1 for --set-slot; untrusted large indices may trigger excessive allocation. Bound and reject before resize.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "args: &Args",
@@ -4979,13 +4992,14 @@
           "purpose": "Select assembly mode or .ops execution mode, enforce required flags, print outcome and exit with status code.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/main.rs",
             "symbol_or_entrypoint": "main",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/main.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "process arguments"
@@ -5074,13 +5088,14 @@
           "purpose": "Print supported CLI forms/options and terminate with usage exit code 2.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
             "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/main.rs",
             "symbol_or_entrypoint": "usage",
-            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/main.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted."
+            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
+            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
+            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
           },
           "inputs": [
             "none"
@@ -5144,7 +5159,7 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/a-townchain",
         "canonical_path": "components/vm",
-        "observed_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+        "observed_head_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
         "observed_tree_sha": "3868f0f6db0aa2ea05452c88846f981a0242988d",
         "census_date": "2026-10-11",
         "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain/commits/main",
