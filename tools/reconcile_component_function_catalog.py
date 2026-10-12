@@ -119,7 +119,7 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 item["finding"] = reasoned_statuses[binding_status]
             elif binding_status in {"TEST_SURFACE_ONLY", "RELATED_SOURCE_SURFACE_ONLY"}:
                 if path and symbol and repo in census_repos and census_repos[repo].get("report"):
-                    candidates = test_symbols_by_repo.get(repo, set()) if binding_status == "TEST_SURFACE_ONLY" else symbols_by_repo.get(repo, set())
+                    candidates = (test_symbols_by_repo.get(repo, set()) | symbols_by_repo.get(repo, set())) if binding_status == "TEST_SURFACE_ONLY" else symbols_by_repo.get(repo, set())
                     if key not in candidates:
                         item["finding"] = "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN"
                     elif binding.get("exact_source_sha") != census_repos[repo].get("source_sha"):
