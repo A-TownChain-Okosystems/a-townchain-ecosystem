@@ -1,0 +1,172 @@
+name: Source Symbol Inventory
+on:
+  pull_request:
+    paths:
+      - "tools/scan_public_symbols.py"
+      - "tools/run_org_source_census.py"
+      - "tools/reconcile_component_function_catalog.py"
+      - "tools/tests/test_reconcile_component_function_catalog.py"
+      - "tools/tests/test_scan_public_symbols.py"
+      - "tools/tests/test_run_org_source_census.py"
+      - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
+      - ".github/workflows/source-symbol-inventory.yml"
+  push:
+    branches: [main]
+    paths:
+      - "tools/scan_public_symbols.py"
+      - "tools/run_org_source_census.py"
+      - "tools/reconcile_component_function_catalog.py"
+      - "tools/tests/test_reconcile_component_function_catalog.py"
+      - "tools/tests/test_scan_public_symbols.py"
+      - "tools/tests/test_run_org_source_census.py"
+      - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
+      - ".github/workflows/source-symbol-inventory.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scanner-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact workflow revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact source SHA
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$EXPECTED_SHA"
+          printf 'Execution SHA bound: %s\n' "$actual"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile scanner, orchestrator and tests
+        run: python -m py_compile tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py
+      - name: Run scanner and organization census tests
+        run: |
+          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog -v
+      - name: Clone all active repositories at observed clean HEADs
+        env:
+          GH_OWNER: A-TownChain-Okosystems
+          ATC_CENSUS_TOKEN: ${{ secrets.ATC_CENSUS_TOKEN }}
+        run: |
+          set -euo pipefail
+          workspace="$RUNNER_TEMP/atc-org-checkouts"
+          mkdir -p "$workspace"
+          # Clone this exact PR revision, not the default branch, so the census
+          # is bound to the workflow's source SHA.
+          source_sha="$(git rev-parse HEAD)"
+          git clone --no-hardlinks "$GITHUB_WORKSPACE" "$workspace/a-townchain-ecosystem"
+          git -C "$workspace/a-townchain-ecosystem" checkout --detach "$source_sha"
+          test "$(git -C "$workspace/a-townchain-ecosystem" rev-parse HEAD)" = "$source_sha"
+          python - <<'PY' > "$RUNNER_TEMP/active-repositories.txt"
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path("docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json").read_text(encoding="utf-8"))
+          for repo in sorted(manifest["repositories"], key=lambda item: item["name"].lower()):
+              if not repo.get("archived", False) and repo["name"] != "a-townchain-ecosystem":
+                  print(repo["name"])
+          PY
+          clone_failures=0
+          while IFS= read -r name; do
+            test -n "$name"
+            clone_ok=0
+            if [[ -n "${ATC_CENSUS_TOKEN:-}" ]]; then
+              auth_header="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$ATC_CENSUS_TOKEN" | base64 -w0)"
+              if git -c http.extraheader="$auth_header" clone --no-tags "https://github.com/$GH_OWNER/$name.git" "$workspace/$name"; then
+                clone_ok=1
+              fi
+              unset auth_header
+            else
+              if git clone --no-tags "https://github.com/$GH_OWNER/$name.git" "$workspace/$name"; then
+                clone_ok=1
+              fi
+            fi
+            if [[ "$clone_ok" -ne 1 ]]; then
+              clone_failures=$((clone_failures + 1))
+              echo "::warning::Checkout unavailable for $name; census will record CHECKOUT_MISSING and continue."
+              continue
+            fi
+            if [[ -n "$(git -C "$workspace/$name" status --porcelain --untracked-files=all)" ]]; then
+              clone_failures=$((clone_failures + 1))
+              echo "::warning::Checkout is not clean for $name; census will record it as blocked."
+              continue
+            fi
+            printf '%s %s\n' "$name" "$(git -C "$workspace/$name" rev-parse HEAD)"
+          done < "$RUNNER_TEMP/active-repositories.txt"
+          echo "Repository checkout failures: $clone_failures; census remains fail-closed for missing/dirty checkouts."
+          test -z "$(git -C "$workspace/a-townchain-ecosystem" status --porcelain --untracked-files=all)"
+          printf 'a-townchain-ecosystem %s\n' "$(git -C "$workspace/a-townchain-ecosystem" rev-parse HEAD)"
+      - name: Run exact-HEAD organization source census
+        run: |
+          set -euo pipefail
+          workspace="$RUNNER_TEMP/atc-org-checkouts"
+          mkdir -p artifacts
+          census_exit=0
+          python tools/run_org_source_census.py \
+            --workspace "$workspace" \
+            --manifest docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json \
+            --output artifacts/ATC-ORG-SOURCE-CENSUS-001.json || census_exit=$?
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          census = json.loads(Path("artifacts/ATC-ORG-SOURCE-CENSUS-001.json").read_text(encoding="utf-8"))
+          summary = census["summary"]
+          print(json.dumps({"status": census["status"], **summary}, sort_keys=True))
+          assert summary["active_expected"] == 26, "manifest coverage must include all 26 active repositories"
+          PY
+          if [[ "$census_exit" -ne 0 ]]; then
+            echo "::error::Census report was generated but is BLOCKED; inspect the artifact for missing, dirty, or SHA-mismatched repositories."
+            exit "$census_exit"
+          fi
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          census = json.loads(Path("artifacts/ATC-ORG-SOURCE-CENSUS-001.json").read_text(encoding="utf-8"))
+          summary = census["summary"]
+          assert summary["active_scanned"] + summary["active_excluded_private"] == summary["active_expected"]
+          assert summary["active_blocked"] == 0
+          print("Coverage: %d scanned + %d explicitly excluded private = %d active expected" % (
+              summary["active_scanned"], summary["active_excluded_private"], summary["active_expected"]
+          ))
+          PY
+      - name: Reconcile catalog against census evidence
+        if: always()
+        run: |
+          set -euo pipefail
+          if test -f artifacts/ATC-ORG-SOURCE-CENSUS-001.json; then
+            python tools/reconcile_component_function_catalog.py \
+              --catalog docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json \
+              --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
+              --output artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json
+          fi
+      - name: Upload exact-SHA census artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atc-org-source-census-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            artifacts/ATC-ORG-SOURCE-CENSUS-001.json
+            artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json
+          if-no-files-found: warn
+      - name: Validate organization repository manifest
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path("docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json")
+          manifest = json.loads(path.read_text(encoding="utf-8"))
+          repos = manifest["repositories"]
+          names = [item["name"] for item in repos]
+          assert len(names) == 33, f"expected 33 repositories, got {len(names)}"
+          assert len(set(names)) == len(names), "duplicate repository names"
+          assert sum(bool(item.get("archived")) for item in repos) == 7, "expected 7 archived repositories"
+          assert sum(not bool(item.get("archived")) for item in repos) == 26, "expected 26 active repositories"
+          print(f"manifest OK: {len(names)} repositories; 26 active; 7 archived")
+          PY
