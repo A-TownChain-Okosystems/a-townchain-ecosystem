@@ -178,7 +178,7 @@ def scan(root: Path, repository: str, source_sha: str, scope_exclusions: list[di
             "source_files_scanned": len(files),
             "candidate_public_symbols": symbols_total,
             "candidate_internal_symbols": internal_symbols_total,
-            "source_files_excluded_by_scope": sum(exclusion_counts.values()),
+            "files_excluded_by_scope": sum(exclusion_counts.values()),
             "files_by_language": dict(sorted(language_counts.items())),
             "files_with_read_errors": len(unclassified),
         },
