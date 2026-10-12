@@ -105,14 +105,23 @@ def should_skip(path: Path) -> bool:
     return any(part in SKIP_DIRS for part in path.parts)
 
 
-def scan(root: Path, repository: str, source_sha: str) -> dict:
+def scan(root: Path, repository: str, source_sha: str, scope_exclusions: list[dict] | None = None) -> dict:
     files = []
     symbols_total = 0
     internal_symbols_total = 0
+    scope_exclusions = scope_exclusions or []
+    exclusion_counts = {str(item.get("path", "")).strip("/"): 0 for item in scope_exclusions}
     language_counts: Counter[str] = Counter()
     unclassified = []
     for path in sorted(root.rglob("*")):
-        if not path.is_file() or should_skip(path.relative_to(root)):
+        if not path.is_file():
+            continue
+        relative = path.relative_to(root).as_posix()
+        excluded_prefix = next((prefix for prefix in exclusion_counts if prefix and (relative == prefix or relative.startswith(prefix + "/"))), None)
+        if excluded_prefix is not None:
+            exclusion_counts[excluded_prefix] += 1
+            continue
+        if should_skip(path.relative_to(root)):
             continue
         language = EXTENSIONS.get(path.suffix.lower())
         if language is None:
@@ -169,9 +178,14 @@ def scan(root: Path, repository: str, source_sha: str) -> dict:
             "source_files_scanned": len(files),
             "candidate_public_symbols": symbols_total,
             "candidate_internal_symbols": internal_symbols_total,
+            "source_files_excluded_by_scope": sum(exclusion_counts.values()),
             "files_by_language": dict(sorted(language_counts.items())),
             "files_with_read_errors": len(unclassified),
         },
+        "scope_exclusions": [
+            {**item, "path": str(item.get("path", "")).strip("/"), "files_excluded": exclusion_counts.get(str(item.get("path", "")).strip("/"), 0)}
+            for item in scope_exclusions
+        ],
         "files": files,
         "unclassified_files": unclassified,
     }
