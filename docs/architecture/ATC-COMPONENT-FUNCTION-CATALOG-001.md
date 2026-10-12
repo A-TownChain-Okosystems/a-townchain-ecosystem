@@ -6,6 +6,8 @@
 
 This catalog is the architecture/control-plane inventory. It does not replace component source code, normative standards, or repository-local API documentation.
 
+**Current machine-readable count (2026-10-13):** 31 components · 144 function/capability contracts · 17 cross-component interfaces · 0 functionally verified. **Source reconciliation:** `RESIDUAL` until every runtime candidate is mapped or explicitly excluded; the strict completion gate is fail-closed. The last completed census is historical for its recorded exact HEAD; the current-head rerun must finish before its counts are treated as current.
+
 ## Rules
 
 - Each capability has a stable component ID and function ID.
