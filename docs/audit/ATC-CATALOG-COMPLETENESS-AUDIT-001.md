@@ -214,3 +214,8 @@ Catalog now has 30 components, 139 function/capability records and 16 cross-comp
 Added component `COMP-WALLET` to represent the canonical implementation in `a-townchain/components/wallet`; the archived standalone `atc-wallet` remains reference-only. Added five exact-HEAD function bindings for `signing_bytes`, `id`, `sign`, `verify`, and `append_canonical_fields`, each tied to repository SHA `c631249ed6ff450bf45338e78cb14e2bf5c65c74` and blob SHA `2693b7ba015456addcc8d129455b7e5a9e2f1860`. Added `IF-017` for TX-V2 wallet-to-chain interoperability.
 
 Updated catalog count: 31 components, 144 function/capability contracts, 17 interfaces. The five source bindings are mapping evidence only; functional verification remains zero and release remains BLOCKED. Chain-side TX-V2 consumer binding and shared conformance vectors remain open.
+
+
+## 14. Current count supersedes historical baseline (2026-10-13)
+
+The initial sections above are retained as historical evidence for the 2026-10-12 catalog revision. The current machine-readable catalog has since expanded to **31 components, 144 function/capability records and 17 interface records**. Five exact-HEAD TX-V2 source bindings were added for `COMP-WALLET`. Functional verification remains 0; release remains `BLOCKED`. Current-head Actions and the strict source-to-catalog completion gate must be checked separately from historical census runs.
