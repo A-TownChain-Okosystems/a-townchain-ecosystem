@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-D937FE8472F3",
+  "timestamp": "2026-10-12T15:46:44.826074Z",
+  "category": "change",
+  "title": "Commit: Include delivery index in push validation paths",
+  "context": "Git commit d937fe8472f3fd026cda483eb7bd23942f7c65ad on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/d937fe8472f3fd026cda483eb7bd23942f7c65ad",
+    "commit": "4b31c44ed1a4f4b2fa299b111322ed16035c90da"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "Include delivery index in push validation paths"
+}

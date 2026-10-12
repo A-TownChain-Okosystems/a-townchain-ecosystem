@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-C65A7AF3CE0D",
-  "timestamp": "2026-10-12T09:17:58.712693Z",
+  "timestamp": "2026-10-12T15:46:44.826074Z",
   "category": "change",
   "title": "Commit: Merge pull request #105 from A-TownChain-Okosystems/docs/align-ssot-and-evidence-claims-2026-10-09",
   "context": "Git commit c65a7af3ce0d1675d906d016079848e014343e60 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/c65a7af3ce0d1675d906d016079848e014343e60",
-    "commit": "a4264a2a03ff092e5e90cb5f971e769bb5704eec"
+    "commit": "4b31c44ed1a4f4b2fa299b111322ed16035c90da"
   },
   "tags": [
     "commit",

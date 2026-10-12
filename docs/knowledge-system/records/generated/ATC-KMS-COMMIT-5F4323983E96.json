@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-5F4323983E96",
+  "timestamp": "2026-10-12T15:46:44.826074Z",
+  "category": "change",
+  "title": "Commit: docs: inventory exported symbols in canonical VM consensus and kernel paths",
+  "context": "Git commit 5f4323983e96f5ac6544032ebde2a58a680d0250 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/5f4323983e96f5ac6544032ebde2a58a680d0250",
+    "commit": "4b31c44ed1a4f4b2fa299b111322ed16035c90da"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs: inventory exported symbols in canonical VM consensus and kernel paths"
+}

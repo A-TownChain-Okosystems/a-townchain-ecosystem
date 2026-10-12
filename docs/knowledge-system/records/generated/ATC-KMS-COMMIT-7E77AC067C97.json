@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-7E77AC067C97",
+  "timestamp": "2026-10-12T15:46:44.826074Z",
+  "category": "change",
+  "title": "Commit: Run catalog gates when delivery index changes",
+  "context": "Git commit 7e77ac067c97184feecf6d69f01a726d7cfcf934 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/7e77ac067c97184feecf6d69f01a726d7cfcf934",
+    "commit": "4b31c44ed1a4f4b2fa299b111322ed16035c90da"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "Run catalog gates when delivery index changes"
+}

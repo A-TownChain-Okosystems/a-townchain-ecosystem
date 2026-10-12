@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-BB792E77692C",
+  "timestamp": "2026-10-12T15:46:44.826074Z",
+  "category": "change",
+  "title": "Commit: fix(audit): reject symbol scans bound to a mismatched Git HEAD",
+  "context": "Git commit bb792e77692cd67cb0d392a95b5dd6a594b3d955 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/bb792e77692cd67cb0d392a95b5dd6a594b3d955",
+    "commit": "4b31c44ed1a4f4b2fa299b111322ed16035c90da"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(audit): reject symbol scans bound to a mismatched Git HEAD"
+}

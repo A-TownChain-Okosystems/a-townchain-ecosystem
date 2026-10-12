@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-COMPONENTS-VM-CONTRIBUTING-MD-C9F400ABD4",
-  "timestamp": "2026-10-12T09:17:58.712693Z",
+  "timestamp": "2026-10-12T15:46:44.826074Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain/components/vm/CONTRIBUTING.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain/components/vm/CONTRIBUTING.md",
-    "commit": "a4264a2a03ff092e5e90cb5f971e769bb5704eec"
+    "commit": "4b31c44ed1a4f4b2fa299b111322ed16035c90da"
   },
   "tags": [
     "generated",
