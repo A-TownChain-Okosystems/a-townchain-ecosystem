@@ -11856,7 +11856,9 @@
             "status": "RESIDUAL",
             "reason": "State transition semantics require exact unit/integration evidence."
           },
-          "failure_modes": [],
+          "failure_modes": [
+            "No recoverable error is defined by this infallible local constructor; allocation failure is a runtime-level condition."
+          ],
           "resource_limits": {
             "status": "RESIDUAL",
             "reason": "Peer count and memory bounds are enforced only where explicitly stated; global limits need review."
@@ -12215,7 +12217,9 @@
             "status": "RESIDUAL",
             "reason": "State transition semantics require exact unit/integration evidence."
           },
-          "failure_modes": [],
+          "failure_modes": [
+            "No function-level error path is defined; the result is a local entry count and does not validate peer authenticity."
+          ],
           "resource_limits": {
             "status": "RESIDUAL",
             "reason": "Peer count and memory bounds are enforced only where explicitly stated; global limits need review."
@@ -12282,7 +12286,9 @@
             "status": "RESIDUAL",
             "reason": "State transition semantics require exact unit/integration evidence."
           },
-          "failure_modes": [],
+          "failure_modes": [
+            "No function-level error path is defined; the result is a local emptiness check and does not validate peer authenticity."
+          ],
           "resource_limits": {
             "status": "RESIDUAL",
             "reason": "Peer count and memory bounds are enforced only where explicitly stated; global limits need review."
@@ -18480,7 +18486,9 @@
             "status": "RESIDUAL",
             "reason": "Integrity and state invariants require tests and source review."
           },
-          "failure_modes": [],
+          "failure_modes": [
+            "No recoverable error is defined by this default constructor; it creates an in-memory store with the default chunk size."
+          ],
           "resource_limits": {
             "status": "RESIDUAL",
             "reason": "Maximum blob/chunk sizes, allocation bounds and resource exhaustion semantics are not globally specified."
@@ -19212,7 +19220,9 @@
             "status": "RESIDUAL",
             "reason": "Integrity and state invariants require tests and source review."
           },
-          "failure_modes": [],
+          "failure_modes": [
+            "No function-level error path is defined by deterministic key enumeration; allocation failure is a runtime-level condition."
+          ],
           "resource_limits": {
             "status": "RESIDUAL",
             "reason": "Maximum blob/chunk sizes, allocation bounds and resource exhaustion semantics are not globally specified."
@@ -20389,7 +20399,9 @@
             "status": "RESIDUAL",
             "reason": "Schema compatibility and conformance remain to be verified."
           },
-          "failure_modes": [],
+          "failure_modes": [
+            "Not executable; risk is stale or inconsistent static protocol constants/type declarations."
+          ],
           "resource_limits": {
             "status": "RESIDUAL",
             "reason": "Not applicable to a static artifact."
@@ -20451,7 +20463,9 @@
             "status": "RESIDUAL",
             "reason": "Schema compatibility and conformance remain to be verified."
           },
-          "failure_modes": [],
+          "failure_modes": [
+            "Not executable; risk is stale or inconsistent static protocol constants/type declarations."
+          ],
           "resource_limits": {
             "status": "RESIDUAL",
             "reason": "Not applicable to a static artifact."
@@ -20513,7 +20527,9 @@
             "status": "RESIDUAL",
             "reason": "Schema compatibility and conformance remain to be verified."
           },
-          "failure_modes": [],
+          "failure_modes": [
+            "Not executable; risk is stale or inconsistent static protocol constants/type declarations."
+          ],
           "resource_limits": {
             "status": "RESIDUAL",
             "reason": "Not applicable to a static artifact."
@@ -20575,7 +20591,9 @@
             "status": "RESIDUAL",
             "reason": "Schema compatibility and conformance remain to be verified."
           },
-          "failure_modes": [],
+          "failure_modes": [
+            "Not executable; risk is stale or inconsistent static protocol constants/type declarations."
+          ],
           "resource_limits": {
             "status": "RESIDUAL",
             "reason": "Not applicable to a static artifact."
@@ -20637,7 +20655,9 @@
             "status": "RESIDUAL",
             "reason": "Schema compatibility and conformance remain to be verified."
           },
-          "failure_modes": [],
+          "failure_modes": [
+            "Not executable; risk is stale or inconsistent static protocol constants/type declarations."
+          ],
           "resource_limits": {
             "status": "RESIDUAL",
             "reason": "Not applicable to a static artifact."
@@ -20699,7 +20719,9 @@
             "status": "RESIDUAL",
             "reason": "Schema compatibility and conformance remain to be verified."
           },
-          "failure_modes": [],
+          "failure_modes": [
+            "Not executable; risk is stale or inconsistent static protocol constants/type declarations."
+          ],
           "resource_limits": {
             "status": "RESIDUAL",
             "reason": "Not applicable to a static artifact."
@@ -20761,7 +20783,9 @@
             "status": "RESIDUAL",
             "reason": "Schema compatibility and conformance remain to be verified."
           },
-          "failure_modes": [],
+          "failure_modes": [
+            "Not executable; risk is stale or inconsistent static protocol constants/type declarations."
+          ],
           "resource_limits": {
             "status": "RESIDUAL",
             "reason": "Not applicable to a static artifact."
