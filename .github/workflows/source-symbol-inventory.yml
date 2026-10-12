@@ -166,7 +166,7 @@ jobs:
                 "component_findings": len(report.get("component_findings", [])),
                 "self_reference_observations": len(report.get("self_reference_observations", [])),
             }, sort_keys=True))
-            PY
+          PY
           else
             echo "Reconciliation report unavailable; see census step result."
           fi
