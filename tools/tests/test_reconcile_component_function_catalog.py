@@ -77,6 +77,27 @@ class CatalogReconciliationTests(unittest.TestCase):
             "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING",
         )
 
+
+    def test_completion_gate_blocks_unbound_source_candidates(self):
+        report = reconcile(self.catalog, self.census)
+        report["unmatched_candidates"] = [{
+            "repository": "example/sample",
+            "source_path": "src/lib.rs",
+            "symbol_kind": "function",
+            "symbol_or_entrypoint": "unmapped",
+            "finding": "CANDIDATE_NOT_BOUND_TO_CATALOG_FUNCTION",
+        }]
+        report["summary"]["candidate_symbols_unbound"] = 1
+        from tools.reconcile_component_function_catalog import completion_gaps
+        self.assertTrue(any("remain unbound" in gap for gap in completion_gaps(report)))
+
+    def test_completion_gate_allows_explicit_normative_blocker_without_calling_it_verified(self):
+        report = reconcile(self.catalog, self.census)
+        report["function_findings"][0]["finding"] = "NORMATIVE_DECISION_BLOCKED"
+        from tools.reconcile_component_function_catalog import completion_gaps
+        self.assertEqual(completion_gaps(report), [])
+        self.assertEqual(report["summary"]["functional_verification"], "NOT_PERFORMED")
+
     def test_catalog_self_reference_pr_head_is_not_misreported_as_source_drift(self):
         self.catalog["authority"] = {"repository": "example/sample"}
         self.catalog["components"][0]["source_inventory"]["observed_head_sha"] = "b" * 40
