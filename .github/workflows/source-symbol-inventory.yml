@@ -9,6 +9,8 @@ on:
       - "tools/tests/test_scan_public_symbols.py"
       - "tools/tests/test_run_org_source_census.py"
       - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md"
       - ".github/workflows/source-symbol-inventory.yml"
   push:
     branches: [main]
@@ -20,6 +22,8 @@ on:
       - "tools/tests/test_scan_public_symbols.py"
       - "tools/tests/test_run_org_source_census.py"
       - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md"
       - ".github/workflows/source-symbol-inventory.yml"
   workflow_dispatch:
 
