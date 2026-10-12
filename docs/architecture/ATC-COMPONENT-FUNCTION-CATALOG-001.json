@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-13",
-  "catalog_revision_note": "Exact-HEAD census and first reconciliation recorded; current source bindings refreshed only where exact path/symbol pairs were confirmed. Remaining missing bindings, archived/private exclusions, source-head drift and consensus decision blockers remain explicit.",
+  "catalog_revision_note": "Exact-HEAD census and symbol reconciliation refreshed on 2026-10-13. Canonical-source and historical-mirror exclusions are explicit. 82 catalog records have lexical exact-SHA path/symbol matches; 32 records remain residual or blocked; 10,838 source candidates still need contract mapping or a reasoned exclusion. No function is functionally verified.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -269,25 +269,28 @@
         "observed_head_sha": "c2a4b93fb01178ef905f62d8a5fa6f42215d25a2",
         "observed_tree_sha": "1d72f70552da76514efa925cba5d18209aa19b15",
         "census_date": "2026-10-13",
-        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree 1d72f70552da76514efa925cba5d18209aa19b15; repository HEAD c2a4b93fb01178ef905f62d8a5fa6f42215d25a2",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [
           "crates/atc-evidence/src/lib.rs",
           "scripts/standards_enforcement_audit.py"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "c2a4b93fb01178ef905f62d8a5fa6f42215d25a2",
           "tree_sha": "1d72f70552da76514efa925cba5d18209aa19b15",
-          "source_census_run_id": 38318248013,
-          "status": "CENSUS_SCANNED_RESIDUAL",
           "source_files_scanned": 38,
           "candidate_public_symbols": 230,
+          "candidate_internal_symbols": 159,
+          "files_excluded_by_scope": 0,
           "limitations": [
-            "lexical scan only",
-            "functional verification not performed",
-            "unmatched candidates and API/declarative/generated surfaces remain residual"
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
           ]
         }
       },
@@ -520,25 +523,28 @@
         "observed_head_sha": "d6556168a21ed5a9b5d917262bd2a4ee196fdd46",
         "observed_tree_sha": "1830c1afe2ad28aa062b450ea5da21b39820717d",
         "census_date": "2026-10-13",
-        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree 1830c1afe2ad28aa062b450ea5da21b39820717d; repository HEAD d6556168a21ed5a9b5d917262bd2a4ee196fdd46",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [
           "sdk/src/lib.rs",
           "tools/consistency/check_cross_registry.py"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "d6556168a21ed5a9b5d917262bd2a4ee196fdd46",
           "tree_sha": "1830c1afe2ad28aa062b450ea5da21b39820717d",
-          "source_census_run_id": 38318248013,
-          "status": "CENSUS_SCANNED_RESIDUAL",
           "source_files_scanned": 42,
           "candidate_public_symbols": 168,
+          "candidate_internal_symbols": 0,
+          "files_excluded_by_scope": 0,
           "limitations": [
-            "lexical scan only",
-            "functional verification not performed",
-            "unmatched candidates and API/declarative/generated surfaces remain residual"
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
           ]
         }
       },
@@ -1369,8 +1375,8 @@
         "canonical_path": ".",
         "observed_head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
         "observed_tree_sha": "4649b749ce4be530a2acdf1c5446df4752d73198",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atclang/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [
           "crates/atc-core/src/artifact.rs",
           "crates/atc-core/src/bytecode.rs",
@@ -1385,7 +1391,23 @@
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA recorded; ATCLang completeness pass 2026-10-12 enumerated the compiler pipeline from inspected source and bound all catalog functions (8 added). Lexical mapping is not functional verification; deep verification of the language surface against specs/ remains RESIDUAL."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+          "tree_sha": "4649b749ce4be530a2acdf1c5446df4752d73198",
+          "source_files_scanned": 18,
+          "candidate_public_symbols": 94,
+          "candidate_internal_symbols": 158,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -1712,7 +1734,7 @@
         "observed_head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
         "observed_tree_sha": "c98f07d4af1a862247eeda24b0d54c19f93cfef8",
         "census_date": "2026-10-13",
-        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree c98f07d4af1a862247eeda24b0d54c19f93cfef8; repository HEAD 7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [
           "modules/atc-shivacore/kernel/src/capability.rs",
           "modules/atc-shivacore/kernel/src/ipc.rs",
@@ -1720,7 +1742,7 @@
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "observed_public_symbol_inventory": [
           {
             "path": "modules/atc-shivacore/kernel/src/capability.rs",
@@ -1823,16 +1845,19 @@
         ],
         "symbols_enumerated_for_selected_paths": true,
         "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
           "tree_sha": "c98f07d4af1a862247eeda24b0d54c19f93cfef8",
-          "source_census_run_id": 38318248013,
-          "status": "CENSUS_SCANNED_RESIDUAL",
           "source_files_scanned": 219,
           "candidate_public_symbols": 3604,
+          "candidate_internal_symbols": 2754,
+          "files_excluded_by_scope": 0,
           "limitations": [
-            "lexical scan only",
-            "functional verification not performed",
-            "unmatched candidates and API/declarative/generated surfaces remain residual"
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
           ]
         }
       },
@@ -3191,22 +3216,25 @@
         "observed_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
         "observed_tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
         "census_date": "2026-10-13",
-        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree b1e2c32cea934a1a7f4d6de90b20b192461faef8; repository HEAD c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
           "tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
-          "source_census_run_id": 38318248013,
-          "status": "CENSUS_SCANNED_RESIDUAL",
           "source_files_scanned": 184,
           "candidate_public_symbols": 666,
+          "candidate_internal_symbols": 267,
+          "files_excluded_by_scope": 0,
           "limitations": [
-            "lexical scan only",
-            "functional verification not performed",
-            "unmatched candidates and API/declarative/generated surfaces remain residual"
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
           ]
         }
       },
@@ -3855,7 +3883,7 @@
         "observed_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
         "observed_tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
         "census_date": "2026-10-13",
-        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree b1e2c32cea934a1a7f4d6de90b20b192461faef8; repository HEAD c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [
           "components/algorithm/src/economics.rs",
           "components/algorithm/src/hash.rs",
@@ -3864,7 +3892,7 @@
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "observed_public_symbol_inventory": [
           {
             "path": "components/algorithm/src/economics.rs",
@@ -3924,16 +3952,19 @@
         ],
         "symbols_enumerated_for_selected_paths": true,
         "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
           "tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
-          "source_census_run_id": 38318248013,
-          "status": "CENSUS_SCANNED_RESIDUAL",
           "source_files_scanned": 184,
           "candidate_public_symbols": 666,
+          "candidate_internal_symbols": 267,
+          "files_excluded_by_scope": 0,
           "limitations": [
-            "lexical scan only",
-            "functional verification not performed",
-            "unmatched candidates and API/declarative/generated surfaces remain residual"
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
           ]
         }
       },
@@ -6621,7 +6652,7 @@
         "observed_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
         "observed_tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
         "census_date": "2026-10-13",
-        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree b1e2c32cea934a1a7f4d6de90b20b192461faef8; repository HEAD c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [
           "components/vm/Cargo.toml",
           "components/vm/src/lib.rs",
@@ -6634,7 +6665,7 @@
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "observed_public_symbol_inventory": [
           {
             "path": "components/vm/src/vm.rs",
@@ -6751,16 +6782,19 @@
         ],
         "symbols_enumerated_for_selected_paths": true,
         "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
           "tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
-          "source_census_run_id": 38318248013,
-          "status": "CENSUS_SCANNED_RESIDUAL",
           "source_files_scanned": 184,
           "candidate_public_symbols": 666,
+          "candidate_internal_symbols": 267,
+          "files_excluded_by_scope": 0,
           "limitations": [
-            "lexical scan only",
-            "functional verification not performed",
-            "unmatched candidates and API/declarative/generated surfaces remain residual"
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
           ]
         }
       },
@@ -7172,25 +7206,28 @@
         "observed_head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
         "observed_tree_sha": "c98f07d4af1a862247eeda24b0d54c19f93cfef8",
         "census_date": "2026-10-13",
-        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree c98f07d4af1a862247eeda24b0d54c19f93cfef8; repository HEAD 7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [
           "modules/atc-bootloader/src/boot.rs",
           "modules/atc-shivacore/kernel/src/process.rs"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
           "tree_sha": "c98f07d4af1a862247eeda24b0d54c19f93cfef8",
-          "source_census_run_id": 38318248013,
-          "status": "CENSUS_SCANNED_RESIDUAL",
           "source_files_scanned": 219,
           "candidate_public_symbols": 3604,
+          "candidate_internal_symbols": 2754,
+          "files_excluded_by_scope": 0,
           "limitations": [
-            "lexical scan only",
-            "functional verification not performed",
-            "unmatched candidates and API/declarative/generated surfaces remain residual"
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
           ]
         }
       },
@@ -7508,7 +7545,7 @@
         "observed_head_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
         "observed_tree_sha": "63eb0ad422c80fe7eb9b2227f6368f2e7a154464",
         "census_date": "2026-10-13",
-        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree 63eb0ad422c80fe7eb9b2227f6368f2e7a154464; repository HEAD ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [
           "modules/atc-aurora-agents/src/agent_pool.rs",
           "modules/atc-aurora-core/src/agent_registry.rs",
@@ -7516,18 +7553,21 @@
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
           "tree_sha": "63eb0ad422c80fe7eb9b2227f6368f2e7a154464",
-          "source_census_run_id": 38318248013,
-          "status": "CENSUS_SCANNED_RESIDUAL",
           "source_files_scanned": 262,
           "candidate_public_symbols": 445,
+          "candidate_internal_symbols": 68,
+          "files_excluded_by_scope": 0,
           "limitations": [
-            "lexical scan only",
-            "functional verification not performed",
-            "unmatched candidates and API/declarative/generated surfaces remain residual"
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
           ]
         }
       },
@@ -7774,12 +7814,28 @@
         "canonical_path": ".",
         "observed_head_sha": "82fe4a238603476d7c6c19d5c3044c88b71c5f2d",
         "observed_tree_sha": "dc853d005a8c68ebbdc88f8a4f47586102ec837a",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-toolchain/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "82fe4a238603476d7c6c19d5c3044c88b71c5f2d",
+          "tree_sha": "dc853d005a8c68ebbdc88f8a4f47586102ec837a",
+          "source_files_scanned": 1,
+          "candidate_public_symbols": 7,
+          "candidate_internal_symbols": 0,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -8025,15 +8081,31 @@
         "canonical_path": ".",
         "observed_head_sha": "8326eb53e3e10cf08518e6769b44d4f034de1144",
         "observed_tree_sha": "bbe3cbb0b4a03c98e7c0424bbfd2e6d9209917ff",
-        "census_date": "2026-10-12",
-        "evidence_source": "local org census 2026-10-12 (workspace clone at 8326eb53e3e10cf08518e6769b44d4f034de1144)",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [
           "modules/atc-genesis-build/src/lib.rs",
           "modules/atc-genesis-ecs/src/lib.rs"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA refreshed and all catalog functions carry explicit source bindings (lexical mapping, not functional verification). Source-path coverage beyond the catalog baseline remains RESIDUAL."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "8326eb53e3e10cf08518e6769b44d4f034de1144",
+          "tree_sha": "bbe3cbb0b4a03c98e7c0424bbfd2e6d9209917ff",
+          "source_files_scanned": 49,
+          "candidate_public_symbols": 547,
+          "candidate_internal_symbols": 180,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -8278,15 +8350,31 @@
         "canonical_path": ".",
         "observed_head_sha": "a4264a2a03ff092e5e90cb5f971e769bb5704eec",
         "observed_tree_sha": "415f6dccc7bf892c5b90132323febd2cb5bdb763",
-        "census_date": "2026-10-12",
-        "evidence_source": "local org census 2026-10-12 (workspace clone at a4264a2a03ff092e5e90cb5f971e769bb5704eec)",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [
           "MIGRATION_MANIFEST.yaml",
           "docs/audits/ECOSYSTEM-READINESS-MATRIX.yaml"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA refreshed and all catalog functions carry explicit source bindings (lexical mapping, not functional verification). Source-path coverage beyond the catalog baseline remains RESIDUAL."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "SELF_REFERENCE_PR_HEAD_DIFFERS_FROM_DEFAULT_BRANCH",
+          "head_sha": "ea066c23dd505e84be37f14177d1beec566b756b",
+          "tree_sha": "29e67c4ef855951252b12f9e56923c343680173b",
+          "source_files_scanned": 10,
+          "candidate_public_symbols": 48,
+          "candidate_internal_symbols": 6,
+          "files_excluded_by_scope": 10962,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -8526,12 +8614,28 @@
         "canonical_path": ".",
         "observed_head_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
         "observed_tree_sha": "e8e5979cc795aa587ef182e831ecc4765bfee120",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-sdk/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
+          "tree_sha": "e8e5979cc795aa587ef182e831ecc4765bfee120",
+          "source_files_scanned": 12,
+          "candidate_public_symbols": 36,
+          "candidate_internal_symbols": 13,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -8771,15 +8875,31 @@
         "canonical_path": ".",
         "observed_head_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
         "observed_tree_sha": "07f76e4848f17da7706bd29b96bd8d7d647ba35c",
-        "census_date": "2026-10-12",
-        "evidence_source": "local org census 2026-10-12 (workspace clone at a817db43a089d172dd4688f366286c60dbf71a0e)",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [
           "src/config.rs",
           "src/peers.rs"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA refreshed and all catalog functions carry explicit source bindings (lexical mapping, not functional verification). Source-path coverage beyond the catalog baseline remains RESIDUAL."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+          "tree_sha": "07f76e4848f17da7706bd29b96bd8d7d647ba35c",
+          "source_files_scanned": 11,
+          "candidate_public_symbols": 53,
+          "candidate_internal_symbols": 36,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -9024,12 +9144,28 @@
         "canonical_path": ".",
         "observed_head_sha": "a7c8b417f482665ef30e94fcacae6469c28b1125",
         "observed_tree_sha": "026851749bdff7ff5a686dfc9fab6beacd9fce72",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-contracts/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "a7c8b417f482665ef30e94fcacae6469c28b1125",
+          "tree_sha": "026851749bdff7ff5a686dfc9fab6beacd9fce72",
+          "source_files_scanned": 3,
+          "candidate_public_symbols": 0,
+          "candidate_internal_symbols": 0,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -9267,12 +9403,28 @@
         "canonical_path": ".",
         "observed_head_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f",
         "observed_tree_sha": "b9ac1abf479be23234af5afa4178887d2b3cae6a",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-zkp/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f",
+          "tree_sha": "b9ac1abf479be23234af5afa4178887d2b3cae6a",
+          "source_files_scanned": 8,
+          "candidate_public_symbols": 31,
+          "candidate_internal_symbols": 15,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -9512,12 +9664,23 @@
         "canonical_path": ".",
         "observed_head_sha": null,
         "observed_tree_sha": "307d3d2a179de1ed5d82618dfbe78f072ba6d4c0",
-        "census_date": "2026-10-12",
-        "evidence_source": "local org census 2026-10-12 (workspace clone at None)",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "ARCHIVED_REFERENCE_ONLY",
+          "head_sha": null,
+          "tree_sha": null,
+          "source_files_scanned": 0,
+          "candidate_public_symbols": 0,
+          "candidate_internal_symbols": 0,
+          "files_excluded_by_scope": 0,
+          "reason": "Repository is archived and is retained as a historical reference; it is not an active implementation scan."
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -9755,22 +9918,25 @@
         "observed_head_sha": "89d833edf338085d6141b0c703ebf92a0db83a5e",
         "observed_tree_sha": "e140d5a5bc884bd56d037296397c0de879adea94",
         "census_date": "2026-10-13",
-        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree e140d5a5bc884bd56d037296397c0de879adea94; repository HEAD 89d833edf338085d6141b0c703ebf92a0db83a5e",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "89d833edf338085d6141b0c703ebf92a0db83a5e",
           "tree_sha": "e140d5a5bc884bd56d037296397c0de879adea94",
-          "source_census_run_id": 38318248013,
-          "status": "CENSUS_SCANNED_RESIDUAL",
           "source_files_scanned": 2,
           "candidate_public_symbols": 11,
+          "candidate_internal_symbols": 9,
+          "files_excluded_by_scope": 0,
           "limitations": [
-            "lexical scan only",
-            "functional verification not performed",
-            "unmatched candidates and API/declarative/generated surfaces remain residual"
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
           ]
         }
       },
@@ -10011,12 +10177,28 @@
         "canonical_path": ".",
         "observed_head_sha": "bd1a48c69983247a8428f90a77edd061ba79316b",
         "observed_tree_sha": "b67a4f6a50ab578a8e82ac82748aecaf5bba003c",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-launchpad/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "bd1a48c69983247a8428f90a77edd061ba79316b",
+          "tree_sha": "b67a4f6a50ab578a8e82ac82748aecaf5bba003c",
+          "source_files_scanned": 6,
+          "candidate_public_symbols": 43,
+          "candidate_internal_symbols": 15,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -10254,12 +10436,28 @@
         "canonical_path": ".",
         "observed_head_sha": "5c3bab7da8a80d58af725b7dea2478ece2456f39",
         "observed_tree_sha": "c86fcc7f48d478a460419cbb075c7dea05a1fabb",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-marketplace/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "5c3bab7da8a80d58af725b7dea2478ece2456f39",
+          "tree_sha": "c86fcc7f48d478a460419cbb075c7dea05a1fabb",
+          "source_files_scanned": 17,
+          "candidate_public_symbols": 51,
+          "candidate_internal_symbols": 24,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -10497,12 +10695,28 @@
         "canonical_path": ".",
         "observed_head_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
         "observed_tree_sha": "553ef11c7d2ced67ac06662b91bc0e28f1cc23a4",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-ide/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
+          "tree_sha": "553ef11c7d2ced67ac06662b91bc0e28f1cc23a4",
+          "source_files_scanned": 71,
+          "candidate_public_symbols": 272,
+          "candidate_internal_symbols": 0,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -10750,12 +10964,28 @@
         "canonical_path": ".",
         "observed_head_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
         "observed_tree_sha": "1bc74a2c40394d8c76e3223de272ec3281db23e4",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/genesis-chronicles/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+          "tree_sha": "1bc74a2c40394d8c76e3223de272ec3281db23e4",
+          "source_files_scanned": 16,
+          "candidate_public_symbols": 110,
+          "candidate_internal_symbols": 5,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -10992,12 +11222,28 @@
         "canonical_path": ".",
         "observed_head_sha": "673fa560322b1449e8f23cc38bf839de1b246361",
         "observed_tree_sha": "cbc461e067f5d46d0d5b7a378b80867673f92dd3",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/genesis-franchise-factory/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "673fa560322b1449e8f23cc38bf839de1b246361",
+          "tree_sha": "cbc461e067f5d46d0d5b7a378b80867673f92dd3",
+          "source_files_scanned": 12,
+          "candidate_public_symbols": 83,
+          "candidate_internal_symbols": 0,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -11235,12 +11481,28 @@
         "canonical_path": ".",
         "observed_head_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
         "observed_tree_sha": "85368a3f351bf8b07a41c7aff1ffc5c57c713635",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain-os/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
+          "tree_sha": "85368a3f351bf8b07a41c7aff1ffc5c57c713635",
+          "source_files_scanned": 65,
+          "candidate_public_symbols": 334,
+          "candidate_internal_symbols": 202,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -11474,12 +11736,28 @@
         "canonical_path": ".",
         "observed_head_sha": "21c99769654ff5915c421c3446e62c2a29c22b40",
         "observed_tree_sha": "7110f2aac94aaccdb1f0dfc8c4c9140db29c7456",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-shivacore/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "21c99769654ff5915c421c3446e62c2a29c22b40",
+          "tree_sha": "7110f2aac94aaccdb1f0dfc8c4c9140db29c7456",
+          "source_files_scanned": 14,
+          "candidate_public_symbols": 99,
+          "candidate_internal_symbols": 27,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -11716,12 +11994,28 @@
         "canonical_path": ".",
         "observed_head_sha": "21132a49355eb5fd6ea4b8a7b4e4deb5d9be60f0",
         "observed_tree_sha": "d60af19553baf4ff88a3098c81a683d77ba7096e",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-vm/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "21132a49355eb5fd6ea4b8a7b4e4deb5d9be60f0",
+          "tree_sha": "d60af19553baf4ff88a3098c81a683d77ba7096e",
+          "source_files_scanned": 8,
+          "candidate_public_symbols": 20,
+          "candidate_internal_symbols": 56,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -11955,12 +12249,28 @@
         "canonical_path": ".",
         "observed_head_sha": "5a5628044ef4daacca943062eac3fd27a2eaec93",
         "observed_tree_sha": "861497f8142d9f9be7f5c2bd8a98b2cbffb48109",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-algorithm/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "5a5628044ef4daacca943062eac3fd27a2eaec93",
+          "tree_sha": "861497f8142d9f9be7f5c2bd8a98b2cbffb48109",
+          "source_files_scanned": 6,
+          "candidate_public_symbols": 16,
+          "candidate_internal_symbols": 20,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -12198,22 +12508,25 @@
         "observed_head_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
         "observed_tree_sha": "02d7c551989ecd345d4dbc656ef3a79fc59a0c84",
         "census_date": "2026-10-13",
-        "evidence_source": "Exact-HEAD organization source census run 38318248013; Git tree 02d7c551989ecd345d4dbc656ef3a79fc59a0c84; repository HEAD f65992609ffcdd7e8eee4c29ac7a455da07fa947",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Current HEAD and tree are recorded from the exact-HEAD organization census. Function bindings were refreshed only where the census found the existing path/symbol pair; all remain lexical mappings, not functional verification. Unmapped, missing-symbol, API/event/generated-language, and contract-completeness residuals remain open.",
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
         "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
           "head_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
           "tree_sha": "02d7c551989ecd345d4dbc656ef3a79fc59a0c84",
-          "source_census_run_id": 38318248013,
-          "status": "CENSUS_SCANNED_RESIDUAL",
-          "source_files_scanned": 1395,
-          "candidate_public_symbols": 10890,
+          "source_files_scanned": 277,
+          "candidate_public_symbols": 841,
+          "candidate_internal_symbols": 0,
+          "files_excluded_by_scope": 4038,
           "limitations": [
-            "lexical scan only",
-            "functional verification not performed",
-            "unmatched candidates and API/declarative/generated surfaces remain residual"
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
           ]
         }
       },
@@ -12451,15 +12764,31 @@
         "canonical_path": ".",
         "observed_head_sha": "af5d803dace369b83e4bffd2e4e6ba001d4aa000",
         "observed_tree_sha": "b04a2d3c7d6f34508ec1e731f9f2f2107481a151",
-        "census_date": "2026-10-12",
-        "evidence_source": "local org census 2026-10-12 (workspace clone at af5d803dace369b83e4bffd2e4e6ba001d4aa000)",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [
           "AGENT_MANIFEST.md",
           "tools/org_compliance_scan.py"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA refreshed and all catalog functions carry explicit source bindings (lexical mapping, not functional verification). Source-path coverage beyond the catalog baseline remains RESIDUAL."
+        "status_reason": "Exact-HEAD census is recorded. Source bindings are not functional verification. Repository-wide candidate symbols must be reconciled to catalog contracts or explicit exclusions; see scope.source_census_evidence.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "CENSUS_SCANNED_RESIDUAL",
+          "head_sha": "af5d803dace369b83e4bffd2e4e6ba001d4aa000",
+          "tree_sha": "b04a2d3c7d6f34508ec1e731f9f2f2107481a151",
+          "source_files_scanned": 12,
+          "candidate_public_symbols": 40,
+          "candidate_internal_symbols": 0,
+          "files_excluded_by_scope": 0,
+          "limitations": [
+            "lexical symbol discovery only",
+            "no function is functionally verified by this census",
+            "unbound candidates require contract mapping or reasoned exclusion",
+            "generated, dynamic, macro-expanded and indirect surfaces may require language-aware review"
+          ]
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -12690,12 +13019,23 @@
         "canonical_path": ".",
         "observed_head_sha": "d9b0da9c966dea02586b6be64139e6b3cd669dfd",
         "observed_tree_sha": "f916f6cbe96ebe274c338e71ff6c7f6806112bfd",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/demo-repository/commits/main",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38319690185; artifact 11778885556",
         "source_paths_examined": [],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list.",
+        "current_head_reconciliation": {
+          "source_census_run_id": 38319690185,
+          "status": "EXCLUDED_PRIVATE_NO_CI_ACCESS",
+          "head_sha": null,
+          "tree_sha": null,
+          "source_files_scanned": 0,
+          "candidate_public_symbols": 0,
+          "candidate_internal_symbols": 0,
+          "files_excluded_by_scope": 0,
+          "reason": "Private repository was explicitly excluded because CI had no authorized checkout; no source-symbol absence claim is made."
+        }
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -12818,10 +13158,10 @@
     "organization_repository_count": 33,
     "active_repository_count": 26,
     "archived_repository_count": 7,
-    "coverage_state": "REPOSITORY_CENSUS_RECORDED_FUNCTION_SOURCE_RECONCILIATION_PENDING",
+    "coverage_state": "EXACT_HEAD_CENSUS_COMPLETE_FOR_ACCESSIBLE_ACTIVE_REPOSITORIES_FUNCTION_MAPPING_INCOMPLETE",
     "source_registry": "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json",
-    "rule": "Every function contract must be source-bound or explicitly marked not source-verified; the catalog is not complete until public/exported symbols, relevant internal functions, RPC/CLI/event surfaces, tests, generated/declarative .atc surfaces, and reasoned exclusions are reconciled at exact SHAs. Added normative contracts do not assert implementation presence.",
-    "function_inventory_status": "SOURCE_RECONCILIATION_PENDING",
+    "rule": "The source census covers 25 active repositories at exact HEADs; one private active repository is explicitly excluded for lack of CI access; seven archived repositories are reference-only. 10,838 candidate symbols remain unbound after 941 test/example policy exclusions. No source symbol match is functional verification.",
+    "function_inventory_status": "SOURCE_RECONCILIATION_RESIDUAL",
     "component_source_bindings": 30,
     "function_source_bindings": 114,
     "source_verified_components": 0,
@@ -12829,18 +13169,51 @@
     "selected_source_files_examined": 10,
     "selected_source_public_symbol_groups": 10,
     "source_census_evidence": {
-      "run_id": 38318248013,
-      "workflow_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38318248013",
+      "run_id": 38319690185,
+      "workflow_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319690185",
+      "source_head_sha": "ea066c23dd505e84be37f14177d1beec566b756b",
+      "artifact_id": 11778885556,
+      "artifact_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319690185/artifacts/11778885556",
       "status": "RESIDUAL",
       "active_expected": 26,
       "active_scanned": 25,
       "active_excluded_private": 1,
       "active_blocked": 0,
       "archived_reference_repositories": 7,
-      "source_files_scanned": 4934,
-      "candidate_public_symbols": 35663,
-      "artifact_id": 11777103105,
-      "artifact_name": "atc-org-source-census-ff5f58476a6ef2584ec1bec2c5bb26b92cfb5760"
+      "repositories_expected": 33,
+      "source_files_scanned": 1363,
+      "files_excluded_by_scope": 15000,
+      "candidate_public_symbols": 7849,
+      "candidate_internal_symbols": 4014,
+      "candidate_symbols_total": 11863,
+      "candidate_symbols_bound": 84,
+      "candidate_symbols_unbound": 10838,
+      "candidate_symbols_excluded_by_policy": 941,
+      "function_bindings_residual_or_blocked": 32,
+      "component_findings": 0,
+      "self_reference_observations": 1,
+      "functional_verification": "NOT_PERFORMED"
+    },
+    "source_symbol_reconciliation": {
+      "run_id": 38319690185,
+      "status": "RESIDUAL",
+      "catalog_function_records": 114,
+      "exact_path_symbol_matches": 82,
+      "related_source_surfaces": 4,
+      "test_surfaces": 2,
+      "non_function_artifacts": 10,
+      "source_surfaces_not_identified": 9,
+      "normative_consensus_decisions_blocked": 3,
+      "archived_reference_only": 2,
+      "private_repository_excluded": 2,
+      "candidate_symbols_total": 11863,
+      "candidate_symbols_bound": 84,
+      "candidate_symbols_unbound": 10838,
+      "candidate_symbols_excluded_by_policy": 941,
+      "component_findings": 0,
+      "self_reference_observations": 1,
+      "functional_verification": "NOT_PERFORMED",
+      "next_gate": "Every remaining unbound candidate must be mapped to a contract or a path/symbol-specific reasoned exclusion; consensus decision records remain BLOCKED."
     }
   },
   "repository_coverage": [
