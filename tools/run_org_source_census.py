@@ -122,6 +122,7 @@ def run_census(workspace: Path, manifest: dict) -> dict:
             "files_excluded_by_scope": sum((r["summary"] or {}).get("files_excluded_by_scope", 0) for r in repositories),
             "candidate_public_symbols": sum((r["summary"] or {}).get("candidate_public_symbols", 0) for r in repositories),
             "candidate_internal_symbols": sum((r["summary"] or {}).get("candidate_internal_symbols", 0) for r in repositories),
+            "candidate_test_symbols": sum((r["summary"] or {}).get("candidate_test_symbols", 0) for r in repositories),
         },
         "blocked_active_repositories": missing_active,
         "limitations": [
