@@ -28,6 +28,12 @@ class PublicSymbolScanTests(unittest.TestCase):
             self.assertIn(("type", "Api"), symbols)
             self.assertIn(("function", "execute"), symbols)
             self.assertNotIn(("function", "private_helper"), symbols)
+            internal = {
+                (entry["kind"], entry["name"])
+                for file in report["files"]
+                for entry in file["candidate_internal_symbols"]
+            }
+            self.assertIn(("function", "private_helper"), internal)
             self.assertEqual(report["completeness_status"], "RESIDUAL")
             self.assertEqual(report["functional_verification"], "NOT_PERFORMED")
 
