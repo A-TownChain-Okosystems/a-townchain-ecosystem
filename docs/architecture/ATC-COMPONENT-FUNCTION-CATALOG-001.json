@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-13",
-  "catalog_revision_note": "Exact-HEAD census and symbol reconciliation refreshed after the ShivaCore/GlobusOS expansion. 107 catalog records have lexical exact-SHA path/symbol matches; 32 records remain residual or blocked; 10,815 source candidates still need contract mapping or a reasoned exclusion. No function is functionally verified.",
+  "catalog_revision_note": "Added explicit cross-component contracts for TX-V2, L1 node admission, storage persistence, normative standards, ZKP verification and the kernel/service boot boundary. ATCB/ATC1 bytecode conflict and consensus/finality/fork-choice remain BLOCKED.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -15223,15 +15223,15 @@
       "id": "IF-002",
       "producer": "COMP-TOOLCHAIN",
       "consumer": "COMP-VM",
-      "contract": "Normative bytecode format, version, opcode semantics and compiler/VM conformance vectors",
-      "status": "RESIDUAL"
+      "contract": "ATCB bytecode envelope and compiler/VM conformance: canonical magic, u16 BE version, u32 BE instruction count, opcode semantics, gas/resource bounds and shared vectors. A conflicting ATCB-versus-ATC1 magic remains unresolved; do not infer a final format.",
+      "status": "BLOCKED"
     },
     {
       "id": "IF-003",
       "producer": "COMP-CHAIN",
       "consumer": "COMP-ALGO",
-      "contract": "Versioned consensus inputs, canonical encoding, transition result and error semantics",
-      "status": "RESIDUAL"
+      "contract": "Versioned consensus inputs, canonical encoding, decision/proof semantics, transition result and error contract. PoH/PoW/PoS/PoI selection and finality/fork-choice are not finalized; no algorithm may be inferred by default.",
+      "status": "BLOCKED"
     },
     {
       "id": "IF-004",
@@ -15259,6 +15259,48 @@
       "producer": "COMP-STANDARDS",
       "consumer": "COMP-ATC-ENG",
       "contract": "Versioned normative governance and conformance rules",
+      "status": "RESIDUAL"
+    },
+    {
+      "id": "IF-008",
+      "producer": "COMP-CHAIN",
+      "consumer": "COMP-SDK",
+      "contract": "TX-V2 canonical transaction serialization/signature contract: secp256k1 ECDSA with RFC6979/SHA-256, low-S, 33-byte compressed SEC1 public key, 64-byte compact r||s signature and domain ATC-TX-DOMAIN-V2. Encoder/decoder and cross-client golden vectors must match.",
+      "status": "RESIDUAL"
+    },
+    {
+      "id": "IF-009",
+      "producer": "COMP-CHAIN",
+      "consumer": "COMP-NODE",
+      "contract": "L1 transaction/block admission contract: canonical validation, nonce/replay policy, fee affordability, parent/state validation, atomic state transition and explicit rejection reasons. Node/Devnet-only behavior must not be treated as canonical consensus.",
+      "status": "RESIDUAL"
+    },
+    {
+      "id": "IF-010",
+      "producer": "COMP-CHAIN",
+      "consumer": "COMP-STORAGE",
+      "contract": "Durable canonical block/state persistence: exact serialization, block/state-root identity, atomic commit/rollback, corruption detection and recovery. The storage repository is archived; production ownership and replacement decision are unresolved.",
+      "status": "BLOCKED"
+    },
+    {
+      "id": "IF-011",
+      "producer": "COMP-CHAIN",
+      "consumer": "COMP-STANDARDS",
+      "contract": "Versioned L1 protocol contract for chain ID, genesis, transaction rules, amount encoding, supply invariants, block/state transition and upgrade activation. Normative changes require explicit decision records and shared vectors.",
+      "status": "RESIDUAL"
+    },
+    {
+      "id": "IF-012",
+      "producer": "COMP-CHAIN",
+      "consumer": "COMP-ZKP",
+      "contract": "Proof-verification interface with explicit proof version/domain, public-input encoding, verification result/error taxonomy, resource bounds and replay/context binding. No proof type is accepted without a versioned normative contract.",
+      "status": "RESIDUAL"
+    },
+    {
+      "id": "IF-013",
+      "producer": "COMP-GLOBUS",
+      "consumer": "COMP-SHIVA",
+      "contract": "Boot/service boundary: kernel initialization, capability and IPC ABI, userspace transition, boot-health evidence and rollback signal. Service-space networking, AI and contract execution must remain outside the ShivaCore TCB.",
       "status": "RESIDUAL"
     }
   ],
@@ -15333,7 +15375,9 @@
       "self_reference_observations": 1,
       "functional_verification": "NOT_PERFORMED",
       "next_gate": "Reconcile the 10,815 remaining unbound candidates into function contracts or individually justified exclusions; prioritize canonical GlobusOS/ShivaCore, A-TownChain, ATC-VM and ATCLang surfaces."
-    }
+    },
+    "interface_contracts": 13,
+    "blocked_interface_contracts": 3
   },
   "repository_coverage": [
     {
