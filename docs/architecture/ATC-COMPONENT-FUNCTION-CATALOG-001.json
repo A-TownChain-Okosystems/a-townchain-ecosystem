@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-13",
-  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings. Cross-component interfaces now carry machine-readable request/response, error/timeout, authorization, compatibility, test, and exact-SHA evidence fields; unresolved fields remain explicit RESIDUAL. Added IF-014 Node↔SDK RPC, IF-015 Genesis Engine↔L1 core, and IF-016 Node P2P boundary.",
+  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings. Cross-component interfaces now carry machine-readable request/response, error/timeout, authorization, compatibility, test, and exact-SHA evidence fields; unresolved fields remain explicit RESIDUAL. Added IF-014 Node↔SDK RPC, IF-015 Genesis Engine↔L1 core, and IF-016 Node P2P boundary. Embedded specification summary now reflects 139 function/capability records and 16 interface records; no functional verification is claimed.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -16318,23 +16318,23 @@
     {
       "id": "IF-016",
       "producer": "COMP-NODE",
-      "consumer": "COMP-NODE",
-      "contract": "Peer-to-peer node protocol boundary: peer identity, message/version framing, bounded message decoding, request correlation, replay protection, peer fault handling and sync/admission separation. This is a node transport contract, not consensus authority.",
+      "consumer": "COMP-CHAIN",
+      "contract": "Node peer-ingress to canonical chain admission: decoded peer messages must pass bounded parsing, version/domain checks, replay policy and canonical transaction/block validation before chain-state mutation. P2P transport is not consensus authority.",
       "status": "RESIDUAL",
-      "status_reason": "Canonical P2P message types and ownership must be extracted from exact node source; no framing or transport protocol is assumed.",
+      "status_reason": "Node ingress and chain-core validation entrypoints, request/response types and failure semantics must be source-bound at exact SHAs; no wire format or consensus behavior is inferred.",
       "contract_version": null,
       "version_status": "RESIDUAL",
       "request_schema": {
         "status": "RESIDUAL",
         "format": null,
         "fields": [],
-        "notes": "Versioned peer message envelope and typed payloads; transport framing, signatures and field schemas pending source reconciliation."
+        "notes": "Validated node-originated transaction/block candidate plus peer/context metadata; exact types, framing and encoding pending source/API reconciliation."
       },
       "response_schema": {
         "status": "RESIDUAL",
         "format": null,
         "fields": [],
-        "notes": "Typed protocol response, rejection, or bounded deferred status; retry and peer-disconnect semantics pending source reconciliation."
+        "notes": "Canonical admission result or typed rejection/deferred status; exact state-mutation boundary and error schema pending source reconciliation."
       },
       "error_timeout_semantics": {
         "status": "RESIDUAL",
@@ -16358,11 +16358,12 @@
       "contract_tests": {
         "status": "RESIDUAL",
         "required_classes": [
-          "message-golden-vectors",
-          "malformed-input-fuzz",
-          "version-compatibility",
+          "malformed-peer-input-fuzz",
+          "protocol-version-negative",
           "replay-adversarial",
-          "multi-node-partition",
+          "chain-admission-vectors",
+          "state-no-mutation-on-rejection",
+          "multi-node-sync",
           "resource-exhaustion"
         ],
         "exact_source_sha": null,
@@ -16860,14 +16861,14 @@
     "specification_id": "ATC-COMPONENT-FUNCTION-SPECIFICATION-001",
     "specification_version": "1.0.0",
     "applied": true,
-    "function_contracts_checked": 71,
+    "function_contracts_checked": 139,
     "component_contracts_checked": 30,
     "missing_required_field_values_are_explicit_residuals": true,
     "functional_verification_performed": false,
     "release_decision": "BLOCKED",
-    "last_component_updated": "COMP-VM",
-    "last_component_update_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
-    "component_function_contract_count": 29,
-    "component_function_catalog_status": "RESIDUAL_SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED"
+    "last_component_updated": "CROSS_COMPONENT_INTERFACES",
+    "last_component_update_source_sha": null,
+    "component_function_contract_count": 139,
+    "component_function_catalog_status": "RESIDUAL_SOURCE_RECONCILIATION_PENDING"
   }
 }
