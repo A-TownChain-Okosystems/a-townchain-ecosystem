@@ -46,6 +46,7 @@ PATTERNS = {
     ],
     "typescript": [
         ("function", re.compile(r"^\s*export\s+(?:default\s+)?(?:declare\s+)?(?:async\s+)?function\*?\s+([A-Za-z_$][\w$]*)", re.M)),
+        ("function", re.compile(r"^\s*(?:(?:public|protected|private|static|async|override|readonly|abstract)\s+)*([A-Za-z_$][\w$]*)\s*\([^;\n]*\)\s*:\s*.*\{\s*$", re.M)),
         ("type", re.compile(r"^\s*export\s+(?:default\s+)?(?:abstract\s+)?(?:class|interface|type|enum)\s+([A-Za-z_$][\w$]*)", re.M)),
         ("value", re.compile(r"^\s*export\s+(?:const|let|var)\s+([A-Za-z_$][\w$]*)", re.M)),
     ],
