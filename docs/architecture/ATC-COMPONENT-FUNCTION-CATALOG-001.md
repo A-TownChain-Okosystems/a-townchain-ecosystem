@@ -178,3 +178,9 @@ Update this catalog only from reviewed source/interface evidence. Every change s
 - Repository coverage: **33 total / 26 active / 7 archived**
 
 The catalog includes support/governance records for the standalone ATC-VM and ATC-Algorithm repositories, but their canonical production implementations remain in `a-townchain/components/vm` and `a-townchain/components/algorithm`. The standalone `atc-shivacore` repository is specification/support only; the canonical kernel remains under GlobusOS. Archived repositories are retained as reference records and are not silently reactivated.
+
+## 2026-10-13 catalog-first expansion — L1 blockchain contracts
+
+The machine-readable catalog now contains **114 function contracts across 30 components**. This revision adds 11 explicit L1 chain contracts (`FN-CHAIN-004`–`FN-CHAIN-014`) and 5 consensus/algorithm decision contracts (`FN-ALGO-003`–`FN-ALGO-007`).
+
+These records define required behavior before implementation changes. All 16 new contracts are `RESIDUAL` with `source_binding.status = NOT_SOURCE_VERIFIED`; this means source mapping is pending, **not** that the function is absent from code. Consensus selection, quorum/finality and fork-choice remain blocked pending a versioned normative decision. The catalog still does not claim completeness: source-symbol reconciliation, internal-function coverage, API/RPC/CLI/event coverage, `.atc` extraction, tests and exact-SHA evidence remain open. Release decision remains `BLOCKED`.
