@@ -39,6 +39,24 @@ class PublicSymbolScanTests(unittest.TestCase):
 
 
 
+    def test_helpers_in_test_paths_are_not_runtime_candidates(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "tests").mkdir()
+            (root / "tests" / "stdlib_reference_conformance.rs").write_text(
+                "fn encode_be(value: u64) -> Vec<u8> { value.to_be_bytes().to_vec() }\\n"
+                "#[test]\\n"
+                "fn test_reference_vector() { assert_eq!(encode_be(1).len(), 8); }\\n",
+                encoding="utf-8",
+            )
+            report = scan(root, "example/repo", "b" * 40)
+            file = report["files"][0]
+            self.assertEqual(file["candidate_public_symbols"], [])
+            self.assertEqual(file["candidate_internal_symbols"], [])
+            names = {x["name"] for x in file["candidate_test_symbols"]}
+            self.assertIn("encode_be", names)
+            self.assertIn("test_reference_vector", names)
+
     def test_duplicate_rust_functions_keep_distinct_line_identity(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
