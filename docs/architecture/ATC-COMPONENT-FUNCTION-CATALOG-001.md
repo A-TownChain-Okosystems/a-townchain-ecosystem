@@ -6,7 +6,7 @@
 
 This catalog is the architecture/control-plane inventory. It does not replace component source code, normative standards, or repository-local API documentation.
 
-**Current machine-readable count (2026-10-13):** 31 components · 173 function/capability contracts · 17 interfaces · 0 functionally verified. **Source reconciliation:** `RESIDUAL` until every runtime candidate is mapped or explicitly excluded; the strict completion gate is fail-closed. The last completed census is historical for its recorded exact HEAD; the current-head rerun must finish before its counts are treated as current.
+**Current machine-readable count (2026-10-13):** 33 components · 210 function/capability contracts · 19 interfaces · 0 functionally verified. **Source reconciliation:** `RESIDUAL` until every runtime candidate is mapped or explicitly excluded; the strict completion gate is fail-closed. The last completed census is historical for its recorded exact HEAD; the current-head rerun must finish before its counts are treated as current.
 
 ## Rules
 
@@ -254,3 +254,7 @@ Critical finding: `FN-NODE-022` records `TransactionDomain::signing_bytes` in `a
 Added `COMP-STORAGE-CORE` for active `a-townchain/components/storage`; the archived standalone storage service is now separately identified as `COMP-STORAGE-ARCHIVED`. Twenty storage functions are bound to exact source paths, blobs and the same a-townchain HEAD.
 
 Two hard blockers are recorded: `ContentAddress::compute` claims BLAKE3 compatibility but actually computes an FNV-1a-derived 256-bit value, and the current store/blob service is in-memory only. `mvp_root_hash` is explicitly non-cryptographic. Therefore `COMP-STORAGE-CORE` and `IF-018` are `BLOCKED` for canonical production state storage; `FN-CHAIN-012` remains unresolved for durable block persistence.
+
+## TypeScript TX-V2 parity inventory (2026-10-13)
+
+Added `COMP-SDK-TS` with ten exact-HEAD executable function bindings and seven explicitly classified non-function type/value surfaces. `IF-019` is `BLOCKED`: `canonicalTransactionId` hashes `canonicalIdFields` without enforcing all the same preconditions as `canonicalSigningPreimage`. Cross-language vectors and invalid-input parity remain open. Current catalog count: 33 components, 210 function/capability contracts, 19 interfaces; 169 functions are source-mapped, 0 functionally verified.
