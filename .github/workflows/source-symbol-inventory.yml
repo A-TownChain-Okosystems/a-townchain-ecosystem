@@ -148,6 +148,28 @@ jobs:
               --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
               --output artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json
           fi
+      - name: Print reconciliation summary
+        if: always()
+        run: |
+          set -euo pipefail
+          if test -f artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json; then
+            python - <<'PY'
+            import json
+            from collections import Counter
+            from pathlib import Path
+            report = json.loads(Path("artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json").read_text(encoding="utf-8"))
+            counts = Counter(item.get("finding") for item in report.get("function_findings", []))
+            print(json.dumps({
+                "status": report.get("status"),
+                **report.get("summary", {}),
+                "function_findings_by_kind": dict(sorted(counts.items())),
+                "component_findings": len(report.get("component_findings", [])),
+                "self_reference_observations": len(report.get("self_reference_observations", [])),
+            }, sort_keys=True))
+            PY
+          else
+            echo "Reconciliation report unavailable; see census step result."
+          fi
       - name: Upload exact-SHA census artifact
         if: always()
         uses: actions/upload-artifact@v4
