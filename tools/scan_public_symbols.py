@@ -89,7 +89,7 @@ PATTERNS = {
 
 # Rust private helpers are recorded separately from public API candidates.
 RUST_INTERNAL_FUNCTION_PATTERN = re.compile(
-    r"^\\s*(?:async\\s+)?(?:unsafe\\s+)?fn\\s+([A-Za-z_][A-Za-z0-9_]*)", re.M
+    r"^\s*(?:async\s+)?(?:unsafe\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)", re.M
 )
 
 
