@@ -219,3 +219,10 @@ Updated catalog count: 31 components, 144 function/capability contracts, 17 inte
 ## 14. Current count supersedes historical baseline (2026-10-13)
 
 The initial sections above are retained as historical evidence for the 2026-10-12 catalog revision. The current machine-readable catalog has since expanded to **31 components, 144 function/capability records and 17 interface records**. Five exact-HEAD TX-V2 source bindings were added for `COMP-WALLET`. Functional verification remains 0; release remains `BLOCKED`. Current-head Actions and the strict source-to-catalog completion gate must be checked separately from historical census runs.
+
+
+## 15. Exact source binding corrections and protocol ownership blockers (2026-10-13)
+
+Current catalog is **31 components / 146 function-capability records / 17 interfaces**. Exact function bindings now replace type-only matches for ATCLang ABI classification, SDK RPC transport, node configuration validation, marketplace order matching, IDE simulator panel, documentation architecture view, Genesis Engine ECS chunk sync, Devnet block production/sync and PoH tick verification. Static roadmap data is explicitly excluded as a non-function artifact.
+
+The previous Genesis Engine ↔ L1 genesis interface `IF-015` is now `BLOCKED`: the inspected `genesis-engine` source is world/ECS oriented and no evidence proves it owns L1 genesis initialization. Devnet chain-production and PoH helpers are cataloged only within their actual non-consensus scope. Two separate canonical L1 contracts (`FN-CHAIN-015`, `FN-CHAIN-016`) remain `SOURCE_SURFACE_NOT_IDENTIFIED` pending exact canonical implementation binding. Source mapping is 112 of 146; 0 functions are functionally verified.
