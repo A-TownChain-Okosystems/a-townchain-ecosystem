@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-13",
-  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings. Cross-component interfaces now carry machine-readable request/response, error/timeout, authorization, compatibility, test, and exact-SHA evidence fields; unresolved fields remain explicit RESIDUAL. Added IF-014 Node↔SDK RPC, IF-015 Genesis Engine↔L1 core, and IF-016 Node P2P boundary. Embedded specification summary now reflects 139 function/capability records and 16 interface records; no functional verification is claimed. Added COMP-WALLET as a distinct canonical component inside a-townchain/components/wallet, with five exact-HEAD TX-V2 source bindings and IF-017. The archived standalone atc-wallet repository remains reference-only and is not reactivated.",
+  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings. Cross-component interfaces now carry machine-readable request/response, error/timeout, authorization, compatibility, test, and exact-SHA evidence fields; unresolved fields remain explicit RESIDUAL. Added IF-014 Node↔SDK RPC, IF-015 Genesis Engine↔L1 core, and IF-016 Node P2P boundary. Embedded specification summary now reflects 139 function/capability records and 16 interface records; no functional verification is claimed. Added COMP-WALLET as a distinct canonical component inside a-townchain/components/wallet, with five exact-HEAD TX-V2 source bindings and IF-017. The archived standalone atc-wallet repository remains reference-only and is not reactivated. Rebound related type/value entries to actual function symbols where available; static roadmap data is explicitly a non-function artifact. Narrowed Devnet-only chain/PoH functions to their actual source semantics and added separate unresolved canonical L1 block-candidate and chain-reorganization contracts. IF-015 is BLOCKED because Genesis Engine's inspected ECS/world source is not proven to be the L1 genesis owner.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -1003,38 +1003,39 @@
         },
         {
           "id": "FN-LANG-006",
-          "name": "ABI value and protocol type boundary",
-          "purpose": "Separate contract-visible ABI values (AbiType/TypedValue) from protocol/host metadata (ProtocolType/IrValue) so a protocol counter cannot accidentally become an economic contract value; ABI wire encoding is deliberately not implemented here.",
+          "name": "TypedValue ABI type classification",
+          "purpose": "Map each contract-visible TypedValue variant to its ABI semantic type; protocol metadata remains outside this ABI value model, and wire encoding is explicitly not implemented here.",
           "inputs": [
-            "language-level values and type hints"
+            "TypedValue instance"
           ],
           "outputs": [
-            "typed ABI values or IR values with distinct semantic domains"
+            "AbiType discriminant"
           ],
           "failure_modes": [
-            "type confusion across ABI and protocol domains",
-            "unsupported ABI type",
-            "lossy type coercion"
+            "new TypedValue variant is omitted from mapping",
+            "ABI and protocol metadata domains are conflated"
           ],
           "acceptance": [
-            "ABI and protocol types are never interchangeable",
-            "U256 arithmetic helpers are checked and deterministic",
-            "ABI wire encoding stays deferred to the ATC-ABI-001 conformance gate"
+            "U64/U128/U256/Bool/Address/Bytes/ContractRef map to the corresponding AbiType",
+            "ABI wire encoding is not inferred from this classification function",
+            "metadata fields such as height, nonce and gas remain outside the ABI type model"
           ],
           "test_classes": [
             "unit",
-            "property"
+            "variant exhaustiveness",
+            "property",
+            "ABI boundary"
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "crates/atc-core/src/value.rs",
-            "symbol_or_entrypoint": "AbiType",
+            "symbol_or_entrypoint": "abi_type",
+            "symbol_kind": "function",
             "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
             "file_blob_sha": "cb720e71cbdc26f01cae36388a99d6f2c1a5d8a0",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/value.rs",
-            "note": "Exact source symbol is a type/value surface supporting this capability, not proof of a runtime function contract. Keep RESIDUAL until function-level entrypoints and behavior are separately bound.",
-            "symbol_kind": "type"
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/value.rs#L66",
+            "note": "Exact function binding to TypedValue::abi_type. ABI wire encoding remains explicitly unimplemented and ATC-ABI-001 remains draft; mapping does not imply ABI conformance."
           },
           "canonical_owner": "A-TownChain-Okosystems/atclang",
           "preconditions": {
@@ -1063,7 +1064,7 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "reason": "Exact source mapping only; functional verification, test linkage and complete source-to-catalog coverage remain pending.",
             "source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
@@ -4268,47 +4269,42 @@
         },
         {
           "id": "FN-CHAIN-009",
-          "name": "Block candidate construction",
-          "purpose": "Construct a candidate block from eligible transactions and parent state under protocol limits.",
+          "name": "Deterministic Devnet block production (non-consensus)",
+          "purpose": "Append a deterministic Devnet block with a payload to the local chain and return the new best hash. This source function is capped at 64 blocks and is explicitly not a canonical consensus or transaction executor.",
           "inputs": [
-            "parent block/state",
-            "eligible transactions",
-            "block resource limits",
-            "consensus proposal context"
+            "mutable Devnet Chain",
+            "payload string"
           ],
           "outputs": [
-            "candidate block or typed failure"
+            "new best hash or typed string error"
           ],
           "failure_modes": [
-            "invalid parent",
-            "resource limit exceeded",
-            "invalid transaction",
-            "nondeterministic ordering",
-            "inconsistent state root"
+            "64-block Devnet cap reached",
+            "payload contains reserved '|' or ';' separators",
+            "height arithmetic boundary requires review"
           ],
           "acceptance": [
-            "Construction follows the approved protocol contract",
-            "Resource limits are enforced before finalization",
-            "Included transactions are revalidated by canonical rules",
-            "Output serialization is deterministic"
+            "block is appended to the current best tip deterministically",
+            "reserved gossip delimiters are rejected",
+            "64-block Devnet cap is enforced",
+            "no consensus/finality/transaction semantics are inferred"
           ],
           "test_classes": [
             "unit",
-            "vectors",
-            "property",
-            "integration",
-            "multi-node"
+            "determinism",
+            "negative payload",
+            "cap boundary"
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/node/src/chain.rs",
             "symbol_or_entrypoint": "produce",
+            "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "9876cda188a353195686ded9de533770d5c5fe94",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/node/src/chain.rs",
-            "note": "Related function only: source comments explicitly describe deterministic Devnet block production, a 64-block cap, and no consensus or transaction semantics. This does not satisfy the full canonical L1 block-candidate contract; keep residual.",
-            "symbol_kind": "function"
+            "note": "Exact source binding to the documented Devnet-only Chain::produce implementation. This function is not the canonical consensus/block-transition implementation."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -4337,14 +4333,10 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "reason": "Exact source mapping only; functional verification, test linkage and complete source-to-catalog coverage remain pending.",
             "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
-            "source_binding_status": "RELATED_SOURCE_SURFACE_ONLY",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
-              "canonical_repository",
-              "source_path",
-              "symbol_or_entrypoint",
-              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -4612,47 +4604,45 @@
         },
         {
           "id": "FN-CHAIN-013",
-          "name": "Chain synchronization and reorganization recovery",
-          "purpose": "Synchronize headers/blocks and recover from a competing branch according to approved protocol rules.",
+          "name": "Devnet pull-based chain synchronization",
+          "purpose": "Query a peer's Devnet status, pull the block sequence when the peer is taller, validate the candidate chain and genesis binding, and adopt only the verified candidate. This is not canonical fork-choice or finality.",
           "inputs": [
-            "local chain state",
-            "remote peer data",
-            "fork-choice/finality contract",
-            "resource limits"
+            "mutable local Devnet Chain",
+            "peer TCP address"
           ],
           "outputs": [
-            "synchronized state or explicit rejection/deferred status"
+            "SyncReport with adoption decision and resulting height or typed string error"
           ],
           "failure_modes": [
-            "invalid ancestry",
-            "conflicting finalized history",
-            "resource exhaustion",
-            "peer equivocation",
-            "state replay failure"
+            "peer connection/read timeout",
+            "malformed status/block list",
+            "candidate chain hash/height/link invalid",
+            "genesis mismatch",
+            "unauthenticated peer input"
           ],
           "acceptance": [
-            "Fork-choice/finality link to approved decision record",
-            "Invalid remote data cannot mutate canonical state",
-            "Reorganization is atomic or rollback-safe",
-            "Sync is bounded and resumable"
+            "candidate chain is fully verified before adoption",
+            "genesis mismatch fails closed",
+            "peer chain is not adopted solely because it is longer",
+            "no consensus fork-choice/finality claim is made"
           ],
           "test_classes": [
+            "unit",
             "multi-node",
-            "simulation",
-            "adversarial",
-            "fault-injection",
-            "recovery"
+            "malformed-peer",
+            "genesis mismatch",
+            "adversarial sync"
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/node/src/gossip.rs",
             "symbol_or_entrypoint": "sync_pull",
+            "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "2d7c0538c0aa5bff9c524691c285e7705554405a",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/node/src/gossip.rs",
-            "note": "Related function only: current source describes pull-based Devnet chain synchronization and candidate-chain verification; it explicitly lacks authentication/TLS and does not implement canonical fork-choice or reorganization/finality semantics.",
-            "symbol_kind": "function"
+            "note": "Exact source binding to the Devnet pull-sync implementation. Source comments explicitly note no TLS/authentication and no consensus/finality semantics."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -4681,14 +4671,10 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "reason": "Exact source mapping only; functional verification, test linkage and complete source-to-catalog coverage remain pending.",
             "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
-            "source_binding_status": "RELATED_SOURCE_SURFACE_ONLY",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
-              "canonical_repository",
-              "source_path",
-              "symbol_or_entrypoint",
-              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -4778,6 +4764,178 @@
               "job",
               "step",
               "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-015",
+          "name": "Canonical L1 block candidate construction",
+          "purpose": "Construct a canonical L1 block candidate from validated transactions and parent state under the approved protocol and resource limits. The current Devnet Chain::produce function does not satisfy this contract.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [
+            "canonical parent block/state",
+            "validated transaction set",
+            "protocol/resource limits",
+            "approved consensus proposal context"
+          ],
+          "outputs": [
+            "canonical block candidate or typed protocol rejection"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require tests."
+          },
+          "failure_modes": [
+            "invalid parent",
+            "invalid transaction",
+            "resource limit exceeded",
+            "state-root mismatch",
+            "nondeterministic encoding"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds and exhaustion semantics require explicit source/policy review."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries and malformed-input handling require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol/API version compatibility requires normative reconciliation."
+          },
+          "dependencies": [
+            "COMP-CHAIN"
+          ],
+          "acceptance": [
+            "construction is tied to the approved versioned L1 protocol",
+            "all transactions are revalidated before inclusion",
+            "block encoding and roots are deterministic",
+            "Devnet-only chain helper is not used as a consensus implementation"
+          ],
+          "test_classes": [
+            "unit",
+            "golden-vectors",
+            "property",
+            "multi-node",
+            "adversarial"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_SURFACE_NOT_IDENTIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "symbol_kind": null,
+            "exact_source_sha": null,
+            "file_blob_sha": null,
+            "evidence": null,
+            "note": "The normative contract is registered; no exact source function satisfying the complete contract has been identified. This is an explicit unresolved source gap, not a claim that code is absent."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact source mapping or terminal verification evidence.",
+            "source_sha": null,
+            "source_binding_status": "SOURCE_SURFACE_NOT_IDENTIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-016",
+          "name": "Canonical chain synchronization and reorganization transition",
+          "purpose": "Define the canonical synchronization, fork-choice and reorganization state transition under the approved consensus/finality protocol. The current Devnet pull-sync helper is only a related transport/demo surface.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "inputs": [
+            "local canonical chain state",
+            "validated remote headers/blocks",
+            "approved fork-choice/finality decision",
+            "resource limits"
+          ],
+          "outputs": [
+            "canonical next state or explicit rejection/deferred status"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require tests."
+          },
+          "failure_modes": [
+            "invalid ancestry",
+            "conflicting finalized history",
+            "peer equivocation",
+            "resource exhaustion",
+            "state rollback failure"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds and exhaustion semantics require explicit source/policy review."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries and malformed-input handling require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol/API version compatibility requires normative reconciliation."
+          },
+          "dependencies": [
+            "COMP-CHAIN"
+          ],
+          "acceptance": [
+            "fork-choice/finality are linked to a versioned normative decision",
+            "remote data cannot mutate state before full validation",
+            "reorganization is atomic or rollback-safe",
+            "conflicting finalized history fails closed"
+          ],
+          "test_classes": [
+            "multi-node",
+            "simulation",
+            "fault-injection",
+            "adversarial",
+            "recovery"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_SURFACE_NOT_IDENTIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "symbol_kind": null,
+            "exact_source_sha": null,
+            "file_blob_sha": null,
+            "evidence": null,
+            "note": "The normative contract is registered; no exact source function satisfying the complete contract has been identified. This is an explicit unresolved source gap, not a claim that code is absent."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact source mapping or terminal verification evidence.",
+            "source_sha": null,
+            "source_binding_status": "SOURCE_SURFACE_NOT_IDENTIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
               "exit_code",
               "log_or_artifact_url"
             ]
@@ -5123,46 +5281,43 @@
         },
         {
           "id": "FN-ALGO-004",
-          "name": "Consensus evidence/proof validation",
-          "purpose": "Validate consensus-specific proofs/evidence against the active approved protocol version.",
+          "name": "Proof-of-History tick-chain verification (Devnet scope)",
+          "purpose": "Verify sequential PoH tick slots and tick hashes in the current MVP implementation; this is not a finalized consensus proof validator and its hash is explicitly not cryptographically analyzed.",
           "inputs": [
-            "proof/evidence bytes",
-            "candidate block/context",
-            "approved protocol version"
+            "PohChain tick sequence"
           ],
           "outputs": [
-            "valid/invalid decision with typed reason"
+            "boolean verification result"
           ],
           "failure_modes": [
-            "malformed proof",
-            "wrong domain/version",
-            "replay",
-            "invalid parameters",
-            "nondeterministic result"
+            "slot sequence mismatch",
+            "tick hash mismatch",
+            "terminal u64::MAX slot",
+            "empty-chain semantics require separate normative review"
           ],
           "acceptance": [
-            "Rules are specified only after protocol decision is frozen",
-            "Domain/version binding is explicit",
-            "Invalid evidence is rejected deterministically",
-            "Golden and adversarial vectors are required"
+            "each slot increments without overflow",
+            "each tick hash matches the preceding tick",
+            "terminal slot overflow fails closed",
+            "no Mainnet security or finality claim is made"
           ],
           "test_classes": [
             "unit",
-            "vectors",
-            "fuzz",
-            "property",
+            "golden-vectors",
+            "tampering-negative",
+            "slot-overflow",
             "adversarial"
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/algorithm/src/poh.rs",
             "symbol_or_entrypoint": "verify",
+            "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "75a62238e2a3e4083caa6e420c2de3f215e28450",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/algorithm/src/poh.rs",
-            "note": "This is Proof-of-History tick-chain verification only. It is not a general consensus proof/evidence validator; source comments mark the hash as not cryptographically analyzed and Devnet-grade.",
-            "symbol_kind": "function"
+            "note": "Exact source binding to PohChain::verify. The source explicitly labels PoH and ATC-HASH-001 Devnet-grade and not cryptographically analyzed; final consensus remains blocked."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
           "preconditions": {
@@ -5191,14 +5346,10 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "reason": "Exact source mapping only; functional verification, test linkage and complete source-to-catalog coverage remain pending.",
             "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
-            "source_binding_status": "RELATED_SOURCE_SURFACE_ONLY",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
-              "canonical_repository",
-              "source_path",
-              "symbol_or_entrypoint",
-              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -5243,14 +5394,14 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "RELATED_SOURCE_SURFACE_ONLY",
-            "source_path": "components/algorithm/src/selection.rs",
-            "symbol_or_entrypoint": "select_proposer",
-            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
-            "file_blob_sha": "eab1723f3a3652df84a6c676bd252c9880469d9c",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/algorithm/src/selection.rs",
-            "note": "The current function performs deterministic stake-weighted proposer selection with overflow checks. It does not itself establish the complete participant eligibility registry or a finalized protocol-wide weight-normalization contract.",
-            "symbol_kind": "function"
+            "status": "SOURCE_SURFACE_NOT_IDENTIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "symbol_kind": null,
+            "exact_source_sha": null,
+            "file_blob_sha": null,
+            "evidence": null,
+            "note": "select_proposer is an existing stake-weighted selection helper, but no single function currently establishes the full protocol-wide participant eligibility registry and weight-normalization contract. Do not infer a finalized consensus rule; source contract remains unresolved."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
           "preconditions": {
@@ -5279,9 +5430,9 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
-            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
-            "source_binding_status": "RELATED_SOURCE_SURFACE_ONLY",
+            "reason": "Complete eligibility/weight-normalization source surface not identified; consensus protocol decision remains blocked.",
+            "source_sha": null,
+            "source_binding_status": "SOURCE_SURFACE_NOT_IDENTIFIED",
             "required_evidence": [
               "canonical_repository",
               "source_path",
@@ -5290,7 +5441,6 @@
               "workflow_run_id",
               "job",
               "step",
-              "terminal_conclusion",
               "exit_code",
               "log_or_artifact_url"
             ]
@@ -10125,8 +10275,8 @@
       "functions": [
         {
           "id": "FN-GENESIS-001",
-          "name": "Genesis configuration validation",
-          "purpose": "Validate genesis inputs and network configuration before generating artifacts or initializing state.",
+          "name": "Genesis Engine build configuration validation",
+          "purpose": "Validate the Genesis Engine build/dependency configuration. This is not evidence of validation for A-TownChain L1 genesis parameters or canonical chain bootstrap.",
           "inputs": [
             "genesis manifest",
             "network parameters",
@@ -10161,7 +10311,7 @@
             "exact_source_sha": "8326eb53e3e10cf08518e6769b44d4f034de1144",
             "file_blob_sha": "c8ca893727f292f0ae397dcb35549dabdb68e710",
             "evidence": "https://github.com/A-TownChain-Okosystems/genesis-engine/blob/8326eb53e3e10cf08518e6769b44d4f034de1144/modules/atc-genesis-build/src/lib.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: validate at modules/atc-genesis-build/src/lib.rs (additional related symbols in the original qualified mapping: validate, validate_dependencies).",
+            "note": "Exact function binding is to the Genesis Engine build-configuration validator. Do not interpret this source as an L1 blockchain genesis validator; the repository's current modules include ECS/world-engine code.",
             "symbol_kind": "function"
           },
           "canonical_owner": "A-TownChain-Okosystems/genesis-engine",
@@ -10206,42 +10356,42 @@
         },
         {
           "id": "FN-GENESIS-002",
-          "name": "Environment bootstrap and compatibility",
-          "purpose": "Bootstrap a declared environment and verify compatible component versions before activation.",
+          "name": "World-to-ECS loaded-chunk synchronization",
+          "purpose": "Synchronize loaded world chunks into ECS entities and set each entity transform to the chunk center; this is a Genesis Engine world/ECS operation, not blockchain genesis initialization.",
           "inputs": [
-            "deployment manifest",
-            "component versions",
-            "capability policy"
+            "WorldStreamer chunk list",
+            "mutable ECS World"
           ],
           "outputs": [
-            "bootstrap result",
-            "compatibility report"
+            "list of loaded chunk/entity ID pairs"
           ],
           "failure_modes": [
-            "version mismatch",
-            "missing dependency",
-            "unauthorized operation"
+            "chunk is not loaded and is skipped",
+            "entity/transform insertion failure is not represented as a typed error by this method",
+            "derived entity ID collision requires review"
           ],
           "acceptance": [
-            "Dependencies and versions are explicit",
-            "Bootstrap is repeatable and reports partial failure",
-            "Privileged actions pass policy/capability checks"
+            "Only chunks with Loaded state are synchronized",
+            "chunk IDs map deterministically to entity IDs within the bridge instance",
+            "entity transform is set to chunk center",
+            "no L1 chain state or consensus authority is implied"
           ],
           "test_classes": [
-            "integration",
-            "fault-injection",
-            "security-review"
+            "unit",
+            "world/ECS integration",
+            "determinism",
+            "collision boundary"
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "modules/atc-genesis-ecs/src/lib.rs",
-            "symbol_or_entrypoint": "WorldEcsBridge",
+            "symbol_or_entrypoint": "sync",
+            "symbol_kind": "function",
             "exact_source_sha": "8326eb53e3e10cf08518e6769b44d4f034de1144",
             "file_blob_sha": "e5227050fb472819fd670e4eb44a333d07a3479f",
             "evidence": "https://github.com/A-TownChain-Okosystems/genesis-engine/blob/8326eb53e3e10cf08518e6769b44d4f034de1144/modules/atc-genesis-ecs/src/lib.rs",
-            "note": "Exact source symbol is a type/value surface supporting this capability, not proof of a runtime function contract. Keep RESIDUAL until function-level entrypoints and behavior are separately bound.",
-            "symbol_kind": "type"
+            "note": "Exact function binding to WorldEcsBridge::sync. The source synchronizes loaded world chunks into ECS; it is not an L1 chain-genesis API."
           },
           "canonical_owner": "A-TownChain-Okosystems/genesis-engine",
           "preconditions": {
@@ -10270,7 +10420,7 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "reason": "Exact source mapping only; functional verification, test linkage and complete source-to-catalog coverage remain pending.",
             "source_sha": "8326eb53e3e10cf08518e6769b44d4f034de1144",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
@@ -10662,43 +10812,46 @@
       "functions": [
         {
           "id": "FN-SDK-001",
-          "name": "Typed protocol/RPC client",
-          "purpose": "Provide typed client calls and fail-closed handling of remote responses.",
+          "name": "Devnet JSON-RPC request transport",
+          "purpose": "Issue one JSON-RPC 2.0 request to the Devnet node, use a five-second read timeout, and extract a string result. The current implementation explicitly lacks TLS, connection reuse and retry logic.",
           "inputs": [
-            "endpoint configuration",
-            "typed request",
-            "network response"
+            "RPC method string",
+            "configured node address",
+            "monotonic request ID"
           ],
           "outputs": [
-            "typed result or explicit error"
+            "string result or transport/parse error"
           ],
           "failure_modes": [
-            "timeout",
-            "malformed response",
-            "protocol mismatch",
-            "unauthorized response"
+            "connect failure",
+            "write/read failure",
+            "five-second read timeout",
+            "missing result field",
+            "request ID overflow"
           ],
           "acceptance": [
-            "Invalid or incomplete responses fail closed",
-            "Protocol versions and error types are documented",
-            "Rust and TypeScript clients pass shared contract vectors"
+            "request envelope uses JSON-RPC 2.0 and increments the request ID",
+            "read timeout is configured to five seconds",
+            "missing result is an error",
+            "no TLS/retry/connection-pooling behavior is claimed"
           ],
           "test_classes": [
             "unit",
-            "contract",
-            "integration",
-            "negative"
+            "mock-node integration",
+            "timeout",
+            "request-id overflow",
+            "malformed response"
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "modules/atc-cli/src/rpc_client.rs",
-            "symbol_or_entrypoint": "RpcClient",
+            "symbol_or_entrypoint": "call",
+            "symbol_kind": "function",
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs",
-            "note": "Exact source symbol is a type/value surface supporting this capability, not proof of a runtime function contract. Keep RESIDUAL until function-level entrypoints and behavior are separately bound.",
-            "symbol_kind": "type"
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L21",
+            "note": "Exact function binding to the private RpcClient::call transport helper. Devnet-only behavior and missing TLS/retry/pooling are explicit residuals."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-sdk",
           "preconditions": {
@@ -10727,7 +10880,7 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "reason": "Exact source mapping only; functional verification, test linkage and complete source-to-catalog coverage remain pending.",
             "source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
@@ -10923,43 +11076,40 @@
       "functions": [
         {
           "id": "FN-NODE-001",
-          "name": "Node lifecycle and configuration",
-          "purpose": "Start, configure, monitor and stop a node instance using canonical protocol configuration.",
+          "name": "Node configuration validation",
+          "purpose": "Validate that the configured chain ID and network ID match the current Devnet constants, listen address is non-empty, and max_peers is positive.",
           "inputs": [
-            "node configuration",
-            "network/genesis identity",
-            "runtime dependencies"
+            "NodeConfig"
           ],
           "outputs": [
-            "node lifecycle state",
-            "health diagnostics"
+            "boolean validity result"
           ],
           "failure_modes": [
-            "invalid configuration",
-            "dependency unavailable",
-            "startup failure",
-            "crash loop"
+            "wrong chain ID",
+            "wrong network ID",
+            "empty listen address",
+            "zero max_peers"
           ],
           "acceptance": [
-            "Chain/network identity is sourced from canonical configuration",
-            "Startup failures are explicit and do not create partial healthy state",
-            "Shutdown and restart behavior are tested"
+            "all four constraints are checked",
+            "invalid configuration returns false",
+            "this method does not prove lifecycle startup or full protocol compatibility"
           ],
           "test_classes": [
-            "integration",
-            "fault-injection",
-            "configuration-negative"
+            "unit",
+            "invalid-config-negative",
+            "configuration compatibility"
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "src/config.rs",
-            "symbol_or_entrypoint": "NodeConfig",
+            "symbol_or_entrypoint": "valid",
+            "symbol_kind": "function",
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "c8fa47ffec07388015013853df2fc040f3d5dc66",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/config.rs",
-            "note": "Exact source symbol is a type/value surface supporting this capability, not proof of a runtime function contract. Keep RESIDUAL until function-level entrypoints and behavior are separately bound.",
-            "symbol_kind": "type"
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/config.rs#L22",
+            "note": "Exact function binding to NodeConfig::valid; scope is current Devnet configuration checks, not full node lifecycle."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-node",
           "preconditions": {
@@ -10988,7 +11138,7 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "reason": "Exact source mapping only; functional verification, test linkage and complete source-to-catalog coverage remain pending.",
             "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
@@ -12572,43 +12722,42 @@
         },
         {
           "id": "FN-MARKET-002",
-          "name": "DEX order/swap contract",
-          "purpose": "Validate trade requests and surface execution results from canonical contracts.",
+          "name": "Limit-order match selection",
+          "purpose": "Select opposing orders whose prices cross the new limit order. This method returns matching candidates only; it does not execute fills or settle assets.",
           "inputs": [
-            "order/swap request",
-            "quote/context",
-            "contract version"
+            "new Order",
+            "Orderbook"
           ],
           "outputs": [
-            "execution receipt or typed rejection"
+            "array of matched opposing orders"
           ],
           "failure_modes": [
-            "stale quote",
-            "slippage bound",
-            "invalid signature",
-            "contract revert"
+            "invalid or inconsistent order fields are not rejected here",
+            "partial-fill quantities are not applied here",
+            "price-time priority and duplicate-order handling are not established by this method"
           ],
           "acceptance": [
-            "Economic constraints and error semantics are documented",
-            "No off-chain result is represented as final chain state",
-            "Adversarial and boundary tests cover trade paths"
+            "buy order matches asks at price <= buy limit",
+            "sell order matches bids at price >= sell limit",
+            "matching does not mutate orderbook state in this method",
+            "asset settlement and fee semantics are outside this function"
           ],
           "test_classes": [
             "unit",
-            "property",
-            "integration",
-            "adversarial"
+            "price-boundary",
+            "negative-order",
+            "matching integration"
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "modules/atc-dex/src/matcher.ts",
-            "symbol_or_entrypoint": "OrderMatcher",
+            "symbol_or_entrypoint": "match",
+            "symbol_kind": "function",
             "exact_source_sha": "5c3bab7da8a80d58af725b7dea2478ece2456f39",
             "file_blob_sha": "712c867dccc5f4475272f2cffedba969b3b547a6",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-marketplace/blob/5c3bab7da8a80d58af725b7dea2478ece2456f39/modules/atc-dex/src/matcher.ts",
-            "note": "Exact source symbol is a type/value surface supporting this capability, not proof of a runtime function contract. Keep RESIDUAL until function-level entrypoints and behavior are separately bound.",
-            "symbol_kind": "type"
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-marketplace/blob/5c3bab7da8a80d58af725b7dea2478ece2456f39/modules/atc-dex/src/matcher.ts#L7",
+            "note": "Exact TypeScript class-method binding. The scanner now discovers method signatures; this function selects price-crossing candidates but does not execute settlement."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-marketplace",
           "preconditions": {
@@ -12637,7 +12786,7 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "reason": "Exact source mapping only; functional verification, test linkage and complete source-to-catalog coverage remain pending.",
             "source_sha": "5c3bab7da8a80d58af725b7dea2478ece2456f39",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
@@ -12834,42 +12983,43 @@
         },
         {
           "id": "FN-IDE-002",
-          "name": "VM simulator and standards compliance panels",
-          "purpose": "Present canonical VM simulation and standards results without replacing their authoritative validators.",
+          "name": "ATC VM simulator panel entrypoint",
+          "purpose": "Render the IDE's interactive VM simulator panel and manage its UI state; this is a front-end simulation surface, not the canonical ATC-VM runtime.",
           "inputs": [
-            "bytecode/program",
-            "standards reference",
-            "validator result"
+            "optional workspace-file save callback",
+            "optional toast callback",
+            "user-selected preset/source and simulator actions"
           ],
           "outputs": [
-            "simulation trace",
-            "compliance report"
+            "rendered simulator UI",
+            "local simulation state and user feedback"
           ],
           "failure_modes": [
-            "unsupported format",
-            "validator unavailable",
-            "stale spec"
+            "simulator semantics drift from canonical VM",
+            "UI state diverges from protocol vectors",
+            "user-facing errors are incomplete"
           ],
           "acceptance": [
-            "Simulation matches canonical VM vectors",
-            "Compliance result links exact standards version and evidence",
-            "No locally fabricated PASS state"
+            "panel remains a UI adapter only",
+            "execution claims are checked against canonical VM conformance vectors",
+            "no UI function is treated as consensus or VM authority"
           ],
           "test_classes": [
-            "contract",
-            "integration",
-            "conformance"
+            "component",
+            "interaction",
+            "accessibility",
+            "canonical-VM differential conformance"
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "src/components/AtcVmSimulatorPanel.tsx",
             "symbol_or_entrypoint": "AtcVmSimulatorPanel",
+            "symbol_kind": "function",
             "exact_source_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
             "file_blob_sha": "67e55a6502d2bd21f4363559304143bc212048f8",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-ide/blob/2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a/src/components/AtcVmSimulatorPanel.tsx",
-            "note": "Exact source symbol is a type/value surface supporting this capability, not proof of a runtime function contract. Keep RESIDUAL until function-level entrypoints and behavior are separately bound.",
-            "symbol_kind": "type"
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-ide/blob/2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a/src/components/AtcVmSimulatorPanel.tsx#L255",
+            "note": "Exact binding to exported React function component. It is an IDE simulation panel, not a canonical VM implementation."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-ide",
           "preconditions": {
@@ -12898,7 +13048,7 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "reason": "Exact source mapping only; functional verification, test linkage and complete source-to-catalog coverage remain pending.",
             "source_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
@@ -14575,42 +14725,42 @@
       "functions": [
         {
           "id": "FN-DOCS-001",
-          "name": "Architecture and SSOT index",
-          "purpose": "Maintain navigable references to canonical implementation and normative specifications without creating competing sources of truth.",
+          "name": "ArchitectureView rendering entrypoint",
+          "purpose": "Render the architecture and SSOT visualization in the documentation hub; it is a presentation layer, not an authoritative architecture registry.",
           "inputs": [
-            "repository inventory",
-            "approved architecture decisions",
-            "canonical URLs"
+            "architecture layer dataset",
+            "user search query",
+            "selected layer state"
           ],
           "outputs": [
-            "versioned documentation index",
-            "broken-link report"
+            "rendered architecture visualization"
           ],
           "failure_modes": [
-            "stale link",
-            "contradictory source",
-            "outdated status"
+            "display data drifts from machine-readable catalog",
+            "search/filter omits entries",
+            "stale generated data"
           ],
           "acceptance": [
-            "Canonical owners are linked explicitly",
-            "Historical claims are labelled historical",
-            "Current status distinguishes declaration from exact-SHA evidence"
+            "rendered content is reconciled to machine-readable SSOT",
+            "display filtering does not mutate architecture records",
+            "stale data is detectable"
           ],
           "test_classes": [
-            "link-check",
-            "consistency",
-            "review"
+            "component",
+            "render",
+            "filtering",
+            "SSOT consistency"
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "aistudio/src/components/ArchitectureView.tsx",
             "symbol_or_entrypoint": "ArchitectureView",
+            "symbol_kind": "function",
             "exact_source_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
             "file_blob_sha": "9dc72fd057dcced2d10af5bad0ccffffcd2a1a1b",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/f65992609ffcdd7e8eee4c29ac7a455da07fa947/aistudio/src/components/ArchitectureView.tsx",
-            "note": "Exact source symbol is a type/value surface supporting this capability, not proof of a runtime function contract. Keep RESIDUAL until function-level entrypoints and behavior are separately bound.",
-            "symbol_kind": "type"
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/f65992609ffcdd7e8eee4c29ac7a455da07fa947/aistudio/src/components/ArchitectureView.tsx#L426",
+            "note": "Exact binding to exported React function component. The view is a presentation surface; the JSON catalog remains the architecture SSOT."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain-os-docs",
           "preconditions": {
@@ -14639,8 +14789,8 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "6b311f70dc12517d2e09b83297e96035aebed035",
+            "reason": "Exact source mapping only; functional verification, test linkage and complete source-to-catalog coverage remain pending.",
+            "source_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -14654,8 +14804,8 @@
         },
         {
           "id": "FN-DOCS-002",
-          "name": "Roadmap and decision traceability",
-          "purpose": "Map milestones and decisions to issues, acceptance criteria and evidence.",
+          "name": "Static ATCLang roadmap data artifact",
+          "purpose": "Provide static roadmap/decision-traceability data for the documentation UI; this record is a data artifact, not an executable function.",
           "inputs": [
             "decision ID",
             "milestone/checkpoint",
@@ -14682,13 +14832,13 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "status": "NON_FUNCTION_SOURCE_ARTIFACT",
             "source_path": "aistudio/src/atcLangRoadmapData.ts",
             "symbol_or_entrypoint": "ATC_LANG_ROADMAP_DATA",
             "exact_source_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
             "file_blob_sha": "1821e6577e3488f50d4ce92df8961065185a63f1",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/f65992609ffcdd7e8eee4c29ac7a455da07fa947/aistudio/src/atcLangRoadmapData.ts",
-            "note": "Exact source symbol is a type/value surface supporting this capability, not proof of a runtime function contract. Keep RESIDUAL until function-level entrypoints and behavior are separately bound.",
+            "note": "ATC_LANG_ROADMAP_DATA is a static exported data value. It is explicitly excluded from runtime function coverage and should be treated as a documentation/data artifact.",
             "symbol_kind": "value"
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain-os-docs",
@@ -14718,16 +14868,13 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "6b311f70dc12517d2e09b83297e96035aebed035",
-            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "reason": "Static data artifact only; schema consistency and synchronization with normative SSOT remain unverified.",
+            "source_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
+            "source_binding_status": "NON_FUNCTION_SOURCE_ARTIFACT",
             "required_evidence": [
-              "workflow_run_id",
-              "job",
-              "step",
-              "terminal_conclusion",
-              "exit_code",
-              "log_or_artifact_url"
+              "data_schema_validation",
+              "source_sha",
+              "catalog_or_spec_reference"
             ]
           }
         }
@@ -16763,22 +16910,22 @@
       "id": "IF-015",
       "producer": "COMP-GENESIS",
       "consumer": "COMP-CHAIN",
-      "contract": "Genesis Engine to canonical chain initialization: chain identity, genesis parameter validation, canonical genesis encoding/hash, initial state and protocol-version binding. Genesis tooling must not override canonical chain rules.",
-      "status": "RESIDUAL",
-      "status_reason": "Genesis Engine and L1 core source bindings and canonical genesis vectors must be reconciled before freezing the schema.",
+      "contract": "Potential Genesis Engine ↔ L1 genesis initialization boundary; this is not an approved integration. The currently inspected Genesis Engine source is world/ECS-oriented and must not be assumed to own chain genesis parameters or canonical blockchain bootstrap.",
+      "status": "BLOCKED",
+      "status_reason": "Architecture ownership conflict: the inspected genesis-engine source surface is an ECS/world engine, not proven L1 chain-genesis initialization. No source or normative decision establishes this integration. Keep blocked until the architecture owner explicitly assigns a blockchain-genesis contract and canonical implementation.",
       "contract_version": null,
       "version_status": "RESIDUAL",
       "request_schema": {
         "status": "RESIDUAL",
         "format": null,
         "fields": [],
-        "notes": "Validated genesis configuration, chain ID, protocol version, initial allocations/state and explicit parameter source references; field encoding pending normative reconciliation."
+        "notes": "BLOCKED: no approved request schema exists until ownership is decided; the current ECS/world API is not a chain-genesis request."
       },
       "response_schema": {
         "status": "RESIDUAL",
         "format": null,
         "fields": [],
-        "notes": "Canonical genesis identity/state root or typed fail-closed validation error; exact output encoding pending shared vectors."
+        "notes": "BLOCKED: no approved L1 genesis result schema is established by the current Genesis Engine source."
       },
       "error_timeout_semantics": {
         "status": "RESIDUAL",
@@ -16823,7 +16970,7 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+      "resolution_rule": "Remain BLOCKED until an explicit architecture decision establishes whether this repository participates in L1 genesis, names the canonical owner, and defines a versioned request/response contract with exact-SHA tests."
     },
     {
       "id": "IF-016",
@@ -17006,7 +17153,7 @@
     "rule": "The exact-HEAD census covers 25 active repositories; one private active repository is explicitly excluded for lack of CI access; seven archived repositories are reference-only. 10,815 candidate symbols remain unbound after 941 test/example policy exclusions. No lexical source match is functional verification.",
     "function_inventory_status": "SOURCE_RECONCILIATION_RESIDUAL",
     "component_source_bindings": 31,
-    "function_source_bindings": 144,
+    "function_source_bindings": 146,
     "source_verified_components": 0,
     "source_verified_functions": 0,
     "selected_source_files_examined": 10,
@@ -17463,14 +17610,14 @@
     "specification_id": "ATC-COMPONENT-FUNCTION-SPECIFICATION-001",
     "specification_version": "1.0.0",
     "applied": true,
-    "function_contracts_checked": 144,
+    "function_contracts_checked": 146,
     "component_contracts_checked": 31,
     "missing_required_field_values_are_explicit_residuals": true,
     "functional_verification_performed": false,
     "release_decision": "BLOCKED",
-    "last_component_updated": "COMP-WALLET",
+    "last_component_updated": "COMP-CHAIN_COMP-LANG_COMP-SDK_COMP-NODE_COMP-MARKET_COMP-IDE_COMP-DOCS_COMP-GENESIS_COMP-ALGO",
     "last_component_update_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
-    "component_function_contract_count": 144,
+    "component_function_contract_count": 146,
     "component_function_catalog_status": "RESIDUAL_SOURCE_RECONCILIATION_PENDING"
   }
 }
