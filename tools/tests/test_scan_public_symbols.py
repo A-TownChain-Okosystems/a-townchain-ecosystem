@@ -38,6 +38,23 @@ class PublicSymbolScanTests(unittest.TestCase):
             self.assertEqual(report["functional_verification"], "NOT_PERFORMED")
 
 
+    def test_typescript_class_methods_are_discovered_as_function_candidates(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "src").mkdir()
+            (root / "src" / "matcher.ts").write_text(
+                "export class OrderMatcher {\\n"
+                "  match(newOrder: Order, book: Orderbook): { matched: Order[] } {\\n"
+                "    return { matched: [] };\\n"
+                "  }\\n"
+                "}\\n",
+                encoding="utf-8",
+            )
+            report = scan(root, "example/repo", "e" * 40)
+            symbols = {(x["kind"], x["name"]) for x in report["files"][0]["candidate_public_symbols"]}
+            self.assertIn(("type", "OrderMatcher"), symbols)
+            self.assertIn(("function", "match"), symbols)
+
     def test_rust_inline_cfg_test_module_is_separated_from_runtime_candidates(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
