@@ -132,3 +132,13 @@ All 16 additions have `readiness: RESIDUAL` and `source_binding.status: NOT_SOUR
 - 114 function contracts are registered.
 - 0 functions are functionally verified.
 - Source reconciliation remains pending; structural validity and lexical symbol matches do not establish completeness.
+
+## 11. Census gate correction and current-source drift (2026-10-13)
+
+The exact-HEAD census workflow failed at `Run exact-HEAD organization source census` on PR head `6edc64cc3f3487e8e8ce0afa629c81a89b8f1dc7` (run `38317992185`). Inspection found a contradictory gate: the census explicitly supports recording an inaccessible private repository as `EXCLUDED_PRIVATE_NO_CI_ACCESS`, but the workflow separately required `active_scanned == 26`, which rejects that documented exclusion even when `active_blocked == 0` and total accounted coverage is 26.
+
+Correction committed on the existing PR branch in commit `7aca949d1826b5cba38dc8cd9aa13aab666a1ed9`: the gate now requires `active_scanned + active_excluded_private == 26` and `active_blocked == 0`. This does not weaken fail-closed behavior for missing public repositories; it makes the assertion consistent with the census schema's explicit private-exclusion semantics. A new run must establish whether the census can proceed; success is not claimed yet.
+
+Current exact-source drift was also observed: `A-TownChain-Okosystems/a-townchain` default branch `main` resolves to `c631249ed6ff450bf45338e78cb14e2bf5c65c74`, while the catalog's recorded source baseline for `COMP-CHAIN` is `a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9`. Until a complete scan at a pinned current HEAD is reconciled, the old source bindings must not be silently relabeled as current.
+
+At this checkpoint, 21 catalog functions have no source path/symbol/exact SHA: 11 new L1 contracts, 5 new consensus decision contracts, 1 toolchain contract explicitly lacking an identified implementation surface, 2 archived-storage contracts, and 2 demo-fixture contracts without source symbols. The last five require reasoned scope/ownership decisions rather than fabricated source mappings. Consensus/finality/fork-choice remain `BLOCKED` until normative approval.
