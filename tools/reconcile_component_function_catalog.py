@@ -108,6 +108,8 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 "finding": None,
             }
             binding_status = binding.get("status")
+            item["binding_status"] = binding_status
+            item["binding_note"] = binding.get("note")
             reasoned_statuses = {
                 "SOURCE_SURFACE_NOT_IDENTIFIED": "SOURCE_SURFACE_NOT_IDENTIFIED",
                 "NORMATIVE_DECISION_BLOCKED": "NORMATIVE_DECISION_BLOCKED",
@@ -269,14 +271,26 @@ def completion_gaps(report: dict) -> list[str]:
         "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING",
         "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION",
         "NON_FUNCTION_SOURCE_ARTIFACT_EXCLUDED_FROM_SYMBOL_SCAN",
+        "SOURCE_SURFACE_NOT_IDENTIFIED",
         "NORMATIVE_DECISION_BLOCKED",
         "BLOCKED_ARCHIVED_REFERENCE_ONLY",
         "BLOCKED_PRIVATE_REPOSITORY_EXCLUDED",
     }
-    unresolved = [
-        item for item in report.get("function_findings", [])
-        if item.get("finding") not in allowed_findings
-    ]
+    unresolved = []
+    for item in report.get("function_findings", []):
+        finding = item.get("finding")
+        # A source-surface gap is an explicit implementation backlog item, not an
+        # unbound existing symbol. It is allowed for catalog/source-inventory
+        # completion only when the catalog records a concrete reason. It does not
+        # imply that the required function exists or is verified.
+        explicit_gap = (
+            finding == "FUNCTION_BINDING_MISSING"
+            and item.get("binding_status") == "SOURCE_SURFACE_NOT_IDENTIFIED"
+            and bool(item.get("binding_note"))
+        )
+        reasoned_finding = finding in allowed_findings and bool(item.get("binding_note"))
+        if not (explicit_gap or reasoned_finding):
+            unresolved.append(item)
     if unresolved:
         counts: dict[str, int] = {}
         for item in unresolved:
