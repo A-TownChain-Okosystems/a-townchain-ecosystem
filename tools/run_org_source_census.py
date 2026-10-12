@@ -51,6 +51,12 @@ def run_census(workspace: Path, manifest: dict) -> dict:
             "report": None,
             "residuals": [],
         }
+        if not active:
+            # Archived repositories are historical references, not failed active scans.
+            entry["status"] = "ARCHIVED_REFERENCE_ONLY"
+            entry["residuals"].append("ARCHIVED_REPOSITORY_EXCLUDED_BY_POLICY")
+            repositories.append(entry)
+            continue
         if not root.is_dir() or not (root / ".git").exists():
             if active and item.get("private"):
                 # Documented exclusion, not a silent omission: a private
