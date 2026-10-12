@@ -188,7 +188,7 @@ def _mask_rust_test_only_source(source: str) -> tuple[str, list[str]]:
     ranges: list[tuple[int, int]] = []
     test_names: set[str] = set()
     module_pattern = re.compile(
-        r"#\\s*\\[\\s*cfg\\s*\\(\\s*test\\s*\\)\\s*\\]\\s*(?:pub(?:\\([^)]*\\))?\\s+)?mod\\s+[A-Za-z_][A-Za-z0-9_]*\\s*\\{",
+        r"#\s*\[\s*cfg\s*\(\s*test\s*\)\s*\]\s*(?:pub(?:\([^)]*\))?\s+)?mod\s+[A-Za-z_][A-Za-z0-9_]*\s*\{,
         re.M,
     )
     for match in module_pattern.finditer(source):
@@ -204,10 +204,10 @@ def _mask_rust_test_only_source(source: str) -> tuple[str, list[str]]:
                 test_names.add(symbol_match.group(1))
     # Also identify direct #[test], #[tokio::test], and cfg(test) functions
     # that are not enclosed in a cfg(test) module.
-    attr_pattern = re.compile(r"#\\s*\\[\\s*(?:tokio::\\s*test|test|cfg\\s*\\(\\s*test\\s*\\))\\s*\\]")
+    attr_pattern = re.compile(r"#\s*\[\s*(?:tokio::\s*test|test|cfg\s*\(\s*test\s*\))\s*\])
     for attr in attr_pattern.finditer(source):
         tail = source[attr.end():]
-        fn_match = re.search(r"\\b(?:async\\s+)?fn\\s+([A-Za-z_][A-Za-z0-9_]*)", tail)
+        fn_match = re.search(r"\b(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*), tail)
         if not fn_match:
             continue
         name = fn_match.group(1)
