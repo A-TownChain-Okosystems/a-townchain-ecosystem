@@ -248,3 +248,9 @@ The current source inventory distinguishes runtime candidates from inline Rust t
 Added exact-HEAD source contracts for NodeConfig construction/validation, PeerTable lifecycle, Devnet RPC state/dispatch/listener/handler/parsing, gossip listener/peer request/sync/block parsing, and the process entrypoint. The catalog now has 173 function/capability records; 139 have exact source mappings, but this remains lexical evidence only.
 
 Critical finding: `FN-NODE-022` records `TransactionDomain::signing_bytes` in `atc-node` as a **BLOCKED legacy path** because it uses `ATC-TX-DOMAIN` and string-field encoding rather than the approved TX-V2 domain/encoding. `IF-017` is therefore `BLOCKED`; no code was changed. The canonical TX-V2 wallet side is source-bound, but chain-side verifier compatibility remains unresolved.
+
+## Canonical storage ownership and security limits (2026-10-13)
+
+Added `COMP-STORAGE-CORE` for active `a-townchain/components/storage`; the archived standalone storage service is now separately identified as `COMP-STORAGE-ARCHIVED`. Twenty storage functions are bound to exact source paths, blobs and the same a-townchain HEAD.
+
+Two hard blockers are recorded: `ContentAddress::compute` claims BLAKE3 compatibility but actually computes an FNV-1a-derived 256-bit value, and the current store/blob service is in-memory only. `mvp_root_hash` is explicitly non-cryptographic. Therefore `COMP-STORAGE-CORE` and `IF-018` are `BLOCKED` for canonical production state storage; `FN-CHAIN-012` remains unresolved for durable block persistence.
