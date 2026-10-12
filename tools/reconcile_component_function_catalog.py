@@ -276,11 +276,10 @@ def main() -> int:
         parser.error("unexpected organization census schema")
     report = reconcile(catalog, census)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     gaps = completion_gaps(report)
     report["completion_gate"] = "PASS" if not gaps else "BLOCKED"
     report["completion_gaps"] = gaps
-    args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\\n", encoding="utf-8")
+    args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"status": report["status"], "completion_gate": report["completion_gate"], "completion_gaps": gaps, **report["summary"], "output": str(args.output)}, sort_keys=True))
     if args.require_complete and gaps:
         return 2
