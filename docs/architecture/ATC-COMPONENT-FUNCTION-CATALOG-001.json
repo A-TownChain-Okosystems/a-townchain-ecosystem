@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-13",
-  "catalog_revision_note": "Exact-HEAD census and symbol reconciliation refreshed on 2026-10-13. Canonical-source and historical-mirror exclusions are explicit. 82 catalog records have lexical exact-SHA path/symbol matches; 32 records remain residual or blocked; 10,838 source candidates still need contract mapping or a reasoned exclusion. No function is functionally verified.",
+  "catalog_revision_note": "Expanded the ShivaCore/GlobusOS contract catalog from exact-HEAD source inventory. Newly added records are source-mapped at exact SHA but remain RESIDUAL until contract-level tests and security evidence are reviewed.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -1718,6 +1718,1539 @@
             "source_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-004",
+          "name": "Capability creation and privilege-set construction",
+          "purpose": "Create a capability object from an explicitly authorized privilege set and bind it to the intended subject/resource context.",
+          "inputs": [
+            "authorized subject",
+            "resource/object identity",
+            "requested capability bits",
+            "policy context"
+          ],
+          "outputs": [
+            "capability object or typed denial"
+          ],
+          "failure_modes": [
+            "invalid bits",
+            "unauthorized grant",
+            "unknown object",
+            "overflow or malformed capability state"
+          ],
+          "acceptance": [
+            "Creation is deny-by-default",
+            "Only an authorized authority may mint capabilities",
+            "Unknown bits and malformed states fail closed",
+            "Capability state is auditable"
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "property",
+            "security",
+            "fuzz"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/capability.rs",
+            "symbol_or_entrypoint": "create",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "dd5d4f7a0330f91badf1a956a210f4f745104e66",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/capability.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-005",
+          "name": "Capability delegation and attenuation",
+          "purpose": "Delegate a capability to a child subject without granting authority beyond the delegator's effective rights.",
+          "inputs": [
+            "delegator capability",
+            "recipient subject",
+            "requested delegated rights",
+            "policy context"
+          ],
+          "outputs": [
+            "attenuated child capability or typed denial"
+          ],
+          "failure_modes": [
+            "privilege escalation",
+            "revoked parent",
+            "unknown recipient",
+            "invalid rights"
+          ],
+          "acceptance": [
+            "Delegation cannot amplify rights",
+            "Revocation and parent-child relationships are explicit",
+            "Unauthorized delegation fails closed",
+            "Adversarial privilege-escalation tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "property",
+            "security",
+            "adversarial"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/capability.rs",
+            "symbol_or_entrypoint": "delegate",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "dd5d4f7a0330f91badf1a956a210f4f745104e66",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/capability.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-006",
+          "name": "Capability revocation and invalidation",
+          "purpose": "Revoke a capability and ensure subsequent authorization checks cannot continue to use the revoked authority.",
+          "inputs": [
+            "capability identity",
+            "revocation authority",
+            "dependent/delegated capabilities"
+          ],
+          "outputs": [
+            "revocation result and updated capability state"
+          ],
+          "failure_modes": [
+            "unauthorized revoke",
+            "unknown capability",
+            "stale cache",
+            "delegated-right leakage"
+          ],
+          "acceptance": [
+            "Revocation takes effect at a defined synchronization point",
+            "Derived authority follows the normative cascade policy",
+            "Stale capability reuse fails closed",
+            "Concurrent revocation tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "concurrency",
+            "security",
+            "property"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/capability.rs",
+            "symbol_or_entrypoint": "revoke",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "dd5d4f7a0330f91badf1a956a210f4f745104e66",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/capability.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-007",
+          "name": "IPC message send and authorization",
+          "purpose": "Send a bounded message through a capability-protected IPC channel with explicit sender/receiver authority checks.",
+          "inputs": [
+            "channel ID",
+            "sender identity/capability",
+            "message bytes",
+            "resource budget"
+          ],
+          "outputs": [
+            "accepted message or typed denial"
+          ],
+          "failure_modes": [
+            "unauthorized send",
+            "closed channel",
+            "oversized message",
+            "queue exhaustion",
+            "invalid channel"
+          ],
+          "acceptance": [
+            "Every send is authorized against channel policy",
+            "Message length and queue limits are enforced",
+            "Failure leaves channel state consistent",
+            "No ambient-authority channel access"
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "stress",
+            "security",
+            "property"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/ipc.rs",
+            "symbol_or_entrypoint": "send",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "d95aebd8e48c47346ca282c79bef35d19bdbc6b8",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/ipc.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-008",
+          "name": "IPC channel closure and resource cleanup",
+          "purpose": "Close an IPC channel and release associated queue/endpoint resources while defining behavior for pending messages.",
+          "inputs": [
+            "channel ID",
+            "authorized closer",
+            "pending-message state"
+          ],
+          "outputs": [
+            "closed channel and cleanup result"
+          ],
+          "failure_modes": [
+            "unauthorized close",
+            "already closed",
+            "active waiter",
+            "resource leak"
+          ],
+          "acceptance": [
+            "Close semantics for pending senders/receivers are explicit",
+            "Cleanup is idempotent or typed",
+            "No use-after-close access is permitted",
+            "Fault-injection tests cover teardown"
+          ],
+          "test_classes": [
+            "unit",
+            "concurrency",
+            "fault-injection",
+            "resource-leak"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/ipc.rs",
+            "symbol_or_entrypoint": "close_channel",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "d95aebd8e48c47346ca282c79bef35d19bdbc6b8",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/ipc.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-009",
+          "name": "Process creation and authority initialization",
+          "purpose": "Create a process with explicit initial capabilities, memory context and lifecycle state.",
+          "inputs": [
+            "process image/entrypoint",
+            "initial capability set",
+            "memory/resource limits",
+            "parent context"
+          ],
+          "outputs": [
+            "process ID and initialized process state or typed failure"
+          ],
+          "failure_modes": [
+            "invalid entrypoint",
+            "unauthorized capability",
+            "resource exhaustion",
+            "invalid memory mapping"
+          ],
+          "acceptance": [
+            "New processes start in a defined non-running state",
+            "Authority is explicit and least-privileged",
+            "Partial creation is rolled back",
+            "Lifecycle tests cover failure paths"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "security",
+            "fault-injection"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/process.rs",
+            "symbol_or_entrypoint": "spawn",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "960c80753ca3a7c9ff54887ca00501e150127554",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/process.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-010",
+          "name": "Process termination and resource revocation",
+          "purpose": "Terminate a process and reclaim or revoke its owned resources according to a defined lifecycle contract.",
+          "inputs": [
+            "process ID",
+            "termination authority/reason",
+            "owned-resource registry"
+          ],
+          "outputs": [
+            "terminal process state and cleanup report"
+          ],
+          "failure_modes": [
+            "unknown process",
+            "unauthorized kill",
+            "stuck IPC waiter",
+            "resource leak"
+          ],
+          "acceptance": [
+            "Termination prevents further execution",
+            "Capabilities and mappings are revoked or safely detached",
+            "Cleanup is bounded and observable",
+            "Crash/kill recovery tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "fault-injection",
+            "resource-leak",
+            "security"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/process.rs",
+            "symbol_or_entrypoint": "kill",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "960c80753ca3a7c9ff54887ca00501e150127554",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/process.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-011",
+          "name": "Scheduler dispatch and execution selection",
+          "purpose": "Select the next runnable process/thread using an explicit scheduling policy and stable state transitions.",
+          "inputs": [
+            "runnable process set",
+            "priority/deadline/quantum state",
+            "scheduler clock"
+          ],
+          "outputs": [
+            "next execution context or idle result"
+          ],
+          "failure_modes": [
+            "empty runnable set",
+            "invalid state",
+            "deadline overrun",
+            "priority starvation"
+          ],
+          "acceptance": [
+            "Scheduling policy and tie-breaks are deterministic where required",
+            "Only runnable authorized contexts are dispatched",
+            "State transitions are atomic",
+            "Latency/starvation tests exist"
+          ],
+          "test_classes": [
+            "unit",
+            "simulation",
+            "stress",
+            "property"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/scheduler.rs",
+            "symbol_or_entrypoint": "schedule",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "fe63edd6edd925178400bed78d27f2d9762e1bfb",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/scheduler.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-012",
+          "name": "Kernel memory allocation and deallocation lifecycle",
+          "purpose": "Allocate and release kernel memory under explicit ownership, bounds and failure semantics.",
+          "inputs": [
+            "size/alignment",
+            "allocation owner",
+            "memory-map state",
+            "resource budget"
+          ],
+          "outputs": [
+            "owned allocation or typed failure; deallocation result"
+          ],
+          "failure_modes": [
+            "zero/overflow size",
+            "out-of-memory",
+            "double free",
+            "invalid owner",
+            "corrupt allocator state"
+          ],
+          "acceptance": [
+            "Allocation arithmetic is overflow-safe",
+            "Ownership is tracked",
+            "Failure does not corrupt allocator state",
+            "Leak and fragmentation tests are present"
+          ],
+          "test_classes": [
+            "unit",
+            "property",
+            "stress",
+            "fault-injection"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/memory_manager.rs",
+            "symbol_or_entrypoint": "allocate",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "6d1d8ec948b3d3d0d683e1a0e92d9c77ee2fbfaa",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/memory_manager.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-013",
+          "name": "Virtual-memory mapping and translation",
+          "purpose": "Create a page mapping, translate addresses and enforce mapping ownership/permission invariants.",
+          "inputs": [
+            "address space",
+            "virtual/physical page",
+            "permissions",
+            "owner capability"
+          ],
+          "outputs": [
+            "mapping result and translation result or typed denial"
+          ],
+          "failure_modes": [
+            "unaligned address",
+            "permission escalation",
+            "overlap",
+            "missing page",
+            "mapping exhaustion"
+          ],
+          "acceptance": [
+            "W^X and privilege rules are explicit",
+            "Mapping ownership is checked",
+            "Unmap/rollback behavior is defined",
+            "Boundary and concurrent mapping tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "property",
+            "security",
+            "fault-injection"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/vmm.rs",
+            "symbol_or_entrypoint": "map_page",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "a3ad9e0d727d5644ae500ff0bb80f10606121f3f",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/vmm.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-014",
+          "name": "System-call dispatch and validation",
+          "purpose": "Dispatch a userspace syscall only after validating syscall number, arguments, caller context and required authority.",
+          "inputs": [
+            "syscall number",
+            "register/argument frame",
+            "caller privilege/context",
+            "capability set"
+          ],
+          "outputs": [
+            "typed syscall result or fail-closed error"
+          ],
+          "failure_modes": [
+            "unknown syscall",
+            "malformed argument",
+            "unauthorized operation",
+            "invalid pointer",
+            "resource exhaustion"
+          ],
+          "acceptance": [
+            "Unknown syscalls fail closed",
+            "Argument lengths and pointers are validated",
+            "Authority checks precede side effects",
+            "ABI version and error semantics are explicit"
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "fuzz",
+            "security",
+            "ABI conformance"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/syscall.rs",
+            "symbol_or_entrypoint": "dispatch",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "d6a9333b7970dde4dfd8b979310789280d87a7c4",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/syscall.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-015",
+          "name": "Userspace entry and privilege transition",
+          "purpose": "Enter userspace through a validated execution context and enforce explicit memory and privilege boundaries on return.",
+          "inputs": [
+            "process/context ID",
+            "entrypoint",
+            "stack and address-space state",
+            "privilege transition policy"
+          ],
+          "outputs": [
+            "userspace transition result or typed failure"
+          ],
+          "failure_modes": [
+            "invalid context",
+            "invalid selectors",
+            "privilege escalation",
+            "invalid stack",
+            "missing mapping"
+          ],
+          "acceptance": [
+            "Only validated contexts enter userspace",
+            "Kernel/user memory access is checked",
+            "Transition failures fail closed",
+            "Ring-transition tests run on supported targets"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "security",
+            "hardware/QEMU"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/userspace.rs",
+            "symbol_or_entrypoint": "enter_userspace",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "88fe62c507a5819e461bbb3dbeffc2e1944afac0",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/userspace.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-016",
+          "name": "Interrupt descriptor and controller initialization",
+          "purpose": "Initialize interrupt descriptors/controllers with validated vectors and explicit interrupt-mask state.",
+          "inputs": [
+            "CPU/HAL capabilities",
+            "interrupt vector table",
+            "controller configuration",
+            "boot phase"
+          ],
+          "outputs": [
+            "initialized interrupt state or typed boot failure"
+          ],
+          "failure_modes": [
+            "invalid vector",
+            "unsupported controller",
+            "duplicate initialization",
+            "partial setup"
+          ],
+          "acceptance": [
+            "Initialization order is explicit",
+            "Unexpected vectors are rejected or safely handled",
+            "Partial initialization is recoverable or boot-blocking",
+            "QEMU interrupt/timer evidence is required"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "fault-injection",
+            "QEMU"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/interrupts.rs",
+            "symbol_or_entrypoint": "init_idt",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "c9fb3e797527c8b7fb4139a20aa8a2fd68c9c8dd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/interrupts.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-017",
+          "name": "Kernel clock and deadline scheduling",
+          "purpose": "Provide a monotonic kernel time source and schedule/cancel alarms with bounded and deterministic deadline semantics.",
+          "inputs": [
+            "clock/tick state",
+            "deadline",
+            "alarm callback/target",
+            "resource budget"
+          ],
+          "outputs": [
+            "alarm handle and monotonic time or typed error"
+          ],
+          "failure_modes": [
+            "clock wraparound",
+            "deadline overflow",
+            "duplicate cancellation",
+            "alarm exhaustion"
+          ],
+          "acceptance": [
+            "Time arithmetic is overflow-safe",
+            "Clock monotonicity is defined",
+            "Cancellation and firing race semantics are explicit",
+            "Timer drift/deadline tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "property",
+            "stress",
+            "QEMU"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/timer.rs",
+            "symbol_or_entrypoint": "schedule_alarm",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "6c1b2bb6a6a40f7716f8fa2b0e49898df8ed8f21",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/timer.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-018",
+          "name": "Page-fault authorization and demand paging",
+          "purpose": "Classify a page fault and authorize demand paging or copy-on-write only when the address-space policy permits it.",
+          "inputs": [
+            "faulting address",
+            "access type",
+            "process/address-space context",
+            "VMA and page state"
+          ],
+          "outputs": [
+            "authorized recovery action or typed fault"
+          ],
+          "failure_modes": [
+            "unmapped address",
+            "write/execute violation",
+            "invalid COW state",
+            "allocation failure"
+          ],
+          "acceptance": [
+            "Faults cannot bypass memory permissions",
+            "Demand-page eligibility is explicit",
+            "Invalid faults terminate or isolate the caller according to policy",
+            "Fault-injection and boundary tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "property",
+            "security",
+            "fault-injection"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/page_fault.rs",
+            "symbol_or_entrypoint": "can_demand_page",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "7e5770ad070470fe804ce1748693c216b36ca58d",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/page_fault.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-019",
+          "name": "Kernel boot and subsystem integration gate",
+          "purpose": "Initialize kernel subsystems in a defined order and refuse operational status when required invariants fail.",
+          "inputs": [
+            "boot configuration",
+            "subsystem registry",
+            "hardware capabilities",
+            "required-gate results"
+          ],
+          "outputs": [
+            "boot state and diagnostic report"
+          ],
+          "failure_modes": [
+            "missing subsystem",
+            "incompatible hardware",
+            "invalid configuration",
+            "partial initialization"
+          ],
+          "acceptance": [
+            "Required subsystems and ordering are normative",
+            "Failure blocks operational readiness",
+            "Boot progress and error causes are auditable",
+            "Cold-boot/recovery tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "fault-injection",
+            "QEMU"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/kernel_init.rs",
+            "symbol_or_entrypoint": "validate_integration",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "104f77f7cc8686e19797d29bab6f150df6e03688",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/kernel_init.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-020",
+          "name": "CPU and hardware abstraction discovery",
+          "purpose": "Detect supported CPU/HAL capabilities and expose a typed capability profile to kernel initialization.",
+          "inputs": [
+            "CPU identification data",
+            "HAL probe result",
+            "supported-feature registry"
+          ],
+          "outputs": [
+            "validated hardware capability profile or unsupported-platform error"
+          ],
+          "failure_modes": [
+            "unknown CPU",
+            "unsupported feature",
+            "probe fault",
+            "inconsistent capability data"
+          ],
+          "acceptance": [
+            "No unsupported feature is assumed",
+            "Detection is deterministic for the same platform input",
+            "Unsupported hardware fails closed or enters explicit degraded mode",
+            "AMD/Intel QEMU evidence is recorded"
+          ],
+          "test_classes": [
+            "unit",
+            "platform-matrix",
+            "integration",
+            "QEMU"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/hal/cpu.rs",
+            "symbol_or_entrypoint": "detect",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "1719d3ae99108138c74b64c14c9c57e4d2418595",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/hal/cpu.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-021",
+          "name": "Userspace scheduling state transitions",
+          "purpose": "Block, resume and exit user processes through explicit scheduler states without duplicate execution or lost wakeups.",
+          "inputs": [
+            "process/thread ID",
+            "current scheduler state",
+            "blocking reason/wakeup event"
+          ],
+          "outputs": [
+            "validated next state and scheduler event or typed error"
+          ],
+          "failure_modes": [
+            "illegal state transition",
+            "lost wakeup",
+            "double exit",
+            "stale process ID"
+          ],
+          "acceptance": [
+            "State machine is explicit and race-safe",
+            "Wakeup and block transitions are atomic",
+            "Exit releases associated resources",
+            "Concurrency stress tests cover races"
+          ],
+          "test_classes": [
+            "unit",
+            "concurrency",
+            "model-based",
+            "stress"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/user_sched.rs",
+            "symbol_or_entrypoint": "block_current",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "cc86b85e5df2ac583a9ee729a0580f0ad2147588",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/user_sched.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review.",
+            "note": "Must remain inside the ShivaCore TCB only where its capability and privilege boundary is explicit; service-space responsibilities must not be moved into the kernel by this contract."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -7190,6 +8723,592 @@
             "source_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-GLOBUS-003",
+          "name": "Service-space initialization",
+          "purpose": "Initialize service-space services in a defined dependency order and surface partial initialization failures.",
+          "inputs": [
+            "service registry",
+            "platform capabilities",
+            "service configuration",
+            "required service set"
+          ],
+          "outputs": [
+            "initialized service state or typed failure"
+          ],
+          "failure_modes": [
+            "dependency cycle",
+            "missing service",
+            "unsupported platform",
+            "partial initialization"
+          ],
+          "acceptance": [
+            "Service initialization order is deterministic",
+            "Failure blocks dependent services",
+            "Kernel TCB remains separate from service implementations",
+            "Startup and recovery tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "fault-injection"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/service_space/src/service_init.rs",
+            "symbol_or_entrypoint": "init",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "cd0877e8cfaa17fbcfc9a4a5f2bd741bd72df6ca",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/service_space/src/service_init.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-GLOBUS-004",
+          "name": "Virtual filesystem file operations",
+          "purpose": "Provide bounded, typed file read/write operations with path normalization, ownership checks and storage error propagation.",
+          "inputs": [
+            "filesystem context",
+            "normalized path",
+            "operation and byte range",
+            "caller authority"
+          ],
+          "outputs": [
+            "file data or durable operation result"
+          ],
+          "failure_modes": [
+            "invalid path",
+            "permission denied",
+            "corrupt metadata",
+            "storage exhaustion",
+            "partial write"
+          ],
+          "acceptance": [
+            "Path normalization prevents traversal",
+            "Read/write semantics and durability are explicit",
+            "Errors preserve canonical state",
+            "Crash-recovery and malformed-path tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "property",
+            "security",
+            "fault-injection"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "system/vfs/src/tree.rs",
+            "symbol_or_entrypoint": "read",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "6d0d0450b890727b0686d322ae3a0ba36327e8d3",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/system/vfs/src/tree.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-GLOBUS-005",
+          "name": "System update health and rollback decision",
+          "purpose": "Evaluate update health and determine whether to confirm or roll back an update under an explicit boot/update policy.",
+          "inputs": [
+            "boot attempt record",
+            "health checks",
+            "active/inactive slot state",
+            "rollback policy"
+          ],
+          "outputs": [
+            "confirm/rollback decision with typed reason"
+          ],
+          "failure_modes": [
+            "missing health evidence",
+            "invalid attempt counter",
+            "corrupt slot state",
+            "policy mismatch"
+          ],
+          "acceptance": [
+            "Rollback conditions are versioned and fail closed",
+            "Update state transitions are auditable",
+            "Repeated failed boots are bounded",
+            "Fault-injection tests cover interrupted updates"
+          ],
+          "test_classes": [
+            "unit",
+            "state-machine",
+            "fault-injection",
+            "recovery"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "system/update/src/health.rs",
+            "symbol_or_entrypoint": "should_rollback",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "fcd8debe0c790579282ee2e0733a0f6bb92bd3a9",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/system/update/src/health.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-GLOBUS-006",
+          "name": "Identity key-provider lifecycle",
+          "purpose": "Create and expose a typed key-provider interface without leaking secret key material across service boundaries.",
+          "inputs": [
+            "provider configuration",
+            "identity context",
+            "key reference/purpose"
+          ],
+          "outputs": [
+            "provider handle or typed failure"
+          ],
+          "failure_modes": [
+            "unsupported provider",
+            "invalid purpose",
+            "key unavailable",
+            "unauthorized access"
+          ],
+          "acceptance": [
+            "Secret material is not returned through generic diagnostics",
+            "Purpose/identity binding is explicit",
+            "Provider failure is typed and fail-closed",
+            "Mock-provider and boundary tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "security",
+            "interface-conformance"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "system/identity/src/key_provider.rs",
+            "symbol_or_entrypoint": "new",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "528629b5e5652c415a8637e88b236b4372d6d1c5",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/system/identity/src/key_provider.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-GLOBUS-007",
+          "name": "System diagnostics and crash-report retrieval",
+          "purpose": "Record and retrieve structured system diagnostics while preserving bounded retention and access control.",
+          "inputs": [
+            "diagnostic event/crash record",
+            "query/filter",
+            "caller capability",
+            "retention budget"
+          ],
+          "outputs": [
+            "structured diagnostic result or typed denial"
+          ],
+          "failure_modes": [
+            "unauthorized access",
+            "record corruption",
+            "retention exhaustion",
+            "unknown event"
+          ],
+          "acceptance": [
+            "Diagnostics do not expose secrets",
+            "Retention and query limits are bounded",
+            "Crash records preserve provenance",
+            "Fault-injection and redaction tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "security",
+            "stress",
+            "fault-injection"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "system/diagnostics/src/lib.rs",
+            "symbol_or_entrypoint": "latest",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "516ea4d514f48df6f3a757e0c73b347322e10635",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/system/diagnostics/src/lib.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-GLOBUS-008",
+          "name": "Package metadata validation",
+          "purpose": "Validate package metadata and dependency claims before package installation or activation.",
+          "inputs": [
+            "package metadata",
+            "expected format/version",
+            "trust policy",
+            "dependency manifest"
+          ],
+          "outputs": [
+            "validated metadata or typed rejection"
+          ],
+          "failure_modes": [
+            "malformed metadata",
+            "unknown version",
+            "dependency conflict",
+            "integrity mismatch"
+          ],
+          "acceptance": [
+            "Metadata validation is deterministic",
+            "Unsupported versions fail closed",
+            "Dependency and integrity constraints are checked before side effects",
+            "Malformed-input tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "schema",
+            "fuzz",
+            "supply-chain"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "system/package/src/lib.rs",
+            "symbol_or_entrypoint": "verify_metadata",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "90566a82ef9c5c895f5bdd11b707cb516682c93a",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/system/package/src/lib.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-GLOBUS-009",
+          "name": "Boot-plan validation",
+          "purpose": "Validate the boot plan against platform support, required subsystem ordering and security policy before starting the OS.",
+          "inputs": [
+            "boot plan",
+            "hardware capability profile",
+            "required subsystem list",
+            "policy version"
+          ],
+          "outputs": [
+            "validated boot plan or typed rejection"
+          ],
+          "failure_modes": [
+            "missing stage",
+            "invalid order",
+            "unsupported capability",
+            "untrusted boot artifact"
+          ],
+          "acceptance": [
+            "Boot plan validation precedes side effects",
+            "Required stages cannot be silently skipped",
+            "Unsupported platforms fail closed",
+            "Boot conformance vectors are reproducible"
+          ],
+          "test_classes": [
+            "unit",
+            "schema",
+            "negative",
+            "QEMU"
+          ],
+          "readiness": "RESIDUAL",
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "system/core/src/boot.rs",
+            "symbol_or_entrypoint": "validate_boot_plan",
+            "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "file_blob_sha": "08b24b3683a723a886647db3b172be9d5ff8113a",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/system/core/src/boot.rs",
+            "note": "Exact public symbol/path match in the current source tree. This is lexical source mapping only; no claim of complete contract implementation or functional verification."
+          },
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, state preconditions and lifecycle assumptions require normative review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure invariants and atomic state-transition semantics require contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Resource bounds, exhaustion semantics, concurrency and cleanup limits require explicit specification and verification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundary, capability checks, fail-closed behavior and privilege separation require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "ABI/protocol version and compatibility guarantees require a normative versioned contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Call graph and cross-subsystem dependency contracts require reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -13160,10 +15279,10 @@
     "archived_repository_count": 7,
     "coverage_state": "EXACT_HEAD_CENSUS_COMPLETE_FOR_ACCESSIBLE_ACTIVE_REPOSITORIES_FUNCTION_MAPPING_INCOMPLETE",
     "source_registry": "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json",
-    "rule": "The source census covers 25 active repositories at exact HEADs; one private active repository is explicitly excluded for lack of CI access; seven archived repositories are reference-only. 10,838 candidate symbols remain unbound after 941 test/example policy exclusions. No source symbol match is functional verification.",
+    "rule": "Every source candidate must be mapped to a contract or receive a path/symbol-specific reasoned exclusion. The latest census leaves 10,838 unbound candidates; the new kernel/OS records increase catalog contract coverage but do not claim completeness or functional verification.",
     "function_inventory_status": "SOURCE_RECONCILIATION_RESIDUAL",
     "component_source_bindings": 30,
-    "function_source_bindings": 114,
+    "function_source_bindings": 139,
     "source_verified_components": 0,
     "source_verified_functions": 0,
     "selected_source_files_examined": 10,
