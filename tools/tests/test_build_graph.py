@@ -34,3 +34,12 @@ def test_coverage_gap_fails(tmp_path):
     g = json.load(open(GRAPH)); g["nodes"] = [n for n in g["nodes"] if n["id"] != "atclang"]
     gp = write(tmp_path, g, "g.json"); r = run(gp, BM)
     assert r.returncode == 1 and "coverage" in r.stdout
+
+
+def test_short_head_sha_fails(tmp_path):
+    b = json.load(open(BM))
+    for x in b["repos"]:
+        if x["repo"] == "a-townchain":
+            x["head_sha"] = "a70b16f2d"
+    bp = write(tmp_path, b, "b.json"); r = run(GRAPH, bp)
+    assert r.returncode == 1 and "full 40-character" in r.stdout

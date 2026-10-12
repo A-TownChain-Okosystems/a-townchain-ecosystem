@@ -21,7 +21,7 @@
         "requirements.txt"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "dc0ff69d8"
+      "head_sha": "dc0ff69d8f1abb4bc4ba7a409d5bad20cf5e8f41"
     },
     {
       "repo": ".github",
@@ -33,7 +33,7 @@
       "toolchain": "none",
       "status": "BLOCKED_NO_ENTRY",
       "blocked_reason": "no build files (docs-only repo); canonical verification tooling role per registry capabilities",
-      "head_sha": "82fe4a238"
+      "head_sha": "82fe4a238603476d7c6c19d5c3044c88b71c5f2d"
     },
     {
       "repo": "atc-ide",
@@ -44,7 +44,7 @@
         "package.json"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "2a17feda7"
+      "head_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a"
     },
     {
       "repo": "atc-engineering",
@@ -56,7 +56,7 @@
         "Cargo.toml (workspace)"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "2e91ec61a"
+      "head_sha": "2e91ec61ac6680566cbe9b525406a9752c31e539"
     },
     {
       "repo": "a-townchain-os-docs",
@@ -66,7 +66,7 @@
         "package.json"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "6b311f70d"
+      "head_sha": "6b311f70dc12517d2e09b83297e96035aebed035"
     },
     {
       "repo": "a-townchain-ecosystem",
@@ -78,7 +78,7 @@
         "tools/tests/"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "5a66f276a"
+      "head_sha": "5a66f276a10ff02ac470d561d4ea260012229cec"
     },
     {
       "repo": "genesis-franchise-factory",
@@ -90,7 +90,7 @@
         "tests/"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "673fa5603",
+      "head_sha": "673fa560322b1449e8f23cc38bf839de1b246361",
       "blocker": "MK13-15-DIALECT (28 .atc spec files do not parse)"
     },
     {
@@ -111,7 +111,7 @@
         "atc-vm/Cargo.toml (quellrepo)"
       ],
       "status": "CANONICAL_ELSEWHERE",
-      "head_sha": "a70b16f2d"
+      "head_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9"
     },
     {
       "repo": "atc-algorithm",
@@ -124,7 +124,7 @@
         "a-townchain/components/algorithm/Cargo.toml"
       ],
       "status": "CANONICAL_ELSEWHERE",
-      "head_sha": "a70b16f2d"
+      "head_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9"
     },
     {
       "repo": "atc-zkp",
@@ -136,7 +136,7 @@
         "atc-zkp/Cargo.toml (workspace)"
       ],
       "status": "CANONICAL_ELSEWHERE",
-      "head_sha": "ffa8ec109"
+      "head_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f"
     },
     {
       "repo": "atclang",
@@ -147,7 +147,7 @@
         "crates/atc-core/Cargo.toml"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "21c595dc3"
+      "head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb"
     },
     {
       "repo": "atc-shivacore",
@@ -159,7 +159,7 @@
         "sdk/Cargo.toml"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "21c997696"
+      "head_sha": "21c99769654ff5915c421c3446e62c2a29c22b40"
     },
     {
       "repo": "atc-compute",
@@ -170,7 +170,7 @@
         "Cargo.toml"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "d0831dfb7"
+      "head_sha": "d0831dfb72590537d8b0ca4d435a3649e71cdb61"
     },
     {
       "repo": "aurora-ai",
@@ -181,7 +181,7 @@
         "modules/atc-aurora-agents/Cargo.toml"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "1b5ff1824"
+      "head_sha": "1b5ff1824bb032958b9a2ae4e53365d7af01c3af"
     },
     {
       "repo": "globus-os",
@@ -192,7 +192,7 @@
         "Cargo.toml (workspace)"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "c7337ef4f"
+      "head_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6"
     },
     {
       "repo": "a-townchain",
@@ -205,7 +205,7 @@
         "components/vm/Cargo.toml"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "a70b16f2d"
+      "head_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9"
     },
     {
       "repo": "atc-contracts",
@@ -216,7 +216,7 @@
         "atc-contracts/setup.py"
       ],
       "status": "CANONICAL_ELSEWHERE",
-      "head_sha": "a7c8b417f"
+      "head_sha": "a7c8b417f482665ef30e94fcacae6469c28b1125"
     },
     {
       "repo": "atc-node",
@@ -228,7 +228,7 @@
         "a-townchain/components/node/Cargo.toml"
       ],
       "status": "CANONICAL_ELSEWHERE",
-      "head_sha": "a817db43a"
+      "head_sha": "a817db43a089d172dd4688f366286c60dbf71a0e"
     },
     {
       "repo": "atc-sdk",
@@ -239,7 +239,7 @@
         "atc-sdk/package.json"
       ],
       "status": "CANONICAL_ELSEWHERE",
-      "head_sha": "34eef3459"
+      "head_sha": "34eef345907935cdaf279e0546f230c03c86bb0c"
     },
     {
       "repo": "atc-marketplace",
@@ -250,7 +250,7 @@
         "Cargo.toml (workspace)"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "5c3bab7da"
+      "head_sha": "5c3bab7da8a80d58af725b7dea2478ece2456f39"
     },
     {
       "repo": "atc-launchpad",
@@ -261,7 +261,7 @@
         "Cargo.toml"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "bd1a48c69"
+      "head_sha": "bd1a48c69983247a8428f90a77edd061ba79316b"
     },
     {
       "repo": "genesis-engine",
@@ -273,7 +273,7 @@
         "modules/"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "8326eb53e"
+      "head_sha": "8326eb53e3e10cf08518e6769b44d4f034de1144"
     },
     {
       "repo": "genesis-chronicles",
@@ -286,7 +286,7 @@
         "contracts/"
       ],
       "status": "BUILD_ENTRY_EVIDENCED",
-      "head_sha": "a3f417b23",
+      "head_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
       "blocker": "AD-008 language migration pending"
     },
     {
@@ -294,7 +294,7 @@
       "toolchain": "unknown",
       "status": "BLOCKED_NO_VERIFIED_ENTRY",
       "blocked_reason": "no machine-verified build entry point at repo root (L7 integration layer); build definition pending F-003 boundary decision",
-      "head_sha": "3f85a6e61"
+      "head_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8"
     }
   ],
   "gates": {

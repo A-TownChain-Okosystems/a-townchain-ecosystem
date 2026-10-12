@@ -130,8 +130,11 @@ jobs:
           from pathlib import Path
           census = json.loads(Path("artifacts/ATC-ORG-SOURCE-CENSUS-001.json").read_text(encoding="utf-8"))
           summary = census["summary"]
-          assert summary["active_scanned"] == 26
+          assert summary["active_scanned"] + summary["active_excluded_private"] == summary["active_expected"]
           assert summary["active_blocked"] == 0
+          print("Coverage: %d scanned + %d explicitly excluded private = %d active expected" % (
+              summary["active_scanned"], summary["active_excluded_private"], summary["active_expected"]
+          ))
           PY
       - name: Reconcile catalog against census evidence
         if: always()

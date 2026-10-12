@@ -12,6 +12,7 @@ is NOT proof of a successful build (no sham validation).
 """
 import json, sys
 from collections import deque
+import re
 
 ACTIVE = {".github","a-townchain","a-townchain-ecosystem","a-townchain-os","a-townchain-os-docs",
  "atc-algorithm","atc-compute","atc-contracts","atc-engineering","atc-ide","atc-launchpad",
@@ -22,6 +23,7 @@ GRAPH_REQ = {"schema_id","schema_version","status","generated","provenance","pol
  "topological_order","cycle_check","blockers","gates"}
 BM_REQ = {"schema_id","schema_version","status","generated","policy","graph_ref","repos"}
 NODE_REQ = {"id","layer","uses"}
+SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 STATUS_NEEDS_REASON = {"BLOCKED_NO_ENTRY","BLOCKED_NO_VERIFIED_ENTRY"}
 
 def main(graph_path, manifest_path):
@@ -70,9 +72,13 @@ def main(graph_path, manifest_path):
     for (f,t) in valid_pairs:
         if pos.get(f, 10**9) >= pos.get(t, -1): errors.append(f"order violation: {f} must be built before {t}")
     if not g["blockers"]: errors.append("blockers list empty (open decisions must be explicit)")
-    # G3: manifest entries
+    # G3: manifest entries and exact provenance
     for r in b["repos"]:
         st = r.get("status")
+        if st not in {"EXEMPT_ORG_CONFIG", "EXEMPT_FIXTURE"}:
+            sha = r.get("head_sha")
+            if not isinstance(sha, str) or not SHA_RE.fullmatch(sha):
+                errors.append(f"{r.get('repo')}: head_sha must be a full 40-character lowercase SHA")
         if st in STATUS_NEEDS_REASON and not r.get("blocked_reason"):
             errors.append(f"{r['repo']}: blocked status without reason")
         if st == "BUILD_ENTRY_EVIDENCED":
