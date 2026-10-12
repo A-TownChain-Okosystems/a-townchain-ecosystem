@@ -37,6 +37,21 @@ class PublicSymbolScanTests(unittest.TestCase):
             self.assertEqual(report["completeness_status"], "RESIDUAL")
             self.assertEqual(report["functional_verification"], "NOT_PERFORMED")
 
+    def test_documented_scope_exclusion_records_reason_and_count(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "archive").mkdir()
+            (root / "archive" / "old.rs").write_text("pub fn old_api() {}\\n", encoding="utf-8")
+            (root / "src").mkdir()
+            (root / "src" / "lib.rs").write_text("pub fn live_api() {}\\n", encoding="utf-8")
+            report = scan(root, "example/repo", "a" * 40, [{"path": "archive/", "reason": "historical mirror"}])
+            paths = {entry["path"] for entry in report["files"]}
+            self.assertIn("src/lib.rs", paths)
+            self.assertNotIn("archive/old.rs", paths)
+            self.assertEqual(report["summary"]["source_files_excluded_by_scope"], 1)
+            self.assertEqual(report["scope_exclusions"][0]["files_excluded"], 1)
+            self.assertEqual(report["scope_exclusions"][0]["reason"], "historical mirror")
+
     def test_python_private_names_are_excluded(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
