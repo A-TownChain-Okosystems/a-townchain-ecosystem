@@ -30,6 +30,8 @@ def reconcile(catalog: dict, census: dict) -> dict:
     bound: dict[str, set[tuple[str, str]]] = {}
     function_findings = []
     component_findings = []
+    self_reference_observations = []
+    self_repository = (catalog.get("authority") or {}).get("repository")
     total_functions = 0
     for component in catalog.get("components", []):
         owner = component.get("canonical_owner")
@@ -48,14 +50,28 @@ def reconcile(catalog: dict, census: dict) -> dict:
             observed = source_inventory.get("observed_head_sha")
             actual = repo_entry.get("source_sha")
             if observed and actual and observed != actual:
-                component_findings.append({
-                    "component_id": component.get("id"),
-                    "component": component.get("name"),
-                    "finding": "CATALOG_CENSUS_SHA_MISMATCH",
-                    "catalog_sha": observed,
-                    "census_sha": actual,
-                    "status": "RESIDUAL",
-                })
+                if inventory_repo == self_repository:
+                    # A self-hosted catalog PR is scanned at its exact PR HEAD,
+                    # which necessarily differs from the default-branch SHA recorded
+                    # inside the catalog. Preserve this as an explicit observation,
+                    # not a false component source-drift finding.
+                    self_reference_observations.append({
+                        "component_id": component.get("id"),
+                        "component": component.get("name"),
+                        "finding": "SELF_REFERENCE_PR_HEAD_DIFFERS_FROM_DEFAULT_BRANCH",
+                        "catalog_default_branch_sha": observed,
+                        "census_pr_head_sha": actual,
+                        "status": "RESIDUAL",
+                    })
+                else:
+                    component_findings.append({
+                        "component_id": component.get("id"),
+                        "component": component.get("name"),
+                        "finding": "CATALOG_CENSUS_SHA_MISMATCH",
+                        "catalog_sha": observed,
+                        "census_sha": actual,
+                        "status": "RESIDUAL",
+                    })
         for function in component.get("functions", []):
             total_functions += 1
             binding = function.get("source_binding") or {}
@@ -123,6 +139,7 @@ def reconcile(catalog: dict, census: dict) -> dict:
             "functional_verification": "NOT_PERFORMED",
         },
         "component_findings": component_findings,
+        "self_reference_observations": self_reference_observations,
         "function_findings": function_findings,
         "unmatched_candidates": unmatched_candidates,
         "limitations": [
