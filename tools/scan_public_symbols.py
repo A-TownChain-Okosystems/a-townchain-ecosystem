@@ -291,6 +291,13 @@ def scan(root: Path, repository: str, source_sha: str, scope_exclusions: list[di
         if language == "rust":
             scan_source, test_names = _mask_rust_test_only_source(source)
         source_lines = scan_source.splitlines()
+        normalized_parts = [part.lower() for part in path.replace("\\\\", "/").split("/")]
+        filename = normalized_parts[-1] if normalized_parts else ""
+        is_test_path = (
+            any(part in {"test", "tests", "__tests__"} for part in normalized_parts)
+            or filename.startswith("test_")
+            or filename.endswith(("_test.rs", "_test.py", ".test.ts", ".test.tsx", ".spec.ts", ".spec.tsx", ".test.js", ".spec.js"))
+        )
         for kind, pattern in PATTERNS.get(language, []):
             for match in pattern.finditer(scan_source):
                 name = match.group(1)
@@ -317,6 +324,12 @@ def scan(root: Path, repository: str, source_sha: str, scope_exclusions: list[di
                     key = ("function", name, line_start)
                     if key not in found:
                         internal_found[key] = signature
+        if is_test_path:
+            test_names.extend(name for kind, name, _ in found if kind == "function")
+            test_names.extend(name for kind, name, _ in internal_found if kind == "function")
+            found = {key: value for key, value in found.items() if key[0] != "function"}
+            internal_found = {key: value for key, value in internal_found.items() if key[0] != "function"}
+            test_names = sorted(set(test_names))
         symbols = [{"kind": kind, "name": name, "line_start": line, "signature": signature} for (kind, name, line), signature in sorted(found.items())]
         internal_symbols = [{"kind": kind, "name": name, "line_start": line, "signature": signature} for (kind, name, line), signature in sorted(internal_found.items())]
         test_symbols = [{"kind": "function", "name": name} for name in test_names]
