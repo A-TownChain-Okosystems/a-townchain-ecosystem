@@ -227,3 +227,9 @@ This is a source-mapping integrity gate only. It does not upgrade any record to 
 The catalog now contains 16 cross-component interface records. Each record carries explicit fields for contract version, request schema, response schema, error/timeout semantics, authorization/capability boundary, compatibility policy, contract-test classes, exact-SHA evidence, and a resolution rule. Unresolved schema/evidence fields remain `RESIDUAL`; the three pre-existing normative conflicts remain `BLOCKED`.
 
 New records: `IF-014` Node ↔ SDK RPC/client boundary; `IF-015` Genesis Engine ↔ canonical L1 core; `IF-016` Node peer-ingress ↔ canonical chain admission. No wire format, protocol version, or consensus semantics is assumed where the source contract is not yet proven.
+
+## Canonical wallet source coverage — 2026-10-13
+
+Added `COMP-WALLET` for `a-townchain/components/wallet`, distinct from the archived standalone `atc-wallet` repository. Five function contracts are source-bound to exact repository HEAD `c631249ed6ff450bf45338e78cb14e2bf5c65c74` and file blob `2693b7ba015456addcc8d129455b7e5a9e2f1860`: signing preimage, transaction ID, signature creation, signature verification, and canonical field encoding.
+
+Added `IF-017` for wallet-to-chain TX-V2 interoperability. Source mapping confirms the TX-V2 domain, TX-ID domain, fixed-width amount encoding and compact-signature checks in the wallet file; canonical chain-side verification and shared cross-client vectors remain `RESIDUAL`. This does not imply production readiness.
