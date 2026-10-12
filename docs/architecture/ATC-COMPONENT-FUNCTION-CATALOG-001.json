@@ -1035,7 +1035,8 @@
             "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
             "file_blob_sha": "cb720e71cbdc26f01cae36388a99d6f2c1a5d8a0",
             "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/value.rs#L66",
-            "note": "Exact function binding to TypedValue::abi_type. ABI wire encoding remains explicitly unimplemented and ATC-ABI-001 remains draft; mapping does not imply ABI conformance."
+            "note": "Exact function binding to TypedValue::abi_type. ABI wire encoding remains explicitly unimplemented and ATC-ABI-001 remains draft; mapping does not imply ABI conformance.",
+            "line_start": 66
           },
           "canonical_owner": "A-TownChain-Okosystems/atclang",
           "preconditions": {
@@ -10851,7 +10852,8 @@
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L21",
-            "note": "Exact function binding to the private RpcClient::call transport helper. Devnet-only behavior and missing TLS/retry/pooling are explicit residuals."
+            "note": "Exact function binding to the private RpcClient::call transport helper. Devnet-only behavior and missing TLS/retry/pooling are explicit residuals.",
+            "line_start": 21
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-sdk",
           "preconditions": {
@@ -11029,7 +11031,8 @@
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L16",
-            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic."
+            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
+            "line_start": 16
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11105,7 +11108,8 @@
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L31",
-            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic."
+            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
+            "line_start": 31
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11181,7 +11185,8 @@
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L34",
-            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic."
+            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
+            "line_start": 34
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11257,7 +11262,8 @@
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L37",
-            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic."
+            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
+            "line_start": 37
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11334,7 +11340,8 @@
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L40",
-            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic."
+            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
+            "line_start": 40
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11412,7 +11419,8 @@
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L44",
-            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic."
+            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
+            "line_start": 44
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11488,7 +11496,8 @@
             "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
             "file_blob_sha": "ef28c0d9b9c8e536a598e32aad5a867aa5edc016",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/modules/atc-cli/src/rpc_client.rs#L50",
-            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic."
+            "note": "Exact function source mapping only; current client is explicitly Devnet-only, uses std::net without TLS, does not reuse connections, and has no retry logic.",
+            "line_start": 50
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11646,7 +11655,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "c8fa47ffec07388015013853df2fc040f3d5dc66",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/config.rs#L22",
-            "note": "Exact function binding to NodeConfig::valid; scope is current Devnet configuration checks, not full node lifecycle."
+            "note": "Exact function binding to NodeConfig::valid; scope is current Devnet configuration checks, not full node lifecycle.",
+            "line_start": 22
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-node",
           "preconditions": {
@@ -11822,7 +11832,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "c8fa47ffec07388015013853df2fc040f3d5dc66",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/config.rs#L18",
-            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness.",
+            "line_start": 18
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11893,7 +11904,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L24",
-            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness.",
+            "line_start": 24
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -11967,7 +11979,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L28",
-            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness.",
+            "line_start": 28
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -12041,7 +12054,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L45",
-            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness.",
+            "line_start": 45
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -12114,7 +12128,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L54",
-            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness.",
+            "line_start": 54
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -12185,7 +12200,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L60",
-            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness.",
+            "line_start": 60
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -12256,7 +12272,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L64",
-            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness.",
+            "line_start": 64
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -12327,7 +12344,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "7e4160ff3a48f558675f0e88cdcceba7566172ce",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/peers.rs#L68",
-            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness."
+            "note": "Exact function mapping at the recorded atc-node HEAD. This is a peer-table/config helper in the Devnet node and does not establish peer authentication, consensus authority, or production readiness.",
+            "line_start": 68
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -12400,7 +12418,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "ebd9dc34376f055141b9b115d60da0ec97016191",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/rpc.rs#L16",
-            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual.",
+            "line_start": 16
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -12475,7 +12494,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "ebd9dc34376f055141b9b115d60da0ec97016191",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/rpc.rs#L20",
-            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual.",
+            "line_start": 20
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -12552,7 +12572,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "ebd9dc34376f055141b9b115d60da0ec97016191",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/rpc.rs#L31",
-            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual.",
+            "line_start": 31
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -12629,7 +12650,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "ebd9dc34376f055141b9b115d60da0ec97016191",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/rpc.rs#L39",
-            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual.",
+            "line_start": 39
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -12706,7 +12728,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "ebd9dc34376f055141b9b115d60da0ec97016191",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/rpc.rs#L51",
-            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual.",
+            "line_start": 51
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -12783,7 +12806,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "ebd9dc34376f055141b9b115d60da0ec97016191",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/rpc.rs#L65",
-            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual.",
+            "line_start": 65
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -12861,7 +12885,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "c808c7cbb439de7d151bc139bd621400e1dcfdf2",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/gossip.rs#L25",
-            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual.",
+            "line_start": 25
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -12939,7 +12964,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "c808c7cbb439de7d151bc139bd621400e1dcfdf2",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/gossip.rs#L51",
-            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual.",
+            "line_start": 51
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -13019,7 +13045,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "c808c7cbb439de7d151bc139bd621400e1dcfdf2",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/gossip.rs#L67",
-            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual.",
+            "line_start": 67
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -13095,7 +13122,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "c808c7cbb439de7d151bc139bd621400e1dcfdf2",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/gossip.rs#L106",
-            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual.",
+            "line_start": 106
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -13171,7 +13199,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "bc2f7ac465a571cd40264fb74038dc514e5d6aa0",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/main.rs#L10",
-            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual.",
+            "line_start": 10
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -13252,7 +13281,8 @@
             "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "file_blob_sha": "af145d28a0cc829f83f923bab87df0680dc0ab55",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/identity.rs#L51",
-            "note": "Exact source binding to legacy TransactionDomain::signing_bytes. It serializes TX_DOMAIN='ATC-TX-DOMAIN' as string fields; this is incompatible with canonical TX-V2 and must remain blocked."
+            "note": "Exact source binding to legacy TransactionDomain::signing_bytes. It serializes TX_DOMAIN='ATC-TX-DOMAIN' as string fields; this is incompatible with canonical TX-V2 and must remain blocked.",
+            "line_start": 51
           },
           "verification_evidence": {
             "status": "BLOCKED",
@@ -14802,7 +14832,8 @@
             "exact_source_sha": "5c3bab7da8a80d58af725b7dea2478ece2456f39",
             "file_blob_sha": "712c867dccc5f4475272f2cffedba969b3b547a6",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-marketplace/blob/5c3bab7da8a80d58af725b7dea2478ece2456f39/modules/atc-dex/src/matcher.ts#L7",
-            "note": "Exact TypeScript class-method binding. The scanner now discovers method signatures; this function selects price-crossing candidates but does not execute settlement."
+            "note": "Exact TypeScript class-method binding. The scanner now discovers method signatures; this function selects price-crossing candidates but does not execute settlement.",
+            "line_start": 7
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-marketplace",
           "preconditions": {
@@ -15064,7 +15095,8 @@
             "exact_source_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
             "file_blob_sha": "67e55a6502d2bd21f4363559304143bc212048f8",
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-ide/blob/2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a/src/components/AtcVmSimulatorPanel.tsx#L255",
-            "note": "Exact binding to exported React function component. It is an IDE simulation panel, not a canonical VM implementation."
+            "note": "Exact binding to exported React function component. It is an IDE simulation panel, not a canonical VM implementation.",
+            "line_start": 255
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-ide",
           "preconditions": {
@@ -16805,7 +16837,8 @@
             "exact_source_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
             "file_blob_sha": "9dc72fd057dcced2d10af5bad0ccffffcd2a1a1b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/blob/f65992609ffcdd7e8eee4c29ac7a455da07fa947/aistudio/src/components/ArchitectureView.tsx#L426",
-            "note": "Exact binding to exported React function component. The view is a presentation surface; the JSON catalog remains the architecture SSOT."
+            "note": "Exact binding to exported React function component. The view is a presentation surface; the JSON catalog remains the architecture SSOT.",
+            "line_start": 426
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain-os-docs",
           "preconditions": {
@@ -18082,7 +18115,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "851b0b98923475ddcea8ee6414d35220fe4e6a3b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/cas.rs#L11",
-            "note": "Exact source binding; code uses FNV-1a-derived 256-bit values despite BLAKE3-compatible comment. Must remain blocked as a cryptographic/content-address identity primitive."
+            "note": "Exact source binding; code uses FNV-1a-derived 256-bit values despite BLAKE3-compatible comment. Must remain blocked as a cryptographic/content-address identity primitive.",
+            "line_start": 11
           },
           "verification_evidence": {
             "status": "BLOCKED",
@@ -18155,7 +18189,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "851b0b98923475ddcea8ee6414d35220fe4e6a3b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/cas.rs#L30",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 30
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18229,7 +18264,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "851b0b98923475ddcea8ee6414d35220fe4e6a3b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/cas.rs#L34",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 34
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18306,7 +18342,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "92c47c665a41ccb9d12f2668ae6dc9a96e2c371f",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/chunking.rs#L25",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 25
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18385,7 +18422,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "92c47c665a41ccb9d12f2668ae6dc9a96e2c371f",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/chunking.rs#L45",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 45
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18458,7 +18496,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L32",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 32
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18529,7 +18568,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L42",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 42
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18606,7 +18646,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L48",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 48
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18682,7 +18723,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L63",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 63
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18754,7 +18796,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L75",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 75
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18825,7 +18868,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L86",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 86
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18900,7 +18944,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L90",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 90
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18975,7 +19020,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L96",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 96
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19050,7 +19096,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "3755e0ce0f41e645ad40d00838403a624244a730",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L64",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 64
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19123,7 +19170,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "3755e0ce0f41e645ad40d00838403a624244a730",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L34",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 34
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19194,7 +19242,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "3755e0ce0f41e645ad40d00838403a624244a730",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L37",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 37
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19266,7 +19315,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "3755e0ce0f41e645ad40d00838403a624244a730",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L40",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 40
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19339,7 +19389,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "3755e0ce0f41e645ad40d00838403a624244a730",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L21",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 21
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19415,7 +19466,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "3755e0ce0f41e645ad40d00838403a624244a730",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L50",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 50
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19487,7 +19539,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "851b0b98923475ddcea8ee6414d35220fe4e6a3b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/cas.rs#L48",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage."
+            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 48
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19668,7 +19721,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L37",
-            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open.",
+            "line_start": 37
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19745,7 +19799,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L47",
-            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open.",
+            "line_start": 47
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19823,7 +19878,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L51",
-            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open.",
+            "line_start": 51
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19901,7 +19957,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L58",
-            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open.",
+            "line_start": 58
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19978,7 +20035,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L65",
-            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open.",
+            "line_start": 65
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -20055,7 +20113,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L70",
-            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open.",
+            "line_start": 70
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -20131,7 +20190,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L79",
-            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open.",
+            "line_start": 79
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -20215,7 +20275,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L106",
-            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open.",
+            "line_start": 106
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -20293,7 +20354,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L83",
-            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open.",
+            "line_start": 83
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -20374,7 +20436,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L124",
-            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open."
+            "note": "Exact TypeScript source mapping at the recorded a-townchain HEAD. This is not functional verification; cross-client vectors and caller validation policy remain open.",
+            "line_start": 124
           },
           "verification_evidence": {
             "status": "BLOCKED",
@@ -20445,7 +20508,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L8",
-            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts.",
+            "line_start": 8
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -20511,7 +20575,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L9",
-            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts.",
+            "line_start": 9
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -20577,7 +20642,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L10",
-            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts.",
+            "line_start": 10
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -20643,7 +20709,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L7",
-            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts.",
+            "line_start": 7
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -20709,7 +20776,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L12",
-            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts.",
+            "line_start": 12
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -20775,7 +20843,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L18",
-            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts.",
+            "line_start": 18
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -20841,7 +20910,8 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "38b5bb99c2e427e86d237f6952b45be65125242b",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/sdk/typescript/chain-identity.ts#L23",
-            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts."
+            "note": "Explicit non-function source artifact. It is cataloged for source-surface accounting but excluded from runtime function implementation counts.",
+            "line_start": 23
           },
           "verification_evidence": {
             "status": "RESIDUAL",
