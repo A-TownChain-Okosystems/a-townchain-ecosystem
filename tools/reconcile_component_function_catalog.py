@@ -92,7 +92,36 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 "status": "RESIDUAL",
                 "finding": None,
             }
-            if not path or not symbol:
+            binding_status = binding.get("status")
+            reasoned_statuses = {
+                "SOURCE_SURFACE_NOT_IDENTIFIED": "SOURCE_SURFACE_NOT_IDENTIFIED",
+                "NORMATIVE_DECISION_BLOCKED": "NORMATIVE_DECISION_BLOCKED",
+                "BLOCKED_ARCHIVED_REFERENCE_ONLY": "BLOCKED_ARCHIVED_REFERENCE_ONLY",
+                "BLOCKED_PRIVATE_REPOSITORY_EXCLUDED": "BLOCKED_PRIVATE_REPOSITORY_EXCLUDED",
+                "NON_FUNCTION_SOURCE_ARTIFACT": "NON_FUNCTION_SOURCE_ARTIFACT_EXCLUDED_FROM_SYMBOL_SCAN",
+            }
+            if binding_status in reasoned_statuses:
+                item["finding"] = reasoned_statuses[binding_status]
+            elif binding_status in {"TEST_SURFACE_ONLY", "RELATED_SOURCE_SURFACE_ONLY"}:
+                if path and symbol and repo in census_repos and census_repos[repo].get("report"):
+                    if key not in symbols_by_repo.get(repo, set()):
+                        item["finding"] = "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN"
+                    elif binding.get("exact_source_sha") != census_repos[repo].get("source_sha"):
+                        item["finding"] = "FUNCTION_BINDING_SHA_MISMATCH"
+                    else:
+                        bound.setdefault(repo, set()).add(key)
+                        item["finding"] = (
+                            "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION"
+                            if binding_status == "TEST_SURFACE_ONLY"
+                            else "RELATED_SOURCE_SURFACE_ONLY_CONTRACT_RESIDUAL"
+                        )
+                else:
+                    item["finding"] = (
+                        "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION"
+                        if binding_status == "TEST_SURFACE_ONLY"
+                        else "RELATED_SOURCE_SURFACE_ONLY_CONTRACT_RESIDUAL"
+                    )
+            elif not path or not symbol:
                 item["finding"] = "FUNCTION_BINDING_MISSING"
             elif repo not in census_repos or not (census_repos[repo].get("report")):
                 item["finding"] = "SOURCE_CENSUS_UNAVAILABLE"
