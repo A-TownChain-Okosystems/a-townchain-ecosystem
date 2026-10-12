@@ -91,9 +91,19 @@ class CatalogReconciliationTests(unittest.TestCase):
         from tools.reconcile_component_function_catalog import completion_gaps
         self.assertTrue(any("remain unbound" in gap for gap in completion_gaps(report)))
 
+
+    def test_completion_gate_allows_explicit_not_yet_implemented_contract(self):
+        report = reconcile(self.catalog, self.census)
+        report["function_findings"][0]["finding"] = "SOURCE_SURFACE_NOT_IDENTIFIED"
+        report["function_findings"][0]["binding_status"] = "SOURCE_SURFACE_NOT_IDENTIFIED"
+        report["function_findings"][0]["binding_note"] = "No existing source function satisfies this contract; implementation is a later phase."
+        from tools.reconcile_component_function_catalog import completion_gaps
+        self.assertEqual(completion_gaps(report), [])
+
     def test_completion_gate_allows_explicit_normative_blocker_without_calling_it_verified(self):
         report = reconcile(self.catalog, self.census)
         report["function_findings"][0]["finding"] = "NORMATIVE_DECISION_BLOCKED"
+        report["function_findings"][0]["binding_note"] = "Consensus selection is not normatively finalized."
         from tools.reconcile_component_function_catalog import completion_gaps
         self.assertEqual(completion_gaps(report), [])
         self.assertEqual(report["summary"]["functional_verification"], "NOT_PERFORMED")
