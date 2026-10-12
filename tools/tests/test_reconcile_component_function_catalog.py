@@ -60,10 +60,26 @@ class CatalogReconciliationTests(unittest.TestCase):
             report["function_findings"][0]["finding"],
             "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN",
         )
-        self.assertEqual(report["summary"]["candidate_symbols_unbound"], 1)
-        candidate = report["unmatched_candidates"][0]
+        self.assertEqual(report["summary"]["candidate_symbols_unbound"], 0)
+        candidate = report["excluded_candidates"][0]
         self.assertEqual(candidate["symbol_kind"], "type")
         self.assertEqual(candidate["source_sha"], "a" * 40)
+        self.assertEqual(candidate["finding"], "NON_FUNCTION_SOURCE_ARTIFACT_EXCLUDED_FROM_SYMBOL_SCAN")
+
+
+    def test_non_function_symbols_are_reasoned_exclusions(self):
+        self.census["repositories"][0]["report"]["files"][0]["candidate_public_symbols"] = [
+            {"kind": "function", "name": "execute"},
+            {"kind": "type", "name": "Capability"},
+            {"kind": "value", "name": "TX_DOMAIN"},
+        ]
+        report = reconcile(self.catalog, self.census)
+        self.assertEqual(report["summary"]["candidate_symbols_unbound"], 0)
+        self.assertEqual(report["summary"]["candidate_non_function_symbols_total"], 2)
+        self.assertEqual(report["summary"]["candidate_symbols_excluded_by_policy"], 2)
+        findings = {x["symbol_or_entrypoint"]: x["finding"] for x in report["excluded_candidates"]}
+        self.assertEqual(findings["Capability"], "NON_FUNCTION_SOURCE_ARTIFACT_EXCLUDED_FROM_SYMBOL_SCAN")
+        self.assertEqual(findings["TX_DOMAIN"], "NON_FUNCTION_SOURCE_ARTIFACT_EXCLUDED_FROM_SYMBOL_SCAN")
 
     def test_explicit_type_binding_requires_matching_symbol_kind(self):
         fn = self.catalog["components"][0]["functions"][0]
@@ -74,7 +90,7 @@ class CatalogReconciliationTests(unittest.TestCase):
         report = reconcile(self.catalog, self.census)
         self.assertEqual(
             report["function_findings"][0]["finding"],
-            "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING",
+            "FUNCTION_BINDING_KIND_NOT_EXECUTABLE",
         )
 
 
