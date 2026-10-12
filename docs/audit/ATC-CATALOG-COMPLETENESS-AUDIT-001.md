@@ -226,3 +226,10 @@ The initial sections above are retained as historical evidence for the 2026-10-1
 Current catalog is **31 components / 146 function-capability records / 17 interfaces**. Exact function bindings now replace type-only matches for ATCLang ABI classification, SDK RPC transport, node configuration validation, marketplace order matching, IDE simulator panel, documentation architecture view, Genesis Engine ECS chunk sync, Devnet block production/sync and PoH tick verification. Static roadmap data is explicitly excluded as a non-function artifact.
 
 The previous Genesis Engine ↔ L1 genesis interface `IF-015` is now `BLOCKED`: the inspected `genesis-engine` source is world/ECS oriented and no evidence proves it owns L1 genesis initialization. Devnet chain-production and PoH helpers are cataloged only within their actual non-consensus scope. Two separate canonical L1 contracts (`FN-CHAIN-015`, `FN-CHAIN-016`) remain `SOURCE_SURFACE_NOT_IDENTIFIED` pending exact canonical implementation binding. Source mapping is 112 of 146; 0 functions are functionally verified.
+
+
+## 16. Node runtime function mapping and legacy TX-domain blocker (2026-10-13)
+
+The catalog now contains **31 components, 173 function/capability records and 17 interfaces**. Source mapping count is 139; functional verification remains 0. The atc-node Devnet RPC, gossip, peer-table, configuration and process surfaces have been individually bound to exact source paths, source HEAD `a817db43a089d172dd4688f366286c60dbf71a0e` and file blobs. Each remains residual until terminal test evidence is attached.
+
+`FN-NODE-022` explicitly records `TransactionDomain::signing_bytes` as a blocked legacy implementation: source constant `ATC-TX-DOMAIN` and string-field serialization conflict with TX-V2. Consequently `IF-017` is `BLOCKED` until the legacy path is rejected/isolated and cross-client TX-V2 vectors pass. No runtime code changed.
