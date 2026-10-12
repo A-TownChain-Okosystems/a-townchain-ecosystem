@@ -158,11 +158,11 @@ jobs:
             from collections import Counter
             from pathlib import Path
             report = json.loads(Path("artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json").read_text(encoding="utf-8"))
-            counts = Counter(item.get("finding") for item in report.get("function_findings", []))
+            counts = Counter(str(item.get("finding") or "UNCLASSIFIED") for item in report.get("function_findings", []))
             print(json.dumps({
                 "status": report.get("status"),
                 **report.get("summary", {}),
-                "function_findings_by_kind": dict(sorted(counts.items(), key=lambda item: str(item[0]))),
+                "function_findings_by_kind": dict(sorted(counts.items())),
                 "component_findings": len(report.get("component_findings", [])),
                 "self_reference_observations": len(report.get("self_reference_observations", [])),
             }, sort_keys=True))
