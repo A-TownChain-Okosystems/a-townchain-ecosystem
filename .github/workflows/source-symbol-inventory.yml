@@ -130,7 +130,12 @@ jobs:
           from pathlib import Path
           census = json.loads(Path("artifacts/ATC-ORG-SOURCE-CENSUS-001.json").read_text(encoding="utf-8"))
           summary = census["summary"]
-          assert summary["active_scanned"] == 26
+          # The manifest contains one explicitly private demo repository.
+          # It is validly counted as a documented exclusion when no CI token
+          # is available; require all other active repositories to be scanned.
+          assert summary["active_scanned"] + summary["active_excluded_private"] == 26, (
+              "active coverage must equal scanned plus explicitly excluded private repositories"
+          )
           assert summary["active_blocked"] == 0
           PY
       - name: Reconcile catalog against census evidence
