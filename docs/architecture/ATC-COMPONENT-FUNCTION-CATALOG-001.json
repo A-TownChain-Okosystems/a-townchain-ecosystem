@@ -11844,7 +11844,9 @@
           "name": "Peer table constructor",
           "purpose": "Create an empty PeerTable with no registered peers.",
           "canonical_owner": "A-TownChain-Okosystems/atc-node",
-          "inputs": [],
+          "inputs": [
+            "PeerTable constructor; no explicit caller arguments"
+          ],
           "outputs": [
             "empty PeerTable"
           ],
@@ -12205,7 +12207,9 @@
           "name": "Peer table size query",
           "purpose": "Return the number of peer entries in the local table.",
           "canonical_owner": "A-TownChain-Okosystems/atc-node",
-          "inputs": [],
+          "inputs": [
+            "PeerTable instance"
+          ],
           "outputs": [
             "usize count"
           ],
@@ -12274,7 +12278,9 @@
           "name": "Peer table emptiness query",
           "purpose": "Return whether the local peer table contains no entries.",
           "canonical_owner": "A-TownChain-Okosystems/atc-node",
-          "inputs": [],
+          "inputs": [
+            "PeerTable instance"
+          ],
           "outputs": [
             "boolean"
           ],
@@ -18474,7 +18480,9 @@
           "name": "Default storage service construction",
           "purpose": "Construct StorageService with a 1024-byte chunk size.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
-          "inputs": [],
+          "inputs": [
+            "No arguments; default storage service construction"
+          ],
           "outputs": [
             "StorageService"
           ],
@@ -19208,7 +19216,9 @@
           "name": "In-memory key enumeration",
           "purpose": "Return the current keys in deterministic BTreeMap order.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
-          "inputs": [],
+          "inputs": [
+            "InMemoryStore instance"
+          ],
           "outputs": [
             "ordered string vector"
           ],
@@ -20387,7 +20397,9 @@
           "name": "ATC_CHAIN_ID constant",
           "purpose": "Canonical numeric L1 chain ID constant used by TypeScript protocol primitives.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
-          "inputs": [],
+          "inputs": [
+            "Static source declaration for ATC_CHAIN_ID constant"
+          ],
           "outputs": [
             "constant value"
           ],
@@ -20451,7 +20463,9 @@
           "name": "ATC_TX_DOMAIN_V2 constant",
           "purpose": "TX-V2 signing-domain separator constant.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
-          "inputs": [],
+          "inputs": [
+            "Static source declaration for ATC_TX_DOMAIN_V2 constant"
+          ],
           "outputs": [
             "constant value"
           ],
@@ -20515,7 +20529,9 @@
           "name": "ATC_TX_ID_V2 constant",
           "purpose": "TX-ID-V2 identifier-domain separator constant.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
-          "inputs": [],
+          "inputs": [
+            "Static source declaration for ATC_TX_ID_V2 constant"
+          ],
           "outputs": [
             "constant value"
           ],
@@ -20579,7 +20595,9 @@
           "name": "NetworkId type alias",
           "purpose": "Type-level allowed network identifiers devnet/testnet/mainnet.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
-          "inputs": [],
+          "inputs": [
+            "Static source declaration for NetworkId type alias"
+          ],
           "outputs": [
             "type declaration"
           ],
@@ -20643,7 +20661,9 @@
           "name": "ChainIdentity interface",
           "purpose": "Type-level identity contract for chain ID, network ID and genesis ID.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
-          "inputs": [],
+          "inputs": [
+            "Static source declaration for ChainIdentity interface"
+          ],
           "outputs": [
             "type declaration"
           ],
@@ -20707,7 +20727,9 @@
           "name": "RuntimeContext interface",
           "purpose": "Type-level chain identity plus protocol and VM version fields.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
-          "inputs": [],
+          "inputs": [
+            "Static source declaration for RuntimeContext interface"
+          ],
           "outputs": [
             "type declaration"
           ],
@@ -20771,7 +20793,9 @@
           "name": "TransactionSigningInput interface",
           "purpose": "Type-level transaction fields consumed by TX-V2 byte-encoding primitives.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
-          "inputs": [],
+          "inputs": [
+            "Static source declaration for TransactionSigningInput interface"
+          ],
           "outputs": [
             "type declaration"
           ],
