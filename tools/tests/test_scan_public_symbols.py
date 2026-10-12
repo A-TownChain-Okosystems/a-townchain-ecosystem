@@ -38,6 +38,32 @@ class PublicSymbolScanTests(unittest.TestCase):
             self.assertEqual(report["functional_verification"], "NOT_PERFORMED")
 
 
+    def test_typescript_internal_helpers_are_discovered_separately(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "src").mkdir()
+            (root / "src" / "chain.ts").write_text(
+                "function pushU64BE(out: number[], value: bigint): void {\\n"
+                "  out.push(Number(value));\\n"
+                "}\\n"
+                "export function canonicalSigningPreimage(): Uint8Array {\\n"
+                "  return new Uint8Array();\\n"
+                "}\\n"
+                "export class Api {\\n"
+                "  private decode(value: string): string { return value; }\\n"
+                "  public encode(value: string): string { return value; }\\n"
+                "}\\n",
+                encoding="utf-8",
+            )
+            report = scan(root, "example/repo", "f" * 40)
+            file = report["files"][0]
+            public = {(x["kind"], x["name"]) for x in file["candidate_public_symbols"]}
+            internal = {(x["kind"], x["name"]) for x in file["candidate_internal_symbols"]}
+            self.assertIn(("function", "canonicalSigningPreimage"), public)
+            self.assertIn(("function", "encode"), public)
+            self.assertIn(("function", "pushU64BE"), internal)
+            self.assertIn(("function", "decode"), internal)
+
     def test_typescript_class_methods_are_discovered_as_function_candidates(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
