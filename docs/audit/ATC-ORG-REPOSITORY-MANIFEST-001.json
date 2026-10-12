@@ -18,7 +18,13 @@
     {
       "name": "a-townchain-os-docs",
       "archived": false,
-      "role": "documentation"
+      "role": "documentation",
+      "source_scope_exclusions": [
+        {
+          "path": "docs/archive/monorepo-full/",
+          "reason": "Historical monorepo source snapshot retained for documentation/history, not the canonical implementation source. Canonical component repositories are scanned independently."
+        }
+      ]
     },
     {
       "name": "atc-shivacore",
@@ -164,7 +170,13 @@
     {
       "name": "a-townchain-ecosystem",
       "archived": false,
-      "role": "integration/compliance/evidence/architecture control plane"
+      "role": "integration/compliance/evidence/architecture control plane",
+      "source_scope_exclusions": [
+        {
+          "path": "components/",
+          "reason": "Noncanonical subtree/mirror copies of implementation repositories. The ecosystem repository is the integration/compliance/evidence/architecture control plane; canonical implementation repositories are scanned independently."
+        }
+      ]
     },
     {
       "name": "atc-toolchain",
