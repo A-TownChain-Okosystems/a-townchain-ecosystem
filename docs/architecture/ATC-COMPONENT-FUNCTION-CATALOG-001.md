@@ -195,3 +195,15 @@ Latest successful source inventory: [run 38319690185](https://github.com/A-TownC
 - 84 candidates bound to catalog records; 10,838 candidates remain unbound; 941 test/example candidates are explicitly excluded by policy with path, symbol and reason.
 - 114 catalog records across 30 components: 82 exact path/symbol lexical matches, 4 related source surfaces, 2 test surfaces, 10 non-function artifacts, 9 source surfaces not identified, 3 consensus decisions blocked, 2 archived-reference functions and 2 private-repository functions blocked.
 - 0 functions functionally verified. Lexical matches are source-location evidence only; the catalog remains `BASELINE_RESIDUAL` and release remains blocked.
+
+## Updated reconciliation after kernel/OS contract expansion — 2026-10-13
+
+The prior 114-record snapshot is superseded by the latest catalog revision: **139 records across 30 components**. The catalog gained 18 ShivaCore kernel contracts and 7 GlobusOS service/platform contracts.
+
+Latest exact-HEAD evidence: [Source Symbol Inventory #38319988637](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319988637), [machine-readable artifact](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319988637/artifacts/11778062105).
+
+- 107 exact path/symbol lexical matches; 0 functions functionally verified.
+- 10,815 candidate symbols remain unbound; 941 test/example symbols are explicitly excluded by path/symbol policy with reasons.
+- 32 catalog records remain residual or blocked, including 9 source surfaces not identified and 3 consensus decision gates blocked.
+- Source census: 25 active repositories scanned, 1 private repository excluded for lack of CI access, 7 archived repositories reference-only, 0 active repositories blocked.
+- Catalog remains `BASELINE_RESIDUAL`; implementation work must not begin until the remaining candidates are reconciled or explicitly excluded.
