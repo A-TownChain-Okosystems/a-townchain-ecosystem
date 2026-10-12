@@ -19246,8 +19246,8 @@
     "function_reasoned_exclusions": 19,
     "interface_contracts_total": 17,
     "interface_status_counts": {
-      "RESIDUAL": 13,
-      "BLOCKED": 4
+      "RESIDUAL": 12,
+      "BLOCKED": 5
     }
   },
   "repository_coverage": [
