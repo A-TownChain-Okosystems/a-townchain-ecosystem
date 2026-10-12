@@ -50,6 +50,33 @@ class CatalogReconciliationTests(unittest.TestCase):
         self.assertEqual(finding["finding"], "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING")
         self.assertEqual(report["summary"]["functional_verification"], "NOT_PERFORMED")
 
+
+    def test_type_with_same_name_does_not_satisfy_function_binding(self):
+        self.census["repositories"][0]["report"]["files"][0]["candidate_public_symbols"] = [
+            {"kind": "type", "name": "execute"}
+        ]
+        report = reconcile(self.catalog, self.census)
+        self.assertEqual(
+            report["function_findings"][0]["finding"],
+            "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN",
+        )
+        self.assertEqual(report["summary"]["candidate_symbols_unbound"], 1)
+        candidate = report["unmatched_candidates"][0]
+        self.assertEqual(candidate["symbol_kind"], "type")
+        self.assertEqual(candidate["source_sha"], "a" * 40)
+
+    def test_explicit_type_binding_requires_matching_symbol_kind(self):
+        fn = self.catalog["components"][0]["functions"][0]
+        fn["source_binding"]["symbol_kind"] = "type"
+        self.census["repositories"][0]["report"]["files"][0]["candidate_public_symbols"] = [
+            {"kind": "type", "name": "execute"}
+        ]
+        report = reconcile(self.catalog, self.census)
+        self.assertEqual(
+            report["function_findings"][0]["finding"],
+            "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING",
+        )
+
     def test_catalog_self_reference_pr_head_is_not_misreported_as_source_drift(self):
         self.catalog["authority"] = {"repository": "example/sample"}
         self.catalog["components"][0]["source_inventory"]["observed_head_sha"] = "b" * 40
