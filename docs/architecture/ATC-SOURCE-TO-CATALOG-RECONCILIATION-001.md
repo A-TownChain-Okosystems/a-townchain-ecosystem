@@ -62,3 +62,53 @@ No source symbol scan, API/ABI compatibility test, or terminal CI evidence is im
 4. Reconcile the catalog's 63 contracts against extracted symbols; do not infer functionality from repository names or file counts.
 5. Record API/ABI compatibility tests and terminal CI evidence as Run → Job → Step → Exit Code → Log/Artifact. Pending/skipped is not pass.
 6. Keep every unsupported claim `RESIDUAL`/ `BLOCKED`; no merge, gate relaxation, archive, delete or reactivation is authorized by this matrix.
+
+
+## Organization refresh attempt — 2026-10-13
+
+**Result: UP-TO-DATE STATUS NOT VERIFIED.** This refresh queried the organization repository inventory and recent commit-search results. Repository metadata reports 33 repositories, all with default branch `main`: 26 active and 7 archived. The commit-search connector does not expose the resolved `refs/heads/main` SHA or its tree SHA. A commit-search hit is therefore recorded only as an observation, not as proof of the current default-branch tip. Do not use these SHAs as verified source bindings, build pins, or release evidence.
+
+| Repository | Lifecycle from repository metadata | Latest commit-search hit (observation only) | Default-branch freshness |
+|---|---|---|---|
+| `a-townchain-os` | ACTIVE | `3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atclang` | ACTIVE | `21c595dc389b0c62e1531a8c5fbbcd2c68794efb` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `a-townchain-os-docs` | ACTIVE | `f65992609ffcdd7e8eee4c29ac7a455da07fa947` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-shivacore` | ACTIVE | `21c99769654ff5915c421c3446e62c2a29c22b40` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `a-townchain` | ACTIVE | `c631249ed6ff450bf45338e78cb14e2bf5c65c74` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `globus-os` | ACTIVE | `7dbc7753032016cf6aeaf1a99807cd9c5173d090` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `aurora-ai` | ACTIVE | `ef880fc5b4469f9757839c3b0f3ef2ed368357c2` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `genesis-engine` | ACTIVE | `8326eb53e3e10cf08518e6769b44d4f034de1144` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-sdk` | ACTIVE | `34eef345907935cdaf279e0546f230c03c86bb0c` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-node` | ACTIVE | `a817db43a089d172dd4688f366286c60dbf71a0e` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-contracts` | ACTIVE | `a7c8b417f482665ef30e94fcacae6469c28b1125` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-wallet` | ARCHIVED | `812a31d292364304c72cae8be6f448c130d7428e` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-explorer` | ARCHIVED | `c4da05304f214bb68bd942e7705c96c35d9a18ae` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-indexer` | ARCHIVED | `7f3da49f30464471c8c1597ed59f6223050e79e4` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-mining` | ARCHIVED | `227f2d700307191f59596c5a78ccfd3a4b657aa9` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-interop` | ARCHIVED | `5905fca02274704a00bdf708948180bc211a46d3` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `genesis-chronicles` | ACTIVE | `a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-oracle` | ARCHIVED | `8087d34ddb8c2d40a60178e8f3b4c52ea67d52a8` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-storage` | ARCHIVED | `230746c1dc5e4c1355c2707368de50d6c1008660` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-launchpad` | ACTIVE | `bd1a48c69983247a8428f90a77edd061ba79316b` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-marketplace` | ACTIVE | `5c3bab7da8a80d58af725b7dea2478ece2456f39` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-compute` | ACTIVE | `89d833edf338085d6141b0c703ebf92a0db83a5e` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-standards` | ACTIVE | `d6556168a21ed5a9b5d917262bd2a4ee196fdd46` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-vm` | ACTIVE | `21132a49355eb5fd6ea4b8a7b4e4deb5d9be60f0` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-algorithm` | ACTIVE | `5a5628044ef4daacca943062eac3fd27a2eaec93` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-zkp` | ACTIVE | `ffa8ec1098c5ae0aa0145964843abe0c6806276f` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `.github` | ACTIVE | `af5d803dace369b83e4bffd2e4e6ba001d4aa000` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `demo-repository` | ACTIVE | `d9b0da9c966dea02586b6be64139e6b3cd669dfd` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-ide` | ACTIVE | `2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `genesis-franchise-factory` | ACTIVE | `673fa560322b1449e8f23cc38bf839de1b246361` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-engineering` | ACTIVE | `c2a4b93fb01178ef905f62d8a5fa6f42215d25a2` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `a-townchain-ecosystem` | ACTIVE | `2b6b885221416673333a49fb9327374d4deebf8c` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+| `atc-toolchain` | ACTIVE | `82fe4a238603476d7c6c19d5c3044c88b71c5f2d` | NOT VERIFIED — search result only; default-branch ref/tree SHA not established |
+
+### Findings and required next step
+
+- Inventory count is confirmed at **33 repositories: 26 active, 7 archived**.
+- The seven archived repositories are `atc-wallet`, `atc-explorer`, `atc-indexer`, `atc-mining`, `atc-interop`, `atc-oracle`, and `atc-storage`. They remain visible in the audit but are excluded from the active implementation/build graph unless a separately approved lifecycle decision changes that.
+- **0/33 repositories are marked VERIFIED as current-main** by this refresh because the exact main-ref SHA + tree SHA pair was not available from the read surface. This is a verification limitation, not a claim that every repository is stale.
+- Do not fast-forward or overwrite repositories merely because a commit-search result differs from a previous inventory. Resolve each repository's actual `main` ref and tree SHA, compare with the recorded source snapshot and integration/subtree pins, then inspect divergence and CI evidence.
+- The next full audit must record, for each repository: `main` HEAD SHA, tree SHA, observation timestamp (UTC), ahead/behind relationship where a comparison base exists, open PRs affecting canonical paths, required workflow results, and documentation/catalog drift.
+- Documentation and generated inventories must be refreshed from those resolved refs. Keep status `BLOCKED` or `RESIDUAL` where evidence is missing; do not imply that green repository-level CI proves cross-repository integration or production readiness.
