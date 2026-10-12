@@ -1,0 +1,304 @@
+{
+  "schema_id": "ATC-BUILD-MANIFEST-001",
+  "schema_version": "0.1.0",
+  "status": "DRAFT",
+  "generated": "2026-10-12",
+  "policy": {
+    "ssot": "one canonical production path per component; quellrepos of migrated components (SCR-0127) are reference/verification only and must never be built as active implementations",
+    "fail_closed": "missing build command or entry evidence yields status BLOCKED_NO_ENTRY and blocks release",
+    "no_sham_validation": "an evidenced command is NOT a successful build; build success requires recorded execution evidence"
+  },
+  "graph_ref": "docs/architecture/ATC-DEPENDENCY-GRAPH-001.json",
+  "build_order_ref": "ATC-DEPENDENCY-GRAPH-001.topological_order",
+  "repos": [
+    {
+      "repo": "atc-standards",
+      "canonical_source_path": ".",
+      "toolchain": "python",
+      "build_command": "python tools/atc-std-validator/validate_all.py",
+      "test_command": "python -m pytest tools/ -q",
+      "entry_evidence": [
+        "requirements.txt"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "dc0ff69d8"
+    },
+    {
+      "repo": ".github",
+      "toolchain": "none",
+      "status": "EXEMPT_ORG_CONFIG"
+    },
+    {
+      "repo": "atc-toolchain",
+      "toolchain": "none",
+      "status": "BLOCKED_NO_ENTRY",
+      "blocked_reason": "no build files (docs-only repo); canonical verification tooling role per registry capabilities",
+      "head_sha": "82fe4a238"
+    },
+    {
+      "repo": "atc-ide",
+      "toolchain": "npm",
+      "build_command": "npm ci && npm run build",
+      "test_command": "npm test",
+      "entry_evidence": [
+        "package.json"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "2a17feda7"
+    },
+    {
+      "repo": "atc-engineering",
+      "canonical_source_path": ".",
+      "toolchain": "cargo",
+      "build_command": "cargo build --workspace",
+      "test_command": "cargo test --workspace",
+      "entry_evidence": [
+        "Cargo.toml (workspace)"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "2e91ec61a"
+    },
+    {
+      "repo": "a-townchain-os-docs",
+      "toolchain": "npm",
+      "build_command": "npm ci && npm run build",
+      "entry_evidence": [
+        "package.json"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "6b311f70d"
+    },
+    {
+      "repo": "a-townchain-ecosystem",
+      "toolchain": "cargo",
+      "build_command": "cargo build --workspace",
+      "test_command": "cargo test --workspace && python -m pytest tools/tests -q",
+      "entry_evidence": [
+        "Cargo.toml (workspace)",
+        "tools/tests/"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "5a66f276a"
+    },
+    {
+      "repo": "genesis-franchise-factory",
+      "toolchain": "python",
+      "build_command": "pip install -e .",
+      "test_command": "python -m pytest tests/ -q",
+      "entry_evidence": [
+        "pyproject.toml",
+        "tests/"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "673fa5603",
+      "blocker": "MK13-15-DIALECT (28 .atc spec files do not parse)"
+    },
+    {
+      "repo": "demo-repository",
+      "toolchain": "npm",
+      "status": "EXEMPT_FIXTURE",
+      "note": "private fixture, no production path"
+    },
+    {
+      "repo": "atc-vm",
+      "canonical_source_path": "a-townchain/components/vm",
+      "quellrepo_role": "reference/verification only (FREEZE, SCR-0127)",
+      "toolchain": "cargo",
+      "build_command": "cargo build --manifest-path components/vm/Cargo.toml (in a-townchain)",
+      "test_command": "cargo test --manifest-path components/vm/Cargo.toml",
+      "entry_evidence": [
+        "a-townchain/components/vm/Cargo.toml",
+        "atc-vm/Cargo.toml (quellrepo)"
+      ],
+      "status": "CANONICAL_ELSEWHERE",
+      "head_sha": "a70b16f2d"
+    },
+    {
+      "repo": "atc-algorithm",
+      "canonical_source_path": "a-townchain/components/algorithm",
+      "quellrepo_role": "reference/verification only (FREEZE, SCR-0127)",
+      "toolchain": "cargo",
+      "build_command": "cargo build --manifest-path components/algorithm/Cargo.toml (in a-townchain)",
+      "test_command": "cargo test --manifest-path components/algorithm/Cargo.toml",
+      "entry_evidence": [
+        "a-townchain/components/algorithm/Cargo.toml"
+      ],
+      "status": "CANONICAL_ELSEWHERE",
+      "head_sha": "a70b16f2d"
+    },
+    {
+      "repo": "atc-zkp",
+      "canonical_source_path": "a-townchain/components/zkp",
+      "quellrepo_role": "verification only (FREEZE, SCR-0127)",
+      "toolchain": "cargo",
+      "build_command": "cargo build --workspace (quellrepo verification)",
+      "entry_evidence": [
+        "atc-zkp/Cargo.toml (workspace)"
+      ],
+      "status": "CANONICAL_ELSEWHERE",
+      "head_sha": "ffa8ec109"
+    },
+    {
+      "repo": "atclang",
+      "toolchain": "cargo",
+      "build_command": "cargo build --manifest-path crates/atc-core/Cargo.toml",
+      "test_command": "cargo test --manifest-path crates/atc-core/Cargo.toml",
+      "entry_evidence": [
+        "crates/atc-core/Cargo.toml"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "21c595dc3"
+    },
+    {
+      "repo": "atc-shivacore",
+      "toolchain": "cargo",
+      "build_command": "for m in modules/*/; do cargo build --manifest-path $m/Cargo.toml; done",
+      "test_command": "cargo test (per module manifest)",
+      "entry_evidence": [
+        "modules/atc-security/Cargo.toml",
+        "sdk/Cargo.toml"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "21c997696"
+    },
+    {
+      "repo": "atc-compute",
+      "toolchain": "cargo",
+      "build_command": "cargo build",
+      "test_command": "cargo test",
+      "entry_evidence": [
+        "Cargo.toml"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "d0831dfb7"
+    },
+    {
+      "repo": "aurora-ai",
+      "toolchain": "cargo",
+      "build_command": "for m in modules/*/; do cargo build --manifest-path $m/Cargo.toml; done",
+      "entry_evidence": [
+        "modules/atc-aurora-core/Cargo.toml",
+        "modules/atc-aurora-agents/Cargo.toml"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "1b5ff1824"
+    },
+    {
+      "repo": "globus-os",
+      "toolchain": "cargo",
+      "build_command": "cargo build --workspace",
+      "test_command": "cargo test --workspace",
+      "entry_evidence": [
+        "Cargo.toml (workspace)"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "c7337ef4f"
+    },
+    {
+      "repo": "a-townchain",
+      "toolchain": "cargo",
+      "build_command": "cargo build --manifest-path components/<name>/Cargo.toml (per component; nested workspaces isolated per commit 8a4708794)",
+      "test_command": "cargo test --manifest-path components/<name>/Cargo.toml",
+      "entry_evidence": [
+        "components/algorithm/Cargo.toml",
+        "components/node/Cargo.toml",
+        "components/vm/Cargo.toml"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "a70b16f2d"
+    },
+    {
+      "repo": "atc-contracts",
+      "canonical_source_path": "a-townchain/components/contracts",
+      "quellrepo_role": "reference/verification only (FREEZE, SCR-0127)",
+      "toolchain": "python (quellrepo setup.py) / cargo (canonical)",
+      "entry_evidence": [
+        "atc-contracts/setup.py"
+      ],
+      "status": "CANONICAL_ELSEWHERE",
+      "head_sha": "a7c8b417f"
+    },
+    {
+      "repo": "atc-node",
+      "canonical_source_path": "a-townchain/components/node",
+      "quellrepo_role": "reference/verification only (FREEZE, SCR-0127)",
+      "toolchain": "cargo",
+      "entry_evidence": [
+        "atc-node/Cargo.toml",
+        "a-townchain/components/node/Cargo.toml"
+      ],
+      "status": "CANONICAL_ELSEWHERE",
+      "head_sha": "a817db43a"
+    },
+    {
+      "repo": "atc-sdk",
+      "canonical_source_path": "a-townchain/components/sdk",
+      "quellrepo_role": "reference/verification only (FREEZE, SCR-0127)",
+      "toolchain": "npm (quellrepo)",
+      "entry_evidence": [
+        "atc-sdk/package.json"
+      ],
+      "status": "CANONICAL_ELSEWHERE",
+      "head_sha": "34eef3459"
+    },
+    {
+      "repo": "atc-marketplace",
+      "toolchain": "cargo",
+      "build_command": "cargo build --workspace",
+      "test_command": "cargo test --workspace",
+      "entry_evidence": [
+        "Cargo.toml (workspace)"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "5c3bab7da"
+    },
+    {
+      "repo": "atc-launchpad",
+      "toolchain": "cargo",
+      "build_command": "cargo build",
+      "test_command": "cargo test",
+      "entry_evidence": [
+        "Cargo.toml"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "bd1a48c69"
+    },
+    {
+      "repo": "genesis-engine",
+      "toolchain": "cargo",
+      "build_command": "cargo build --workspace",
+      "test_command": "cargo test --workspace",
+      "entry_evidence": [
+        "Cargo.toml (workspace)",
+        "modules/"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "8326eb53e"
+    },
+    {
+      "repo": "genesis-chronicles",
+      "toolchain": "python",
+      "build_command": "pip install -r requirements.txt",
+      "test_command": "python -m pytest",
+      "entry_evidence": [
+        "requirements.txt",
+        "setup.py",
+        "contracts/"
+      ],
+      "status": "BUILD_ENTRY_EVIDENCED",
+      "head_sha": "a3f417b23",
+      "blocker": "AD-008 language migration pending"
+    },
+    {
+      "repo": "a-townchain-os",
+      "toolchain": "unknown",
+      "status": "BLOCKED_NO_VERIFIED_ENTRY",
+      "blocked_reason": "no machine-verified build entry point at repo root (L7 integration layer); build definition pending F-003 boundary decision",
+      "head_sha": "3f85a6e61"
+    }
+  ],
+  "gates": {
+    "G3_build": "PARTIAL (commands evidenced from files at exact SHAs, not executed end-to-end)",
+    "G4_tests": "PENDING"
+  }
+}
