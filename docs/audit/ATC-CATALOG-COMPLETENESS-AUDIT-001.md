@@ -116,3 +116,19 @@ No function was invented from a repository name. Where no source surface exists,
 - Organization manifest: `docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json`
 - Census workflow: `.github/workflows/source-symbol-inventory.yml`
 - Reconciliation tool: `tools/reconcile_component_function_catalog.py`
+
+## 10. Catalog-first L1 expansion (2026-10-13)
+
+The machine-readable catalog was expanded from 98 to **114 function contracts** before implementation work. Added contracts:
+
+- `FN-CHAIN-004`–`FN-CHAIN-014`: genesis/config validation; canonical transaction codec; nonce/replay; fee affordability; transaction-pool admission/order; block candidate construction; transactional state overlay; ledger/supply invariants; block persistence; chain synchronization/reorganization; protocol-version/upgrade gating.
+- `FN-ALGO-003`–`FN-ALGO-007`: consensus decision gate; proof/evidence validation; participant eligibility/weight normalization; vote/quorum/finality transition; fork-choice and safety/liveness decision.
+
+All 16 additions have `readiness: RESIDUAL` and `source_binding.status: NOT_SOURCE_VERIFIED`. These are normative contracts awaiting exact-source reconciliation; they do not assert that implementations are present or absent. No source code, canonical implementation, CI gate, merge state, or release state was changed. Consensus/finality/fork-choice remain blocked until an authoritative versioned protocol decision exists.
+
+### Updated count semantics
+
+- 30 components remain in the catalog.
+- 114 function contracts are registered.
+- 0 functions are functionally verified.
+- Source reconciliation remains pending; structural validity and lexical symbol matches do not establish completeness.
