@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-13",
-  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings. Cross-component interfaces now carry machine-readable request/response, error/timeout, authorization, compatibility, test, and exact-SHA evidence fields; unresolved fields remain explicit RESIDUAL. Added IF-014 Node↔SDK RPC, IF-015 Genesis Engine↔L1 core, and IF-016 Node P2P boundary. Embedded specification summary now reflects 139 function/capability records and 16 interface records; no functional verification is claimed. Added COMP-WALLET as a distinct canonical component inside a-townchain/components/wallet, with five exact-HEAD TX-V2 source bindings and IF-017. The archived standalone atc-wallet repository remains reference-only and is not reactivated. Rebound related type/value entries to actual function symbols where available; static roadmap data is explicitly a non-function artifact. Narrowed Devnet-only chain/PoH functions to their actual source semantics and added separate unresolved canonical L1 block-candidate and chain-reorganization contracts. IF-015 is BLOCKED because Genesis Engine's inspected ECS/world source is not proven to be the L1 genesis owner. Added exact-HEAD source contracts for the Devnet SDK RPC transport, constructor, typed accessors, and minimal result/ID parsing helpers; the client remains explicitly Devnet-only and not production-safe. Added exact-HEAD contracts for NodeConfig construction and the full PeerTable lifecycle (new/add/verify/ban/remove/is_banned/len/is_empty). These local state helpers do not imply cryptographic peer authentication or consensus validation.",
+  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings. Cross-component interfaces now carry machine-readable request/response, error/timeout, authorization, compatibility, test, and exact-SHA evidence fields; unresolved fields remain explicit RESIDUAL. Added IF-014 Node↔SDK RPC, IF-015 Genesis Engine↔L1 core, and IF-016 Node P2P boundary. Embedded specification summary now reflects 139 function/capability records and 16 interface records; no functional verification is claimed. Added COMP-WALLET as a distinct canonical component inside a-townchain/components/wallet, with five exact-HEAD TX-V2 source bindings and IF-017. The archived standalone atc-wallet repository remains reference-only and is not reactivated. Rebound related type/value entries to actual function symbols where available; static roadmap data is explicitly a non-function artifact. Narrowed Devnet-only chain/PoH functions to their actual source semantics and added separate unresolved canonical L1 block-candidate and chain-reorganization contracts. IF-015 is BLOCKED because Genesis Engine's inspected ECS/world source is not proven to be the L1 genesis owner. Added exact-HEAD source contracts for the Devnet SDK RPC transport, constructor, typed accessors, and minimal result/ID parsing helpers; the client remains explicitly Devnet-only and not production-safe. Added exact-HEAD contracts for NodeConfig construction and the full PeerTable lifecycle (new/add/verify/ban/remove/is_banned/len/is_empty). These local state helpers do not imply cryptographic peer authentication or consensus validation. Added exact-HEAD contracts for Devnet RPC, gossip, peer request/sync, block parsing and process entrypoint. Added FN-NODE-022 documenting a legacy ATC-TX-DOMAIN signing function as BLOCKED and blocked IF-017 because the current atc-node source conflicts with TX-V2.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -12331,6 +12331,931 @@
               "log_or_artifact_url"
             ]
           }
+        },
+        {
+          "id": "FN-NODE-011",
+          "name": "Devnet RPC state snapshot",
+          "purpose": "Construct a Devnet RPC snapshot from Genesis and PeerTable using chain_id, boot_hash and peer count.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "Genesis",
+            "PeerTable"
+          ],
+          "outputs": [
+            "DevnetRpc snapshot"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Devnet configuration and caller assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Runtime behavior requires exact-SHA tests and negative integration evidence."
+          },
+          "failure_modes": [
+            "stale snapshot if peers/genesis mutate later"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Connection, message and allocation limits must be explicitly specified; do not infer a cap where source does not enforce one."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Current source is Devnet-only and has no TLS/peer authentication on these TCP paths; this is not a production trust boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node source exposes a minimal Devnet API; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "chain ID and boot hash are copied from Genesis",
+            "peer count reflects PeerTable at construction",
+            "snapshot freshness limitations are documented"
+          ],
+          "test_classes": [
+            "unit",
+            "snapshot-consistency"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/rpc.rs",
+            "symbol_or_entrypoint": "from_state",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "ebd9dc34376f055141b9b115d60da0ec97016191",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/rpc.rs#L16",
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-012",
+          "name": "Devnet line-command dispatcher",
+          "purpose": "Dispatch the legacy line protocol commands CHAIN_ID, BOOT_HASH, PEERS and PING; return an explicit error for unknown commands.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "DevnetRpc state",
+            "command line"
+          ],
+          "outputs": [
+            "string response"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Devnet configuration and caller assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Runtime behavior requires exact-SHA tests and negative integration evidence."
+          },
+          "failure_modes": [
+            "unknown command",
+            "whitespace/casing mismatch"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Connection, message and allocation limits must be explicitly specified; do not infer a cap where source does not enforce one."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Current source is Devnet-only and has no TLS/peer authentication on these TCP paths; this is not a production trust boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node source exposes a minimal Devnet API; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "known commands return deterministic values",
+            "unknown commands return ERR",
+            "this is a Devnet line protocol, not a canonical production RPC"
+          ],
+          "test_classes": [
+            "unit",
+            "command-negative",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/rpc.rs",
+            "symbol_or_entrypoint": "answer",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "ebd9dc34376f055141b9b115d60da0ec97016191",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/rpc.rs#L20",
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-013",
+          "name": "Devnet RPC listener lifecycle",
+          "purpose": "Bind a TCP listener and process incoming Devnet RPC connections until an I/O error terminates the listener.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "bind address",
+            "DevnetRpc state"
+          ],
+          "outputs": [
+            "io::Result<()>"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Devnet configuration and caller assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Runtime behavior requires exact-SHA tests and negative integration evidence."
+          },
+          "failure_modes": [
+            "bind failure",
+            "connection I/O failure",
+            "listener termination"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Connection, message and allocation limits must be explicitly specified; do not infer a cap where source does not enforce one."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Current source is Devnet-only and has no TLS/peer authentication on these TCP paths; this is not a production trust boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node source exposes a minimal Devnet API; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "bind and I/O errors propagate",
+            "no TLS/authentication is claimed",
+            "connection concurrency and timeouts remain residual"
+          ],
+          "test_classes": [
+            "unit",
+            "socket-integration",
+            "bind-conflict",
+            "fault-injection"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/rpc.rs",
+            "symbol_or_entrypoint": "serve",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "ebd9dc34376f055141b9b115d60da0ec97016191",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/rpc.rs#L31",
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-014",
+          "name": "Devnet RPC per-connection handler",
+          "purpose": "Read one line from a TCP stream, dispatch JSON-looking requests to answer_json and other requests to the line protocol, then write one newline-terminated response.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "TCP stream",
+            "DevnetRpc state"
+          ],
+          "outputs": [
+            "one response line or I/O error"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Devnet configuration and caller assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Runtime behavior requires exact-SHA tests and negative integration evidence."
+          },
+          "failure_modes": [
+            "unbounded line read",
+            "read/write error",
+            "malformed request"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Connection, message and allocation limits must be explicitly specified; do not infer a cap where source does not enforce one."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Current source is Devnet-only and has no TLS/peer authentication on these TCP paths; this is not a production trust boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node source exposes a minimal Devnet API; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "one request line is handled per connection",
+            "I/O failures propagate",
+            "message length bound must be added or explicitly approved before production"
+          ],
+          "test_classes": [
+            "unit",
+            "malformed-input",
+            "resource-exhaustion",
+            "socket-integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/rpc.rs",
+            "symbol_or_entrypoint": "handle",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "ebd9dc34376f055141b9b115d60da0ec97016191",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/rpc.rs#L39",
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-015",
+          "name": "Devnet JSON-RPC method dispatch",
+          "purpose": "Parse the current minimal JSON-RPC request fields and return chain_id, boot_hash, peers or ping results; unknown methods return -32601.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "request string"
+          ],
+          "outputs": [
+            "JSON-RPC response string"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Devnet configuration and caller assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Runtime behavior requires exact-SHA tests and negative integration evidence."
+          },
+          "failure_modes": [
+            "missing ID defaults to 0",
+            "minimal substring parsing",
+            "unknown method",
+            "malformed method field"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Connection, message and allocation limits must be explicitly specified; do not infer a cap where source does not enforce one."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Current source is Devnet-only and has no TLS/peer authentication on these TCP paths; this is not a production trust boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node source exposes a minimal Devnet API; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "supported methods are deterministic",
+            "unknown method emits method-not-found error",
+            "not represented as a general JSON parser or authenticated API"
+          ],
+          "test_classes": [
+            "unit",
+            "golden-responses",
+            "malformed-input",
+            "method-negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/rpc.rs",
+            "symbol_or_entrypoint": "answer_json",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "ebd9dc34376f055141b9b115d60da0ec97016191",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/rpc.rs#L51",
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-016",
+          "name": "Devnet RPC field substring extractor",
+          "purpose": "Extract text between a marker and a terminator for the current minimal JSON-RPC parser.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "input string",
+            "start marker",
+            "end character"
+          ],
+          "outputs": [
+            "optional extracted substring"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Devnet configuration and caller assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Runtime behavior requires exact-SHA tests and negative integration evidence."
+          },
+          "failure_modes": [
+            "marker missing",
+            "terminator missing",
+            "escaped delimiters"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Connection, message and allocation limits must be explicitly specified; do not infer a cap where source does not enforce one."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Current source is Devnet-only and has no TLS/peer authentication on these TCP paths; this is not a production trust boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node source exposes a minimal Devnet API; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "missing marker or terminator returns None",
+            "escaped JSON semantics are not inferred",
+            "callers validate parsed values explicitly"
+          ],
+          "test_classes": [
+            "unit",
+            "parser-negative",
+            "fuzz"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/rpc.rs",
+            "symbol_or_entrypoint": "extract_between",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "ebd9dc34376f055141b9b115d60da0ec97016191",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/rpc.rs#L65",
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-017",
+          "name": "Devnet gossip listener",
+          "purpose": "Serve STATUS and BLOCKS requests over TCP and serialize the current Devnet chain status or block list.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "bind address",
+            "shared Chain"
+          ],
+          "outputs": [
+            "long-running io::Result<()> service"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Devnet configuration and caller assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Runtime behavior requires exact-SHA tests and negative integration evidence."
+          },
+          "failure_modes": [
+            "bind/read/write failure",
+            "malformed BLOCKS index defaults to zero",
+            "unbounded line length",
+            "poisoned mutex panic"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Connection, message and allocation limits must be explicitly specified; do not infer a cap where source does not enforce one."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Current source is Devnet-only and has no TLS/peer authentication on these TCP paths; this is not a production trust boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node source exposes a minimal Devnet API; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "STATUS response includes height and best hash",
+            "BLOCKS response uses documented delimiter framing",
+            "no TLS/authentication or consensus authority is claimed"
+          ],
+          "test_classes": [
+            "unit",
+            "socket-integration",
+            "malformed-peer",
+            "resource-exhaustion"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/gossip.rs",
+            "symbol_or_entrypoint": "serve_gossip",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "c808c7cbb439de7d151bc139bd621400e1dcfdf2",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/gossip.rs#L25",
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-018",
+          "name": "Devnet peer request helper",
+          "purpose": "Connect to a peer address, send one line-based gossip command and read the peer response.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "peer address",
+            "command string"
+          ],
+          "outputs": [
+            "response line or string error"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Devnet configuration and caller assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Runtime behavior requires exact-SHA tests and negative integration evidence."
+          },
+          "failure_modes": [
+            "connection failure",
+            "write/read failure",
+            "missing timeout",
+            "malformed peer response"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Connection, message and allocation limits must be explicitly specified; do not infer a cap where source does not enforce one."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Current source is Devnet-only and has no TLS/peer authentication on these TCP paths; this is not a production trust boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node source exposes a minimal Devnet API; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "transport errors become explicit errors",
+            "one request/response is used",
+            "no peer authentication or timeout guarantee is inferred"
+          ],
+          "test_classes": [
+            "unit",
+            "mock-peer",
+            "timeout",
+            "negative-peer"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/gossip.rs",
+            "symbol_or_entrypoint": "peer_antwort",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "c808c7cbb439de7d151bc139bd621400e1dcfdf2",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/gossip.rs#L51",
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-019",
+          "name": "Devnet pull-sync client",
+          "purpose": "Fetch remote status and block list, parse the candidate chain, verify chain integrity and genesis binding, and adopt only a valid taller candidate.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "mutable local Chain",
+            "peer address"
+          ],
+          "outputs": [
+            "SyncReport or string error"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Devnet configuration and caller assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Runtime behavior requires exact-SHA tests and negative integration evidence."
+          },
+          "failure_modes": [
+            "peer I/O failure",
+            "malformed block list",
+            "invalid chain links/hash",
+            "genesis mismatch",
+            "unauthenticated peer"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Connection, message and allocation limits must be explicitly specified; do not infer a cap where source does not enforce one."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Current source is Devnet-only and has no TLS/peer authentication on these TCP paths; this is not a production trust boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node source exposes a minimal Devnet API; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "candidate chain is verified before adoption",
+            "shorter/invalid chain is not adopted",
+            "this is Devnet sync, not canonical consensus fork-choice or finality"
+          ],
+          "test_classes": [
+            "unit",
+            "multi-node",
+            "malformed-peer",
+            "genesis-mismatch",
+            "adversarial"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/gossip.rs",
+            "symbol_or_entrypoint": "sync_pull",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "c808c7cbb439de7d151bc139bd621400e1dcfdf2",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/gossip.rs#L67",
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-020",
+          "name": "Devnet block-list parser",
+          "purpose": "Parse the current semicolon-delimited block list and pipe-delimited fields into Block values.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "encoded block list string"
+          ],
+          "outputs": [
+            "Vec<Block> or string error"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Devnet configuration and caller assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Runtime behavior requires exact-SHA tests and negative integration evidence."
+          },
+          "failure_modes": [
+            "wrong field count",
+            "invalid numeric fields",
+            "delimiter collision"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Connection, message and allocation limits must be explicitly specified; do not infer a cap where source does not enforce one."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Current source is Devnet-only and has no TLS/peer authentication on these TCP paths; this is not a production trust boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node source exposes a minimal Devnet API; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "each block has the expected field count",
+            "invalid fields fail explicitly",
+            "encoding is documented as Devnet framing, not canonical block serialization"
+          ],
+          "test_classes": [
+            "unit",
+            "malformed-input",
+            "delimiter-boundary",
+            "fuzz"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/gossip.rs",
+            "symbol_or_entrypoint": "parse_bloecke",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "c808c7cbb439de7d151bc139bd621400e1dcfdf2",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/gossip.rs#L106",
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-021",
+          "name": "Node process entrypoint",
+          "purpose": "Initialize the Devnet Genesis and peer table, create the local chain, start the gossip thread, and serve the Devnet RPC endpoint.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "CLI RPC address",
+            "optional gossip address"
+          ],
+          "outputs": [
+            "long-running process or process failure"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Devnet configuration and caller assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Runtime behavior requires exact-SHA tests and negative integration evidence."
+          },
+          "failure_modes": [
+            "bootstrap failure exits process",
+            "RPC bind failure",
+            "gossip service failure"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Connection, message and allocation limits must be explicitly specified; do not infer a cap where source does not enforce one."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Current source is Devnet-only and has no TLS/peer authentication on these TCP paths; this is not a production trust boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Current node source exposes a minimal Devnet API; production protocol compatibility is not established."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "startup logs identify Devnet mode",
+            "no TLS/authentication or production consensus is claimed",
+            "bootstrap and service failures remain observable"
+          ],
+          "test_classes": [
+            "process-integration",
+            "startup-failure",
+            "two-node-devnet"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/main.rs",
+            "symbol_or_entrypoint": "main",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "bc2f7ac465a571cd40264fb74038dc514e5d6aa0",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/main.rs#L10",
+            "note": "Exact function binding at the recorded atc-node HEAD. Devnet-only behavior and the explicitly missing transport/security guarantees remain residual."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping only; no terminal exact-SHA functional verification is attached.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-022",
+          "name": "Legacy transaction-domain signing preimage (blocked)",
+          "purpose": "Serialize a legacy TransactionDomain signing preimage using the deprecated ATC-TX-DOMAIN string-field format. This function is not canonical TX-V2.",
+          "canonical_owner": "A-TownChain-Okosystems/atc-node",
+          "inputs": [
+            "TransactionDomain",
+            "nonce",
+            "sender",
+            "recipient",
+            "value",
+            "fee",
+            "payload"
+          ],
+          "outputs": [
+            "legacy string-field byte sequence"
+          ],
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Devnet configuration and caller assumptions require review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Runtime behavior requires exact-SHA tests and negative integration evidence."
+          },
+          "failure_modes": [
+            "legacy domain separation",
+            "decimal-string numeric encoding",
+            "payload hex encoding conflicts with TX-V2 canonical fields"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Connection, message and allocation limits must be explicitly specified; do not infer a cap where source does not enforce one."
+          },
+          "security_boundary": {
+            "status": "BLOCKED",
+            "reason": "Legacy transaction-domain behavior conflicts with the approved TX-V2 domain and must not be used as canonical signing semantics."
+          },
+          "versioning_compatibility": {
+            "status": "BLOCKED",
+            "reason": "Uses legacy ATC-TX-DOMAIN and string-field canonicalization, incompatible with TX-V2."
+          },
+          "dependencies": [
+            "COMP-NODE"
+          ],
+          "acceptance": [
+            "must not be used for TX-V2 signing or canonical chain admission",
+            "legacy domain is explicitly identified for migration/rejection",
+            "no implementation change is performed in this catalog-only PR"
+          ],
+          "test_classes": [
+            "legacy-domain-negative",
+            "TX-V2 cross-client vectors",
+            "migration-review"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "src/identity.rs",
+            "symbol_or_entrypoint": "signing_bytes",
+            "symbol_kind": "function",
+            "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "file_blob_sha": "af145d28a0cc829f83f923bab87df0680dc0ab55",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-node/blob/a817db43a089d172dd4688f366286c60dbf71a0e/src/identity.rs#L51",
+            "note": "Exact source binding to legacy TransactionDomain::signing_bytes. It serializes TX_DOMAIN='ATC-TX-DOMAIN' as string fields; this is incompatible with canonical TX-V2 and must remain blocked."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "Known TX-V2 domain conflict; do not use this function for canonical transactions.",
+            "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
         }
       ],
       "source_inventory": {
@@ -12353,7 +13278,7 @@
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Configuration and peer-table functions are source-bound at the exact recorded HEAD. The RPC/gossip/chain/bootstrap/identity/main surfaces are inspected but their individual function contracts still require mapping or reasoned exclusion; the component remains RESIDUAL.",
+        "status_reason": "Config and peer-table helpers plus Devnet RPC, gossip and process entrypoints are now source-bound. The component remains RESIDUAL until every remaining public/internal candidate is mapped or reasonedly excluded; the legacy transaction-domain function is explicitly BLOCKED.",
         "current_head_reconciliation": {
           "source_census_run_id": 38320206333,
           "status": "CENSUS_SCANNED_RESIDUAL",
@@ -18152,9 +19077,9 @@
       "id": "IF-017",
       "producer": "COMP-WALLET",
       "consumer": "COMP-CHAIN",
-      "contract": "TX-V2 wallet-to-chain transaction contract: canonical signing preimage and transaction ID domains; exact field ordering/widths; secp256k1 ECDSA compact r||s; compressed SEC1 public key; low-S rejection; deterministic verification and typed invalid-transaction errors.",
-      "status": "RESIDUAL",
-      "status_reason": "Wallet-side source is bound to exact SHA, but canonical chain-side verification entrypoint and shared cross-client vectors are not yet identified and verified.",
+      "contract": "BLOCKED TX-V2 wallet-to-chain interoperability: wallet-side TX-V2 encoding/signatures exist, but the inspected atc-node identity module exposes a legacy ATC-TX-DOMAIN signing preimage. The legacy path must not be treated as canonical TX-V2.",
+      "status": "BLOCKED",
+      "status_reason": "The atc-node consumer surface includes TransactionDomain::signing_bytes using legacy ATC-TX-DOMAIN and string-field encoding, which conflicts with TX-V2. Canonical chain-side TX-V2 verification is not established. Do not accept this interface until the legacy path is rejected/isolated and shared TX-V2 vectors pass.",
       "contract_version": "TX-V2",
       "version_status": "RESIDUAL",
       "request_schema": {
@@ -18173,7 +19098,7 @@
           "payload:u32 length + bytes",
           "poh_hash:32 bytes"
         ],
-        "notes": "Field order and widths are read from wallet TX-V2 source at the exact bound SHA; cross-client normative conformance remains residual."
+        "notes": "BLOCKED: source consumer has a legacy signing preimage with incompatible domain/encoding; a canonical consumer request schema cannot be asserted."
       },
       "response_schema": {
         "status": "RESIDUAL",
@@ -18183,7 +19108,7 @@
           "signature verification result",
           "typed rejection reason"
         ],
-        "notes": "Exact chain-side response and rejection schema must be reconciled with the canonical transaction admission path."
+        "notes": "BLOCKED: canonical chain-side TX-V2 verifier/result schema is not established by the inspected source."
       },
       "error_timeout_semantics": {
         "status": "RESIDUAL",
@@ -18238,7 +19163,7 @@
         "consumer_path": null,
         "interface_test_source_sha": null
       },
-      "resolution_rule": "Remain RESIDUAL until the canonical chain-side transaction verifier is source-bound at exact SHA and TX-V2 golden vectors pass across wallet, SDK and node."
+      "resolution_rule": "Remain BLOCKED until canonical chain-side TX-V2 verification is source-bound, the legacy ATC-TX-DOMAIN path is excluded/rejected by an explicit normative rule, and cross-client golden vectors pass."
     }
   ],
   "release_decision": {
@@ -18261,7 +19186,7 @@
     "rule": "The exact-HEAD census covers 25 active repositories; one private active repository is explicitly excluded for lack of CI access; seven archived repositories are reference-only. 10,815 candidate symbols remain unbound after 941 test/example policy exclusions. No lexical source match is functional verification.",
     "function_inventory_status": "SOURCE_RECONCILIATION_RESIDUAL",
     "component_source_bindings": 31,
-    "function_source_bindings": 127,
+    "function_source_bindings": 139,
     "source_verified_components": 0,
     "source_verified_functions": 0,
     "selected_source_files_examined": 10,
@@ -18315,7 +19240,7 @@
     },
     "interface_contracts": 13,
     "blocked_interface_contracts": 3,
-    "function_contracts_total": 161,
+    "function_contracts_total": 173,
     "function_source_surface_pending": 12,
     "function_normative_blocked": 3,
     "function_reasoned_exclusions": 19,
@@ -18727,16 +19652,16 @@
     "specification_id": "ATC-COMPONENT-FUNCTION-SPECIFICATION-001",
     "specification_version": "1.0.0",
     "applied": true,
-    "function_contracts_checked": 161,
+    "function_contracts_checked": 173,
     "component_contracts_checked": 31,
     "missing_required_field_values_are_explicit_residuals": true,
     "functional_verification_performed": false,
     "release_decision": "BLOCKED",
     "last_component_updated": "COMP-CHAIN_COMP-LANG_COMP-SDK_COMP-NODE_COMP-MARKET_COMP-IDE_COMP-DOCS_COMP-GENESIS_COMP-ALGO",
     "last_component_update_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
-    "component_function_contract_count": 161,
+    "component_function_contract_count": 173,
     "component_function_catalog_status": "RESIDUAL_SOURCE_RECONCILIATION_PENDING",
-    "source_mapped_functions_reported": 127,
+    "source_mapped_functions_reported": 139,
     "source_verified_functions_reported": 0
   }
 }
