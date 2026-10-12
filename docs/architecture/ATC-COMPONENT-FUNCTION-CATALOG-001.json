@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-12",
-  "catalog_revision_note": "2026-10-12 completeness supplement: all 63 catalog functions now carry explicit source bindings (58 previously unbound functions bound conservatively to census-verified files at exact SHAs; blocked records for archived/fixture surfaces are explicit, not silent). Component and repository census SHAs refreshed against the 2026-10-12 org census (26/26 active repositories scanned, 35550 candidate symbols). Lexical mappings are not functional verification; readiness stays RESIDUAL.",
+  "catalog_revision_note": "2026-10-12 completeness supplement: all 63 catalog functions now carry explicit source bindings (58 previously unbound functions bound conservatively to census-verified files at exact SHAs; blocked records for archived/fixture surfaces are explicit, not silent). Component and repository census SHAs refreshed against the 2026-10-12 org census (26/26 active repositories scanned, 35550 candidate symbols). Lexical mappings are not functional verification; readiness stays RESIDUAL. 2026-10-12 ATCLang completeness pass: COMP-LANG extended from 2 to 10 functions after full source enumeration of the atclang repository (lowering, canonical bytecode encode/verify, ATCA artifact envelope, ABI/IR type boundary, deterministic reference execution, differential and stdlib conformance, determinism gate). All new functions are source-bound at the census HEAD; readiness stays RESIDUAL.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -310,7 +310,7 @@
       "name": "ATCLang",
       "layer": "L0",
       "canonical_owner": "A-TownChain-Okosystems/atclang",
-      "role": "language syntax, parsing and frontend representation",
+      "role": "language syntax, parsing, native contract frontmatter, canonical bytecode lowering and verification, artifact envelope, ABI/IR typing, deterministic reference execution and conformance tooling",
       "readiness": "RESIDUAL",
       "criticality": "P1",
       "depends_on": [
@@ -392,6 +392,299 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/native.rs",
             "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
           }
+        },
+        {
+          "id": "FN-LANG-003",
+          "name": "AST-to-bytecode lowering",
+          "purpose": "Lower the validated AST to canonical bytecode functions with a fail-closed subset check; every lowered function is verified by the bytecode verifier before it is returned.",
+          "inputs": [
+            "validated AST",
+            "compiler options",
+            "target profile"
+          ],
+          "outputs": [
+            "CompiledProgram of verified bytecode functions or LowerError"
+          ],
+          "failure_modes": [
+            "unsupported language construct outside the verified subset",
+            "entry-point ambiguity",
+            "lowering inconsistency caught by pre-return verification"
+          ],
+          "acceptance": [
+            "Every rejected construct yields a stable LowerError without panic",
+            "Each lowered function passes bytecode verification before return",
+            "Equivalent source yields identical canonical bytecode"
+          ],
+          "test_classes": [
+            "unit",
+            "golden",
+            "differential"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "crates/atc-core/src/lower.rs",
+            "symbol_or_entrypoint": "lower_program",
+            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "file_blob_sha": "ab3c28accab95339594fb5d797d83bc855ef0d0f",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/lower.rs",
+            "note": "SCR-0128 Stufe 1 lowering with fail-closed subset policy; CLI entry via crates/atc-core/src/main.rs; runtime correctness and completeness remain unverified."
+          }
+        },
+        {
+          "id": "FN-LANG-004",
+          "name": "Canonical bytecode encoding and verification",
+          "purpose": "Encode bytecode in the canonical wire contract (fixed opcode bytes, big-endian immediates) and verify every reachable path with a worklist-fixpoint verifier before any execution or artifact binding.",
+          "inputs": [
+            "Bytecode program or encoded bytecode stream"
+          ],
+          "outputs": [
+            "canonical encoded bytecode and/or structured VerifyError"
+          ],
+          "failure_modes": [
+            "unreachable or malformed instructions",
+            "out-of-bounds or inconsistent jump targets",
+            "stack-height inconsistency at join points"
+          ],
+          "acceptance": [
+            "Encoding is host-independent and deterministic",
+            "Verifier covers every reachable path with consistent stack heights",
+            "Signature-verified variant (verify_with_signatures) is exercised"
+          ],
+          "test_classes": [
+            "unit",
+            "property",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "crates/atc-core/src/bytecode.rs",
+            "symbol_or_entrypoint": "verify",
+            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "file_blob_sha": "d63ba13087a71d6f06ec44c0dc2496644906eeea",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/bytecode.rs",
+            "note": "G3 baseline canonical format, SCR-0128 Stufe 1 PC-relative jump model; wire contract conformance vs the normative VM specification remains pending."
+          }
+        },
+        {
+          "id": "FN-LANG-005",
+          "name": "Artifact envelope with hash binding",
+          "purpose": "Bind compiled programs into the canonical ATCA artifact envelope with metadata and SHA-256 payload binding; raw bytecode is not an L1-trusted artifact until the envelope is decoded and verified.",
+          "inputs": [
+            "CompiledProgram",
+            "ArtifactMetadata (language/compiler version, target profile, sorted capabilities)"
+          ],
+          "outputs": [
+            "encoded Artifact or VerifiedArtifact after decode_and_verify"
+          ],
+          "failure_modes": [
+            "magic/version mismatch",
+            "string, capability or size limits exceeded",
+            "hash/metadata mismatch on decode"
+          ],
+          "acceptance": [
+            "ATCA magic, version and limit checks reject malformed envelopes",
+            "Verified artifacts carry a reproducible SHA-256 payload binding",
+            "Round-trip encode/decode_and_verify is property-tested"
+          ],
+          "test_classes": [
+            "unit",
+            "property",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "crates/atc-core/src/artifact.rs",
+            "symbol_or_entrypoint": "decode_and_verify",
+            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "file_blob_sha": "1b98def2f848a51c147eaad13a39fd8154fa2b06",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/artifact.rs",
+            "note": "ATCA envelope v1 with fixed limits (16 MiB artifact, 255-byte strings, 64 capabilities); envelope verification is a precondition for VM execution."
+          }
+        },
+        {
+          "id": "FN-LANG-006",
+          "name": "ABI value and protocol type boundary",
+          "purpose": "Separate contract-visible ABI values (AbiType/TypedValue) from protocol/host metadata (ProtocolType/IrValue) so a protocol counter cannot accidentally become an economic contract value; ABI wire encoding is deliberately not implemented here.",
+          "inputs": [
+            "language-level values and type hints"
+          ],
+          "outputs": [
+            "typed ABI values or IR values with distinct semantic domains"
+          ],
+          "failure_modes": [
+            "type confusion across ABI and protocol domains",
+            "unsupported ABI type",
+            "lossy type coercion"
+          ],
+          "acceptance": [
+            "ABI and protocol types are never interchangeable",
+            "U256 arithmetic helpers are checked and deterministic",
+            "ABI wire encoding stays deferred to the ATC-ABI-001 conformance gate"
+          ],
+          "test_classes": [
+            "unit",
+            "property"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "crates/atc-core/src/value.rs",
+            "symbol_or_entrypoint": "AbiType",
+            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "file_blob_sha": "cb720e71cbdc26f01cae36388a99d6f2c1a5d8a0",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/value.rs",
+            "note": "Canonical ABI value contract; protocol boundary in crates/atc-core/src/ir.rs (ProtocolType/IrValue); ATC-ABI-001 remains draft."
+          }
+        },
+        {
+          "id": "FN-LANG-007",
+          "name": "Deterministic reference execution (reference only)",
+          "purpose": "Execute verified ATCLang bytecode on a deterministic stack machine with checked i64 arithmetic, fixed call depth and step limits, and no host access, clock or randomness. This is a reference execution surface for differential testing, not the canonical L1 execution engine.",
+          "inputs": [
+            "VerifiedArtifact",
+            "execution limits"
+          ],
+          "outputs": [
+            "deterministic execution result or structured RunError"
+          ],
+          "failure_modes": [
+            "division by zero",
+            "arithmetic overflow (checked, no wrap)",
+            "call depth or step limit exceeded"
+          ],
+          "acceptance": [
+            "No panic path: all failures are structured RunErrors",
+            "Identical inputs and limits produce identical outputs",
+            "Canonical production execution remains owned by a-townchain/components/vm"
+          ],
+          "test_classes": [
+            "unit",
+            "differential",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "crates/atc-core/src/vm.rs",
+            "symbol_or_entrypoint": "execute_verified",
+            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "file_blob_sha": "009bdec170527898957b9622cb29ec406f77ed81",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/vm.rs",
+            "note": "Reference-only stack machine per ATC-RUNTIME-CLASSIFICATION-001; runtime correctness remains unverified."
+          }
+        },
+        {
+          "id": "FN-LANG-008",
+          "name": "Differential parser and corpus conformance",
+          "purpose": "Prove byte-identical canonical JSON serialization between the Rust parser and the reference expectations generated from the Python reference parser over a shared corpus (SCR-0084); the corpus files under differential/ are the conformance fixtures.",
+          "inputs": [
+            "differential/corpus/*.atc sources",
+            "differential/expected/*.json expectations"
+          ],
+          "outputs": [
+            "pass/fail per corpus file with canonical serialization comparison"
+          ],
+          "failure_modes": [
+            "serialization drift between parser and expectations",
+            "missing or malformed corpus fixture",
+            "nondeterministic output"
+          ],
+          "acceptance": [
+            "Every corpus file has an expectation and passes byte-identical",
+            "Golden and negative corpus cases are covered",
+            "New language constructs extend corpus and expectations together"
+          ],
+          "test_classes": [
+            "differential",
+            "golden"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "crates/atc-core/tests/differential.rs",
+            "symbol_or_entrypoint": "differential_gemeinsamer_subset",
+            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "file_blob_sha": "5f588cb83291ea1be90ef455a15f9d6bce8bd193",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/tests/differential.rs",
+            "note": "Test-surface binding; the census scanner extracted no symbols from this test file, so the lexical match is pending. Expectations were generated by tools/differential/dump_reference.py from the Python reference parser."
+          }
+        },
+        {
+          "id": "FN-LANG-009",
+          "name": "Standard library reference conformance",
+          "purpose": "Provide the deterministic, pure reference implementation of the standard library (checked arithmetic, canonical big-endian wire helpers, SHA-256) as a differential conformance reference per ATC-STDLIB-CONTRACT-001; it is never a consensus/runtime trust anchor.",
+          "inputs": [
+            "stdlib operation invocations with typed values"
+          ],
+          "outputs": [
+            "deterministic reference results"
+          ],
+          "failure_modes": [
+            "overflow/underflow (fail-closed)",
+            "non-canonical byte encoding",
+            "impure or nondeterministic operation"
+          ],
+          "acceptance": [
+            "Rust-only reference policy (2026-09-17) holds: no Python reference remains",
+            "Big-endian wire format with 4-byte length prefix is stable",
+            "Reference role is documented and excludes runtime trust"
+          ],
+          "test_classes": [
+            "differential",
+            "unit",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "crates/atc-core/tests/stdlib_reference_conformance.rs",
+            "symbol_or_entrypoint": "encode_be",
+            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "file_blob_sha": "a7ada9f5e3c8597ca647cec206201e1ef0ede68c",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/tests/stdlib_reference_conformance.rs",
+            "note": "Census-verified test symbol; REFERENCE-only role per ATC-RUNTIME-CLASSIFICATION-001; replaced the former Python reference (Rust-only policy 2026-09-17)."
+          }
+        },
+        {
+          "id": "FN-LANG-010",
+          "name": "Determinism gate tooling",
+          "purpose": "Enforce repository determinism policy: tokenize-based code scan for wall-clock/RNG/system sources with a justified allowlist, plus byte-identical double test runs (REQ-ENG-012); fail-closed on any new unallowlisted occurrence.",
+          "inputs": [
+            "repository sources",
+            "determinism_allowlist.yaml",
+            "test suite invocation"
+          ],
+          "outputs": [
+            "gate verdict (exit 0 only with zero unallowlisted findings and identical double-run outputs)"
+          ],
+          "failure_modes": [
+            "unallowlisted wall-clock/RNG usage",
+            "divergent double-run outputs",
+            "allowlist without justification"
+          ],
+          "acceptance": [
+            "Tokenize-based scan produces no comment/string false positives",
+            "Every allowlist entry carries a justification",
+            "Double-run byte comparison is recorded as evidence"
+          ],
+          "test_classes": [
+            "unit",
+            "e2e",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "tools/determinism_check.py",
+            "symbol_or_entrypoint": "main",
+            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "file_blob_sha": "1d360ba239362a3b7cabfa99e17f2299786ae0a1",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/tools/determinism_check.py",
+            "note": "ATC Determinism Gate v2 per ATC-STD-ENG-001 REQ-ENG-002 (SCR-0126); self-exclusion and allowlist with justification duty."
+          }
         }
       ],
       "source_inventory": {
@@ -401,10 +694,21 @@
         "observed_tree_sha": "4649b749ce4be530a2acdf1c5446df4752d73198",
         "census_date": "2026-10-11",
         "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atclang/commits/main",
-        "source_paths_examined": [],
+        "source_paths_examined": [
+          "crates/atc-core/src/artifact.rs",
+          "crates/atc-core/src/bytecode.rs",
+          "crates/atc-core/src/lower.rs",
+          "crates/atc-core/src/native.rs",
+          "crates/atc-core/src/parser.rs",
+          "crates/atc-core/src/value.rs",
+          "crates/atc-core/src/vm.rs",
+          "crates/atc-core/tests/differential.rs",
+          "crates/atc-core/tests/stdlib_reference_conformance.rs",
+          "tools/determinism_check.py"
+        ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Census SHA recorded; ATCLang completeness pass 2026-10-12 enumerated the compiler pipeline from inspected source and bound all catalog functions (8 added). Lexical mapping is not functional verification; deep verification of the language surface against specs/ remains RESIDUAL."
       }
     },
     {
