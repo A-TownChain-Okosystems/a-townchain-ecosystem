@@ -173,7 +173,7 @@ These changes affect only the catalog, source census, reconciliation tooling and
 
 The catalog was expanded from 114 to **139 records**: 18 additional ShivaCore kernel contracts and 7 additional GlobusOS service/platform contracts. These are contract definitions with exact path/symbol bindings at source SHA `7dbc7753032016cf6aeaf1a99807cd9c5173d090`; each remains `RESIDUAL`, not functionally verified.
 
-Successful reconciliation run: [#38319988637](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319988637). Artifact: [census and function reconciliation JSON](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319988637/artifacts/11778062105).
+Successful reconciliation run: [#38320206333](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38320206333). Artifact: [census and function reconciliation JSON](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38320206333/artifacts/11778097539).
 
 - 139 catalog records; 107 exact path/symbol lexical matches.
 - 11,863 candidate symbols in scope; 107 bound, 10,815 unbound, 941 test/example candidates excluded by documented policy.
