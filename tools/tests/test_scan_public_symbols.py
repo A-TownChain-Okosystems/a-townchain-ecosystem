@@ -48,7 +48,7 @@ class PublicSymbolScanTests(unittest.TestCase):
             paths = {entry["path"] for entry in report["files"]}
             self.assertIn("src/lib.rs", paths)
             self.assertNotIn("archive/old.rs", paths)
-            self.assertEqual(report["summary"]["source_files_excluded_by_scope"], 1)
+            self.assertEqual(report["summary"]["files_excluded_by_scope"], 1)
             self.assertEqual(report["scope_exclusions"][0]["files_excluded"], 1)
             self.assertEqual(report["scope_exclusions"][0]["reason"], "historical mirror")
 
