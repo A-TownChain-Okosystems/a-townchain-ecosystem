@@ -38,6 +38,26 @@ class PublicSymbolScanTests(unittest.TestCase):
             self.assertEqual(report["functional_verification"], "NOT_PERFORMED")
 
 
+
+    def test_duplicate_rust_functions_keep_distinct_line_identity(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "src").mkdir()
+            (root / "src" / "lib.rs").write_text(
+                "impl First {\\n"
+                "  pub fn new() -> Self { Self }\\n"
+                "}\\n"
+                "impl Second {\\n"
+                "  pub fn new() -> Self { Self }\\n"
+                "}\\n",
+                encoding="utf-8",
+            )
+            report = scan(root, "example/repo", "a" * 40)
+            candidates = [x for x in report["files"][0]["candidate_public_symbols"] if x["name"] == "new"]
+            self.assertEqual(len(candidates), 2)
+            self.assertNotEqual(candidates[0]["line_start"], candidates[1]["line_start"])
+            self.assertTrue(all(x["signature"].startswith("pub fn new") for x in candidates))
+
     def test_typescript_internal_helpers_are_discovered_separately(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
