@@ -43,16 +43,16 @@ class PublicSymbolScanTests(unittest.TestCase):
             root = Path(temp)
             (root / "src").mkdir()
             (root / "src" / "chain.ts").write_text(
-                "function pushU64BE(out: number[], value: bigint): void {\\n"
-                "  out.push(Number(value));\\n"
-                "}\\n"
-                "export function canonicalSigningPreimage(): Uint8Array {\\n"
-                "  return new Uint8Array();\\n"
-                "}\\n"
-                "export class Api {\\n"
-                "  private decode(value: string): string { return value; }\\n"
-                "  public encode(value: string): string { return value; }\\n"
-                "}\\n",
+                "function pushU64BE(out: number[], value: bigint): void {\n"
+                "  out.push(Number(value));\n"
+                "}\n"
+                "export function canonicalSigningPreimage(): Uint8Array {\n"
+                "  return new Uint8Array();\n"
+                "}\n"
+                "export class Api {\n"
+                "  private decode(value: string): string { return value; }\n"
+                "  public encode(value: string): string { return value; }\n"
+                "}\n",
                 encoding="utf-8",
             )
             report = scan(root, "example/repo", "f" * 40)
