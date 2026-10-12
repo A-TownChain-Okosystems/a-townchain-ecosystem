@@ -1,8 +1,8 @@
 {
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
-  "catalog_date": "2026-10-12",
-  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed.",
+  "catalog_date": "2026-10-13",
+  "catalog_revision_note": "Expanded from source-bound baseline to include explicit L1 chain and consensus decision contracts before further implementation work. Newly added contracts remain NOT_SOURCE_VERIFIED; no code or readiness claim is implied.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -2203,6 +2203,944 @@
               "log_or_artifact_url"
             ]
           }
+        },
+        {
+          "id": "FN-CHAIN-004",
+          "name": "Genesis and chain-configuration validation",
+          "purpose": "Validate chain identity, genesis parameters, protocol version and configuration consistency before canonical state initializes.",
+          "inputs": [
+            "chain configuration",
+            "genesis document",
+            "protocol/version registry"
+          ],
+          "outputs": [
+            "validated configuration or typed rejection"
+          ],
+          "failure_modes": [
+            "unknown chain ID",
+            "conflicting parameters",
+            "malformed genesis",
+            "unsupported protocol version"
+          ],
+          "acceptance": [
+            "Validate chain identity and genesis before state initialization",
+            "Conflicting or missing normative values fail closed",
+            "Genesis identity is reproducible from canonical inputs",
+            "No consensus parameters are inferred from defaults"
+          ],
+          "test_classes": [
+            "unit",
+            "schema",
+            "golden-vectors",
+            "negative",
+            "multi-node"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-005",
+          "name": "Canonical transaction decode and encode",
+          "purpose": "Decode and encode transaction envelopes with one canonical byte representation and reject ambiguous encodings.",
+          "inputs": [
+            "transaction bytes or typed transaction",
+            "protocol version"
+          ],
+          "outputs": [
+            "typed transaction or canonical bytes"
+          ],
+          "failure_modes": [
+            "truncated input",
+            "unknown version",
+            "noncanonical length",
+            "integer overflow",
+            "trailing bytes"
+          ],
+          "acceptance": [
+            "Round-trip encoding is canonical and deterministic",
+            "Malformed or trailing bytes are rejected",
+            "Integer widths and byte order are explicit",
+            "Golden vectors are shared across clients"
+          ],
+          "test_classes": [
+            "unit",
+            "vectors",
+            "property",
+            "fuzz",
+            "compatibility"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-006",
+          "name": "Nonce and replay protection",
+          "purpose": "Enforce transaction sequence/nonce rules against canonical sender state and reject replayed transactions.",
+          "inputs": [
+            "sender identity",
+            "transaction nonce/sequence",
+            "canonical state",
+            "chain context"
+          ],
+          "outputs": [
+            "accepted sequence decision or typed rejection"
+          ],
+          "failure_modes": [
+            "replay",
+            "stale nonce",
+            "forbidden nonce gap",
+            "counter overflow",
+            "state unavailable"
+          ],
+          "acceptance": [
+            "Replay policy is normative and versioned",
+            "Nonce comparison is overflow-safe",
+            "Concurrent submissions cannot bypass canonical state checks",
+            "Reorg/replay behavior is tested"
+          ],
+          "test_classes": [
+            "unit",
+            "property",
+            "concurrency",
+            "reorg",
+            "adversarial"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-007",
+          "name": "Fee calculation and fee affordability",
+          "purpose": "Calculate protocol fees deterministically and ensure the sender can cover them before state mutation.",
+          "inputs": [
+            "canonical transaction",
+            "fee schedule/version",
+            "resource estimate",
+            "sender balance"
+          ],
+          "outputs": [
+            "fee amount and affordability decision or typed rejection"
+          ],
+          "failure_modes": [
+            "unknown fee schedule",
+            "arithmetic overflow",
+            "insufficient balance",
+            "resource estimate mismatch"
+          ],
+          "acceptance": [
+            "Fee arithmetic uses exact integer units",
+            "Fee schedule is versioned and deterministic",
+            "Insufficient-fee transactions do not mutate state",
+            "Boundary and overflow vectors pass"
+          ],
+          "test_classes": [
+            "unit",
+            "vectors",
+            "property",
+            "negative",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-008",
+          "name": "Transaction-pool admission and deterministic ordering",
+          "purpose": "Admit, reject and order pending transactions under bounded resource and conflict rules without changing canonical state.",
+          "inputs": [
+            "validated transaction",
+            "pool state",
+            "resource budget",
+            "chain context"
+          ],
+          "outputs": [
+            "admission result and deterministic candidate ordering"
+          ],
+          "failure_modes": [
+            "duplicate transaction",
+            "nonce conflict",
+            "capacity exhaustion",
+            "expired transaction",
+            "invalid fee"
+          ],
+          "acceptance": [
+            "Pool admission never substitutes for canonical block validation",
+            "Ordering and tie-break rules are explicit and deterministic",
+            "Pool count/memory limits are enforced",
+            "Eviction and retry behavior are documented"
+          ],
+          "test_classes": [
+            "unit",
+            "property",
+            "stress",
+            "multi-node",
+            "adversarial"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-009",
+          "name": "Block candidate construction",
+          "purpose": "Construct a candidate block from eligible transactions and parent state under protocol limits.",
+          "inputs": [
+            "parent block/state",
+            "eligible transactions",
+            "block resource limits",
+            "consensus proposal context"
+          ],
+          "outputs": [
+            "candidate block or typed failure"
+          ],
+          "failure_modes": [
+            "invalid parent",
+            "resource limit exceeded",
+            "invalid transaction",
+            "nondeterministic ordering",
+            "inconsistent state root"
+          ],
+          "acceptance": [
+            "Construction follows the approved protocol contract",
+            "Resource limits are enforced before finalization",
+            "Included transactions are revalidated by canonical rules",
+            "Output serialization is deterministic"
+          ],
+          "test_classes": [
+            "unit",
+            "vectors",
+            "property",
+            "integration",
+            "multi-node"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-010",
+          "name": "Transactional state overlay and commit/rollback",
+          "purpose": "Apply candidate transaction effects in an isolated overlay and commit atomically only after invariants pass.",
+          "inputs": [
+            "parent state",
+            "ordered transactions",
+            "execution results",
+            "commit policy"
+          ],
+          "outputs": [
+            "new state/root or rollback with typed error"
+          ],
+          "failure_modes": [
+            "partial mutation",
+            "state-root mismatch",
+            "storage failure",
+            "overflow",
+            "execution rejection"
+          ],
+          "acceptance": [
+            "Failed block application leaves canonical state unchanged",
+            "Commit/rollback is atomic or recoverable",
+            "State root matches deterministic recomputation",
+            "Fault-injection and crash-recovery tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "property",
+            "fault-injection",
+            "recovery",
+            "multi-node"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-011",
+          "name": "Ledger balance and supply invariants",
+          "purpose": "Validate balance conservation, issuance/burn rules and supply bounds for each accepted state transition.",
+          "inputs": [
+            "pre-state ledger",
+            "transaction effects",
+            "issuance/reward effects",
+            "protocol supply limits"
+          ],
+          "outputs": [
+            "invariant result and updated ledger or typed rejection"
+          ],
+          "failure_modes": [
+            "negative balance",
+            "supply overflow",
+            "unauthorized issuance",
+            "double debit/credit",
+            "precision loss"
+          ],
+          "acceptance": [
+            "No transition creates/destroys value outside explicit protocol rules",
+            "Supply cannot exceed normative maximum",
+            "Amount arithmetic is exact and overflow-safe",
+            "Mint/burn/reward paths have boundary vectors"
+          ],
+          "test_classes": [
+            "unit",
+            "invariants",
+            "property",
+            "adversarial",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-012",
+          "name": "Canonical block persistence and retrieval",
+          "purpose": "Persist accepted blocks and retrieve them by canonical identity while detecting corrupt or incomplete records.",
+          "inputs": [
+            "validated block",
+            "parent reference",
+            "state/root metadata",
+            "storage interface"
+          ],
+          "outputs": [
+            "durable block record or typed storage error"
+          ],
+          "failure_modes": [
+            "duplicate/conflicting block ID",
+            "partial write",
+            "corrupt record",
+            "storage unavailable"
+          ],
+          "acceptance": [
+            "Durability/atomicity guarantees are documented",
+            "Read-after-write returns identical canonical bytes",
+            "Corrupt or incomplete records fail closed",
+            "Recovery tests cover interrupted writes"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "fault-injection",
+            "recovery"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-013",
+          "name": "Chain synchronization and reorganization recovery",
+          "purpose": "Synchronize headers/blocks and recover from a competing branch according to approved protocol rules.",
+          "inputs": [
+            "local chain state",
+            "remote peer data",
+            "fork-choice/finality contract",
+            "resource limits"
+          ],
+          "outputs": [
+            "synchronized state or explicit rejection/deferred status"
+          ],
+          "failure_modes": [
+            "invalid ancestry",
+            "conflicting finalized history",
+            "resource exhaustion",
+            "peer equivocation",
+            "state replay failure"
+          ],
+          "acceptance": [
+            "Fork-choice/finality link to approved decision record",
+            "Invalid remote data cannot mutate canonical state",
+            "Reorganization is atomic or rollback-safe",
+            "Sync is bounded and resumable"
+          ],
+          "test_classes": [
+            "multi-node",
+            "simulation",
+            "adversarial",
+            "fault-injection",
+            "recovery"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-014",
+          "name": "Protocol-version and upgrade gating",
+          "purpose": "Select and validate protocol rules at an explicit activation boundary, rejecting unsupported or ambiguous versions.",
+          "inputs": [
+            "block height/epoch",
+            "declared protocol version",
+            "upgrade schedule",
+            "supported rule registry"
+          ],
+          "outputs": [
+            "active rule set or typed rejection"
+          ],
+          "failure_modes": [
+            "unknown version",
+            "conflicting activation",
+            "downgrade attempt",
+            "missing activation evidence"
+          ],
+          "acceptance": [
+            "Activation rules are deterministic and versioned",
+            "No silent fallback to different rules",
+            "Mixed-version boundary tests cover both sides",
+            "Upgrade decisions link to approved standards"
+          ],
+          "test_classes": [
+            "unit",
+            "vectors",
+            "compatibility",
+            "multi-node",
+            "governance"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
         }
       ],
       "source_inventory": {
@@ -2439,6 +3377,429 @@
             "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-ALGO-003",
+          "name": "Consensus protocol and parameter decision gate",
+          "purpose": "Expose a machine-readable gate for the selected consensus protocol and parameters; remain blocked until an authoritative decision is approved.",
+          "inputs": [
+            "candidate protocol specification",
+            "parameter set",
+            "decision record/version"
+          ],
+          "outputs": [
+            "approved protocol reference or BLOCKED decision"
+          ],
+          "failure_modes": [
+            "missing decision record",
+            "conflicting specification",
+            "unversioned parameters",
+            "unsupported protocol version"
+          ],
+          "acceptance": [
+            "PoH/PoW/PoS/PoI alternatives are not finalized without explicit decision evidence",
+            "No default silently selects consensus semantics",
+            "Decision record is versioned and linked to vectors"
+          ],
+          "test_classes": [
+            "schema",
+            "governance",
+            "consistency",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-ALGO-004",
+          "name": "Consensus evidence/proof validation",
+          "purpose": "Validate consensus-specific proofs/evidence against the active approved protocol version.",
+          "inputs": [
+            "proof/evidence bytes",
+            "candidate block/context",
+            "approved protocol version"
+          ],
+          "outputs": [
+            "valid/invalid decision with typed reason"
+          ],
+          "failure_modes": [
+            "malformed proof",
+            "wrong domain/version",
+            "replay",
+            "invalid parameters",
+            "nondeterministic result"
+          ],
+          "acceptance": [
+            "Rules are specified only after protocol decision is frozen",
+            "Domain/version binding is explicit",
+            "Invalid evidence is rejected deterministically",
+            "Golden and adversarial vectors are required"
+          ],
+          "test_classes": [
+            "unit",
+            "vectors",
+            "fuzz",
+            "property",
+            "adversarial"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-ALGO-005",
+          "name": "Participant eligibility and weight normalization",
+          "purpose": "Derive eligible participants and normalized weights using explicit protocol inputs and overflow-safe arithmetic.",
+          "inputs": [
+            "participant registry",
+            "eligibility/stake/identity state",
+            "epoch/round context",
+            "approved selection rules"
+          ],
+          "outputs": [
+            "canonical eligible set and normalized weights"
+          ],
+          "failure_modes": [
+            "duplicate identity",
+            "invalid stake",
+            "overflow",
+            "zero total weight",
+            "stale registry"
+          ],
+          "acceptance": [
+            "Eligibility rules are normative and versioned",
+            "Normalization is deterministic under the selected algorithm",
+            "Overflow and zero-denominator cases fail closed",
+            "Cross-platform vectors match"
+          ],
+          "test_classes": [
+            "unit",
+            "vectors",
+            "property",
+            "simulation",
+            "adversarial"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-ALGO-006",
+          "name": "Consensus vote, quorum and finality transition",
+          "purpose": "Evaluate vote aggregation/finality only if the selected protocol defines these concepts and thresholds.",
+          "inputs": [
+            "prior consensus state",
+            "votes/attestations",
+            "participant weights",
+            "approved protocol rules"
+          ],
+          "outputs": [
+            "next consensus state or typed rejection"
+          ],
+          "failure_modes": [
+            "insufficient quorum",
+            "duplicate vote",
+            "conflicting vote",
+            "stale round",
+            "overflow"
+          ],
+          "acceptance": [
+            "Quorum/finality semantics remain BLOCKED until normative approval",
+            "Duplicate/conflicting votes are deterministic",
+            "Safety/liveness assumptions are explicit",
+            "Adversarial simulations and vectors pass"
+          ],
+          "test_classes": [
+            "unit",
+            "simulation",
+            "property",
+            "adversarial",
+            "multi-node"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-ALGO-007",
+          "name": "Fork-choice and safety/liveness decision",
+          "purpose": "Compare competing chain candidates under approved consensus rules and expose explicit unresolved/unsafe states.",
+          "inputs": [
+            "candidate chain tips",
+            "validated proof/state",
+            "finality context",
+            "approved fork-choice rules"
+          ],
+          "outputs": [
+            "deterministic preference or explicit no-decision"
+          ],
+          "failure_modes": [
+            "conflicting finality",
+            "equal score without tie-break",
+            "invalid ancestry",
+            "protocol mismatch"
+          ],
+          "acceptance": [
+            "No implicit fork-choice rule is assumed",
+            "Tie-break behavior is deterministic and versioned",
+            "Conflicting finalized history fails closed",
+            "Safety/liveness tests cover network partitions"
+          ],
+          "test_classes": [
+            "simulation",
+            "property",
+            "adversarial",
+            "multi-node"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "NOT_SOURCE_VERIFIED",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
+            "exact_source_sha": null,
+            "evidence": null,
+            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific preconditions and caller/state assumptions require normative and source review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state transitions and invariants require explicit contract review and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Bounds, timeout, memory/operation limits and exhaustion semantics are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust boundaries, authorization, malformed input and fail-closed behavior require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version, compatibility and deprecation behavior require a versioned normative decision."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
+            "source_sha": null,
+            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -11306,10 +12667,10 @@
     "archived_repository_count": 7,
     "coverage_state": "REPOSITORY_CENSUS_RECORDED_FUNCTION_SOURCE_RECONCILIATION_PENDING",
     "source_registry": "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json",
-    "rule": "Repository and component census entries are not proof of function completeness. Every component records its observed source repository/head and every catalog function records source_binding status; only source paths, exported symbols/entrypoints and exact-SHA evidence can advance these fields. Unknown functions must be added; unrepresented files/functions require a reasoned exclusion.",
+    "rule": "Every function contract must be source-bound or explicitly marked not source-verified; the catalog is not complete until public/exported symbols, relevant internal functions, RPC/CLI/event surfaces, tests, generated/declarative .atc surfaces, and reasoned exclusions are reconciled at exact SHAs. Added normative contracts do not assert implementation presence.",
     "function_inventory_status": "SOURCE_RECONCILIATION_PENDING",
     "component_source_bindings": 30,
-    "function_source_bindings": 63,
+    "function_source_bindings": 114,
     "source_verified_components": 0,
     "source_verified_functions": 0,
     "selected_source_files_examined": 10,
