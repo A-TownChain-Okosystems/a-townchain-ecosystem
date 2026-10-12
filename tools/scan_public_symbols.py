@@ -297,13 +297,13 @@ def scan(root: Path, repository: str, source_sha: str, scope_exclusions: list[di
                 # Exclude common test-only/private symbols from the public API candidate set.
                 if language == "python" and name.startswith("_"):
                     continue
-                line_start = scan_source.count("\\n", 0, match.start()) + 1
+                line_start = scan_source.count("\n", 0, match.start()) + 1
                 signature = source_lines[line_start - 1].strip()[:300] if line_start <= len(source_lines) else name
                 found[(kind, name, line_start)] = signature
         if language == "rust":
             for match in RUST_INTERNAL_FUNCTION_PATTERN.finditer(scan_source):
                 name = match.group(1)
-                line_start = scan_source.count("\\n", 0, match.start()) + 1
+                line_start = scan_source.count("\n", 0, match.start()) + 1
                 signature = source_lines[line_start - 1].strip()[:300] if line_start <= len(source_lines) else name
                 key = ("function", name, line_start)
                 if key not in found:
@@ -312,7 +312,7 @@ def scan(root: Path, repository: str, source_sha: str, scope_exclusions: list[di
             for pattern in TYPESCRIPT_INTERNAL_FUNCTION_PATTERNS[language]:
                 for match in pattern.finditer(scan_source):
                     name = match.group(1)
-                    line_start = scan_source.count("\\n", 0, match.start()) + 1
+                    line_start = scan_source.count("\n", 0, match.start()) + 1
                     signature = source_lines[line_start - 1].strip()[:300] if line_start <= len(source_lines) else name
                     key = ("function", name, line_start)
                     if key not in found:
