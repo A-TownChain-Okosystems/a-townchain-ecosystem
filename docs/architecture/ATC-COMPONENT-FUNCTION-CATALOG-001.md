@@ -65,7 +65,7 @@ The validator's `PASS_STRUCTURAL_ONLY` means the registry is structurally consis
 
 The machine-readable catalog currently defines **30 components**, **71 functions**, **7 cross-component interfaces** and **7 production gates**. It also includes a `repository_coverage` entry for all **33 observed repositories** from the organization integration registry: **26 active** and **7 archived**. The validator checks unique full repository names, archive-state totals and the required fail-closed status of each entry.
 
-This is deliberately not equivalent to 33 complete function inventories. The current catalog defines 30 component records and 63 function contracts across core, developer tooling, node/service and application domains. Every remaining active repository is still `RESIDUAL` / `AUDIT_REQUIRED` until its actual source tree, README/specs, exported APIs, tests, dependencies and exact-SHA CI evidence are inspected. Archived repositories are `REFERENCE_ONLY`, not active production targets. The audit must not invent functions from repository names.
+This is deliberately not equivalent to 33 complete function inventories. The current catalog defines 30 component records and 71 function contracts across core, developer tooling, node/service and application domains. Every remaining active repository is still `RESIDUAL` / `AUDIT_REQUIRED` until its actual source tree, README/specs, exported APIs, tests, dependencies and exact-SHA CI evidence are inspected. Archived repositories are `REFERENCE_ONLY`, not active production targets. The audit must not invent functions from repository names.
 
 Next audit passes must add repository-specific function IDs and interface contracts for the remaining active domains, including SDK, node, contracts, ZKP, storage/compute services, oracle/interop, applications, organization governance and repository orchestration. Migration candidates require source-to-canonical path/history evidence before KEEP/SYNC/ARCHIVE decisions.
 
@@ -74,7 +74,7 @@ Next audit passes must add repository-specific function IDs and interface contra
 
 A full organization census (26/26 active repositories scanned, 4,917 source files, 35,550 candidate public symbols) was reconciled against this catalog. Results:
 
-- **All 63 function contracts now carry explicit source records.** 58 previously unbound functions were bound conservatively to census-verified files at exact SHAs (`SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED`); 46 of these are census-verified lexical matches (`LEXICAL_MATCH_ONLY`, functional verification pending).
+- **All function contracts now carry explicit source records** (63 at the time of the first supplement, 71 after the ATCLang pass below). 58 previously unbound functions were bound conservatively to census-verified files at exact SHAs (`SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED`); 46 of these were census-verified lexical matches (`LEXICAL_MATCH_ONLY`, functional verification pending).
 - **12 bindings target specification, documentation, data or ATCLang (`.atc`) files** the census scanner cannot lexically verify. These remain explicit residuals, not silent omissions.
 - **5 records are explicit blocked entries:** 2 archived-repository functions (atc-storage, `BLOCKED_ARCHIVED_REFERENCE_ONLY`), 2 demo-fixture functions (`NO_SOURCE_SYMBOLS_IN_CENSUS`) and 1 atc-toolchain function with no identified compile/package surface (`SOURCE_SURFACE_NOT_IDENTIFIED`).
 - **Component and repository census SHAs refreshed** to the 2026-10-12 census; 0 SHA mismatches remain between the catalog and the census.
@@ -82,13 +82,18 @@ A full organization census (26/26 active repositories scanned, 4,917 source file
 
 Lexical mapping is not functional verification. Readiness states remain `RESIDUAL`; the release decision remains `BLOCKED`.
 
-### Source binding states (after supplement)
+### Source binding states
 
-| Binding state | Functions |
-|---|---|
-| Census-verified lexical match (verification pending) | 46 |
-| Mapped to spec/doc/data/`.atc` file (not lexically verifiable) | 12 |
-| Explicit blocked record (archived/fixture/no surface) | 5 |
+Reconciliation against the 2026-10-12 census (`tools/reconcile_component_function_catalog.py`, functional verification `NOT_PERFORMED`):
+
+| Binding state | After first supplement (63) | After ATCLang pass (71) |
+|---|---|---|
+| Census-verified lexical match (functional verification pending) | 46 | 53 |
+| Bound file/symbol not found by the lexical scan (spec/doc/data/`.atc`/test files) | 12 | 13 |
+| Explicit blocked record (archived/fixture/no surface) | 5 | 5 |
+| **Total functions** | **63** | **71** |
+
+Catalog-side `source_binding.status` values: 66 `SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED`, 2 `BLOCKED_ARCHIVED_REFERENCE_ONLY`, 2 `NO_SOURCE_SYMBOLS_IN_CENSUS`, 1 `SOURCE_SURFACE_NOT_IDENTIFIED`.
 
 
 ### ATCLang completeness pass 2026-10-12
@@ -102,7 +107,7 @@ The ATCLang component (`COMP-LANG`) was audited against the full atclang reposit
 | FN-LANG-005 Artifact envelope with hash binding (ATCA) | `crates/atc-core/src/artifact.rs` (`decode_and_verify`) | yes |
 | FN-LANG-006 ABI value and protocol type boundary | `crates/atc-core/src/value.rs` (`AbiType`, plus `ir.rs` IR boundary) | yes |
 | FN-LANG-007 Deterministic reference execution (reference only) | `crates/atc-core/src/vm.rs` (`execute_verified`) | yes |
-| FN-LANG-008 Differential parser and corpus conformance | `crates/atc-core/tests/differential.rs` | test file not symbol-scanned |
+| FN-LANG-008 Differential parser and corpus conformance | `crates/atc-core/tests/differential.rs` | no (test file not symbol-scanned; counted in the 13 above) |
 | FN-LANG-009 Standard library reference conformance | `crates/atc-core/tests/stdlib_reference_conformance.rs` (`encode_be`) | yes |
 | FN-LANG-010 Determinism gate tooling | `tools/determinism_check.py` (`main`) | yes |
 
