@@ -43,11 +43,11 @@ class PublicSymbolScanTests(unittest.TestCase):
             root = Path(temp)
             (root / "src").mkdir()
             (root / "src" / "lib.rs").write_text(
-                "pub fn run() {}\\n"
-                "#[cfg(test)]\\nmod tests {\\n"
-                "  #[test] fn regression_case() {}\\n"
-                "  fn helper_only_for_tests() {}\\n"
-                "}\\n",
+                "pub fn run() {}\n"
+                "#[cfg(test)]\nmod tests {\n"
+                "  #[test] fn regression_case() {}\n"
+                "  fn helper_only_for_tests() {}\n"
+                "}\n",
                 encoding="utf-8",
             )
             report = scan(root, "example/repo", "d" * 40)
@@ -66,9 +66,9 @@ class PublicSymbolScanTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             (root / "archive").mkdir()
-            (root / "archive" / "old.rs").write_text("pub fn old_api() {}\\n", encoding="utf-8")
+            (root / "archive" / "old.rs").write_text("pub fn old_api() {}\n", encoding="utf-8")
             (root / "src").mkdir()
-            (root / "src" / "lib.rs").write_text("pub fn live_api() {}\\n", encoding="utf-8")
+            (root / "src" / "lib.rs").write_text("pub fn live_api() {}\n", encoding="utf-8")
             report = scan(root, "example/repo", "a" * 40, [{"path": "archive/", "reason": "historical mirror"}])
             paths = {entry["path"] for entry in report["files"]}
             self.assertIn("src/lib.rs", paths)
@@ -97,7 +97,7 @@ class PublicSymbolScanTests(unittest.TestCase):
     def test_cli_rejects_source_sha_that_differs_from_git_head(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
-            (root / "lib.rs").write_text("pub fn execute() {}\\n", encoding="utf-8")
+            (root / "lib.rs").write_text("pub fn execute() {}\n", encoding="utf-8")
             subprocess.run(["git", "-C", str(root), "init"], check=True, capture_output=True)
             subprocess.run(["git", "-C", str(root), "config", "user.email", "test@example.invalid"], check=True)
             subprocess.run(["git", "-C", str(root), "config", "user.name", "Scanner Test"], check=True)
