@@ -33,6 +33,7 @@ def run_census(workspace: Path, manifest: dict) -> dict:
     repositories = []
     active_total = sum(1 for r in manifest["repositories"] if not r.get("archived", False))
     scanned_active = 0
+    excluded_private = 0
     for item in sorted(manifest["repositories"], key=lambda r: r["name"].lower()):
         name = item["name"]
         active = not item.get("archived", False)
@@ -41,6 +42,7 @@ def run_census(workspace: Path, manifest: dict) -> dict:
             "repository": f'{manifest["owner"]}/{name}',
             "name": name,
             "archived": not active,
+            "private": bool(item.get("private", False)),
             "expected_role": item.get("role", "UNCLASSIFIED"),
             "status": "BLOCKED",
             "source_sha": None,
@@ -50,6 +52,17 @@ def run_census(workspace: Path, manifest: dict) -> dict:
             "residuals": [],
         }
         if not root.is_dir() or not (root / ".git").exists():
+            if active and item.get("private"):
+                # Documented exclusion, not a silent omission: a private
+                # repository without CI credentials cannot be cloned by the
+                # census workflow. It is recorded as excluded and counted
+                # separately; the overall census stays RESIDUAL only when
+                # every non-excluded active repository is scanned.
+                entry["status"] = "EXCLUDED_PRIVATE_NO_CI_ACCESS"
+                entry["residuals"].append("PRIVATE_REPOSITORY_EXCLUDED_NO_CI_ACCESS")
+                excluded_private += 1
+                repositories.append(entry)
+                continue
             entry["residuals"].append("CHECKOUT_MISSING")
             repositories.append(entry)
             continue
@@ -89,13 +102,14 @@ def run_census(workspace: Path, manifest: dict) -> dict:
         "schema_version": "1.0.0",
         "owner": manifest["owner"],
         "catalog_ref": manifest.get("catalog_ref"),
-        "status": "RESIDUAL" if not missing_active and scanned_active == active_total else "BLOCKED",
+        "status": "RESIDUAL" if not missing_active and scanned_active + excluded_private == active_total else "BLOCKED",
         "functional_verification": "NOT_PERFORMED",
         "summary": {
             "repositories_expected": len(repositories),
             "active_expected": active_total,
             "active_scanned": scanned_active,
             "active_blocked": len(missing_active),
+            "active_excluded_private": excluded_private,
             "archived_reference_repositories": sum(1 for r in repositories if r["archived"]),
             "source_files_scanned": sum((r["summary"] or {}).get("source_files_scanned", 0) for r in repositories),
             "candidate_public_symbols": sum((r["summary"] or {}).get("candidate_public_symbols", 0) for r in repositories),
@@ -105,7 +119,8 @@ def run_census(workspace: Path, manifest: dict) -> dict:
             "A clean checkout and symbol scan are source-inventory evidence, not functional verification.",
             "Regex discovery may miss generated, macro-expanded, dynamic, conditional, or indirect entrypoints.",
             "Catalog reconciliation, canonical ownership review, contract checks, tests, and exact-SHA CI evidence remain separate required gates.",
-            "Archived repositories are recorded as historical reference only and are not counted as active coverage."
+            "Archived repositories are recorded as historical reference only and are not counted as active coverage.",
+            "Private repositories without CI credential access are recorded as EXCLUDED_PRIVATE_NO_CI_ACCESS and counted in active_excluded_private; the exclusion reduces CI coverage and is documented, not silent."
         ],
         "repositories": repositories,
     }
