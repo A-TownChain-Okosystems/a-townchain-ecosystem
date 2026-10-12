@@ -284,32 +284,41 @@ def scan(root: Path, repository: str, source_sha: str, scope_exclusions: list[di
         except (UnicodeDecodeError, OSError) as exc:
             unclassified.append({"path": path.relative_to(root).as_posix(), "reason": type(exc).__name__})
             continue
-        found = set()
-        internal_found = set()
+        found: dict[tuple[str, str, int], str] = {}
+        internal_found: dict[tuple[str, str, int], str] = {}
         test_names: list[str] = []
         scan_source = source
         if language == "rust":
             scan_source, test_names = _mask_rust_test_only_source(source)
+        source_lines = scan_source.splitlines()
         for kind, pattern in PATTERNS.get(language, []):
             for match in pattern.finditer(scan_source):
                 name = match.group(1)
                 # Exclude common test-only/private symbols from the public API candidate set.
                 if language == "python" and name.startswith("_"):
                     continue
-                found.add((kind, name))
+                line_start = scan_source.count("\\n", 0, match.start()) + 1
+                signature = source_lines[line_start - 1].strip()[:300] if line_start <= len(source_lines) else name
+                found[(kind, name, line_start)] = signature
         if language == "rust":
             for match in RUST_INTERNAL_FUNCTION_PATTERN.finditer(scan_source):
                 name = match.group(1)
-                if ("function", name) not in found:
-                    internal_found.add(("function", name))
+                line_start = scan_source.count("\\n", 0, match.start()) + 1
+                signature = source_lines[line_start - 1].strip()[:300] if line_start <= len(source_lines) else name
+                key = ("function", name, line_start)
+                if key not in found:
+                    internal_found[key] = signature
         elif language in TYPESCRIPT_INTERNAL_FUNCTION_PATTERNS:
             for pattern in TYPESCRIPT_INTERNAL_FUNCTION_PATTERNS[language]:
                 for match in pattern.finditer(scan_source):
                     name = match.group(1)
-                    if ("function", name) not in found:
-                        internal_found.add(("function", name))
-        symbols = [{"kind": kind, "name": name} for kind, name in sorted(found)]
-        internal_symbols = [{"kind": kind, "name": name} for kind, name in sorted(internal_found)]
+                    line_start = scan_source.count("\\n", 0, match.start()) + 1
+                    signature = source_lines[line_start - 1].strip()[:300] if line_start <= len(source_lines) else name
+                    key = ("function", name, line_start)
+                    if key not in found:
+                        internal_found[key] = signature
+        symbols = [{"kind": kind, "name": name, "line_start": line, "signature": signature} for (kind, name, line), signature in sorted(found.items())]
+        internal_symbols = [{"kind": kind, "name": name, "line_start": line, "signature": signature} for (kind, name, line), signature in sorted(internal_found.items())]
         test_symbols = [{"kind": "function", "name": name} for name in test_names]
         symbols_total += len(symbols)
         internal_symbols_total += len(internal_symbols)
