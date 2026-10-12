@@ -5330,14 +5330,13 @@
           "purpose": "Create parser state from token list and variable environment.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "new",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/assembler.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "tokens: Vec<String>",
@@ -5390,10 +5389,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -5410,14 +5413,13 @@
           "purpose": "Return the current token without advancing parser cursor.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "peek",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/assembler.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "&self"
@@ -5469,10 +5471,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -5489,14 +5495,13 @@
           "purpose": "Advance parser cursor and return next token or a parse error at end.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "take",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/assembler.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "&mut self"
@@ -5549,10 +5554,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -5569,14 +5578,13 @@
           "purpose": "Parse terms separated by + or - and emit postfix VM instruction text.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "expr",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/assembler.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "&mut self"
@@ -5637,10 +5645,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -5657,14 +5669,13 @@
           "purpose": "Parse factors separated by * or / and emit postfix VM instruction text.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "term",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/assembler.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "&mut self"
@@ -5718,10 +5729,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -5738,14 +5753,13 @@
           "purpose": "Consume a parenthesized expression, u64 decimal literal, or identifier from environment.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "factor",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/assembler.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "&mut self"
@@ -5809,10 +5823,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -5829,14 +5847,13 @@
           "purpose": "Split expression into decimal numbers, ASCII identifiers, operators and parentheses; reject other characters.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "tokenize",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/assembler.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "source: &str"
@@ -5885,10 +5902,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -5905,14 +5926,13 @@
           "purpose": "Locate first textual fn declaration, parse parameter names and extract body substring.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "find_function",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
-            "note": "Current implementation finds the first 'fn ', next ')' and first '{' and '}' by substring search; nested-brace grammar remains a known correctness risk.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/assembler.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "source: &str"
@@ -5961,10 +5981,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -5981,14 +6005,13 @@
           "purpose": "Find a named quoted key and parse the following unsigned decimal prefix as u64.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "json_u64_for_key",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
-            "note": "Do not treat this helper as standards-compliant JSON decoding.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/assembler.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "json: &str",
@@ -6039,10 +6062,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -6059,14 +6086,13 @@
           "purpose": "Execute supported Push/Add/Sub/Mul/Div/Halt subset with checked arithmetic and compare final top-of-stack value to expected.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/assembler.rs",
             "symbol_or_entrypoint": "simulate",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/assembler.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "ops: &[String]",
@@ -6129,10 +6155,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -6149,14 +6179,13 @@
           "purpose": "Parse --set-slot/--expect-slot argument in <slot>:<value> form.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/main.rs",
             "symbol_or_entrypoint": "parse_slot_pair",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "ae010fc16ac310e8a98316f63c89e7d9b96cbca8",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/main.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "flag: &str",
@@ -6207,10 +6236,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -6227,14 +6260,13 @@
           "purpose": "Parse --ops/--contract/--vector/--out/--expect/--caller/--set-slot/--expect-slot options into Args.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/main.rs",
             "symbol_or_entrypoint": "parse_args",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "ae010fc16ac310e8a98316f63c89e7d9b96cbca8",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/main.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "args: Vec<String>"
@@ -6292,10 +6324,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -6312,14 +6348,13 @@
           "purpose": "Read .ops text, parse operations, initialize VM context/storage, execute raw VM, and optionally compare result and storage.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/main.rs",
             "symbol_or_entrypoint": "run_ops_file",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
-            "note": "The current runner resizes storage to idx+1 for --set-slot; untrusted large indices may trigger excessive allocation. Bound and reject before resize.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "ae010fc16ac310e8a98316f63c89e7d9b96cbca8",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/main.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "args: &Args",
@@ -6386,10 +6421,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -6406,14 +6445,13 @@
           "purpose": "Select assembly mode or .ops execution mode, enforce required flags, print outcome and exit with status code.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/main.rs",
             "symbol_or_entrypoint": "main",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "ae010fc16ac310e8a98316f63c89e7d9b96cbca8",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/main.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "process arguments"
@@ -6482,10 +6520,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
@@ -6502,14 +6544,13 @@
           "purpose": "Print supported CLI forms/options and terminate with usage exit code 2.",
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "source_binding": {
-            "status": "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS",
-            "repository": "A-TownChain-Okosystems/a-townchain",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "components/vm/src/main.rs",
             "symbol_or_entrypoint": "usage",
-            "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
-            "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
-            "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission."
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "ae010fc16ac310e8a98316f63c89e7d9b96cbca8",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/main.rs",
+            "note": "Private Rust implementation helper manually confirmed in the exact-HEAD source file. The lexical scanner is being extended to inventory Rust internal functions separately from public API symbols; mapping is not functional verification."
           },
           "inputs": [
             "none"
@@ -6555,10 +6596,14 @@
           ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "reason": "No terminal exact-SHA Run→Job→Step→exit/log evidence is attached for this function.",
             "required_evidence": [
+              "canonical_repository",
+              "source_path",
+              "symbol_or_entrypoint",
+              "exact_source_sha",
               "workflow_run_id",
               "job",
               "step",
