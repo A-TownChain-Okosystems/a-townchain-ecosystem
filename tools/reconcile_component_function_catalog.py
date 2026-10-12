@@ -136,15 +136,39 @@ def reconcile(catalog: dict, census: dict) -> dict:
             function_findings.append(item)
 
     unmatched_candidates = []
+    excluded_candidates = []
     for repo, found in sorted(symbols_by_repo.items()):
         for path, symbol in sorted(found - bound.get(repo, set())):
-            unmatched_candidates.append({
-                "repository": repo,
-                "source_path": path,
-                "symbol_or_entrypoint": symbol,
-                "status": "RESIDUAL",
-                "finding": "CANDIDATE_NOT_BOUND_TO_CATALOG_FUNCTION",
-            })
+            parts = [part.lower() for part in path.replace("\\\\", "/").split("/")]
+            filename = parts[-1] if parts else ""
+            test_surface = any(part in {"tests", "test", "__tests__", "benches", "bench", "fuzz", "fuzzing", "fixtures", "fixture"} for part in parts[:-1]) or filename.startswith("test_") or filename.endswith("_test.py") or filename.endswith("_test.rs") or filename.endswith("_tests.py")
+            example_surface = any(part in {"examples", "example", "samples", "sample"} for part in parts[:-1])
+            if test_surface:
+                excluded_candidates.append({
+                    "repository": repo,
+                    "source_path": path,
+                    "symbol_or_entrypoint": symbol,
+                    "status": "EXCLUDED_BY_POLICY",
+                    "finding": "TEST_OR_FIXTURE_FUNCTION_EXCLUDED_FROM_RUNTIME_CATALOG",
+                    "reason": "Test, fixture, benchmark, or fuzz-harness functions are inventoried as verification surfaces, not runtime function contracts. They must be linked to test evidence rather than counted as production API functions.",
+                })
+            elif example_surface:
+                excluded_candidates.append({
+                    "repository": repo,
+                    "source_path": path,
+                    "symbol_or_entrypoint": symbol,
+                    "status": "EXCLUDED_BY_POLICY",
+                    "finding": "EXAMPLE_OR_SAMPLE_FUNCTION_EXCLUDED_FROM_RUNTIME_CATALOG",
+                    "reason": "Example/sample code is not a canonical runtime entrypoint. Keep the exact path and symbol for traceability; validate conformance separately if it is normative.",
+                })
+            else:
+                unmatched_candidates.append({
+                    "repository": repo,
+                    "source_path": path,
+                    "symbol_or_entrypoint": symbol,
+                    "status": "RESIDUAL",
+                    "finding": "CANDIDATE_NOT_BOUND_TO_CATALOG_FUNCTION",
+                })
 
     blocking = census.get("status") == "BLOCKED" or any(
         item.get("status") == "BLOCKED" for item in component_findings + function_findings
@@ -164,13 +188,17 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 for item in function_findings
             ),
             "component_findings": len(component_findings),
+            "candidate_symbols_total": sum(len(found) for found in symbols_by_repo.values()),
+            "candidate_symbols_bound": sum(len(bound.get(repo, set())) for repo in symbols_by_repo),
             "candidate_symbols_unbound": len(unmatched_candidates),
+            "candidate_symbols_excluded_by_policy": len(excluded_candidates),
             "functional_verification": "NOT_PERFORMED",
         },
         "component_findings": component_findings,
         "self_reference_observations": self_reference_observations,
         "function_findings": function_findings,
         "unmatched_candidates": unmatched_candidates,
+        "excluded_candidates": excluded_candidates,
         "limitations": [
             "A lexical name/path match is discovery evidence only, not a function contract or proof of behavior.",
             "Dynamic, generated, macro-expanded, conditional, indirect, and non-public entrypoints may be absent from the scan.",
