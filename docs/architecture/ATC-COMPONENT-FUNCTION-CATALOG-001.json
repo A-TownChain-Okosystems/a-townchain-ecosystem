@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-13",
-  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings.",
+  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings. Cross-component interfaces now carry machine-readable request/response, error/timeout, authorization, compatibility, test, and exact-SHA evidence fields; unresolved fields remain explicit RESIDUAL. Added IF-014 Node↔SDK RPC, IF-015 Genesis Engine↔L1 core, and IF-016 Node P2P boundary.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -15329,91 +15329,1058 @@
       "producer": "COMP-LANG",
       "consumer": "COMP-TOOLCHAIN",
       "contract": "Versioned source/AST/diagnostic contract; exact API and version must be confirmed from canonical repositories",
-      "status": "RESIDUAL"
+      "status": "RESIDUAL",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact request schema and wire encoding must be derived from canonical source and normative decisions; not inferred from names."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact response schema, state effects and determinism semantics must be derived from canonical source and normative decisions."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "positive-negative-boundary",
+          "version-compatibility",
+          "security-authorization",
+          "resource-exhaustion",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
     },
     {
       "id": "IF-002",
       "producer": "COMP-TOOLCHAIN",
       "consumer": "COMP-VM",
       "contract": "ATCB bytecode envelope and compiler/VM conformance: canonical magic, u16 BE version, u32 BE instruction count, opcode semantics, gas/resource bounds and shared vectors. A conflicting ATCB-versus-ATC1 magic remains unresolved; do not infer a final format.",
-      "status": "BLOCKED"
+      "status": "BLOCKED",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact request schema and wire encoding must be derived from canonical source and normative decisions; not inferred from names."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact response schema, state effects and determinism semantics must be derived from canonical source and normative decisions."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "positive-negative-boundary",
+          "version-compatibility",
+          "security-authorization",
+          "resource-exhaustion",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
     },
     {
       "id": "IF-003",
       "producer": "COMP-CHAIN",
       "consumer": "COMP-ALGO",
       "contract": "Versioned consensus inputs, canonical encoding, decision/proof semantics, transition result and error contract. PoH/PoW/PoS/PoI selection and finality/fork-choice are not finalized; no algorithm may be inferred by default.",
-      "status": "BLOCKED"
+      "status": "BLOCKED",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact request schema and wire encoding must be derived from canonical source and normative decisions; not inferred from names."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact response schema, state effects and determinism semantics must be derived from canonical source and normative decisions."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "positive-negative-boundary",
+          "version-compatibility",
+          "security-authorization",
+          "resource-exhaustion",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
     },
     {
       "id": "IF-004",
       "producer": "COMP-CHAIN",
       "consumer": "COMP-VM",
       "contract": "Contract execution context, state access, resource/gas accounting and deterministic result contract",
-      "status": "RESIDUAL"
+      "status": "RESIDUAL",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact request schema and wire encoding must be derived from canonical source and normative decisions; not inferred from names."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact response schema, state effects and determinism semantics must be derived from canonical source and normative decisions."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "positive-negative-boundary",
+          "version-compatibility",
+          "security-authorization",
+          "resource-exhaustion",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
     },
     {
       "id": "IF-005",
       "producer": "COMP-SHIVA",
       "consumer": "COMP-GLOBUS",
       "contract": "Kernel syscall/capability/IPC ABI; versioned and privilege-minimized",
-      "status": "RESIDUAL"
+      "status": "RESIDUAL",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact request schema and wire encoding must be derived from canonical source and normative decisions; not inferred from names."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact response schema, state effects and determinism semantics must be derived from canonical source and normative decisions."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "positive-negative-boundary",
+          "version-compatibility",
+          "security-authorization",
+          "resource-exhaustion",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
     },
     {
       "id": "IF-006",
       "producer": "COMP-GLOBUS",
       "consumer": "COMP-AURORA",
       "contract": "Service API with explicit capabilities, policy, approval, quotas and audit events",
-      "status": "RESIDUAL"
+      "status": "RESIDUAL",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact request schema and wire encoding must be derived from canonical source and normative decisions; not inferred from names."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact response schema, state effects and determinism semantics must be derived from canonical source and normative decisions."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "positive-negative-boundary",
+          "version-compatibility",
+          "security-authorization",
+          "resource-exhaustion",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
     },
     {
       "id": "IF-007",
       "producer": "COMP-STANDARDS",
       "consumer": "COMP-ATC-ENG",
       "contract": "Versioned normative governance and conformance rules",
-      "status": "RESIDUAL"
+      "status": "RESIDUAL",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact request schema and wire encoding must be derived from canonical source and normative decisions; not inferred from names."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact response schema, state effects and determinism semantics must be derived from canonical source and normative decisions."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "positive-negative-boundary",
+          "version-compatibility",
+          "security-authorization",
+          "resource-exhaustion",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
     },
     {
       "id": "IF-008",
       "producer": "COMP-CHAIN",
       "consumer": "COMP-SDK",
       "contract": "TX-V2 canonical transaction serialization/signature contract: secp256k1 ECDSA with RFC6979/SHA-256, low-S, 33-byte compressed SEC1 public key, 64-byte compact r||s signature and domain ATC-TX-DOMAIN-V2. Encoder/decoder and cross-client golden vectors must match.",
-      "status": "RESIDUAL"
+      "status": "RESIDUAL",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact request schema and wire encoding must be derived from canonical source and normative decisions; not inferred from names."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact response schema, state effects and determinism semantics must be derived from canonical source and normative decisions."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "positive-negative-boundary",
+          "version-compatibility",
+          "security-authorization",
+          "resource-exhaustion",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
     },
     {
       "id": "IF-009",
       "producer": "COMP-CHAIN",
       "consumer": "COMP-NODE",
       "contract": "L1 transaction/block admission contract: canonical validation, nonce/replay policy, fee affordability, parent/state validation, atomic state transition and explicit rejection reasons. Node/Devnet-only behavior must not be treated as canonical consensus.",
-      "status": "RESIDUAL"
+      "status": "RESIDUAL",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact request schema and wire encoding must be derived from canonical source and normative decisions; not inferred from names."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact response schema, state effects and determinism semantics must be derived from canonical source and normative decisions."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "positive-negative-boundary",
+          "version-compatibility",
+          "security-authorization",
+          "resource-exhaustion",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
     },
     {
       "id": "IF-010",
       "producer": "COMP-CHAIN",
       "consumer": "COMP-STORAGE",
       "contract": "Durable canonical block/state persistence: exact serialization, block/state-root identity, atomic commit/rollback, corruption detection and recovery. The storage repository is archived; production ownership and replacement decision are unresolved.",
-      "status": "BLOCKED"
+      "status": "BLOCKED",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact request schema and wire encoding must be derived from canonical source and normative decisions; not inferred from names."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact response schema, state effects and determinism semantics must be derived from canonical source and normative decisions."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "positive-negative-boundary",
+          "version-compatibility",
+          "security-authorization",
+          "resource-exhaustion",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
     },
     {
       "id": "IF-011",
       "producer": "COMP-CHAIN",
       "consumer": "COMP-STANDARDS",
       "contract": "Versioned L1 protocol contract for chain ID, genesis, transaction rules, amount encoding, supply invariants, block/state transition and upgrade activation. Normative changes require explicit decision records and shared vectors.",
-      "status": "RESIDUAL"
+      "status": "RESIDUAL",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact request schema and wire encoding must be derived from canonical source and normative decisions; not inferred from names."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact response schema, state effects and determinism semantics must be derived from canonical source and normative decisions."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "positive-negative-boundary",
+          "version-compatibility",
+          "security-authorization",
+          "resource-exhaustion",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
     },
     {
       "id": "IF-012",
       "producer": "COMP-CHAIN",
       "consumer": "COMP-ZKP",
       "contract": "Proof-verification interface with explicit proof version/domain, public-input encoding, verification result/error taxonomy, resource bounds and replay/context binding. No proof type is accepted without a versioned normative contract.",
-      "status": "RESIDUAL"
+      "status": "RESIDUAL",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact request schema and wire encoding must be derived from canonical source and normative decisions; not inferred from names."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact response schema, state effects and determinism semantics must be derived from canonical source and normative decisions."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "positive-negative-boundary",
+          "version-compatibility",
+          "security-authorization",
+          "resource-exhaustion",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
     },
     {
       "id": "IF-013",
       "producer": "COMP-GLOBUS",
       "consumer": "COMP-SHIVA",
       "contract": "Boot/service boundary: kernel initialization, capability and IPC ABI, userspace transition, boot-health evidence and rollback signal. Service-space networking, AI and contract execution must remain outside the ShivaCore TCB.",
-      "status": "RESIDUAL"
+      "status": "RESIDUAL",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact request schema and wire encoding must be derived from canonical source and normative decisions; not inferred from names."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Exact response schema, state effects and determinism semantics must be derived from canonical source and normative decisions."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "positive-negative-boundary",
+          "version-compatibility",
+          "security-authorization",
+          "resource-exhaustion",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+    },
+    {
+      "id": "IF-014",
+      "producer": "COMP-NODE",
+      "consumer": "COMP-SDK",
+      "contract": "Node RPC/client interoperability: request and response schemas, protocol versioning, authentication/authorization, idempotency, timeouts, error taxonomy, resource limits and compatibility. Do not assume JSON-RPC or any wire format until exact source APIs are reconciled.",
+      "status": "RESIDUAL",
+      "status_reason": "Wire protocol and canonical runtime endpoints must be identified at exact source SHAs; schema is intentionally not frozen.",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "RPC request envelope and method-specific parameter schemas; exact wire encoding and field names pending source/API scan."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Correlated success/error response with deterministic error taxonomy; exact wire encoding pending source/API scan."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "schema-conformance",
+          "version-compatibility",
+          "authz-negative",
+          "timeout-retry",
+          "idempotency",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+    },
+    {
+      "id": "IF-015",
+      "producer": "COMP-GENESIS",
+      "consumer": "COMP-CHAIN",
+      "contract": "Genesis Engine to canonical chain initialization: chain identity, genesis parameter validation, canonical genesis encoding/hash, initial state and protocol-version binding. Genesis tooling must not override canonical chain rules.",
+      "status": "RESIDUAL",
+      "status_reason": "Genesis Engine and L1 core source bindings and canonical genesis vectors must be reconciled before freezing the schema.",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Validated genesis configuration, chain ID, protocol version, initial allocations/state and explicit parameter source references; field encoding pending normative reconciliation."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Canonical genesis identity/state root or typed fail-closed validation error; exact output encoding pending shared vectors."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "golden-genesis-vectors",
+          "invalid-config-negative",
+          "determinism",
+          "cross-client-compatibility",
+          "integration"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+    },
+    {
+      "id": "IF-016",
+      "producer": "COMP-NODE",
+      "consumer": "COMP-NODE",
+      "contract": "Peer-to-peer node protocol boundary: peer identity, message/version framing, bounded message decoding, request correlation, replay protection, peer fault handling and sync/admission separation. This is a node transport contract, not consensus authority.",
+      "status": "RESIDUAL",
+      "status_reason": "Canonical P2P message types and ownership must be extracted from exact node source; no framing or transport protocol is assumed.",
+      "contract_version": null,
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Versioned peer message envelope and typed payloads; transport framing, signatures and field schemas pending source reconciliation."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": null,
+        "fields": [],
+        "notes": "Typed protocol response, rejection, or bounded deferred status; retry and peer-disconnect semantics pending source reconciliation."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [],
+        "timeout_behavior": null,
+        "partial_failure_behavior": null,
+        "retry_idempotency": null
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [],
+        "trust_boundary": "RESIDUAL",
+        "fail_closed_rule": "Reject unsupported versions, unauthorized requests and malformed inputs; exact policy remains to be reconciled."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": null,
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "message-golden-vectors",
+          "malformed-input-fuzz",
+          "version-compatibility",
+          "replay-adversarial",
+          "multi-node-partition",
+          "resource-exhaustion"
+        ],
+        "exact_source_sha": null,
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": null,
+        "producer_path": null,
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
     }
   ],
   "release_decision": {
