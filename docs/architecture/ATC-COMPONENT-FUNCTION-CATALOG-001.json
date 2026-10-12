@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-13",
-  "catalog_revision_note": "Exact-HEAD source census recorded on 2026-10-13. Existing path/symbol bindings refreshed only where the census found the same pair at the current source HEAD. Lexical discovery remains non-verifying; catalog completeness is not claimed.",
+  "catalog_revision_note": "Exact-HEAD census and first reconciliation recorded; current source bindings refreshed only where exact path/symbol pairs were confirmed. Remaining missing bindings, archived/private exclusions, source-head drift and consensus decision blockers remain explicit.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -282,8 +282,8 @@
           "tree_sha": "1d72f70552da76514efa925cba5d18209aa19b15",
           "source_census_run_id": 38318248013,
           "status": "CENSUS_SCANNED_RESIDUAL",
-          "source_files_scanned": null,
-          "candidate_public_symbols": null,
+          "source_files_scanned": 38,
+          "candidate_public_symbols": 230,
           "limitations": [
             "lexical scan only",
             "functional verification not performed",
@@ -533,8 +533,8 @@
           "tree_sha": "1830c1afe2ad28aa062b450ea5da21b39820717d",
           "source_census_run_id": 38318248013,
           "status": "CENSUS_SCANNED_RESIDUAL",
-          "source_files_scanned": null,
-          "candidate_public_symbols": null,
+          "source_files_scanned": 42,
+          "candidate_public_symbols": 168,
           "limitations": [
             "lexical scan only",
             "functional verification not performed",
@@ -1827,8 +1827,8 @@
           "tree_sha": "c98f07d4af1a862247eeda24b0d54c19f93cfef8",
           "source_census_run_id": 38318248013,
           "status": "CENSUS_SCANNED_RESIDUAL",
-          "source_files_scanned": null,
-          "candidate_public_symbols": null,
+          "source_files_scanned": 219,
+          "candidate_public_symbols": 3604,
           "limitations": [
             "lexical scan only",
             "functional verification not performed",
@@ -2276,12 +2276,13 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
-            "source_path": null,
-            "symbol_or_entrypoint": null,
-            "exact_source_sha": null,
-            "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/node/src/bootstrap.rs",
+            "symbol_or_entrypoint": "validate",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "e5832e249a27a1b8abc59515d0ad06617fb76955",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/node/src/bootstrap.rs",
+            "note": "Maps to Genesis::validate at exact repository HEAD. The current Devnet validator checks selected genesis fields and identity binding; it is not yet proof of the full normative genesis/configuration contract or mainnet readiness."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -2311,8 +2312,8 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
-            "source_sha": null,
-            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "canonical_repository",
               "source_path",
@@ -2360,12 +2361,12 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
+            "status": "SOURCE_SURFACE_NOT_IDENTIFIED",
             "source_path": null,
             "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "note": "Exact-HEAD source census did not establish a canonical implementation symbol for this contract. This is a documented source-mapping gap, not proof that no related code exists. Keep RESIDUAL until full tree/API/AST/declarative review identifies a canonical function or records a reasoned exclusion."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -2446,12 +2447,12 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
+            "status": "SOURCE_SURFACE_NOT_IDENTIFIED",
             "source_path": null,
             "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "note": "Exact-HEAD source census did not establish a canonical implementation symbol for this contract. This is a documented source-mapping gap, not proof that no related code exists. Keep RESIDUAL until full tree/API/AST/declarative review identifies a canonical function or records a reasoned exclusion."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -2531,12 +2532,12 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
+            "status": "SOURCE_SURFACE_NOT_IDENTIFIED",
             "source_path": null,
             "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "note": "Exact-HEAD source census did not establish a canonical implementation symbol for this contract. This is a documented source-mapping gap, not proof that no related code exists. Keep RESIDUAL until full tree/API/AST/declarative review identifies a canonical function or records a reasoned exclusion."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -2617,12 +2618,12 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
+            "status": "SOURCE_SURFACE_NOT_IDENTIFIED",
             "source_path": null,
             "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "note": "Exact-HEAD source census did not establish a canonical implementation symbol for this contract. This is a documented source-mapping gap, not proof that no related code exists. Keep RESIDUAL until full tree/API/AST/declarative review identifies a canonical function or records a reasoned exclusion."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -2703,12 +2704,13 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
-            "source_path": null,
-            "symbol_or_entrypoint": null,
-            "exact_source_sha": null,
-            "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "source_path": "components/node/src/chain.rs",
+            "symbol_or_entrypoint": "produce",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "9876cda188a353195686ded9de533770d5c5fe94",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/node/src/chain.rs",
+            "note": "Related function only: source comments explicitly describe deterministic Devnet block production, a 64-block cap, and no consensus or transaction semantics. This does not satisfy the full canonical L1 block-candidate contract; keep residual."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -2738,8 +2740,8 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
-            "source_sha": null,
-            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "RELATED_SOURCE_SURFACE_ONLY",
             "required_evidence": [
               "canonical_repository",
               "source_path",
@@ -2789,12 +2791,12 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
+            "status": "SOURCE_SURFACE_NOT_IDENTIFIED",
             "source_path": null,
             "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "note": "Exact-HEAD source census did not establish a canonical implementation symbol for this contract. This is a documented source-mapping gap, not proof that no related code exists. Keep RESIDUAL until full tree/API/AST/declarative review identifies a canonical function or records a reasoned exclusion."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -2875,12 +2877,12 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
+            "status": "SOURCE_SURFACE_NOT_IDENTIFIED",
             "source_path": null,
             "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "note": "Exact-HEAD source census did not establish a canonical implementation symbol for this contract. This is a documented source-mapping gap, not proof that no related code exists. Keep RESIDUAL until full tree/API/AST/declarative review identifies a canonical function or records a reasoned exclusion."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -2959,12 +2961,12 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
+            "status": "SOURCE_SURFACE_NOT_IDENTIFIED",
             "source_path": null,
             "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "note": "Exact-HEAD source census did not establish a canonical implementation symbol for this contract. This is a documented source-mapping gap, not proof that no related code exists. Keep RESIDUAL until full tree/API/AST/declarative review identifies a canonical function or records a reasoned exclusion."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -3045,12 +3047,13 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
-            "source_path": null,
-            "symbol_or_entrypoint": null,
-            "exact_source_sha": null,
-            "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "source_path": "components/node/src/gossip.rs",
+            "symbol_or_entrypoint": "sync_pull",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "2d7c0538c0aa5bff9c524691c285e7705554405a",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/node/src/gossip.rs",
+            "note": "Related function only: current source describes pull-based Devnet chain synchronization and candidate-chain verification; it explicitly lacks authentication/TLS and does not implement canonical fork-choice or reorganization/finality semantics."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -3080,8 +3083,8 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
-            "source_sha": null,
-            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "RELATED_SOURCE_SURFACE_ONLY",
             "required_evidence": [
               "canonical_repository",
               "source_path",
@@ -3130,12 +3133,12 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
+            "status": "SOURCE_SURFACE_NOT_IDENTIFIED",
             "source_path": null,
             "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "note": "Exact-HEAD source census did not establish a canonical implementation symbol for this contract. This is a documented source-mapping gap, not proof that no related code exists. Keep RESIDUAL until full tree/API/AST/declarative review identifies a canonical function or records a reasoned exclusion."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -3198,8 +3201,8 @@
           "tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
           "source_census_run_id": 38318248013,
           "status": "CENSUS_SCANNED_RESIDUAL",
-          "source_files_scanned": null,
-          "candidate_public_symbols": null,
+          "source_files_scanned": 184,
+          "candidate_public_symbols": 666,
           "limitations": [
             "lexical scan only",
             "functional verification not performed",
@@ -3467,14 +3470,14 @@
             "consistency",
             "negative"
           ],
-          "readiness": "RESIDUAL",
+          "readiness": "BLOCKED",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
+            "status": "NORMATIVE_DECISION_BLOCKED",
             "source_path": null,
             "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "note": "No approved canonical consensus decision/function is bound. Current source contains draft alternatives in components/algorithm/specs/ATC-CONSENSUS-301-POH.md, ATC-CONSENSUS-303-POW.md, ATC-CONSENSUS-304-HYBRID.md, ATC-CONSENSUS-305-FORK-CHOICE.md and ATC-CONSENSUS-306-FINALITY.md. Do not infer a selected algorithm; remain BLOCKED pending a versioned authoritative decision."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
           "preconditions": {
@@ -3502,21 +3505,15 @@
             "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
           },
           "verification_evidence": {
-            "status": "RESIDUAL",
+            "status": "BLOCKED",
             "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
             "source_sha": null,
-            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "source_binding_status": "NORMATIVE_DECISION_BLOCKED",
             "required_evidence": [
-              "canonical_repository",
-              "source_path",
-              "symbol_or_entrypoint",
-              "exact_source_sha",
-              "workflow_run_id",
-              "job",
-              "step",
-              "terminal_conclusion",
-              "exit_code",
-              "log_or_artifact_url"
+              "approved_versioned_consensus_decision",
+              "canonical_source_binding_if_implemented",
+              "conformance_vectors",
+              "exact_SHA_CI_evidence"
             ]
           }
         },
@@ -3554,12 +3551,13 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
-            "source_path": null,
-            "symbol_or_entrypoint": null,
-            "exact_source_sha": null,
-            "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "source_path": "components/algorithm/src/poh.rs",
+            "symbol_or_entrypoint": "verify",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "75a62238e2a3e4083caa6e420c2de3f215e28450",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/algorithm/src/poh.rs",
+            "note": "This is Proof-of-History tick-chain verification only. It is not a general consensus proof/evidence validator; source comments mark the hash as not cryptographically analyzed and Devnet-grade."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
           "preconditions": {
@@ -3589,8 +3587,8 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
-            "source_sha": null,
-            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "RELATED_SOURCE_SURFACE_ONLY",
             "required_evidence": [
               "canonical_repository",
               "source_path",
@@ -3640,12 +3638,13 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
-            "source_path": null,
-            "symbol_or_entrypoint": null,
-            "exact_source_sha": null,
-            "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "status": "RELATED_SOURCE_SURFACE_ONLY",
+            "source_path": "components/algorithm/src/selection.rs",
+            "symbol_or_entrypoint": "select_proposer",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "eab1723f3a3652df84a6c676bd252c9880469d9c",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/algorithm/src/selection.rs",
+            "note": "The current function performs deterministic stake-weighted proposer selection with overflow checks. It does not itself establish the complete participant eligibility registry or a finalized protocol-wide weight-normalization contract."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
           "preconditions": {
@@ -3675,8 +3674,8 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
-            "source_sha": null,
-            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "RELATED_SOURCE_SURFACE_ONLY",
             "required_evidence": [
               "canonical_repository",
               "source_path",
@@ -3724,14 +3723,14 @@
             "adversarial",
             "multi-node"
           ],
-          "readiness": "RESIDUAL",
+          "readiness": "BLOCKED",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
+            "status": "NORMATIVE_DECISION_BLOCKED",
             "source_path": null,
             "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "note": "No approved canonical consensus decision/function is bound. Current source contains draft alternatives in components/algorithm/specs/ATC-CONSENSUS-301-POH.md, ATC-CONSENSUS-303-POW.md, ATC-CONSENSUS-304-HYBRID.md, ATC-CONSENSUS-305-FORK-CHOICE.md and ATC-CONSENSUS-306-FINALITY.md. Do not infer a selected algorithm; remain BLOCKED pending a versioned authoritative decision."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
           "preconditions": {
@@ -3759,21 +3758,15 @@
             "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
           },
           "verification_evidence": {
-            "status": "RESIDUAL",
+            "status": "BLOCKED",
             "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
             "source_sha": null,
-            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "source_binding_status": "NORMATIVE_DECISION_BLOCKED",
             "required_evidence": [
-              "canonical_repository",
-              "source_path",
-              "symbol_or_entrypoint",
-              "exact_source_sha",
-              "workflow_run_id",
-              "job",
-              "step",
-              "terminal_conclusion",
-              "exit_code",
-              "log_or_artifact_url"
+              "approved_versioned_consensus_decision",
+              "canonical_source_binding_if_implemented",
+              "conformance_vectors",
+              "exact_SHA_CI_evidence"
             ]
           }
         },
@@ -3808,14 +3801,14 @@
             "adversarial",
             "multi-node"
           ],
-          "readiness": "RESIDUAL",
+          "readiness": "BLOCKED",
           "source_binding": {
-            "status": "NOT_SOURCE_VERIFIED",
+            "status": "NORMATIVE_DECISION_BLOCKED",
             "source_path": null,
             "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "evidence": null,
-            "note": "Normative catalog contract added before source reconciliation. This does not assert that a matching implementation exists or is absent. Bind to canonical source path/symbol and exact SHA after source-tree enumeration."
+            "note": "No approved canonical consensus decision/function is bound. Current source contains draft alternatives in components/algorithm/specs/ATC-CONSENSUS-301-POH.md, ATC-CONSENSUS-303-POW.md, ATC-CONSENSUS-304-HYBRID.md, ATC-CONSENSUS-305-FORK-CHOICE.md and ATC-CONSENSUS-306-FINALITY.md. Do not infer a selected algorithm; remain BLOCKED pending a versioned authoritative decision."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
           "preconditions": {
@@ -3843,21 +3836,15 @@
             "reason": "Function-level dependencies and versioned interfaces require source/call-graph reconciliation."
           },
           "verification_evidence": {
-            "status": "RESIDUAL",
+            "status": "BLOCKED",
             "reason": "No exact-SHA source mapping or Run/Job/Step/exit/log evidence is asserted.",
             "source_sha": null,
-            "source_binding_status": "NOT_SOURCE_VERIFIED",
+            "source_binding_status": "NORMATIVE_DECISION_BLOCKED",
             "required_evidence": [
-              "canonical_repository",
-              "source_path",
-              "symbol_or_entrypoint",
-              "exact_source_sha",
-              "workflow_run_id",
-              "job",
-              "step",
-              "terminal_conclusion",
-              "exit_code",
-              "log_or_artifact_url"
+              "approved_versioned_consensus_decision",
+              "canonical_source_binding_if_implemented",
+              "conformance_vectors",
+              "exact_SHA_CI_evidence"
             ]
           }
         }
@@ -3941,8 +3928,8 @@
           "tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
           "source_census_run_id": 38318248013,
           "status": "CENSUS_SCANNED_RESIDUAL",
-          "source_files_scanned": null,
-          "candidate_public_symbols": null,
+          "source_files_scanned": 184,
+          "candidate_public_symbols": 666,
           "limitations": [
             "lexical scan only",
             "functional verification not performed",
@@ -6723,8 +6710,8 @@
           "tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
           "source_census_run_id": 38318248013,
           "status": "CENSUS_SCANNED_RESIDUAL",
-          "source_files_scanned": null,
-          "candidate_public_symbols": null,
+          "source_files_scanned": 184,
+          "candidate_public_symbols": 666,
           "limitations": [
             "lexical scan only",
             "functional verification not performed",
@@ -7153,8 +7140,8 @@
           "tree_sha": "c98f07d4af1a862247eeda24b0d54c19f93cfef8",
           "source_census_run_id": 38318248013,
           "status": "CENSUS_SCANNED_RESIDUAL",
-          "source_files_scanned": null,
-          "candidate_public_symbols": null,
+          "source_files_scanned": 219,
+          "candidate_public_symbols": 3604,
           "limitations": [
             "lexical scan only",
             "functional verification not performed",
@@ -7490,8 +7477,8 @@
           "tree_sha": "63eb0ad422c80fe7eb9b2227f6368f2e7a154464",
           "source_census_run_id": 38318248013,
           "status": "CENSUS_SCANNED_RESIDUAL",
-          "source_files_scanned": null,
-          "candidate_public_symbols": null,
+          "source_files_scanned": 262,
+          "candidate_public_symbols": 445,
           "limitations": [
             "lexical scan only",
             "functional verification not performed",
@@ -9737,8 +9724,8 @@
           "tree_sha": "e140d5a5bc884bd56d037296397c0de879adea94",
           "source_census_run_id": 38318248013,
           "status": "CENSUS_SCANNED_RESIDUAL",
-          "source_files_scanned": null,
-          "candidate_public_symbols": null,
+          "source_files_scanned": 2,
+          "candidate_public_symbols": 11,
           "limitations": [
             "lexical scan only",
             "functional verification not performed",
@@ -12183,8 +12170,8 @@
           "tree_sha": "02d7c551989ecd345d4dbc656ef3a79fc59a0c84",
           "source_census_run_id": 38318248013,
           "status": "CENSUS_SCANNED_RESIDUAL",
-          "source_files_scanned": null,
-          "candidate_public_symbols": null,
+          "source_files_scanned": 1395,
+          "candidate_public_symbols": 10890,
           "limitations": [
             "lexical scan only",
             "functional verification not performed",
@@ -12537,15 +12524,15 @@
             "workflow-integration",
             "governance"
           ],
-          "readiness": "RESIDUAL",
+          "readiness": "BLOCKED",
           "source_binding": {
-            "status": "NO_SOURCE_SYMBOLS_IN_CENSUS",
+            "status": "BLOCKED_PRIVATE_REPOSITORY_EXCLUDED",
             "source_path": null,
             "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "file_blob_sha": null,
             "evidence": null,
-            "note": "demo-repository is a non-production fixture; the census identified no source symbols. Recorded explicitly instead of silently omitted."
+            "note": "The repository is private and was explicitly excluded from this CI census because no CI credential was available. No symbol inventory was performed; do not claim that no source symbols exist. Exact source mapping is blocked pending authorized access or an owner-provided exact-SHA source inventory."
           },
           "canonical_owner": "A-TownChain-Okosystems/demo-repository",
           "preconditions": {
@@ -12573,17 +12560,16 @@
             "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
           },
           "verification_evidence": {
-            "status": "RESIDUAL",
+            "status": "BLOCKED",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
             "source_sha": null,
-            "source_binding_status": "NO_SOURCE_SYMBOLS_IN_CENSUS",
+            "source_binding_status": "BLOCKED_PRIVATE_REPOSITORY_EXCLUDED",
             "required_evidence": [
-              "workflow_run_id",
-              "job",
-              "step",
-              "terminal_conclusion",
-              "exit_code",
-              "log_or_artifact_url"
+              "authorized_private_repo_checkout",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "source_inventory_report"
             ]
           }
         },
@@ -12612,15 +12598,15 @@
             "repository-audit",
             "security-scan"
           ],
-          "readiness": "RESIDUAL",
+          "readiness": "BLOCKED",
           "source_binding": {
-            "status": "NO_SOURCE_SYMBOLS_IN_CENSUS",
+            "status": "BLOCKED_PRIVATE_REPOSITORY_EXCLUDED",
             "source_path": null,
             "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "file_blob_sha": null,
             "evidence": null,
-            "note": "demo-repository is a non-production fixture; the census identified no source symbols. Recorded explicitly instead of silently omitted."
+            "note": "The repository is private and was explicitly excluded from this CI census because no CI credential was available. No symbol inventory was performed; do not claim that no source symbols exist. Exact source mapping is blocked pending authorized access or an owner-provided exact-SHA source inventory."
           },
           "canonical_owner": "A-TownChain-Okosystems/demo-repository",
           "preconditions": {
@@ -12648,17 +12634,16 @@
             "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
           },
           "verification_evidence": {
-            "status": "RESIDUAL",
+            "status": "BLOCKED",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
             "source_sha": null,
-            "source_binding_status": "NO_SOURCE_SYMBOLS_IN_CENSUS",
+            "source_binding_status": "BLOCKED_PRIVATE_REPOSITORY_EXCLUDED",
             "required_evidence": [
-              "workflow_run_id",
-              "job",
-              "step",
-              "terminal_conclusion",
-              "exit_code",
-              "log_or_artifact_url"
+              "authorized_private_repo_checkout",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "source_inventory_report"
             ]
           }
         }
