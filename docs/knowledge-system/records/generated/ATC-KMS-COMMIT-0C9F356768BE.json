@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-0C9F356768BE",
+  "timestamp": "2026-10-12T15:57:48.690199Z",
+  "category": "change",
+  "title": "Commit: governance: define PR ordering and exact-SHA merge gates",
+  "context": "Git commit 0c9f356768be896408158a2d0b6033d416377891 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/0c9f356768be896408158a2d0b6033d416377891",
+    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "governance: define PR ordering and exact-SHA merge gates"
+}

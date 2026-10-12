@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-D40E498369DB",
+  "timestamp": "2026-10-12T15:57:48.690199Z",
+  "category": "change",
+  "title": "Commit: docs(governance): add organization-wide git tag audit",
+  "context": "Git commit d40e498369dbf4382682735112d6ff8248fc478e on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/d40e498369dbf4382682735112d6ff8248fc478e",
+    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs(governance): add organization-wide git tag audit"
+}

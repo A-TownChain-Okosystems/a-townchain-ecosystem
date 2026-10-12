@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-25965B874EEB",
+  "timestamp": "2026-10-12T15:57:48.690199Z",
+  "category": "change",
+  "title": "Commit: feat(ci): report machine-readable function coverage gaps",
+  "context": "Git commit 25965b874eeb3e6117d9d82fb56e2c069295a7ae on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/25965b874eeb3e6117d9d82fb56e2c069295a7ae",
+    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "feat(ci): report machine-readable function coverage gaps"
+}

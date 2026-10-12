@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-0BA80F48A97B",
-  "timestamp": "2026-10-12T15:46:44.826074Z",
+  "timestamp": "2026-10-12T15:57:48.690199Z",
   "category": "change",
   "title": "Commit: docs(integration): record migration subtree audit residuals",
   "context": "Git commit 0ba80f48a97b18873457e30fed8e5a79247e1c59 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/0ba80f48a97b18873457e30fed8e5a79247e1c59",
-    "commit": "4b31c44ed1a4f4b2fa299b111322ed16035c90da"
+    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
   },
   "tags": [
     "commit",

@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-4B02DD83B3D4",
+  "timestamp": "2026-10-12T15:57:48.690199Z",
+  "category": "change",
+  "title": "Commit: docs(architecture): add machine-readable Soll-Ist state model",
+  "context": "Git commit 4b02dd83b3d4d79663fc141e231a6d85d250b179 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/4b02dd83b3d4d79663fc141e231a6d85d250b179",
+    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs(architecture): add machine-readable Soll-Ist state model"
+}

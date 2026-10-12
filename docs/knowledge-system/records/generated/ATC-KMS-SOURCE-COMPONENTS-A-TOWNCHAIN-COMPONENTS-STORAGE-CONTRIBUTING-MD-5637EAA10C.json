@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-COMPONENTS-STORAGE-CONTRIBUTING-MD-5637EAA10C",
-  "timestamp": "2026-10-12T15:46:44.826074Z",
+  "timestamp": "2026-10-12T15:57:48.690199Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain/components/storage/CONTRIBUTING.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain/components/storage/CONTRIBUTING.md",
-    "commit": "4b31c44ed1a4f4b2fa299b111322ed16035c90da"
+    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
   },
   "tags": [
     "generated",

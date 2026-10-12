@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-CE1C3C072C03",
+  "timestamp": "2026-10-12T15:57:48.690199Z",
+  "category": "change",
+  "title": "Commit: governance: add machine-readable organization PR registry",
+  "context": "Git commit ce1c3c072c03d783c5b8eeb86b2853732ff97473 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/ce1c3c072c03d783c5b8eeb86b2853732ff97473",
+    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "governance: add machine-readable organization PR registry"
+}

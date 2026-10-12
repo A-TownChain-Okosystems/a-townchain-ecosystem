@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-25F7DFED939D",
+  "timestamp": "2026-10-12T15:57:48.690199Z",
+  "category": "change",
+  "title": "Commit: fix(architecture): align dependency registry with canonical IDs",
+  "context": "Git commit 25f7dfed939d28c752a4f692dded685d4411553d on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/25f7dfed939d28c752a4f692dded685d4411553d",
+    "commit": "4d5f514c40c8e38fd2596f1785884c86be48973b"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "fix(architecture): align dependency registry with canonical IDs"
+}
