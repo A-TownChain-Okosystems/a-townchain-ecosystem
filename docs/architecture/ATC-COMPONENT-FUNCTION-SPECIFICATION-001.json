@@ -33,7 +33,7 @@
     {
       "field": "source_binding",
       "type": "object",
-      "requirement": "Repository, source path, symbol/entry point, exact 40-character source SHA, file blob SHA where available, and evidence URL; lexical matches remain unverified."
+      "requirement": "Repository, source path, symbol/entry point, explicit symbol_kind (function/type/value/macro/other), exact 40-character source SHA, source-file blob SHA where available, and evidence URL. Function contracts default to symbol_kind=function; type/value surfaces must be RELATED_SOURCE_SURFACE_ONLY and cannot satisfy a function binding by name alone. Lexical matches remain unverified."
     },
     {
       "field": "inputs",
@@ -131,9 +131,13 @@
       "authorization_and_capability_requirements",
       "compatibility_policy",
       "contract_tests",
-      "exact_sha_evidence"
+      "exact_sha_evidence",
+      "status_reason",
+      "source_evidence",
+      "error_timeout_semantics",
+      "resolution_rule"
     ],
-    "rule": "An inferred dependency or source symbol is not sufficient proof of a working interface. Unspecified or untested edges remain RESIDUAL."
+    "rule": "An inferred dependency or source symbol is not sufficient proof of a working interface. Each interface must include request/response schemas, typed errors/timeouts, authorization/capability rules, compatibility policy, contract-test classes, exact-SHA evidence and a resolution rule. Unspecified or untested edges remain RESIDUAL; normative conflicts remain BLOCKED."
   },
   "status_rules": {
     "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED": "Source path/symbol association only; correctness and completeness not proven.",
@@ -152,11 +156,14 @@
   ],
   "current_application_status": {
     "catalog_reference": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
-    "catalog_functions_reported": 71,
+    "catalog_functions_reported": 139,
     "catalog_components_reported": 30,
     "specification_contract_defined": true,
     "all_existing_entries_fully_checked_against_this_contract": false,
     "unverified_items_remain": "RESIDUAL",
-    "release_decision": "BLOCKED"
+    "release_decision": "BLOCKED",
+    "catalog_interfaces_reported": 16,
+    "source_mapped_functions_reported": 107,
+    "source_verified_functions_reported": 0
   }
 }
