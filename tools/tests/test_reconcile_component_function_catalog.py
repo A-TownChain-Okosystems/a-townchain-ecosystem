@@ -104,6 +104,27 @@ class CatalogReconciliationTests(unittest.TestCase):
         )
         self.assertEqual(report["function_findings"][0]["status"], "RESIDUAL")
 
+    def test_test_and_example_symbols_are_reasoned_exclusions(self):
+        report_file = self.census["repositories"][0]["report"]["files"][0]
+        report_file["candidate_public_symbols"] = [{"kind": "function", "name": "execute"}]
+        self.census["repositories"][0]["report"]["files"].append({
+            "path": "tests/test_vm.py",
+            "candidate_public_symbols": [{"kind": "function", "name": "test_vm"}],
+            "candidate_internal_symbols": [],
+        })
+        self.census["repositories"][0]["report"]["files"].append({
+            "path": "examples/demo.rs",
+            "candidate_public_symbols": [{"kind": "function", "name": "demo"}],
+            "candidate_internal_symbols": [],
+        })
+        report = reconcile(self.catalog, self.census)
+        self.assertEqual(report["summary"]["candidate_symbols_unbound"], 0)
+        self.assertEqual(report["summary"]["candidate_symbols_excluded_by_policy"], 2)
+        findings = {item["finding"] for item in report["excluded_candidates"]}
+        self.assertIn("TEST_OR_FIXTURE_FUNCTION_EXCLUDED_FROM_RUNTIME_CATALOG", findings)
+        self.assertIn("EXAMPLE_OR_SAMPLE_FUNCTION_EXCLUDED_FROM_RUNTIME_CATALOG", findings)
+        self.assertTrue(all(item["reason"] for item in report["excluded_candidates"]))
+
     def test_sha_mismatch_is_not_accepted_as_a_binding(self):
         self.catalog["components"][0]["functions"][0]["source_binding"]["exact_source_sha"] = "b" * 40
         report = reconcile(self.catalog, self.census)
