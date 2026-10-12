@@ -6,7 +6,7 @@
 
 This catalog is the architecture/control-plane inventory. It does not replace component source code, normative standards, or repository-local API documentation.
 
-**Current machine-readable count (2026-10-13):** 31 components · 144 function/capability contracts · 17 cross-component interfaces · 0 functionally verified. **Source reconciliation:** `RESIDUAL` until every runtime candidate is mapped or explicitly excluded; the strict completion gate is fail-closed. The last completed census is historical for its recorded exact HEAD; the current-head rerun must finish before its counts are treated as current.
+**Current machine-readable count (2026-10-13):** 31 components · 146 function/capability contracts · 17 cross-component interfaces · 0 functionally verified. **Source reconciliation:** `RESIDUAL` until every runtime candidate is mapped or explicitly excluded; the strict completion gate is fail-closed. The last completed census is historical for its recorded exact HEAD; the current-head rerun must finish before its counts are treated as current.
 
 ## Rules
 
@@ -235,3 +235,9 @@ New records: `IF-014` Node ↔ SDK RPC/client boundary; `IF-015` Genesis Engine 
 Added `COMP-WALLET` for `a-townchain/components/wallet`, distinct from the archived standalone `atc-wallet` repository. Five function contracts are source-bound to exact repository HEAD `c631249ed6ff450bf45338e78cb14e2bf5c65c74` and file blob `2693b7ba015456addcc8d129455b7e5a9e2f1860`: signing preimage, transaction ID, signature creation, signature verification, and canonical field encoding.
 
 Added `IF-017` for wallet-to-chain TX-V2 interoperability. Source mapping confirms the TX-V2 domain, TX-ID domain, fixed-width amount encoding and compact-signature checks in the wallet file; canonical chain-side verification and shared cross-client vectors remain `RESIDUAL`. This does not imply production readiness.
+
+## Current reconciliation state (2026-10-13)
+
+Current count: **31 components, 146 function/capability contracts, 17 interfaces**. Of the 146 function/capability records, 112 are exact-HEAD source-mapped (lexical/source mapping only), 12 still have no identified satisfying source surface, 3 are blocked by normative consensus decisions, and 19 are explicitly classified as non-function/test/archived/private-reference exclusions. **0 are functionally verified.**
+
+The current source inventory distinguishes runtime candidates from inline Rust test-only functions and records test-only symbols as reasoned exclusions. The strict reconciliation gate remains blocked until every runtime candidate is mapped or has a reviewed exclusion and every source binding resolves at the exact recorded SHA.
