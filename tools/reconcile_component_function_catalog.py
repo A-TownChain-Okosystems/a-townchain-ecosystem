@@ -18,12 +18,14 @@ def reconcile(catalog: dict, census: dict) -> dict:
         for entry in census.get("repositories", [])
         if isinstance(entry, dict) and entry.get("repository")
     }
-    symbols_by_repo: dict[str, set[tuple[str, str, str]]] = {}
+    symbols_by_repo: dict[str, set[tuple[str, str, str, int]]] = {}
+    symbol_signatures_by_repo: dict[str, dict[tuple[str, str, str, int], str]] = {}
     test_symbols_by_repo: dict[str, set[tuple[str, str, str]]] = {}
     file_metadata_by_repo: dict[str, dict[str, dict]] = {}
     for repository, entry in census_repos.items():
         report = entry.get("report") or {}
-        found: set[tuple[str, str, str]] = set()
+        found: set[tuple[str, str, str, int]] = set()
+        signatures: dict[tuple[str, str, str, int], str] = {}
         test_found: set[tuple[str, str, str]] = set()
         file_metadata: dict[str, dict] = {}
         for file in report.get("files", []):
@@ -33,14 +35,17 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 "language": file.get("language"),
             }
             for symbol in file.get("candidate_public_symbols", []) + file.get("candidate_internal_symbols", []):
-                found.add((path, symbol.get("kind", "unknown"), symbol.get("name", "")))
+                key = (path, symbol.get("kind", "unknown"), symbol.get("name", ""), int(symbol.get("line_start", 0)))
+                found.add(key)
+                signatures[key] = symbol.get("signature", "")
             for symbol in file.get("candidate_test_symbols", []):
                 test_found.add((path, symbol.get("kind", "function"), symbol.get("name", "")))
         symbols_by_repo[repository] = found
+        symbol_signatures_by_repo[repository] = signatures
         test_symbols_by_repo[repository] = test_found
         file_metadata_by_repo[repository] = file_metadata
 
-    bound: dict[str, set[tuple[str, str, str]]] = {};
+    bound: dict[str, set[tuple[str, str, str, int]]] = {};
     function_findings = []
     component_findings = []
     self_reference_observations = []
@@ -102,6 +107,7 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 "source_path": path,
                 "symbol_or_entrypoint": symbol,
                 "symbol_kind": symbol_kind,
+                "line_start": binding.get("line_start"),
                 "catalog_source_sha": binding.get("exact_source_sha"),
                 "census_source_sha": (census_repos.get(repo) or {}).get("source_sha"),
                 "status": "RESIDUAL",
@@ -117,41 +123,54 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 "BLOCKED_PRIVATE_REPOSITORY_EXCLUDED": "BLOCKED_PRIVATE_REPOSITORY_EXCLUDED",
                 "NON_FUNCTION_SOURCE_ARTIFACT": "NON_FUNCTION_SOURCE_ARTIFACT_EXCLUDED_FROM_SYMBOL_SCAN",
             }
+            binding_line = binding.get("line_start")
             if binding_status in reasoned_statuses:
                 item["finding"] = reasoned_statuses[binding_status]
             elif symbol_kind != "function":
                 item["finding"] = "FUNCTION_BINDING_KIND_NOT_EXECUTABLE"
-            elif binding_status in {"TEST_SURFACE_ONLY", "RELATED_SOURCE_SURFACE_ONLY"}:
-                if path and symbol and repo in census_repos and census_repos[repo].get("report"):
-                    candidates = (test_symbols_by_repo.get(repo, set()) | symbols_by_repo.get(repo, set())) if binding_status == "TEST_SURFACE_ONLY" else symbols_by_repo.get(repo, set())
-                    if key not in candidates:
-                        item["finding"] = "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN"
-                    elif binding.get("exact_source_sha") != census_repos[repo].get("source_sha"):
-                        item["finding"] = "FUNCTION_BINDING_SHA_MISMATCH"
-                    else:
-                        if binding_status == "TEST_SURFACE_ONLY":
-                            item["finding"] = "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION"
-                        else:
-                            bound.setdefault(repo, set()).add(key)
-                            item["finding"] = "RELATED_SOURCE_SURFACE_ONLY_CONTRACT_RESIDUAL"
+            elif binding_status == "TEST_SURFACE_ONLY":
+                candidates_test = test_symbols_by_repo.get(repo, set())
+                if key not in candidates_test:
+                    item["finding"] = "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN"
+                elif binding.get("exact_source_sha") != census_repos.get(repo, {}).get("source_sha"):
+                    item["finding"] = "FUNCTION_BINDING_SHA_MISMATCH"
                 else:
-                    item["finding"] = (
-                        "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION"
-                        if binding_status == "TEST_SURFACE_ONLY"
-                        else "RELATED_SOURCE_SURFACE_ONLY_CONTRACT_RESIDUAL"
-                    )
+                    item["finding"] = "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION"
+            elif binding_status == "RELATED_SOURCE_SURFACE_ONLY":
+                candidates_related = [candidate for candidate in symbols_by_repo.get(repo, set()) if candidate[:3] == key and (binding_line is None or candidate[3] == int(binding_line))]
+                if not candidates_related:
+                    item["finding"] = "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN"
+                elif binding_line is None and len(candidates_related) > 1:
+                    item["finding"] = "AMBIGUOUS_SOURCE_SYMBOL_BINDING"
+                    item["candidate_line_starts"] = sorted(candidate[3] for candidate in candidates_related)
+                elif binding.get("exact_source_sha") != census_repos.get(repo, {}).get("source_sha"):
+                    item["finding"] = "FUNCTION_BINDING_SHA_MISMATCH"
+                else:
+                    matched = candidates_related[0]
+                    bound.setdefault(repo, set()).add(matched)
+                    item["matched_line_start"] = matched[3]
+                    item["matched_signature"] = symbol_signatures_by_repo.get(repo, {}).get(matched, "")
+                    item["finding"] = "RELATED_SOURCE_SURFACE_ONLY_CONTRACT_RESIDUAL"
             elif not path or not symbol:
                 item["finding"] = "FUNCTION_BINDING_MISSING"
-            elif repo not in census_repos or not (census_repos[repo].get("report")):
+            elif repo not in census_repos or not census_repos[repo].get("report"):
                 item["finding"] = "SOURCE_CENSUS_UNAVAILABLE"
                 item["status"] = "BLOCKED"
-            elif key not in symbols_by_repo.get(repo, set()):
-                item["finding"] = "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN"
-            elif binding.get("exact_source_sha") != census_repos[repo].get("source_sha"):
-                item["finding"] = "FUNCTION_BINDING_SHA_MISMATCH"
             else:
-                item["finding"] = "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING"
-                bound.setdefault(repo, set()).add(key)
+                candidates = [candidate for candidate in symbols_by_repo.get(repo, set()) if candidate[:3] == key and (binding_line is None or candidate[3] == int(binding_line))]
+                if not candidates:
+                    item["finding"] = "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN"
+                elif binding_line is None and len(candidates) > 1:
+                    item["finding"] = "AMBIGUOUS_SOURCE_SYMBOL_BINDING"
+                    item["candidate_line_starts"] = sorted(candidate[3] for candidate in candidates)
+                elif binding.get("exact_source_sha") != census_repos[repo].get("source_sha"):
+                    item["finding"] = "FUNCTION_BINDING_SHA_MISMATCH"
+                else:
+                    matched = candidates[0]
+                    bound.setdefault(repo, set()).add(matched)
+                    item["matched_line_start"] = matched[3]
+                    item["matched_signature"] = symbol_signatures_by_repo.get(repo, {}).get(matched, "")
+                    item["finding"] = "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING"
             function_findings.append(item)
 
     unmatched_candidates = []
@@ -175,9 +194,10 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 "reason": "Function is inside an inline Rust cfg(test) module or has a test-only attribute. It is retained as a verification surface, not a runtime function contract.",
             })
     for repo, found in sorted(symbols_by_repo.items()):
-        for path, symbol_kind, symbol in sorted(found - bound.get(repo, set())):
+        for path, symbol_kind, symbol, line_start in sorted(found - bound.get(repo, set())):
             file_meta = file_metadata_by_repo.get(repo, {}).get(path, {})
             source_sha = (census_repos.get(repo) or {}).get("source_sha")
+            symbol_key = (path, symbol_kind, symbol, line_start)
             common = {
                 "repository": repo,
                 "source_sha": source_sha,
@@ -186,6 +206,8 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 "language": file_meta.get("language"),
                 "symbol_kind": symbol_kind,
                 "symbol_or_entrypoint": symbol,
+                "line_start": line_start,
+                "signature": symbol_signatures_by_repo.get(repo, {}).get(symbol_key, ""),
             }
             if symbol_kind != "function":
                 excluded_candidates.append({
@@ -239,8 +261,8 @@ def reconcile(catalog: dict, census: dict) -> dict:
             ),
             "component_findings": len(component_findings),
             "candidate_symbols_total": sum(len(found) for found in symbols_by_repo.values()) + sum(len(found) for found in test_symbols_by_repo.values()),
-            "candidate_runtime_symbols_total": sum(1 for found in symbols_by_repo.values() for _, kind, _ in found if kind == "function"),
-            "candidate_non_function_symbols_total": sum(1 for found in symbols_by_repo.values() for _, kind, _ in found if kind != "function"),
+            "candidate_runtime_symbols_total": sum(1 for found in symbols_by_repo.values() for _, kind, _, _ in found if kind == "function"),
+            "candidate_non_function_symbols_total": sum(1 for found in symbols_by_repo.values() for _, kind, _, _ in found if kind != "function"),
             "candidate_test_symbols_total": sum(len(found) for found in test_symbols_by_repo.values()),
             "candidate_symbols_bound": sum(len(bound.get(repo, set())) for repo in symbols_by_repo),
             "candidate_symbols_unbound": len(unmatched_candidates),
