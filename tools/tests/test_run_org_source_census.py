@@ -61,6 +61,17 @@ class OrganizationCensusTests(unittest.TestCase):
             self.assertEqual(report["repositories"][0]["source_sha"], actual_sha)
             self.assertFalse(report["repositories"][0]["working_tree_clean"])
 
+    def test_archived_repository_is_reference_only_not_blocked(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = {"owner": "example", "repositories": [{"name": "old", "archived": True}]}
+            report = run_census(Path(temp), manifest)
+            self.assertEqual(report["status"], "RESIDUAL")
+            self.assertEqual(report["summary"]["active_expected"], 0)
+            self.assertEqual(report["summary"]["active_blocked"], 0)
+            self.assertEqual(report["summary"]["archived_reference_repositories"], 1)
+            self.assertEqual(report["repositories"][0]["status"], "ARCHIVED_REFERENCE_ONLY")
+            self.assertIn("ARCHIVED_REPOSITORY_EXCLUDED_BY_POLICY", report["repositories"][0]["residuals"])
+
     def test_private_missing_checkout_is_excluded_not_blocked(self):
         with tempfile.TemporaryDirectory() as temp:
             manifest = {"owner": "example", "repositories": [{"name": "private-demo", "archived": False, "private": True}]}
