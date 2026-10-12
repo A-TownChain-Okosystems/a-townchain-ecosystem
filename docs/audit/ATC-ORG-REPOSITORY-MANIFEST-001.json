@@ -21,8 +21,20 @@
       "role": "documentation",
       "source_scope_exclusions": [
         {
-          "path": "docs/archive/monorepo-full/",
-          "reason": "Historical monorepo source snapshot retained for documentation/history, not the canonical implementation source. Canonical component repositories are scanned independently."
+          "path": "docs/archive/",
+          "reason": "Historical source snapshots including legacy and rescue trees. These are archived references, not canonical active implementations."
+        },
+        {
+          "path": "docs/wiki/",
+          "reason": "Documentation-wiki code copies and examples; canonical implementations are scanned in their owning repositories."
+        },
+        {
+          "path": "wiki/",
+          "reason": "Legacy wiki source/examples duplicated from canonical component repositories; retained for documentation, not production source ownership."
+        },
+        {
+          "path": "atclang/",
+          "reason": "Mirrored legacy ATCLang source tree. The canonical ATCLang implementation repository is scanned independently."
         }
       ]
     },
