@@ -23,7 +23,7 @@ def reconcile(catalog: dict, census: dict) -> dict:
         report = entry.get("report") or {}
         found: set[tuple[str, str]] = set()
         for file in report.get("files", []):
-            for symbol in file.get("candidate_public_symbols", []):
+            for symbol in file.get("candidate_public_symbols", []) + file.get("candidate_internal_symbols", []):
                 found.add((file.get("path", ""), symbol.get("name", "")))
         symbols_by_repo[repository] = found
 
