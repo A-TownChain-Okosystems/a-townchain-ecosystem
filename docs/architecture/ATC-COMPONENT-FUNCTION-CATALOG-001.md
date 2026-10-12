@@ -184,3 +184,14 @@ The catalog includes support/governance records for the standalone ATC-VM and AT
 The machine-readable catalog now contains **114 function contracts across 30 components**. This revision adds 11 explicit L1 chain contracts (`FN-CHAIN-004`–`FN-CHAIN-014`) and 5 consensus/algorithm decision contracts (`FN-ALGO-003`–`FN-ALGO-007`).
 
 These records define required behavior before implementation changes. All 16 new contracts are `RESIDUAL` with `source_binding.status = NOT_SOURCE_VERIFIED`; this means source mapping is pending, **not** that the function is absent from code. Consensus selection, quorum/finality and fork-choice remain blocked pending a versioned normative decision. The catalog still does not claim completeness: source-symbol reconciliation, internal-function coverage, API/RPC/CLI/event coverage, `.atc` extraction, tests and exact-SHA evidence remain open. Release decision remains `BLOCKED`.
+
+## Exact-HEAD source census — 2026-10-13
+
+Latest successful source inventory: [run 38319690185](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319690185), artifact [11778885556](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38319690185/artifacts/11778885556).
+
+- 33 repositories in the manifest: 25 active repositories scanned at exact HEAD, 1 private active repository explicitly excluded for lack of CI access, 7 archived repositories classified as reference-only; 0 active repositories blocked.
+- 1,363 source files scanned; 15,000 files excluded by documented scope rules for noncanonical implementation mirrors and archived/wiki code copies.
+- 7,849 public candidates and 4,014 internal Rust function candidates: 11,863 source-symbol candidates in scope.
+- 84 candidates bound to catalog records; 10,838 candidates remain unbound; 941 test/example candidates are explicitly excluded by policy with path, symbol and reason.
+- 114 catalog records across 30 components: 82 exact path/symbol lexical matches, 4 related source surfaces, 2 test surfaces, 10 non-function artifacts, 9 source surfaces not identified, 3 consensus decisions blocked, 2 archived-reference functions and 2 private-repository functions blocked.
+- 0 functions functionally verified. Lexical matches are source-location evidence only; the catalog remains `BASELINE_RESIDUAL` and release remains blocked.
