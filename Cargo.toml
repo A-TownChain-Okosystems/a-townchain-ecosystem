@@ -3,8 +3,12 @@ resolver = "2"
 # Legacy snapshots remain in-tree but are not production workspace members.
 # Canonical algorithm and VM crates own separate workspaces under components/a-townchain.
 exclude = [
+  # Legacy duplicate snapshots; retained for history, not workspace members.
   "components/atc-algorithm",
   "components/atc-vm",
+  # Canonical crates own independent nested Cargo workspaces.
+  "components/a-townchain/components/algorithm",
+  "components/a-townchain/components/vm",
 ]
 members = [
   "integration",
