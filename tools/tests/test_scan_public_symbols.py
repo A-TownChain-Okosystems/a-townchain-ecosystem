@@ -43,11 +43,11 @@ class PublicSymbolScanTests(unittest.TestCase):
             root = Path(temp)
             (root / "src").mkdir()
             (root / "src" / "matcher.ts").write_text(
-                "export class OrderMatcher {\\n"
-                "  match(newOrder: Order, book: Orderbook): { matched: Order[] } {\\n"
-                "    return { matched: [] };\\n"
-                "  }\\n"
-                "}\\n",
+                "export class OrderMatcher {\n"
+                "  match(newOrder: Order, book: Orderbook): { matched: Order[] } {\n"
+                "    return { matched: [] };\n"
+                "  }\n"
+                "}\n",
                 encoding="utf-8",
             )
             report = scan(root, "example/repo", "e" * 40)
