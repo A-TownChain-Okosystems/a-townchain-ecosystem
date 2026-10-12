@@ -87,6 +87,12 @@ PATTERNS = {
 }
 
 
+# Rust private helpers are recorded separately from public API candidates.
+RUST_INTERNAL_FUNCTION_PATTERN = re.compile(
+    r"^\\s*(?:async\\s+)?(?:unsafe\\s+)?fn\\s+([A-Za-z_][A-Za-z0-9_]*)", re.M
+)
+
+
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -102,6 +108,7 @@ def should_skip(path: Path) -> bool:
 def scan(root: Path, repository: str, source_sha: str) -> dict:
     files = []
     symbols_total = 0
+    internal_symbols_total = 0
     language_counts: Counter[str] = Counter()
     unclassified = []
     for path in sorted(root.rglob("*")):
@@ -117,6 +124,7 @@ def scan(root: Path, repository: str, source_sha: str) -> dict:
             unclassified.append({"path": path.relative_to(root).as_posix(), "reason": type(exc).__name__})
             continue
         found = set()
+        internal_found = set()
         for kind, pattern in PATTERNS.get(language, []):
             for match in pattern.finditer(source):
                 name = match.group(1)
@@ -124,14 +132,23 @@ def scan(root: Path, repository: str, source_sha: str) -> dict:
                 if language == "python" and name.startswith("_"):
                     continue
                 found.add((kind, name))
+        if language == "rust":
+            for match in RUST_INTERNAL_FUNCTION_PATTERN.finditer(source):
+                name = match.group(1)
+                if ("function", name) not in found:
+                    internal_found.add(("function", name))
         symbols = [{"kind": kind, "name": name} for kind, name in sorted(found)]
+        internal_symbols = [{"kind": kind, "name": name} for kind, name in sorted(internal_found)]
         symbols_total += len(symbols)
+        internal_symbols_total += len(internal_symbols)
         files.append({
             "path": path.relative_to(root).as_posix(),
             "language": language,
             "file_sha256": sha256_file(path),
             "candidate_public_symbols": symbols,
+            "candidate_internal_symbols": internal_symbols,
             "candidate_symbol_count": len(symbols),
+            "candidate_internal_symbol_count": len(internal_symbols),
         })
     return {
         "schema_id": "ATC-SOURCE-SYMBOL-INVENTORY-001",
@@ -151,6 +168,7 @@ def scan(root: Path, repository: str, source_sha: str) -> dict:
         "summary": {
             "source_files_scanned": len(files),
             "candidate_public_symbols": symbols_total,
+            "candidate_internal_symbols": internal_symbols_total,
             "files_by_language": dict(sorted(language_counts.items())),
             "files_with_read_errors": len(unclassified),
         },
