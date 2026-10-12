@@ -50,6 +50,17 @@ class CatalogReconciliationTests(unittest.TestCase):
         self.assertEqual(finding["finding"], "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING")
         self.assertEqual(report["summary"]["functional_verification"], "NOT_PERFORMED")
 
+    def test_catalog_self_reference_pr_head_is_not_misreported_as_source_drift(self):
+        self.catalog["authority"] = {"repository": "example/sample"}
+        self.catalog["components"][0]["source_inventory"]["observed_head_sha"] = "b" * 40
+        report = reconcile(self.catalog, self.census)
+        self.assertEqual(report["component_findings"], [])
+        self.assertEqual(len(report["self_reference_observations"]), 1)
+        self.assertEqual(
+            report["self_reference_observations"][0]["finding"],
+            "SELF_REFERENCE_PR_HEAD_DIFFERS_FROM_DEFAULT_BRANCH",
+        )
+
     def test_sha_mismatch_is_not_accepted_as_a_binding(self):
         self.catalog["components"][0]["functions"][0]["source_binding"]["exact_source_sha"] = "b" * 40
         report = reconcile(self.catalog, self.census)
