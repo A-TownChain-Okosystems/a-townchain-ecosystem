@@ -5,6 +5,9 @@ on:
       - "tools/scan_public_symbols.py"
       - "tools/run_org_source_census.py"
       - "tools/reconcile_component_function_catalog.py"
+      - "tools/validate_component_function_catalog.py"
+      - "tools/tests/test_validate_component_function_catalog.py"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-SPECIFICATION-001.json"
       - "tools/tests/test_reconcile_component_function_catalog.py"
       - "tools/tests/test_scan_public_symbols.py"
       - "tools/tests/test_run_org_source_census.py"
@@ -18,6 +21,9 @@ on:
       - "tools/scan_public_symbols.py"
       - "tools/run_org_source_census.py"
       - "tools/reconcile_component_function_catalog.py"
+      - "tools/validate_component_function_catalog.py"
+      - "tools/tests/test_validate_component_function_catalog.py"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-SPECIFICATION-001.json"
       - "tools/tests/test_reconcile_component_function_catalog.py"
       - "tools/tests/test_scan_public_symbols.py"
       - "tools/tests/test_run_org_source_census.py"
@@ -51,10 +57,34 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile scanner, orchestrator and tests
-        run: python -m py_compile tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py
+        run: python -m py_compile tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/validate_component_function_catalog.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_validate_component_function_catalog.py
       - name: Run scanner and organization census tests
         run: |
-          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog -v
+          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_validate_component_function_catalog -v
+      - name: Validate machine-readable function and interface catalog
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          python -m json.tool docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json >/dev/null
+          python tools/validate_component_function_catalog.py \
+            --input docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json \
+            --report artifacts/ATC-COMPONENT-FUNCTION-CATALOG-VALIDATION-001.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path("artifacts/ATC-COMPONENT-FUNCTION-CATALOG-VALIDATION-001.json").read_text(encoding="utf-8"))
+          assert report.get("validation") == "PASS_STRUCTURAL_ONLY", report.get("errors")
+          assert not report.get("errors"), report.get("errors")
+          assert report.get("functions_total", 0) > 0
+          assert report.get("interfaces_total", 0) > 0
+          print(json.dumps({
+              "validation": report["validation"],
+              "components_total": report["components_total"],
+              "functions_total": report["functions_total"],
+              "interfaces_total": report["interfaces_total"],
+              "warning": report["warning"],
+          }, sort_keys=True))
+          PY
       - name: Clone all active repositories at observed clean HEADs
         env:
           GH_OWNER: A-TownChain-Okosystems
