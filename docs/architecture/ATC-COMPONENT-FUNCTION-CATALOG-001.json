@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-12",
-  "catalog_revision_note": "2026-10-12 completeness supplement: all 63 catalog functions now carry explicit source bindings (58 previously unbound functions bound conservatively to census-verified files at exact SHAs; blocked records for archived/fixture surfaces are explicit, not silent). Component and repository census SHAs refreshed against the 2026-10-12 org census (26/26 active repositories scanned, 35550 candidate symbols). Lexical mappings are not functional verification; readiness stays RESIDUAL. 2026-10-12 ATCLang completeness pass: COMP-LANG extended from 2 to 10 functions after full source enumeration of the atclang repository (lowering, canonical bytecode encode/verify, ATCA artifact envelope, ABI/IR type boundary, deterministic reference execution, differential and stdlib conformance, determinism gate). All new functions are source-bound at the census HEAD; readiness stays RESIDUAL. Specification-contract application 2026-10-12: added all missing component/function contract fields conservatively. Unspecified details are explicitly RESIDUAL rather than guessed; source mapping is not functional verification. Component and function readiness remain unchanged.",
+  "catalog_revision_note": "2026-10-12: Expanded canonical COMP-VM from 2 to 13 function contracts by mapping public VM methods and execution-context gates at exact a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Corrected FN-VM-001 to describe parse_ops textual parsing rather than binary ATCB decoding. Binary decoder, assembler/CLI contract completeness and exact-SHA functional verification remain residual; release stays BLOCKED.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -2656,71 +2656,81 @@
       "functions": [
         {
           "id": "FN-VM-001",
-          "name": "Bytecode decoding and validation",
-          "purpose": "Decode the normative ATC bytecode format and reject malformed programs before unsafe execution.",
+          "name": "Parse textual .ops instruction stream",
+          "purpose": "Parse the line-oriented .ops text format into Op values; ignore blank/comment lines and reject unknown or malformed instructions. This is not a binary ATCB decoder.",
           "inputs": [
-            "bytecode bytes",
-            "supported format version"
+            "UTF-8 .ops text; one instruction per line; # comments and blank lines ignored"
           ],
           "outputs": [
-            "validated instruction stream or typed rejection"
+            "Vec<Op> or typed OpsError"
           ],
           "failure_modes": [
-            "bad magic",
-            "truncated header",
-            "invalid version/count",
-            "unknown opcode",
-            "trailing bytes"
+            "Empty",
+            "UnknownOp with line/text",
+            "BadPush with line/value",
+            "BadSlot with line/value",
+            "BadTarget with line/value"
           ],
           "acceptance": [
-            "Normative magic ATCB, u16 BE version and u32 BE instruction count are unambiguous",
-            "ATCB versus ATC1 drift is resolved against the normative spec",
-            "Malformed and oversized bytecode is rejected"
+            "Supported Push/Load/Store operands parse as u64/usize respectively.",
+            "Supported arithmetic, stack, caller, halt and jump instructions parse deterministically.",
+            "Unknown instructions, malformed operands and empty/comment-only input are rejected.",
+            "Binary ATCB magic/version/count decoding is explicitly not claimed by parse_ops."
           ],
           "test_classes": [
             "unit",
             "negative",
-            "fuzz",
-            "vectors"
+            "boundary",
+            "integration"
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/ops.rs",
             "symbol_or_entrypoint": "parse_ops",
             "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
             "file_blob_sha": "2b5efdff367b72e0025a6bfe7c05e89d23cf0a43",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/ops.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
+            "note": "This function parses textual .ops, not serialized ATCB bytecode. Binary decoding remains an identified gap."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "preconditions": {
-            "status": "RESIDUAL",
-            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Input is a UTF-8 string supplied by the caller."
+            ],
+            "reason": "No external encoding or input-size bound is enforced by parse_ops."
           },
           "postconditions": {
-            "status": "RESIDUAL",
-            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "success": "Returns one Op per recognized non-comment line; no environment-dependent behavior.",
+            "failure": "Returns typed parse error; does not silently skip unknown non-comment instructions."
           },
           "resource_limits": {
             "status": "RESIDUAL",
-            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+            "reason": "No maximum input byte count, line count or instruction count is enforced in parse_ops itself; downstream Vm::verify enforces MAX_PROGRAM_OPS."
           },
           "security_boundary": {
-            "status": "RESIDUAL",
-            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Input is untrusted textual code; fail-closed unknown-op parsing is present, but input-size limits are absent."
           },
           "versioning_compatibility": {
             "status": "RESIDUAL",
-            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+            "format": "Text .ops format",
+            "reason": "No explicit grammar version or compatibility/deprecation policy is present."
           },
-          "dependencies": {
-            "status": "RESIDUAL",
-            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
-          },
+          "dependencies": [
+            {
+              "function_id": "FN-VM-008",
+              "interface_version": "in-memory Op enum",
+              "status": "RESIDUAL",
+              "reason": "Parser output is passed to VM; no binary wire decoder is evidenced."
+            }
+          ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "reason": "Source/tests mapped; terminal exact-SHA CI evidence for this function is not asserted.",
             "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
@@ -2736,25 +2746,33 @@
         {
           "id": "FN-VM-002",
           "name": "Deterministic bounded execution",
-          "purpose": "Execute programs with explicit gas and resource limits and deterministic state effects.",
+          "purpose": "Gate chain identity/genesis/protocol/VM version, structurally verify the Op stream, and execute it with an explicit caller-supplied gas budget; failed execution rolls back stack and storage.",
           "inputs": [
-            "validated program",
-            "execution context",
-            "gas budget"
+            "&ChainContext",
+            "computed_genesis_id: &str",
+            "expected_protocol: &str",
+            "expected_vm: &str",
+            "gas_limit: u64"
           ],
           "outputs": [
-            "result/state delta or typed execution error"
+            "Result<Vec<u64>, VmError>; final stack on success or typed error on failure"
           ],
           "failure_modes": [
-            "gas exhaustion",
-            "stack overflow/underflow",
-            "storage exhaustion",
-            "arithmetic overflow"
+            "Context(ContextError)",
+            "InvalidProgram",
+            "ProgramTooLarge",
+            "StackLimitExceeded",
+            "StorageLimitExceeded",
+            "OutOfGas",
+            "StackUnderflow",
+            "DivisionByZero"
           ],
           "acceptance": [
-            "MAX_PROGRAM_OPS=65536, MAX_STACK_ITEMS=4096 and MAX_STORAGE_SLOTS=65536 are enforced",
-            "Gas accounting and overflow behavior are normative",
-            "Repeated execution yields identical results for identical inputs"
+            "execution_gate runs before verify and interpreter execution.",
+            "gas_limit is supplied by the chain; VM does not invent a budget.",
+            "On interpreter failure, original stack and storage are restored.",
+            "MAX_PROGRAM_OPS=65536, MAX_STACK_ITEMS=4096, MAX_STORAGE_SLOTS=65536 are enforced on this path.",
+            "Raw Vm::run is explicitly excluded from consensus execution."
           ],
           "test_classes": [
             "unit",
@@ -2765,41 +2783,155 @@
           "readiness": "RESIDUAL",
           "source_binding": {
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
             "source_path": "components/vm/src/vm.rs",
             "symbol_or_entrypoint": "Vm::execute_state_transition_with_gas",
             "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
           "preconditions": {
-            "status": "RESIDUAL",
-            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "requirements": [
+              "Context identifiers and expected versions are supplied by chain integration.",
+              "gas_limit is explicit."
+            ],
+            "reason": "The trustworthiness/provenance of context and budget is an integration responsibility."
           },
           "postconditions": {
-            "status": "RESIDUAL",
-            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "success": "Returns final stack and preserves storage writes from successful execution.",
+            "failure": "run_with_gas restores pre-execution stack/storage if interpreter returns an error; gate/verify failures occur before interpreter mutation."
           },
           "resource_limits": {
-            "status": "RESIDUAL",
-            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "max_program_ops": 65536,
+            "max_stack_items": 4096,
+            "max_storage_slots": 65536,
+            "gas": "Per-op costs are private in vm.rs; state-transition caller supplies gas_limit; exact consensus schedule not confirmed normative.",
+            "important_limit": "run() is an unmetered local/raw interpreter and does not enforce all bounded-execution checks."
           },
           "security_boundary": {
-            "status": "RESIDUAL",
-            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Consensus-safe public entrypoint; validates chain/genesis/protocol/VM identity before bounded execution. Host must supply trusted expected values."
           },
           "versioning_compatibility": {
             "status": "RESIDUAL",
-            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+            "api_version": "crate 0.1.0",
+            "reason": "Protocol/VM versions are compared as strings; normative version grammar and compatibility policy remain unspecified."
           },
-          "dependencies": {
-            "status": "RESIDUAL",
-            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
-          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-011",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            },
+            {
+              "component_or_function": "FN-VM-012",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            },
+            {
+              "component_or_function": "FN-VM-008",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            },
+            {
+              "component_or_function": "FN-VM-009",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            },
+            {
+              "component_or_function": "COMP-CHAIN",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            }
+          ],
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "reason": "Source has unit tests for rollback, gas exhaustion, bounds and context gate, but no terminal Run→Job→Step→exit/log evidence is asserted here.",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "test_file": "components/vm/src/vm.rs",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-VM-003",
+          "name": "VM construction",
+          "purpose": "Create an empty-stack VM around an instruction vector; initial caller and storage are zero/default.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/vm.rs",
+            "symbol_or_entrypoint": "Vm::new",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+          },
+          "inputs": [
+            "program: Vec<Op>"
+          ],
+          "outputs": [
+            "Vm with supplied program, empty stack, caller=0, empty storage"
+          ],
+          "preconditions": [
+            "Caller supplies an in-memory instruction vector; no bytecode decoder is invoked."
+          ],
+          "postconditions": [
+            "VM owns the program and initializes stack/storage empty."
+          ],
+          "failure_modes": [
+            "Allocation failure is not represented as VmError; invalid program is accepted until verify/execute."
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Program limit is checked by verify(), not by constructor; allocator behavior is outside typed error contract."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted program is stored without verification; callers must use verified/gated execution."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate version is 0.1.0 in Cargo.toml; API stability, wire compatibility, deprecation and migration policy are not specified or tested."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-008",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            }
+          ],
+          "acceptance": [
+            "Constructor does not execute code or mutate chain state.",
+            "Oversized/empty programs are rejected by the normative execution path before interpretation."
+          ],
+          "test_classes": [
+            "unit",
+            "boundary",
+            "negative"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact-source mapping is recorded, but no terminal Run→Job→Step→exit/log evidence for this function is asserted.",
             "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
@@ -2810,7 +2942,849 @@
               "exit_code",
               "log_or_artifact_url"
             ]
-          }
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-004",
+          "name": "VM construction with caller and state",
+          "purpose": "Initialize a VM with explicit caller identity and initial storage vector.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/vm.rs",
+            "symbol_or_entrypoint": "Vm::with_context",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+          },
+          "inputs": [
+            "program: Vec<Op>",
+            "caller: u64",
+            "storage: Vec<u64>"
+          ],
+          "outputs": [
+            "Vm containing supplied caller and storage, with empty stack"
+          ],
+          "preconditions": [
+            "Caller and initial storage are supplied by the host."
+          ],
+          "postconditions": [
+            "The VM stores the supplied caller and storage; bounds are checked by verify() on bounded paths."
+          ],
+          "failure_modes": [
+            "StorageLimitExceeded and StackLimitExceeded may be returned later by verify()/execution; constructor itself does not validate."
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Initial storage bound is enforced only when verify() is called; constructor accepts oversized input."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Caller identity is host-supplied and is not cryptographically authenticated by this constructor."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate version is 0.1.0 in Cargo.toml; API stability, wire compatibility, deprecation and migration policy are not specified or tested."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-008",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            },
+            {
+              "component_or_function": "FN-VM-011",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            }
+          ],
+          "acceptance": [
+            "Oversized initial storage cannot be executed through verify()-gated APIs.",
+            "Host caller identity provenance is documented by the integrating chain."
+          ],
+          "test_classes": [
+            "unit",
+            "boundary",
+            "negative"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact-source mapping is recorded, but no terminal Run→Job→Step→exit/log evidence for this function is asserted.",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-005",
+          "name": "Read caller identity",
+          "purpose": "Return the caller identifier currently stored in the VM context.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/vm.rs",
+            "symbol_or_entrypoint": "Vm::caller",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+          },
+          "inputs": [
+            "&self"
+          ],
+          "outputs": [
+            "u64 caller identifier"
+          ],
+          "preconditions": [
+            "VM has been initialized."
+          ],
+          "postconditions": [
+            "No state is mutated; the stored u64 is returned."
+          ],
+          "failure_modes": [
+            "No typed error path in the getter."
+          ],
+          "resource_limits": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Constant-time scalar getter; no independent resource budget is applicable."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Correctness depends on trusted host assignment of caller identity; authentication belongs to the host/chain boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate version is 0.1.0 in Cargo.toml; API stability, wire compatibility, deprecation and migration policy are not specified or tested."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-004",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            }
+          ],
+          "acceptance": [
+            "Returns exactly the caller value supplied to with_context; new() returns 0."
+          ],
+          "test_classes": [
+            "unit",
+            "integration"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact-source mapping is recorded, but no terminal Run→Job→Step→exit/log evidence for this function is asserted.",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-006",
+          "name": "Read VM storage state",
+          "purpose": "Expose the current storage as an immutable slice.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/vm.rs",
+            "symbol_or_entrypoint": "Vm::state",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+          },
+          "inputs": [
+            "&self"
+          ],
+          "outputs": [
+            "&[u64] immutable storage view"
+          ],
+          "preconditions": [
+            "VM is initialized."
+          ],
+          "postconditions": [
+            "No mutation occurs; caller receives a borrowed immutable view."
+          ],
+          "failure_modes": [
+            "No typed error path in the getter."
+          ],
+          "resource_limits": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "max_storage_slots": 65536,
+            "reason": "The execution verifier enforces the storage limit; the getter itself does not validate."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Returns the VM's state view; caller authorization and persistence are controlled by the integrating host."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate version is 0.1.0 in Cargo.toml; API stability, wire compatibility, deprecation and migration policy are not specified or tested."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-004",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            },
+            {
+              "component_or_function": "FN-VM-009",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            }
+          ],
+          "acceptance": [
+            "Getter does not permit mutation through the returned slice.",
+            "State rollback tests confirm state restored after a failed bounded execution."
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "transactional"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact-source mapping is recorded, but no terminal Run→Job→Step→exit/log evidence for this function is asserted.",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-007",
+          "name": "Fail-closed legacy state-transition entrypoint",
+          "purpose": "Validate chain context and program before delegating with a zero gas budget; retained for compatibility but normally rejects any positive-cost instruction.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/vm.rs",
+            "symbol_or_entrypoint": "Vm::execute_state_transition",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+          },
+          "inputs": [
+            "&ChainContext",
+            "computed_genesis_id: &str",
+            "expected_protocol: &str",
+            "expected_vm: &str"
+          ],
+          "outputs": [
+            "Result<Vec<u64>, VmError>"
+          ],
+          "preconditions": [
+            "Context must match chain_id, network, genesis, protocol and VM version."
+          ],
+          "postconditions": [
+            "On success delegates to execute_state_transition_with_gas with gas_limit=0; state changes only if execution can complete under zero budget."
+          ],
+          "failure_modes": [
+            "Context(ContextError)",
+            "OutOfGas for positive-cost instructions",
+            "InvalidProgram and other VM errors"
+          ],
+          "resource_limits": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "gas_limit": 0,
+            "reason": "Fixed zero budget is explicit in source; this entrypoint is not a useful general execution API."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Fail-closed gate precedes state transition; host must supply trustworthy computed genesis and expected versions."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate version is 0.1.0 in Cargo.toml; API stability, wire compatibility, deprecation and migration policy are not specified or tested."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-011",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            },
+            {
+              "component_or_function": "FN-VM-008",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            },
+            {
+              "component_or_function": "FN-VM-002",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            }
+          ],
+          "acceptance": [
+            "Never bypasses execution_gate.",
+            "Positive-cost program does not run with the fixed zero gas budget.",
+            "Callers needing execution use execute_state_transition_with_gas."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "integration",
+            "security"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact-source mapping is recorded, but no terminal Run→Job→Step→exit/log evidence for this function is asserted.",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-008",
+          "name": "Structural program verifier",
+          "purpose": "Reject empty/oversized programs, over-limit initial stack/storage and out-of-range jump targets before bounded interpretation.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/vm.rs",
+            "symbol_or_entrypoint": "Vm::verify",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+          },
+          "inputs": [
+            "&self; program, stack and storage currently held by VM"
+          ],
+          "outputs": [
+            "Result<(), VmError>"
+          ],
+          "preconditions": [
+            "VM exists; verifier is called before state-transition and gas-bounded execution."
+          ],
+          "postconditions": [
+            "No mutation; returns Ok only after listed structural checks pass."
+          ],
+          "failure_modes": [
+            "InvalidProgram(empty/jump target)",
+            "ProgramTooLarge",
+            "StorageLimitExceeded",
+            "StackLimitExceeded"
+          ],
+          "resource_limits": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "max_program_ops": 65536,
+            "max_stack_items": 4096,
+            "max_storage_slots": 65536,
+            "gas": "Per-op costs are private in vm.rs; state-transition caller supplies gas_limit; exact consensus schedule not confirmed normative.",
+            "important_limit": "run() is an unmetered local/raw interpreter and does not enforce all bounded-execution checks."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Treats Op stream as untrusted; structural checks do not establish stack-effect validity or decode binary bytecode."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate version is 0.1.0 in Cargo.toml; API stability, wire compatibility, deprecation and migration policy are not specified or tested."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-003",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            },
+            {
+              "component_or_function": "FN-VM-004",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            }
+          ],
+          "acceptance": [
+            "Boundary tests cover empty program, 65,537 ops, storage >65,536, stack >4,096 and invalid jump target.",
+            "Verifier limitations explicitly state no binary ATCB decoding or static stack-effect analysis."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "boundary",
+            "fuzz"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact-source mapping is recorded, but no terminal Run→Job→Step→exit/log evidence for this function is asserted.",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-009",
+          "name": "Gas-bounded transactional interpreter",
+          "purpose": "Execute a verified instruction stream with per-op gas accounting and restore stack/storage if execution fails.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/vm.rs",
+            "symbol_or_entrypoint": "Vm::run_with_gas",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+          },
+          "inputs": [
+            "gas_remaining: u64"
+          ],
+          "outputs": [
+            "Result<Vec<u64>, VmError>"
+          ],
+          "preconditions": [
+            "Program, stack and storage pass verify()."
+          ],
+          "postconditions": [
+            "Success returns and drains the final stack; failure restores original stack and storage. Gas counter is local to the call."
+          ],
+          "failure_modes": [
+            "OutOfGas",
+            "StackUnderflow",
+            "StackLimitExceeded",
+            "StorageLimitExceeded",
+            "DivisionByZero",
+            "InvalidJump/InvalidProgram"
+          ],
+          "resource_limits": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "max_program_ops": 65536,
+            "max_stack_items": 4096,
+            "max_storage_slots": 65536,
+            "gas": "Per-op costs are private in vm.rs; state-transition caller supplies gas_limit; exact consensus schedule not confirmed normative.",
+            "important_limit": "run() is an unmetered local/raw interpreter and does not enforce all bounded-execution checks."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "This public method is not itself gated by ChainContext; consensus callers must use execute_state_transition_with_gas."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate version is 0.1.0 in Cargo.toml; API stability, wire compatibility, deprecation and migration policy are not specified or tested."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-008",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            },
+            {
+              "component_or_function": "FN-VM-010",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            }
+          ],
+          "acceptance": [
+            "A failure after Store rolls back storage and stack.",
+            "Gas exhaustion is deterministic and typed.",
+            "Direct calls are not treated as consensus-authorized state transitions."
+          ],
+          "test_classes": [
+            "unit",
+            "transactional",
+            "boundary",
+            "property"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact-source mapping is recorded, but no terminal Run→Job→Step→exit/log evidence for this function is asserted.",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-010",
+          "name": "Raw local interpreter",
+          "purpose": "Run the instruction stream without gas accounting or the full bounded verifier; intended for local/unit use only.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/vm.rs",
+            "symbol_or_entrypoint": "Vm::run",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/vm.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+          },
+          "inputs": [
+            "&mut self"
+          ],
+          "outputs": [
+            "Result<Vec<u64>, VmError>"
+          ],
+          "preconditions": [
+            "Caller accepts raw/local-only semantics; program may not have passed verify()."
+          ],
+          "postconditions": [
+            "Returns and drains stack on success; may mutate storage during execution."
+          ],
+          "failure_modes": [
+            "StackUnderflow",
+            "DivisionByZero",
+            "InvalidJump"
+          ],
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "No gas metering; stack growth and Store storage growth are not bounded here. Must not be used as the consensus state-transition entrypoint."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Explicit source comment restricts this path to local/unit use; consensus MUST use execute_state_transition_with_gas."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate version is 0.1.0 in Cargo.toml; API stability, wire compatibility, deprecation and migration policy are not specified or tested."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-003",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            }
+          ],
+          "acceptance": [
+            "Consensus integration tests demonstrate that production state transitions call the gated gas API, not run().",
+            "Negative tests cover underflow and invalid jump."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "integration",
+            "security"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact-source mapping is recorded, but no terminal Run→Job→Step→exit/log evidence for this function is asserted.",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-011",
+          "name": "Validate chain execution context",
+          "purpose": "Validate chain id, allowed network id, 64-character hexadecimal genesis id, protocol version and VM version.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/context.rs",
+            "symbol_or_entrypoint": "ChainContext::validate",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "ef0a0cee2ff6a73adc19870a75fc1ed5e00ac7bc",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/context.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+          },
+          "inputs": [
+            "&self",
+            "expected_protocol: &str",
+            "expected_vm: &str"
+          ],
+          "outputs": [
+            "Result<(), ContextError>"
+          ],
+          "preconditions": [
+            "Context fields have been constructed by host code."
+          ],
+          "postconditions": [
+            "Returns Ok only when chain_id equals 'atc', network is devnet/testnet/mainnet, genesis id is 64 ASCII hex characters and versions match."
+          ],
+          "failure_modes": [
+            "InvalidChainId",
+            "InvalidNetworkId",
+            "InvalidGenesisId",
+            "ProtocolMismatch",
+            "VmMismatch"
+          ],
+          "resource_limits": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Validation of bounded strings; no execution budget is specified."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "Context fields and expected versions are host inputs; validation is not proof that host identity is authentic."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate version is 0.1.0 in Cargo.toml; API stability, wire compatibility, deprecation and migration policy are not specified or tested."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "COMP-CHAIN",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            }
+          ],
+          "acceptance": [
+            "Each invalid field is rejected with its specific ContextError.",
+            "Network identifiers are restricted to devnet/testnet/mainnet."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "boundary",
+            "security"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact-source mapping is recorded, but no terminal Run→Job→Step→exit/log evidence for this function is asserted.",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-012",
+          "name": "Verify computed genesis identity",
+          "purpose": "Compare the context genesis identifier with the externally computed genesis identifier.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/context.rs",
+            "symbol_or_entrypoint": "ChainContext::verify_genesis_id",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "ef0a0cee2ff6a73adc19870a75fc1ed5e00ac7bc",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/context.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+          },
+          "inputs": [
+            "&self",
+            "computed: &str"
+          ],
+          "outputs": [
+            "Result<(), ContextError>"
+          ],
+          "preconditions": [
+            "Context has a genesis_id and host supplies a computed identifier."
+          ],
+          "postconditions": [
+            "Returns Ok only for exact string equality; otherwise GenesisMismatch."
+          ],
+          "failure_modes": [
+            "GenesisMismatch"
+          ],
+          "resource_limits": {
+            "status": "NOT_APPLICABLE",
+            "reason": "String equality check; input sizes are expected to be 64 hex chars after validate()."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "The function compares values but does not itself compute or authenticate the genesis identifier."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate version is 0.1.0 in Cargo.toml; API stability, wire compatibility, deprecation and migration policy are not specified or tested."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "COMP-CHAIN",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            }
+          ],
+          "acceptance": [
+            "Mismatched genesis id is rejected.",
+            "Caller must invoke validate() or execution_gate() to enforce format and other context constraints."
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "security"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact-source mapping is recorded, but no terminal Run→Job→Step→exit/log evidence for this function is asserted.",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-013",
+          "name": "Fail-closed execution context gate",
+          "purpose": "Apply context validation and computed-genesis equality before VM state-transition execution.",
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "components/vm/src/context.rs",
+            "symbol_or_entrypoint": "execution_gate",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "ef0a0cee2ff6a73adc19870a75fc1ed5e00ac7bc",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/0419b444dec4749cec7b146950d1304f5a406c25/components/vm/src/context.rs",
+            "note": "Public/source entrypoint mapped to the canonical a-townchain/components/vm tree; this is not functional verification."
+          },
+          "inputs": [
+            "&ChainContext",
+            "computed_genesis_id: &str",
+            "expected_protocol: &str",
+            "expected_vm: &str"
+          ],
+          "outputs": [
+            "Result<(), ContextError>"
+          ],
+          "preconditions": [
+            "Expected protocol/VM versions and computed genesis identity come from trusted chain integration."
+          ],
+          "postconditions": [
+            "Returns Ok only after ChainContext::validate and verify_genesis_id both succeed."
+          ],
+          "failure_modes": [
+            "Any ContextError from validation or genesis comparison"
+          ],
+          "resource_limits": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Gate performs bounded context validation; it does not execute bytecode."
+          },
+          "security_boundary": {
+            "status": "SOURCE_DOCUMENTED_NOT_FUNCTIONALLY_VERIFIED",
+            "trust_boundary": "This is the pre-execution gate; it relies on trusted expected versions and computed genesis input."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Crate version is 0.1.0 in Cargo.toml; API stability, wire compatibility, deprecation and migration policy are not specified or tested."
+          },
+          "dependencies": [
+            {
+              "component_or_function": "FN-VM-011",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            },
+            {
+              "component_or_function": "FN-VM-012",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            },
+            {
+              "component_or_function": "COMP-CHAIN",
+              "interface_version": "UNSPECIFIED",
+              "status": "RESIDUAL",
+              "reason": "Source-level dependency identified; normative interface version and cross-component conformance are not established."
+            }
+          ],
+          "acceptance": [
+            "State-transition entrypoints invoke the gate before verification and interpretation.",
+            "Invalid context cannot mutate VM storage."
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "negative",
+            "security"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact-source mapping is recorded, but no terminal Run→Job→Step→exit/log evidence for this function is asserted.",
+            "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "readiness": "RESIDUAL"
         }
       ],
       "source_inventory": {
@@ -2821,35 +3795,40 @@
         "census_date": "2026-10-11",
         "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain/commits/main",
         "source_paths_examined": [
+          "components/vm/Cargo.toml",
+          "components/vm/src/lib.rs",
           "components/vm/src/vm.rs",
           "components/vm/src/ops.rs",
-          "components/vm/src/context.rs"
+          "components/vm/src/context.rs",
+          "components/vm/src/assembler.rs",
+          "components/vm/src/main.rs",
+          "components/vm/tests/exec_chain_e2e.rs"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Selected source files have been enumerated at the recorded repository HEAD. This is not a full repository/tree scan; unexamined files and additional exported symbols may exist.",
+        "status_reason": "Public API functions in vm.rs, ops.rs and context.rs are mapped at exact HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding is not present in the examined canonical crate surface; assembler/CLI paths are inventoried but not yet exhaustively mapped into function contracts. Functional verification and repository-wide AST reconciliation remain open.",
         "observed_public_symbol_inventory": [
           {
             "path": "components/vm/src/vm.rs",
             "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
             "public_functions": [
-              "new",
-              "with_context",
-              "caller",
-              "state",
-              "execute_state_transition",
-              "execute_state_transition_with_gas",
-              "verify",
-              "run_with_gas",
-              "run"
+              "Vm::new",
+              "Vm::with_context",
+              "Vm::caller",
+              "Vm::state",
+              "Vm::execute_state_transition",
+              "Vm::execute_state_transition_with_gas",
+              "Vm::verify",
+              "Vm::run_with_gas",
+              "Vm::run"
             ],
             "public_types": [
               "Op",
               "VmError",
               "Vm"
             ],
-            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+            "enumeration_method": "Manual enumeration from complete file at exact HEAD; test module reviewed; not compiler/AST generated."
           },
           {
             "path": "components/vm/src/ops.rs",
@@ -2861,22 +3840,50 @@
             "public_types": [
               "OpsError"
             ],
-            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+            "enumeration_method": "Manual enumeration from complete file at exact HEAD; test module reviewed; textual parser only."
           },
           {
             "path": "components/vm/src/context.rs",
             "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
             "file_blob_sha": "ef0a0cee2ff6a73adc19870a75fc1ed5e00ac7bc",
             "public_functions": [
-              "validate",
-              "verify_genesis_id",
+              "ChainContext::validate",
+              "ChainContext::verify_genesis_id",
               "execution_gate"
             ],
             "public_types": [
               "ChainContext",
               "ContextError"
             ],
-            "enumeration_method": "regex over complete file content returned by GitHub file API; impl methods listed by name, receiver/type signature not normalized"
+            "enumeration_method": "Manual enumeration from complete file at exact HEAD; test module reviewed."
+          },
+          {
+            "path": "components/vm/src/assembler.rs",
+            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "92306119c9384b44a9241d7293eb1f08d41dcc29",
+            "public_functions": [
+              "assemble"
+            ],
+            "public_types": [],
+            "enumeration_method": "File examined; binary-local module used by runner, not part of lib.rs exports; full function contract not yet cataloged."
+          },
+          {
+            "path": "components/vm/src/main.rs",
+            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "6c4ebf320c0f54131f77372c17e21b813aa9cb32",
+            "public_functions": [],
+            "public_types": [
+              "atc-vm-runner CLI entrypoint"
+            ],
+            "enumeration_method": "File examined; executable CLI path and argument parsing exist; not exhaustively cataloged as function-level contracts."
+          },
+          {
+            "path": "components/vm/tests/exec_chain_e2e.rs",
+            "repository_head_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "file_blob_sha": "129122feb41a1af630a59a0f04c2cf679853bc27",
+            "public_functions": [],
+            "public_types": [],
+            "enumeration_method": "Integration test surface inspected; tests cover arithmetic, parse/execute, storage, caller, branches and transfer examples; test success not inferred from source presence."
           }
         ],
         "symbols_enumerated_for_selected_paths": true
@@ -2905,7 +3912,58 @@
       ],
       "public_interfaces": {
         "status": "RESIDUAL",
-        "reason": "No verified public interface records are linked to this component; enumerate exports and cross-repository contracts."
+        "interfaces": [
+          {
+            "symbol": "Vm::new",
+            "signature": "fn new(program: Vec<Op>) -> Self",
+            "source_path": "components/vm/src/vm.rs",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25"
+          },
+          {
+            "symbol": "Vm::with_context",
+            "signature": "fn with_context(program: Vec<Op>, caller: u64, storage: Vec<u64>) -> Self",
+            "source_path": "components/vm/src/vm.rs",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25"
+          },
+          {
+            "symbol": "Vm::execute_state_transition_with_gas",
+            "signature": "fn execute_state_transition_with_gas(&mut self, context: &ChainContext, computed_genesis_id: &str, expected_protocol: &str, expected_vm: &str, gas_limit: u64) -> Result<Vec<u64>, VmError>",
+            "source_path": "components/vm/src/vm.rs",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25"
+          },
+          {
+            "symbol": "Vm::verify",
+            "signature": "fn verify(&self) -> Result<(), VmError>",
+            "source_path": "components/vm/src/vm.rs",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25"
+          },
+          {
+            "symbol": "Vm::run_with_gas",
+            "signature": "fn run_with_gas(&mut self, gas_remaining: u64) -> Result<Vec<u64>, VmError>",
+            "source_path": "components/vm/src/vm.rs",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25"
+          },
+          {
+            "symbol": "Vm::run",
+            "signature": "fn run(&mut self) -> Result<Vec<u64>, VmError>",
+            "source_path": "components/vm/src/vm.rs",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+            "warning": "raw/local-only; no gas and not suitable as consensus state transition"
+          },
+          {
+            "symbol": "parse_ops",
+            "signature": "fn parse_ops(text: &str) -> Result<Vec<Op>, OpsError>",
+            "source_path": "components/vm/src/ops.rs",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25"
+          },
+          {
+            "symbol": "execution_gate",
+            "signature": "fn execution_gate(context: &ChainContext, computed_genesis_id: &str, expected_protocol: &str, expected_vm: &str) -> Result<(), ContextError>",
+            "source_path": "components/vm/src/context.rs",
+            "exact_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25"
+          }
+        ],
+        "reason": "Public interfaces are enumerated from selected source files; signatures are manually transcribed and still require rustdoc/compiler/API and interface-version reconciliation."
       },
       "security_and_trust_boundaries": {
         "status": "RESIDUAL",
@@ -2986,15 +4044,67 @@
       },
       "test_and_ci_gates": {
         "status": "RESIDUAL",
-        "reason": "Bind required tests and CI gates to exact source SHA with terminal Run/Job/Step/exit evidence."
+        "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+        "observed_test_surfaces": [
+          "components/vm/src/vm.rs #[cfg(test)]",
+          "components/vm/src/context.rs #[cfg(test)]",
+          "components/vm/src/ops.rs #[cfg(test)]",
+          "components/vm/tests/exec_chain_e2e.rs"
+        ],
+        "required_gates": [
+          "cargo fmt --check",
+          "cargo test --manifest-path components/vm/Cargo.toml",
+          "cargo clippy --manifest-path components/vm/Cargo.toml --all-targets -- -D warnings",
+          "ATCB binary format conformance tests (blocked until canonical decoder/spec conflict resolved)",
+          "exact-SHA Run→Job→Step→exit/log capture"
+        ],
+        "reason": "Test source surfaces are mapped but no commands were executed by this catalog update and no terminal workflow evidence is claimed."
       },
       "known_conflicts_and_residuals": {
         "status": "RESIDUAL",
-        "reason": "Reconcile architecture conflicts, migrations, unresolved interface edges and existing residual registers."
+        "items": [
+          {
+            "code": "VM-BIN-001",
+            "issue": "Catalog's former FN-VM-001 claimed binary bytecode decoding, but its source binding was parse_ops(), a textual .ops parser.",
+            "status": "CORRECTED_IN_CATALOG",
+            "evidence": "components/vm/src/ops.rs at 0419b444dec4749cec7b146950d1304f5a406c25"
+          },
+          {
+            "code": "VM-BIN-002",
+            "issue": "ATCB binary magic/version/count decoder is not evidenced in the inspected canonical components/vm source files.",
+            "status": "OPEN",
+            "impact": "Do not claim binary bytecode decoding or verified binary artifact execution."
+          },
+          {
+            "code": "VM-EXEC-001",
+            "issue": "Vm::run() is a raw unmetered interpreter and does not enforce all bounds applied by verify()/run_with_gas().",
+            "status": "DOCUMENTED_RESIDUAL",
+            "impact": "Must not be used for consensus state transitions."
+          },
+          {
+            "code": "VM-ASM-001",
+            "issue": "Native assembler and CLI runner are present but do not yet have complete individual function contracts in this catalog.",
+            "status": "OPEN"
+          },
+          {
+            "code": "VM-VER-001",
+            "issue": "Source has targeted unit/integration tests, but no exact-SHA terminal CI evidence was attached by this update.",
+            "status": "OPEN"
+          }
+        ]
       },
       "verification_evidence": {
         "status": "RESIDUAL",
-        "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
+        "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+        "reason": "This catalog update reconciles source-level public APIs, not test execution or production readiness.",
+        "required_evidence": [
+          "workflow_run_id",
+          "job",
+          "step",
+          "terminal_conclusion",
+          "exit_code",
+          "log_or_artifact_url"
+        ]
       }
     },
     {
@@ -9195,6 +10305,10 @@
     "component_contracts_checked": 30,
     "missing_required_field_values_are_explicit_residuals": true,
     "functional_verification_performed": false,
-    "release_decision": "BLOCKED"
+    "release_decision": "BLOCKED",
+    "last_component_updated": "COMP-VM",
+    "last_component_update_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
+    "component_function_contract_count": 13,
+    "component_function_catalog_status": "RESIDUAL_SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED"
   }
 }
