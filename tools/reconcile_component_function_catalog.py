@@ -119,6 +119,8 @@ def reconcile(catalog: dict, census: dict) -> dict:
             }
             if binding_status in reasoned_statuses:
                 item["finding"] = reasoned_statuses[binding_status]
+            elif symbol_kind != "function":
+                item["finding"] = "FUNCTION_BINDING_KIND_NOT_EXECUTABLE"
             elif binding_status in {"TEST_SURFACE_ONLY", "RELATED_SOURCE_SURFACE_ONLY"}:
                 if path and symbol and repo in census_repos and census_repos[repo].get("report"):
                     candidates = (test_symbols_by_repo.get(repo, set()) | symbols_by_repo.get(repo, set())) if binding_status == "TEST_SURFACE_ONLY" else symbols_by_repo.get(repo, set())
@@ -185,6 +187,14 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 "symbol_kind": symbol_kind,
                 "symbol_or_entrypoint": symbol,
             }
+            if symbol_kind != "function":
+                excluded_candidates.append({
+                    **common,
+                    "status": "EXCLUDED_BY_POLICY",
+                    "finding": "NON_FUNCTION_SOURCE_ARTIFACT_EXCLUDED_FROM_SYMBOL_SCAN",
+                    "reason": "The source symbol is a type, value, or macro rather than an executable function. It remains in the exact source inventory and is excluded from runtime function coverage by policy; add a separate typed contract if it carries protocol/security semantics.",
+                })
+                continue
             parts = [part.lower() for part in path.replace("\\\\", "/").split("/")]
             filename = parts[-1] if parts else ""
             test_surface = any(part in {"tests", "test", "__tests__", "benches", "bench", "fuzz", "fuzzing", "fixtures", "fixture"} for part in parts[:-1]) or filename.startswith("test_") or filename.endswith("_test.py") or filename.endswith("_test.rs") or filename.endswith("_tests.py")
@@ -231,7 +241,8 @@ def reconcile(catalog: dict, census: dict) -> dict:
             ),
             "component_findings": len(component_findings),
             "candidate_symbols_total": sum(len(found) for found in symbols_by_repo.values()) + sum(len(found) for found in test_symbols_by_repo.values()),
-            "candidate_runtime_symbols_total": sum(len(found) for found in symbols_by_repo.values()),
+            "candidate_runtime_symbols_total": sum(1 for found in symbols_by_repo.values() for _, kind, _ in found if kind == "function"),
+            "candidate_non_function_symbols_total": sum(1 for found in symbols_by_repo.values() for _, kind, _ in found if kind != "function"),
             "candidate_test_symbols_total": sum(len(found) for found in test_symbols_by_repo.values()),
             "candidate_symbols_bound": sum(len(bound.get(repo, set())) for repo in symbols_by_repo),
             "candidate_symbols_unbound": len(unmatched_candidates),
