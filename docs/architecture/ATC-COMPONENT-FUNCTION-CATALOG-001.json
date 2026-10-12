@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-13",
-  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings. Cross-component interfaces now carry machine-readable request/response, error/timeout, authorization, compatibility, test, and exact-SHA evidence fields; unresolved fields remain explicit RESIDUAL. Added IF-014 Node↔SDK RPC, IF-015 Genesis Engine↔L1 core, and IF-016 Node P2P boundary. Embedded specification summary now reflects 139 function/capability records and 16 interface records; no functional verification is claimed.",
+  "catalog_revision_note": "Current exact-HEAD census and reconciliation run 38320206333 validates the 139-record function catalog and 13 interface records. 107 exact-SHA lexical matches; 32 residual/blocked records; 10,815 source candidates remain unbound. No function is functionally verified. Exact source bindings now carry symbol_kind; type/value surfaces are explicitly related-only and test-path entries are marked TEST_SURFACE_ONLY so they cannot masquerade as runtime function mappings. Cross-component interfaces now carry machine-readable request/response, error/timeout, authorization, compatibility, test, and exact-SHA evidence fields; unresolved fields remain explicit RESIDUAL. Added IF-014 Node↔SDK RPC, IF-015 Genesis Engine↔L1 core, and IF-016 Node P2P boundary. Embedded specification summary now reflects 139 function/capability records and 16 interface records; no functional verification is claimed. Added COMP-WALLET as a distinct canonical component inside a-townchain/components/wallet, with five exact-HEAD TX-V2 source bindings and IF-017. The archived standalone atc-wallet repository remains reference-only and is not reactivated.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -15321,6 +15321,503 @@
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       }
+    },
+    {
+      "id": "COMP-WALLET",
+      "name": "Canonical L1 Wallet and Transaction Signer",
+      "layer": "L3",
+      "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+      "role": "Canonical wallet-key and TX-V2 construction/signing/verification source inside the L1 monorepo; distinct from the archived standalone atc-wallet repository.",
+      "readiness": "RESIDUAL",
+      "criticality": "P0",
+      "depends_on": [
+        "COMP-CHAIN"
+      ],
+      "functions": [
+        {
+          "id": "FN-WALLET-001",
+          "name": "Canonical TX-V2 signing preimage",
+          "purpose": "Validate the chain ID and sender, then build the versioned signing preimage from the canonical transaction fields.",
+          "inputs": [
+            "Transaction fields: chain_id, type, sender/recipient, amount, gas price/limit, nonce, timestamp, payload, PoH hash"
+          ],
+          "outputs": [
+            "ATC-TX-DOMAIN-V2-prefixed canonical byte sequence or typed TxError"
+          ],
+          "failure_modes": [
+            "wrong chain ID",
+            "empty sender",
+            "length/encoding ambiguity",
+            "unbounded payload"
+          ],
+          "acceptance": [
+            "Signing preimage starts with ATC-TX-DOMAIN-V2",
+            "u128 amount uses 16-byte big-endian encoding",
+            "u64 numeric fields use fixed-width big-endian encoding",
+            "optional recipient has an explicit presence tag",
+            "same transaction yields identical bytes"
+          ],
+          "test_classes": [
+            "unit",
+            "golden-vectors",
+            "property",
+            "negative",
+            "cross-client-compatibility"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/wallet/src/tx.rs",
+            "symbol_or_entrypoint": "signing_bytes",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "2693b7ba015456addcc8d129455b7e5a9e2f1860",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/wallet/src/tx.rs",
+            "note": "Exact path/symbol and file blob are bound to the recorded a-townchain HEAD. This is lexical/source mapping only; behavior, complete call graph, cross-client vectors and security review are not functionally verified."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller state, transaction normalization, key lifecycle and maximum payload constraints require normative/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Canonical bytes, deterministic result, error behavior and no unintended mutation must be verified by vectors and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "The source does not establish a protocol-wide payload size cap; enforce and document caller-level bounds before production use."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Private key custody, malformed transaction fields, signature malleability and replay context require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "TX-V2 domain constants are present in source; compatibility with all canonical chain consumers and legacy rejection needs cross-repository evidence."
+          },
+          "dependencies": [
+            "COMP-CHAIN"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact source mapping exists, but no current exact-SHA test Run/Job/Step/exit/log evidence is attached to this contract.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-WALLET-002",
+          "name": "Canonical transaction identifier",
+          "purpose": "Derive a stable transaction identifier from TX-ID-V2 domain separation and canonical transaction fields.",
+          "inputs": [
+            "Transaction fields"
+          ],
+          "outputs": [
+            "32-byte SHA-256 transaction ID or typed TxError"
+          ],
+          "failure_modes": [
+            "serialization drift",
+            "domain confusion",
+            "payload length ambiguity"
+          ],
+          "acceptance": [
+            "Prefix is ATC-TX-ID-V2, distinct from signing domain",
+            "output is exactly 32 bytes",
+            "same transaction yields identical ID",
+            "golden vectors match canonical clients"
+          ],
+          "test_classes": [
+            "unit",
+            "golden-vectors",
+            "property",
+            "compatibility"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/wallet/src/tx.rs",
+            "symbol_or_entrypoint": "id",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "2693b7ba015456addcc8d129455b7e5a9e2f1860",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/wallet/src/tx.rs",
+            "note": "Exact path/symbol and file blob are bound to the recorded a-townchain HEAD. This is lexical/source mapping only; behavior, complete call graph, cross-client vectors and security review are not functionally verified."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller state, transaction normalization, key lifecycle and maximum payload constraints require normative/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Canonical bytes, deterministic result, error behavior and no unintended mutation must be verified by vectors and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "The source does not establish a protocol-wide payload size cap; enforce and document caller-level bounds before production use."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Private key custody, malformed transaction fields, signature malleability and replay context require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "TX-V2 domain constants are present in source; compatibility with all canonical chain consumers and legacy rejection needs cross-repository evidence."
+          },
+          "dependencies": [
+            "COMP-CHAIN"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact source mapping exists, but no current exact-SHA test Run/Job/Step/exit/log evidence is attached to this contract.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-WALLET-003",
+          "name": "TX-V2 compact signature creation",
+          "purpose": "Sign the SHA-256 digest of the canonical signing preimage using the supplied wallet key.",
+          "inputs": [
+            "Transaction",
+            "WalletKey"
+          ],
+          "outputs": [
+            "64-byte compact secp256k1 ECDSA signature or typed TxError"
+          ],
+          "failure_modes": [
+            "invalid chain ID",
+            "empty sender",
+            "key provider failure",
+            "digest/encoding mismatch"
+          ],
+          "acceptance": [
+            "Signature is compact r||s, 64 bytes",
+            "signature is bound to TX-V2 domain-separated digest",
+            "determinism vectors pass",
+            "secret key material never appears in output/logs"
+          ],
+          "test_classes": [
+            "unit",
+            "golden-vectors",
+            "negative",
+            "security",
+            "cross-client-compatibility"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/wallet/src/tx.rs",
+            "symbol_or_entrypoint": "sign",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "2693b7ba015456addcc8d129455b7e5a9e2f1860",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/wallet/src/tx.rs",
+            "note": "Exact path/symbol and file blob are bound to the recorded a-townchain HEAD. This is lexical/source mapping only; behavior, complete call graph, cross-client vectors and security review are not functionally verified."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller state, transaction normalization, key lifecycle and maximum payload constraints require normative/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Canonical bytes, deterministic result, error behavior and no unintended mutation must be verified by vectors and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "The source does not establish a protocol-wide payload size cap; enforce and document caller-level bounds before production use."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Private key custody, malformed transaction fields, signature malleability and replay context require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "TX-V2 domain constants are present in source; compatibility with all canonical chain consumers and legacy rejection needs cross-repository evidence."
+          },
+          "dependencies": [
+            "COMP-CHAIN"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact source mapping exists, but no current exact-SHA test Run/Job/Step/exit/log evidence is attached to this contract.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-WALLET-004",
+          "name": "TX-V2 signature verification",
+          "purpose": "Verify a compact ECDSA signature over the canonical transaction digest using a compressed SEC1 public key and reject high-S signatures.",
+          "inputs": [
+            "Transaction",
+            "33-byte compressed SEC1 public key",
+            "64-byte compact r||s signature"
+          ],
+          "outputs": [
+            "success or typed TxError::InvalidSignature"
+          ],
+          "failure_modes": [
+            "malformed public key",
+            "malformed compact signature",
+            "high-S signature",
+            "wrong digest/domain",
+            "signature mismatch"
+          ],
+          "acceptance": [
+            "Public key is parsed from exactly the supplied compressed encoding",
+            "high-S signatures are rejected rather than silently normalized",
+            "signature is verified against the TX-V2 digest",
+            "invalid signatures fail closed"
+          ],
+          "test_classes": [
+            "unit",
+            "golden-vectors",
+            "fuzz",
+            "negative",
+            "adversarial",
+            "cross-client-compatibility"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/wallet/src/tx.rs",
+            "symbol_or_entrypoint": "verify",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "2693b7ba015456addcc8d129455b7e5a9e2f1860",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/wallet/src/tx.rs",
+            "note": "Exact path/symbol and file blob are bound to the recorded a-townchain HEAD. This is lexical/source mapping only; behavior, complete call graph, cross-client vectors and security review are not functionally verified."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller state, transaction normalization, key lifecycle and maximum payload constraints require normative/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Canonical bytes, deterministic result, error behavior and no unintended mutation must be verified by vectors and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "The source does not establish a protocol-wide payload size cap; enforce and document caller-level bounds before production use."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Private key custody, malformed transaction fields, signature malleability and replay context require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "TX-V2 domain constants are present in source; compatibility with all canonical chain consumers and legacy rejection needs cross-repository evidence."
+          },
+          "dependencies": [
+            "COMP-CHAIN"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact source mapping exists, but no current exact-SHA test Run/Job/Step/exit/log evidence is attached to this contract.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        },
+        {
+          "id": "FN-WALLET-005",
+          "name": "Canonical transaction field encoder",
+          "purpose": "Append the transaction fields in their protocol-defined order and widths to a byte buffer.",
+          "inputs": [
+            "mutable output byte buffer",
+            "Transaction"
+          ],
+          "outputs": [
+            "canonical field bytes appended in place"
+          ],
+          "failure_modes": [
+            "length-prefix overflow",
+            "field order drift",
+            "integer width drift",
+            "optional-recipient ambiguity"
+          ],
+          "acceptance": [
+            "chain_id and u64 fields use big-endian fixed-width encoding",
+            "amount uses 16-byte big-endian u128",
+            "sender/recipient/payload use explicit u32 length prefixes",
+            "recipient presence is encoded explicitly",
+            "PoH hash is appended as 32 bytes"
+          ],
+          "test_classes": [
+            "unit",
+            "golden-vectors",
+            "property",
+            "overflow-boundary",
+            "cross-client-compatibility"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "components/wallet/src/tx.rs",
+            "symbol_or_entrypoint": "append_canonical_fields",
+            "symbol_kind": "function",
+            "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "file_blob_sha": "2693b7ba015456addcc8d129455b7e5a9e2f1860",
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/wallet/src/tx.rs",
+            "note": "Exact path/symbol and file blob are bound to the recorded a-townchain HEAD. This is lexical/source mapping only; behavior, complete call graph, cross-client vectors and security review are not functionally verified."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller state, transaction normalization, key lifecycle and maximum payload constraints require normative/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Canonical bytes, deterministic result, error behavior and no unintended mutation must be verified by vectors and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "The source does not establish a protocol-wide payload size cap; enforce and document caller-level bounds before production use."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Private key custody, malformed transaction fields, signature malleability and replay context require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "TX-V2 domain constants are present in source; compatibility with all canonical chain consumers and legacy rejection needs cross-repository evidence."
+          },
+          "dependencies": [
+            "COMP-CHAIN"
+          ],
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Exact source mapping exists, but no current exact-SHA test Run/Job/Step/exit/log evidence is attached to this contract.",
+            "source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "cross_client_golden_vectors"
+            ]
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/a-townchain",
+        "canonical_path": "components/wallet",
+        "observed_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "observed_tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD source census run 38320206333; repository entry bound to the recorded HEAD.",
+        "source_paths_examined": [
+          "components/wallet/src/tx.rs"
+        ],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "The wallet transaction file is bound at exact HEAD, but full wallet module exports, key-provider lifecycle, caller-level size bounds and cross-component consumers remain to be reconciled."
+      },
+      "canonical_path": "components/wallet",
+      "role_and_non_goals": {
+        "role": "Canonical TX-V2 transaction encoding, identifier derivation and compact signature APIs.",
+        "non_goals": {
+          "status": "RESIDUAL",
+          "reason": "No wallet UI, custody service, node consensus, transaction admission or protocol version selection is owned by this component record."
+        }
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-CHAIN",
+          "interface_version": "TX-V2",
+          "status": "RESIDUAL",
+          "reason": "Canonical source constants exist; chain-consumer verification and shared vectors remain to be proven."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "TX signing and verification functions are source-bound; complete external API and consumer compatibility inventory remains open."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "reason": "Private key provider, secret handling, signature malleability, replay binding and untrusted transaction fields require security review."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "No protocol-wide maximum payload size is established by this file; input caps and allocation bounds must be specified."
+      },
+      "source_inventory_with_exact_head_and_tree_sha": {
+        "repository": "A-TownChain-Okosystems/a-townchain",
+        "canonical_path": "components/wallet",
+        "observed_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "observed_tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
+        "census_date": "2026-10-13",
+        "evidence_source": "Exact-HEAD census run 38320206333 and Git tree metadata for the same commit.",
+        "source_paths_examined": [
+          "components/wallet/src/tx.rs"
+        ],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Exact file SHA is recorded; remaining wallet source paths, public/internal symbols, tests and caller integrations are not fully reconciled.",
+        "status": "RESIDUAL"
+      },
+      "test_and_ci_gates": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "TX-V2 golden vectors",
+          "signature roundtrip",
+          "high-S rejection",
+          "malformed key/signature negatives",
+          "u128/u64 boundary vectors",
+          "cross-client compatibility",
+          "payload size/resource bounds"
+        ]
+      },
+      "known_conflicts_and_residuals": {
+        "status": "RESIDUAL",
+        "reason": "Verify TX-V2 domain, amount encoding, chain ID, nonce/replay rules and cross-client behavior against the normative chain contract; do not equate source presence with verification."
+      },
+      "verification_evidence": {
+        "status": "RESIDUAL",
+        "reason": "No terminal current-HEAD test evidence has been bound to these function records."
+      }
     }
   ],
   "cross_component_interfaces": [
@@ -16395,6 +16892,98 @@
         "interface_test_source_sha": null
       },
       "resolution_rule": "Keep RESIDUAL/BLOCKED until both sides are source-bound at exact SHAs, request/response and failure semantics are versioned, and contract tests have terminal passing evidence."
+    },
+    {
+      "id": "IF-017",
+      "producer": "COMP-WALLET",
+      "consumer": "COMP-CHAIN",
+      "contract": "TX-V2 wallet-to-chain transaction contract: canonical signing preimage and transaction ID domains; exact field ordering/widths; secp256k1 ECDSA compact r||s; compressed SEC1 public key; low-S rejection; deterministic verification and typed invalid-transaction errors.",
+      "status": "RESIDUAL",
+      "status_reason": "Wallet-side source is bound to exact SHA, but canonical chain-side verification entrypoint and shared cross-client vectors are not yet identified and verified.",
+      "contract_version": "TX-V2",
+      "version_status": "RESIDUAL",
+      "request_schema": {
+        "status": "RESIDUAL",
+        "format": "ATC-TX-DOMAIN-V2 canonical byte preimage plus 33-byte compressed SEC1 public key and 64-byte compact r||s signature",
+        "fields": [
+          "chain_id:u64 BE",
+          "tx_type:u8",
+          "sender_did:u32 length + bytes",
+          "recipient presence:u8 and optional u32 length + bytes",
+          "amount:u128 BE",
+          "gas_price:u64 BE",
+          "gas_limit:u64 BE",
+          "nonce:u64 BE",
+          "timestamp:u64 BE",
+          "payload:u32 length + bytes",
+          "poh_hash:32 bytes"
+        ],
+        "notes": "Field order and widths are read from wallet TX-V2 source at the exact bound SHA; cross-client normative conformance remains residual."
+      },
+      "response_schema": {
+        "status": "RESIDUAL",
+        "format": "32-byte transaction ID or typed validation result",
+        "fields": [
+          "tx_id:32 bytes",
+          "signature verification result",
+          "typed rejection reason"
+        ],
+        "notes": "Exact chain-side response and rejection schema must be reconciled with the canonical transaction admission path."
+      },
+      "error_timeout_semantics": {
+        "status": "RESIDUAL",
+        "typed_errors": [
+          "InvalidChainId",
+          "EmptySender",
+          "InvalidSignature",
+          "InvalidKey"
+        ],
+        "timeout_behavior": null,
+        "partial_failure_behavior": "No canonical state mutation is performed by the wallet encoding/signature functions.",
+        "retry_idempotency": "Signing/ID derivation are deterministic for identical transaction and key inputs; verify against tests."
+      },
+      "authorization_capability": {
+        "status": "RESIDUAL",
+        "required_capabilities": [
+          "wallet-key-use"
+        ],
+        "trust_boundary": "WalletKey/provider boundary; secret material must not cross into logs or untrusted outputs.",
+        "fail_closed_rule": "Reject invalid chain ID, empty sender, malformed keys/signatures and noncanonical high-S signatures."
+      },
+      "compatibility": {
+        "status": "RESIDUAL",
+        "policy": "TX-V2 only for this contract; legacy domains must not be silently accepted.",
+        "deprecation_policy": null,
+        "migration_behavior": null
+      },
+      "contract_tests": {
+        "status": "RESIDUAL",
+        "required_classes": [
+          "golden-vectors",
+          "signature-roundtrip",
+          "high-S-negative",
+          "malformed-key-negative",
+          "u128-boundaries",
+          "cross-client-compatibility",
+          "replay/context-binding"
+        ],
+        "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "workflow_run_id": null,
+        "job": null,
+        "step": null,
+        "exit_code": null,
+        "log_or_artifact_url": null
+      },
+      "source_evidence": {
+        "status": "RESIDUAL",
+        "producer_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
+        "producer_path": "components/wallet/src/tx.rs",
+        "producer_file_blob_sha": "2693b7ba015456addcc8d129455b7e5a9e2f1860",
+        "consumer_source_sha": null,
+        "consumer_path": null,
+        "interface_test_source_sha": null
+      },
+      "resolution_rule": "Remain RESIDUAL until the canonical chain-side transaction verifier is source-bound at exact SHA and TX-V2 golden vectors pass across wallet, SDK and node."
     }
   ],
   "release_decision": {
@@ -16416,8 +17005,8 @@
     "source_registry": "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json",
     "rule": "The exact-HEAD census covers 25 active repositories; one private active repository is explicitly excluded for lack of CI access; seven archived repositories are reference-only. 10,815 candidate symbols remain unbound after 941 test/example policy exclusions. No lexical source match is functional verification.",
     "function_inventory_status": "SOURCE_RECONCILIATION_RESIDUAL",
-    "component_source_bindings": 30,
-    "function_source_bindings": 139,
+    "component_source_bindings": 31,
+    "function_source_bindings": 144,
     "source_verified_components": 0,
     "source_verified_functions": 0,
     "selected_source_files_examined": 10,
