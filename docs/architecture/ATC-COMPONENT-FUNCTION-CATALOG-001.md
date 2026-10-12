@@ -213,3 +213,11 @@ Latest exact-HEAD evidence: [Source Symbol Inventory #38320206333](https://githu
 The machine-readable catalog now contains **13 cross-component interfaces**. Added explicit contracts for TX-V2 serialization/signing (`IF-008`), L1 node admission (`IF-009`), canonical persistence (`IF-010`), L1 standards (`IF-011`), ZKP verification (`IF-012`) and the ShivaCore/GlobusOS boot-service boundary (`IF-013`).
 
 `IF-002` is `BLOCKED` while the ATCB-versus-ATC1 bytecode magic conflict remains unresolved. `IF-003` is `BLOCKED` while consensus algorithm, finality and fork-choice lack an authoritative versioned decision. `IF-010` is `BLOCKED` because the storage repository is archived and canonical persistence ownership is unresolved.
+
+## Exact source-binding discipline — 2026-10-13
+
+Every lexical source binding must carry an explicit `symbol_kind` (`function`, `type`, `value`, or another scanner-supported kind). Reconciliation matches `(repository, exact source SHA, source path, symbol kind, symbol name)`; a type/value with the same spelling cannot satisfy a function contract.
+
+Bindings to supporting types/values are `RELATED_SOURCE_SURFACE_ONLY`, not runtime function matches. Symbols found only in test/conformance paths are `TEST_SURFACE_ONLY` and must be linked to test evidence, not counted as runtime implementation coverage. Unmatched symbol records retain the repository HEAD SHA and source-file SHA-256 so every residual is traceable.
+
+This is a source-mapping integrity gate only. It does not upgrade any record to `VERIFIED`; source parsing remains lexical and functional verification remains `NOT_PERFORMED`.
