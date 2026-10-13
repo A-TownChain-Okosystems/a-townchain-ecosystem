@@ -64977,7 +64977,9 @@
           "outputs": [
             "default action"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "SEGV yields TerminateCore",
             "STOP/CONT yield Stop/Continue",
@@ -65048,7 +65050,9 @@
           "outputs": [
             "empty signal manager"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total constructor"
+          ],
           "acceptance": [
             "counters start at zero"
           ],
@@ -65187,7 +65191,9 @@
           "inputs": [
             "pid"
           ],
-          "outputs": "None",
+          "outputs": [
+            "typed result or declared output (source review pending)"
+          ],
           "failure_modes": [
             "pid unknown (no-op)"
           ],
@@ -65259,7 +65265,9 @@
             "signal",
             "disposition"
           ],
-          "outputs": "None",
+          "outputs": [
+            "typed result or declared output (source review pending)"
+          ],
           "failure_modes": [
             "pid unknown (no-op)"
           ],
@@ -65335,7 +65343,9 @@
           "outputs": [
             "signal disposition"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "unregistered pids receive Default"
           ],
@@ -65403,7 +65413,9 @@
             "pid",
             "signal"
           ],
-          "outputs": "None",
+          "outputs": [
+            "typed result or declared output (source review pending)"
+          ],
           "failure_modes": [
             "pid unknown (no-op)"
           ],
@@ -65476,7 +65488,9 @@
             "pid",
             "signal"
           ],
-          "outputs": "None",
+          "outputs": [
+            "typed result or declared output (source review pending)"
+          ],
           "failure_modes": [
             "pid unknown (no-op)"
           ],
@@ -65550,7 +65564,9 @@
           "outputs": [
             "boolean blocked flag"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "consistent with block/unblock history"
           ],
@@ -65622,7 +65638,9 @@
           "outputs": [
             "success flag"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "pid unknown or unregistered"
+          ],
           "acceptance": [
             "unknown pids return false",
             "pending queue grows by one on success"
@@ -65696,7 +65714,9 @@
           "outputs": [
             "success flag"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "pid unknown or unregistered"
+          ],
           "acceptance": [
             "payload is delivered with the signal",
             "unknown pids return false"
@@ -65767,7 +65787,9 @@
           "outputs": [
             "signal list"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "pid unknown (empty list, residual)"
+          ],
           "acceptance": [
             "order matches the send history"
           ],
@@ -65837,7 +65859,10 @@
           "outputs": [
             "signal and disposition or absence"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "no deliverable pending signal",
+            "all pending signals blocked"
+          ],
           "acceptance": [
             "blocked signals are skipped unless unblockable",
             "delivered signals leave the pending queue",
@@ -65911,7 +65936,9 @@
           "outputs": [
             "signal resolution"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "Default dispositions follow the POSIX default table",
             "handler dispositions yield the handler action",
@@ -65982,7 +66009,9 @@
           "outputs": [
             "boolean pending flag"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "pid unknown (false, residual)"
+          ],
           "acceptance": [
             "consistent with pending_signals"
           ],
@@ -66052,7 +66081,9 @@
           "outputs": [
             "sent count"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "counter is monotonic"
           ],
@@ -66121,7 +66152,9 @@
           "outputs": [
             "delivered count"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "counter is monotonic"
           ],
@@ -66190,7 +66223,9 @@
           "outputs": [
             "registered count"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "matches register/unregister history"
           ],
@@ -66331,7 +66366,9 @@
           "outputs": [
             "timer state"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total constructor"
+          ],
           "acceptance": [
             "uptime starts at zero"
           ],
@@ -66544,7 +66581,9 @@
           "outputs": [
             "timer"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total constructor"
+          ],
           "acceptance": [
             "uptime derives from the source"
           ],
@@ -67040,7 +67079,9 @@
           "outputs": [
             "event id"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "pid unknown (residual policy)"
+          ],
           "acceptance": [
             "event id is unique",
             "event fires once after the duration"
@@ -67112,7 +67153,9 @@
           "outputs": [
             "event id"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "pid unknown (residual policy)"
+          ],
           "acceptance": [
             "event id is unique",
             "event refires on each tick interval"
@@ -67183,7 +67226,9 @@
           "outputs": [
             "success flag"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "event id unknown"
+          ],
           "acceptance": [
             "cancelled events never fire",
             "unknown ids return false"
@@ -67254,7 +67299,9 @@
           "outputs": [
             "due timer event list"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "only due events are returned",
             "periodic events reschedule",
@@ -67394,7 +67441,9 @@
           "inputs": [
             "none"
           ],
-          "outputs": "None",
+          "outputs": [
+            "deadline ns or absence"
+          ],
           "failure_modes": [
             "no active events"
           ],
@@ -67465,7 +67514,9 @@
           "inputs": [
             "none"
           ],
-          "outputs": "None",
+          "outputs": [
+            "remaining ns or absence"
+          ],
           "failure_modes": [
             "no active events"
           ],
@@ -68035,7 +68086,9 @@
           "outputs": [
             "boolean kernel flag"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "true exactly for DPL 0 selectors"
           ],
@@ -68104,7 +68157,9 @@
           "outputs": [
             "boolean user flag"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "true exactly for DPL 3 selectors"
           ],
@@ -68173,7 +68228,9 @@
           "outputs": [
             "dpl"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "value decoded from the RPL bits"
           ],
@@ -68242,7 +68299,9 @@
           "outputs": [
             "boolean containment flag"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "consistent with the code/data/stack/heap bounds"
           ],
@@ -68595,7 +68654,9 @@
           "outputs": [
             "initial rsp"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "points to the top of the stack region"
           ],
@@ -68664,7 +68725,9 @@
           "outputs": [
             "user binary"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total constructor"
+          ],
           "acceptance": [
             "code is exactly one byte (0xF4)",
             "entry point is the canonical 0x400000 base"
@@ -68736,7 +68799,9 @@
           "outputs": [
             "user binary"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total constructor"
+          ],
           "acceptance": [
             "code and entry are carried over unmodified"
           ],
@@ -68805,7 +68870,9 @@
           "outputs": [
             "code byte count"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "matches the supplied code length"
           ],
@@ -68874,7 +68941,9 @@
           "outputs": [
             "data byte count"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total function"
+          ],
           "acceptance": [
             "matches the supplied data length"
           ],
@@ -68944,7 +69013,9 @@
             "user binary",
             "user address space"
           ],
-          "outputs": "None",
+          "outputs": [
+            "ok or typed error"
+          ],
           "failure_modes": [
             "empty code",
             "code larger than the code region",
@@ -69019,7 +69090,9 @@
           "inputs": [
             "user context"
           ],
-          "outputs": "None",
+          "outputs": [
+            "never returns (diverges into ring 3)"
+          ],
           "failure_modes": [
             "context is not user mode",
             "RIP or RSP outside the user address space"
@@ -69097,7 +69170,9 @@
           "outputs": [
             "user context"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "none: total constructor"
+          ],
           "acceptance": [
             "RIP is the binary entry point",
             "RSP is the initial stack pointer"
@@ -69666,7 +69741,9 @@
           "outputs": [
             "pid or typed error"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "binary rejected by the loader (typed error)"
+          ],
           "acceptance": [
             "pid is registered and schedulable",
             "context entry point is the binary entry",
@@ -69735,7 +69812,9 @@
           "inputs": [
             "pid"
           ],
-          "outputs": "None",
+          "outputs": [
+            "user context or absence"
+          ],
           "failure_modes": [
             "pid unknown"
           ],
@@ -69805,7 +69884,9 @@
           "inputs": [
             "pid"
           ],
-          "outputs": "None",
+          "outputs": [
+            "mutable user context or absence"
+          ],
           "failure_modes": [
             "pid unknown"
           ],
@@ -69877,7 +69958,9 @@
             "arguments",
             "pid"
           ],
-          "outputs": "None",
+          "outputs": [
+            "syscall result or typed error"
+          ],
           "failure_modes": [
             "unknown syscall number (residual policy)"
           ],
@@ -69954,7 +70037,9 @@
           "outputs": [
             "success flag"
           ],
-          "failure_modes": "None",
+          "failure_modes": [
+            "pid unknown"
+          ],
           "acceptance": [
             "exited processes are reap via reap_dead",
             "unknown pids return false"
@@ -70453,7 +70538,9 @@
             "mode",
             "..."
           ],
-          "outputs": "None",
+          "outputs": [
+            "boolean access flag"
+          ],
           "failure_modes": [
             "pid unknown",
             "address outside the user address space",
@@ -70528,7 +70615,9 @@
             "pid",
             "value"
           ],
-          "outputs": "None",
+          "outputs": [
+            "ok or typed error"
+          ],
           "failure_modes": [
             "pid unknown",
             "stack overflow (below stack base)"
