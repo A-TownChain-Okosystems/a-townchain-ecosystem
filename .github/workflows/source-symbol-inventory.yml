@@ -267,9 +267,9 @@ jobs:
         run: |
           set -euo pipefail
           if test -f artifacts/ATC-ORG-SOURCE-CENSUS-001.json && test -f artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json; then
-            python tools/classify_unbound_candidates.py \\
-              --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \\
-              --reconciliation artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json \\
+            python tools/classify_unbound_candidates.py \
+              --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
+              --reconciliation artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json \
               --output artifacts/ATC-UNBOUND-CANDIDATE-CATEGORIZATION-001.json
           else
             echo "Census or reconciliation report unavailable; candidate categorization skipped."
