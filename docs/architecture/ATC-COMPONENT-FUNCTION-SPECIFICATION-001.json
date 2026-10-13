@@ -13,7 +13,7 @@
     {
       "field": "id",
       "type": "string",
-      "requirement": "Stable, globally unique function identifier; never recycle retired IDs."
+      "requirement": "Stable, globally unique function identifier conforming to function_id_policy; never recycle retired IDs. IDs must remain stable across path/symbol renames and source revisions."
     },
     {
       "field": "name",
@@ -165,5 +165,26 @@
     "catalog_interfaces_reported": 19,
     "source_mapped_functions_reported": 169,
     "source_verified_functions_reported": 0
+  },
+  "function_id_policy": {
+    "policy_id": "ATC-FUNCTION-ID-POLICY-001",
+    "format": "FN-<DOMAIN>-<NNN> or ATC-FUNC-<DOMAIN>-<NNN>",
+    "examples": [
+      "FN-VM-001",
+      "FN-NODE-022",
+      "ATC-FUNC-AURORA-MEM-001"
+    ],
+    "requirements": [
+      "Every function/capability contract has one stable, globally unique function ID, independent of source line numbers, file names, repository HEADs, and symbol renames.",
+      "IDs are assigned from the owning component/domain namespace and use a zero-padded sequence of at least three digits.",
+      "Never recycle a retired ID; mark it DEPRECATED and retain a replacement/supersession link when applicable.",
+      "Every ID must resolve to exactly one catalog record with component_id, canonical_owner, source_binding or a reasoned exclusion/unresolved disposition, and evidence/status.",
+      "A source symbol is not considered reconciled merely because an ID exists; ID assignment and source mapping/functional verification are separate gates.",
+      "Cross-catalog duplicates are forbidden. A shared capability has one canonical function ID and other catalogs reference that ID instead of creating aliases."
+    ],
+    "pattern": "^(?:ATC-)?(?:FUNC|FN)(?:-[A-Z0-9]+)+-[0-9]{3,}$",
+    "duplicate_scope": "All function catalogs and source-census reconciliation artifacts across active repositories",
+    "retired_id_policy": "Never reuse; preserve tombstone and replacement reference",
+    "status": "NORMATIVE_POLICY_DRAFT_UNTIL_RECONCILED"
   }
 }
