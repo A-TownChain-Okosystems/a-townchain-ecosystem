@@ -31,74 +31,74 @@ EXTENSIONS = {
 }
 PATTERNS = {
     "rust": [
-        ("function", re.compile(r"^\s*pub(?:\([^)]*\))?\s+(?:async\s+)?(?:unsafe\s+)?(?:extern\s+\"[^\"]+\"\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)", re.M)),
-        ("type", re.compile(r"^\s*pub(?:\([^)]*\))?\s+(?:struct|enum|trait|type|union)\s+([A-Za-z_][A-Za-z0-9_]*)", re.M)),
-        ("macro", re.compile(r"^\s*\#\[macro_export\]\s*\n\s*macro_rules!\s+([A-Za-z_][A-Za-z0-9_]*)", re.M)),
+        ("function", re.compile(r"^[ \t]*pub(?:\([^)]*\))?\s+(?:async\s+)?(?:unsafe\s+)?(?:extern\s+\"[^\"]+\"\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)", re.M)),
+        ("type", re.compile(r"^[ \t]*pub(?:\([^)]*\))?\s+(?:struct|enum|trait|type|union)\s+([A-Za-z_][A-Za-z0-9_]*)", re.M)),
+        ("macro", re.compile(r"^[ \t]*\#\[macro_export\]\s*\n\s*macro_rules!\s+([A-Za-z_][A-Za-z0-9_]*)", re.M)),
     ],
     "python": [
-        ("function", re.compile(r"^\s*(?:async\s+)?def\s+([A-Za-z_][A-Za-z0-9_]*)", re.M)),
-        ("type", re.compile(r"^\s*class\s+([A-Za-z_][A-Za-z0-9_]*)", re.M)),
+        ("function", re.compile(r"^[ \t]*(?:async\s+)?def\s+([A-Za-z_][A-Za-z0-9_]*)", re.M)),
+        ("type", re.compile(r"^[ \t]*class\s+([A-Za-z_][A-Za-z0-9_]*)", re.M)),
     ],
     "javascript": [
-        ("function", re.compile(r"^\s*export\s+(?:default\s+)?(?:async\s+)?function\*?\s+([A-Za-z_$][\w$]*)", re.M)),
-        ("type", re.compile(r"^\s*export\s+(?:default\s+)?(?:abstract\s+)?class\s+([A-Za-z_$][\w$]*)", re.M)),
-        ("value", re.compile(r"^\s*export\s+(?:const|let|var)\s+([A-Za-z_$][\w$]*)", re.M)),
+        ("function", re.compile(r"^[ \t]*export\s+(?:default\s+)?(?:async\s+)?function\*?\s+([A-Za-z_$][\w$]*)", re.M)),
+        ("type", re.compile(r"^[ \t]*export\s+(?:default\s+)?(?:abstract\s+)?class\s+([A-Za-z_$][\w$]*)", re.M)),
+        ("value", re.compile(r"^[ \t]*export\s+(?:const|let|var)\s+([A-Za-z_$][\w$]*)", re.M)),
     ],
     "typescript": [
-        ("function", re.compile(r"^\s*export\s+(?:default\s+)?(?:declare\s+)?(?:async\s+)?function\*?\s+([A-Za-z_$][\w$]*)", re.M)),
-        ("function", re.compile(r"^\s*(?:(?:public|static|async|override|readonly|abstract)\s+)*([A-Za-z_$][\w$]*)\s*\([^;\n]*\)\s*:\s*.*\{\s*$", re.M)),
-        ("type", re.compile(r"^\s*export\s+(?:default\s+)?(?:abstract\s+)?(?:class|interface|type|enum)\s+([A-Za-z_$][\w$]*)", re.M)),
-        ("value", re.compile(r"^\s*export\s+(?:const|let|var)\s+([A-Za-z_$][\w$]*)", re.M)),
+        ("function", re.compile(r"^[ \t]*export\s+(?:default\s+)?(?:declare\s+)?(?:async\s+)?function\*?\s+([A-Za-z_$][\w$]*)", re.M)),
+        ("function", re.compile(r"^[ \t]*(?:(?:public|static|async|override|readonly|abstract)\s+)*([A-Za-z_$][\w$]*)\s*\([^;\n]*\)\s*:\s*.*\{\s*$", re.M)),
+        ("type", re.compile(r"^[ \t]*export\s+(?:default\s+)?(?:abstract\s+)?(?:class|interface|type|enum)\s+([A-Za-z_$][\w$]*)", re.M)),
+        ("value", re.compile(r"^[ \t]*export\s+(?:const|let|var)\s+([A-Za-z_$][\w$]*)", re.M)),
     ],
     "go": [
         ("function", re.compile(r"^func\s+(?:\([^\n)]*\)\s*)?([A-Z][A-Za-z0-9_]*)\s*\(", re.M)),
         ("type", re.compile(r"^type\s+([A-Z][A-Za-z0-9_]*)\s+(?:struct|interface|\[|[A-Za-z_*])", re.M)),
     ],
     "java": [
-        ("type", re.compile(r"^\s*(?:(?:public|protected)\s+)?(?:(?:abstract|final|sealed|static)\s+)*(?:class|interface|enum|record)\s+([A-Za-z_$][\w$]*)", re.M)),
-        ("function", re.compile(r"^\s*(?:public|protected)\s+(?:(?:static|final|abstract|synchronized|native|default)\s+)*[\w<>?,.\[\] ]+\s+([A-Za-z_$][\w$]*)\s*\(", re.M)),
+        ("type", re.compile(r"^[ \t]*(?:(?:public|protected)\s+)?(?:(?:abstract|final|sealed|static)\s+)*(?:class|interface|enum|record)\s+([A-Za-z_$][\w$]*)", re.M)),
+        ("function", re.compile(r"^[ \t]*(?:public|protected)\s+(?:(?:static|final|abstract|synchronized|native|default)\s+)*[\w<>?,.\[\] ]+\s+([A-Za-z_$][\w$]*)\s*\(", re.M)),
     ],
     "csharp": [
-        ("type", re.compile(r"^\s*public\s+(?:(?:abstract|sealed|static|partial)\s+)*(?:class|interface|struct|enum|record)\s+([A-Za-z_][\w]*)", re.M)),
-        ("function", re.compile(r"^\s*public\s+(?:(?:static|async|virtual|override|abstract|sealed|extern|unsafe|new)\s+)*[\w<>?,.\[\] ]+\s+([A-Za-z_][\w]*)\s*\(", re.M)),
+        ("type", re.compile(r"^[ \t]*public\s+(?:(?:abstract|sealed|static|partial)\s+)*(?:class|interface|struct|enum|record)\s+([A-Za-z_][\w]*)", re.M)),
+        ("function", re.compile(r"^[ \t]*public\s+(?:(?:static|async|virtual|override|abstract|sealed|extern|unsafe|new)\s+)*[\w<>?,.\[\] ]+\s+([A-Za-z_][\w]*)\s*\(", re.M)),
     ],
     "c": [
-        ("function", re.compile(r"^\s*(?:extern\s+)?(?:const\s+)?[A-Za-z_][\w\s*]*\s+([A-Za-z_][\w]*)\s*\([^;{}]*\)\s*\{", re.M)),
+        ("function", re.compile(r"^[ \t]*(?:extern\s+)?(?:const\s+)?[A-Za-z_][\w\s*]*\s+([A-Za-z_][\w]*)\s*\([^;{}]*\)\s*\{", re.M)),
     ],
     "cpp": [
-        ("function", re.compile(r"^\s*(?:extern\s+\"C\"\s+)?(?:inline\s+|static\s+|virtual\s+|constexpr\s+|friend\s+|explicit\s+)*[\w:<>~,\s*&]+\s+([A-Za-z_][\w:]*)\s*\([^;{}]*\)\s*(?:const\s*)?(?:noexcept\s*)?\{", re.M)),
-        ("type", re.compile(r"^\s*(?:class|struct|enum\s+class|enum)\s+([A-Za-z_][\w]*)", re.M)),
+        ("function", re.compile(r"^[ \t]*(?:extern\s+\"C\"\s+)?(?:inline\s+|static\s+|virtual\s+|constexpr\s+|friend\s+|explicit\s+)*[\w:<>~,\s*&]+\s+([A-Za-z_][\w:]*)\s*\([^;{}]*\)\s*(?:const\s*)?(?:noexcept\s*)?\{", re.M)),
+        ("type", re.compile(r"^[ \t]*(?:class|struct|enum\s+class|enum)\s+([A-Za-z_][\w]*)", re.M)),
     ],
     "swift": [
-        ("function", re.compile(r"^\s*(?:public|open)\s+(?:static\s+|class\s+|override\s+|mutating\s+|async\s+|throws\s+)*func\s+([A-Za-z_][\w]*)", re.M)),
-        ("type", re.compile(r"^\s*(?:public|open)\s+(?:final\s+)?(?:class|struct|enum|protocol|actor)\s+([A-Za-z_][\w]*)", re.M)),
+        ("function", re.compile(r"^[ \t]*(?:public|open)\s+(?:static\s+|class\s+|override\s+|mutating\s+|async\s+|throws\s+)*func\s+([A-Za-z_][\w]*)", re.M)),
+        ("type", re.compile(r"^[ \t]*(?:public|open)\s+(?:final\s+)?(?:class|struct|enum|protocol|actor)\s+([A-Za-z_][\w]*)", re.M)),
     ],
     "kotlin": [
-        ("function", re.compile(r"^\s*(?:public\s+)?(?:suspend\s+|inline\s+|operator\s+|override\s+|open\s+|final\s+)*fun\s+(?:<[^>]+>\s*)?([A-Za-z_][\w]*)", re.M)),
-        ("type", re.compile(r"^\s*(?:public\s+)?(?:data\s+|sealed\s+|abstract\s+|open\s+)?(?:class|interface|object|enum\s+class)\s+([A-Za-z_][\w]*)", re.M)),
+        ("function", re.compile(r"^[ \t]*(?:public\s+)?(?:suspend\s+|inline\s+|operator\s+|override\s+|open\s+|final\s+)*fun\s+(?:<[^>]+>\s*)?([A-Za-z_][\w]*)", re.M)),
+        ("type", re.compile(r"^[ \t]*(?:public\s+)?(?:data\s+|sealed\s+|abstract\s+|open\s+)?(?:class|interface|object|enum\s+class)\s+([A-Za-z_][\w]*)", re.M)),
     ],
     "ruby": [
-        ("function", re.compile(r"^\s*def\s+([A-Za-z_][\w!?=]*)", re.M)),
-        ("type", re.compile(r"^\s*class\s+([A-Z][A-Za-z0-9_:]*)", re.M)),
+        ("function", re.compile(r"^[ \t]*def\s+([A-Za-z_][\w!?=]*)", re.M)),
+        ("type", re.compile(r"^[ \t]*class\s+([A-Z][A-Za-z0-9_:]*)", re.M)),
     ],
     "php": [
-        ("function", re.compile(r"^\s*(?:(?:public|protected)\s+)?(?:static\s+|final\s+|abstract\s+)?function\s+&?([A-Za-z_][\w]*)", re.M)),
-        ("type", re.compile(r"^\s*(?:abstract\s+|final\s+)?(?:class|interface|trait|enum)\s+([A-Za-z_][\w]*)", re.M)),
+        ("function", re.compile(r"^[ \t]*(?:(?:public|protected)\s+)?(?:static\s+|final\s+|abstract\s+)?function\s+&?([A-Za-z_][\w]*)", re.M)),
+        ("type", re.compile(r"^[ \t]*(?:abstract\s+|final\s+)?(?:class|interface|trait|enum)\s+([A-Za-z_][\w]*)", re.M)),
     ],
 }
 
 
 # Rust private helpers are recorded separately from public API candidates.
 RUST_INTERNAL_FUNCTION_PATTERN = re.compile(
-    r"^\s*(?:async\s+)?(?:unsafe\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)", re.M
+    r"^[ \t]*(?:async\s+)?(?:unsafe\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)", re.M
 )
 TYPESCRIPT_INTERNAL_FUNCTION_PATTERNS = {
     "typescript": [
-        re.compile(r"^\s*(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(", re.M),
-        re.compile(r"^\s*(?:(?:private|protected)\s+)+([A-Za-z_$][\w$]*)\s*\([^;\n]*\)\s*:\s*.*\{\s*$", re.M),
+        re.compile(r"^[ \t]*(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(", re.M),
+        re.compile(r"^[ \t]*(?:(?:private|protected)\s+)+([A-Za-z_$][\w$]*)\s*\([^;\n]*\)\s*:\s*.*\{\s*$", re.M),
     ],
     "javascript": [
-        re.compile(r"^\s*(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(", re.M),
+        re.compile(r"^[ \t]*(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(", re.M),
     ],
 }
 
