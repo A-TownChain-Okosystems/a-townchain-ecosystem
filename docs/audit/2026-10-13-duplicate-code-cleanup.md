@@ -116,3 +116,28 @@ The following comparisons were fetched from the explicit source commit refs and 
 - The VM manifest comparison confirms distinct manifest content, not that the legacy implementation is actively used or safe to remove.
 - No repository-wide import/call-site/build/release scan has yet been completed; no test or build was run for a proposed deletion commit.
 - Safe deletions proven remain **0**; source files deleted remain **0**; archived repositories remain untouched.
+
+
+## 8. Consumer and ownership-reference checks (targeted, 2026-10-13)
+
+Additional targeted probes show why the legacy VM and algorithm paths must not be deleted based only on workspace exclusion.
+
+### VM: active external references found
+
+- The current `atc-contracts` determinism workflow at source ref `a7c8b417f482665ef30e94fcacae6469c28b1125` (workflow blob `558b88e95fb85c52869d9c9339d7e5ceaaef5eba`) explicitly checks out `A-TownChain-Okosystems/atc-vm` into `atc-vm`, builds `atc-vm-runner`, and executes determinism/conformance runs against that runner.
+- The canonical `a-townchain` contract determinism workflow at `c631249ed6ff450bf45338e78cb14e2bf5c65c74` (workflow blob `e22e840d427948d7dbad4992ffdf9061065fbd05`) instead builds `components/vm`.
+- The legacy snapshot's own `components/atc-vm/.github/workflows/contract-exec-gate.yml` (blob `5652f82ac1d6398f8f74ee64207f43295ea8acd9`) checks out `atc-contracts`, builds the local runner, executes the fixture, verifies a receipt, and uploads evidence.
+
+**Decision: BLOCKED — DO NOT DELETE / DO NOT ARCHIVE.** A consumer repository and workflow still name the standalone `atc-vm` repository. This may be a stale consumer, but only a controlled migration to the canonical `a-townchain/components/vm`, followed by exact-head deterministic tests and release/evidence verification, can establish that it is safe to remove or decommission the standalone repository. The ecosystem snapshot's workspace exclusion alone is not sufficient.
+
+### Algorithm: conflicting ownership claims found
+
+- The ecosystem root `Cargo.toml` blob `d69730b8b7740afb8f55c1dbd798f6a1bf7442c8` excludes `components/atc-algorithm` as a legacy duplicate snapshot and states the canonical algorithm workspace is under `components/a-townchain/components/algorithm`.
+- However, the legacy snapshot README at ecosystem ref `73ad6c10a6b8dc10b777733561636aee69cdbb8d`, blob `ba10d755a88c4492336dae08c5adaf479d45f5a8`, still says `atc-algorithm` is the canonical consensus repository and says `a-townchain` is only the orchestration/integration layer.
+- The canonical nested algorithm manifest at that same ecosystem ref is blob `36097ac8943de8db884b6f04873f4e277c1e6177` and declares the canonical consensus implementation package under the `a-townchain` subtree.
+
+**Decision: BLOCKED — GOVERNANCE / REGISTRY RECONCILIATION REQUIRED.** These sources make contradictory ownership claims. Do not delete the legacy tree or rewrite its history as a cleanup operation. First reconcile normative registry/ADR/SCR ownership, update stale README/architecture/status references in a separately reviewed Draft PR, and inspect consumers/build/release references in both standalone and canonical repositories. Consensus protocol rules remain BLOCKED wherever they are not authoritatively frozen.
+
+### Evidence boundary
+
+These are targeted reference hits, not a complete organization-wide import/call-site scan. No workflow was run by this audit. No build, test, release, or deletion has been verified on a proposed cleanup SHA. Safe source deletions remain **0**.
