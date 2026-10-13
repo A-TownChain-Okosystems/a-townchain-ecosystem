@@ -1,0 +1,471 @@
+{
+  "schema_id": "AURORA-GENESIS-REQUEST-RESPONSE-CONTRACT-001",
+  "schema_version": "1.0.0",
+  "status": "SPECIFIED_NOT_IMPLEMENTATION_VERIFIED",
+  "decision_date": "2026-10-13",
+  "ownership": {
+    "governance": "A-TownChain-Okosystems/a-townchain-ecosystem",
+    "caller_runtime": "A-TownChain-Okosystems/aurora-ai",
+    "engine_runtime": "A-TownChain-Okosystems/genesis-engine",
+    "toolchain": "A-TownChain-Okosystems/atc-toolchain"
+  },
+  "transport_decision": {
+    "choice": "LOCAL_ISOLATED_ADAPTER_PROCESS",
+    "rationale": [
+      "Genesis WorkflowEngine is currently evidenced as an in-process Python API with an injected Executor; no established remote or IPC API is evidenced.",
+      "A process boundary permits explicit schema validation, resource limits, cancellation and auditable lifecycle without introducing a network service as a prerequisite.",
+      "The ecosystem repository records the contract only; adapter implementation belongs to aurora-ai and engine-native workflow execution remains owned by genesis-engine."
+    ],
+    "protocol": "UTF-8 JSON Lines over supervised stdin/stdout; one complete JSON object per line; stdout is protocol-only; diagnostics go to stderr.",
+    "isolation": "Dedicated unprivileged child process or container, ephemeral workspace, read-only engine/toolchain inputs where possible, bounded writable output directory, network denied by default, no inherited secrets or ambient credentials.",
+    "fallback": "Do not silently fall back to in-process imports or network transport. Any future service/IPC transport requires a new ADR and compatible contract version.",
+    "limitation": "This is an architecture decision for the first integration milestone, not evidence that a working adapter exists."
+  },
+  "request": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "contract_id",
+      "contract_version",
+      "request_id",
+      "correlation_id",
+      "issued_at",
+      "deadline",
+      "caller",
+      "operation",
+      "workflow",
+      "input",
+      "capability_token_ref",
+      "policy_decision_ref",
+      "idempotency_key"
+    ],
+    "properties": {
+      "contract_id": {
+        "const": "AURORA-GENESIS-REQUEST-RESPONSE-CONTRACT-001"
+      },
+      "contract_version": {
+        "const": "1.0.0"
+      },
+      "request_id": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "correlation_id": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "issued_at": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "deadline": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "caller": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "service_id",
+          "workload_identity",
+          "build_sha"
+        ],
+        "properties": {
+          "service_id": {
+            "const": "aurora-ai"
+          },
+          "workload_identity": {
+            "type": "string",
+            "minLength": 1
+          },
+          "build_sha": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40,64}$"
+          }
+        }
+      },
+      "operation": {
+        "enum": [
+          "workflow.validate",
+          "workflow.execute",
+          "request.cancel"
+        ]
+      },
+      "workflow": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "workflow_id",
+          "workflow_version"
+        ],
+        "properties": {
+          "workflow_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "workflow_version": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "input": {
+        "type": "object"
+      },
+      "capability_token_ref": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Opaque reference resolved by the trusted local authorization broker; never a bearer secret embedded in logs."
+      },
+      "policy_decision_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "approval": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "required",
+          "approval_ref"
+        ],
+        "properties": {
+          "required": {
+            "type": "boolean"
+          },
+          "approval_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "idempotency_key": {
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 200
+      },
+      "limits": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "timeout_ms",
+          "max_output_bytes",
+          "max_log_bytes"
+        ],
+        "properties": {
+          "timeout_ms": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 300000
+          },
+          "max_output_bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 104857600
+          },
+          "max_log_bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10485760
+          }
+        }
+      },
+      "cancel_request_id": {
+        "type": "string",
+        "format": "uuid"
+      }
+    }
+  },
+  "response": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "contract_id",
+      "contract_version",
+      "request_id",
+      "correlation_id",
+      "status",
+      "started_at",
+      "finished_at",
+      "engine",
+      "artifact",
+      "errors",
+      "audit_ref"
+    ],
+    "properties": {
+      "contract_id": {
+        "const": "AURORA-GENESIS-REQUEST-RESPONSE-CONTRACT-001"
+      },
+      "contract_version": {
+        "const": "1.0.0"
+      },
+      "request_id": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "correlation_id": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "status": {
+        "enum": [
+          "SUCCEEDED",
+          "REJECTED",
+          "INVALID_REQUEST",
+          "FAILED",
+          "TIMED_OUT",
+          "CANCELLED",
+          "RESOURCE_LIMIT",
+          "ENGINE_UNAVAILABLE"
+        ]
+      },
+      "started_at": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "finished_at": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "engine": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "repository",
+          "commit_sha",
+          "workflow_id",
+          "workflow_version"
+        ],
+        "properties": {
+          "repository": {
+            "const": "A-TownChain-Okosystems/genesis-engine"
+          },
+          "commit_sha": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40,64}$"
+          },
+          "workflow_id": {
+            "type": "string"
+          },
+          "workflow_version": {
+            "type": "string"
+          }
+        }
+      },
+      "artifact": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "additionalProperties": false,
+        "required": [
+          "artifact_id",
+          "media_type",
+          "sha256",
+          "size_bytes",
+          "validation_status",
+          "provenance"
+        ],
+        "properties": {
+          "artifact_id": {
+            "type": "string"
+          },
+          "media_type": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "validation_status": {
+            "enum": [
+              "VALIDATED",
+              "INVALID",
+              "NOT_RUN"
+            ]
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "producer",
+              "source_revision",
+              "validation_id"
+            ],
+            "properties": {
+              "producer": {
+                "type": "string"
+              },
+              "source_revision": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{40,64}$"
+              },
+              "validation_id": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "errors": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "message",
+            "retryable"
+          ],
+          "properties": {
+            "code": {
+              "enum": [
+                "AUTHENTICATION_FAILED",
+                "CAPABILITY_DENIED",
+                "APPROVAL_REQUIRED",
+                "APPROVAL_INVALID",
+                "SCHEMA_INVALID",
+                "WORKFLOW_NOT_FOUND",
+                "WORKFLOW_VERSION_MISMATCH",
+                "DEADLINE_EXCEEDED",
+                "CANCELLED",
+                "RESOURCE_LIMIT",
+                "ARTIFACT_INVALID",
+                "ENGINE_FAILURE",
+                "INTERNAL_ERROR"
+              ]
+            },
+            "message": {
+              "type": "string"
+            },
+            "retryable": {
+              "type": "boolean"
+            },
+            "details_ref": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      },
+      "audit_ref": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "security_invariants": [
+    "Deny by default; Aurora-generated plans are proposals, not authorization.",
+    "Authenticate caller workload identity independently of model-provided fields; bind identity to the exact Aurora build SHA.",
+    "Authorize each operation and workflow against a server-side allowlist and capability policy; never trust capability names supplied in the request as proof of authority.",
+    "Approval is bound to request hash, workflow ID/version, artifact destination and side-effect class; reject missing, expired, replayed or mismatched approvals.",
+    "Enforce absolute deadline and maximum timeout at the supervisor; cancellation is idempotent, acknowledged and escalates to process termination after a short grace period.",
+    "Use idempotency keys for mutating operations; retries must return the original terminal result or explicitly report a conflict, never silently execute twice.",
+    "Record append-only audit events for accepted/rejected request, identity, policy decision, approval, capability decision, start/step/end, timeout/cancel, artifact hash/validation, exit status and exact source SHAs.",
+    "Redact secrets and sensitive input from logs; logs are bounded and access-controlled; audit records include content hashes/references instead of bearer tokens.",
+    "Validate the artifact schema, path containment, size limit, content digest and provenance before returning SUCCEEDED; invalid or missing artifact means no success.",
+    "No network access, repository writes, commits, pushes, deployments or external publication without separately granted capability and required human approval."
+  ],
+  "lifecycle": [
+    "Aurora validates the request locally and resolves caller identity.",
+    "Authorization broker validates identity, capability, policy decision, approval and deadline; default deny on any uncertainty.",
+    "Supervisor launches or reuses only a pinned isolated adapter worker and sends the JSONL request.",
+    "Genesis resolves the exact allowlisted workflow/version, validates input and executes within resource limits.",
+    "Genesis emits a typed result; adapter validates artifact schema/hash/provenance and normalizes errors.",
+    "Supervisor enforces timeout/cancellation, captures bounded stdout/stderr and process exit code, and writes audit events.",
+    "Aurora validates response correlation, status, artifact digest and audit reference before exposing the result."
+  ],
+  "acceptance_tests": [
+    {
+      "id": "AG-001",
+      "name": "valid workflow produces validated artifact",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "AG-002",
+      "name": "malformed request rejected before execution",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "AG-003",
+      "name": "unknown workflow/version rejected",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "AG-004",
+      "name": "missing capability denied and audited",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "AG-005",
+      "name": "consequential operation without matching approval denied",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "AG-006",
+      "name": "deadline expires and worker is terminated",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "AG-007",
+      "name": "cancel request is acknowledged and execution stops",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "AG-008",
+      "name": "duplicate idempotency key does not duplicate mutation",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "AG-009",
+      "name": "tampered or invalid artifact never returns SUCCEEDED",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "AG-010",
+      "name": "audit event chain contains request/capability/approval/step/exit/artifact hash and pinned SHAs",
+      "status": "SPECIFIED_NOT_RUN"
+    }
+  ],
+  "e2e_test": {
+    "id": "AURORA-GENESIS-E2E-001",
+    "flow": [
+      "Aurora submits a deterministic fixture workflow request",
+      "authorization and capability check allow the fixture operation",
+      "Genesis workflow executes the fixture",
+      "artifact is validated and SHA-256 computed",
+      "typed response is returned to Aurora and correlation/artifact/audit references are checked"
+    ],
+    "required_evidence": [
+      "exact commit SHA for aurora-ai",
+      "exact commit SHA for genesis-engine",
+      "exact commit SHA for ecosystem contract",
+      "workflow_run_id",
+      "job_id",
+      "step_name_or_id",
+      "process_exit_code",
+      "bounded stdout/stderr logs",
+      "artifact SHA-256",
+      "audit event reference",
+      "test result"
+    ],
+    "status": "NOT_RUN",
+    "pass_criteria": "All required evidence exists for the same pinned source revisions; the artifact is validated; the workflow and process exit codes are zero; negative authorization/timeout/cancellation tests pass."
+  },
+  "residuals": [
+    "No adapter implementation is established by current evidence.",
+    "Aurora runtime tool executor and sandbox are marked PLANNED in COMPONENT_PLAN.md.",
+    "The exact current default-branch HEADs and active Genesis workflow/artifact source paths still require live reconciliation.",
+    "The schema is a normative proposal; schema validation and compatibility tests have not been run.",
+    "No end-to-end run, Run-ID, Job-ID, Step-ID, exit code or terminal logs have been captured."
+  ]
+}
