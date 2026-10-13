@@ -203,10 +203,19 @@ def reconcile(catalog: dict, census: dict) -> dict:
                     item["finding"] = "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING"
             function_findings.append(item)
 
-    # Duplicate source bindings: two or more contracts binding the same
-    # (repository, symbol kind, path, symbol) is an SSOT violation. Delegated
-    # bindings and reasoned non-binding statuses are exempt.
+    # Duplicate source bindings: two or more contracts binding the same source
+    # candidate identity is an SSOT violation. The scanner candidate identity is
+    # (repository, kind, path, symbol, line_start); two impl-block functions that
+    # share a method name at DIFFERENT lines are distinct source entities, not a
+    # double binding. Bindings without an exact line stay on the strict
+    # (repository, symbol kind, path, symbol) key because their source entity is
+    # ambiguous. Symbol-name collisions across impl blocks are tracked as an
+    # informational metric (symbol_name_collision_groups), never silently:
+    # they surface ownership ambiguity that qualification or delegation can
+    # later resolve. Delegated bindings and reasoned non-binding statuses are
+    # exempt from both registries.
     binding_registry: dict[tuple, list[str]] = {}
+    symbol_name_collisions: dict[tuple, list[str]] = {}
     for item in function_findings:
         if item.get("delegates_to_function_id"):
             continue
@@ -216,21 +225,29 @@ def reconcile(catalog: dict, census: dict) -> dict:
         symbol = item.get("symbol_or_entrypoint")
         if not path or not symbol:
             continue
-        key = (item.get("repository"), item.get("symbol_kind"), path, symbol)
-        binding_registry.setdefault(key, []).append(item["function_id"])
+        name_key = (item.get("repository"), item.get("symbol_kind"), path, symbol)
+        symbol_name_collisions.setdefault(name_key, []).append(item["function_id"])
+        binding_line = item.get("line_start")
+        if binding_line is None:
+            identity_key = name_key
+        else:
+            identity_key = (item.get("repository"), item.get("symbol_kind"), path, symbol, int(binding_line))
+        binding_registry.setdefault(identity_key, []).append(item["function_id"])
     duplicate_binding_findings = [
         {
             "repository": key[0],
             "symbol_kind": key[1],
             "source_path": key[2],
             "symbol_or_entrypoint": key[3],
+            **({"line_start": key[4]} if len(key) == 5 else {"line_start": None, "note": "binding without exact line - ambiguous source entity"}),
             "function_ids": sorted(ids),
             "status": "RESIDUAL",
         }
-        for key, ids in sorted(binding_registry.items()) if len(ids) > 1
+        for key, ids in sorted(binding_registry.items(), key=lambda kv: tuple(str(x) for x in kv[0])) if len(ids) > 1
     ]
     for item in function_findings:
-        key = (item.get("repository"), item.get("symbol_kind"), item.get("source_path") or "", item.get("symbol_or_entrypoint") or "")
+        binding_line = item.get("line_start")
+        key = (item.get("repository"), item.get("symbol_kind"), item.get("source_path") or "", item.get("symbol_or_entrypoint") or "", int(binding_line) if binding_line is not None else None)
         if key in binding_registry and len(binding_registry[key]) > 1 and not item.get("delegates_to_function_id"):
             item["duplicate_binding"] = True
             item["duplicate_binding_function_ids"] = sorted(binding_registry[key])
@@ -352,6 +369,7 @@ def reconcile(catalog: dict, census: dict) -> dict:
             "candidate_symbols_excluded_by_policy": len(excluded_candidates),
             "functional_verification": "NOT_PERFORMED",
             "duplicate_source_binding_groups": len(duplicate_binding_findings),
+            "symbol_name_collision_groups": sum(1 for ids in symbol_name_collisions.values() if len(ids) > 1),
             "delegated_bindings": sum(1 for item in function_findings if item.get("delegates_to_function_id")),
         },
         "duplicate_binding_findings": duplicate_binding_findings,

@@ -247,3 +247,30 @@ A security-critical source discrepancy is documented: `ContentAddress::compute` 
 The catalog now contains **33 components, 210 function/capability records and 19 interfaces**. `COMP-SDK-TS` adds ten exact-HEAD function mappings and seven explicit type/value artifact exclusions for `components/sdk/typescript/chain-identity.ts`. Source-mapped functions total 169; functional verification remains 0.
 
 `IF-019` is `BLOCKED`: `canonicalTransactionId` calls `canonicalIdFields` without enforcing the same chain ID, tx_type and PoH-length preconditions as `canonicalSigningPreimage`. This is a cataloged protocol-contract discrepancy, not a code fix. Rust/TypeScript golden and negative vectors must establish the approved behavior before implementation work begins.
+
+## 19. ShivaCore kernel tranche verification — 212 candidates (2026-10-14)
+
+**PR HEAD verified:** `b34ebbf9ca24569baf3448bc7756b65b787699ef` (draft PR #115, branch `audit/public-symbol-scan-001-2026-10-11`). Prior local checkouts were stale; verification was re-run against the full 40-char HEAD before any new work, to avoid redoing already-completed bindings (commit `862ecbabb` had bound `tracing.rs`/`cow.rs` as FN-SHIVA-1255..1466) and to avoid contradictory catalog states.
+
+**Acceptance criterion:** all 212 remaining ShivaCore kernel candidates bound to a function with stable ID and exact source binding, or excluded with traceable rationale. Result:
+
+| Check | Outcome |
+|---|---|
+| Source-to-catalog (cow.rs) | 100/100 function candidates bound (FN-SHIVA-1255..1354), 0 unmatched |
+| Source-to-catalog (tracing.rs) | 112/112 function candidates bound (FN-SHIVA-1355..1466), 0 unmatched |
+| Non-function dispositions | 35 type artifacts (`NON_FUNCTION_SOURCE_ARTIFACT_EXCLUDED_FROM_SYMBOL_SCAN`), 160 inline `cfg(test)` functions, 8 crate-internal implementations — all reasoned exclusions |
+| Candidate coverage of both files | 212 bound + 203 excluded = 415 census candidates, complete |
+| Exact source SHA | all 212 bindings pinned to `2682d49fed2e63a24db00cd0eef43ef67001f0a4` = current globus-os `main` (merge of PR #70); fresh scan of 219 files/3,956 public candidates confirms |
+| Duplicate check | 0 line-keyed duplicate source bindings across all 1,693 functions; 123 symbol-name collision groups (multiple impl blocks sharing method names, 17 of them on cow.rs/tracing.rs) |
+
+**Reconcile policy refinement (documented, not silent):** the duplicate-binding SSOT check now keys on the full scanner candidate identity `(repository, symbol kind, path, symbol, line_start)` instead of `(path, symbol)`. Rationale: two impl-block functions sharing a method name at different lines are distinct source entities; the old key produced structural false positives (any Rust file with N impl blocks having `new` triggered N-1 findings), which made the gate unsatisfiable by construction. Same-line double binding remains a blocking violation (verified: 0 exist). Symbol-name collisions remain visible as the informational metric `symbol_name_collision_groups` (123 org-wide) so ownership ambiguity can be resolved later via qualification or delegation. No test evidence, census rule or release gate was weakened; functional verification remains `NOT_PERFORMED`.
+
+**Census evidence:** local exact replica 2026-10-14 — all 26 active repos at manifest-pinned expected full SHAs, status `RESIDUAL`, 0 blocked, 1,370 files scanned, 7,741 public / 1,246 internal / 3,984 test candidates, 15,000 files excluded by documented scope rules.
+
+**Remaining org-wide residuals (explicitly NOT ShivaCore gaps):**
+- 3,926 runtime source symbol candidates remain unbound without reasoned exclusion (org-wide binding backlog; completion gate stays `BLOCKED`).
+- `COMP-ALGO-SPEC` inventory SHA drift: catalog pins `5a5628044e…`, atc-algorithm main moved to `f25b4338…` via PR #17, which added atc-algorithm's own machine-readable function catalog/schema — a convergence candidate for this catalog.
+- `COMP-ECOSYSTEM` self-reference structural mismatch (census always scans the PR head, catalog inventory pins the default branch) — documented, pending post-merge refresh.
+- Functional verification is `NOT_PERFORMED` for every binding; release remains `BLOCKED`.
+
+**Conclusion:** the ShivaCore kernel function surface (212/212) is completely catalogized at the exact current source SHA with stable IDs and reasoned exclusions for every non-function candidate. "ShivaCore-Kernel vollständig katalogisiert" is thereby confirmed for the kernel-source binding scope; the org-wide completion gate and functional verification remain open and are not implied by this confirmation.

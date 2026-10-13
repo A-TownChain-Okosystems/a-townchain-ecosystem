@@ -12,7 +12,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
       "observed_root_tree_sha": "85368a3f351bf8b07a41c7aff1ffc5c57c713635",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8"
     },
     {
       "name": "atclang",
@@ -21,7 +22,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
       "observed_root_tree_sha": "4649b749ce4be530a2acdf1c5446df4752d73198",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb"
     },
     {
       "name": "a-townchain-os-docs",
@@ -48,7 +50,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
       "observed_root_tree_sha": "02d7c551989ecd345d4dbc656ef3a79fc59a0c84",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947"
     },
     {
       "name": "atc-shivacore",
@@ -57,25 +60,28 @@
       "snapshot_ref": "main",
       "observed_head_sha": "21c99769654ff5915c421c3446e62c2a29c22b40",
       "observed_root_tree_sha": "7110f2aac94aaccdb1f0dfc8c4c9140db29c7456",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "21c99769654ff5915c421c3446e62c2a29c22b40"
     },
     {
       "name": "a-townchain",
       "archived": false,
       "role": "L3 blockchain core",
       "snapshot_ref": "main",
-      "observed_head_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
-      "observed_root_tree_sha": "b1e2c32cea934a1a7f4d6de90b20b192461faef8",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "observed_head_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+      "observed_root_tree_sha": "a6bd467b900560cc2c6fca88ce633afb8401c864",
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "a5e689671b1870699c7a1750f8a166e83590a41c"
     },
     {
       "name": "globus-os",
       "archived": false,
       "role": "L4 operating system",
       "snapshot_ref": "main",
-      "observed_head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
-      "observed_root_tree_sha": "c98f07d4af1a862247eeda24b0d54c19f93cfef8",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "observed_head_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+      "observed_root_tree_sha": "7fd8598fe854534958009bef78c544813c31c817",
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4"
     },
     {
       "name": "aurora-ai",
@@ -84,16 +90,18 @@
       "snapshot_ref": "main",
       "observed_head_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
       "observed_root_tree_sha": "63eb0ad422c80fe7eb9b2227f6368f2e7a154464",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2"
     },
     {
       "name": "genesis-engine",
       "archived": false,
       "role": "genesis tooling",
       "snapshot_ref": "main",
-      "observed_head_sha": "8326eb53e3e10cf08518e6769b44d4f034de1144",
-      "observed_root_tree_sha": "2ad61e25920f377313735f2ddf7ef5f5976a7922",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "observed_head_sha": "8b7100e8a88f3c9bb6e24ddda31706902f125bb5",
+      "observed_root_tree_sha": "f85fbbee198c7561ff438b2bc26cfd29d1dd757c",
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "8b7100e8a88f3c9bb6e24ddda31706902f125bb5"
     },
     {
       "name": "atc-sdk",
@@ -102,7 +110,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
       "observed_root_tree_sha": "e8e5979cc795aa587ef182e831ecc4765bfee120",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "34eef345907935cdaf279e0546f230c03c86bb0c"
     },
     {
       "name": "atc-node",
@@ -111,7 +120,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
       "observed_root_tree_sha": "3bb0a666e8e7a4de08aaa31cb82189fdd35cf8d4",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "a817db43a089d172dd4688f366286c60dbf71a0e"
     },
     {
       "name": "atc-contracts",
@@ -120,52 +130,58 @@
       "snapshot_ref": "main",
       "observed_head_sha": "a7c8b417f482665ef30e94fcacae6469c28b1125",
       "observed_root_tree_sha": "026851749bdff7ff5a686dfc9fab6beacd9fce72",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "a7c8b417f482665ef30e94fcacae6469c28b1125"
     },
     {
       "name": "atc-wallet",
       "archived": true,
       "role": "archived historical reference",
       "snapshot_ref": "main",
-      "observed_head_sha": "812a31d292364304c72cae8be6f448c130d7428e",
-      "observed_root_tree_sha": "2f624447b95a9ad723bf2e1369bf8e541bc427b5",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "observed_head_sha": "",
+      "observed_root_tree_sha": "",
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": ""
     },
     {
       "name": "atc-explorer",
       "archived": true,
       "role": "archived historical reference",
       "snapshot_ref": "main",
-      "observed_head_sha": "c4da05304f214bb68bd942e7705c96c35d9a18ae",
-      "observed_root_tree_sha": "9aa7f3c6f2f90c33c0a92646a5ff5ce9964347ff",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "observed_head_sha": "",
+      "observed_root_tree_sha": "",
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": ""
     },
     {
       "name": "atc-indexer",
       "archived": true,
       "role": "archived historical reference",
       "snapshot_ref": "main",
-      "observed_head_sha": "7f3da49f30464471c8c1597ed59f6223050e79e4",
-      "observed_root_tree_sha": "382a3bb7e4d0ab12338344a01890fe5a38b1655d",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "observed_head_sha": "",
+      "observed_root_tree_sha": "",
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": ""
     },
     {
       "name": "atc-mining",
       "archived": true,
       "role": "archived historical reference",
       "snapshot_ref": "main",
-      "observed_head_sha": "227f2d700307191f59596c5a78ccfd3a4b657aa9",
-      "observed_root_tree_sha": "84535a74f93d5cd674b7d54195dacf741f1e9033",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "observed_head_sha": "",
+      "observed_root_tree_sha": "",
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": ""
     },
     {
       "name": "atc-interop",
       "archived": true,
       "role": "archived historical reference",
       "snapshot_ref": "main",
-      "observed_head_sha": "5905fca02274704a00bdf708948180bc211a46d3",
-      "observed_root_tree_sha": "1d0dbc1c6ce05ad26b0808ba4e663758a9fa5b51",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "observed_head_sha": "",
+      "observed_root_tree_sha": "",
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": ""
     },
     {
       "name": "genesis-chronicles",
@@ -174,16 +190,18 @@
       "snapshot_ref": "main",
       "observed_head_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
       "observed_root_tree_sha": "1bc74a2c40394d8c76e3223de272ec3281db23e4",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
     },
     {
       "name": "atc-oracle",
       "archived": true,
       "role": "archived historical reference",
       "snapshot_ref": "main",
-      "observed_head_sha": "8087d34ddb8c2d40a60178e8f3b4c52ea67d52a8",
-      "observed_root_tree_sha": "2fce137a779ca392551c1e9d2ee44027ea17ae8a",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "observed_head_sha": "",
+      "observed_root_tree_sha": "",
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": ""
     },
     {
       "name": "atc-storage",
@@ -192,7 +210,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "230746c1dc5e4c1355c2707368de50d6c1008660",
       "observed_root_tree_sha": "307d3d2a179de1ed5d82618dfbe78f072ba6d4c0",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "230746c1dc5e4c1355c2707368de50d6c1008660"
     },
     {
       "name": "atc-launchpad",
@@ -201,7 +220,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "bd1a48c69983247a8428f90a77edd061ba79316b",
       "observed_root_tree_sha": "b67a4f6a50ab578a8e82ac82748aecaf5bba003c",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "bd1a48c69983247a8428f90a77edd061ba79316b"
     },
     {
       "name": "atc-marketplace",
@@ -210,7 +230,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "5c3bab7da8a80d58af725b7dea2478ece2456f39",
       "observed_root_tree_sha": "c86fcc7f48d478a460419cbb075c7dea05a1fabb",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "5c3bab7da8a80d58af725b7dea2478ece2456f39"
     },
     {
       "name": "atc-compute",
@@ -219,16 +240,18 @@
       "snapshot_ref": "main",
       "observed_head_sha": "89d833edf338085d6141b0c703ebf92a0db83a5e",
       "observed_root_tree_sha": "e140d5a5bc884bd56d037296397c0de879adea94",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "89d833edf338085d6141b0c703ebf92a0db83a5e"
     },
     {
       "name": "atc-standards",
       "archived": false,
       "role": "standards/governance",
       "snapshot_ref": "main",
-      "observed_head_sha": "d6556168a21ed5a9b5d917262bd2a4ee196fdd46",
-      "observed_root_tree_sha": "1830c1afe2ad28aa062b450ea5da21b39820717d",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "observed_head_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "observed_root_tree_sha": "85492f7dcd40f595a04fd736f1e5b4aa77ed79bf",
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
     },
     {
       "name": "atc-vm",
@@ -237,16 +260,18 @@
       "snapshot_ref": "main",
       "observed_head_sha": "21132a49355eb5fd6ea4b8a7b4e4deb5d9be60f0",
       "observed_root_tree_sha": "d60af19553baf4ff88a3098c81a683d77ba7096e",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "21132a49355eb5fd6ea4b8a7b4e4deb5d9be60f0"
     },
     {
       "name": "atc-algorithm",
       "archived": false,
       "role": "algorithm support/specification; canonical production algorithm is a-townchain/components/algorithm",
       "snapshot_ref": "main",
-      "observed_head_sha": "5a5628044ef4daacca943062eac3fd27a2eaec93",
-      "observed_root_tree_sha": "861497f8142d9f9be7f5c2bd8a98b2cbffb48109",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "observed_head_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
+      "observed_root_tree_sha": "bce31cbd81b9c4a9dfc65b0b77fcd29727ea4c13",
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7"
     },
     {
       "name": "atc-zkp",
@@ -255,7 +280,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f",
       "observed_root_tree_sha": "b9ac1abf479be23234af5afa4178887d2b3cae6a",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f"
     },
     {
       "name": ".github",
@@ -264,7 +290,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "af5d803dace369b83e4bffd2e4e6ba001d4aa000",
       "observed_root_tree_sha": "fa572412070291f89c3f31e3e589fed9df619706",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "af5d803dace369b83e4bffd2e4e6ba001d4aa000"
     },
     {
       "name": "demo-repository",
@@ -285,7 +312,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
       "observed_root_tree_sha": "553ef11c7d2ced67ac06662b91bc0e28f1cc23a4",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a"
     },
     {
       "name": "genesis-franchise-factory",
@@ -294,7 +322,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "673fa560322b1449e8f23cc38bf839de1b246361",
       "observed_root_tree_sha": "cbc461e067f5d46d0d5b7a378b80867673f92dd3",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "673fa560322b1449e8f23cc38bf839de1b246361"
     },
     {
       "name": "atc-engineering",
@@ -303,7 +332,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "c2a4b93fb01178ef905f62d8a5fa6f42215d25a2",
       "observed_root_tree_sha": "1d72f70552da76514efa925cba5d18209aa19b15",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "c2a4b93fb01178ef905f62d8a5fa6f42215d25a2"
     },
     {
       "name": "a-townchain-ecosystem",
@@ -316,9 +346,10 @@
         }
       ],
       "snapshot_ref": "main",
-      "observed_head_sha": "73ad6c10a6b8dc10b777733561636aee69cdbb8d",
-      "observed_root_tree_sha": "b6d50ed00bc629295dbff886c928be147afd2ff2",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "observed_head_sha": "5b103bf3bff7045a7ee4eafa447e68888ab116b4",
+      "observed_root_tree_sha": "06ddc475c3c0307975aeeecea65008afc4d072af",
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "5b103bf3bff7045a7ee4eafa447e68888ab116b4"
     },
     {
       "name": "atc-toolchain",
@@ -327,7 +358,8 @@
       "snapshot_ref": "main",
       "observed_head_sha": "82fe4a238603476d7c6c19d5c3044c88b71c5f2d",
       "observed_root_tree_sha": "dc853d005a8c68ebbdc88f8a4f47586102ec837a",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
+      "expected_sha": "82fe4a238603476d7c6c19d5c3044c88b71c5f2d"
     }
   ],
   "snapshot": {
