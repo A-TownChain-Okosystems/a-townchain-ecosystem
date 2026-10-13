@@ -7,6 +7,8 @@ on:
       - "tools/reconcile_component_function_catalog.py"
       - "tools/report_cross_repository_hashes.py"
       - "tools/tests/test_report_cross_repository_hashes.py"
+      - "tools/report_cross_repository_hashes.py"
+      - "tools/tests/test_report_cross_repository_hashes.py"
       - "tools/validate_component_function_catalog.py"
       - "tools/tests/test_validate_component_function_catalog.py"
       - "docs/architecture/ATC-COMPONENT-FUNCTION-SPECIFICATION-001.json"
@@ -23,6 +25,8 @@ on:
       - "tools/scan_public_symbols.py"
       - "tools/run_org_source_census.py"
       - "tools/reconcile_component_function_catalog.py"
+      - "tools/report_cross_repository_hashes.py"
+      - "tools/tests/test_report_cross_repository_hashes.py"
       - "tools/validate_component_function_catalog.py"
       - "tools/tests/test_validate_component_function_catalog.py"
       - "docs/architecture/ATC-COMPONENT-FUNCTION-SPECIFICATION-001.json"
@@ -59,7 +63,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile scanner, orchestrator and tests
-        run: python -m py_compile tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/validate_component_function_catalog.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_validate_component_function_catalog.py tools/tests/test_report_cross_repository_hashes.py
+        run: python -m py_compile tools/report_cross_repository_hashes.py tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/validate_component_function_catalog.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_validate_component_function_catalog.py tools/tests/test_report_cross_repository_hashes.py
       - name: Run scanner and organization census tests
         run: |
           python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_validate_component_function_catalog tools.tests.test_report_cross_repository_hashes -v
@@ -174,6 +178,17 @@ jobs:
           )
           assert summary["active_blocked"] == 0
           PY
+      - name: Report cross-repository identical file hashes (triage only)
+        if: always()
+        run: |
+          set -euo pipefail
+          if test -f artifacts/ATC-ORG-SOURCE-CENSUS-001.json; then
+            python tools/report_cross_repository_hashes.py \
+              --input artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
+              --output artifacts/ATC-CROSS-REPOSITORY-FILE-HASH-REPORT-001.json
+          else
+            echo "Census unavailable; cross-repository hash report not generated."
+          fi
       - name: Reconcile catalog against census evidence
         if: always()
         run: |
@@ -215,6 +230,7 @@ jobs:
           path: |
             artifacts/ATC-ORG-SOURCE-CENSUS-001.json
             artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json
+            artifacts/ATC-CROSS-REPOSITORY-FILE-HASH-REPORT-001.json
           if-no-files-found: warn
       - name: Validate organization repository manifest
         run: |
