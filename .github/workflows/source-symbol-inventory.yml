@@ -17,6 +17,8 @@ on:
       - "tools/tests/test_run_org_source_census.py"
       - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
       - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-PRODUCT-BOUNDARY-INTERFACE-CONTRACTS-001.json"
+      - "docs/audit/ATC-CATALOG-RECONCILIATION-STATUS-001.json"
       - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md"
       - ".github/workflows/source-symbol-inventory.yml"
   push:
@@ -35,6 +37,8 @@ on:
       - "tools/tests/test_run_org_source_census.py"
       - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
       - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-PRODUCT-BOUNDARY-INTERFACE-CONTRACTS-001.json"
+      - "docs/audit/ATC-CATALOG-RECONCILIATION-STATUS-001.json"
       - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md"
       - ".github/workflows/source-symbol-inventory.yml"
   workflow_dispatch:
@@ -90,6 +94,38 @@ jobs:
               "interfaces_total": report["interfaces_total"],
               "warning": report["warning"],
           }, sort_keys=True))
+          PY
+      - name: Validate product-boundary contract and reconciliation status drafts
+        run: |
+          set -euo pipefail
+          python -m json.tool docs/architecture/ATC-PRODUCT-BOUNDARY-INTERFACE-CONTRACTS-001.json >/dev/null
+          python -m json.tool docs/audit/ATC-CATALOG-RECONCILIATION-STATUS-001.json >/dev/null
+          python - <<'PY'
+          import json, re
+          from pathlib import Path
+          contracts = json.loads(Path("docs/architecture/ATC-PRODUCT-BOUNDARY-INTERFACE-CONTRACTS-001.json").read_text())
+          status = json.loads(Path("docs/audit/ATC-CATALOG-RECONCILIATION-STATUS-001.json").read_text())
+          assert contracts["schema_id"] == "ATC-PRODUCT-BOUNDARY-INTERFACE-CONTRACTS-001"
+          assert contracts["status"] == "DRAFT_RESIDUAL"
+          assert len(contracts["contracts"]) == 4
+          required = set(contracts["required_fields"])
+          for contract in contracts["contracts"]:
+              missing = sorted(field for field in required if field not in contract)
+              assert not missing, f'{contract.get("id")}: missing {missing}'
+              assert contract["status"] == "DRAFT_RESIDUAL"
+              assert contract["owner"] and contract["canonical_path"] and contract["version"]
+              assert contract["inputs"] and contract["outputs"] and contract["error_semantics"]
+              assert contract["security_requirements"] and contract["compatibility_rules"] and contract["tests"]
+              assert contract["evidence"]["functional_verification"] == "NOT_PERFORMED"
+          assert contracts["special_blockers"][0]["id"] == "SCR-0128"
+          assert contracts["special_blockers"][0]["status"] == "BLOCKED"
+          assert status["schema_id"] == "ATC-CATALOG-RECONCILIATION-STATUS-001"
+          assert status["status"] == "BLOCKED"
+          sha = status["provenance"]["checked_head_sha"]
+          assert re.fullmatch(r"[0-9a-f]{40}", sha), f"invalid checked HEAD SHA: {sha}"
+          assert status["provenance"]["terminal_conclusion"] == "failure"
+          assert status["completion_gates"]["functional_verification"] == "NOT_PERFORMED"
+          print(json.dumps({"contract_validation":"PASS_DRAFT_SCHEMA","contracts":len(contracts["contracts"]),"reconciliation_status":status["status"],"checked_head_sha":sha},sort_keys=True))
           PY
       - name: Clone all active repositories at observed clean HEADs
         env:
