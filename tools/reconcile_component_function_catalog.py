@@ -116,6 +116,16 @@ def reconcile(catalog: dict, census: dict) -> dict:
             binding_status = binding.get("status")
             item["binding_status"] = binding_status
             item["binding_note"] = binding.get("note")
+            delegates_to = binding.get("delegates_to_function_id")
+            if delegates_to:
+                # A delegated binding documents a cross-contract view of a source
+                # symbol owned by another contract. It never counts as a second
+                # SSOT binding and never binds the census candidate.
+                item["delegates_to_function_id"] = delegates_to
+                item["delegation_reason"] = binding.get("delegation_reason")
+                item["finding"] = "DELEGATED_BINDING_DOCUMENTED"
+                function_findings.append(item)
+                continue
             reasoned_statuses = {
                 "SOURCE_SURFACE_NOT_IDENTIFIED": "SOURCE_SURFACE_NOT_IDENTIFIED",
                 "NORMATIVE_DECISION_BLOCKED": "NORMATIVE_DECISION_BLOCKED",
@@ -185,6 +195,38 @@ def reconcile(catalog: dict, census: dict) -> dict:
                     item["matched_signature"] = symbol_signatures_by_repo.get(repo, {}).get(matched, "")
                     item["finding"] = "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING"
             function_findings.append(item)
+
+    # Duplicate source bindings: two or more contracts binding the same
+    # (repository, symbol kind, path, symbol) is an SSOT violation. Delegated
+    # bindings and reasoned non-binding statuses are exempt.
+    binding_registry: dict[tuple, list[str]] = {}
+    for item in function_findings:
+        if item.get("delegates_to_function_id"):
+            continue
+        if item.get("binding_status") in {"SOURCE_SURFACE_NOT_IDENTIFIED", "NORMATIVE_DECISION_BLOCKED", "BLOCKED_ARCHIVED_REFERENCE_ONLY", "BLOCKED_PRIVATE_REPOSITORY_EXCLUDED", "NON_FUNCTION_SOURCE_ARTIFACT"}:
+            continue
+        path = item.get("source_path")
+        symbol = item.get("symbol_or_entrypoint")
+        if not path or not symbol:
+            continue
+        key = (item.get("repository"), item.get("symbol_kind"), path, symbol)
+        binding_registry.setdefault(key, []).append(item["function_id"])
+    duplicate_binding_findings = [
+        {
+            "repository": key[0],
+            "symbol_kind": key[1],
+            "source_path": key[2],
+            "symbol_or_entrypoint": key[3],
+            "function_ids": sorted(ids),
+            "status": "RESIDUAL",
+        }
+        for key, ids in sorted(binding_registry.items()) if len(ids) > 1
+    ]
+    for item in function_findings:
+        key = (item.get("repository"), item.get("symbol_kind"), item.get("source_path") or "", item.get("symbol_or_entrypoint") or "")
+        if key in binding_registry and len(binding_registry[key]) > 1 and not item.get("delegates_to_function_id"):
+            item["duplicate_binding"] = True
+            item["duplicate_binding_function_ids"] = sorted(binding_registry[key])
 
     unmatched_candidates = []
     excluded_candidates = []
@@ -281,7 +323,10 @@ def reconcile(catalog: dict, census: dict) -> dict:
             "candidate_symbols_unbound": len(unmatched_candidates),
             "candidate_symbols_excluded_by_policy": len(excluded_candidates),
             "functional_verification": "NOT_PERFORMED",
+            "duplicate_source_binding_groups": len(duplicate_binding_findings),
+            "delegated_bindings": sum(1 for item in function_findings if item.get("delegates_to_function_id")),
         },
+        "duplicate_binding_findings": duplicate_binding_findings,
         "component_findings": component_findings,
         "self_reference_observations": self_reference_observations,
         "function_findings": function_findings,
@@ -309,10 +354,13 @@ def completion_gaps(report: dict) -> list[str]:
         gaps.append(f'{summary["candidate_symbols_unbound"]} source symbol candidates remain unbound and without a reasoned exclusion')
     if summary.get("component_findings", 0):
         gaps.append(f'{summary["component_findings"]} component source inventory findings remain unresolved')
+    if summary.get("duplicate_source_binding_groups", 0):
+        gaps.append(f'{summary["duplicate_source_binding_groups"]} duplicate source binding groups must be resolved via a single owning contract or a documented delegation')
     if report.get("census_status") == "BLOCKED":
         gaps.append("organization source census is BLOCKED")
     allowed_findings = {
         "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING",
+        "DELEGATED_BINDING_DOCUMENTED",
         "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION",
         "NON_FUNCTION_SOURCE_ARTIFACT_EXCLUDED_FROM_SYMBOL_SCAN",
         "SOURCE_SURFACE_NOT_IDENTIFIED",

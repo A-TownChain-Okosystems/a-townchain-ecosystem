@@ -224,5 +224,56 @@ class CatalogReconciliationTests(unittest.TestCase):
         self.assertEqual(report["function_findings"][0]["finding"], "SOURCE_CENSUS_UNAVAILABLE")
 
 
+class DuplicateAndDelegatedBindingTests(unittest.TestCase):
+    def _base(self):
+        return {
+            "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
+            "components": [{
+                "id": "COMP-SAMPLE", "name": "sample", "canonical_owner": "example/sample",
+                "source_inventory": {"repository": "example/sample", "observed_head_sha": "a" * 40},
+                "functions": [],
+            }],
+        }, {
+            "schema_id": "ATC-ORG-SOURCE-CENSUS-001", "status": "RESIDUAL",
+            "repositories": [{
+                "repository": "example/sample", "status": "RESIDUAL", "source_sha": "a" * 40,
+                "report": {"files": [{"path": "src/lib.rs",
+                    "candidate_public_symbols": [{"kind": "function", "name": "execute"}]}]},
+            }],
+        }
+
+    def _binding(self, fid):
+        return {"id": fid, "name": fid.lower(), "source_binding": {
+            "source_path": "src/lib.rs", "symbol_or_entrypoint": "execute",
+            "exact_source_sha": "a" * 40}}
+
+    def test_duplicate_source_binding_is_reported_and_blocks(self):
+        from tools.reconcile_component_function_catalog import reconcile, completion_gaps
+        catalog, census = self._base()
+        catalog["components"][0]["functions"] = [self._binding("FN-S-001"), self._binding("FN-S-002")]
+        report = reconcile(catalog, census)
+        self.assertEqual(report["summary"]["duplicate_source_binding_groups"], 1)
+        self.assertEqual(report["duplicate_binding_findings"][0]["function_ids"], ["FN-S-001", "FN-S-002"])
+        self.assertIn("duplicate source binding groups",
+                      " ".join(completion_gaps(report)))
+
+    def test_delegated_binding_resolves_duplicate_without_second_ssot(self):
+        from tools.reconcile_component_function_catalog import reconcile, completion_gaps
+        catalog, census = self._base()
+        delegated = self._binding("FN-S-002")
+        delegated["source_binding"]["delegates_to_function_id"] = "FN-S-001"
+        delegated["source_binding"]["delegation_reason"] = "Owning contract is FN-S-001."
+        catalog["components"][0]["functions"] = [self._binding("FN-S-001"), delegated]
+        report = reconcile(catalog, census)
+        self.assertEqual(report["summary"]["duplicate_source_binding_groups"], 0)
+        self.assertEqual(report["summary"]["delegated_bindings"], 1)
+        findings = {item["function_id"]: item["finding"] for item in report["function_findings"]}
+        self.assertEqual(findings["FN-S-001"], "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING")
+        self.assertEqual(findings["FN-S-002"], "DELEGATED_BINDING_DOCUMENTED")
+        self.assertEqual(report["summary"]["candidate_symbols_bound"], 1)
+        gaps = [g for g in completion_gaps(report) if "duplicate" in g]
+        self.assertEqual(gaps, [])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1703,8 +1703,10 @@
             "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
             "file_blob_sha": "a3ad9e0d727d5644ae500ff0bb80f10606121f3f",
             "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/vmm.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: map_page at modules/atc-shivacore/kernel/src/vmm.rs (additional related symbols in the original qualified mapping: Vmm::{map_page,unmap_page,map_owned,unmap}). Rebound to current exact-HEAD census 7dbc7753032016cf6aeaf1a99807cd9c5173d090 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified.",
-            "symbol_kind": "function"
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: map_page at modules/atc-shivacore/kernel/src/vmm.rs (additional related symbols in the original qualified mapping: Vmm::{map_page,unmap_page,map_owned,unmap}). Rebound to current exact-HEAD census 7dbc7753032016cf6aeaf1a99807cd9c5173d090 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified. Duplicate source binding resolved by documented delegation to the owning contract (fail-closed duplicate gate added 2026-10-13).",
+            "symbol_kind": "function",
+            "delegates_to_function_id": "FN-SHIVA-013",
+            "delegation_reason": "modules/atc-shivacore/kernel/src/vmm.rs::map_page is owned by FN-SHIVA-013 (direct mapping/translation operation); the broader lifecycle contract delegates the symbol binding."
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
           "preconditions": {
@@ -2475,9 +2477,11 @@
             "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
             "file_blob_sha": "6d1d8ec948b3d3d0d683e1a0e92d9c77ee2fbfaa",
             "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/memory_manager.rs#L126",
-            "note": "Disambiguated to KernelMemoryManager::allocate at exact lexical start line 126. The same file contains a separate MemorySubsystem::allocate wrapper at line 386 and a separate deallocate method; source association only.",
+            "note": "Disambiguated to KernelMemoryManager::allocate at exact lexical start line 126. The same file contains a separate MemorySubsystem::allocate wrapper at line 386 and a separate deallocate method; source association only. Duplicate source binding resolved by documented delegation to the owning contract (fail-closed duplicate gate added 2026-10-13).",
             "symbol_kind": "function",
-            "line_start": 126
+            "line_start": 126,
+            "delegates_to_function_id": "FN-SHIVA-023",
+            "delegation_reason": "modules/atc-shivacore/kernel/src/memory_manager.rs::allocate is owned by FN-SHIVA-023 (allocation entrypoint contract); the region-allocation contract delegates the symbol binding."
           },
           "preconditions": {
             "status": "RESIDUAL",
@@ -3335,9 +3339,11 @@
             "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
             "file_blob_sha": "6d1d8ec948b3d3d0d683e1a0e92d9c77ee2fbfaa",
             "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/memory_manager.rs#L194",
-            "note": "Bound to KernelMemoryManager::deallocate at exact lexical start line 194; tests and functional verification remain pending.",
+            "note": "Bound to KernelMemoryManager::deallocate at exact lexical start line 194; tests and functional verification remain pending. Duplicate source binding resolved by documented delegation to the owning contract (fail-closed duplicate gate added 2026-10-13).",
             "symbol_kind": "function",
-            "line_start": 194
+            "line_start": 194,
+            "delegates_to_function_id": "FN-SHIVA-024",
+            "delegation_reason": "modules/atc-shivacore/kernel/src/memory_manager.rs::deallocate is owned by FN-SHIVA-024 (deallocation entrypoint contract); the region-deallocation contract delegates the symbol binding."
           },
           "preconditions": {
             "status": "RESIDUAL",
@@ -4047,8 +4053,10 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/vm/src/vm.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: execute_state_transition at components/vm/src/vm.rs (additional related symbols in the original qualified mapping: execute_state_transition, execute_state_transition_with_gas). Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified.",
-            "symbol_kind": "function"
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: execute_state_transition at components/vm/src/vm.rs (additional related symbols in the original qualified mapping: execute_state_transition, execute_state_transition_with_gas). Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified. Duplicate source binding resolved by documented delegation to the owning contract (fail-closed duplicate gate added 2026-10-13).",
+            "symbol_kind": "function",
+            "delegates_to_function_id": "FN-VM-007",
+            "delegation_reason": "components/vm/src/vm.rs::execute_state_transition is owned by FN-VM-007 (COMP-VM, the component that owns the canonical a-townchain/components/vm tree); COMP-CHAIN keeps a delegated cross-component view instead of a second SSOT binding."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain",
           "preconditions": {
@@ -5329,8 +5337,10 @@
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "75a62238e2a3e4083caa6e420c2de3f215e28450",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/algorithm/src/poh.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: verify at components/algorithm/src/poh.rs (additional related symbols in the original qualified mapping: PohChain::{tick,verify}). Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified.",
-            "symbol_kind": "function"
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: verify at components/algorithm/src/poh.rs (additional related symbols in the original qualified mapping: PohChain::{tick,verify}). Rebound to current exact-HEAD census c631249ed6ff450bf45338e78cb14e2bf5c65c74 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified. Duplicate source binding resolved by documented delegation to the owning contract (fail-closed duplicate gate added 2026-10-13).",
+            "symbol_kind": "function",
+            "delegates_to_function_id": "FN-ALGO-004",
+            "delegation_reason": "components/algorithm/src/poh.rs::verify is owned by FN-ALGO-004 (specific PoH tick-chain verification contract); the broader consensus-transition contract delegates the symbol binding."
           },
           "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
           "preconditions": {
@@ -9085,8 +9095,10 @@
             "exact_source_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
             "file_blob_sha": "960c80753ca3a7c9ff54887ca00501e150127554",
             "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/7dbc7753032016cf6aeaf1a99807cd9c5173d090/modules/atc-shivacore/kernel/src/process.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: spawn at modules/atc-shivacore/kernel/src/process.rs (additional related symbols in the original qualified mapping: spawn, spawn_child). Rebound to current exact-HEAD census 7dbc7753032016cf6aeaf1a99807cd9c5173d090 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified.",
-            "symbol_kind": "function"
+            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: spawn at modules/atc-shivacore/kernel/src/process.rs (additional related symbols in the original qualified mapping: spawn, spawn_child). Rebound to current exact-HEAD census 7dbc7753032016cf6aeaf1a99807cd9c5173d090 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified. Duplicate source binding resolved by documented delegation to the owning contract (fail-closed duplicate gate added 2026-10-13).",
+            "symbol_kind": "function",
+            "delegates_to_function_id": "FN-SHIVA-009",
+            "delegation_reason": "modules/atc-shivacore/kernel/src/process.rs::spawn is owned by FN-SHIVA-009 (COMP-SHIVA, kernel SSOT per catalog SSOT note); the GlobusOS service-lifecycle contract keeps a delegated view."
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
