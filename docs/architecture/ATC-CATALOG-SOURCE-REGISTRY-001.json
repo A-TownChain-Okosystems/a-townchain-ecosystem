@@ -271,7 +271,7 @@
       "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
       "pull_request": 115,
       "branch": "audit/public-symbol-scan-001-2026-10-11",
-      "head_sha": "ace55d75af0494e47e1b07f7110b08bf91442269",
+      "head_sha": "e6e9d2928b1bdf28fb8e4098cc9867aa0804c820",
       "path": "docs/architecture/AURORA-GENESIS-ENGINE-INTEGRATION-001.json",
       "snapshot_format": "json",
       "catalog_type": [
@@ -284,10 +284,12 @@
         "use_cases": 4,
         "contract_requirements": 10,
         "implementation_verified": 0,
-        "end_to_end_test_verified": 0
+        "end_to_end_test_verified": 0,
+        "source_files_inspected": 6,
+        "candidate_symbols_identified": 6
       },
-      "status": "SPECIFIED_NOT_IMPLEMENTATION_VERIFIED",
-      "notes": "Defines the intended Aurora-to-Genesis Engine service boundary. Transport and concrete adapter/tool contracts remain pending; this record does not claim a working integration."
+      "status": "PARTIAL_SOURCE_RECONCILIATION_NOT_IMPLEMENTATION_VERIFIED",
+      "notes": "Exact-blob inspection identified the Genesis Franchise Factory WorkflowRegistry/WorkflowEngine.run and typed ArtifactEnvelope surfaces, while Aurora tool_executor/sandbox remain PLANNED. No adapter/transport or end-to-end integration is verified."
     }
   ],
   "required_reconciliation_fields": [
@@ -335,7 +337,8 @@
     "Organization-wide source discovery is not complete: repository scope is now enumerated, but all 26 active repositories still require per-repository catalog/list inventory and evidenced inclusion or exclusion.",
     "Aurora AI component/function catalog added as a supplemental source; reconcile its 26 function records against the memory source catalog and all Aurora module source trees before claiming completeness.",
     "Aurora ChatGPT capability parity matrix is registered; all 20 feature-to-source-symbol mappings and implementation/verification states remain pending.",
-    "Aurora-to-Genesis Engine integration contract added; adapter/source-symbol mapping, transport decision, contract tests and end-to-end exact-SHA verification remain pending."
+    "Aurora-to-Genesis Engine integration contract added; adapter/source-symbol mapping, transport decision, contract tests and end-to-end exact-SHA verification remain pending.",
+    "Aurora-to-Genesis source reconciliation identified candidate workflow/artifact symbols; adapter, transport contract, security tests and end-to-end exact-SHA verification remain pending."
   ],
   "repository_scope": {
     "observed_at": "2026-10-13",
