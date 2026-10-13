@@ -203,6 +203,22 @@
       "reported_counts": null,
       "status": "NORMATIVE_REGISTRY_RECONCILIATION_REQUIRED",
       "notes": "Semantic builtins/type rules are retained as their own record classes; their presence does not prove compiler/runtime conformance."
+    },
+    {
+      "source_id": "SRC-GLOBUSOS-COMPONENT-FUNCTION-MD-001",
+      "repository": "A-TownChain-Okosystems/globus-os",
+      "branch": "main",
+      "head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+      "path": "docs/COMPONENT_FUNCTION_CATALOG.md",
+      "snapshot_format": "markdown",
+      "catalog_type": [
+        "component",
+        "function_group",
+        "interface_boundary"
+      ],
+      "reported_counts": null,
+      "status": "DOCUMENTED_BASELINE_RECONCILIATION_REQUIRED",
+      "notes": "Markdown table inventory of GlobusOS subsystem ownership and function groups; it is not evidence of implementation or verification."
     }
   ],
   "required_reconciliation_fields": [
@@ -245,6 +261,7 @@
     "Additional catalogs in the remaining active repositories must be discovered and registered.",
     "No functional verification is inferred from catalog membership.",
     "Newly discovered Aurora AI memory catalog and ATCLang language/semantics registries are registered but not yet imported or reconciled.",
-    "Markdown catalogs and language-specific source inventories require format-specific extraction before they can be counted as complete."
+    "Markdown catalogs and language-specific source inventories require format-specific extraction before they can be counted as complete.",
+    "GlobusOS component/function Markdown catalog is registered and requires table extraction plus semantic reconciliation against the JSON OS function catalog."
   ]
 }
