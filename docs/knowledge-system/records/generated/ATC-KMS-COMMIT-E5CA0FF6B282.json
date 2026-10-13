@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-E5CA0FF6B282",
-  "timestamp": "2026-10-13T21:55:24.317044Z",
+  "timestamp": "2026-10-13T22:01:15.287894Z",
   "category": "change",
   "title": "Commit: Add specification support documentation and governance functions",
   "context": "Git commit e5ca0ff6b2823bad436c9344aba9319455887e57 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/e5ca0ff6b2823bad436c9344aba9319455887e57",
-    "commit": "31dc615fa8bdcd3f2a75a90c74a405ebc764f472"
+    "commit": "9e851f3ead8759ea0bbc275f377980dfba8c2b45"
   },
   "tags": [
     "commit",

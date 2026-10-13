@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-COMPONENTS-ALGORITHM-SECURITY-MD-BEF50266F4",
-  "timestamp": "2026-10-13T21:55:24.317044Z",
+  "timestamp": "2026-10-13T22:01:15.287894Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain/components/algorithm/SECURITY.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain/components/algorithm/SECURITY.md",
-    "commit": "31dc615fa8bdcd3f2a75a90c74a405ebc764f472"
+    "commit": "9e851f3ead8759ea0bbc275f377980dfba8c2b45"
   },
   "tags": [
     "generated",
