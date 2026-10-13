@@ -295,3 +295,15 @@ Contract generation is documented and honest: 217/720 purposes derive from sourc
 **Post-binding state:** catalog 35 components / 2,486 functions; reconcile: 2,439 candidates bound (+720), 3,133 unbound (−720), 0 duplicate binding groups, 174 symbol-name collision groups (informational); catalog validator `PASS_STRUCTURAL_ONLY` (0 errors); tools tests 58/58.
 
 **Remaining backlog:** a-townchain (456), genesis-engine (371), aurora-ai (369), a-townchain-os-docs (278), a-townchain-os (224), atc-engineering (143), atc-ide (141), atc-standards (122), genesis-chronicles (78), atc-shivacore (66) and smaller repos; plus COMP-ALGO-SPEC inventory drift (atc-algorithm PR #17 added its own machine-readable function catalog — read before binding that repo).
+
+## 22. A-TownChain monorepo tranche 448/448 bound (2026-10-14)
+
+All 448 unbound candidates of the `a-townchain` integration monorepo (97 files, rust/python/typescript) were bound at exact SHA `a5e689671b1870699c7a1750f8a166e83590a41c` (current main):
+
+- **Extended**: COMP-CHAIN (+97, modules/atc-blockchain: consensus, bootstrap, discovery, multisig, DID), COMP-WALLET (+36), COMP-ALGO (+8), COMP-STORAGE-CORE (+3), COMP-NODE/COMP-SDK/COMP-ZKP/COMP-TOOLCHAIN initially extended then corrected (see below).
+- **New components**: COMP-ATCNET (52, atcnet networking), COMP-EXPLORER (37), COMP-MINING (33), COMP-GOVERNANCE (25), COMP-DNS (20), COMP-INTEROP (18), COMP-ORACLE (11).
+- **New: `COMP-CHAIN-MONO`** (108): a first pass bound node/sdk/zkp/toolchain monorepo paths into the standalone-repo components, whose inventories point at atc-node/atc-sdk/atc-zkp/atc-toolchain — the reconcile correctly flagged the mismatch (88 BOUND_SYMBOL_NOT_FOUND + inventory SHA findings). Correction: those 108 bindings moved to COMP-CHAIN-MONO, an explicit **mirror surface** component for the a-townchain monorepo with repo `A-TownChain-Okosystems/a-townchain`; each binding notes the mirror relationship and the standalone component retains the canonical contract. The four standalone inventories were restored to their correct repositories and current census SHAs (atc-node `a817db43a0…`, atc-sdk `34eef34590…`, atc-zkp `ffa8ec1098…`, atc-toolchain `82fe4a2386…`).
+
+Contract generation follows the documented deterministic methodology (impl/class context resolution, signature-derived inputs/outputs/failure modes, mapping-only acceptance, eight RESIDUAL evidence fields, binding notes). **Post-binding state:** 43 components / 2,934 functions; reconcile 2,887 bound (+448), 2,685 unbound, 0 duplicate groups, 179 collision groups (informational), component findings back to 1 (COMP-ALGO-SPEC, atc-algorithm PR #17); catalog validator `PASS_STRUCTURAL_ONLY` (0 errors); tests 58/58. Functional verification remains `NOT_PERFORMED`.
+
+**Remaining backlog:** genesis-engine (371), aurora-ai (369), a-townchain-os-docs (278), a-townchain-os (224), atc-engineering (143), atc-ide (141), atc-standards (122), genesis-chronicles (78), atc-shivacore (66) and smaller repos.
