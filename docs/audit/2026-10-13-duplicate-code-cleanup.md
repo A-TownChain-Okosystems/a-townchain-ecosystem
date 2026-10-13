@@ -1,0 +1,98 @@
+# Duplicate-Code-Cleanup Audit — 2026-10-13
+
+**Status:** TRIAGE ONLY — no source files deleted  
+**Scope:** Organization inventory and targeted duplicate/SSOT probes across active repositories  
+**Decision rule:** Standalone First, Ecosystem Second; canonical source ownership beats textual similarity. No deletion without exact source HEADs, reference/dependency analysis, build/test evidence, and a Draft PR in the owning repository.
+
+## 1. Repository inventory
+
+The GitHub repository inventory query returned 33 repositories: 26 non-archived and 7 archived. All listed repositories use `main` as their default branch. This is an inventory snapshot, not a claim that every file in every repository was exhaustively scanned.
+
+Active repositories included in scope:
+
+- `.github`
+- `a-townchain`
+- `a-townchain-ecosystem`
+- `a-townchain-os`
+- `a-townchain-os-docs`
+- `atc-algorithm`
+- `atc-compute`
+- `atc-contracts`
+- `atc-engineering`
+- `atc-ide`
+- `atc-launchpad`
+- `atc-marketplace`
+- `atc-node`
+- `atc-sdk`
+- `atc-shivacore`
+- `atc-standards`
+- `atc-toolchain`
+- `atc-vm`
+- `atc-zkp`
+- `atclang`
+- `aurora-ai`
+- `demo-repository` (private)
+- `genesis-chronicles`
+- `genesis-engine`
+- `genesis-franchise-factory`
+- `globus-os`
+
+Protected archived repositories — do not modify or delete as part of this cleanup without a separate explicit governance decision:
+
+- `atc-explorer`
+- `atc-indexer`
+- `atc-interop`
+- `atc-mining`
+- `atc-oracle`
+- `atc-storage`
+- `atc-wallet`
+
+## 2. Canonical ownership constraints
+
+- Blockchain core and canonical VM: `a-townchain`, especially `components/vm`.
+- Canonical algorithm/consensus implementation: `a-townchain/components/algorithm`; unresolved consensus choices remain BLOCKED.
+- ShivaCore kernel: `globus-os/modules/atc-shivacore/kernel/`; `atc-shivacore` is specifications/governance/support, not a second kernel implementation.
+- ATCLang normative bytecode specification: `atclang`; `atc-standards` owns the normative registry/pointers.
+- `a-townchain-ecosystem` is an integration, compliance and evidence control plane. Imported subtree snapshots are not a second implementation SSOT.
+
+## 3. Findings from targeted code-search probes
+
+| ID | Candidate | Evidence observed | Decision | Reason |
+|---|---|---|---|---|
+| DUP-001 | `a-townchain-ecosystem/components/a-townchain/components/sdk/typescript/chain-identity.ts` vs `a-townchain/components/sdk/typescript/chain-identity.ts` | Both expose canonical transaction-signing / transaction-ID symbols. The ecosystem file is an imported subtree snapshot; its body and validation behavior must be diffed against an exact canonical SHA before any sync decision. | **KEEP SNAPSHOT / RECONCILE** | Deleting an individual file from an imported subtree may break snapshot provenance or subtree synchronization. No safe deletion proven. |
+| DUP-002 | `a-townchain-ecosystem/components/a-townchain/components/storage/src/store.rs` vs `a-townchain/components/storage/src/store.rs` | Both contain `InMemoryStore`, `fnv1a` and `mvp_root_hash`; the implementation explicitly labels the hash development-only/non-cryptographic. | **KEEP SNAPSHOT / RECONCILE** | Same subtree-snapshot constraint; do not confuse duplication in an integration mirror with duplicate production ownership. Cryptographic state-root gap remains a separate blocker. |
+| DUP-003 | `a-townchain-ecosystem/components/atc-vm` and `components/atc-algorithm` | Root `Cargo.toml` explicitly excludes both as “Legacy duplicate snapshots”; canonical nested VM/algorithm workspaces are also excluded from the umbrella root workspace. | **NO BLIND DELETE** | Exclusion from the root workspace is useful evidence, but does not prove no scripts, tests, historical sync workflow, documentation, or audit references require these paths. |
+| DUP-004 | Standalone `atc-vm` / `atc-algorithm` repositories vs canonical subtrees in `a-townchain` | Search surfaced SCR-0131 stating the standalone repositories are frozen/non-canonical and migrated to `a-townchain/components/vm` and `a-townchain/components/algorithm`; the registry still has ownership-era ambiguity that SCR-0131 is resolving. | **GOVERNANCE BLOCKED** | Do not delete repository contents or archive/decommission the repos until the registry migration decision is authoritative and references/build consumers are reconciled. |
+| DUP-005 | `a-townchain-ecosystem/components/globus-os/modules/atc-globus-os/...` vs `globus-os/modules/atc-globus-os/...` | Search found matching `world_engine.atc` and `world_registry.atc` names and excerpts in the ecosystem snapshot and canonical GlobusOS repository. | **KEEP SNAPSHOT / RECONCILE** | Imported subtree copy, not yet proven dead code. Preserve evidence and compare snapshot SHA to canonical source before sync/removal. |
+| DUP-006 | `a-townchain-ecosystem/components/atc-sdk/typescript/chain-identity.ts` vs canonical SDK paths | The legacy SDK snapshot has a separate transaction-signing implementation; the excerpt differs in field widths/features from the canonical V2 implementation (including u128 amount / transaction-ID behavior). | **DO NOT DELETE; FLAG DIVERGENCE** | This is not safe to classify as a byte-identical duplicate. It may be stale/incompatible implementation code and requires dependency and test analysis. |
+| DUP-007 | ATCB specification copies in ecosystem / docs / ATCLang | Search found copies and pointers, while `atc-standards` states ATCB v1's normative carrier is `atclang/specs/bytecode/SPEC.md` and the standards repo should hold a pointer, not a competing copy. | **CLASSIFY MIRROR VS NORMATIVE CLAIM** | Remove only proven competing normative claims; preserve archived/mirror evidence and cross-references. No deletion from search excerpts alone. |
+
+## 4. Deletion gate — required before a file is removed
+
+For each candidate, the owning-repository Draft PR must record:
+
+1. Exact 40-character source HEAD SHA and blob SHA for every compared file.
+2. Byte-identical hash result or a reviewed semantic diff; matching names alone do not qualify.
+3. Repository-wide imports, call sites, workspace members, build scripts, CI workflows, generated manifests, release packaging, and subtree/submodule references.
+4. Existing build/test/release evidence on the exact base SHA and the proposed deletion SHA.
+5. Explicit classification: `DELETE_SAFE`, `KEEP_CANONICAL`, `KEEP_MIRROR`, `ARCHIVE_ONLY`, or `BLOCKED`, with rationale and reviewer evidence.
+6. No removal of canonical code, normative standards, tests needed by consumers, security evidence, provenance, or archived history.
+7. A Draft PR per owning repository; no direct changes to `main`, no force-push, no weakened CI, and no merge before exact-head checks pass.
+
+## 5. Result of this audit pass
+
+- Confirmed: multiple duplicate-looking paths exist, including imported subtree mirrors and legacy migrated implementations.
+- Confirmed: some candidates are divergent, not identical, and must not be deleted under a “duplicate code” assumption.
+- Safe source deletions proven in this pass: **0**.
+- Files deleted: **0**.
+- Repositories exhaustively file-hashed and reference-scanned: **0 of 26**. The available repository inventory and indexed code-search probes are a triage pass, not a complete filesystem census.
+- Release / production status: unchanged. This audit makes no new implementation or functional-verification claim.
+
+## 6. Next execution sequence
+
+1. Build a reproducible exact-HEAD source inventory for every non-archived repository; fail closed when a repository tree, source SHA, or index is unavailable.
+2. Hash and diff candidate files, separating true byte-identical copies from semantic divergences, generated files, vendored dependencies, examples, tests, and mirrors.
+3. Generate reference/dependency reports per owning repository and validate them against workspace/build/CI/release configuration.
+4. Open Draft PRs only for individually proven safe removals; otherwise commit a BLOCKED finding with the missing evidence.
+5. Run relevant validators/tests on the proposed deletion SHA and retain full Run → Job → Step → exit-code/log evidence.
+6. Keep all archived repositories and historical/audit records untouched unless separately authorized.
