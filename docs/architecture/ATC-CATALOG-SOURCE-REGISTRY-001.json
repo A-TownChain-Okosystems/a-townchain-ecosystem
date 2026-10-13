@@ -1,0 +1,171 @@
+{
+  "schema_id": "ATC-CATALOG-SOURCE-REGISTRY-001",
+  "schema_version": "1.0.0",
+  "status": "RECONCILIATION_REQUIRED",
+  "purpose": "Single registry of component/function/capability catalogs across A-TownChain-Okosystems. This source registry is the staging manifest for producing one normalized master catalog; it is not itself proof that all source records have been imported or verified.",
+  "authority": {
+    "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+    "role": "Architecture, ownership, integration, compliance and evidence control plane only",
+    "canonical_implementation_rule": "Catalog aggregation must not transfer or duplicate implementation ownership."
+  },
+  "merge_policy": {
+    "preserve_source_records": true,
+    "preserve_original_ids": true,
+    "normalized_id_rule": "Use a stable namespace derived from source repository and source catalog ID; retain the original ID and source_record.",
+    "deduplicate_by_name_only": false,
+    "semantic_overlap": "Mark as POSSIBLE_DUPLICATE and reconcile explicitly; never silently delete or merge records.",
+    "counts": "Keep source counts separate until record-level import and reconciliation are complete. Do not sum overlapping catalog classes as unique functions.",
+    "verification": "Catalog presence, source mapping, implementation, tests and functional verification are separate states.",
+    "unresolved_consensus": "BLOCKED until an approved versioned normative decision exists.",
+    "implementation_order": "Finish source inventory, contracts, validation and reconciliation before implementation changes."
+  },
+  "source_catalogs": [
+    {
+      "source_id": "SRC-ECOSYSTEM-COMPONENT-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "pull_request": 115,
+      "branch": "audit/public-symbol-scan-001-2026-10-11",
+      "head_sha": "92cfff9a8ee364e360c05d173f3a1778ccc59514",
+      "path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
+      "catalog_type": ["component", "function_contract", "interface"],
+      "reported_counts": {
+        "components": 33,
+        "function_capability_contracts": 210,
+        "interfaces": 19,
+        "source_mapped_function_contracts": 169,
+        "unresolved_full_contract_surfaces": 12,
+        "functionally_verified": 0
+      },
+      "status": "BASELINE_RESIDUAL",
+      "notes": "Central architecture/control-plane catalog. Counts are the latest recorded PR description, not a claim of terminal exact-HEAD reconciliation."
+    },
+    {
+      "source_id": "SRC-GENESIS-UNIFIED-CAPABILITY-001",
+      "repository": "A-TownChain-Okosystems/genesis-engine",
+      "pull_request": 34,
+      "branch": "docs/genesis-function-catalog-20261013",
+      "head_sha": "41e3d6d563806353fda4d50a45078d7e5ae71f34",
+      "path": "docs/architecture/genesis-unified-capability-catalog.json",
+      "catalog_type": ["function_contract", "capability_requirement"],
+      "reported_counts": {
+        "function_contracts": 205,
+        "unreal_inspired_target_requirements": 295,
+        "unity_inspired_target_requirements": 313,
+        "total_source_records": 813,
+        "domain_labels_pending_semantic_reconciliation": 53
+      },
+      "status": "MERGED_SOURCE_CATALOGS_RECONCILIATION_REQUIRED",
+      "notes": "Retain clean-room target requirements as a distinct record class; do not treat Unity/Unreal-inspired requirements as implemented functions."
+    },
+    {
+      "source_id": "SRC-ATC-ALGORITHM-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/atc-algorithm",
+      "pull_request": 17,
+      "branch": "docs/function-catalog-20261013",
+      "head_sha": "19fb7ec2c9a72207f71105bebe6054ce2efd1ed5",
+      "path": "docs/function-catalog.json",
+      "catalog_type": ["function_declaration", "test_function"],
+      "reported_counts": {
+        "explicit_function_declarations": 37,
+        "test_functions_included": 18,
+        "source_files_examined": 6
+      },
+      "status": "BASELINE_RESIDUAL",
+      "notes": "Count is an initial inventory based on the recorded base source tree; refresh and reconcile against the current PR head. Consensus semantics remain BLOCKED where normative decisions are unresolved."
+    },
+    {
+      "source_id": "SRC-ATC-VM-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/a-townchain",
+      "pull_request": 72,
+      "branch": "fix/atc-vm-read-limits-followup-2026-10-12",
+      "head_sha": "00f9e6aab801d272da25d8d6e06059e402f49f7e",
+      "path": "components/vm/docs/VM_FUNCTION_CATALOG.json",
+      "catalog_type": ["function_candidate", "function_contract_candidate"],
+      "reported_counts": {
+        "function_contract_candidates": 62
+      },
+      "status": "AUDIT_BASELINE_RESIDUAL",
+      "notes": "Canonical VM owner remains a-townchain/components/vm. Do not create a second production VM in the atc-vm support repository."
+    },
+    {
+      "source_id": "SRC-GLOBUSOS-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/globus-os",
+      "pull_request": 27,
+      "branch": "audit/os-function-catalog-2026-09-27",
+      "head_sha": "76010c3109f3005b3f95237be758058e6436e2ba",
+      "path": "docs/OS_FUNCTION_CATALOG.json",
+      "catalog_type": ["os_function", "service_surface"],
+      "reported_counts": {
+        "domain_level_function_records": 80
+      },
+      "status": "BASELINE_RESIDUAL",
+      "notes": "The 80 records are a domain-level baseline, not a complete runtime-symbol census."
+    },
+    {
+      "source_id": "SRC-GLOBUSOS-UI-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/globus-os",
+      "pull_request": 27,
+      "branch": "audit/os-function-catalog-2026-09-27",
+      "head_sha": "76010c3109f3005b3f95237be758058e6436e2ba",
+      "path": "docs/GLOBUSOS_FRONTEND_FUNCTION_CATALOG.json",
+      "catalog_type": ["ui_action", "frontend_function"],
+      "reported_counts": {
+        "stable_ui_function_records": 114
+      },
+      "status": "UNASSESSED_INCOMPLETE",
+      "notes": "UI routes, screens and mockups are not implementation evidence for backend or privileged operations."
+    },
+    {
+      "source_id": "SRC-ATC-STANDARDS-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/atc-standards",
+      "pull_request": 106,
+      "branch": "docs/function-catalog-20261013",
+      "head_sha": "446e210212841dc138fed6fa113b7d99dd70a32d",
+      "path": "docs/function-catalog.json",
+      "catalog_type": ["function_declaration", "python_ast_inventory"],
+      "reported_counts": null,
+      "status": "VALIDATION_PENDING",
+      "notes": "Python AST inventory is scoped; workflows, shell entrypoints, YAML contracts and other language surfaces remain residual. Do not infer semantic contracts from names or signatures."
+    }
+  ],
+  "required_reconciliation_fields": [
+    "source_id",
+    "source_repository",
+    "source_catalog_path",
+    "source_catalog_sha256",
+    "source_head_sha",
+    "source_record_id",
+    "normalized_record_id",
+    "record_kind",
+    "canonical_component_id",
+    "canonical_owner",
+    "source_path",
+    "symbol_kind",
+    "symbol_name",
+    "contract_status",
+    "implementation_status",
+    "verification_status",
+    "duplicate_candidates",
+    "exclusion_reason",
+    "dependencies",
+    "interfaces",
+    "evidence"
+  ],
+  "completion_gates": [
+    "Every active repository and every discovered catalog/list is registered or has a reasoned exclusion.",
+    "Every source record is imported with original ID, provenance and source hash preserved.",
+    "Every component/function/capability/interface is classified by record kind and canonical owner.",
+    "Potential duplicates and semantic overlaps are reconciled explicitly; no record is silently discarded.",
+    "Every runtime source candidate is mapped to a catalog record or explicitly excluded with rationale.",
+    "Schema validation, uniqueness checks, count reconciliation and source reconciliation pass on the exact commit SHA.",
+    "Functional verification is only claimed with exact-SHA Run-to-Job-to-Step evidence and terminal logs.",
+    "The pull request remains Draft and unmerged while any required gate is residual or blocked."
+  ],
+  "overall_status": "BLOCKED",
+  "residuals": [
+    "This manifest registers known source catalogs; it does not yet contain a lossless record-level union of all source catalogs.",
+    "Current catalog JSON payloads must be imported and normalized by deterministic tooling, not by manually copying summary counts.",
+    "Additional catalogs in the remaining active repositories must be discovered and registered.",
+    "No functional verification is inferred from catalog membership."
+  ]
+}
