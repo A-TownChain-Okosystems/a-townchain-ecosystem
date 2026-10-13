@@ -91,6 +91,18 @@ class CatalogValidatorTests(unittest.TestCase):
         self.assertEqual(metrics["validation"], "PASS_STRUCTURAL_ONLY")
         self.assertEqual(metrics["functions_total"], 1)
 
+    def test_function_id_must_follow_stable_traceable_convention(self):
+        doc = valid_catalog()
+        doc["components"][0]["functions"][0]["id"] = "execute"
+        errors, _ = validate(doc)
+        self.assertTrue(any("function id must follow the stable" in error for error in errors))
+
+    def test_namespaced_function_id_is_accepted(self):
+        doc = valid_catalog()
+        doc["components"][0]["functions"][0]["id"] = "ATC-FUNC-AURORA-MEM-001"
+        errors, _ = validate(doc)
+        self.assertFalse(any("function id must follow the stable" in error for error in errors))
+
     def test_source_mapped_function_requires_explicit_function_symbol_kind(self):
         doc = valid_catalog()
         doc["components"][0]["functions"][0]["source_binding"].pop("symbol_kind")
