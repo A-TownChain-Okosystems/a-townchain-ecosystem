@@ -37,6 +37,19 @@ class CatalogReconcilerTests(unittest.TestCase):
         self.assertNotEqual(MODULE.digest(a), MODULE.digest(b))
         self.assertEqual(MODULE.display_name(a), MODULE.display_name(b))
 
+    def test_markdown_table_rows_are_preserved_as_catalog_entries(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "catalog.md"
+            path.write_text(
+                "# Catalog\\n\\n| Component / path | State |\\n|---|---|\\n| system/core | IMPLEMENTED |\\n",
+                encoding="utf-8",
+            )
+            records = MODULE.collect_markdown_tables(path)
+            self.assertEqual(len(records), 1)
+            self.assertEqual(records[0]["record_kind"], "catalog_entry")
+            self.assertEqual(records[0]["source_record"]["component_path"], "system/core")
+            self.assertEqual(records[0]["source_record"]["state"], "IMPLEMENTED")
+
     def test_invalid_json_raises_for_caller_to_fail_closed(self):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / "bad.json"
