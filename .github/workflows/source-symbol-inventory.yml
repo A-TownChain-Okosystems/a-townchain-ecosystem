@@ -10,6 +10,8 @@ on:
       - "tools/reconcile_component_function_catalog.py"
       - "tools/report_cross_repository_hashes.py"
       - "tools/tests/test_report_cross_repository_hashes.py"
+      - "tools/validate_org_repository_drift.py"
+      - "tools/tests/test_validate_org_repository_drift.py"
       - "tools/report_cross_repository_hashes.py"
       - "tools/tests/test_report_cross_repository_hashes.py"
       - "tools/validate_component_function_catalog.py"
@@ -18,6 +20,8 @@ on:
       - "tools/tests/test_reconcile_component_function_catalog.py"
       - "tools/tests/test_scan_public_symbols.py"
       - "tools/tests/test_run_org_source_census.py"
+      - "tools/validate_org_repository_drift.py"
+      - "tools/tests/test_validate_org_repository_drift.py"
       - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
       - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
       - "docs/architecture/ATC-PRODUCT-BOUNDARY-INTERFACE-CONTRACTS-001.json"
@@ -72,10 +76,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile scanner, orchestrator and tests
-        run: python -m py_compile tools/classify_unbound_candidates.py tools/report_cross_repository_hashes.py tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/validate_component_function_catalog.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_validate_component_function_catalog.py tools/tests/test_report_cross_repository_hashes.py tests/test_classify_unbound_candidates_source_evidence.py
+        run: python -m py_compile tools/classify_unbound_candidates.py tools/report_cross_repository_hashes.py tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/validate_component_function_catalog.py tools/validate_org_repository_drift.py tools/tests/test_validate_org_repository_drift.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_validate_component_function_catalog.py tools/tests/test_report_cross_repository_hashes.py tests/test_classify_unbound_candidates_source_evidence.py
       - name: Run scanner and organization census tests
         run: |
-          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_validate_component_function_catalog tools.tests.test_report_cross_repository_hashes tests.test_classify_unbound_candidates_source_evidence -v
+          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_validate_component_function_catalog tools.tests.test_report_cross_repository_hashes tools.tests.test_validate_org_repository_drift tests.test_classify_unbound_candidates_source_evidence -v
       - name: Validate machine-readable function and interface catalog
         run: |
           set -euo pipefail
@@ -322,3 +326,18 @@ jobs:
               "live_drift_validation": "NOT_PERFORMED",
           }, sort_keys=True))
           PY
+      - name: Compare historical repository pins with live main refs
+        if: always()
+        env:
+          ATC_CENSUS_TOKEN: ${{ secrets.ATC_CENSUS_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python tools/validate_org_repository_drift.py --manifest docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json --output artifacts/ATC-ORG-REPOSITORY-DRIFT-REPORT-001.json
+      - name: Upload live repository drift report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atc-org-repository-drift-${{ github.event.pull_request.head.sha || github.sha }}
+          path: artifacts/ATC-ORG-REPOSITORY-DRIFT-REPORT-001.json
+          if-no-files-found: error
