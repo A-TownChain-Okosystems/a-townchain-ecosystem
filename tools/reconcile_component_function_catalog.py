@@ -167,14 +167,12 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 ]
                 if not identity_candidates:
                     item["finding"] = "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN"
-                elif binding_line is not None and not candidates and len(identity_candidates) == 1:
-                    # The exact source SHA and unique path/kind/name match prove
-                    # that the symbol exists, but a stale line locator must remain
-                    # an explicit catalog defect rather than being misreported as
-                    # a missing symbol or silently accepted as a clean binding.
-                    item["finding"] = "SOURCE_BINDING_LINE_MISMATCH"
+                elif binding_line is not None and not candidates:
+                    item["finding"] = "SOURCE_BINDING_LINE_MISMATCH" if len(identity_candidates) == 1 else "SOURCE_BINDING_LINE_MISMATCH_AMBIGUOUS"
                     item["catalog_line_start"] = int(binding_line)
-                    item["observed_line_start"] = identity_candidates[0][3]
+                    item["candidate_line_starts"] = sorted(candidate[3] for candidate in identity_candidates)
+                    if len(identity_candidates) == 1:
+                        item["observed_line_start"] = identity_candidates[0][3]
                 elif binding_line is None and len(identity_candidates) > 1:
                     item["finding"] = "AMBIGUOUS_SOURCE_SYMBOL_BINDING"
                     item["candidate_line_starts"] = sorted(candidate[3] for candidate in identity_candidates)
