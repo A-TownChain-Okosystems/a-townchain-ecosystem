@@ -2,11 +2,11 @@
 
 ## Purpose
 
-`reconcile_catalogs.py` creates a loss-preserving normalized union from JSON catalog snapshots registered in `docs/architecture/ATC-CATALOG-SOURCE-REGISTRY-001.json`. It is an inventory/reconciliation tool, not an implementation verifier and not a replacement for the owning repository's catalog.
+`reconcile_catalogs.py` creates a loss-preserving normalized union from JSON and Markdown catalog snapshots registered in `docs/architecture/ATC-CATALOG-SOURCE-REGISTRY-001.json`. It is an inventory/reconciliation tool, not an implementation verifier and not a replacement for the owning repository's catalog.
 
 ## Snapshot staging
 
-For each registry entry, fetch the exact catalog path at a reviewed source ref and save the JSON bytes under:
+For each registry entry, fetch the exact catalog path at a reviewed source ref and save JSON bytes as `<source_id>.json` or Markdown bytes as `<source_id>.md`, according to `snapshot_format` in the registry:
 
 ```text
 <snapshot-dir>/<source_id>.json
@@ -48,5 +48,5 @@ A non-zero exit indicates invalid/missing inputs or ID collisions. Do not publis
 
 - The source registry is not yet a complete census of all active repositories and catalog-like lists.
 - Source snapshots must be staged separately; this script performs no network calls.
-- JSON catalogs are supported. Markdown, YAML, source-code ASTs, shell entrypoints and workflow declarations need format-specific extractors and explicit scope accounting before they can be claimed as inventoried.
+- Markdown extraction covers pipe tables only. YAML, source-code ASTs, shell entrypoints and workflow declarations need format-specific extractors and explicit scope accounting before they can be claimed as inventoried.
 - The generated master catalog is non-normative until all sources, exclusions, contracts, and validation gates are reconciled.
