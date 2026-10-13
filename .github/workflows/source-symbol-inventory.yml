@@ -2,6 +2,7 @@ name: Source Symbol Inventory
 on:
   pull_request:
     paths:
+      - "AGENTS.md"
       - "tools/scan_public_symbols.py"
       - "tools/run_org_source_census.py"
       - "tools/reconcile_component_function_catalog.py"
