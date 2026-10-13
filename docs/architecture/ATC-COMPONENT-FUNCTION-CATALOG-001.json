@@ -70535,8 +70535,7 @@
           "inputs": [
             "pid",
             "address",
-            "mode",
-            "..."
+            "mode"
           ],
           "outputs": [
             "boolean access flag"
