@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-MIGRATION-MANIFEST-YAML-2AAE06389A",
-  "timestamp": "2026-10-13T09:28:49.133059Z",
+  "timestamp": "2026-10-13T21:55:24.317044Z",
   "category": "evidence",
   "title": "Indexed source: MIGRATION_MANIFEST.yaml",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "MIGRATION_MANIFEST.yaml",
-    "commit": "2b6b885221416673333a49fb9327374d4deebf8c"
+    "commit": "31dc615fa8bdcd3f2a75a90c74a405ebc764f472"
   },
   "tags": [
     "generated",

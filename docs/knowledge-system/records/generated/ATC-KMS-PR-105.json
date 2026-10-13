@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-105",
-  "timestamp": "2026-10-13T09:28:49.133059Z",
+  "timestamp": "2026-10-13T21:55:24.317044Z",
   "category": "change",
   "title": "PR #105: docs: align ecosystem SSOT and verification claims",
   "context": "Pull request 105 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/105",
-    "commit": "2b6b885221416673333a49fb9327374d4deebf8c"
+    "commit": "31dc615fa8bdcd3f2a75a90c74a405ebc764f472"
   },
   "tags": [
     "generated",

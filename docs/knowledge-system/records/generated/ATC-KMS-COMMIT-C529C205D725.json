@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-C529C205D725",
-  "timestamp": "2026-10-13T09:28:49.133059Z",
+  "timestamp": "2026-10-13T21:55:24.317044Z",
   "category": "change",
   "title": "Commit: docs(governance): define ARR lifecycle and authority boundaries",
   "context": "Git commit c529c205d7251c40343df1ff1da6c107008902de on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/c529c205d7251c40343df1ff1da6c107008902de",
-    "commit": "2b6b885221416673333a49fb9327374d4deebf8c"
+    "commit": "31dc615fa8bdcd3f2a75a90c74a405ebc764f472"
   },
   "tags": [
     "commit",
