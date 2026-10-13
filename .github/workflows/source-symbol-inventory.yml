@@ -146,7 +146,7 @@ jobs:
           from pathlib import Path
           manifest = json.loads(Path("docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json").read_text(encoding="utf-8"))
           for repo in sorted(manifest["repositories"], key=lambda item: item["name"].lower()):
-              if not repo.get("archived", False) and repo["name"] != "a-townchain-ecosystem":
+              if not repo.get("archived", False) and not repo.get("private", False) and repo["name"] != "a-townchain-ecosystem":
                   print(repo["name"])
           PY
           clone_failures=0
