@@ -51,6 +51,18 @@ class CatalogReconciliationTests(unittest.TestCase):
         self.assertEqual(report["summary"]["functional_verification"], "NOT_PERFORMED")
 
 
+    def test_unique_symbol_with_stale_line_is_reported_as_line_mismatch(self):
+        fn = self.catalog["components"][0]["functions"][0]
+        fn["source_binding"]["line_start"] = 21
+        self.census["repositories"][0]["report"]["files"][0]["candidate_public_symbols"][0]["line_start"] = 20
+        report = reconcile(self.catalog, self.census)
+        finding = report["function_findings"][0]
+        self.assertEqual(finding["finding"], "SOURCE_BINDING_LINE_MISMATCH")
+        self.assertEqual(finding["catalog_line_start"], 21)
+        self.assertEqual(finding["observed_line_start"], 20)
+        from tools.reconcile_component_function_catalog import completion_gaps
+        self.assertTrue(any("unresolved catalog source bindings" in gap for gap in completion_gaps(report)))
+
     def test_type_with_same_name_does_not_satisfy_function_binding(self):
         self.census["repositories"][0]["report"]["files"][0]["candidate_public_symbols"] = [
             {"kind": "type", "name": "execute"}
