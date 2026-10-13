@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-115",
-  "timestamp": "2026-10-12T20:22:25.936806Z",
+  "timestamp": "2026-10-13T09:28:49.133059Z",
   "category": "change",
   "title": "PR #115: audit: add exact-SHA source symbol discovery for catalog completion",
   "context": "Pull request 115 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,30 +10,13 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/115",
-    "commit": "60c04814508892166128aa0c2af32d734cb86bd7"
+    "commit": "2b6b885221416673333a49fb9327374d4deebf8c"
   },
   "tags": [
     "generated",
     "github",
     "pull-request"
   ],
-  "links": [
-    {
-      "relation": "references",
-      "target": "ATC-KMS-ISSUE-112"
-    },
-    {
-      "relation": "references",
-      "target": "ATC-KMS-ISSUE-112"
-    },
-    {
-      "relation": "references",
-      "target": "ATC-KMS-PR-114"
-    },
-    {
-      "relation": "references",
-      "target": "ATC-KMS-ISSUE-112"
-    }
-  ],
-  "content": "State: open\nMerged: False\nDraft: True\n\n## Zweck\nLegt den nächsten ausführbaren Schritt für Issue #112 an: eine deterministische, mehrsprachige Kandidateninventur öffentlicher Quellcode-Symbole, damit Komponenten-/Funktionsverträge gegen tatsächliche Source-Bäume abgeglichen werden können.\n\n## Änderungen\n- `tools/scan_public_symbols.py`: scannt einen ausgecheckten Repository-Baum und erfasst erkannte öffentliche/exportierte Symbole für Rust, Python, JavaScript/TypeScript, Go, Java, C#, C/C++, Swift, Kotlin, Ruby und PHP.\n- Pro Datei: SHA-256, Pfad, Sprache und erkannte Symbolkandidaten.\n- Pro Scan: Repository, exakt vom Aufrufer übergebener 40-stelliger Source-Commit-SHA, Abdeckung und Fehlerzählung.\n- `tools/tests/test_scan_public_symbols.py`: Regressionstests für Rust-, Python- und TypeScript-Kandidaten.\n- `.github/workflows/source-symbol-inventory.yml`: bindet den Workflow an den exakten PR-/Push-SHA, kompiliert und testet den Scanner.\n\n## Fail-closed / Einschränkungen\n- Der Scanner markiert alle Ergebnisse ausdrücklich als `LEXICAL_CANDIDATE_DISCOVERY`, `RESIDUAL` und `NOT_PERFORMED` für funktionale Verifikation.\n- Ein Symbolfund ist **kein** Funktionsvertrag, kein Beweis der Laufzeitkorrektheit und kein `VERIFIED`-Status.\n- Regex-Erkennung kann Makros, dynamische Registrierungen, bedingte Kompilierung und indirekte Einstiegspunkte übersehen. AST-/Compiler-Abgleich, Ausschlussregeln und Quellbaum-zu-Katalog-Reconciliation bleiben erforderlich.\n- Dieses PR scannt noch nicht automatisch alle 26 aktiven Repositories und schließt Issue #112 nicht.\n- Keine Merge-Automatisierung, keine Gate-Abschwächung, keine Repository-Lifecycle-Änderungen.\n\n## Abhängigkeit\nGestapelt auf `audit/complete-component-function-inventory-2026-10-11` / PR #114, damit der Quellscanner erst nach der Audit-Bindung integriert wird.\n\n<!-- catalog-completeness-summary -->\n## Catalog completeness update (2026-10-12)\n\nFull audit record: `docs/audit/ATC-CATALOG-COMPLETENESS-AUDIT-001.md`\n\n**Result:** component/function catalog now holds **71 function contracts** across 30 components, all with explicit source records at exact SHAs. Census basis: 26/26 active repositories, 4,917 files, 35,550 candidate symbols.\n\n| Binding state | Count |\n|---|---|\n| Census-verified lexical match (functional verification pending) | 53 |\n| Bound file/symbol not found by lexical scan (spec/doc/data/`.atc`/test) | 13 |\n| Explicit blocked record (archived, fixture, no surface) | 5 |\n\n**Commits:** `4153381d5` (58 bindings + SHA refresh), `f6ad61688` (COMP-LANG 2 to 10 functions), `24d66e1c4` (audit record, corrected counts).\n\n**Guardrails:** all functions remain `RESIDUAL`, release decision remains `BLOCKED`. Atclang VM and stdlib are reference only; canonical L1 execution stays in `a-townchain/components/vm`. Lexical mapping is not functional verification.\n\n**Validation:** catalog validator PASS (0 errors), org integration validator PASS, reconcile 0 component/SHA findings, tools/tests 11/11, CI 14/15.\n\n**Known blocker (not caused by this PR):** `scanner-tests` is red because the CI census cannot authenticate against private repositories (Issue #112); identical on predecessor head `ca36bf426`.\n\n**Open:** ATCLang `.atc` symbol extractor, IF-002 bytecode-producer review, functional verification, independent review/approval.\n<!-- catalog-completeness-summary -->"
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\n## Ziel\n\nDen maschinenlesbaren Komponenten-/Funktionskatalog vervollständigen und die tatsächlichen Quellbäume exakt dagegen abgleichen. Implementierungscode wird erst nach erfolgreicher Katalog- und Reconciliation-Prüfung bearbeitet.\n\n## Aktueller Katalogstand\n\n- **33 Komponenten · 210 Funktions-/Fähigkeitsverträge · 19 Schnittstellenverträge.**\n- **169** Funktionsverträge sind an exakten Repository-HEAD, Quellpfad, Symbolart und Datei-Blob gebunden. Das ist Source-Mapping, keine Funktionsverifikation.\n- **12** Verträge haben noch keine identifizierte Quellfunktion, die den vollständigen Vertrag erfüllt.\n- **26** Einträge sind explizit als Nicht-Funktion, Testoberfläche oder archivierte/private Referenz klassifiziert.\n- **0 Funktionen funktional verifiziert; Release `BLOCKED`.**\n\n## Neu erkannte harte Blocker\n\n- `IF-003`: Konsensauswahl, Finalität, Quorum und Fork-Choice bleiben ohne verbindliche versionierte Entscheidung `BLOCKED`.\n- `IF-015`: `genesis-engine` enthält ECS/World-Engine-Oberflächen; die Rolle als L1-Genesis-Owner ist nicht belegt.\n- `FN-NODE-022` / `IF-017`: `atc-node` enthält legacy `ATC-TX-DOMAIN`-Signing mit String-Feldkodierung, im Konflikt mit TX-V2. Der Pfad ist `BLOCKED`.\n- `COMP-STORAGE-CORE` / `IF-018`: `ContentAddress::compute` ist FNV-1a-basiert, nicht BLAKE3/cryptographisch; `mvp_root_hash` ist nicht kryptographisch und der Store ist nur im Speicher. Nicht als kanonischer Produktions-State-Store verwendbar.\n- `COMP-SDK-TS` / `IF-019`: `canonicalTransactionId` validiert nicht dieselben Vorbedingungen wie `canonicalSigningPreimage`; Cross-Language-Vektoren und Invalid-Input-Semantik sind offen.\n- `IF-002`: Bytecode-Magic ATCB vs. ATC1 bleibt ungelöst.\n\n## Source-Reconciliation / Scanner\n\n- Exakte Schlüssel: `(Repository, HEAD SHA, Quellpfad, symbol_kind, Symbolname)`.\n- Inline-Rust-`cfg(test)`-Funktionen werden separat als Testoberflächen erfasst.\n- TypeScript-Klassenmethoden und interne TypeScript-Funktionen werden als eigene Kandidaten erfasst.\n- Der strikte Workflow führt den Catalog Validator aus und startet Reconciliation mit `--require-complete`; nicht zugeordnete Runtime-Symbole oder SHA-Mismatches blockieren den Abschluss.\n\n## Letzter abgeschlossener Lauf (historischer HEAD)\n\n[Source Symbol Inventory Run #38321023681](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38321023681) auf HEAD `265abc00f20d3a2eabc1996ad48f7b8941f1acee`: Catalog Validator `PASS_STRUCTURAL_ONLY`, Scanner-/Census-Tests bestanden, aber striktes Reconciliation-Gate `BLOCKED` mit 7.871 ungebundenen Runtime-Kandidaten. Diese Zahl gehört zum damaligen Scanner-/Katalog-HEAD und ist nicht als aktueller Stand auszugeben.\n\nDer aktuelle HEAD `90e3c5e1f7e7d19a360c542a8368e2c7b90d32e7` enthält Katalog-/Scanner-Erweiterungen sowie Korrekturen an den vom Validator erkannten Pflichtfeldern. Die neue Exact-HEAD-Prüfung läuft in [Run #38322378129](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38322378129); bis zum terminalen Ergebnis wird kein aktueller CI-Erfolg behauptet.\n\n## Governance\n\n- PR bleibt OPEN und DRAFT; kein Merge, kein Auto-Merge, kein Release.\n- Nur Katalog-, Audit-, Validator-, Scanner- und Teständerungen; keine Blockchain-/VM-/Kernel-Implementierung geändert.\n- Keine CI-Gates abgeschwächt.\n\n## Nächste Schritte\n\n1. Aktuelle Source Symbol Inventory Artefakte für den neuesten HEAD auswerten.\n2. Die verbleibenden 12 vollständigen Quelloberflächen einzeln auflösen oder mit begründeter Exklusion dokumentieren.\n3. Ungebundene Runtime-Kandidaten repo-/pfadweise zuordnen; keine Type-/Value-/Testtreffer als Runtime-Funktion ausgeben.\n4. Catalog Validator und strikten Reconciliation-Gate an einem exakten SHA erfolgreich nachweisen.\n5. Erst danach separate Implementierungs-PRs beginnen."
 }

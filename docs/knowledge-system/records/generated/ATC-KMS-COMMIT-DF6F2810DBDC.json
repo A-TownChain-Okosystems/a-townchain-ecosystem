@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-DF6F2810DBDC",
-  "timestamp": "2026-10-12T20:22:25.936806Z",
+  "timestamp": "2026-10-13T09:28:49.133059Z",
   "category": "change",
   "title": "Commit: fix(audit): pin local census checkout to exact workflow SHA",
   "context": "Git commit df6f2810dbdcca5ab6d37f403bab7963751a9dab on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/df6f2810dbdcca5ab6d37f403bab7963751a9dab",
-    "commit": "60c04814508892166128aa0c2af32d734cb86bd7"
+    "commit": "2b6b885221416673333a49fb9327374d4deebf8c"
   },
   "tags": [
     "commit",
