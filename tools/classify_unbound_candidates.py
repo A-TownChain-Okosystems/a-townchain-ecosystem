@@ -90,19 +90,32 @@ def inspect_source_location(row: dict, repos: dict) -> dict:
         return {"status": "SOURCE_SHA_MISMATCH", "reason": "Candidate SHA does not equal the exact census checkout SHA.", "repository_sha": repo_sha}
     if file_record is None:
         return {"status": "SOURCE_PATH_NOT_FOUND_IN_CENSUS", "reason": "Exact source path is absent from the census file inventory.", "repository_sha": repo_sha}
-    if row.get("source_file_sha256") and file_record.get("file_sha256") != row.get("source_file_sha256"):
-        return {"status": "SOURCE_FILE_HASH_MISMATCH", "reason": "Candidate file hash differs from the file hash in the exact-SHA census.", "repository_sha": repo_sha, "source_path": path, "census_file_sha256": file_record.get("file_sha256")}
+    candidate_file_hash = row.get("source_file_sha256")
+    census_file_hash = file_record.get("file_sha256")
+    if not isinstance(candidate_file_hash, str) or not candidate_file_hash:
+        return {"status": "SOURCE_FILE_HASH_MISSING", "reason": "Candidate does not carry a file hash; exact source evidence cannot be confirmed.", "repository_sha": repo_sha, "source_path": path, "census_file_sha256": census_file_hash}
+    if not isinstance(census_file_hash, str) or not census_file_hash:
+        return {"status": "CENSUS_FILE_HASH_MISSING", "reason": "The exact-SHA census file inventory does not carry a file hash.", "repository_sha": repo_sha, "source_path": path}
+    if census_file_hash != candidate_file_hash:
+        return {"status": "SOURCE_FILE_HASH_MISMATCH", "reason": "Candidate file hash differs from the file hash in the exact-SHA census.", "repository_sha": repo_sha, "source_path": path, "census_file_sha256": census_file_hash}
+    line_start = row.get("line_start")
+    if not isinstance(line_start, int) or isinstance(line_start, bool) or line_start < 1:
+        return {"status": "INVALID_SYMBOL_POSITION", "reason": "Candidate line_start must be a positive integer.", "repository_sha": repo_sha, "source_path": path, "source_file_sha256": census_file_hash}
     symbol_lists = ("candidate_public_symbols", "candidate_internal_symbols", "candidate_test_symbols")
     observed = []
     for field in symbol_lists:
         for symbol in file_record.get(field, []):
+            symbol_line = symbol.get("line_start")
             if (symbol.get("kind", "function") == row.get("symbol_kind", "unknown")
                 and symbol.get("name", "") == row.get("symbol_or_entrypoint", "")
-                and int(symbol.get("line_start", 0)) == int(row.get("line_start", 0))):
-                observed.append(symbol)
+                and isinstance(symbol_line, int) and not isinstance(symbol_line, bool)
+                and symbol_line == line_start):
+                observed.append((field, symbol))
     if not observed:
-        return {"status": "SYMBOL_NOT_FOUND_AT_RECORDED_LOCATION", "reason": "No exact kind/name/line match exists in the census inventory.", "repository_sha": repo_sha, "source_path": path, "source_file_sha256": file_record.get("file_sha256")}
-    symbol = observed[0]
+        return {"status": "SYMBOL_NOT_FOUND_AT_RECORDED_LOCATION", "reason": "No exact kind/name/line match exists in the census inventory.", "repository_sha": repo_sha, "source_path": path, "source_file_sha256": census_file_hash}
+    if len(observed) != 1:
+        return {"status": "AMBIGUOUS_SYMBOL_MATCH", "reason": "More than one census symbol matches the exact kind/name/line key.", "repository_sha": repo_sha, "source_path": path, "source_file_sha256": census_file_hash, "match_count": len(observed)}
+    field, symbol = observed[0]
     return {
         "status": "SOURCE_LOCATION_CONFIRMED",
         "reason": "Exact repository SHA, path, file hash, symbol kind/name, and line match the lexical census. This is not semantic review or functional verification.",
@@ -113,7 +126,7 @@ def inspect_source_location(row: dict, repos: dict) -> dict:
         "symbol_or_entrypoint": symbol.get("name", ""),
         "line_start": int(symbol.get("line_start", 0)),
         "signature": symbol.get("signature", ""),
-        "census_symbol_surface": next((field for field in symbol_lists if symbol in file_record.get(field, [])), "unknown"),
+        "census_symbol_surface": field,
     }
 
 def main() -> int:
