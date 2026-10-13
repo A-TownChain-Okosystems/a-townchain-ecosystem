@@ -25,9 +25,13 @@
       "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
       "pull_request": 115,
       "branch": "audit/public-symbol-scan-001-2026-10-11",
-      "head_sha": "92cfff9a8ee364e360c05d173f3a1778ccc59514",
+      "head_sha": "81fb59a43e8760d1fe94953f9f57c659ce03b4b8",
       "path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
-      "catalog_type": ["component", "function_contract", "interface"],
+      "catalog_type": [
+        "component",
+        "function_contract",
+        "interface"
+      ],
       "reported_counts": {
         "components": 33,
         "function_capability_contracts": 210,
@@ -37,7 +41,8 @@
         "functionally_verified": 0
       },
       "status": "BASELINE_RESIDUAL",
-      "notes": "Central architecture/control-plane catalog. Counts are the latest recorded PR description, not a claim of terminal exact-HEAD reconciliation."
+      "notes": "Central architecture/control-plane catalog. Counts are the latest recorded PR description, not a claim of terminal exact-HEAD reconciliation.",
+      "snapshot_format": "json"
     },
     {
       "source_id": "SRC-GENESIS-UNIFIED-CAPABILITY-001",
@@ -46,7 +51,10 @@
       "branch": "docs/genesis-function-catalog-20261013",
       "head_sha": "41e3d6d563806353fda4d50a45078d7e5ae71f34",
       "path": "docs/architecture/genesis-unified-capability-catalog.json",
-      "catalog_type": ["function_contract", "capability_requirement"],
+      "catalog_type": [
+        "function_contract",
+        "capability_requirement"
+      ],
       "reported_counts": {
         "function_contracts": 205,
         "unreal_inspired_target_requirements": 295,
@@ -55,7 +63,8 @@
         "domain_labels_pending_semantic_reconciliation": 53
       },
       "status": "MERGED_SOURCE_CATALOGS_RECONCILIATION_REQUIRED",
-      "notes": "Retain clean-room target requirements as a distinct record class; do not treat Unity/Unreal-inspired requirements as implemented functions."
+      "notes": "Retain clean-room target requirements as a distinct record class; do not treat Unity/Unreal-inspired requirements as implemented functions.",
+      "snapshot_format": "json"
     },
     {
       "source_id": "SRC-ATC-ALGORITHM-FUNCTION-001",
@@ -64,14 +73,18 @@
       "branch": "docs/function-catalog-20261013",
       "head_sha": "19fb7ec2c9a72207f71105bebe6054ce2efd1ed5",
       "path": "docs/function-catalog.json",
-      "catalog_type": ["function_declaration", "test_function"],
+      "catalog_type": [
+        "function_declaration",
+        "test_function"
+      ],
       "reported_counts": {
         "explicit_function_declarations": 37,
         "test_functions_included": 18,
         "source_files_examined": 6
       },
       "status": "BASELINE_RESIDUAL",
-      "notes": "Count is an initial inventory based on the recorded base source tree; refresh and reconcile against the current PR head. Consensus semantics remain BLOCKED where normative decisions are unresolved."
+      "notes": "Count is an initial inventory based on the recorded base source tree; refresh and reconcile against the current PR head. Consensus semantics remain BLOCKED where normative decisions are unresolved.",
+      "snapshot_format": "json"
     },
     {
       "source_id": "SRC-ATC-VM-FUNCTION-001",
@@ -80,12 +93,16 @@
       "branch": "fix/atc-vm-read-limits-followup-2026-10-12",
       "head_sha": "00f9e6aab801d272da25d8d6e06059e402f49f7e",
       "path": "components/vm/docs/VM_FUNCTION_CATALOG.json",
-      "catalog_type": ["function_candidate", "function_contract_candidate"],
+      "catalog_type": [
+        "function_candidate",
+        "function_contract_candidate"
+      ],
       "reported_counts": {
         "function_contract_candidates": 62
       },
       "status": "AUDIT_BASELINE_RESIDUAL",
-      "notes": "Canonical VM owner remains a-townchain/components/vm. Do not create a second production VM in the atc-vm support repository."
+      "notes": "Canonical VM owner remains a-townchain/components/vm. Do not create a second production VM in the atc-vm support repository.",
+      "snapshot_format": "json"
     },
     {
       "source_id": "SRC-GLOBUSOS-FUNCTION-001",
@@ -94,12 +111,16 @@
       "branch": "audit/os-function-catalog-2026-09-27",
       "head_sha": "76010c3109f3005b3f95237be758058e6436e2ba",
       "path": "docs/OS_FUNCTION_CATALOG.json",
-      "catalog_type": ["os_function", "service_surface"],
+      "catalog_type": [
+        "os_function",
+        "service_surface"
+      ],
       "reported_counts": {
         "domain_level_function_records": 80
       },
       "status": "BASELINE_RESIDUAL",
-      "notes": "The 80 records are a domain-level baseline, not a complete runtime-symbol census."
+      "notes": "The 80 records are a domain-level baseline, not a complete runtime-symbol census.",
+      "snapshot_format": "json"
     },
     {
       "source_id": "SRC-GLOBUSOS-UI-FUNCTION-001",
@@ -108,12 +129,16 @@
       "branch": "audit/os-function-catalog-2026-09-27",
       "head_sha": "76010c3109f3005b3f95237be758058e6436e2ba",
       "path": "docs/GLOBUSOS_FRONTEND_FUNCTION_CATALOG.json",
-      "catalog_type": ["ui_action", "frontend_function"],
+      "catalog_type": [
+        "ui_action",
+        "frontend_function"
+      ],
       "reported_counts": {
         "stable_ui_function_records": 114
       },
       "status": "UNASSESSED_INCOMPLETE",
-      "notes": "UI routes, screens and mockups are not implementation evidence for backend or privileged operations."
+      "notes": "UI routes, screens and mockups are not implementation evidence for backend or privileged operations.",
+      "snapshot_format": "json"
     },
     {
       "source_id": "SRC-ATC-STANDARDS-FUNCTION-001",
@@ -122,10 +147,62 @@
       "branch": "docs/function-catalog-20261013",
       "head_sha": "446e210212841dc138fed6fa113b7d99dd70a32d",
       "path": "docs/function-catalog.json",
-      "catalog_type": ["function_declaration", "python_ast_inventory"],
+      "catalog_type": [
+        "function_declaration",
+        "python_ast_inventory"
+      ],
       "reported_counts": null,
       "status": "VALIDATION_PENDING",
-      "notes": "Python AST inventory is scoped; workflows, shell entrypoints, YAML contracts and other language surfaces remain residual. Do not infer semantic contracts from names or signatures."
+      "notes": "Python AST inventory is scoped; workflows, shell entrypoints, YAML contracts and other language surfaces remain residual. Do not infer semantic contracts from names or signatures.",
+      "snapshot_format": "json"
+    },
+    {
+      "source_id": "SRC-AURORA-MEMORY-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/aurora-ai",
+      "branch": "main",
+      "head_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
+      "path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json",
+      "snapshot_format": "json",
+      "catalog_type": [
+        "function_contract",
+        "capability"
+      ],
+      "reported_counts": null,
+      "status": "SPECIFIED_BASELINE_RECONCILIATION_REQUIRED",
+      "notes": "Canonical source is aurora-ai. Catalog status SPECIFIED does not prove implementation or runtime verification."
+    },
+    {
+      "source_id": "SRC-ATCLANG-LANGUAGE-REGISTRY-001",
+      "repository": "A-TownChain-Okosystems/atclang",
+      "branch": "main",
+      "head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+      "path": "specs/language/registry.json",
+      "snapshot_format": "json",
+      "catalog_type": [
+        "token",
+        "keyword",
+        "type_definition",
+        "grammar_registry"
+      ],
+      "reported_counts": null,
+      "status": "NORMATIVE_REGISTRY_RECONCILIATION_REQUIRED",
+      "notes": "Language registry is a semantic/specification inventory, not a function implementation catalog."
+    },
+    {
+      "source_id": "SRC-ATCLANG-SEMANTICS-REGISTRY-001",
+      "repository": "A-TownChain-Okosystems/atclang",
+      "branch": "main",
+      "head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+      "path": "specs/semantics/registry.json",
+      "snapshot_format": "json",
+      "catalog_type": [
+        "builtin",
+        "semantic_rule",
+        "type_contract"
+      ],
+      "reported_counts": null,
+      "status": "NORMATIVE_REGISTRY_RECONCILIATION_REQUIRED",
+      "notes": "Semantic builtins/type rules are retained as their own record classes; their presence does not prove compiler/runtime conformance."
     }
   ],
   "required_reconciliation_fields": [
@@ -166,6 +243,8 @@
     "This manifest registers known source catalogs; it does not yet contain a lossless record-level union of all source catalogs.",
     "Current catalog JSON payloads must be imported and normalized by deterministic tooling, not by manually copying summary counts.",
     "Additional catalogs in the remaining active repositories must be discovered and registered.",
-    "No functional verification is inferred from catalog membership."
+    "No functional verification is inferred from catalog membership.",
+    "Newly discovered Aurora AI memory catalog and ATCLang language/semantics registries are registered but not yet imported or reconciled.",
+    "Markdown catalogs and language-specific source inventories require format-specific extraction before they can be counted as complete."
   ]
 }
