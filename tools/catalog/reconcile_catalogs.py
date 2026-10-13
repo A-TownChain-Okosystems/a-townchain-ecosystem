@@ -35,6 +35,19 @@ COLLECTION_KINDS = {
     "actions": "action",
     "test_functions": "test_function",
     "contracts": "contract",
+    "tokens": "token",
+    "keywords": "keyword",
+    "productions": "grammar_production",
+    "ast_nodes": "ast_node",
+    "error_classes": "error_class",
+    "builtins_list": "builtin",
+    "semantic_rules": "semantic_rule",
+    "type_definitions": "type_definition",
+}
+MAP_COLLECTION_KINDS = {
+    "builtins": "builtin",
+    "semantic_rules": "semantic_rule",
+    "rules": "semantic_rule",
 }
 NAME_KEYS = ("name", "function", "symbol", "title", "component", "capability", "id")
 ID_KEYS = ("id", "function_id", "component_id", "capability_id", "interface_id")
@@ -88,6 +101,15 @@ def collect_records(value: Any, path: str = "$") -> list[dict[str, Any]]:
                             "json_pointer": f"{child_path}[{index}]",
                             "source_record": item,
                         })
+            elif key.lower() in MAP_COLLECTION_KINDS and isinstance(child, dict):
+                map_kind = MAP_COLLECTION_KINDS[key.lower()]
+                for entry_key, entry_value in child.items():
+                    found.append({
+                        "collection": key,
+                        "record_kind": map_kind,
+                        "json_pointer": f"{child_path}.{entry_key}",
+                        "source_record": {"key": entry_key, "value": entry_value},
+                    })
             else:
                 found.extend(collect_records(child, child_path))
     elif isinstance(value, list):
