@@ -157,12 +157,27 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 item["finding"] = "SOURCE_CENSUS_UNAVAILABLE"
                 item["status"] = "BLOCKED"
             else:
-                candidates = [candidate for candidate in symbols_by_repo.get(repo, set()) if candidate[:3] == key and (binding_line is None or candidate[3] == int(binding_line))]
-                if not candidates:
+                identity_candidates = [
+                    candidate for candidate in symbols_by_repo.get(repo, set())
+                    if candidate[:3] == key
+                ]
+                candidates = [
+                    candidate for candidate in identity_candidates
+                    if binding_line is None or candidate[3] == int(binding_line)
+                ]
+                if not identity_candidates:
                     item["finding"] = "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN"
-                elif binding_line is None and len(candidates) > 1:
+                elif binding_line is not None and not candidates and len(identity_candidates) == 1:
+                    # The exact source SHA and unique path/kind/name match prove
+                    # that the symbol exists, but a stale line locator must remain
+                    # an explicit catalog defect rather than being misreported as
+                    # a missing symbol or silently accepted as a clean binding.
+                    item["finding"] = "SOURCE_BINDING_LINE_MISMATCH"
+                    item["catalog_line_start"] = int(binding_line)
+                    item["observed_line_start"] = identity_candidates[0][3]
+                elif binding_line is None and len(identity_candidates) > 1:
                     item["finding"] = "AMBIGUOUS_SOURCE_SYMBOL_BINDING"
-                    item["candidate_line_starts"] = sorted(candidate[3] for candidate in candidates)
+                    item["candidate_line_starts"] = sorted(candidate[3] for candidate in identity_candidates)
                 elif binding.get("exact_source_sha") != census_repos[repo].get("source_sha"):
                     item["finding"] = "FUNCTION_BINDING_SHA_MISMATCH"
                 else:
