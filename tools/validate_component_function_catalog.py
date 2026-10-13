@@ -115,6 +115,11 @@ def validate(doc: dict) -> tuple[list[str], dict]:
                 errors.append(f"{cid}: missing required field {field}")
         if component.get("readiness") not in READINESS:
             errors.append(f"{cid}: invalid readiness {component.get('readiness')!r}")
+        EXECUTION_MODELS = {"LIBRARY", "RUNTIME", "LIBRARY_AND_RUNTIME", "TOOLING", "NON_EXECUTABLE_REFERENCE"}
+        if component.get("execution_model") not in EXECUTION_MODELS:
+            errors.append(f"{cid}: invalid or missing execution_model {component.get('execution_model')!r}")
+        if not isinstance(component.get("execution_model_rationale"), str) or not component.get("execution_model_rationale").strip():
+            errors.append(f"{cid}: execution_model_rationale must be a non-empty string")
         if component.get("readiness") == "PRODUCTION_READY":
             production_ready_components += 1
             _check_evidence(component, cid, errors)

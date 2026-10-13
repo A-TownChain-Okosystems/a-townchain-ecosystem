@@ -15,6 +15,7 @@ This catalog is the architecture/control-plane inventory. It does not replace co
 - Each function records purpose, inputs, outputs, failure modes, measurable acceptance criteria, test classes, and readiness.
 - Cross-component edges are explicit and remain `RESIDUAL` until their exact API/ABI and compatibility evidence are verified.
 - `IMPLEMENTED` does not mean `VERIFIED`; `PRODUCTION_READY` requires full exact-SHA evidence, required gates, logs/artifacts and review.
+- Every component records a machine-readable execution model (`LIBRARY`, `RUNTIME`, `LIBRARY_AND_RUNTIME`, `TOOLING`, `NON_EXECUTABLE_REFERENCE`) with rationale; it is an inventory dimension, not implementation or verification evidence.
 - A skipped or pending required check is not a successful check. No automatic merge, repository archive, or source deletion is authorized by this catalog.
 
 ## Canonical domains in this baseline
@@ -276,3 +277,11 @@ This section supersedes the preceding **Current reconciliation state** counts fo
 The repository-level routing summary is [ATC-UNBOUND-SYMBOL-CLASSIFICATION-001.md](../audit/ATC-UNBOUND-SYMBOL-CLASSIFICATION-001.md), with its machine-readable companion [ATC-UNBOUND-SYMBOL-CLASSIFICATION-001.json](../audit/ATC-UNBOUND-SYMBOL-CLASSIFICATION-001.json). These are triage records: no unbound candidate is automatically added as a function contract. Relevant candidates must be reviewed and added to the owning repository's local catalog; the central catalog references those contracts without taking implementation ownership. Unknown targets remain `ROUTE_REVIEW_REQUIRED`, and reviewed non-contract symbols require a reasoned exclusion.
 
 **Current decision:** catalog completion `BLOCKED`; PR remains open and draft. Do not begin implementation work from this census alone.
+
+## Execution model (Library and Runtime)
+
+Machine-readable dimension `execution_model` per component, validated by the catalog validator and mirrored in the candidate triage (`execution_model_counts`). It classifies how implementation code is deployed/consumed; it is not implementation or verification evidence.
+
+| Execution model | Count | Components |
+|---|---|---|
+| LIBRARY | 9 | A-TownChain Blockchain Core (COMP-CHAIN), ATC-Algorithm (COMP-ALGO), ATC-VM (COMP-VM), ATC SDK / CLI / Package Tooling (COMP-SDK), ATC Contracts and Registry (COMP-CONTRACTS), ATC Zero-Knowledge Proof Layer (COMP-ZKP), Canonical L1 Wallet and Transaction Signer (COMP-WALLET), Canonical Monorepo Storage Core (COMP-STORAGE-CORE), Canonical TypeScript L1 Protocol Primitives (COMP-SDK-TS) || RUNTIME | 11 | ShivaCore Kernel (COMP-SHIVA), GlobusOS (COMP-GLOBUS), Aurora AI (COMP-AURORA), ATC Node Runtime (COMP-NODE), ATC Compute (COMP-COMPUTE), ATC Launchpad (COMP-LAUNCHPAD), ATC Marketplace (COMP-MARKET), ATC IDE (COMP-IDE), Genesis Chronicles (COMP-CHRONICLES), Genesis Franchise Factory (COMP-GFF), A-TownChain OS Integration (COMP-OS-INTEGRATION) || LIBRARY_AND_RUNTIME | 3 | ATCLang (COMP-LANG), ATC Toolchain (COMP-TOOLCHAIN), Genesis Engine (COMP-GENESIS) || TOOLING | 4 | atc-engineering (COMP-ATC-ENG), ATC Standards (COMP-STANDARDS), a-townchain-ecosystem (COMP-ECOSYSTEM), Organization GitHub Governance (COMP-ORG-GOV) || NON_EXECUTABLE_REFERENCE | 6 | Archived ATC Storage Service (Reference Only) (COMP-STORAGE-ARCHIVED), ShivaCore Specification Support (COMP-SHIVA-SPEC), ATC-VM Specification Support (COMP-VM-SPEC), ATC-Algorithm Specification Support (COMP-ALGO-SPEC), Architecture Documentation Hub (COMP-DOCS), Demo Repository Fixture (COMP-DEMO) |

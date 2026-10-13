@@ -110,3 +110,25 @@ class InspectSourceLocationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class ExecutionModelTests(unittest.TestCase):
+    def test_main_entrypoint_is_runtime(self):
+        from tools.classify_unbound_candidates import execution_model
+        model, _ = execution_model("src/main.rs", "rust", "main")
+        self.assertEqual(model, "RUNTIME")
+
+    def test_bin_directory_is_runtime(self):
+        from tools.classify_unbound_candidates import execution_model
+        model, _ = execution_model("bin/node/start.rs", "rust", "start")
+        self.assertEqual(model, "RUNTIME")
+
+    def test_plain_module_defaults_to_library(self):
+        from tools.classify_unbound_candidates import execution_model
+        model, _ = execution_model("src/lib/codec.rs", "rust", "encode_frame")
+        self.assertEqual(model, "LIBRARY")
+
+    def test_test_surface_is_not_executable_inventory(self):
+        from tools.classify_unbound_candidates import execution_model
+        model, _ = execution_model("tests/test_net.py", "python", "test_roundtrip")
+        self.assertEqual(model, "NOT_EXECUTABLE_INVENTORY")
+

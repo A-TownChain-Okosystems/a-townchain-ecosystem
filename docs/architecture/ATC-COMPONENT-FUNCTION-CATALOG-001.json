@@ -351,7 +351,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "TOOLING",
+      "execution_model_rationale": "Governance/assurance scripts executed as CI tooling, not a product runtime."
     },
     {
       "id": "COMP-STANDARDS",
@@ -600,7 +602,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "TOOLING",
+      "execution_model_rationale": "Registry generators and validators executed as CI tooling; normative documents are non-executable."
     },
     {
       "id": "COMP-LANG",
@@ -1494,7 +1498,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "LIBRARY_AND_RUNTIME",
+      "execution_model_rationale": "Compiler executable plus language runtime/support libraries."
     },
     {
       "id": "COMP-SHIVA",
@@ -3836,7 +3842,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "RUNTIME",
+      "execution_model_rationale": "Capability microkernel executed as the OS runtime TCB."
     },
     {
       "id": "COMP-CHAIN",
@@ -5286,7 +5294,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "LIBRARY",
+      "execution_model_rationale": "Consumed as a library by the node runtime; no standalone process."
     },
     {
       "id": "COMP-ALGO",
@@ -6071,7 +6081,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "LIBRARY",
+      "execution_model_rationale": "Consensus/algorithm library consumed by the node and validators."
     },
     {
       "id": "COMP-VM",
@@ -9044,7 +9056,9 @@
           "exit_code",
           "log_or_artifact_url"
         ]
-      }
+      },
+      "execution_model": "LIBRARY",
+      "execution_model_rationale": "Deterministic bytecode execution library embedded in the node runtime."
     },
     {
       "id": "COMP-GLOBUS",
@@ -9900,7 +9914,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "RUNTIME",
+      "execution_model_rationale": "Operating system platform runtime (system services, drivers)."
     },
     {
       "id": "COMP-AURORA",
@@ -10250,7 +10266,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "RUNTIME",
+      "execution_model_rationale": "Agent/AI control-plane service runtime."
     },
     {
       "id": "COMP-TOOLCHAIN",
@@ -10519,7 +10537,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "LIBRARY_AND_RUNTIME",
+      "execution_model_rationale": "Build tooling executables plus shared build libraries."
     },
     {
       "id": "COMP-GENESIS",
@@ -10794,7 +10814,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "LIBRARY_AND_RUNTIME",
+      "execution_model_rationale": "Engine libraries plus editor/runtime executables."
     },
     {
       "id": "COMP-ECOSYSTEM",
@@ -11057,7 +11079,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "TOOLING",
+      "execution_model_rationale": "Integration, inventory and evidence tooling executed during CI runs; control-plane documents are non-executable."
     },
     {
       "id": "COMP-SDK",
@@ -11865,7 +11889,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "LIBRARY",
+      "execution_model_rationale": "SDK/CLI library surface for external consumers."
     },
     {
       "id": "COMP-NODE",
@@ -13667,7 +13693,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "RUNTIME",
+      "execution_model_rationale": "Standalone blockchain node process (L1 runtime)."
     },
     {
       "id": "COMP-CONTRACTS",
@@ -13924,7 +13952,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "LIBRARY",
+      "execution_model_rationale": "Contract definitions and registry consumed as dependency artifacts."
     },
     {
       "id": "COMP-ZKP",
@@ -14185,7 +14215,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "LIBRARY",
+      "execution_model_rationale": "Zero-knowledge proof library consumed by protocol components."
     },
     {
       "id": "COMP-STORAGE-ARCHIVED",
@@ -14441,7 +14473,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "NON_EXECUTABLE_REFERENCE",
+      "execution_model_rationale": "Archived reference only; no executable implementation in scope."
     },
     {
       "id": "COMP-COMPUTE",
@@ -14701,7 +14735,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "RUNTIME",
+      "execution_model_rationale": "AI compute/scheduler service runtime."
     },
     {
       "id": "COMP-LAUNCHPAD",
@@ -14963,7 +14999,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "RUNTIME",
+      "execution_model_rationale": "End-user application runtime."
     },
     {
       "id": "COMP-MARKET",
@@ -15224,7 +15262,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "RUNTIME",
+      "execution_model_rationale": "Marketplace application runtime."
     },
     {
       "id": "COMP-IDE",
@@ -15499,7 +15539,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "RUNTIME",
+      "execution_model_rationale": "Developer IDE application runtime."
     },
     {
       "id": "COMP-CHRONICLES",
@@ -15758,7 +15800,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "RUNTIME",
+      "execution_model_rationale": "Game application runtime (flagship product)."
     },
     {
       "id": "COMP-GFF",
@@ -16018,7 +16062,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "RUNTIME",
+      "execution_model_rationale": "Franchise factory application/tool runtime."
     },
     {
       "id": "COMP-OS-INTEGRATION",
@@ -16279,7 +16325,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "RUNTIME",
+      "execution_model_rationale": "OS integration orchestration runtime."
     },
     {
       "id": "COMP-SHIVA-SPEC",
@@ -16534,7 +16582,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "NON_EXECUTABLE_REFERENCE",
+      "execution_model_rationale": "Specification support only; kernel SSOT remains globus-os."
     },
     {
       "id": "COMP-VM-SPEC",
@@ -16794,7 +16844,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "NON_EXECUTABLE_REFERENCE",
+      "execution_model_rationale": "Specification support only; VM SSOT remains a-townchain/components/vm."
     },
     {
       "id": "COMP-ALGO-SPEC",
@@ -17049,7 +17101,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "NON_EXECUTABLE_REFERENCE",
+      "execution_model_rationale": "Specification support only; algorithm SSOT remains a-townchain/components/algorithm."
     },
     {
       "id": "COMP-DOCS",
@@ -17307,7 +17361,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "NON_EXECUTABLE_REFERENCE",
+      "execution_model_rationale": "Documentation hub; no executable implementation."
     },
     {
       "id": "COMP-ORG-GOV",
@@ -17571,7 +17627,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "TOOLING",
+      "execution_model_rationale": "GitHub workflow automation executed as CI tooling."
     },
     {
       "id": "COMP-DEMO",
@@ -17809,7 +17867,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "execution_model": "NON_EXECUTABLE_REFERENCE",
+      "execution_model_rationale": "Demo fixture repository; excluded from drift scope, no product runtime."
     },
     {
       "id": "COMP-WALLET",
@@ -18306,7 +18366,9 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No terminal current-HEAD test evidence has been bound to these function records."
-      }
+      },
+      "execution_model": "LIBRARY",
+      "execution_model_rationale": "Wallet/signing library consumed by SDK and tooling."
     },
     {
       "id": "COMP-STORAGE-CORE",
@@ -19910,7 +19972,9 @@
       "verification_evidence": {
         "status": "BLOCKED",
         "reason": "Not production-capable as canonical blockchain state storage until cryptographic address semantics, durable atomic persistence and canonical state-root rules are approved and verified."
-      }
+      },
+      "execution_model": "LIBRARY",
+      "execution_model_rationale": "Storage core library consumed by the node and services."
     },
     {
       "id": "COMP-SDK-TS",
@@ -21273,7 +21337,9 @@
       "verification_evidence": {
         "status": "BLOCKED",
         "reason": "No terminal exact-SHA cross-language conformance evidence is attached; known validation discrepancy remains open."
-      }
+      },
+      "execution_model": "LIBRARY",
+      "execution_model_rationale": "TypeScript protocol primitives consumed as a dependency."
     }
   ],
   "cross_component_interfaces": [

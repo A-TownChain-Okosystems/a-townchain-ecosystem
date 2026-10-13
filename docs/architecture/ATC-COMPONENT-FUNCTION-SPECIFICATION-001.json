@@ -117,6 +117,7 @@
     "functions",
     "test_and_ci_gates",
     "known_conflicts_and_residuals",
+    "execution_model",
     "readiness",
     "verification_evidence"
   ],
@@ -186,5 +187,16 @@
     "duplicate_scope": "All function catalogs and source-census reconciliation artifacts across active repositories",
     "retired_id_policy": "Never reuse; preserve tombstone and replacement reference",
     "status": "NORMATIVE_POLICY_DRAFT_UNTIL_RECONCILED"
+  },
+  "execution_model_policy": {
+    "enum": [
+      "LIBRARY",
+      "RUNTIME",
+      "LIBRARY_AND_RUNTIME",
+      "TOOLING",
+      "NON_EXECUTABLE_REFERENCE"
+    ],
+    "rationale_field": "execution_model_rationale",
+    "requirement": "Every component records its machine-readable execution model and a rationale. LIBRARY = consumed as dependency; RUNTIME = standalone process/service/kernel; LIBRARY_AND_RUNTIME = both; TOOLING = CI/developer tooling execution; NON_EXECUTABLE_REFERENCE = documentation/specification/reference only. The model is an inventory dimension; it is not implementation or verification evidence."
   }
 }

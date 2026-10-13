@@ -71,6 +71,31 @@ def source_layer(path: str, language: str) -> tuple[str, str]:
         return "LANGUAGE_COMPILER_TOOLCHAIN", "Path contains compiler/toolchain markers."
     return "GENERAL_RUNTIME_REVIEW", "No sufficiently specific path category; manual review required."
 
+def execution_model(path: str, language: str, symbol: str) -> tuple[str, str]:
+    """Classify how the candidate is executed: library surface vs runtime entrypoint.
+
+    Heuristic is conservative and machine-checkable; it never upgrades a binding
+    or exclusion decision and always records its basis.
+    """
+    p = path.replace("\\", "/").lower()
+    parts = [x for x in p.split("/") if x]
+    filename = parts[-1] if parts else ""
+    dirs = set(parts[:-1])
+    sym = (symbol or "").lower()
+    runtime_path = (
+        filename in ("main.rs", "main.py", "main.ts", "main.tsx", "main.jsx", "main.go", "__main__.py")
+        or "bin" in dirs or "cmd" in dirs
+        or "src/main" in p
+    )
+    runtime_symbol = sym in {"main", "serve", "run", "start_server", "run_server", "start", "boot", "entrypoint"}
+    runtime_dir = any(x in dirs for x in ("bin", "cmd", "apps", "app", "services", "service", "daemon", "server"))
+    if runtime_path or runtime_symbol or (runtime_dir and sym in {"main", "serve", "run", "start", "boot"}):
+        return "RUNTIME", "Path/symbol matches a standalone process or service entrypoint pattern (main/bin/cmd/service marker)."
+    if any(x in dirs for x in ("examples", "example", "samples", "sample")) or filename.startswith("test_") or filename.endswith(("_test.py", "_test.rs")):
+        return "NOT_EXECUTABLE_INVENTORY", "Test/example surface; execution model is not a product runtime or library API."
+    return "LIBRARY", "No entrypoint marker; candidate is a library/internal surface consumed by other code (default, conservative)."
+
+
 def inspect_source_location(row: dict, repos: dict) -> dict:
     """Verify a candidate against the exact-SHA census symbol inventory.
 
@@ -145,12 +170,15 @@ def main() -> int:
         repo_name = repository.rsplit("/", 1)[-1]
         owner_category, canonical_route = OWNER_CATEGORIES.get(repo_name, ("REPOSITORY_SPECIFIC_REVIEW", "No registered routing rule; manual owner assignment required"))
         layer, rationale = source_layer(row.get("source_path", ""), row.get("language", ""))
+        model, model_rationale = execution_model(row.get("source_path", ""), row.get("language", ""), row.get("symbol_or_entrypoint", ""))
         source_evidence = inspect_source_location(row, repos)
         identity = "|".join(str(row.get(k, "")) for k in ("repository", "source_sha", "source_path", "symbol_kind", "symbol_or_entrypoint", "line_start"))
         candidate_id = "ATC-CAND-" + hashlib.sha256(identity.encode()).hexdigest()[:20].upper()
         category = {
             "owner_domain": owner_category,
             "source_layer": layer,
+            "execution_model": model,
+            "execution_model_basis": model_rationale,
             "classification_status": "PROVISIONAL_TRIAGE",
             "classification_basis": "repository ownership map + conservative source-path/language heuristic",
             "canonical_route": canonical_route,
@@ -184,6 +212,7 @@ def main() -> int:
         "unique_candidate_ids": len({x["candidate_id"] for x in candidates}),
         "owner_domain_counts": dict(sorted(Counter(x["category"]["owner_domain"] for x in candidates).items())),
         "source_layer_counts": dict(sorted(Counter(x["category"]["source_layer"] for x in candidates).items())),
+        "execution_model_counts": dict(sorted(Counter(x["category"]["execution_model"] for x in candidates).items())),
         "category_pair_counts": [
             {"owner_domain": owner, "source_layer": layer, "count": count}
             for (owner, layer), count in sorted(counts.items())

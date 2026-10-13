@@ -64,6 +64,8 @@ def valid_catalog():
             "depends_on": [],
             "functions": [function],
             "readiness": "RESIDUAL",
+            "execution_model": "LIBRARY",
+            "execution_model_rationale": "Sample library component consumed as a dependency.",
         }],
         "production_gates": [{"id": "GATE-001", "status": "RESIDUAL", "acceptance": ["catalog remains residual until evidence passes"]}],
         "cross_component_interfaces": [valid_interface()],
@@ -90,6 +92,18 @@ class CatalogValidatorTests(unittest.TestCase):
         self.assertEqual(errors, [])
         self.assertEqual(metrics["validation"], "PASS_STRUCTURAL_ONLY")
         self.assertEqual(metrics["functions_total"], 1)
+
+    def test_invalid_execution_model_is_rejected(self):
+        catalog = valid_catalog()
+        catalog["components"][0]["execution_model"] = "SERVER"
+        errors, _ = validate(catalog)
+        self.assertTrue(any("execution_model" in e for e in errors))
+
+    def test_missing_execution_model_rationale_is_rejected(self):
+        catalog = valid_catalog()
+        del catalog["components"][0]["execution_model_rationale"]
+        errors, _ = validate(catalog)
+        self.assertTrue(any("execution_model_rationale" in e for e in errors))
 
     def test_function_id_must_follow_stable_traceable_convention(self):
         doc = valid_catalog()
