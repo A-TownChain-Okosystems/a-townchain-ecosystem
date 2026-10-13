@@ -41,7 +41,7 @@ class CatalogReconcilerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / "catalog.md"
             path.write_text(
-                "# Catalog\\n\\n| Component / path | State |\\n|---|---|\\n| system/core | IMPLEMENTED |\\n",
+                "# Catalog\n\n| Component / path | State |\n|---|---|\n| system/core | IMPLEMENTED |\n",
                 encoding="utf-8",
             )
             records = MODULE.collect_markdown_tables(path)
