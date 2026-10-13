@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - "AGENTS.md"
+      - "tools/classify_unbound_candidates.py"
       - "tools/scan_public_symbols.py"
       - "tools/run_org_source_census.py"
       - "tools/reconcile_component_function_catalog.py"
@@ -26,6 +27,7 @@ on:
     branches: [main]
     paths:
       - "AGENTS.md"
+      - "tools/classify_unbound_candidates.py"
       - "tools/scan_public_symbols.py"
       - "tools/run_org_source_census.py"
       - "tools/reconcile_component_function_catalog.py"
@@ -69,7 +71,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile scanner, orchestrator and tests
-        run: python -m py_compile tools/report_cross_repository_hashes.py tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/validate_component_function_catalog.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_validate_component_function_catalog.py tools/tests/test_report_cross_repository_hashes.py
+        run: python -m py_compile tools/classify_unbound_candidates.py tools/report_cross_repository_hashes.py tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/validate_component_function_catalog.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_validate_component_function_catalog.py tools/tests/test_report_cross_repository_hashes.py
       - name: Run scanner and organization census tests
         run: |
           python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_validate_component_function_catalog tools.tests.test_report_cross_repository_hashes -v
@@ -260,6 +262,18 @@ jobs:
           else
             echo "Reconciliation report unavailable; see census step result."
           fi
+      - name: Categorize every unbound source candidate for review
+        if: always()
+        run: |
+          set -euo pipefail
+          if test -f artifacts/ATC-ORG-SOURCE-CENSUS-001.json && test -f artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json; then
+            python tools/classify_unbound_candidates.py \\
+              --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \\
+              --reconciliation artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json \\
+              --output artifacts/ATC-UNBOUND-CANDIDATE-CATEGORIZATION-001.json
+          else
+            echo "Census or reconciliation report unavailable; candidate categorization skipped."
+          fi
       - name: Upload exact-SHA census artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -269,6 +283,7 @@ jobs:
             artifacts/ATC-ORG-SOURCE-CENSUS-001.json
             artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json
             artifacts/ATC-CROSS-REPOSITORY-FILE-HASH-REPORT-001.json
+            artifacts/ATC-UNBOUND-CANDIDATE-CATEGORIZATION-001.json
           if-no-files-found: warn
       - name: Validate organization repository manifest
         run: |
