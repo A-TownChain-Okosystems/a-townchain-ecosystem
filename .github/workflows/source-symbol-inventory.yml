@@ -4,6 +4,7 @@ on:
     paths:
       - "AGENTS.md"
       - "tools/classify_unbound_candidates.py"
+      - "tests/test_classify_unbound_candidates_source_evidence.py"
       - "tools/scan_public_symbols.py"
       - "tools/run_org_source_census.py"
       - "tools/reconcile_component_function_catalog.py"
@@ -71,10 +72,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile scanner, orchestrator and tests
-        run: python -m py_compile tools/classify_unbound_candidates.py tools/report_cross_repository_hashes.py tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/validate_component_function_catalog.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_validate_component_function_catalog.py tools/tests/test_report_cross_repository_hashes.py
+        run: python -m py_compile tools/classify_unbound_candidates.py tools/report_cross_repository_hashes.py tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/validate_component_function_catalog.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_validate_component_function_catalog.py tools/tests/test_report_cross_repository_hashes.py tests/test_classify_unbound_candidates_source_evidence.py
       - name: Run scanner and organization census tests
         run: |
-          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_validate_component_function_catalog tools.tests.test_report_cross_repository_hashes -v
+          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_validate_component_function_catalog tools.tests.test_report_cross_repository_hashes tests.test_classify_unbound_candidates_source_evidence -v
       - name: Validate machine-readable function and interface catalog
         run: |
           set -euo pipefail
