@@ -25,7 +25,7 @@ class OrganizationRepositoryDriftTests(unittest.TestCase):
             "head_sha": HEAD, "root_tree_sha": TREE,
         })
         self.assertEqual(report["status"], "PASS_NO_DRIFT")
-        self.assertEqual(report["summary"], {"MATCH": 1, "DRIFT": 0, "BLOCKED": 0})
+        self.assertEqual(report["summary"], {"MATCH": 1, "DRIFT": 0, "BLOCKED": 0, "EXCLUDED": 0})
         self.assertFalse(report["pins_rewritten"])
 
     def test_head_or_tree_mismatch_blocks(self):
@@ -41,7 +41,7 @@ class OrganizationRepositoryDriftTests(unittest.TestCase):
             raise RuntimeError("HTTP 403")
         report = validate(manifest(), None, unavailable)
         self.assertEqual(report["status"], "BLOCKED")
-        self.assertEqual(report["summary"], {"MATCH": 0, "DRIFT": 0, "BLOCKED": 1})
+        self.assertEqual(report["summary"], {"MATCH": 0, "DRIFT": 0, "BLOCKED": 1, "EXCLUDED": 0})
         self.assertIn("API_OR_RESPONSE_ERROR", report["repositories"][0]["error"])
 
     def test_explicitly_excluded_repository_is_not_fetched_or_blocking(self):
