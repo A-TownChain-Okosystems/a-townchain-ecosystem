@@ -290,6 +290,28 @@
       },
       "status": "PARTIAL_SOURCE_RECONCILIATION_NOT_IMPLEMENTATION_VERIFIED",
       "notes": "Exact-blob inspection identified the Genesis Franchise Factory WorkflowRegistry/WorkflowEngine.run and typed ArtifactEnvelope surfaces, while Aurora tool_executor/sandbox remain PLANNED. No adapter/transport or end-to-end integration is verified."
+    },
+    {
+      "source_id": "SRC-AURORA-ATCLANG-CODING-AGENT-001",
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "pull_request": 115,
+      "branch": "audit/public-symbol-scan-001-2026-10-11",
+      "head_sha": "NOT_CAPTURED_AFTER_UPDATE",
+      "path": "docs/architecture/AURORA-ATCLANG-CODING-AGENT-CONTRACT-001.json",
+      "catalog_type": [
+        "integration_contract",
+        "coding_agent_workflow",
+        "acceptance_test_specification"
+      ],
+      "reported_counts": {
+        "workflow_steps": 9,
+        "acceptance_test_cases": 9,
+        "inspected_source_files": 4,
+        "tests_run": 0,
+        "implementation_verified": 0
+      },
+      "status": "SPECIFIED_IMPLEMENTATION_PENDING",
+      "notes": "Contract specifies normalized response/exit semantics; actual atclang CLI exit behavior and structured diagnostics remain to be reconciled against exact source HEAD. Source blob SHAs are recorded in the contract; repository HEAD SHAs are not yet captured. No tests run and no implementation claim."
     }
   ],
   "required_reconciliation_fields": [
