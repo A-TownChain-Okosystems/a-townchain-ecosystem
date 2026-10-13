@@ -219,6 +219,31 @@
       "reported_counts": null,
       "status": "DOCUMENTED_BASELINE_RECONCILIATION_REQUIRED",
       "notes": "Markdown table inventory of GlobusOS subsystem ownership and function groups; it is not evidence of implementation or verification."
+    },
+    {
+      "source_id": "SRC-AURORA-AI-COMPONENT-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "pull_request": 115,
+      "branch": "audit/public-symbol-scan-001-2026-10-11",
+      "head_sha": "533eee4abb18f35955f50e5256d26b3c0ef51898",
+      "path": "docs/architecture/ATC-AI-COMPONENT-FUNCTION-CATALOG-001.json",
+      "snapshot_format": "json",
+      "catalog_type": [
+        "ai_component",
+        "ai_function_contract",
+        "ai_function_candidate",
+        "ai_interface"
+      ],
+      "reported_counts": {
+        "components": 6,
+        "functions": 26,
+        "interfaces": 4,
+        "specified_memory_functions": 16,
+        "planned_function_candidates": 10,
+        "functionally_verified": 0
+      },
+      "status": "RECONCILIATION_REQUIRED",
+      "notes": "Supplemental Aurora AI catalog based on Aurora README, memory catalog and module component plans. Component/function counts are inventory records, not verified implementations. Preserve planned/specification status and reconcile against source symbols."
     }
   ],
   "required_reconciliation_fields": [
@@ -263,7 +288,8 @@
     "Newly discovered Aurora AI memory catalog and ATCLang language/semantics registries are registered but not yet imported or reconciled.",
     "Markdown catalogs and language-specific source inventories require format-specific extraction before they can be counted as complete.",
     "GlobusOS component/function Markdown catalog is registered and requires table extraction plus semantic reconciliation against the JSON OS function catalog.",
-    "Organization-wide source discovery is not complete: repository scope is now enumerated, but all 26 active repositories still require per-repository catalog/list inventory and evidenced inclusion or exclusion."
+    "Organization-wide source discovery is not complete: repository scope is now enumerated, but all 26 active repositories still require per-repository catalog/list inventory and evidenced inclusion or exclusion.",
+    "Aurora AI component/function catalog added as a supplemental source; reconcile its 26 function records against the memory source catalog and all Aurora module source trees before claiming completeness."
   ],
   "repository_scope": {
     "observed_at": "2026-10-13",
