@@ -320,3 +320,12 @@ Both components' inventories already pointed at these repositories, so extension
 **Post-binding state:** 43 components / 3,674 functions; reconcile 3,627 bound (+740), 1,945 unbound, 0 duplicate groups, 1 component finding (COMP-ALGO-SPEC, atc-algorithm PR #17); catalog validator `PASS_STRUCTURAL_ONLY` (0 errors); tests 58/58. Functional verification remains `NOT_PERFORMED`.
 
 **Remaining backlog:** a-townchain-os-docs (278), a-townchain-os (224), atc-engineering (143), atc-ide (141), atc-standards (122), genesis-chronicles (78), atc-shivacore (66), atc-algorithm (122 — read its own function catalog from PR #17 first to avoid duplication), atc-vm, atc-zkp and smaller repos.
+
+## 24. Docs and OS-integration tranches 502/502 bound (2026-10-14)
+
+- **COMP-DOCS +278** (a-townchain-os-docs, exact SHA `f65992609f…`, 163 files, typescript/javascript): documentation-site frontend surface. Most files under `aistudio/` are a **mirror of the aurora-ai atc-aistudio frontend source**; every such binding carries an explicit mirror note naming COMP-AURORA as the canonical component surface. Component now 280 functions.
+- **COMP-OS-INTEGRATION +224** (a-townchain-os, exact SHA `3f85a6e61b…`, 42 files, rust): KAI-OS kernel surface — supervisor, network peer management, runtime capability/resource handling, state WAL, health watchdog and siblings. Component now 226 functions.
+
+Methodology unchanged (deterministic context extraction, signature-derived contracts, mapping-only acceptance, eight RESIDUAL evidence fields). **Post-binding state:** 43 components / 4,176 functions; reconcile 4,129 bound (+502), 1,443 unbound, 0 duplicate groups, 1 component finding (COMP-ALGO-SPEC); validator `PASS_STRUCTURAL_ONLY` (0 errors); tests 58/58. Functional verification remains `NOT_PERFORMED`.
+
+**Remaining backlog:** atc-engineering (143), atc-ide (141), atc-algorithm (122 — read its own function catalog from PR #17 first), atc-standards (122), genesis-chronicles (78), atc-shivacore (66), atc-node, atc-vm, atc-zkp, atc-sdk, atc-wallet, atc-marketplace, atc-launchpad and smaller repos.
