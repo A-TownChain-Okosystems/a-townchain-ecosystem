@@ -123,6 +123,41 @@ def load_json(path: Path) -> Any:
         return json.load(stream)
 
 
+def collect_markdown_tables(path: Path) -> list[dict[str, Any]]:
+    """Extract Markdown table rows without inferring semantics from column names."""
+    lines = path.read_text(encoding="utf-8").splitlines()
+    found: list[dict[str, Any]] = []
+    index = 0
+    while index < len(lines) - 1:
+        header_line = lines[index].strip()
+        separator_line = lines[index + 1].strip()
+        if not (header_line.startswith("|") and separator_line.startswith("|") and
+                re.fullmatch(r"\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?", separator_line)):
+            index += 1
+            continue
+        headers = [cell.strip() for cell in header_line.strip("|").split("|")]
+        index += 2
+        row_number = 0
+        while index < len(lines) and lines[index].strip().startswith("|"):
+            cells = [cell.strip() for cell in lines[index].strip().strip("|").split("|")]
+            if len(cells) == len(headers):
+                record = {
+                    re.sub(r"[^a-z0-9]+", "_", header.lower()).strip("_") or f"column_{col_index}": cells[col_index]
+                    for col_index, header in enumerate(headers)
+                }
+                found.append({
+                    "collection": "markdown_table",
+                    "record_kind": "catalog_entry",
+                    "json_pointer": f"line:{index + 1}",
+                    "source_record": record,
+                })
+                row_number += 1
+            index += 1
+        if row_number == 0:
+            continue
+    return found
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--registry", required=True, type=Path)
@@ -158,20 +193,28 @@ def main() -> int:
             errors.append(f"duplicate source_id in registry: {source_id}")
             continue
         seen_source_ids.add(source_id)
-        snapshot = args.sources_dir / f"{source_id}.json"
+        snapshot_format = str(source.get("snapshot_format", "json")).lower()
+        if snapshot_format not in {"json", "markdown"}:
+            errors.append(f"unsupported snapshot_format for {source_id}: {snapshot_format}")
+            continue
+        suffix = ".md" if snapshot_format == "markdown" else ".json"
+        snapshot = args.sources_dir / f"{source_id}{suffix}"
         if not snapshot.is_file():
             errors.append(f"missing snapshot: {snapshot}")
             source_summary.append({"source_id": source_id, "status": "MISSING_SNAPSHOT", "records_imported": 0})
             continue
         try:
-            document = load_json(snapshot)
-        except (OSError, json.JSONDecodeError) as exc:
-            errors.append(f"invalid JSON snapshot {snapshot}: {exc}")
-            source_summary.append({"source_id": source_id, "status": "INVALID_JSON", "records_imported": 0})
+            if snapshot_format == "json":
+                document = load_json(snapshot)
+                collected = collect_records(document)
+            else:
+                collected = collect_markdown_tables(snapshot)
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+            errors.append(f"invalid {snapshot_format} snapshot {snapshot}: {exc}")
+            source_summary.append({"source_id": source_id, "status": "INVALID_SNAPSHOT", "records_imported": 0})
             continue
 
         source_sha256 = hashlib.sha256(snapshot.read_bytes()).hexdigest()
-        collected = collect_records(document)
         source_summary.append({
             "source_id": source_id,
             "repository": source.get("repository"),
@@ -254,7 +297,7 @@ def main() -> int:
         "possible_duplicates": possible_duplicates,
         "errors": errors,
         "limitations": [
-            "Recognized collection keys are an explicit allowlist; extend it only with schema review.",
+            "JSON collection keys are an explicit allowlist; Markdown extraction covers pipe tables only.",
             "Possible duplicates are not automatically merged or deleted.",
             "Snapshot hashes establish snapshot integrity, not that the snapshot matches a declared commit.",
             "Function names/signatures do not establish semantic correctness.",
