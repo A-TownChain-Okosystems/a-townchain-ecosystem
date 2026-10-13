@@ -1,0 +1,335 @@
+{
+  "schema_id": "ATC-PRODUCT-BOUNDARY-INTERFACE-CONTRACTS-001",
+  "schema_version": "1.0.0",
+  "status": "DRAFT_RESIDUAL",
+  "authority": {
+    "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+    "role": "Architecture, interface governance, compatibility and evidence control plane only",
+    "implementation_rule": "This draft does not transfer canonical implementation ownership and does not authorize implementation or merge."
+  },
+  "provenance": {
+    "pull_request": 115,
+    "branch": "audit/public-symbol-scan-001-2026-10-11",
+    "reference_head_sha": "19811460ead5eadc2ae01142c20edecf9493eb43",
+    "observed_working_head_sha": "4b6ae1c4fcf40305f7b8ba4f56c4ac95297df2fe",
+    "source_symbol_inventory_run_id": 38395910262,
+    "source_symbol_inventory_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38395910262",
+    "note": "Draft created from current PR metadata and architecture constraints. Contracts require validation against canonical source repositories and their exact HEADs."
+  },
+  "required_fields": [
+    "owner",
+    "canonical_path",
+    "version",
+    "inputs",
+    "outputs",
+    "error_semantics",
+    "security_requirements",
+    "compatibility_rules",
+    "tests",
+    "evidence",
+    "status"
+  ],
+  "contracts": [
+    {
+      "id": "IF-020",
+      "name": "A-TownChain Product Boundary",
+      "product_boundary": "A-TownChain",
+      "status": "DRAFT_RESIDUAL",
+      "owner": "A-TownChain-Okosystems/a-townchain",
+      "canonical_path": "components/{algorithm,vm,node,transaction and state modules} (each subcomponent retains its own canonical path)",
+      "version": "0.1.0-draft",
+      "consumers": [
+        "ATCLang/toolchain",
+        "GlobusOS node-facing services",
+        "SDKs",
+        "Aurora AI only through explicitly approved transaction APIs"
+      ],
+      "inputs": [
+        {
+          "name": "transaction envelope",
+          "type": "versioned binary transaction",
+          "constraints": "TX-V2 format must be specified by the normative standards and canonical implementation; reject legacy signing domain ATC-TX-DOMAIN and atc-tx.v1."
+        },
+        {
+          "name": "execution request",
+          "type": "versioned VM/Node request",
+          "constraints": "Deterministic encoding; bounded lengths and resource budgets; no implicit defaults for consensus-critical fields."
+        }
+      ],
+      "outputs": [
+        {
+          "name": "execution result",
+          "type": "typed result",
+          "constraints": "Deterministic success result or typed error; no silent partial success."
+        },
+        {
+          "name": "state/receipt",
+          "type": "canonical encoded result",
+          "constraints": "Commit only according to finalized normative state-transition and transaction rules."
+        }
+      ],
+      "error_semantics": [
+        "Malformed or non-canonical encoding is rejected before state mutation.",
+        "Signature, authorization, replay, resource-limit and version failures are explicit typed errors.",
+        "Consensus-critical nondeterminism is a hard failure, not a fallback."
+      ],
+      "security_requirements": [
+        "Canonical transaction signing and verification rules must be versioned in atc-standards.",
+        "No AI caller receives implicit signing, wallet or consensus authority.",
+        "VM and node resource limits must be enforced at trust boundaries."
+      ],
+      "compatibility_rules": [
+        "Versioned wire and ABI contracts; reject unsupported major versions.",
+        "Cross-language golden vectors required for encoding, signing preimages, transaction IDs and invalid inputs.",
+        "ATCB versus ATC1 magic remains BLOCKED until a normative decision is approved."
+      ],
+      "tests": [
+        "Golden vectors for valid and invalid TX-V2 transactions",
+        "Cross-language encoding/signing vectors",
+        "Determinism and replay tests",
+        "Boundary/resource exhaustion tests",
+        "VM ABI compatibility tests"
+      ],
+      "evidence": {
+        "canonical_source_sha": null,
+        "contract_test_run_ids": [],
+        "functional_verification": "NOT_PERFORMED"
+      },
+      "open_blockers": [
+        "IF-002: ATCB vs ATC1 bytecode magic unresolved.",
+        "IF-003: consensus selection, finality, quorum and fork-choice lack an approved versioned normative decision.",
+        "SCR-0128 ATC-VM-ABI stage remains separately BLOCKED."
+      ]
+    },
+    {
+      "id": "IF-021",
+      "name": "GlobusOS / ShivaCore System Boundary",
+      "product_boundary": "GlobusOS",
+      "status": "DRAFT_RESIDUAL",
+      "owner": "A-TownChain-Okosystems/globus-os",
+      "canonical_path": "modules/atc-shivacore/kernel/ (ShivaCore canonical kernel); service and HAL paths remain owned by their canonical GlobusOS modules",
+      "version": "0.1.0-draft",
+      "consumers": [
+        "GlobusOS system services",
+        "HAL and device drivers",
+        "Aurora Runtime through explicitly granted service capabilities"
+      ],
+      "inputs": [
+        {
+          "name": "system call or IPC request",
+          "type": "versioned kernel/service ABI message",
+          "constraints": "Caller identity, capability, message length and operation budget validated before dispatch."
+        },
+        {
+          "name": "resource request",
+          "type": "typed capability request",
+          "constraints": "Explicit authority for memory, device, IPC and scheduling resources; no ambient authority."
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IPC/system call result",
+          "type": "typed result or error",
+          "constraints": "Caller-visible success/failure with ownership and lifetime semantics."
+        },
+        {
+          "name": "resource handle",
+          "type": "capability-scoped handle",
+          "constraints": "Least authority, explicit revocation/lifetime rules and no privilege escalation."
+        }
+      ],
+      "error_semantics": [
+        "Permission/capability denial is explicit and fail-closed.",
+        "Invalid ABI version, malformed message and resource exhaustion return typed errors.",
+        "Driver or service failure must not be reported as successful completion."
+      ],
+      "security_requirements": [
+        "Rust no_std kernel/TCB boundary; minimize privileged code.",
+        "Validate bounds, ownership, provenance and capability rights at every crossing.",
+        "Secure Boot/TPM/TEE claims require separate exact-hardware evidence; do not infer them from build success."
+      ],
+      "compatibility_rules": [
+        "Kernel ABI, IPC schema and HAL contracts are separately versioned.",
+        "Breaking ABI changes require explicit migration/version negotiation.",
+        "Userspace and AI services cannot bypass kernel capability checks."
+      ],
+      "tests": [
+        "ABI conformance and compatibility tests",
+        "Capability-denial and confused-deputy tests",
+        "Memory/IPC bounds and resource-exhaustion tests",
+        "Fault-injection tests for driver/service failure",
+        "QEMU and physical-hardware evidence tracked separately"
+      ],
+      "evidence": {
+        "canonical_source_sha": null,
+        "contract_test_run_ids": [],
+        "functional_verification": "NOT_PERFORMED"
+      },
+      "open_blockers": [
+        "Exact canonical kernel/HAL/service source bindings and interface versions still require reconciliation.",
+        "Secure Boot and full hardware/userspace readiness are not established by this contract draft."
+      ]
+    },
+    {
+      "id": "IF-022",
+      "name": "Aurora AI Authority and Runtime Boundary",
+      "product_boundary": "Aurora AI",
+      "status": "DRAFT_RESIDUAL",
+      "owner": "A-TownChain-Okosystems/aurora-ai",
+      "canonical_path": "Aurora AI Control Plane / Agent Platform / Runtime canonical paths to be verified against current repository tree",
+      "version": "0.1.0-draft",
+      "consumers": [
+        "Aurora Experience clients",
+        "Agent mesh and tools",
+        "GlobusOS services",
+        "A-TownChain transaction APIs via policy-gated adapters"
+      ],
+      "inputs": [
+        {
+          "name": "intent",
+          "type": "typed user or service intent",
+          "constraints": "Normalize and classify; caller identity and policy context must be attached."
+        },
+        {
+          "name": "tool request",
+          "type": "declared tool/action schema",
+          "constraints": "Tool capability, scope, arguments and resource budget must be validated before execution."
+        }
+      ],
+      "outputs": [
+        {
+          "name": "plan/action result",
+          "type": "typed result with provenance",
+          "constraints": "Record selected tools, policy decisions, execution status and evidence references."
+        },
+        {
+          "name": "approval request",
+          "type": "typed human/authority approval request",
+          "constraints": "Required for wallet, transaction, privileged system and other configured critical actions."
+        }
+      ],
+      "error_semantics": [
+        "Policy denial, missing capability, timeout, sandbox violation and tool failure are distinct errors.",
+        "No silent fallback from denied privileged action to a broader-capability tool.",
+        "Partial agent execution is reported as partial, not complete."
+      ],
+      "security_requirements": [
+        "Control Plane enforces policy, capability and audit before Runtime dispatch.",
+        "Tools execute in least-privilege sandboxed environments.",
+        "Wallet/transaction actions require explicit approval path and canonical transaction validation.",
+        "Model output is untrusted input; it cannot grant authority or override policy."
+      ],
+      "compatibility_rules": [
+        "Agent/tool schemas and runtime ABI are versioned.",
+        "Tool changes require compatibility tests and audit-field preservation.",
+        "Model-provider changes must not alter authorization semantics."
+      ],
+      "tests": [
+        "Policy-denial and approval-flow tests",
+        "Tool schema and malformed-input tests",
+        "Sandbox escape/resource-limit tests",
+        "Audit completeness and tamper-evidence tests",
+        "Adversarial prompt/tool-injection tests"
+      ],
+      "evidence": {
+        "canonical_source_sha": null,
+        "contract_test_run_ids": [],
+        "functional_verification": "NOT_PERFORMED"
+      },
+      "open_blockers": [
+        "Canonical Aurora AI source paths and current HEAD SHA must be confirmed from the live repository tree.",
+        "No model output may be treated as authorization evidence."
+      ]
+    },
+    {
+      "id": "IF-023",
+      "name": "Product-Interoperability Governance Boundary",
+      "product_boundary": "Productübergreifend",
+      "status": "DRAFT_RESIDUAL",
+      "owner": "A-TownChain-Okosystems/atc-standards + A-TownChain-Okosystems/a-townchain-ecosystem",
+      "canonical_path": "atc-standards normative registry; a-townchain-ecosystem derived catalog, dependency graph and evidence reports",
+      "version": "0.1.0-draft",
+      "consumers": [
+        "A-TownChain",
+        "GlobusOS",
+        "Aurora AI",
+        "ATCLang/toolchain",
+        "SDKs and integration tests"
+      ],
+      "inputs": [
+        {
+          "name": "interface proposal",
+          "type": "versioned contract document",
+          "constraints": "Must identify producer, consumer, owner, canonical path, schemas, errors, security, compatibility and tests."
+        },
+        {
+          "name": "evidence bundle",
+          "type": "exact-SHA provenance record",
+          "constraints": "Full lowercase 40-character SHA plus run/job/step, terminal conclusion, exit code and immutable log/artifact references."
+        }
+      ],
+      "outputs": [
+        {
+          "name": "normative contract decision",
+          "type": "versioned approved specification",
+          "constraints": "Only atc-standards owns normative decisions; ecosystem mirrors are derived references."
+        },
+        {
+          "name": "reconciliation result",
+          "type": "machine-readable report",
+          "constraints": "Every source candidate mapped, explicitly excluded with reason, or retained as UNRESOLVED/BLOCKED."
+        }
+      ],
+      "error_semantics": [
+        "Missing, stale or incomplete evidence fails closed.",
+        "Conflicting SSOT ownership remains UNRESOLVED until explicitly adjudicated.",
+        "Unknown consensus or ABI semantics remain BLOCKED."
+      ],
+      "security_requirements": [
+        "One canonical implementation owner per capability.",
+        "No duplicated production implementation in the ecosystem control plane.",
+        "Full SHA and exact workflow evidence required for VERIFIED claims."
+      ],
+      "compatibility_rules": [
+        "Semantic versioning and deprecation policy required per public contract.",
+        "Dependency graph edges reference interface IDs and versions.",
+        "Source catalogs preserve original IDs and source provenance; duplicates are not silently merged."
+      ],
+      "tests": [
+        "Schema and required-field validation",
+        "Catalog-to-census reconciliation",
+        "SSOT uniqueness and dependency-cycle checks",
+        "Cross-product compatibility/conformance tests",
+        "Evidence SHA and provenance validation"
+      ],
+      "evidence": {
+        "canonical_source_sha": null,
+        "contract_test_run_ids": [],
+        "functional_verification": "NOT_PERFORMED"
+      },
+      "open_blockers": [
+        "Current source-symbol reconciliation gate fails on unbound candidates; exact terminal counts must be read from the uploaded artifact before triage.",
+        "The ecosystem registry is a governance projection, not an implementation SSOT."
+      ]
+    }
+  ],
+  "special_blockers": [
+    {
+      "id": "SCR-0128",
+      "status": "BLOCKED",
+      "rule": "ATC-VM-ABI is a separate open stage; this draft does not settle its ABI or bytecode magic."
+    },
+    {
+      "id": "IF-003",
+      "status": "BLOCKED",
+      "rule": "Consensus selection, finality, quorum and fork-choice require approved versioned normative decisions."
+    }
+  ],
+  "acceptance_gates": [
+    "Each contract validated against current canonical source tree and exact full source SHA.",
+    "Each interface has a schema, error semantics, security requirements, compatibility rules and passing contract tests.",
+    "Catalog/census mismatches are mapped or reasonedly excluded; unresolved entries remain UNRESOLVED/BLOCKED.",
+    "No functional verification claim without exact-SHA Run→Job→Step→exit-code/log/artifact evidence.",
+    "PR remains Draft and unmerged."
+  ]
+}
