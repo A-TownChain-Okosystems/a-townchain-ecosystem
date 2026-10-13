@@ -307,3 +307,16 @@ All 448 unbound candidates of the `a-townchain` integration monorepo (97 files, 
 Contract generation follows the documented deterministic methodology (impl/class context resolution, signature-derived inputs/outputs/failure modes, mapping-only acceptance, eight RESIDUAL evidence fields, binding notes). **Post-binding state:** 43 components / 2,934 functions; reconcile 2,887 bound (+448), 2,685 unbound, 0 duplicate groups, 179 collision groups (informational), component findings back to 1 (COMP-ALGO-SPEC, atc-algorithm PR #17); catalog validator `PASS_STRUCTURAL_ONLY` (0 errors); tests 58/58. Functional verification remains `NOT_PERFORMED`.
 
 **Remaining backlog:** genesis-engine (371), aurora-ai (369), a-townchain-os-docs (278), a-townchain-os (224), atc-engineering (143), atc-ide (141), atc-standards (122), genesis-chronicles (78), atc-shivacore (66) and smaller repos.
+
+## 23. Genesis-engine and aurora-ai tranches 740/740 bound (2026-10-14)
+
+Two full-repo tranches bound with the documented deterministic methodology (impl/class/module context, signature-derived inputs/outputs/failure modes, mapping-only acceptance, eight RESIDUAL evidence fields, binding notes):
+
+- **COMP-GENESIS +371** (genesis-engine, exact SHA `8b7100e8a8…`, 43 files, rust/python): ECS core (lib.rs 78), network (25), runtime (21), physics (17 + collision 12), assets (13), SDK (12), franchise_factory GFF DAO (13) and the long tail; component now 373 functions.
+- **COMP-AURORA +369** (aurora-ai, exact SHA `ef880fc5b4…`, 187 files, typescript/rust/javascript): atc-aistudio frontend views (App, Settings, Metrics, Architecture and 180+ more) and atc-aurora-core rust modules (capability_policy, model_hub and siblings); component now 372 functions.
+
+Both components' inventories already pointed at these repositories, so extensions were inventory-consistent (no mirror correction needed, unlike section 22).
+
+**Post-binding state:** 43 components / 3,674 functions; reconcile 3,627 bound (+740), 1,945 unbound, 0 duplicate groups, 1 component finding (COMP-ALGO-SPEC, atc-algorithm PR #17); catalog validator `PASS_STRUCTURAL_ONLY` (0 errors); tests 58/58. Functional verification remains `NOT_PERFORMED`.
+
+**Remaining backlog:** a-townchain-os-docs (278), a-townchain-os (224), atc-engineering (143), atc-ide (141), atc-standards (122), genesis-chronicles (78), atc-shivacore (66), atc-algorithm (122 — read its own function catalog from PR #17 first to avoid duplication), atc-vm, atc-zkp and smaller repos.
