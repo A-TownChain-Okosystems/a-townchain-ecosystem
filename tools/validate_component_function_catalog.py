@@ -14,6 +14,7 @@ READINESS = {
 }
 GATE_STATUS = {"NOT_RUN", "VERIFIED", "BLOCKED", "RESIDUAL"}
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+FUNCTION_ID_RE = re.compile(r"^(?:ATC-)?(?:FUNC|FN)(?:-[A-Z0-9]+)+-[0-9]{3,}$")
 REQUIRED_FUNCTION_FIELDS = {
     "id", "name", "purpose", "canonical_owner", "source_binding",
     "inputs", "outputs", "preconditions", "postconditions", "failure_modes",
@@ -135,6 +136,8 @@ def validate(doc: dict) -> tuple[list[str], dict]:
                 errors.append(f"{cid}: functions[{fidx}] missing id")
                 continue
             function_ids.append(fid)
+            if not FUNCTION_ID_RE.fullmatch(fid):
+                errors.append(f"{fid}: function id must follow the stable FN-<DOMAIN>-<NNN> or ATC-FUNC-<DOMAIN>-<NNN> convention")
             missing = sorted(REQUIRED_FUNCTION_FIELDS - set(fn))
             if missing:
                 errors.append(f"{fid}: missing required fields: {', '.join(missing)}")
