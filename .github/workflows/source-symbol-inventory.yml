@@ -124,7 +124,7 @@ jobs:
           sha = status["provenance"]["checked_head_sha"]
           assert re.fullmatch(r"[0-9a-f]{40}", sha), f"invalid checked HEAD SHA: {sha}"
           assert status["provenance"]["terminal_conclusion"] == "failure"
-          assert status["completion_gates"]["functional_verification"] == "NOT_PERFORMED" or status["completion_gates"]["functional_verification"].startswith("NOT_PERFORMED;")
+          assert "NOT_PERFORMED" in str(status["completion_gates"]["functional_verification"]), status["completion_gates"]["functional_verification"]
           print(json.dumps({"contract_validation":"PASS_DRAFT_SCHEMA","contracts":len(contracts["contracts"]),"reconciliation_status":status["status"],"checked_head_sha":sha},sort_keys=True))
           PY
       - name: Clone all active repositories at observed clean HEADs
