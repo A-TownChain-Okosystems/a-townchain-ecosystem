@@ -287,17 +287,38 @@ jobs:
             artifacts/ATC-UNBOUND-CANDIDATE-CATEGORIZATION-001.json
           if-no-files-found: warn
       - name: Validate organization repository manifest
+        if: always()
         run: |
+          set -euo pipefail
+          python -m json.tool docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json >/dev/null
           python - <<'PY'
-          import json
+          import json, re
           from pathlib import Path
           path = Path("docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json")
           manifest = json.loads(path.read_text(encoding="utf-8"))
           repos = manifest["repositories"]
           names = [item["name"] for item in repos]
+          sha_pattern = re.compile(r"[0-9a-f]{40}")
+          assert manifest.get("schema_id") == "ATC-ORG-REPOSITORY-MANIFEST-001", "unexpected manifest schema_id"
           assert len(names) == 33, f"expected 33 repositories, got {len(names)}"
           assert len(set(names)) == len(names), "duplicate repository names"
           assert sum(bool(item.get("archived")) for item in repos) == 7, "expected 7 archived repositories"
           assert sum(not bool(item.get("archived")) for item in repos) == 26, "expected 26 active repositories"
-          print(f"manifest OK: {len(names)} repositories; 26 active; 7 archived")
+          snapshot = manifest.get("snapshot") or {}
+          assert snapshot.get("status") == "SNAPSHOT_ONLY_NOT_DRIFT_VALIDATED", "snapshot must remain explicitly historical"
+          assert snapshot.get("refresh_required_before_integration_decisions") is True, "live refresh requirement missing"
+          for item in repos:
+              assert item.get("snapshot_ref") == "main", f'{item.get("name")}: snapshot_ref must be main'
+              assert sha_pattern.fullmatch(item.get("observed_head_sha", "")), f'{item.get("name")}: invalid observed_head_sha'
+              assert sha_pattern.fullmatch(item.get("observed_root_tree_sha", "")), f'{item.get("name")}: invalid observed_root_tree_sha'
+              assert item.get("snapshot_status") == "HISTORICAL_OBSERVATION_REQUIRES_REFRESH", f'{item.get("name")}: missing historical snapshot status'
+          print(json.dumps({
+              "validation": "PASS_STRUCTURAL_ONLY",
+              "repositories_total": len(names),
+              "repositories_active": sum(not bool(item.get("archived")) for item in repos),
+              "repositories_archived": sum(bool(item.get("archived")) for item in repos),
+              "head_sha_fields": sum(bool(sha_pattern.fullmatch(item.get("observed_head_sha", ""))) for item in repos),
+              "root_tree_sha_fields": sum(bool(sha_pattern.fullmatch(item.get("observed_root_tree_sha", ""))) for item in repos),
+              "live_drift_validation": "NOT_PERFORMED",
+          }, sort_keys=True))
           PY
