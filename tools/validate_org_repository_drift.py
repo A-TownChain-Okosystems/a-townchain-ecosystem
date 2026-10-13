@@ -65,6 +65,15 @@ def validate(manifest: dict, token: str | None, fetcher=fetch_live_commit) -> di
             "status": "BLOCKED",
             "error": None,
         }
+        if item.get("drift_check_excluded") is True:
+            reason = item.get("drift_check_exclusion_reason")
+            if not isinstance(reason, str) or not reason.strip():
+                entry["error"] = "EXCLUSION_REQUIRES_NONEMPTY_REASON"
+            else:
+                entry["status"] = "EXCLUDED"
+                entry["exclusion_reason"] = reason.strip()
+            entries.append(entry)
+            continue
         expected_head = entry["expected_head_sha"]
         expected_tree = entry["expected_root_tree_sha"]
         if not isinstance(expected_head, str) or not SHA_RE.fullmatch(expected_head):
@@ -89,8 +98,9 @@ def validate(manifest: dict, token: str | None, fetcher=fetch_live_commit) -> di
             entry["error"] = f"API_OR_RESPONSE_ERROR: {type(exc).__name__}: {str(exc)[:240]}"
         entries.append(entry)
 
-    counts = {key: sum(entry["status"] == key for entry in entries) for key in ("MATCH", "DRIFT", "BLOCKED")}
-    overall = "PASS_NO_DRIFT" if counts["MATCH"] == len(entries) else "BLOCKED"
+    counts = {key: sum(entry["status"] == key for entry in entries) for key in ("MATCH", "DRIFT", "BLOCKED", "EXCLUDED")}
+    in_scope_count = len(entries) - counts["EXCLUDED"]
+    overall = "PASS_NO_DRIFT" if counts["MATCH"] == in_scope_count and counts["DRIFT"] == 0 and counts["BLOCKED"] == 0 else "BLOCKED"
     return {
         "schema_id": "ATC-ORG-REPOSITORY-DRIFT-REPORT-001",
         "schema_version": "1.0.0",
@@ -98,6 +108,7 @@ def validate(manifest: dict, token: str | None, fetcher=fetch_live_commit) -> di
         "snapshot_status": "HISTORICAL_SNAPSHOT_COMPARED_TO_LIVE_MAIN",
         "owner": owner,
         "repository_count": len(entries),
+        "in_scope_repository_count": in_scope_count,
         "summary": counts,
         "fail_closed": True,
         "pins_rewritten": False,
@@ -125,7 +136,7 @@ def main() -> int:
         }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({key: report.get(key) for key in ("status", "repository_count", "summary", "error", "fail_closed", "pins_rewritten")}, sort_keys=True))
+    print(json.dumps({key: report.get(key) for key in ("status", "repository_count", "in_scope_repository_count", "summary", "error", "fail_closed", "pins_rewritten")}, sort_keys=True))
     return 0 if report.get("status") == "PASS_NO_DRIFT" else 1
 
 
