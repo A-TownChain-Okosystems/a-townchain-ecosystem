@@ -291,7 +291,7 @@ def scan(root: Path, repository: str, source_sha: str, scope_exclusions: list[di
         if language == "rust":
             scan_source, test_names = _mask_rust_test_only_source(source)
         source_lines = scan_source.splitlines()
-        normalized_parts = [part.lower() for part in path.replace("\\\\", "/").split("/")]
+        normalized_parts = [part.lower() for part in path.relative_to(root).as_posix().split("/")]
         filename = normalized_parts[-1] if normalized_parts else ""
         is_test_path = (
             any(part in {"test", "tests", "__tests__"} for part in normalized_parts)
