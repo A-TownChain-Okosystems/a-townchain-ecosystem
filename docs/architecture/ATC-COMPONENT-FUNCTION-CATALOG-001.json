@@ -6758,7 +6758,9 @@
           "id": "FN-SHIVA-068",
           "name": "CPU state label",
           "purpose": "Return the stable human-readable name of a CPU lifecycle state.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "state name string"
           ],
@@ -6827,7 +6829,9 @@
           "id": "FN-SHIVA-069",
           "name": "CPU active predicate",
           "purpose": "Report whether a CPU state permits scheduling.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "boolean active flag"
           ],
@@ -6896,7 +6900,9 @@
           "id": "FN-SHIVA-070",
           "name": "CPU availability predicate",
           "purpose": "Report whether a CPU state permits hotplug transitions (online/offline).",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "boolean availability flag"
           ],
@@ -7037,7 +7043,9 @@
           "id": "FN-SHIVA-072",
           "name": "CPU id raw access",
           "purpose": "Expose the raw numeric CPU id.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "raw u32 id"
           ],
@@ -7106,7 +7114,9 @@
           "id": "FN-SHIVA-073",
           "name": "Bootstrap processor predicate",
           "purpose": "Decide whether this id denotes the bootstrap processor (id 0).",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "boolean bsp flag"
           ],
@@ -7175,7 +7185,9 @@
           "id": "FN-SHIVA-074",
           "name": "Application processor predicate",
           "purpose": "Decide whether this id denotes an application processor (id != 0).",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "boolean ap flag"
           ],
@@ -7460,7 +7472,9 @@
           "id": "FN-SHIVA-078",
           "name": "Empty affinity",
           "purpose": "Construct the empty affinity set (task may not run anywhere).",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "empty affinity"
           ],
@@ -7746,7 +7760,9 @@
           "id": "FN-SHIVA-082",
           "name": "Affinity size",
           "purpose": "Report the number of CPUs in the affinity set.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "member count"
           ],
@@ -7815,7 +7831,9 @@
           "id": "FN-SHIVA-083",
           "name": "Affinity emptiness",
           "purpose": "Decide whether the affinity set is empty.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "boolean emptiness"
           ],
@@ -7884,7 +7902,9 @@
           "id": "FN-SHIVA-084",
           "name": "Affinity first member",
           "purpose": "Return the lowest-numbered CPU in the affinity set.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "lowest member or absence"
           ],
@@ -7954,7 +7974,9 @@
           "id": "FN-SHIVA-085",
           "name": "Affinity members",
           "purpose": "Enumerate all CPU ids in the affinity set in ascending order.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "ordered cpu id list"
           ],
@@ -8456,7 +8478,9 @@
           "id": "FN-SHIVA-092",
           "name": "Run queue next task",
           "purpose": "Pop the next task to run under weighted-fair selection.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "next pid or absence"
           ],
@@ -8526,7 +8550,9 @@
           "id": "FN-SHIVA-093",
           "name": "Run queue tick",
           "purpose": "Advance the scheduling decision for the run queue.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "reschedule-needed flag"
           ],
@@ -8595,7 +8621,9 @@
           "id": "FN-SHIVA-094",
           "name": "Run queue length",
           "purpose": "Report the number of queued tasks.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "queued task count"
           ],
@@ -8664,7 +8692,9 @@
           "id": "FN-SHIVA-095",
           "name": "Run queue emptiness",
           "purpose": "Decide whether the run queue has no tasks.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "boolean emptiness"
           ],
@@ -8733,7 +8763,9 @@
           "id": "FN-SHIVA-096",
           "name": "Run queue load",
           "purpose": "Report the queue load as task count for load balancing.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "load value"
           ],
@@ -8802,7 +8834,9 @@
           "id": "FN-SHIVA-097",
           "name": "Run queue peek",
           "purpose": "Return the next task without removing it.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "next pid or absence"
           ],
@@ -8943,7 +8977,9 @@
           "id": "FN-SHIVA-099",
           "name": "CPU online predicate",
           "purpose": "Report whether the CPU is currently online.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "boolean online flag"
           ],
@@ -9012,7 +9048,9 @@
           "id": "FN-SHIVA-100",
           "name": "Per-CPU BSP predicate",
           "purpose": "Report whether this per-CPU state belongs to the bootstrap processor.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "boolean bsp flag"
           ],
@@ -9081,7 +9119,9 @@
           "id": "FN-SHIVA-101",
           "name": "Per-CPU utilization",
           "purpose": "Compute current CPU utilization for load balancing.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "utilization ratio"
           ],
@@ -9150,7 +9190,9 @@
           "id": "FN-SHIVA-102",
           "name": "Per-CPU load",
           "purpose": "Report the CPU run-queue load.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "load value"
           ],
@@ -9290,7 +9332,9 @@
           "id": "FN-SHIVA-104",
           "name": "Context switch accounting",
           "purpose": "Record one context switch on this CPU.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "updated counter"
           ],
@@ -9359,7 +9403,9 @@
           "id": "FN-SHIVA-105",
           "name": "Migration-in accounting",
           "purpose": "Record one task migrated onto this CPU.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "updated counter"
           ],
@@ -9428,7 +9474,9 @@
           "id": "FN-SHIVA-106",
           "name": "Migration-out accounting",
           "purpose": "Record one task migrated away from this CPU.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "updated counter"
           ],
@@ -9639,7 +9687,9 @@
           "id": "FN-SHIVA-109",
           "name": "Total tick counter",
           "purpose": "Report the total recorded ticks for the CPU.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "total tick count"
           ],
@@ -9708,7 +9758,9 @@
           "id": "FN-SHIVA-110",
           "name": "Busy tick counter",
           "purpose": "Report the non-idle recorded ticks for the CPU.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "busy tick count"
           ],
@@ -9777,7 +9829,9 @@
           "id": "FN-SHIVA-111",
           "name": "CPU utilization statistic",
           "purpose": "Compute utilization as busy/total ticks.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "utilization ratio"
           ],
@@ -10063,7 +10117,9 @@
           "id": "FN-SHIVA-115",
           "name": "IPI type label",
           "purpose": "Return the stable string label of an inter-processor interrupt type.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "ipi type name"
           ],
@@ -10132,7 +10188,9 @@
           "id": "FN-SHIVA-116",
           "name": "IPI priority",
           "purpose": "Return the interrupt priority of an IPI type (0 = highest, Crash).",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "priority value"
           ],
@@ -11501,7 +11559,9 @@
           "id": "FN-SHIVA-135",
           "name": "Barrier completion query",
           "purpose": "Decide whether the barrier's current generation is complete.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "boolean completion flag"
           ],
@@ -11570,7 +11630,9 @@
           "id": "FN-SHIVA-136",
           "name": "Barrier reuse",
           "purpose": "Reset the barrier and advance the generation for reuse.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "new generation"
           ],
@@ -12000,7 +12062,9 @@
           "id": "FN-SHIVA-142",
           "name": "Configured CPU count",
           "purpose": "Report the number of configured per-CPU slots.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "cpu count"
           ],
@@ -12069,7 +12133,9 @@
           "id": "FN-SHIVA-143",
           "name": "Online CPU count",
           "purpose": "Report how many CPUs are currently online.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "online count"
           ],
@@ -12282,7 +12348,9 @@
           "id": "FN-SHIVA-146",
           "name": "Online CPU list",
           "purpose": "List all currently online CPUs.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "online cpu list"
           ],
@@ -12352,7 +12420,9 @@
           "id": "FN-SHIVA-147",
           "name": "Offline CPU list",
           "purpose": "List all currently offline CPUs.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "offline cpu list"
           ],
@@ -13678,7 +13748,9 @@
           "id": "FN-SHIVA-165",
           "name": "Idle CPU discovery",
           "purpose": "Find a currently idle online CPU for task placement.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "idle cpu or absence"
           ],
@@ -13822,7 +13894,9 @@
           "id": "FN-SHIVA-167",
           "name": "Load balancing",
           "purpose": "Run the load balancer and return executed migrations.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "list of (pid, from, to) migrations"
           ],
@@ -14118,7 +14192,9 @@
           "id": "FN-SHIVA-171",
           "name": "Pending IPI list",
           "purpose": "List all pending IPI messages.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "pending ipi list"
           ],
@@ -14260,7 +14336,9 @@
           "id": "FN-SHIVA-173",
           "name": "IPI inventory",
           "purpose": "Report the total number of pending IPIs.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "pending count"
           ],
@@ -14909,7 +14987,9 @@
           "id": "FN-SHIVA-182",
           "name": "Topology access",
           "purpose": "Expose the manager's CPU topology read-only.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "cpu topology"
           ],
@@ -15194,7 +15274,9 @@
           "id": "FN-SHIVA-186",
           "name": "Average load",
           "purpose": "Report the mean run-queue load across online CPUs.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "average load"
           ],
@@ -15263,7 +15345,9 @@
           "id": "FN-SHIVA-187",
           "name": "Hottest CPU",
           "purpose": "Return the online CPU with the highest load.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "cpu or absence"
           ],
@@ -15332,7 +15416,9 @@
           "id": "FN-SHIVA-188",
           "name": "Coldest CPU",
           "purpose": "Return the online CPU with the lowest load.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "cpu or absence"
           ],
@@ -15401,7 +15487,9 @@
           "id": "FN-SHIVA-189",
           "name": "SMP statistics snapshot",
           "purpose": "Return a consistent snapshot of SMP statistics.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "SmpStats"
           ],
@@ -15470,7 +15558,9 @@
           "id": "FN-SHIVA-190",
           "name": "SMP stats label",
           "purpose": "Return the stable label of the SMP statistics view.",
-          "inputs": [],
+          "inputs": [
+            "none"
+          ],
           "outputs": [
             "stats name"
           ],
