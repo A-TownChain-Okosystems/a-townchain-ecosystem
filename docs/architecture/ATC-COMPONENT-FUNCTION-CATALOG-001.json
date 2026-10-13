@@ -18723,9 +18723,9 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L63",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
-            "line_start": 63
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L62",
+            "note": "Implementation binding at recorded a-townchain HEAD; selected the method body rather than its trait declaration. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 62
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18796,9 +18796,9 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L75",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
-            "line_start": 75
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L74",
+            "note": "Implementation binding at recorded a-townchain HEAD; selected the method body rather than its trait declaration. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 74
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18868,9 +18868,9 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L86",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
-            "line_start": 86
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L85",
+            "note": "Implementation binding at recorded a-townchain HEAD; selected the method body rather than its trait declaration. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 85
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -18944,9 +18944,9 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L90",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
-            "line_start": 90
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L89",
+            "note": "Implementation binding at recorded a-townchain HEAD; selected the method body rather than its trait declaration. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 89
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19020,9 +19020,9 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "ad18012ba8907f6d0f27d6e42b2c4c200ea2ecdb",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L96",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
-            "line_start": 96
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/retrieval.rs#L95",
+            "note": "Implementation binding at recorded a-townchain HEAD; selected the method body rather than its trait declaration. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 95
           },
           "verification_evidence": {
             "status": "RESIDUAL",
@@ -19096,9 +19096,9 @@
             "symbol_kind": "function",
             "exact_source_sha": "c631249ed6ff450bf45338e78cb14e2bf5c65c74",
             "file_blob_sha": "3755e0ce0f41e645ad40d00838403a624244a730",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L64",
-            "note": "Exact source binding at recorded a-townchain HEAD. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
-            "line_start": 64
+            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/c631249ed6ff450bf45338e78cb14e2bf5c65c74/components/storage/src/store.rs#L31",
+            "note": "Implementation binding at recorded a-townchain HEAD; selected the method body rather than its trait declaration. Implementation is an in-memory MVP and is not durable canonical block/state storage.",
+            "line_start": 31
           },
           "verification_evidence": {
             "status": "RESIDUAL",
