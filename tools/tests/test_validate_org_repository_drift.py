@@ -44,6 +44,24 @@ class OrganizationRepositoryDriftTests(unittest.TestCase):
         self.assertEqual(report["summary"], {"MATCH": 0, "DRIFT": 0, "BLOCKED": 1})
         self.assertIn("API_OR_RESPONSE_ERROR", report["repositories"][0]["error"])
 
+    def test_explicitly_excluded_repository_is_not_fetched_or_blocking(self):
+        data = manifest()
+        data["repositories"][0]["drift_check_excluded"] = True
+        data["repositories"][0]["drift_check_exclusion_reason"] = "Demo/reference repository excluded by scope decision."
+        report = validate(data, None, lambda *args: self.fail("excluded repository must not be fetched"))
+        self.assertEqual(report["status"], "PASS_NO_DRIFT")
+        self.assertEqual(report["repository_count"], 1)
+        self.assertEqual(report["in_scope_repository_count"], 0)
+        self.assertEqual(report["summary"], {"MATCH": 0, "DRIFT": 0, "BLOCKED": 0, "EXCLUDED": 1})
+        self.assertEqual(report["repositories"][0]["status"], "EXCLUDED")
+
+    def test_exclusion_without_reason_blocks(self):
+        data = manifest()
+        data["repositories"][0]["drift_check_excluded"] = True
+        report = validate(data, None, lambda *args: self.fail("invalid exclusion must not be fetched"))
+        self.assertEqual(report["status"], "BLOCKED")
+        self.assertEqual(report["repositories"][0]["error"], "EXCLUSION_REQUIRES_NONEMPTY_REASON")
+
     def test_malformed_expected_sha_blocks(self):
         data = manifest()
         data["repositories"][0]["observed_head_sha"] = "short"
