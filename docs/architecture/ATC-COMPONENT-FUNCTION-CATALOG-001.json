@@ -107552,6 +107552,3036 @@
               "log_or_artifact_url"
             ]
           }
+        },
+        {
+          "id": "FN-SHIVA-1467",
+          "name": "Log level name",
+          "purpose": "Return the log level's canonical name (EMERG..DEBUG).",
+          "inputs": [
+            "log level"
+          ],
+          "outputs": [
+            "level name"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "each variant maps to its syslog name"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "name",
+            "symbol_kind": "function",
+            "line_start": 30,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1468",
+          "name": "Log level decode",
+          "purpose": "Map a numeric syslog level back to the log level.",
+          "inputs": [
+            "level number"
+          ],
+          "outputs": [
+            "log level or absence"
+          ],
+          "failure_modes": [
+            "unknown number"
+          ],
+          "acceptance": [
+            "0..7 decode to their syslog levels",
+            "others yield absence"
+          ],
+          "test_classes": [
+            "unit",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "from_u8",
+            "symbol_kind": "function",
+            "line_start": 43,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1469",
+          "name": "Kernel log construction",
+          "purpose": "Create an empty kernel log ring buffer that logs everything by default.",
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "kernel log"
+          ],
+          "failure_modes": [
+            "none: total constructor"
+          ],
+          "acceptance": [
+            "minimum level defaults to Debug",
+            "counters start at zero"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "new",
+            "symbol_kind": "function",
+            "line_start": 90,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1470",
+          "name": "Kernel log append",
+          "purpose": "Append a levelled, timestamped message from a subsystem, honoring the minimum level and evicting the oldest entry on overflow.",
+          "inputs": [
+            "log level",
+            "subsystem",
+            "message",
+            "timestamp in ns"
+          ],
+          "outputs": [
+            "updated log"
+          ],
+          "failure_modes": [
+            "level below the minimum (counted as dropped)"
+          ],
+          "acceptance": [
+            "below-threshold messages are dropped and counted",
+            "overflow evicts the oldest entry",
+            "sequence numbers are assigned"
+          ],
+          "test_classes": [
+            "unit",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "log",
+            "symbol_kind": "function",
+            "line_start": 100,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1471",
+          "name": "Emergency log",
+          "purpose": "Append an emergency-level message (convenience wrapper).",
+          "inputs": [
+            "subsystem",
+            "message",
+            "timestamp in ns"
+          ],
+          "outputs": [
+            "updated log"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "delegates to log with level Emerg"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "emerg",
+            "symbol_kind": "function",
+            "line_start": 123,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1472",
+          "name": "Alert log",
+          "purpose": "Append an alert-level message.",
+          "inputs": [
+            "subsystem",
+            "message",
+            "timestamp in ns"
+          ],
+          "outputs": [
+            "updated log"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "delegates to log with level Alert"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "alert",
+            "symbol_kind": "function",
+            "line_start": 124,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1473",
+          "name": "Critical log",
+          "purpose": "Append a critical-level message.",
+          "inputs": [
+            "subsystem",
+            "message",
+            "timestamp in ns"
+          ],
+          "outputs": [
+            "updated log"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "delegates to log with level Crit"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "crit",
+            "symbol_kind": "function",
+            "line_start": 125,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1474",
+          "name": "Error log",
+          "purpose": "Append an error-level message.",
+          "inputs": [
+            "subsystem",
+            "message",
+            "timestamp in ns"
+          ],
+          "outputs": [
+            "updated log"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "delegates to log with level Err"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "error",
+            "symbol_kind": "function",
+            "line_start": 126,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1475",
+          "name": "Warning log",
+          "purpose": "Append a warning-level message.",
+          "inputs": [
+            "subsystem",
+            "message",
+            "timestamp in ns"
+          ],
+          "outputs": [
+            "updated log"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "delegates to log with level Warning"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "warn",
+            "symbol_kind": "function",
+            "line_start": 127,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1476",
+          "name": "Notice log",
+          "purpose": "Append a notice-level message.",
+          "inputs": [
+            "subsystem",
+            "message",
+            "timestamp in ns"
+          ],
+          "outputs": [
+            "updated log"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "delegates to log with level Notice"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "notice",
+            "symbol_kind": "function",
+            "line_start": 128,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1477",
+          "name": "Info log",
+          "purpose": "Append an info-level message.",
+          "inputs": [
+            "subsystem",
+            "message",
+            "timestamp in ns"
+          ],
+          "outputs": [
+            "updated log"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "delegates to log with level Info"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "info",
+            "symbol_kind": "function",
+            "line_start": 129,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1478",
+          "name": "Debug log",
+          "purpose": "Append a debug-level message.",
+          "inputs": [
+            "subsystem",
+            "message",
+            "timestamp in ns"
+          ],
+          "outputs": [
+            "updated log"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "delegates to log with level Debug"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "debug",
+            "symbol_kind": "function",
+            "line_start": 130,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1479",
+          "name": "Log level setting",
+          "purpose": "Raise the log's minimum level (filtering quieter messages out).",
+          "inputs": [
+            "log level"
+          ],
+          "outputs": [
+            "updated log"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "subsequent below-level messages are dropped and counted"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "set_level",
+            "symbol_kind": "function",
+            "line_start": 132,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1480",
+          "name": "Minimum level query",
+          "purpose": "Report the configured minimum log level.",
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "minimum log level"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "consistent with set_level history"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "min_level",
+            "symbol_kind": "function",
+            "line_start": 133,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1481",
+          "name": "Log entry access",
+          "purpose": "Return all buffered log entries read-only.",
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "entry queue"
+          ],
+          "failure_modes": [
+            "empty log"
+          ],
+          "acceptance": [
+            "oldest entries are evicted first"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "entries",
+            "symbol_kind": "function",
+            "line_start": 135,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1482",
+          "name": "Log entry inventory",
+          "purpose": "Report the number of buffered entries.",
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "entry count"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "bounded by the ring size"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "entry_count",
+            "symbol_kind": "function",
+            "line_start": 136,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1483",
+          "name": "Logged total",
+          "purpose": "Report the total messages ever logged.",
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "logged count"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "counter is monotonic"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "total_logged",
+            "symbol_kind": "function",
+            "line_start": 137,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1484",
+          "name": "Dropped total",
+          "purpose": "Report the messages dropped by level filtering.",
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "dropped count"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "drops imply level filtering, not overflow"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "total_dropped",
+            "symbol_kind": "function",
+            "line_start": 138,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1485",
+          "name": "Dmesg rendering",
+          "purpose": "Render all buffered entries as dmesg-style formatted strings.",
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "formatted line list"
+          ],
+          "failure_modes": [
+            "empty log (empty list)"
+          ],
+          "acceptance": [
+            "lines carry timestamp, level, subsystem and message"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "dmesg",
+            "symbol_kind": "function",
+            "line_start": 141,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1486",
+          "name": "Level filter",
+          "purpose": "Return buffered entries at or above a level.",
+          "inputs": [
+            "minimum level"
+          ],
+          "outputs": [
+            "entry list"
+          ],
+          "failure_modes": [
+            "no entries at the level"
+          ],
+          "acceptance": [
+            "all returned entries meet the level"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "filter",
+            "symbol_kind": "function",
+            "line_start": 149,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1487",
+          "name": "Subsystem filter",
+          "purpose": "Return buffered entries of one subsystem.",
+          "inputs": [
+            "subsystem"
+          ],
+          "outputs": [
+            "entry list"
+          ],
+          "failure_modes": [
+            "no entries for the subsystem"
+          ],
+          "acceptance": [
+            "all returned entries carry the subsystem"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "filter_subsystem",
+            "symbol_kind": "function",
+            "line_start": 154,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1488",
+          "name": "Log purge",
+          "purpose": "Clear all buffered entries without resetting the counters.",
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "emptied log"
+          ],
+          "failure_modes": [
+            "empty log (no-op)"
+          ],
+          "acceptance": [
+            "entries are gone",
+            "logged/dropped counters survive"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "clear",
+            "symbol_kind": "function",
+            "line_start": 159,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1489",
+          "name": "Device path",
+          "purpose": "Return the device type's /dev path (e.g. /dev/null, /dev/urandom).",
+          "inputs": [
+            "device type"
+          ],
+          "outputs": [
+            "device path"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "each variant maps to its canonical /dev path"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "path",
+            "symbol_kind": "function",
+            "line_start": 186,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1490",
+          "name": "Device name",
+          "purpose": "Return the device type's short name.",
+          "inputs": [
+            "device type"
+          ],
+          "outputs": [
+            "device name"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "matches the path suffix"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "name",
+            "symbol_kind": "function",
+            "line_start": 203,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1491",
+          "name": "Device readability",
+          "purpose": "Decide whether the device can be read (null and full cannot).",
+          "inputs": [
+            "device type"
+          ],
+          "outputs": [
+            "boolean readable flag"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "null and full report false",
+            "random, zero and urandom report true"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "is_readable",
+            "symbol_kind": "function",
+            "line_start": 220,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1492",
+          "name": "Device writability",
+          "purpose": "Decide whether the device can be written (full and random cannot).",
+          "inputs": [
+            "device type"
+          ],
+          "outputs": [
+            "boolean writable flag"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "full and random report false"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "is_writable",
+            "symbol_kind": "function",
+            "line_start": 224,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1493",
+          "name": "Device name decode",
+          "purpose": "Map a device name back to the device type.",
+          "inputs": [
+            "device name"
+          ],
+          "outputs": [
+            "device type or absence"
+          ],
+          "failure_modes": [
+            "unknown name"
+          ],
+          "acceptance": [
+            "known names round-trip",
+            "unknown names yield absence"
+          ],
+          "test_classes": [
+            "unit",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "from_name",
+            "symbol_kind": "function",
+            "line_start": 228,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1494",
+          "name": "Device node construction",
+          "purpose": "Create a device node with its canonical major/minor numbers and zeroed counters.",
+          "inputs": [
+            "device type"
+          ],
+          "outputs": [
+            "device node"
+          ],
+          "failure_modes": [
+            "none: total constructor"
+          ],
+          "acceptance": [
+            "major/minor follow the classic Linux device numbering",
+            "all counters start at zero"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "new",
+            "symbol_kind": "function",
+            "line_start": 259,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1495",
+          "name": "Device node path",
+          "purpose": "Return the node's /dev path.",
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "device path"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "matches the device type's path"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "path",
+            "symbol_kind": "function",
+            "line_start": 277,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1496",
+          "name": "Device node name",
+          "purpose": "Return the node's short name.",
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "device name"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "matches the device type's name"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "name",
+            "symbol_kind": "function",
+            "line_start": 278,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1497",
+          "name": "DevFs construction",
+          "purpose": "Create the /dev filesystem with the standard device set and a fixed PRNG state.",
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "dev filesystem"
+          ],
+          "failure_modes": [
+            "none: total constructor"
+          ],
+          "acceptance": [
+            "null, zero, random, urandom, full, tty and console exist"
+          ],
+          "test_classes": [
+            "unit",
+            "security-review"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "new",
+            "symbol_kind": "function",
+            "line_start": 292,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1498",
+          "name": "DevFs device inventory",
+          "purpose": "Report the number of registered devices.",
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "device count"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "matches register history"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "device_count",
+            "symbol_kind": "function",
+            "line_start": 305,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1499",
+          "name": "Device lookup",
+          "purpose": "Find a device by /dev path or short name (read-only).",
+          "inputs": [
+            "path or name"
+          ],
+          "outputs": [
+            "device node or absence"
+          ],
+          "failure_modes": [
+            "no device with that path or name"
+          ],
+          "acceptance": [
+            "no mutation occurs"
+          ],
+          "test_classes": [
+            "unit",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "find_device",
+            "symbol_kind": "function",
+            "line_start": 307,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1500",
+          "name": "Device mutation access",
+          "purpose": "Find a device by path or name for mutation.",
+          "inputs": [
+            "path or name"
+          ],
+          "outputs": [
+            "mutable device node or absence"
+          ],
+          "failure_modes": [
+            "no device with that path or name"
+          ],
+          "acceptance": [
+            "mutation affects exactly the named device"
+          ],
+          "test_classes": [
+            "unit",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "find_device_mut",
+            "symbol_kind": "function",
+            "line_start": 311,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1501",
+          "name": "Device registration",
+          "purpose": "Register a device type if not already present (idempotent).",
+          "inputs": [
+            "device type"
+          ],
+          "outputs": [
+            "updated devfs"
+          ],
+          "failure_modes": [
+            "device already registered (no-op)"
+          ],
+          "acceptance": [
+            "device is listed afterwards"
+          ],
+          "test_classes": [
+            "unit",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "register_device",
+            "symbol_kind": "function",
+            "line_start": 315,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1502",
+          "name": "Device listing",
+          "purpose": "List all registered device nodes read-only.",
+          "inputs": [
+            "none"
+          ],
+          "outputs": [
+            "device node list"
+          ],
+          "failure_modes": [
+            "no devices"
+          ],
+          "acceptance": [
+            "result matches device_count"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "list_devices",
+            "symbol_kind": "function",
+            "line_start": 321,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1503",
+          "name": "Device open",
+          "purpose": "Open a device by path, incrementing its open counter.",
+          "inputs": [
+            "path or name"
+          ],
+          "outputs": [
+            "success flag"
+          ],
+          "failure_modes": [
+            "device unknown"
+          ],
+          "acceptance": [
+            "open counter increments on success",
+            "unknown devices return false"
+          ],
+          "test_classes": [
+            "unit",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "open",
+            "symbol_kind": "function",
+            "line_start": 323,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1504",
+          "name": "Device read",
+          "purpose": "Read from a device, honoring device semantics: zero returns zeros, random/urandom return PRNG bytes, null returns nothing.",
+          "inputs": [
+            "path or name",
+            "buffer length"
+          ],
+          "outputs": [
+            "bytes-read count and data or absence"
+          ],
+          "failure_modes": [
+            "device unknown",
+            "device not readable"
+          ],
+          "acceptance": [
+            "zero yields zero bytes",
+            "random fills from the PRNG (NOT cryptographic, documented residual)",
+            "null yields nothing"
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "security-review"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "read",
+            "symbol_kind": "function",
+            "line_start": 331,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1505",
+          "name": "Device write",
+          "purpose": "Write to a device, honoring device semantics: null discards, zero discards, full reports ENOSPC-like failure.",
+          "inputs": [
+            "path or name",
+            "data bytes"
+          ],
+          "outputs": [
+            "bytes-written count or absence"
+          ],
+          "failure_modes": [
+            "device unknown",
+            "device not writable (e.g. full)"
+          ],
+          "acceptance": [
+            "null and zero discard silently",
+            "full refuses with an error-like result"
+          ],
+          "test_classes": [
+            "unit",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "write",
+            "symbol_kind": "function",
+            "line_start": 350,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1506",
+          "name": "PRNG seeding",
+          "purpose": "Seed the /dev/random PRNG state (test hook).",
+          "inputs": [
+            "seed value"
+          ],
+          "outputs": [
+            "updated devfs"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "subsequent random reads derive from the seed"
+          ],
+          "test_classes": [
+            "unit",
+            "security-review"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "seed_rng",
+            "symbol_kind": "function",
+            "line_start": 381,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1507",
+          "name": "Device statistics",
+          "purpose": "Return a device's open, read and write counters.",
+          "inputs": [
+            "path or name"
+          ],
+          "outputs": [
+            "counter triple or absence"
+          ],
+          "failure_modes": [
+            "device unknown"
+          ],
+          "acceptance": [
+            "counters are monotonic"
+          ],
+          "test_classes": [
+            "unit",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "device_stats",
+            "symbol_kind": "function",
+            "line_start": 386,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SHIVA-1508",
+          "name": "Device existence",
+          "purpose": "Decide whether a path is a registered /dev path or name.",
+          "inputs": [
+            "path or name"
+          ],
+          "outputs": [
+            "boolean existence flag"
+          ],
+          "failure_modes": [
+            "none: total function"
+          ],
+          "acceptance": [
+            "consistent with the device set"
+          ],
+          "test_classes": [
+            "unit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "modules/atc-shivacore/kernel/src/devfs.rs",
+            "symbol_or_entrypoint": "exists",
+            "symbol_kind": "function",
+            "line_start": 391,
+            "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "file_blob_sha": "fb2e0f53803652164d077f40d02940761c96e2db192407285a9972c78d9c2abd",
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/blob/2682d49fed2e63a24db00cd0eef43ef67001f0a4/modules/atc-shivacore/kernel/src/devfs.rs",
+            "note": "devfs.rs binding; census-verified at exact HEAD 2682d49f. Mapping only, functional verification pending."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
+            "source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
         }
       ],
       "source_inventory": {
