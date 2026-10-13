@@ -16651,7 +16651,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-vm/blob/21132a49355eb5fd6ea4b8a7b4e4deb5d9be60f0/tests/exec_chain_e2e.rs#L9",
             "note": "Bound to the exact Rust integration-test function e2e_adder_fixture_passes at line 9. This is a test surface for conformance evidence, not a production runtime function.",
             "artifact_kind": "RUST_INTEGRATION_TEST_SURFACE",
-            "line_start": 9
+            "line_start": 9,
+            "symbol_kind": "function"
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-vm",
           "preconditions": {
