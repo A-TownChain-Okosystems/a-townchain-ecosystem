@@ -274,7 +274,9 @@
       "snapshot_ref": "main",
       "observed_head_sha": "d9b0da9c966dea02586b6be64139e6b3cd669dfd",
       "observed_root_tree_sha": "f916f6cbe96ebe274c338e71ff6c7f6806112bfd",
-      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH"
+      "snapshot_status": "HISTORICAL_OBSERVATION_REQUIRES_REFRESH",
+      "drift_check_excluded": true,
+      "drift_check_exclusion_reason": "Explicit scope decision: demo/reference repository is not part of the organization drift gate. Retain historical pins for inventory traceability; do not fetch or count this repository as a blocker."
     },
     {
       "name": "atc-ide",
