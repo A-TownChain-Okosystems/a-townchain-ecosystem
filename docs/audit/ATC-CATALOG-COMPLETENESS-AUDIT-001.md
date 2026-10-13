@@ -329,3 +329,14 @@ Both components' inventories already pointed at these repositories, so extension
 Methodology unchanged (deterministic context extraction, signature-derived contracts, mapping-only acceptance, eight RESIDUAL evidence fields). **Post-binding state:** 43 components / 4,176 functions; reconcile 4,129 bound (+502), 1,443 unbound, 0 duplicate groups, 1 component finding (COMP-ALGO-SPEC); validator `PASS_STRUCTURAL_ONLY` (0 errors); tests 58/58. Functional verification remains `NOT_PERFORMED`.
 
 **Remaining backlog:** atc-engineering (143), atc-ide (141), atc-algorithm (122 — read its own function catalog from PR #17 first), atc-standards (122), genesis-chronicles (78), atc-shivacore (66), atc-node, atc-vm, atc-zkp, atc-sdk, atc-wallet, atc-marketplace, atc-launchpad and smaller repos.
+
+## 25. Four-repo tranche 484/484 bound (2026-10-14)
+
+- **COMP-ATC-ENG +143** (atc-engineering, exact SHA `c2a4b93fb0…`, 28 files, rust/python): atc-graph, atc-integration, standards registry crates and siblings.
+- **COMP-IDE +141** (atc-ide, exact SHA `2a17feda7e…`, 51 files, typescript): interpreter parser, audit engine, project sync engine and the IDE surface.
+- **COMP-STANDARDS +122** (atc-standards, exact SHA `c362d15e77…`, 36 files, python/rust): dependency guard, README validator, repo audit tooling and the standards-registry surface.
+- **COMP-CHRONICLES +78** (genesis-chronicles, exact SHA `a3f417b235…`, 13 files, python/rust): marketplace contracts, API routes; the `modules/genesis-chronicles/` paths carry internal-mirror notes (repo-root path is the primary surface).
+
+Methodology unchanged. **Post-binding state:** 43 components / 4,660 functions; reconcile 4,613 bound (+484), 959 unbound, 0 duplicate groups, 1 component finding (COMP-ALGO-SPEC); validator `PASS_STRUCTURAL_ONLY` (0 errors); tests 58/58. Functional verification remains `NOT_PERFORMED`.
+
+**Remaining backlog:** atc-algorithm (122 — read its own machine-readable function catalog from PR #17 first to avoid duplicate contracts), atc-shivacore (66), atc-node, atc-vm, atc-zkp, atc-sdk, atc-wallet, atc-marketplace, atc-launchpad, atc-interop, atc-oracle, atc-storage, atc-compute, atc-indexer, atc-mining, atc-explorer, globus-os remainder and smaller repos.
