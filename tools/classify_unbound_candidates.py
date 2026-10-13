@@ -71,6 +71,51 @@ def source_layer(path: str, language: str) -> tuple[str, str]:
         return "LANGUAGE_COMPILER_TOOLCHAIN", "Path contains compiler/toolchain markers."
     return "GENERAL_RUNTIME_REVIEW", "No sufficiently specific path category; manual review required."
 
+def inspect_source_location(row: dict, repos: dict) -> dict:
+    """Verify a candidate against the exact-SHA census symbol inventory.
+
+    This confirms a lexical source location only. It deliberately does not decide
+    that a symbol is a catalog function or that it is eligible for exclusion.
+    """
+    repository = row.get("repository", "")
+    repo = repos.get(repository) or {}
+    expected_sha = row.get("source_sha")
+    report = repo.get("report") or {}
+    repo_sha = repo.get("source_sha")
+    path = row.get("source_path", "")
+    file_record = next((item for item in report.get("files", []) if item.get("path") == path), None)
+    if not repo or not report:
+        return {"status": "SOURCE_EVIDENCE_UNAVAILABLE", "reason": "Repository or lexical census report is unavailable.", "repository_sha": repo_sha}
+    if not expected_sha or expected_sha != repo_sha:
+        return {"status": "SOURCE_SHA_MISMATCH", "reason": "Candidate SHA does not equal the exact census checkout SHA.", "repository_sha": repo_sha}
+    if file_record is None:
+        return {"status": "SOURCE_PATH_NOT_FOUND_IN_CENSUS", "reason": "Exact source path is absent from the census file inventory.", "repository_sha": repo_sha}
+    if row.get("source_file_sha256") and file_record.get("file_sha256") != row.get("source_file_sha256"):
+        return {"status": "SOURCE_FILE_HASH_MISMATCH", "reason": "Candidate file hash differs from the file hash in the exact-SHA census.", "repository_sha": repo_sha, "source_path": path, "census_file_sha256": file_record.get("file_sha256")}
+    symbol_lists = ("candidate_public_symbols", "candidate_internal_symbols", "candidate_test_symbols")
+    observed = []
+    for field in symbol_lists:
+        for symbol in file_record.get(field, []):
+            if (symbol.get("kind", "function") == row.get("symbol_kind", "unknown")
+                and symbol.get("name", "") == row.get("symbol_or_entrypoint", "")
+                and int(symbol.get("line_start", 0)) == int(row.get("line_start", 0))):
+                observed.append(symbol)
+    if not observed:
+        return {"status": "SYMBOL_NOT_FOUND_AT_RECORDED_LOCATION", "reason": "No exact kind/name/line match exists in the census inventory.", "repository_sha": repo_sha, "source_path": path, "source_file_sha256": file_record.get("file_sha256")}
+    symbol = observed[0]
+    return {
+        "status": "SOURCE_LOCATION_CONFIRMED",
+        "reason": "Exact repository SHA, path, file hash, symbol kind/name, and line match the lexical census. This is not semantic review or functional verification.",
+        "repository_sha": repo_sha,
+        "source_path": path,
+        "source_file_sha256": file_record.get("file_sha256"),
+        "symbol_kind": symbol.get("kind", "unknown"),
+        "symbol_or_entrypoint": symbol.get("name", ""),
+        "line_start": int(symbol.get("line_start", 0)),
+        "signature": symbol.get("signature", ""),
+        "census_symbol_surface": next((field for field in symbol_lists if symbol in file_record.get(field, [])), "unknown"),
+    }
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--reconciliation", required=True, type=Path)
@@ -87,6 +132,7 @@ def main() -> int:
         repo_name = repository.rsplit("/", 1)[-1]
         owner_category, canonical_route = OWNER_CATEGORIES.get(repo_name, ("REPOSITORY_SPECIFIC_REVIEW", "No registered routing rule; manual owner assignment required"))
         layer, rationale = source_layer(row.get("source_path", ""), row.get("language", ""))
+        source_evidence = inspect_source_location(row, repos)
         identity = "|".join(str(row.get(k, "")) for k in ("repository", "source_sha", "source_path", "symbol_kind", "symbol_or_entrypoint", "line_start"))
         candidate_id = "ATC-CAND-" + hashlib.sha256(identity.encode()).hexdigest()[:20].upper()
         category = {
@@ -115,6 +161,9 @@ def main() -> int:
             "signature": row.get("signature", ""),
             "original_status": "RESIDUAL",
             "original_finding": "CANDIDATE_NOT_BOUND_TO_CATALOG_FUNCTION",
+            "decision": "UNRESOLVED",
+            "decision_reason": "No canonical function binding or individually evidenced exclusion has been established. This candidate remains a blocking residual even when its lexical source location is confirmed.",
+            "source_evidence": source_evidence,
             "category": category,
         })
     summary = {
@@ -128,6 +177,9 @@ def main() -> int:
         ],
         "automatically_bound": 0,
         "automatically_excluded": 0,
+        "decision_counts": dict(sorted(Counter(x["decision"] for x in candidates).items())),
+        "source_location_confirmed": sum(1 for x in candidates if x["source_evidence"]["status"] == "SOURCE_LOCATION_CONFIRMED"),
+        "source_location_unconfirmed": sum(1 for x in candidates if x["source_evidence"]["status"] != "SOURCE_LOCATION_CONFIRMED"),
         "functional_verification": "NOT_PERFORMED",
         "completion_gate": "BLOCKED",
     }
@@ -148,7 +200,9 @@ def main() -> int:
             "owner_domain": "Provisional domain inferred from repository's registered role; not an implementation ownership decision.",
             "source_layer": "Review queue inferred from source path/language; not proof of runtime behavior or exclusion eligibility.",
             "candidate_id": "Stable SHA-256-derived identifier over repository, source SHA, path, symbol kind/name and line start.",
-            "completion_rule": "Every candidate still requires review and must be bound to a canonical catalog function or receive an individually evidenced exclusion. Strict reconciliation remains blocked until then."
+            "decision": "Every candidate is explicitly BOUND, EXCLUDED, or UNRESOLVED. This classifier may only emit UNRESOLVED; a confirmed lexical location is not a binding or exclusion.",
+            "source_evidence": "SOURCE_LOCATION_CONFIRMED means exact repo SHA, path, file hash, symbol kind/name and line match the census inventory. Missing/mismatched evidence is recorded as a residual blocker.",
+            "completion_rule": "Every candidate must be bound to a canonical catalog function or receive an individually evidenced exclusion. UNRESOLVED candidates block completion; functional verification remains a separate gate."
         },
         "summary": summary,
         "candidates": candidates,
