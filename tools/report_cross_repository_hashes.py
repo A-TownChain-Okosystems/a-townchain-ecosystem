@@ -122,7 +122,7 @@ def main() -> int:
         result = build_report(census)
         output = Path(args.output)
         output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\\n", encoding="utf-8")
+        output.write_text(json.dumps(result, indent=2, sort_keys=True), encoding="utf-8")
         print(json.dumps({"status": "REPORT_GENERATED", **result["summary"]}, sort_keys=True))
         if args.require_cross_repo and not result["groups"]:
             return 2
