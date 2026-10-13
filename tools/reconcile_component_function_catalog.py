@@ -48,14 +48,27 @@ def reconcile(catalog: dict, census: dict) -> dict:
             observed = source_inventory.get("observed_head_sha")
             actual = repo_entry.get("source_sha")
             if observed and actual and observed != actual:
-                component_findings.append({
-                    "component_id": component.get("id"),
-                    "component": component.get("name"),
-                    "finding": "CATALOG_CENSUS_SHA_MISMATCH",
-                    "catalog_sha": observed,
-                    "census_sha": actual,
-                    "status": "RESIDUAL",
-                })
+                if source_inventory.get("self_referential_head"):
+                    # The catalog lives inside this repository, so its own HEAD
+                    # moves with every catalog revision. The binding evidence is
+                    # the census run itself; the drift is documented, not hidden.
+                    component_findings.append({
+                        "component_id": component.get("id"),
+                        "component": component.get("name"),
+                        "finding": "SELF_REFERENTIAL_HEAD_BOUND_AT_CENSUS_RUN",
+                        "catalog_sha": observed,
+                        "census_sha": actual,
+                        "status": "RESIDUAL",
+                    })
+                else:
+                    component_findings.append({
+                        "component_id": component.get("id"),
+                        "component": component.get("name"),
+                        "finding": "CATALOG_CENSUS_SHA_MISMATCH",
+                        "catalog_sha": observed,
+                        "census_sha": actual,
+                        "status": "RESIDUAL",
+                    })
         for function in component.get("functions", []):
             total_functions += 1
             binding = function.get("source_binding") or {}
@@ -76,13 +89,29 @@ def reconcile(catalog: dict, census: dict) -> dict:
                 "status": "RESIDUAL",
                 "finding": None,
             }
-            if not path or not symbol:
-                item["finding"] = "FUNCTION_BINDING_MISSING"
+            binding_kind = binding.get("binding_kind", "code_symbol")
+            if binding.get("delegates_to_function_id"):
+                item["finding"] = "DELEGATED_BINDING_DOCUMENTED"
+                item["delegates_to_function_id"] = binding["delegates_to_function_id"]
+            elif not path or not symbol:
+                if binding_kind == "exempt_no_source_binding":
+                    item["finding"] = "EXEMPT_NO_SOURCE_BINDING_DOCUMENTED"
+                else:
+                    item["finding"] = "FUNCTION_BINDING_MISSING"
             elif repo not in census_repos or not (census_repos[repo].get("report")):
                 item["finding"] = "SOURCE_CENSUS_UNAVAILABLE"
                 item["status"] = "BLOCKED"
             elif key not in symbols_by_repo.get(repo, set()):
-                item["finding"] = "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN"
+                if binding_kind == "non_public_internal_helper":
+                    item["finding"] = "NON_PUBLIC_INTERNAL_HELPER_EXPECTED_ABSENT"
+                elif binding_kind == "data_artifact":
+                    item["finding"] = "DATA_ARTIFACT_BINDING_DOCUMENTED"
+                elif binding_kind == "specification_document":
+                    item["finding"] = "SPECIFICATION_DOCUMENT_BINDING_DOCUMENTED"
+                elif binding_kind == "test_surface":
+                    item["finding"] = "TEST_SURFACE_BINDING_DOCUMENTED"
+                else:
+                    item["finding"] = "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN"
             elif binding.get("exact_source_sha") != census_repos[repo].get("source_sha"):
                 item["finding"] = "FUNCTION_BINDING_SHA_MISMATCH"
             else:
@@ -117,6 +146,21 @@ def reconcile(catalog: dict, census: dict) -> dict:
             "function_bindings_residual_or_blocked": sum(
                 item["finding"] != "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING"
                 for item in function_findings
+            ),
+            "function_bindings_documented_exclusions": sum(
+                item["finding"] in {
+                    "DELEGATED_BINDING_DOCUMENTED",
+                    "EXEMPT_NO_SOURCE_BINDING_DOCUMENTED",
+                    "NON_PUBLIC_INTERNAL_HELPER_EXPECTED_ABSENT",
+                    "DATA_ARTIFACT_BINDING_DOCUMENTED",
+                    "SPECIFICATION_DOCUMENT_BINDING_DOCUMENTED",
+                    "TEST_SURFACE_BINDING_DOCUMENTED",
+                }
+                for item in function_findings
+            ),
+            "self_referential_component_heads": sum(
+                item["finding"] == "SELF_REFERENTIAL_HEAD_BOUND_AT_CENSUS_RUN"
+                for item in component_findings
             ),
             "component_findings": len(component_findings),
             "candidate_symbols_unbound": len(unmatched_candidates),
