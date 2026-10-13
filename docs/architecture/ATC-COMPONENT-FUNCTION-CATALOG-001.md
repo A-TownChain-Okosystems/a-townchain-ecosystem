@@ -258,3 +258,21 @@ Two hard blockers are recorded: `ContentAddress::compute` claims BLAKE3 compatib
 ## TypeScript TX-V2 parity inventory (2026-10-13)
 
 Added `COMP-SDK-TS` with ten exact-HEAD executable function bindings and seven explicitly classified non-function type/value surfaces. `IF-019` is `BLOCKED`: `canonicalTransactionId` hashes `canonicalIdFields` without enforcing all the same preconditions as `canonicalSigningPreimage`. Cross-language vectors and invalid-input parity remain open. Current catalog count: 33 components, 210 function/capability contracts, 19 interfaces; 169 functions are source-mapped, 0 functionally verified.
+
+## Exact-SHA reconciliation update — 2026-10-13 (PR #115 HEAD)
+
+This section supersedes the preceding **Current reconciliation state** counts for the exact run listed below; earlier counts remain historical snapshots.
+
+- **Source HEAD:** `6ad06513754c4a8b0c93e362935f4403a799fbe0`
+- **Run:** [Source Symbol Inventory #38394483388](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38394483388)
+- **Artifact:** [exact-SHA census, reconciliation and cross-repository hash report](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38394483388/artifacts/11810359144)
+- Census: 33 repository records; 25 of 26 active repositories scanned, one private active repository explicitly excluded due to missing CI access, seven archived repositories reference-only; 1,368 source files scanned.
+- Catalog reconciliation: 33 components, 210 function/capability contracts, 19 interfaces; 12,980 source-symbol candidates in scope; 164 bound, 6,429 excluded by current policy and **6,387 remain unbound without a reasoned exclusion**.
+- Candidate classes: 6,555 runtime candidates, 3,998 test candidates and 2,427 non-function candidates. The strict `--require-complete` gate exited 2 and reports `BLOCKED`.
+- Unresolved binding findings: `AMBIGUOUS_SOURCE_SYMBOL_BINDING=1`; `BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN=1`.
+- Cross-repository identical-file report: 1,261 unique file hashes; 780 hashes with multiple candidate rows; 82 cross-repository hash groups and 492 candidate rows. These are triage-only signals, not proof of shared ownership or duplicate implementation.
+- Functional verification remains `NOT_PERFORMED`; **0 functions are functionally verified**.
+
+The repository-level routing summary is [ATC-UNBOUND-SYMBOL-CLASSIFICATION-001.md](../audit/ATC-UNBOUND-SYMBOL-CLASSIFICATION-001.md), with its machine-readable companion [ATC-UNBOUND-SYMBOL-CLASSIFICATION-001.json](../audit/ATC-UNBOUND-SYMBOL-CLASSIFICATION-001.json). These are triage records: no unbound candidate is automatically added as a function contract. Relevant candidates must be reviewed and added to the owning repository's local catalog; the central catalog references those contracts without taking implementation ownership. Unknown targets remain `ROUTE_REVIEW_REQUIRED`, and reviewed non-contract symbols require a reasoned exclusion.
+
+**Current decision:** catalog completion `BLOCKED`; PR remains open and draft. Do not begin implementation work from this census alone.
