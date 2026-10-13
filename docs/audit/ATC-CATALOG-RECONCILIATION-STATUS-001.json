@@ -1,0 +1,135 @@
+{
+  "schema_id": "ATC-CATALOG-RECONCILIATION-STATUS-001",
+  "schema_version": "1.0.0",
+  "status": "BLOCKED",
+  "authority": {
+    "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+    "role": "Reconciliation evidence only; not implementation SSOT"
+  },
+  "provenance": {
+    "pull_request": 115,
+    "branch": "audit/public-symbol-scan-001-2026-10-11",
+    "checked_head_sha": "4b6ae1c4fcf40305f7b8ba4f56c4ac95297df2fe",
+    "reference_head_sha": "19811460ead5eadc2ae01142c20edecf9493eb43",
+    "workflow_run_id": 38395910262,
+    "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38395910262",
+    "job_id": 115290947449,
+    "workflow": "Source Symbol Inventory",
+    "job_name": "scanner-tests",
+    "terminal_conclusion": "failure",
+    "failed_step": "Reconcile catalog against census evidence",
+    "step_number": 11,
+    "observed_steps": {
+      "exact_sha_assertion": "success",
+      "scanner_and_census_tests": "success",
+      "catalog_structural_validation": "success",
+      "repository_checkout_and_census": "success",
+      "cross_repository_hash_triage": "success",
+      "strict_reconciliation": "failure"
+    },
+    "artifact": {
+      "id": 11812571135,
+      "name": "atc-org-source-census-4b6ae1c4fcf40305f7b8ba4f56c4ac95297df2fe",
+      "sha256": "266a394364b915f93560214d0fb90ed94a8ad0dbf2eba46b946f6757388c16a1",
+      "url": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain-ecosystem/actions/artifacts/11812571135"
+    },
+    "note": "This is a run-evidence snapshot. The failed step is the strict source-to-catalog completion gate, not proof that the source census itself failed. The report artifact must be inspected before publishing current candidate counts."
+  },
+  "status_vocabulary": {
+    "MAPPED": "Bound to one canonical component and implementation using exact source identity; lexical match alone remains residual and is not functional verification.",
+    "EXCLUDED": "Excluded with source evidence and a specific policy/rationale; examples, tests, non-function symbols and archived/private references retain traceability.",
+    "UNRESOLVED": "Meaning, ownership or mapping remains ambiguous; no completeness claim.",
+    "BLOCKED": "Required source evidence, normative decision or access is missing; no completeness claim."
+  },
+  "current_findings": [
+    {
+      "id": "REC-001",
+      "status": "BLOCKED",
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "path": "tools/reconcile_component_function_catalog.py",
+      "symbol": "completion_gaps()",
+      "evidence_sha": "4b6ae1c4fcf40305f7b8ba4f56c4ac95297df2fe",
+      "finding": "Strict gate failed at workflow step 11. Exact unbound candidate count and unresolved-binding breakdown are not asserted here until read from the artifact/report."
+    },
+    {
+      "id": "IF-002",
+      "status": "BLOCKED",
+      "repository": "A-TownChain-Okosystems/a-townchain",
+      "path": "components/vm (canonical path to verify against current HEAD)",
+      "symbol": "ATCB vs ATC1 bytecode magic",
+      "evidence_sha": null,
+      "finding": "Conflicting magic identifiers require a normative versioned decision; do not infer a winner."
+    },
+    {
+      "id": "IF-003",
+      "status": "BLOCKED",
+      "repository": "A-TownChain-Okosystems/a-townchain",
+      "path": "components/algorithm",
+      "symbol": "consensus selection/finality/quorum/fork-choice",
+      "evidence_sha": null,
+      "finding": "No approved versioned normative decision evidenced in the current PR summary."
+    },
+    {
+      "id": "IF-015",
+      "status": "UNRESOLVED",
+      "repository": "A-TownChain-Okosystems/genesis-engine",
+      "path": "source paths to bind from current census",
+      "symbol": "ECS/World Engine surfaces",
+      "evidence_sha": null,
+      "finding": "L1 genesis ownership is not established by the presence of ECS/World Engine functions."
+    },
+    {
+      "id": "FN-NODE-022",
+      "status": "BLOCKED",
+      "repository": "A-TownChain-Okosystems/a-townchain",
+      "path": "components/atc-node (reported legacy surface; exact file must be confirmed in current census)",
+      "symbol": "legacy ATC-TX-DOMAIN signing / string-field encoding",
+      "evidence_sha": null,
+      "finding": "Conflicts with TX-V2 policy; do not treat as canonical until source path and exact SHA are confirmed and normative remediation is resolved."
+    },
+    {
+      "id": "IF-018",
+      "status": "BLOCKED",
+      "repository": "A-TownChain-Okosystems/a-townchain",
+      "path": "storage component path to verify",
+      "symbol": "ContentAddress::compute / mvp_root_hash",
+      "evidence_sha": null,
+      "finding": "Reported FNV-1a/non-cryptographic hash and in-memory storage are not evidence for canonical production state storage."
+    },
+    {
+      "id": "IF-019",
+      "status": "UNRESOLVED",
+      "repository": "A-TownChain-Okosystems/a-townchain",
+      "path": "SDK TypeScript source path to verify",
+      "symbol": "canonicalTransactionId / canonicalSigningPreimage",
+      "evidence_sha": null,
+      "finding": "Cross-language vectors and invalid-input parity are not yet evidenced."
+    },
+    {
+      "id": "SCR-0128",
+      "status": "BLOCKED",
+      "repository": "A-TownChain-Okosystems/a-townchain",
+      "path": "components/vm",
+      "symbol": "ATC-VM-ABI stage",
+      "evidence_sha": null,
+      "finding": "Must remain a separately tracked open stage."
+    }
+  ],
+  "completion_gates": {
+    "source_inventory_all_active_repositories": "RESIDUAL: current run reached census, but strict reconciliation failed; inspect exact artifact and verify active repository coverage",
+    "runtime_symbol_mapping_or_reasoned_exclusion": "BLOCKED: strict completion gate failed",
+    "orphan_catalog_entries": "RESIDUAL: requires exact catalog/census report review",
+    "ssot_uniqueness": "RESIDUAL: ownership issues listed above remain unresolved",
+    "lowercase_40_char_sha_validation": "STRUCTURAL_VALIDATION_PASSED for catalog schema on this run; per-record source binding freshness still requires reconciliation",
+    "interface_contracts": "DRAFT created separately; canonical source bindings and tests pending",
+    "functional_verification": "NOT_PERFORMED",
+    "release": "BLOCKED"
+  },
+  "policy": [
+    "Do not mark any unresolved candidate MAPPED based on symbol name alone.",
+    "Do not silently exclude candidates; record repository, full source SHA, path, symbol kind/name and rationale.",
+    "Every excluded item remains traceable to census evidence.",
+    "A successful structural validator is not a successful reconciliation or functional verification.",
+    "No new GitHub organizations; no force-push; no merge; PR remains Draft."
+  ]
+}
