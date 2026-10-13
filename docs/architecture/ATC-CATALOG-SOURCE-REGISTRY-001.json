@@ -262,6 +262,57 @@
     "No functional verification is inferred from catalog membership.",
     "Newly discovered Aurora AI memory catalog and ATCLang language/semantics registries are registered but not yet imported or reconciled.",
     "Markdown catalogs and language-specific source inventories require format-specific extraction before they can be counted as complete.",
-    "GlobusOS component/function Markdown catalog is registered and requires table extraction plus semantic reconciliation against the JSON OS function catalog."
-  ]
+    "GlobusOS component/function Markdown catalog is registered and requires table extraction plus semantic reconciliation against the JSON OS function catalog.",
+    "Organization-wide source discovery is not complete: repository scope is now enumerated, but all 26 active repositories still require per-repository catalog/list inventory and evidenced inclusion or exclusion."
+  ],
+  "repository_scope": {
+    "observed_at": "2026-10-13",
+    "discovery_method": "GitHub organization repository listing; active/archive state from repository metadata",
+    "active_repositories": [
+      "a-townchain-os",
+      "atclang",
+      "a-townchain-os-docs",
+      "atc-shivacore",
+      "a-townchain",
+      "globus-os",
+      "aurora-ai",
+      "genesis-engine",
+      "atc-sdk",
+      "atc-node",
+      "atc-contracts",
+      "genesis-chronicles",
+      "atc-launchpad",
+      "atc-marketplace",
+      "atc-compute",
+      "atc-standards",
+      "atc-vm",
+      "atc-algorithm",
+      "atc-zkp",
+      ".github",
+      "demo-repository",
+      "atc-ide",
+      "genesis-franchise-factory",
+      "atc-engineering",
+      "a-townchain-ecosystem",
+      "atc-toolchain"
+    ],
+    "archived_repositories": [
+      "atc-wallet",
+      "atc-explorer",
+      "atc-indexer",
+      "atc-mining",
+      "atc-interop",
+      "atc-oracle",
+      "atc-storage"
+    ],
+    "active_repository_count": 26,
+    "archived_repository_count": 7,
+    "source_discovery_status": "PARTIAL",
+    "rule": "Every active repository must be scanned for catalog-like files, manifests, registries, APIs, source symbols, workflows and capability declarations. Record explicit exclusions with evidence. Archived repositories are reference-only unless a maintained canonical dependency requires inclusion.",
+    "known_scope_residuals": [
+      "A repository being listed here does not mean its catalog files have been discovered.",
+      "Private repository content may require an authenticated inventory pass.",
+      "Source-language AST and YAML/workflow inventories need dedicated extractors and scope declarations."
+    ]
+  }
 }
