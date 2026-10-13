@@ -1,0 +1,139 @@
+{
+  "schema_id": "ATC-MULTI-LANGUAGE-ARCHITECTURE-ADR-001",
+  "schema_version": "1.0.0",
+  "title": "Language Allocation Policy for the A-TownChain Ecosystem",
+  "status": "PROPOSED_NOT_APPROVED",
+  "decision_scope": "Architecture guidance for new work and future migrations; this ADR does not assert that repositories already conform and does not authorize bulk rewrites.",
+  "principles": [
+    "Standalone First, Ecosystem Second: each canonical implementation has one owning repository and one production implementation.",
+    "Choose languages by component requirements, not by ecosystem-wide uniformity.",
+    "Language choice alone does not establish security, determinism, correctness, or production readiness.",
+    "Cross-language boundaries must use versioned, validated contracts and explicit error semantics.",
+    "Existing code is not migrated solely to match this recommendation; migration requires a scoped proposal, compatibility plan, test evidence, and approval."
+  ],
+  "language_roles": [
+    {
+      "language": "Rust",
+      "role": "Canonical systems and trusted-runtime implementation",
+      "preferred_areas": [
+        "ShivaCore no_std kernel and privileged native services",
+        "A-TownChain blockchain runtime and canonical transaction/state-transition code",
+        "Canonical ATC-VM and consensus/algorithm implementation",
+        "ATCLang compiler and native bytecode/toolchain components",
+        "Cryptographic protocol integration, identity/capability enforcement, IPC/P2P, constrained adapters"
+      ],
+      "constraints": [
+        "Use reviewed cryptographic libraries; do not invent cryptographic primitives.",
+        "Consensus and VM behavior must be specified independently of language and tested for determinism.",
+        "no_std applies only where the target/runtime requires it, not automatically to every Rust crate."
+      ]
+    },
+    {
+      "language": "Python",
+      "role": "AI, experimentation, workflow orchestration, and engineering automation",
+      "preferred_areas": [
+        "Aurora model/agent orchestration and ML training/evaluation",
+        "Genesis workflow orchestration and reference implementations where already established",
+        "Build orchestration, catalog validation, repository audits, CI helpers and evidence processing"
+      ],
+      "constraints": [
+        "Python workflows do not receive authority merely because an AI proposed an action.",
+        "Privileged actions must cross an explicit policy/capability boundary.",
+        "Python must not become a second canonical implementation of the VM, consensus, or blockchain state transition."
+      ]
+    },
+    {
+      "language": "TypeScript",
+      "role": "User-facing applications and non-privileged web interfaces",
+      "preferred_areas": [
+        "Web dashboards and developer portals",
+        "Browser UI and non-privileged API clients",
+        "Web-facing API layers when TypeScript materially improves maintainability"
+      ],
+      "constraints": [
+        "Do not place privileged kernel, consensus, key-management, or canonical VM authority in a web client.",
+        "Cross-language transaction and signing semantics must share normative vectors and invalid-input behavior."
+      ]
+    },
+    {
+      "language": "JSON and JSON Schema; YAML for configuration",
+      "role": "Language-neutral machine-readable contracts and configuration",
+      "preferred_areas": [
+        "Versioned request/response messages",
+        "Architecture and capability catalogs",
+        "Configuration and CI policy"
+      ],
+      "constraints": [
+        "Validate schemas at trust boundaries.",
+        "Specify canonicalization, bounds, compatibility, unknown-field handling, and error semantics where relevant.",
+        "These formats are contract/configuration formats, not substitutes for runtime validation."
+      ]
+    }
+  ],
+  "repository_guidance": [
+    {
+      "repository": "globus-os",
+      "recommendation": "Rust for ShivaCore kernel and privileged native system code; isolate userspace services by explicit IPC/capability contracts."
+    },
+    {
+      "repository": "a-townchain",
+      "recommendation": "Rust for canonical blockchain implementation and canonical VM/algorithm components under their established paths."
+    },
+    {
+      "repository": "aurora-ai",
+      "recommendation": "Python for AI/agent logic; Rust for security-sensitive runtime adapters and enforcement where required. AI outputs are proposals, not authorization."
+    },
+    {
+      "repository": "atclang",
+      "recommendation": "Rust for the canonical compiler implementation, subject to source inventory and existing repository evidence."
+    },
+    {
+      "repository": "atc-toolchain",
+      "recommendation": "Rust for native compiler/bytecode tools; Python for build orchestration and governance automation."
+    },
+    {
+      "repository": "atc-algorithm",
+      "recommendation": "Rust for the canonical algorithm implementation; do not create a competing implementation in the ecosystem control plane."
+    },
+    {
+      "repository": "genesis-engine",
+      "recommendation": "Preserve the evidenced Rust runtime and Python workflow separation. Confirm the actual runtime/workflow call boundary before deciding whether components should be merged or ported."
+    },
+    {
+      "repository": "atc-engineering",
+      "recommendation": "Python for audit/validation tooling and YAML/JSON for policy/configuration; gate outcomes must retain exact-SHA provenance."
+    },
+    {
+      "repository": "atc-standards",
+      "recommendation": "Language-neutral normative specifications and machine-readable schemas; implementations belong in their canonical component repositories."
+    }
+  ],
+  "cross_language_contract_requirements": [
+    "Versioned schemas and compatibility rules",
+    "Explicit identity, authentication, authorization and capability checks",
+    "Bounded input/output sizes, deadlines, cancellation and resource limits",
+    "Stable error/status semantics and invalid-input behavior",
+    "Artifact integrity, provenance and audit references where artifacts are produced",
+    "Shared conformance vectors for cryptographic, transaction, serialization and deterministic behavior",
+    "End-to-end tests that identify exact source SHAs and record workflow run, job, step, exit code and logs"
+  ],
+  "acceptance_gates": [
+    "Inventory each repository's actual languages, source paths, build/test commands, canonical ownership and exact HEAD SHA.",
+    "Compare current implementation with this recommendation without treating the recommendation as proof of implementation.",
+    "Document deviations with rationale and an owner; do not force migration where cost/risk outweighs benefit.",
+    "Validate every shared contract in each participating language and test malformed, unauthorized, timeout, cancellation and compatibility cases.",
+    "Require exact-SHA CI evidence before marking any implementation or integration VERIFIED."
+  ],
+  "non_goals": [
+    "No automatic mass migration or rewrite",
+    "No assertion that every recommendation is implemented or verified",
+    "No merge, release, or production-readiness claim",
+    "No weakening of existing CI, security, governance, or evidence gates"
+  ],
+  "decision_record": {
+    "decision": "PROPOSED",
+    "implementation_status": "NOT_IMPLEMENTED_BY_THIS_ADR",
+    "verification_status": "NOT_RUN",
+    "release_status": "BLOCKED_PENDING_REVIEW_AND_REPOSITORY_RECONCILIATION"
+  }
+}
