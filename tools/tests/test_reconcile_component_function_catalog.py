@@ -275,5 +275,59 @@ class DuplicateAndDelegatedBindingTests(unittest.TestCase):
         self.assertEqual(gaps, [])
 
 
+class VisibilityPolicyTests(unittest.TestCase):
+    def _census(self, symbols):
+        return {
+            "schema_id": "ATC-ORG-SOURCE-CENSUS-001", "status": "RESIDUAL",
+            "repositories": [{
+                "repository": "example/sample", "status": "RESIDUAL", "source_sha": "a" * 40,
+                "report": {"files": [{"path": "src/lib.rs", "language": "rust",
+                    "candidate_public_symbols": [s for s in symbols if s["surface"] == "public"],
+                    "candidate_internal_symbols": [s for s in symbols if s["surface"] == "internal"]}]},
+            }],
+        }
+
+    def _catalog(self):
+        return {
+            "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
+            "components": [{
+                "id": "COMP-SAMPLE", "name": "sample", "canonical_owner": "example/sample",
+                "source_inventory": {"repository": "example/sample", "observed_head_sha": "a" * 40},
+                "functions": [],
+            }],
+        }
+
+    def test_private_and_crate_internal_functions_are_reasoned_exclusions(self):
+        from tools.reconcile_component_function_catalog import reconcile
+        census = self._census([
+            {"kind": "function", "name": "helper", "line_start": 1, "signature": "fn helper() {", "surface": "internal"},
+            {"kind": "function", "name": "scoped", "line_start": 2, "signature": "pub(crate) fn scoped() {", "surface": "public"},
+        ])
+        report = reconcile(self._catalog(), census)
+        findings = [item["finding"] for item in report["excluded_candidates"]]
+        self.assertEqual(findings.count("CRATE_INTERNAL_OR_PRIVATE_IMPLEMENTATION_EXCLUDED_FROM_RUNTIME_CATALOG"), 2)
+        self.assertEqual(report["summary"]["candidate_symbols_unbound"], 0)
+
+    def test_plain_public_function_remains_unbound_api_backlog(self):
+        from tools.reconcile_component_function_catalog import reconcile
+        census = self._census([
+            {"kind": "function", "name": "api_call", "line_start": 3, "signature": "pub fn api_call() {", "surface": "public"},
+        ])
+        report = reconcile(self._catalog(), census)
+        self.assertEqual(report["summary"]["candidate_symbols_unbound"], 1)
+        self.assertEqual(report["summary"]["candidate_symbols_unbound_api_backlog"], 1)
+        self.assertEqual(report["unmatched_candidates"][0]["finding"], "CANDIDATE_NOT_BOUND_TO_CATALOG_FUNCTION")
+
+    def test_missing_signature_stays_unresolved_with_distinct_finding(self):
+        from tools.reconcile_component_function_catalog import reconcile
+        census = self._census([
+            {"kind": "function", "name": "opaque", "line_start": 4, "signature": "", "surface": "public"},
+        ])
+        report = reconcile(self._catalog(), census)
+        self.assertEqual(report["summary"]["candidate_symbols_unbound"], 1)
+        self.assertEqual(report["summary"]["candidate_symbols_unbound_signature_evidence_missing"], 1)
+        self.assertEqual(report["unmatched_candidates"][0]["finding"], "SCANNER_SIGNATURE_EVIDENCE_MISSING")
+
+
 if __name__ == "__main__":
     unittest.main()

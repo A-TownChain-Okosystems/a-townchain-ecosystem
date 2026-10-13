@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -19,6 +20,7 @@ def reconcile(catalog: dict, census: dict) -> dict:
         if isinstance(entry, dict) and entry.get("repository")
     }
     symbols_by_repo: dict[str, set[tuple[str, str, str, int]]] = {}
+    surface_by_repo: dict[str, dict[tuple[str, str, str, int], str]] = {}
     symbol_signatures_by_repo: dict[str, dict[tuple[str, str, str, int], str]] = {}
     test_symbols_by_repo: dict[str, set[tuple[str, str, str]]] = {}
     file_metadata_by_repo: dict[str, dict[str, dict]] = {}
@@ -28,16 +30,21 @@ def reconcile(catalog: dict, census: dict) -> dict:
         signatures: dict[tuple[str, str, str, int], str] = {}
         test_found: set[tuple[str, str, str]] = set()
         file_metadata: dict[str, dict] = {}
+        surfaces: dict[tuple[str, str, str, int], str] = {}
+        surface_by_repo[repository] = surfaces
         for file in report.get("files", []):
             path = file.get("path", "")
             file_metadata[path] = {
                 "file_sha256": file.get("file_sha256"),
                 "language": file.get("language"),
             }
-            for symbol in file.get("candidate_public_symbols", []) + file.get("candidate_internal_symbols", []):
+            internal_symbols = file.get("candidate_internal_symbols", [])
+            for symbol in file.get("candidate_public_symbols", []) + internal_symbols:
                 key = (path, symbol.get("kind", "unknown"), symbol.get("name", ""), int(symbol.get("line_start", 0)))
                 found.add(key)
                 signatures[key] = symbol.get("signature", "")
+                if symbol in internal_symbols:
+                    surfaces[key] = "internal"
             for symbol in file.get("candidate_test_symbols", []):
                 test_found.add((path, symbol.get("kind", "function"), symbol.get("name", "")))
         symbols_by_repo[repository] = found
@@ -291,11 +298,30 @@ def reconcile(catalog: dict, census: dict) -> dict:
                     "reason": "Example/sample code is not a canonical runtime entrypoint. Keep the exact repository, source SHA, path, file hash and symbol for traceability; validate conformance separately if it is normative.",
                 })
             else:
-                unmatched_candidates.append({
-                    **common,
-                    "status": "RESIDUAL",
-                    "finding": "CANDIDATE_NOT_BOUND_TO_CATALOG_FUNCTION",
-                })
+                surface = (surface_by_repo.get(repo) or {}).get(symbol_key, "public")
+                signature = (common.get("signature") or "").strip()
+                crate_internal = bool(re.match(r"pub\s*\((?:crate|super|in\s+[^)]*)\)", signature))
+                if common.get("language") == "rust" and symbol_kind == "function" and (surface == "internal" or crate_internal):
+                    excluded_candidates.append({
+                        **common,
+                        "status": "EXCLUDED_BY_POLICY",
+                        "finding": "CRATE_INTERNAL_OR_PRIVATE_IMPLEMENTATION_EXCLUDED_FROM_RUNTIME_CATALOG",
+                        "census_symbol_surface": surface,
+                        "reason": "The census marks the symbol as crate-internal, or its signature proves visibility below the crate boundary (pub(crate)/pub(super)/pub(in), or no pub at all). It is an implementation surface, not a cross-crate runtime contract; a typed contract is required if it gains protocol or security semantics.",
+                    })
+                elif common.get("language") == "rust" and symbol_kind == "function" and not signature:
+                    unmatched_candidates.append({
+                        **common,
+                        "status": "RESIDUAL",
+                        "finding": "SCANNER_SIGNATURE_EVIDENCE_MISSING",
+                        "census_symbol_surface": surface,
+                    })
+                else:
+                    unmatched_candidates.append({
+                        **common,
+                        "status": "RESIDUAL",
+                        "finding": "CANDIDATE_NOT_BOUND_TO_CATALOG_FUNCTION",
+                    })
 
     blocking = census.get("status") == "BLOCKED" or any(
         item.get("status") == "BLOCKED" for item in component_findings + function_findings
@@ -321,6 +347,8 @@ def reconcile(catalog: dict, census: dict) -> dict:
             "candidate_test_symbols_total": sum(len(found) for found in test_symbols_by_repo.values()),
             "candidate_symbols_bound": sum(len(bound.get(repo, set())) for repo in symbols_by_repo),
             "candidate_symbols_unbound": len(unmatched_candidates),
+            "candidate_symbols_unbound_api_backlog": sum(1 for item in unmatched_candidates if item["finding"] == "CANDIDATE_NOT_BOUND_TO_CATALOG_FUNCTION"),
+            "candidate_symbols_unbound_signature_evidence_missing": sum(1 for item in unmatched_candidates if item["finding"] == "SCANNER_SIGNATURE_EVIDENCE_MISSING"),
             "candidate_symbols_excluded_by_policy": len(excluded_candidates),
             "functional_verification": "NOT_PERFORMED",
             "duplicate_source_binding_groups": len(duplicate_binding_findings),
