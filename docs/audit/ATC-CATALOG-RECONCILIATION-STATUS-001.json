@@ -9,11 +9,11 @@
   "provenance": {
     "pull_request": 115,
     "branch": "audit/public-symbol-scan-001-2026-10-11",
-    "checked_head_sha": "9ea8fc37e023fe95bd9afb62f1a44bce96611e6d",
+    "checked_head_sha": "1b2c38d1de1fb925f96db686418267fc41200055",
     "reference_head_sha": "19811460ead5eadc2ae01142c20edecf9493eb43",
-    "workflow_run_id": 38399261485,
-    "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38399261485",
-    "job_id": 115302347889,
+    "workflow_run_id": 38401036953,
+    "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38401036953",
+    "job_id": 115308420626,
     "workflow": "Source Symbol Inventory",
     "job_name": "scanner-tests",
     "terminal_conclusion": "failure",
@@ -30,12 +30,12 @@
       "reconciliation_summary_and_artifact_upload": "success"
     },
     "artifact": {
-      "id": 11812571135,
-      "name": "atc-org-source-census-4b6ae1c4fcf40305f7b8ba4f56c4ac95297df2fe",
-      "sha256": "266a394364b915f93560214d0fb90ed94a8ad0dbf2eba46b946f6757388c16a1",
-      "url": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain-ecosystem/actions/artifacts/11812571135"
+      "id": 11816115045,
+      "name": "atc-org-source-census-1b2c38d1de1fb925f96db686418267fc41200055",
+      "sha256": "cfc426e552f59044f4b0ccd6cd3d63acb85da8103dca3f8b4f30218bcfaae94d",
+      "url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38401036953/artifacts/11816115045"
     },
-    "note": "Exact run evidence snapshot for HEAD 9ea8fc37e023fe95bd9afb62f1a44bce96611e6d. Census itself completed with RESIDUAL status (25/26 active repositories scanned; one private repository excluded); strict reconciliation failed because 6387 candidates remain unbound and two catalog source bindings remain unresolved. Lexical matches are not functional verification. This status update does not claim completion.",
+    "note": "Exact run evidence snapshot for HEAD 1b2c38d1de1fb925f96db686418267fc41200055. Census completed with RESIDUAL status: 25/26 active repositories scanned and one private repository explicitly excluded. Strict reconciliation failed because 6383 source candidates remain unbound and without reasoned exclusion. The latest reconciliation summary reports 213 catalog functions and 41 residual/blocked function bindings; functional verification remains NOT_PERFORMED. No completeness claim.",
     "census_summary": {
       "status": "RESIDUAL",
       "repositories_expected": 33,
@@ -54,29 +54,27 @@
       "status": "RESIDUAL",
       "completion_gate": "BLOCKED",
       "components": 33,
-      "functions": 210,
+      "functions": 213,
       "candidate_symbols_total": 12982,
       "candidate_runtime_symbols_total": 6555,
       "candidate_non_function_symbols_total": 2427,
       "candidate_test_symbols_total": 4000,
-      "candidate_symbols_bound": 164,
+      "candidate_symbols_bound": 168,
       "candidate_symbols_excluded_by_policy": 6431,
-      "candidate_symbols_unbound": 6387,
-      "function_bindings_residual_or_blocked": 42,
+      "candidate_symbols_unbound": 6383,
+      "function_bindings_residual_or_blocked": 41,
       "function_findings_by_kind": {
-        "AMBIGUOUS_SOURCE_SYMBOL_BINDING": 1,
         "BLOCKED_ARCHIVED_REFERENCE_ONLY": 2,
         "BLOCKED_PRIVATE_REPOSITORY_EXCLUDED": 2,
-        "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN": 1,
-        "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING": 168,
+        "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING": 172,
         "NON_FUNCTION_SOURCE_ARTIFACT_EXCLUDED_FROM_SYMBOL_SCAN": 18,
         "NORMATIVE_DECISION_BLOCKED": 3,
         "SOURCE_SURFACE_NOT_IDENTIFIED": 12,
-        "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION": 3
+        "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION": 4
       },
       "unresolved_catalog_source_bindings": {
-        "AMBIGUOUS_SOURCE_SYMBOL_BINDING": 1,
-        "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN": 1
+        "AMBIGUOUS_SOURCE_SYMBOL_BINDING": 0,
+        "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN": 0
       },
       "functional_verification": "NOT_PERFORMED"
     }
@@ -93,9 +91,9 @@
       "status": "BLOCKED",
       "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
       "path": "tools/reconcile_component_function_catalog.py",
-      "symbol": "completion_gaps()",
-      "evidence_sha": "9ea8fc37e023fe95bd9afb62f1a44bce96611e6d",
-      "finding": "Run 38399261485 strict gate failed at step 12: 6387 source symbol candidates remain unbound and without a reasoned exclusion; unresolved catalog source bindings: AMBIGUOUS_SOURCE_SYMBOL_BINDING=1 and BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN=1. Census scanned 25 of 26 active repositories; one private repository was excluded. Full functional verification was not performed."
+      "symbol": "reconcile()",
+      "evidence_sha": "1b2c38d1de1fb925f96db686418267fc41200055",
+      "finding": "Run 38401036953 failed at step 12: 6383 source symbol candidates remain unbound and without reasoned exclusion. Latest summary: 213 function catalog records, 41 residual/blocked function bindings, 172 lexical-match-only entries pending functional verification. The prior two unresolved-binding categories are absent from this run's finding summary; treat those two specific findings as cleared in this run's lexical scan only, not as functional verification. Census scanned 25/26 active repositories; one private repository was excluded."
     },
     {
       "id": "IF-002",
@@ -162,13 +160,13 @@
     }
   ],
   "completion_gates": {
-    "source_inventory_all_active_repositories": "RESIDUAL: 25/26 active repositories scanned; one private repository excluded; census status RESIDUAL",
-    "runtime_symbol_mapping_or_reasoned_exclusion": "BLOCKED: 6387 candidate symbols remain unbound and without reasoned exclusion",
-    "orphan_catalog_entries": "RESIDUAL: 2 unresolved source bindings (one ambiguous; one bound symbol not found)",
-    "ssot_uniqueness": "RESIDUAL: ownership issues listed above remain unresolved",
-    "lowercase_40_char_sha_validation": "STRUCTURAL_VALIDATION_PASSED; exact-HEAD run evidence is 9ea8fc37e023fe95bd9afb62f1a44bce96611e6d; per-record source freshness remains unresolved",
-    "interface_contracts": "DRAFT created separately; canonical source bindings and tests pending",
-    "functional_verification": "NOT_PERFORMED; 168 catalog function entries are lexical-match-only with functional verification pending",
+    "source_inventory_all_active_repositories": "RESIDUAL: 25/26 active repositories scanned; one private repository explicitly excluded",
+    "runtime_symbol_mapping_or_reasoned_exclusion": "BLOCKED: 6383 candidate symbols remain unbound and without reasoned exclusion",
+    "orphan_catalog_entries": "CURRENT RUN: prior AMBIGUOUS_SOURCE_SYMBOL_BINDING and BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN findings are absent; source-level fix not equivalent to functional verification",
+    "ssot_uniqueness": "RESIDUAL: cross-repository identical-file-hash report is triage-only; semantic ownership and duplicate function IDs still require record-level reconciliation",
+    "lowercase_40_char_sha_validation": "STRUCTURAL_VALIDATION_PASSED on checked HEAD; per-record source freshness remains unresolved",
+    "interface_contracts": "DRAFT; canonical source bindings and tests pending",
+    "functional_verification": "NOT_PERFORMED; 172 lexical-match-only entries remain pending functional verification",
     "release": "BLOCKED"
   },
   "policy": [
