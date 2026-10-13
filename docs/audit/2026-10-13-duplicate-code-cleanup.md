@@ -96,3 +96,23 @@ For each candidate, the owning-repository Draft PR must record:
 4. Open Draft PRs only for individually proven safe removals; otherwise commit a BLOCKED finding with the missing evidence.
 5. Run relevant validators/tests on the proposed deletion SHA and retain full Run → Job → Step → exit-code/log evidence.
 6. Keep all archived repositories and historical/audit records untouched unless separately authorized.
+
+
+## 7. Exact-blob comparison follow-up (2026-10-13)
+
+The following comparisons were fetched from the explicit source commit refs and compared by Git blob SHA and returned file content. This is stronger than a filename/search-excerpt match, but it does not replace the repository-wide consumer/build/release scan.
+
+| Pair | Source HEAD / ref | Path | Blob SHA | Result |
+|---|---|---|---|---|
+| Canonical SDK ↔ ecosystem subtree snapshot | `a-townchain@c631249ed6ff450bf45338e78cb14e2bf5c65c74` ↔ `a-townchain-ecosystem@73ad6c10a6b8dc10b777733561636aee69cdbb8d` | `components/sdk/typescript/chain-identity.ts` ↔ `components/a-townchain/components/sdk/typescript/chain-identity.ts` | `38b5bb99c2e427e86d237f6952b45be65125242b` on both sides | **BYTE-IDENTICAL**; both fetched bodies are 4,336 characters. Preserve snapshot; do not delete one side as “duplicate” without a subtree/provenance decision. |
+| Canonical storage ↔ ecosystem subtree snapshot | `a-townchain@c631249ed6ff450bf45338e78cb14e2bf5c65c74` ↔ `a-townchain-ecosystem@73ad6c10a6b8dc10b777733561636aee69cdbb8d` | `components/storage/src/store.rs` ↔ `components/a-townchain/components/storage/src/store.rs` | `3755e0ce0f41e645ad40d00838403a624244a730` on both sides | **BYTE-IDENTICAL**; both fetched bodies are 2,546 characters. Snapshot is not evidence of a second production implementation. The file's non-cryptographic MVP root-hash warning remains relevant; no security claim is implied. |
+| Standalone SDK ↔ canonical SDK | `atc-sdk@34eef345907935cdaf279e0546f230c03c86bb0c` ↔ `a-townchain@c631249ed6ff450bf45338e78cb14e2bf5c65c74` | `typescript/chain-identity.ts` ↔ `components/sdk/typescript/chain-identity.ts` | `25d6144ed787bad1f135f6638b74753411c2a903` ↔ `38b5bb99c2e427e86d237f6952b45be65125242b` | **DIVERGENT**; fetched bodies are 3,428 vs 4,336 characters. Not byte-identical. Do not delete until API/consumer, transaction-format compatibility, tests, and migration/registry evidence are checked. |
+| Legacy VM manifest ↔ canonical VM manifest in ecosystem snapshot | `a-townchain-ecosystem@73ad6c10a6b8dc10b777733561636aee69cdbb8d` | `components/atc-vm/Cargo.toml` ↔ `components/a-townchain/components/vm/Cargo.toml` | `3bc54580a25d6295922d453d6426cdace0742fe8` ↔ `a84523b051190889b8fdfc7b3f7b784440a7fe34` | **NOT BYTE-IDENTICAL**; canonical manifest declares its own `[workspace]` and differs in content. The legacy manifest being excluded from the root workspace does not alone prove its source tree has no consumers. |
+
+### Interpretation and limits
+
+- Two comparisons now prove exact byte identity between canonical source files and their ecosystem subtree copies. That supports the snapshot/provenance classification, not a deletion.
+- The standalone SDK comparison proves divergence, not redundancy. Semantic compatibility and live consumers remain unverified.
+- The VM manifest comparison confirms distinct manifest content, not that the legacy implementation is actively used or safe to remove.
+- No repository-wide import/call-site/build/release scan has yet been completed; no test or build was run for a proposed deletion commit.
+- Safe deletions proven remain **0**; source files deleted remain **0**; archived repositories remain untouched.
