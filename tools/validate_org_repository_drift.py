@@ -74,6 +74,13 @@ def validate(manifest: dict, token: str | None, fetcher=fetch_live_commit) -> di
                 entry["exclusion_reason"] = reason.strip()
             entries.append(entry)
             continue
+        # Archived repositories are historical references, not active live sources.
+        # Empty pins are therefore valid only for archived entries and never fetched.
+        if entry["archived"]:
+            entry["status"] = "EXCLUDED"
+            entry["exclusion_reason"] = "Archived repository is reference-only; live drift validation is out of scope."
+            entries.append(entry)
+            continue
         expected_head = entry["expected_head_sha"]
         expected_tree = entry["expected_root_tree_sha"]
         if not isinstance(expected_head, str) or not SHA_RE.fullmatch(expected_head):
