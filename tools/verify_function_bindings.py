@@ -57,6 +57,10 @@ def find_test_files(repo: Path, language: str) -> list[Path]:
         for p in repo.rglob("*.py"):
             if p.name.startswith("test_") or p.name.endswith("_test.py"):
                 out.append(p)
+    elif language == "ts":
+        for p in list(repo.rglob("*.test.ts")) + list(repo.rglob("*.test.tsx")) \
+                + list(repo.rglob("*.spec.ts")) + list(repo.rglob("*.spec.tsx")):
+            out.append(p)
     return out
 
 
@@ -126,7 +130,7 @@ def main() -> int:
               f"(e.g. {sha_mismatch[0]}); checkout the bound SHA first"); return 2
 
     # 2. Test surfaces
-    test_files = {lang: find_test_files(repo, lang) for lang in ("rust", "python")}
+    test_files = {lang: find_test_files(repo, lang) for lang in ("rust", "python", "ts")}
     regions = {}
     for lang, files in test_files.items():
         blob = "\n".join(test_regions(p.read_text(errors="ignore"), lang) for p in files)
@@ -148,9 +152,9 @@ def main() -> int:
     if args.test_command:
         proc = subprocess.run(args.test_command, shell=True, cwd=repo, capture_output=True, text=True)
         tail = (proc.stdout + proc.stderr).strip().splitlines()[-30:]
-        m = re.search(r"(\d+) passed", proc.stdout)
+        m = re.findall(r"(\d+) passed", proc.stdout)
         run = {"command": args.test_command, "exit_code": proc.returncode,
-               "passed": int(m.group(1)) if m else None, "log_tail": tail}
+               "passed": sum(int(x) for x in m) or None, "log_tail": tail}
         print(f"test run: exit={proc.returncode} passed={run['passed']}")
 
     suite_pass = bool(run and run["exit_code"] == 0)

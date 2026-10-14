@@ -506,3 +506,21 @@ Second tranche, largest component: ShivaCore Service Space — 720 bindings in t
 - Report: `docs/audit/functional-verification/COMP-SERVICES.json`; catalog validator PASS_STRUCTURAL_ONLY, 0 errors.
 
 Running total after passes 1+2: 676 of 5,619 bindings functionally verified (COMP-LANG 18, COMP-SERVICES 658).
+
+## 36. Functional verification passes 3-5: GENESIS, SHIVA, AURORA (2026-10-14)
+
+### COMP-GENESIS (genesis-engine @ `8b7100e8`)
+- Suite: `cargo test --release --workspace` (25 module crates) — **87 passed, exit 0**.
+- **230/373 bindings upgraded** to `FUNCTIONALLY_VERIFIED_TEST_REFERENCE`; 143 keep the source-mapped status (55 Python tool bindings without a pytest surface plus unreferenced Rust symbols).
+
+### COMP-SHIVA (ShivaCore kernel, globus-os @ `2682d49f`)
+- Suite: `cargo test --release` on the kernel crate — **548 passed, exit 0** (coincidentally equal to the service_space count; independently confirmed via per-crate result lines).
+- **1,396/1,504 bindings upgraded**; 108 keep the source-mapped status with honest notes.
+
+### COMP-AURORA (aurora-ai @ `ef880fc5`) — partial, fail-closed honored
+- **Finding:** the `atc-aurora-localization` crate test build is broken at the bound SHA (E0277: `BTreeMap::get` requires `Q: Ord`, `Locale` lacked `PartialOrd`/`Ord` derives). Genuine defect found by the verification pass.
+- Fail-closed applied: the suite was run WITHOUT the broken crate (agents + core + memory + aistudio vitest, 38 tests + vitest suite, exit 0); **75/372 bindings upgraded**; the 11 localization bindings were explicitly excluded from the upgrade and keep `SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED` with a crate-broken note (suite covering their crate did not pass at the bound SHA).
+- **Fix:** `PartialOrd, Ord` derives added to `Locale`, pushed to aurora-ai main (`047c13f`, 4/4 crate tests pass). Localization bindings become verifiable after the next census/re-binding pass at the new SHA.
+
+### Running total after passes 1-5
+**2,377 of 5,619 bindings functionally verified** (LANG 18, SERVICES 658, GENESIS 230, SHIVA 1,396, AURORA 75). Tooling: test-result counting now sums across all crate result lines; TS spec surfaces (vitest `*.test.ts(x)`) are scanned for test references.
