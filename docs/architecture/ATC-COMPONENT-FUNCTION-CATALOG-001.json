@@ -1,8 +1,8 @@
 {
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
-  "catalog_date": "2026-10-12",
-  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed.",
+  "catalog_date": "2026-10-15",
+  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed. 2026-10-15: Added proposed COMP-XCHAIN-INTEROP and FN-XCHAIN-001..003 as BLOCKED specification-only catalog entries linked to atc-standards#110 and ecosystem#126. No executable source binding or implementation/verification claim; canonical runtime owner remains unresolved.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -11272,6 +11272,351 @@
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       }
+    },
+    {
+      "id": "COMP-XCHAIN-INTEROP",
+      "name": "Cross-Chain Interoperability Contract (proposal)",
+      "layer": "L6",
+      "canonical_owner": "A-TownChain-Okosystems/atc-standards",
+      "role": "Normative cross-chain message and capability contract proposal; no bridge runtime or asset-transfer implementation",
+      "readiness": "BLOCKED",
+      "criticality": "P0",
+      "depends_on": [
+        "COMP-STANDARDS",
+        "COMP-CHAIN"
+      ],
+      "functions": [
+        {
+          "id": "FN-XCHAIN-001",
+          "name": "Cross-chain message contract validation",
+          "purpose": "Specify and validate versioned cross-chain message identity, domain separation, encoding, protocol version, proof reference, finality state, timeout and acknowledgement semantics.",
+          "inputs": [
+            "versioned cross-chain message contract",
+            "chain capability registry",
+            "exact-SHA evidence where available"
+          ],
+          "outputs": [
+            "deterministic validation result",
+            "explicit status and residual report"
+          ],
+          "failure_modes": [
+            "unknown chain capability",
+            "unsupported protocol version",
+            "invalid or missing proof",
+            "replay or duplicate message",
+            "insufficient finality",
+            "timeout or stale evidence"
+          ],
+          "acceptance": [
+            "Unknown consensus/finality remains BLOCKED",
+            "Invalid, replayed or insufficiently finalized messages fail closed",
+            "No mint/unlock/release side effect is authorized by this catalog entry",
+            "Status is not promoted without source and exact-SHA evidence"
+          ],
+          "test_classes": [
+            "schema",
+            "semantic validation",
+            "negative vectors",
+            "replay/idempotency",
+            "cross-chain integration"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
+            "source_path": "N/A — specification proposal tracked by atc-standards#110 and a-townchain-ecosystem#126",
+            "symbol_or_entrypoint": "No canonical executable symbol identified; implementation owner remains to be established from source ownership evidence",
+            "exact_source_sha": null,
+            "file_blob_sha": null,
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/issues/110",
+            "note": "Proposal/catalog gap only. This record is not evidence that a runtime function exists or is implemented.",
+            "binding_kind": "specification_only"
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-standards",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Normative message encoding, chain-specific proof/finality contracts and authorization model are not yet ratified."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "No runtime state transition is defined or authorized by this catalog proposal."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Proof sizes, payload limits, timeouts, retry budgets and resource bounds require normative specification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust assumptions, proof-verification authority, relayer limits, replay domains and asset-release authorization are unresolved."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version and migration/compatibility policy are pending issue #110."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Canonical chain adapters and executable implementation owner have not been established from source evidence."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No source SHA, workflow run, job, step, exit code or test artifact exists for this proposal.",
+            "source_sha": null,
+            "source_binding_status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
+            "required_evidence": [
+              "canonical implementation owner",
+              "exact 40-character source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-XCHAIN-002",
+          "name": "Chain capability and proof-policy resolution",
+          "purpose": "Resolve a destination/source chain's explicitly evidenced proof and finality capabilities; fail closed when capability or evidence is absent.",
+          "inputs": [
+            "versioned cross-chain message contract",
+            "chain capability registry",
+            "exact-SHA evidence where available"
+          ],
+          "outputs": [
+            "deterministic validation result",
+            "explicit status and residual report"
+          ],
+          "failure_modes": [
+            "unknown chain capability",
+            "unsupported protocol version",
+            "invalid or missing proof",
+            "replay or duplicate message",
+            "insufficient finality",
+            "timeout or stale evidence"
+          ],
+          "acceptance": [
+            "Unknown consensus/finality remains BLOCKED",
+            "Invalid, replayed or insufficiently finalized messages fail closed",
+            "No mint/unlock/release side effect is authorized by this catalog entry",
+            "Status is not promoted without source and exact-SHA evidence"
+          ],
+          "test_classes": [
+            "schema",
+            "semantic validation",
+            "negative vectors",
+            "replay/idempotency",
+            "cross-chain integration"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
+            "source_path": "N/A — specification proposal tracked by atc-standards#110 and a-townchain-ecosystem#126",
+            "symbol_or_entrypoint": "No canonical executable symbol identified; implementation owner remains to be established from source ownership evidence",
+            "exact_source_sha": null,
+            "file_blob_sha": null,
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/issues/110",
+            "note": "Proposal/catalog gap only. This record is not evidence that a runtime function exists or is implemented.",
+            "binding_kind": "specification_only"
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-standards",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Normative message encoding, chain-specific proof/finality contracts and authorization model are not yet ratified."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "No runtime state transition is defined or authorized by this catalog proposal."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Proof sizes, payload limits, timeouts, retry budgets and resource bounds require normative specification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust assumptions, proof-verification authority, relayer limits, replay domains and asset-release authorization are unresolved."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version and migration/compatibility policy are pending issue #110."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Canonical chain adapters and executable implementation owner have not been established from source evidence."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No source SHA, workflow run, job, step, exit code or test artifact exists for this proposal.",
+            "source_sha": null,
+            "source_binding_status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
+            "required_evidence": [
+              "canonical implementation owner",
+              "exact 40-character source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-XCHAIN-003",
+          "name": "Replay-safe message lifecycle and reconciliation",
+          "purpose": "Specify nonce/message-id uniqueness, idempotent retries, acknowledgements, timeout recovery and reconciliation without authorizing asset release.",
+          "inputs": [
+            "versioned cross-chain message contract",
+            "chain capability registry",
+            "exact-SHA evidence where available"
+          ],
+          "outputs": [
+            "deterministic validation result",
+            "explicit status and residual report"
+          ],
+          "failure_modes": [
+            "unknown chain capability",
+            "unsupported protocol version",
+            "invalid or missing proof",
+            "replay or duplicate message",
+            "insufficient finality",
+            "timeout or stale evidence"
+          ],
+          "acceptance": [
+            "Unknown consensus/finality remains BLOCKED",
+            "Invalid, replayed or insufficiently finalized messages fail closed",
+            "No mint/unlock/release side effect is authorized by this catalog entry",
+            "Status is not promoted without source and exact-SHA evidence"
+          ],
+          "test_classes": [
+            "schema",
+            "semantic validation",
+            "negative vectors",
+            "replay/idempotency",
+            "cross-chain integration"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
+            "source_path": "N/A — specification proposal tracked by atc-standards#110 and a-townchain-ecosystem#126",
+            "symbol_or_entrypoint": "No canonical executable symbol identified; implementation owner remains to be established from source ownership evidence",
+            "exact_source_sha": null,
+            "file_blob_sha": null,
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/issues/110",
+            "note": "Proposal/catalog gap only. This record is not evidence that a runtime function exists or is implemented.",
+            "binding_kind": "specification_only"
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-standards",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Normative message encoding, chain-specific proof/finality contracts and authorization model are not yet ratified."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "No runtime state transition is defined or authorized by this catalog proposal."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Proof sizes, payload limits, timeouts, retry budgets and resource bounds require normative specification."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Trust assumptions, proof-verification authority, relayer limits, replay domains and asset-release authorization are unresolved."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Protocol version and migration/compatibility policy are pending issue #110."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Canonical chain adapters and executable implementation owner have not been established from source evidence."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No source SHA, workflow run, job, step, exit code or test artifact exists for this proposal.",
+            "source_sha": null,
+            "source_binding_status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
+            "required_evidence": [
+              "canonical implementation owner",
+              "exact 40-character source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-standards",
+        "canonical_path": "specification pending",
+        "observed_head_sha": null,
+        "observed_tree_sha": null,
+        "census_date": "2026-10-15",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "BLOCKED",
+        "status_reason": "Proposed normative capability; no source symbol or exact source SHA has been identified. Do not infer implementation."
+      },
+      "canonical_path": "specification pending",
+      "role_and_non_goals": {
+        "role": "Normative cross-chain message/capability contract proposal",
+        "non_goals": {
+          "status": "RESIDUAL",
+          "reason": "Does not implement bridge adapters, light clients, consensus verification, token minting, unlocking or asset custody."
+        }
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-STANDARDS",
+          "interface_version": "PENDING",
+          "status": "RESIDUAL",
+          "reason": "Issue #110 must define the normative versioned contract."
+        },
+        {
+          "component_id": "COMP-CHAIN",
+          "interface_version": "PENDING",
+          "status": "RESIDUAL",
+          "reason": "Chain-specific proof/finality integration is not established."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "No ratified schema, ABI, wire encoding or executable API exists yet."
+      },
+      "security_and_trust_boundaries": {
+        "status": "BLOCKED",
+        "reason": "Trust model and chain-specific finality/proof verification must be explicitly specified; no trusted-attestation fallback."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Message/proof size, timeout, retry, rate and memory limits remain unspecified."
+      },
+      "source_inventory_with_exact_head_and_tree_sha": {
+        "repository": "A-TownChain-Okosystems/atc-standards",
+        "canonical_path": "specification pending",
+        "observed_head_sha": null,
+        "observed_tree_sha": null,
+        "census_date": "2026-10-15",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "BLOCKED",
+        "status_reason": "Specification proposal only; source inventory and exact SHA binding are pending.",
+        "status": "BLOCKED"
+      },
+      "test_and_ci_gates": {
+        "status": "RESIDUAL",
+        "reason": "Deterministic positive/negative vectors and semantic validators are required by issue #110; not run here."
+      },
+      "known_conflicts_and_residuals": {
+        "status": "BLOCKED",
+        "reason": "Consensus/finality model, proof systems, protocol encoding and canonical executable owner are unresolved."
+      },
+      "verification_evidence": {
+        "status": "RESIDUAL",
+        "reason": "Catalog proposal only; no exact-SHA implementation or CI verification evidence."
+      }
     }
   ],
   "cross_component_interfaces": [
@@ -11344,7 +11689,7 @@
     "source_registry": "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json",
     "rule": "Repository and component census entries are not proof of function completeness. Every component records its observed source repository/head and every catalog function records source_binding status; only source paths, exported symbols/entrypoints and exact-SHA evidence can advance these fields. Unknown functions must be added; unrepresented files/functions require a reasoned exclusion.",
     "function_inventory_status": "SOURCE_RECONCILIATION_PENDING",
-    "component_source_bindings": 30,
+    "component_source_bindings": 31,
     "function_source_bindings": 63,
     "source_verified_components": 0,
     "source_verified_functions": 0,
