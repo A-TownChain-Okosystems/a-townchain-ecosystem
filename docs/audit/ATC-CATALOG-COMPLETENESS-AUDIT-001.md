@@ -495,3 +495,14 @@ Without a direct symbol reference the binding keeps its old status and gains an 
 
 ### Rollout
 The same pass can be executed per component with `--component/--repo/--test-command`; priority by binding volume: COMP-SHIVA (212), COMP-SERVICES (720), COMP-CHAIN-MONO, COMP-AI (aurora-ai 369), COMP-GENESIS (371). Python-heavy components need a pytest surface first.
+
+## 35. Functional verification pass 2: COMP-SERVICES (2026-10-14)
+
+Second tranche, largest component: ShivaCore Service Space — 720 bindings in the globus-os repository (`modules/atc-shivacore/service_space`, bound SHA `2682d49f`).
+
+- Suite: `cargo test --release` on the service_space crate at the bound SHA (exact-HEAD worktree) — **548 passed, exit 0**. CI at that SHA only shows Dependabot update workflows, so the recorded evidence is the local exact-SHA run (no CI claim).
+- Test-reference detection: 151 Rust test surfaces scanned (inline `#[cfg(test)]` regions across service_space and repo-wide tests).
+- **658/720 bindings upgraded to `FUNCTIONALLY_VERIFIED_TEST_REFERENCE`**; 62 keep `SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED` with honest no-direct-reference notes.
+- Report: `docs/audit/functional-verification/COMP-SERVICES.json`; catalog validator PASS_STRUCTURAL_ONLY, 0 errors.
+
+Running total after passes 1+2: 676 of 5,619 bindings functionally verified (COMP-LANG 18, COMP-SERVICES 658).
