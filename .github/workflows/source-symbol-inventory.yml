@@ -312,10 +312,18 @@ jobs:
           assert snapshot.get("status") == "SNAPSHOT_ONLY_NOT_DRIFT_VALIDATED", "snapshot must remain explicitly historical"
           assert snapshot.get("refresh_required_before_integration_decisions") is True, "live refresh requirement missing"
           for item in repos:
-              assert item.get("snapshot_ref") == "main", f'{item.get("name")}: snapshot_ref must be main'
-              assert sha_pattern.fullmatch(item.get("observed_head_sha", "")), f'{item.get("name")}: invalid observed_head_sha'
-              assert sha_pattern.fullmatch(item.get("observed_root_tree_sha", "")), f'{item.get("name")}: invalid observed_root_tree_sha'
-              assert item.get("snapshot_status") == "HISTORICAL_OBSERVATION_REQUIRES_REFRESH", f'{item.get("name")}: missing historical snapshot status'
+              name = item.get("name")
+              assert item.get("snapshot_ref") == "main", f'{name}: snapshot_ref must be main'
+              if item.get("archived", False):
+                  assert item.get("snapshot_status") in ("ARCHIVED_REFERENCE_ONLY", "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"), f'{name}: unsupported archived reference status'
+                  assert not item.get("observed_head_sha") and not item.get("observed_root_tree_sha"), f'{name}: archived reference must not imply live pin validation'
+                  continue
+              if item.get("drift_check_excluded", False):
+                  assert item.get("snapshot_status") in ("HISTORICAL_OBSERVATION_REQUIRES_REFRESH", "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"), f'{name}: unsupported excluded snapshot status'
+                  continue
+              assert sha_pattern.fullmatch(item.get("observed_head_sha", "")), f'{name}: invalid observed_head_sha'
+              assert sha_pattern.fullmatch(item.get("observed_root_tree_sha", "")), f'{name}: invalid observed_root_tree_sha'
+              assert item.get("snapshot_status") in ("HISTORICAL_OBSERVATION_REQUIRES_REFRESH", "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"), f'{name}: unsupported active snapshot status'
           print(json.dumps({
               "validation": "PASS_STRUCTURAL_ONLY",
               "repositories_total": len(names),
