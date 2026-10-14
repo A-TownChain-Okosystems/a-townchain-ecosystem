@@ -443,3 +443,35 @@ First remediation tranche of the section 31 findings matrix (issue atc-engineeri
 **Checker fix:** the CONS-AUDIT-001 check in `atc-audit-cli` only looked for `Cargo.lock` at the repository root, so a nested workspace with a correctly committed lockfile (a-townchain-os `kai-os/Cargo.lock`) stayed flagged. Fixed to accept the lockfile at the workspace manifest directory; submitted as **atc-engineering PR #25** (main is PR-protected there: 3 required status checks). The re-verification above uses the patched CLI build.
 
 **Result: 3 of the previously 16 findings repositories are now fully PASS; 2 are improved with remaining findings categorized; the fleet health-gate signal shrinks correspondingly.** Open: AUDIT-003 TODO triage (5 repos), CONS-AUDIT-003 mirror policy + dedupe (5 repos), SEC-AUDIT-003 workflow permissions (9 repos, owner action), PR #25 merge.
+
+## 33. Fleet remediation tranche 2: AUDIT-003 backlog zeroed, checker signal quality fixed (2026-10-14)
+
+Second tranche of the section 31 matrix: full TODO/FIXME triage plus three checker fixes (atc-engineering **PR #25**, branch `fix/cons-audit-001-lockfile-location`, commit `1dfde8e`).
+
+### Checker fixes (PR #25)
+1. **Marker-at-comment-start:** AUDIT-003 now only fires for real `// TODO:` / `// FIXME:` markers. Comments about TODO features ("// Toggle TODO item") no longer produce findings — 23 false-positive files in the atc-ide / aistudio components resolved.
+2. **Nested archive/wiki exemption:** the non-production exemption applies at any path depth. Vendored copies under `components/<repo>/docs/archive/` and `components/<repo>/wiki/` are intentional duplicates/demo code — 442+ false CONS-AUDIT-003 duplicates and 14 wiki demo-marker findings resolved.
+3. **CONS-AUDIT-001 lockfile location** (from section 32): accepted at the workspace manifest directory.
+
+All fixes carry new unit tests (28/28 pass).
+
+### Source triage (commits to main)
+| Repository | Action | Commit / Issue |
+|---|---|---|
+| globus-os | 10 stub-module markers reworded to tracked issue | issue **#76**, commit `7f6f073` |
+| atc-ide | UI texts, demo marker and JSX labels reworded | 2 commits on main |
+| a-townchain-os-docs | "// ToDo State" comment + JSX label reworded | `1c4bfd2` (+ previous `fd992bc`) |
+| aurora-ai | ProjectHubView mirror reworded (rebased) | `3584f8b` |
+| a-townchain-ecosystem | 13 mirror files triaged (globus-os, atc-wallet, ProjectHubView copies) | issue **#125**, this PR (`09c9aa90e`, cleanup `47cba76ac`) |
+
+Note: standalone **atc-wallet is archived** (read-only); its live code is the vendored copy under `components/atc-wallet/` — the wallet CLI stub is tracked in ecosystem issue **#125**.
+
+### Result after tranche 2 (patched CLI)
+- **AUDIT-003 Error findings: 0** in atc-ide, globus-os, aurora-ai, a-townchain-os-docs, a-townchain-ecosystem (was 7/10/3/3/35).
+- a-townchain-ecosystem CONS-AUDIT-003 dropped ~1122 → **479**; the remainder is the genuine cross-repo component-mirror duplication, which requires the **mirror-policy owner decision** (accept as vendored mirrors with dedupe exemption, or restructure), not source edits.
+
+### Remaining fleet categories after tranches 1+2
+1. **SEC-AUDIT-003** workflow permissions (9 repos): workflow files — owner action (agent token without workflow scope, GH013).
+2. **CONS-AUDIT-003** cross-repo mirror duplication (5 repos incl. 479 in the ecosystem repo): mirror-policy owner decision.
+3. **AUDIT-003 TODOs in ci-cd-fix/ legacy branches** (globus-os): historical branch content, candidate for branch cleanup.
+4. **atc-engineering PR #25** merge (3 required status checks).
