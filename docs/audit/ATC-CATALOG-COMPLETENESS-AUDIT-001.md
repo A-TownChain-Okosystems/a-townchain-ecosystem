@@ -589,3 +589,14 @@ COMP-ALGO-SPEC spans two bound SHAs; the per-component SHA guard blocked a singl
 **Running total after passes 1-12: 3,589 of 5,619 bindings functionally verified (63.9%).**
 
 The remaining ~2,030 open bindings are now almost entirely test-surface work (new pytest/vitest files needed in atc-standards, genesis-chronicles, aurora-ai, atc-ide, os-docs, atclang tools), not verification runs. This closes the verification-runnable backlog of the catalog.
+
+## 42. Functional verification pass 13: COMP-STANDARDS test-surface tranche (2026-10-14)
+
+First test-surface-writing pass: new regression suite `tools/tests/test_validator_suite.py` in atc-standards (PR **#109**, branch `test/validator-suite-pass13`, 28 tests, no network; full suite 34/34 green) covering check_readme gates 01-13, allocation validator (nested norm/ns_of/num_of/comp_covers via `_range_covers`), repo audit (nested score/gate/present via `audit_repo`), dependency guard (key/fingerprint/graph/load_base/pep440/version_cmp/event_range_match + main smoke), std validator (parse_meta/find_cycles with nested dfs, file_id, collect), meta_data_audit, meta_sweep, check_md iter_md, registry_view_gate, version_gate (fetch_readme_github intentionally untested: network).
+
+COMP-STANDARDS bindings re-bound to the PR-109 branch head (`38b049bc`): source files identical to census SHA c362d15e (diff is the new test file only), documented per binding. Verification at that SHA: **67 of 124 bindings upgraded** (34/34 suite pass). COMP-STANDARDS now 89/124 verified; 35 remain source-mapped (mostly main() entries and symbols without genuine reference, e.g. sdk/src/lib.rs Rust bindings).
+
+atc-standards main is PR-protected (14 required checks) — PR #109 open for owner review/merge. After merge, the next census refresh re-binds to the main merge SHA.
+
+### Running total after passes 1-13
+**3,656 of 5,619 bindings functionally verified (65.1%).** Remaining test-surface work: COMP-AURORA (297 TSX), COMP-IDE (143), COMP-DOCS (271), COMP-CHRONICLES (64 py), COMP-ATC-ENG (47), COMP-LANG (30), COMP-GFF (5), COMP-VM-SPEC (7), long-tail main() entries.

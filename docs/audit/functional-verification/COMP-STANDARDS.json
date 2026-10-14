@@ -1,15 +1,15 @@
 {
  "component": "COMP-STANDARDS",
- "repo": "wt-atc-standards",
- "head_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+ "repo": "wt-std2",
+ "head_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
  "ci_evidence": null,
  "test_run": {
   "command": "python3 -m pytest tools/tests/ -q 2>&1",
   "exit_code": 0,
-  "passed": 6,
+  "passed": 34,
   "log_tail": [
-   "......                                                                   [100%]",
-   "6 passed in 0.02s"
+   "..................................                                       [100%]",
+   "34 passed in 2.46s"
   ]
  },
  "bindings": [
@@ -53,28 +53,28 @@
    "symbol": "norm",
    "source_path": "tools/allocation-validator/atc_allocation_validator.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-007",
    "symbol": "ns_of",
    "source_path": "tools/allocation-validator/atc_allocation_validator.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-008",
    "symbol": "num_of",
    "source_path": "tools/allocation-validator/atc_allocation_validator.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-009",
    "symbol": "comp_covers",
    "source_path": "tools/allocation-validator/atc_allocation_validator.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-010",
@@ -88,14 +88,14 @@
    "symbol": "fail_count",
    "source_path": "tools/allocation-validator/atc_allocation_validator.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-012",
    "symbol": "iter_md",
    "source_path": "tools/atc-md-validator/check_md.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-013",
@@ -109,91 +109,91 @@
    "symbol": "gate_01",
    "source_path": "tools/atc-readme-validator/check_readme.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-015",
    "symbol": "gate_02",
    "source_path": "tools/atc-readme-validator/check_readme.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-016",
    "symbol": "gate_03",
    "source_path": "tools/atc-readme-validator/check_readme.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-017",
    "symbol": "gate_04",
    "source_path": "tools/atc-readme-validator/check_readme.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-018",
    "symbol": "gate_05",
    "source_path": "tools/atc-readme-validator/check_readme.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-019",
    "symbol": "gate_06",
    "source_path": "tools/atc-readme-validator/check_readme.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-020",
    "symbol": "gate_07",
    "source_path": "tools/atc-readme-validator/check_readme.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-021",
    "symbol": "gate_08",
    "source_path": "tools/atc-readme-validator/check_readme.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-022",
    "symbol": "gate_09",
    "source_path": "tools/atc-readme-validator/check_readme.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-023",
    "symbol": "gate_10",
    "source_path": "tools/atc-readme-validator/check_readme.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-024",
    "symbol": "gate_11",
    "source_path": "tools/atc-readme-validator/check_readme.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-025",
    "symbol": "gate_12",
    "source_path": "tools/atc-readme-validator/check_readme.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-026",
    "symbol": "gate_13",
    "source_path": "tools/atc-readme-validator/check_readme.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-027",
@@ -207,7 +207,7 @@
    "symbol": "lvl_ge",
    "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-029",
@@ -221,21 +221,21 @@
    "symbol": "score",
    "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-031",
    "symbol": "gate",
    "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-032",
    "symbol": "tracked_files",
    "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-033",
@@ -249,21 +249,21 @@
    "symbol": "yaml_has",
    "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-035",
    "symbol": "audit_repo",
    "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-036",
    "symbol": "present",
    "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-037",
@@ -298,21 +298,21 @@
    "symbol": "parse_meta",
    "source_path": "tools/atc-std-validator/atc_std_validator.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-042",
    "symbol": "find_cycles",
    "source_path": "tools/atc-std-validator/atc_std_validator.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-043",
    "symbol": "dfs",
    "source_path": "tools/atc-std-validator/atc_std_validator.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-044",
@@ -340,7 +340,7 @@
    "symbol": "parse_fm",
    "source_path": "tools/atc-std-validator/meta_data_audit.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-048",
@@ -354,7 +354,7 @@
    "symbol": "registry_ids",
    "source_path": "tools/atc-std-validator/meta_sweep.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-050",
@@ -368,14 +368,14 @@
    "symbol": "collect",
    "source_path": "tools/atc-std-validator/validate_all.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-052",
    "symbol": "file_id",
    "source_path": "tools/atc-std-validator/validate_all.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-053",
@@ -431,14 +431,14 @@
    "symbol": "norm",
    "source_path": "tools/consistency/check_cross_registry.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-061",
    "symbol": "git_blob_sha",
    "source_path": "tools/consistency/registry_view_gate.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-062",
@@ -452,21 +452,21 @@
    "symbol": "load_registry",
    "source_path": "tools/consistency/version_gate.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-064",
    "symbol": "repo_list",
    "source_path": "tools/consistency/version_gate.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-065",
    "symbol": "fetch_readme_github",
    "source_path": "tools/consistency/version_gate.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-066",
@@ -487,14 +487,14 @@
    "symbol": "key",
    "source_path": "tools/dependency_guard.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-069",
    "symbol": "fingerprint",
    "source_path": "tools/dependency_guard.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-070",
@@ -508,14 +508,14 @@
    "symbol": "graph",
    "source_path": "tools/dependency_guard.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-072",
    "symbol": "load_base",
    "source_path": "tools/dependency_guard.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-073",
@@ -543,21 +543,21 @@
    "symbol": "pep440",
    "source_path": "tools/dependency_guard.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-077",
    "symbol": "version_cmp",
    "source_path": "tools/dependency_guard.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-078",
    "symbol": "event_range_match",
    "source_path": "tools/dependency_guard.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-STD-079",
@@ -884,8 +884,8 @@
  ],
  "summary": {
   "total": 124,
-  "test_referenced": 22,
+  "test_referenced": 67,
   "suite_pass": true,
-  "eligible_functionally_verified": 22
+  "eligible_functionally_verified": 67
  }
 }

@@ -10162,11 +10162,12 @@
       "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
       "source_path": "tools/consistency/check_cross_registry.py",
       "symbol_or_entrypoint": "main",
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "file_blob_sha": "f6c4420e143076d280ffaa41768409ce31d09720",
       "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/blob/c362d15e77b4818208b41662cf5ceba6fb90e0f2/tools/consistency/check_cross_registry.py",
       "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: main at tools/consistency/check_cross_registry.py (additional related symbols in the original qualified mapping: main, norm (cross-registry consistency gate over registry/standards.yaml SSOT)). Rebound to current exact-HEAD census c362d15e77b4818208b41662cf5ceba6fb90e0f2 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
-      "symbol_kind": "function"
+      "symbol_kind": "function",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards",
      "preconditions": {
@@ -10240,11 +10241,12 @@
       "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
       "source_path": "sdk/src/lib.rs",
       "symbol_or_entrypoint": "conformance",
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "file_blob_sha": "a415029075f2c07dd6040390c4c29a5490e1ba68",
       "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/blob/c362d15e77b4818208b41662cf5ceba6fb90e0f2/sdk/src/lib.rs",
       "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: conformance at sdk/src/lib.rs (additional related symbols in the original qualified mapping: conformance, ConformanceResult). Rebound to current exact-HEAD census c362d15e77b4818208b41662cf5ceba6fb90e0f2 in run 38318248013; lexical path/symbol match only, behavior and completeness remain unverified. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
-      "symbol_kind": "function"
+      "symbol_kind": "function",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards",
      "preconditions": {
@@ -10316,17 +10318,18 @@
       "symbol_or_entrypoint": "standard_ref",
       "symbol_kind": "function",
       "line_start": 9,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "lib.rs binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -10388,8 +10391,9 @@
       "symbol_or_entrypoint": "evidence",
       "symbol_kind": "function",
       "line_start": 11,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "lib.rs binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "lib.rs binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -10449,8 +10453,9 @@
       "symbol_or_entrypoint": "fail",
       "symbol_kind": "function",
       "line_start": 39,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -10505,13 +10510,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/allocation-validator/atc_allocation_validator.py",
       "symbol_or_entrypoint": "norm",
       "symbol_kind": "function",
       "line_start": 53,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -10566,13 +10581,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/allocation-validator/atc_allocation_validator.py",
       "symbol_or_entrypoint": "ns_of",
       "symbol_kind": "function",
       "line_start": 57,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -10627,13 +10652,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/allocation-validator/atc_allocation_validator.py",
       "symbol_or_entrypoint": "num_of",
       "symbol_kind": "function",
       "line_start": 61,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -10691,13 +10726,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/allocation-validator/atc_allocation_validator.py",
       "symbol_or_entrypoint": "comp_covers",
       "symbol_kind": "function",
       "line_start": 65,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -10757,8 +10802,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 100,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -10815,13 +10861,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/allocation-validator/atc_allocation_validator.py",
       "symbol_or_entrypoint": "fail_count",
       "symbol_kind": "function",
       "line_start": 253,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_allocation_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -10876,13 +10932,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-md-validator/check_md.py",
       "symbol_or_entrypoint": "iter_md",
       "symbol_kind": "function",
       "line_start": 66,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_md.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_md.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -10942,8 +11008,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 74,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_md.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_md.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -10998,13 +11065,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-readme-validator/check_readme.py",
       "symbol_or_entrypoint": "gate_01",
       "symbol_kind": "function",
       "line_start": 67,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11059,13 +11136,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-readme-validator/check_readme.py",
       "symbol_or_entrypoint": "gate_02",
       "symbol_kind": "function",
       "line_start": 73,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11120,13 +11207,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-readme-validator/check_readme.py",
       "symbol_or_entrypoint": "gate_03",
       "symbol_kind": "function",
       "line_start": 78,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11181,13 +11278,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-readme-validator/check_readme.py",
       "symbol_or_entrypoint": "gate_04",
       "symbol_kind": "function",
       "line_start": 87,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11242,13 +11349,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-readme-validator/check_readme.py",
       "symbol_or_entrypoint": "gate_05",
       "symbol_kind": "function",
       "line_start": 91,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11303,13 +11420,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-readme-validator/check_readme.py",
       "symbol_or_entrypoint": "gate_06",
       "symbol_kind": "function",
       "line_start": 97,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11364,13 +11491,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-readme-validator/check_readme.py",
       "symbol_or_entrypoint": "gate_07",
       "symbol_kind": "function",
       "line_start": 110,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11425,13 +11562,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-readme-validator/check_readme.py",
       "symbol_or_entrypoint": "gate_08",
       "symbol_kind": "function",
       "line_start": 114,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11486,13 +11633,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-readme-validator/check_readme.py",
       "symbol_or_entrypoint": "gate_09",
       "symbol_kind": "function",
       "line_start": 127,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11547,13 +11704,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-readme-validator/check_readme.py",
       "symbol_or_entrypoint": "gate_10",
       "symbol_kind": "function",
       "line_start": 141,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11608,13 +11775,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-readme-validator/check_readme.py",
       "symbol_or_entrypoint": "gate_11",
       "symbol_kind": "function",
       "line_start": 147,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11669,13 +11846,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-readme-validator/check_readme.py",
       "symbol_or_entrypoint": "gate_12",
       "symbol_kind": "function",
       "line_start": 159,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11731,13 +11918,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-readme-validator/check_readme.py",
       "symbol_or_entrypoint": "gate_13",
       "symbol_kind": "function",
       "line_start": 165,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11797,8 +11994,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 190,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_readme.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11854,13 +12052,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
       "symbol_or_entrypoint": "lvl_ge",
       "symbol_kind": "function",
       "line_start": 26,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11923,17 +12131,18 @@
       "symbol_or_entrypoint": "add",
       "symbol_kind": "function",
       "line_start": 34,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -11988,13 +12197,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
       "symbol_or_entrypoint": "score",
       "symbol_kind": "function",
       "line_start": 37,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12049,13 +12268,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
       "symbol_or_entrypoint": "gate",
       "symbol_kind": "function",
       "line_start": 51,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12110,13 +12339,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
       "symbol_or_entrypoint": "tracked_files",
       "symbol_kind": "function",
       "line_start": 56,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12176,8 +12415,9 @@
       "symbol_or_entrypoint": "read",
       "symbol_kind": "function",
       "line_start": 61,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12233,13 +12473,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
       "symbol_or_entrypoint": "yaml_has",
       "symbol_kind": "function",
       "line_start": 69,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12296,13 +12546,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
       "symbol_or_entrypoint": "audit_repo",
       "symbol_kind": "function",
       "line_start": 74,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12357,13 +12617,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
       "symbol_or_entrypoint": "present",
       "symbol_kind": "function",
       "line_start": 81,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12423,8 +12693,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 364,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_repo_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12484,8 +12755,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 46,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_contracts.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_contracts.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12545,8 +12817,9 @@
       "symbol_or_entrypoint": "read",
       "symbol_kind": "function",
       "line_start": 116,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_std_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_std_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12608,17 +12881,18 @@
       "symbol_or_entrypoint": "add",
       "symbol_kind": "function",
       "line_start": 128,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "atc_std_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12673,13 +12947,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-std-validator/atc_std_validator.py",
       "symbol_or_entrypoint": "parse_meta",
       "symbol_kind": "function",
       "line_start": 132,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_std_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_std_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12734,13 +13018,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-std-validator/atc_std_validator.py",
       "symbol_or_entrypoint": "find_cycles",
       "symbol_kind": "function",
       "line_start": 149,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_std_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_std_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12796,13 +13090,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-std-validator/atc_std_validator.py",
       "symbol_or_entrypoint": "dfs",
       "symbol_kind": "function",
       "line_start": 162,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_std_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_std_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12863,17 +13167,18 @@
       "symbol_or_entrypoint": "validate",
       "symbol_kind": "function",
       "line_start": 178,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "atc_std_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12933,8 +13238,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 510,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "atc_std_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "atc_std_validator.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -12994,8 +13300,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 27,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_agent_manifest.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_agent_manifest.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13050,13 +13357,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-std-validator/meta_data_audit.py",
       "symbol_or_entrypoint": "parse_fm",
       "symbol_kind": "function",
       "line_start": 47,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "meta_data_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "meta_data_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13116,8 +13433,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 72,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "meta_data_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "meta_data_audit.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13172,13 +13490,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-std-validator/meta_sweep.py",
       "symbol_or_entrypoint": "registry_ids",
       "symbol_kind": "function",
       "line_start": 23,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "meta_sweep.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "meta_sweep.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13238,8 +13566,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 36,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "meta_sweep.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "meta_sweep.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13294,13 +13623,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-std-validator/validate_all.py",
       "symbol_or_entrypoint": "collect",
       "symbol_kind": "function",
       "line_start": 24,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "validate_all.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "validate_all.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13355,13 +13694,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/atc-std-validator/validate_all.py",
       "symbol_or_entrypoint": "file_id",
       "symbol_kind": "function",
       "line_start": 52,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "validate_all.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "validate_all.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13421,8 +13770,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 66,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "validate_all.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "validate_all.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13483,8 +13833,9 @@
       "symbol_or_entrypoint": "api",
       "symbol_kind": "function",
       "line_start": 31,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "code_quality_matrix.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "code_quality_matrix.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13544,8 +13895,9 @@
       "symbol_or_entrypoint": "repo_ist",
       "symbol_kind": "function",
       "line_start": 42,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "code_quality_matrix.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "code_quality_matrix.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13606,8 +13958,9 @@
       "symbol_or_entrypoint": "wf_covers",
       "symbol_kind": "function",
       "line_start": 57,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "code_quality_matrix.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "code_quality_matrix.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13667,8 +14020,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 77,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "code_quality_matrix.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "code_quality_matrix.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13728,8 +14082,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 65,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "matrix_collect.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "matrix_collect.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13790,8 +14145,9 @@
       "symbol_or_entrypoint": "fail",
       "symbol_kind": "function",
       "line_start": 32,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_cross_registry.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_cross_registry.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13846,13 +14202,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/consistency/check_cross_registry.py",
       "symbol_or_entrypoint": "norm",
       "symbol_kind": "function",
       "line_start": 200,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "check_cross_registry.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "check_cross_registry.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13907,13 +14273,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/consistency/registry_view_gate.py",
       "symbol_or_entrypoint": "git_blob_sha",
       "symbol_kind": "function",
       "line_start": 16,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "registry_view_gate.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "registry_view_gate.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -13973,8 +14349,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 24,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "registry_view_gate.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "registry_view_gate.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14029,13 +14406,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/consistency/version_gate.py",
       "symbol_or_entrypoint": "load_registry",
       "symbol_kind": "function",
       "line_start": 36,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "version_gate.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "version_gate.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14090,13 +14477,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/consistency/version_gate.py",
       "symbol_or_entrypoint": "repo_list",
       "symbol_kind": "function",
       "line_start": 42,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "version_gate.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "version_gate.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14153,13 +14550,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/consistency/version_gate.py",
       "symbol_or_entrypoint": "fetch_readme_github",
       "symbol_kind": "function",
       "line_start": 48,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "version_gate.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "version_gate.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14219,8 +14626,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 59,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "version_gate.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "version_gate.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14281,17 +14689,18 @@
       "symbol_or_entrypoint": "scan",
       "symbol_kind": "function",
       "line_start": 25,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14346,13 +14755,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/dependency_guard.py",
       "symbol_or_entrypoint": "key",
       "symbol_kind": "function",
       "line_start": 105,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14407,13 +14826,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/dependency_guard.py",
       "symbol_or_entrypoint": "fingerprint",
       "symbol_kind": "function",
       "line_start": 109,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14474,17 +14903,18 @@
       "symbol_or_entrypoint": "compare_nodes",
       "symbol_kind": "function",
       "line_start": 113,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14540,13 +14970,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/dependency_guard.py",
       "symbol_or_entrypoint": "graph",
       "symbol_kind": "function",
       "line_start": 130,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14601,13 +15041,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/dependency_guard.py",
       "symbol_or_entrypoint": "load_base",
       "symbol_kind": "function",
       "line_start": 163,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14667,17 +15117,18 @@
       "symbol_or_entrypoint": "validate_advisory_payload",
       "symbol_kind": "function",
       "line_start": 180,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14737,17 +15188,18 @@
       "symbol_or_entrypoint": "validate_policy",
       "symbol_kind": "function",
       "line_start": 222,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14807,17 +15259,18 @@
       "symbol_or_entrypoint": "semver",
       "symbol_kind": "function",
       "line_start": 240,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14872,13 +15325,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/dependency_guard.py",
       "symbol_or_entrypoint": "pep440",
       "symbol_kind": "function",
       "line_start": 245,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14935,13 +15398,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/dependency_guard.py",
       "symbol_or_entrypoint": "version_cmp",
       "symbol_kind": "function",
       "line_start": 260,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -14998,13 +15471,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/dependency_guard.py",
       "symbol_or_entrypoint": "event_range_match",
       "symbol_kind": "function",
       "line_start": 266,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 34,
+       "ci_evidence": null,
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15066,17 +15549,18 @@
       "symbol_or_entrypoint": "range_match",
       "symbol_kind": "function",
       "line_start": 297,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15137,17 +15621,18 @@
       "symbol_or_entrypoint": "advisory_matches",
       "symbol_kind": "function",
       "line_start": 320,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15207,17 +15692,18 @@
       "symbol_or_entrypoint": "classify_base_graph_result",
       "symbol_kind": "function",
       "line_start": 341,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15277,8 +15763,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 361,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "dependency_guard.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15338,8 +15825,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 10,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "dependency_sbom.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "dependency_sbom.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15400,17 +15888,18 @@
       "symbol_or_entrypoint": "scan_sources",
       "symbol_kind": "function",
       "line_start": 151,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "determinism_check.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15471,17 +15960,18 @@
       "symbol_or_entrypoint": "run_tests",
       "symbol_kind": "function",
       "line_start": 184,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "determinism_check.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15541,8 +16031,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 189,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "determinism_check.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "determinism_check.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15602,8 +16093,9 @@
       "symbol_or_entrypoint": "git_files",
       "symbol_kind": "function",
       "line_start": 91,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "scan.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "scan.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15663,8 +16155,9 @@
       "symbol_or_entrypoint": "classify",
       "symbol_kind": "function",
       "line_start": 96,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "scan.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "scan.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15724,8 +16217,9 @@
       "symbol_or_entrypoint": "git_sha",
       "symbol_kind": "function",
       "line_start": 109,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "scan.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "scan.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15785,8 +16279,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 113,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "scan.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "scan.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15846,8 +16341,9 @@
       "symbol_or_entrypoint": "classify",
       "symbol_kind": "function",
       "line_start": 77,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "file_admission.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "file_admission.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15908,8 +16404,9 @@
       "symbol_or_entrypoint": "security_scan",
       "symbol_kind": "function",
       "line_start": 93,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "file_admission.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "file_admission.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -15969,8 +16466,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 110,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "file_admission.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "file_admission.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16035,17 +16533,18 @@
       "symbol_or_entrypoint": "F",
       "symbol_kind": "function",
       "line_start": 16,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "gen_framework.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16109,8 +16608,9 @@
       "symbol_or_entrypoint": "sl",
       "symbol_kind": "function",
       "line_start": 27,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "gen_framework.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "gen_framework.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16170,8 +16670,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 270,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "gen_implementation_matrix.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "gen_implementation_matrix.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16233,8 +16734,9 @@
       "symbol_or_entrypoint": "field",
       "symbol_kind": "function",
       "line_start": 277,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "gen_implementation_matrix.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "gen_implementation_matrix.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16294,8 +16796,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 21,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "gen_metadata.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "gen_metadata.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16355,8 +16858,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 36,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "gen_registry_records.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "gen_registry_records.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16416,8 +16920,9 @@
       "symbol_or_entrypoint": "counts",
       "symbol_kind": "function",
       "line_start": 24,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "generate_views.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "generate_views.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16477,8 +16982,9 @@
       "symbol_or_entrypoint": "std_index",
       "symbol_kind": "function",
       "line_start": 40,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "generate_views.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "generate_views.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16538,8 +17044,9 @@
       "symbol_or_entrypoint": "git_sha",
       "symbol_kind": "function",
       "line_start": 50,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "generate_views.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "generate_views.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16599,8 +17106,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 57,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "generate_views.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "generate_views.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16660,8 +17168,9 @@
       "symbol_or_entrypoint": "R",
       "symbol_kind": "function",
       "line_start": 20,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "gen_index.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "gen_index.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16721,8 +17230,9 @@
       "symbol_or_entrypoint": "slotstat",
       "symbol_kind": "function",
       "line_start": 41,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "gen_index.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "gen_index.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16782,8 +17292,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 75,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "gen_maintenance_conformance.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "gen_maintenance_conformance.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16843,8 +17354,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 73,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "validate_maintenance_readiness.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "validate_maintenance_readiness.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16904,17 +17416,18 @@
       "symbol_or_entrypoint": "cvss_severity",
       "symbol_kind": "function",
       "line_start": 15,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "osv_fetch.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -16974,17 +17487,18 @@
       "symbol_or_entrypoint": "normalize_severity",
       "symbol_kind": "function",
       "line_start": 31,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "osv_fetch.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17044,17 +17558,18 @@
       "symbol_or_entrypoint": "normalize",
       "symbol_kind": "function",
       "line_start": 52,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "osv_fetch.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17115,17 +17630,18 @@
       "symbol_or_entrypoint": "validate_raw_response",
       "symbol_kind": "function",
       "line_start": 121,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "osv_fetch.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17186,8 +17702,9 @@
       "symbol_or_entrypoint": "fetch_json",
       "symbol_kind": "function",
       "line_start": 142,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "osv_fetch.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "osv_fetch.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17247,8 +17764,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 163,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "osv_fetch.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "osv_fetch.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17308,17 +17826,18 @@
       "symbol_or_entrypoint": "normalize_severity",
       "symbol_kind": "function",
       "line_start": 22,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "osv_snapshot.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17378,17 +17897,18 @@
       "symbol_or_entrypoint": "normalize",
       "symbol_kind": "function",
       "line_start": 27,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "osv_snapshot.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17448,17 +17968,18 @@
       "symbol_or_entrypoint": "validate",
       "symbol_kind": "function",
       "line_start": 80,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
       "note": "osv_snapshot.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
        "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 6,
+       "suite_passed": 34,
        "ci_evidence": null,
-       "verified_against_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2"
-      }
+       "verified_against_sha": "38b049bca55eacd030556ba794e8cb5487308e60"
+      },
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17518,8 +18039,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 141,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "osv_snapshot.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "osv_snapshot.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17579,8 +18101,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 15,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "repo_registry_check.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "repo_registry_check.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17640,8 +18163,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 901,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "elaborate_standards.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "elaborate_standards.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17702,8 +18226,9 @@
       "symbol_or_entrypoint": "aspects_for",
       "symbol_kind": "function",
       "line_start": 422,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "finalize_standards.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "finalize_standards.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17763,8 +18288,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 582,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "finalize_standards.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "finalize_standards.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17824,8 +18350,9 @@
       "symbol_or_entrypoint": "reg_lookup",
       "symbol_kind": "function",
       "line_start": 191,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "gen_taxonomy.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "gen_taxonomy.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17885,8 +18412,9 @@
       "symbol_or_entrypoint": "reg_ver",
       "symbol_kind": "function",
       "line_start": 202,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "gen_taxonomy.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "gen_taxonomy.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
@@ -17946,8 +18474,9 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 35,
-      "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
-      "note": "validate_technology_registry.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e)."
+      "exact_source_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+      "note": "validate_technology_registry.py binding; census-verified at exact HEAD c362d15e77b4. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified c362d15e).",
+      "sha_note": "SHA refreshed to PR #109 (atc-standards) branch head after test-surface commit; function source identical to census SHA c362d15e (diff: tools/tests/test_validator_suite.py only). After merge, next census refresh re-binds to the main merge SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-standards/",
      "dependencies": {
