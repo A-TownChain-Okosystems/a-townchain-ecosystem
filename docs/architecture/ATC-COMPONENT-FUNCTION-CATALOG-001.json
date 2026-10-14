@@ -9227,7 +9227,13 @@
         "triage": {
           "status": "RESIDUAL",
           "date": "2026-10-14",
-          "finding": "The single failing run is the repository fleet audit itself, failing at its own step \"Audit, syntax-check and test repositories\". This is a meta-audit over the whole organization fleet, so the failure reflects fleet state, not necessarily a defect in atc-engineering code. Job logs could not be retrieved (token lacks the required scope; triage via API job/step evidence)."
+          "root_cause_identified": true,
+          "finding": "The fleet audit failure is the health gate working as designed (FLEET_GATE_POLICY v1.0.0 AD-051: Main/Schedule-Health-Gate, no PR-Gate). Local reproduction of the fleet audit (atc-audit-cli built from atc-engineering, run over all 26 census replicas at exact SHAs): 10 PASS, 16 repositories with findings in 6 categories - SEC-AUDIT-003 workflow permissions (9 repos, owner action due to workflow-scope blocker), AUDIT-003 unresolved TODO/FIXME (5 repos), CONS-AUDIT-003 duplicate/mirror files (5 repos), CONS-AUDIT-001 missing committed Cargo.lock (2), CONS-AUDIT-002 README identity (2), AUDIT-002 missing docs/ENGINEERING_AUDIT.md (2). CI artifact/log retrieval was blocked (token scope), so the local reproduction is the recorded evidence. Findings matrix escalated in atc-engineering (see audit section 31 and issue).",
+          "local_reproduction": {
+            "date": "2026-10-14",
+            "tool": "atc-audit-cli (built from atc-engineering at census SHA)",
+            "result": "10 PASS / 16 findings repositories of 26 scanned"
+          }
         }
       }
     },

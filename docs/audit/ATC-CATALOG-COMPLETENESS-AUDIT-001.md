@@ -391,3 +391,38 @@ Deep triage of the atc-contracts CI failures (setup + reproduction, all validate
 **Actions:** agent-side patch prepared and locally validated (commit `bf17a99`, branch `fix/atclang-toolchain-setup` — **cannot be pushed: org token lacks workflow scope**, documented F-009/F-010 blocker pattern). Escalated as ready-to-apply owner actions: **atc-contracts issue #14** (CI setup patch) and **atclang issue #28** (IndexAccess implementation, unblocks the conformance evidence chain). Cross-linked in both issues.
 
 **Catalog state:** 42 components VERIFIED, 2 triaged RESIDUAL with root causes (COMP-ATC-ENG fleet meta-audit, COMP-CONTRACTS setup + IndexAccess), 1 archived NOT_RUN. Validator PASS_STRUCTURAL_ONLY (0 errors); reconcile 5,572 bound / 0 unbound / 0 findings; tests 58/58. Per-function functional verification remains the sole org-wide gate.
+
+## 31. COMP-ATC-ENG root cause: fleet audit reproduced locally — 10 PASS / 16 findings (2026-10-14)
+
+The atc-engineering fleet audit failure is the **health gate working as designed** (FLEET_GATE_POLICY v1.0.0, AD-051: Main/Schedule-Health-Gate, no PR-Gate). Since CI artifacts and logs are not retrievable with the current token scope, the fleet audit was **reproduced locally**: `atc-audit-cli` was built from atc-engineering and run over all 26 census replicas at their exact SHAs.
+
+**Result: 10 PASS, 16 repositories with findings across 6 categories** (multiple findings per repo possible):
+
+| Repository | Findings |
+|---|---|
+| a-townchain | SEC-AUDIT-003: 1, CONS-AUDIT-003: 12 |
+| a-townchain-ecosystem | AUDIT-002: 1, SEC-AUDIT-003: 2, AUDIT-003: 3, CONS-AUDIT-003: 6 |
+| a-townchain-os | CONS-AUDIT-001: 1 |
+| a-townchain-os-docs | CONS-AUDIT-002: 1, AUDIT-003: 3 |
+| atc-contracts | CONS-AUDIT-003: 1 |
+| atc-ide | AUDIT-003: 7 |
+| atc-sdk | SEC-AUDIT-003: 1 |
+| atc-shivacore | SEC-AUDIT-003: 1 |
+| atc-standards | SEC-AUDIT-003: 1 |
+| atc-toolchain | AUDIT-002: 1 |
+| atc-zkp | CONS-AUDIT-001: 1 |
+| aurora-ai | SEC-AUDIT-003: 1, AUDIT-003: 3 |
+| demo-repository | CONS-AUDIT-002: 1, SEC-AUDIT-003: 1 |
+| genesis-chronicles | CONS-AUDIT-003: 1 |
+| genesis-engine | SEC-AUDIT-003: 1 |
+| globus-os | SEC-AUDIT-003: 1, CONS-AUDIT-003: 6, AUDIT-003: 10 |
+
+**Categories and fix ownership:**
+- **SEC-AUDIT-003** (9 repos): workflows without explicit `permissions:` policy — mostly the mirrored `sdk.yml`. Fix requires workflow-file pushes → **owner action** (documented workflow-scope blocker).
+- **AUDIT-003** (5 repos): unresolved TODO/FIXME markers requiring triage — content fixes, agent-actionable.
+- **CONS-AUDIT-003** (5 repos): duplicate/mirror file content (`modules/` mirrors, `ci-cd-fix/` remnants) — mirror-policy decision + dedupe, agent-actionable.
+- **CONS-AUDIT-001** (2): uncommitted Cargo.lock (a-townchain-os kai-os workspace, atc-zkp) — agent-actionable.
+- **CONS-AUDIT-002** (2): README does not identify its repository (a-townchain-os-docs, demo-repository) — agent-actionable.
+- **AUDIT-002** (2): missing `docs/ENGINEERING_AUDIT.md` (a-townchain-ecosystem, atc-toolchain) — agent-actionable.
+
+The findings matrix is escalated as an atc-engineering issue; the catalog triage block for COMP-ATC-ENG records the local reproduction evidence. Note: the fleet audit also runs per-repo cargo/npm/python verification in CI, which the local reproduction does not re-run (the census-replica CI evidence in sections 27-29 covers that layer).
