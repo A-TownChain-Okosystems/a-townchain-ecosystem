@@ -362,3 +362,9 @@ Following the binding closure (section 26), a **`ci_verification` block** was ad
 - **NOT_RUN (1 component)**: COMP-COMPUTE — atc-compute has no recorded CI check runs at the pinned SHA; needs a workflow run or a recorded local test run.
 
 Catalog validator `PASS_STRUCTURAL_ONLY` (0 errors), reconcile unchanged (5,572 bound, 0 unbound, 0 findings), tools tests 58/58. **Open:** triage of the failing runs in the 3 partial repos, CI-or-local evidence for atc-compute, and the per-function functional verification program which remains the sole org-wide completion gate.
+
+## 28. Completeness verification (2026-10-14)
+
+Full accounting over the census: 12,971 scanned symbol candidates = 5,572 runtime candidates **bound** (0 unbound) + 988 reasoned runtime exclusions (984 crate-internal/private, 4 example/sample) + 3,984 test symbols (verification surfaces, policy-excluded) + 2,427 non-function artifacts (types/values, policy-excluded). 45 components cover every scanned active repository; the 7 archived repositories are reference-only by policy (no scan), with COMP-STORAGE-ARCHIVED documenting atc-storage as an archived reference.
+
+Correction from this check: COMP-STORAGE-ARCHIVED's `ci_verification` block was initially `RESIDUAL` due to an API artifact (archived repos have no pinned census SHA, producing a bogus `api_error` run); corrected to `NOT_RUN` with an explicit BLOCKED_ARCHIVED_REFERENCE_ONLY note. Remaining honest residuals: 47 legacy function bindings with residual/blocked/delegated statuses (6 of them documented delegations), and per-function functional verification still NOT_PERFORMED.

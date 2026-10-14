@@ -198633,15 +198633,10 @@
       "execution_model": "NON_EXECUTABLE_REFERENCE",
       "execution_model_rationale": "Archived reference only; no executable implementation in scope.",
       "ci_verification": {
-        "status": "RESIDUAL",
+        "status": "NOT_RUN",
         "exact_source_sha": null,
-        "check_runs": [
-          {
-            "name": "api_error",
-            "conclusion": "error"
-          }
-        ],
-        "note": "CI at this exact SHA has non-success runs: api_error. Component-level evidence is partial; failing runs must be triaged before any verification claim."
+        "check_runs": [],
+        "note": "Archived reference-only repository: the census records no source SHA and CI evidence at a pinned SHA is not applicable (BLOCKED_ARCHIVED_REFERENCE_ONLY policy). CI evidence becomes applicable only if the repository is reactivated."
       }
     },
     {
