@@ -609,3 +609,11 @@ COMP-CHRONICLES bindings re-bound to main `69103e14` (source identical to census
 
 ### Running total after passes 1-14
 **3,720 of 5,619 bindings functionally verified (66.2%).** Remaining test-surface work: COMP-AURORA (297 TSX), COMP-DOCS (271), COMP-IDE (143), COMP-ATC-ENG (47), COMP-LANG (30), smaller tails.
+
+## 44. Functional verification pass 15: COMP-LANG python tooling tranche (2026-10-14)
+
+Third test-surface-writing pass: new pytest suite `tools/tests/test_tooling_suite.py` in atclang (main `12b63db`, 9 tests, no network) covering determinism_check (load_allowlist, code_view_py incl. unparseable-file path, code_view_rust, scan_sources with real-violation and comment-decoy cases, run_tests byte-determinism, normalize_output, main smoke incl. fail-closed) and ci_independent_audit (read, fail, files, all seven audit_* functions on the live repo, main smoke). Documented scanner semantics: comment decoys are immune, string literals count as code tokens.
+
+COMP-LANG bindings re-bound to main `12b63db` (source identical to census SHA 21c595dc; diff: new test file + CI-evidence artifact only, per binding noted). Verification: **36 of 48 bindings FUNCTIONALLY_VERIFIED_TEST_REFERENCE**. The remaining 12 are pure Rust symbols in `crates/atc-core` (canonical_payload, compute_hash, encode, function_count, metadata, parse_native_contract, validate_native_contract, verify) and require genuine crate test additions.
+
+**Counter correction (SSOT):** previous running totals accumulated the tool's "applied" counts, which include re-affirmed bindings. Direct catalog count is authoritative: **3,711 of 5,584 function-source bindings verified (66.5%)** (plus 35 catalog entries in special statuses: non-function artifacts, blocked, normative-decision). All component per-component numbers in the catalog are exact.
