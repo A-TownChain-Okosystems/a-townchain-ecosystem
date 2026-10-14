@@ -316,7 +316,9 @@ jobs:
               assert item.get("snapshot_ref") == "main", f'{name}: snapshot_ref must be main'
               if item.get("archived", False):
                   assert item.get("snapshot_status") in ("ARCHIVED_REFERENCE_ONLY", "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"), f'{name}: unsupported archived reference status'
-                  assert not item.get("observed_head_sha") and not item.get("observed_root_tree_sha"), f'{name}: archived reference must not imply live pin validation'
+                  head_pin = item.get("observed_head_sha", "")
+                  tree_pin = item.get("observed_root_tree_sha", "")
+                  assert (not head_pin and not tree_pin) or (sha_pattern.fullmatch(head_pin) and sha_pattern.fullmatch(tree_pin)), f'{name}: archived pins must be both empty or valid full SHAs'
                   continue
               if item.get("drift_check_excluded", False):
                   assert item.get("snapshot_status") in ("HISTORICAL_OBSERVATION_REQUIRES_REFRESH", "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"), f'{name}: unsupported excluded snapshot status'
