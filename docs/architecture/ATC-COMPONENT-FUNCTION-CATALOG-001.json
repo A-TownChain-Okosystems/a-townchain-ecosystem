@@ -9137,7 +9137,94 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "TOOLING",
-      "execution_model_rationale": "Governance/assurance scripts executed as CI tooling, not a product runtime."
+      "execution_model_rationale": "Governance/assurance scripts executed as CI tooling, not a product runtime.",
+      "ci_verification": {
+        "status": "RESIDUAL",
+        "exact_source_sha": "c2a4b93fb01178ef905f62d8a5fa6f42215d25a2",
+        "check_runs": [
+          {
+            "name": "Collect non-passing CI evidence",
+            "conclusion": "success"
+          },
+          {
+            "name": "Test triage logic",
+            "conclusion": "success"
+          },
+          {
+            "name": "Collect non-passing CI evidence",
+            "conclusion": "success"
+          },
+          {
+            "name": "Test triage logic",
+            "conclusion": "success"
+          },
+          {
+            "name": "Collect non-passing CI evidence",
+            "conclusion": "success"
+          },
+          {
+            "name": "Test triage logic",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Collect non-passing CI evidence",
+            "conclusion": "success"
+          },
+          {
+            "name": "Test triage logic",
+            "conclusion": "success"
+          },
+          {
+            "name": "Collect non-passing CI evidence",
+            "conclusion": "success"
+          },
+          {
+            "name": "Test triage logic",
+            "conclusion": "success"
+          },
+          {
+            "name": "Collect non-passing CI evidence",
+            "conclusion": "success"
+          },
+          {
+            "name": "Test triage logic",
+            "conclusion": "success"
+          },
+          {
+            "name": "Audit complete repository fleet",
+            "conclusion": "failure"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "markdownlint / markdownlint-cli2",
+            "conclusion": "success"
+          },
+          {
+            "name": "Engineering self-test",
+            "conclusion": "success"
+          },
+          {
+            "name": "verify",
+            "conclusion": "success"
+          },
+          {
+            "name": "Validate fail-closed AI code-agent policy",
+            "conclusion": "success"
+          },
+          {
+            "name": "Engineering self-test",
+            "conclusion": "success"
+          }
+        ],
+        "note": "CI at this exact SHA has non-success runs: Audit complete repository fleet. Component-level evidence is partial; failing runs must be triaged before any verification claim."
+      }
     },
     {
       "id": "COMP-STANDARDS",
@@ -16919,7 +17006,66 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "TOOLING",
-      "execution_model_rationale": "Registry generators and validators executed as CI tooling; normative documents are non-executable."
+      "execution_model_rationale": "Registry generators and validators executed as CI tooling; normative documents are non-executable.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "c362d15e77b4818208b41662cf5ceba6fb90e0f2",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "ruff / Ruff",
+            "conclusion": "success"
+          },
+          {
+            "name": "Cross-Registry-Konsistenztest (SCR-0091, R1-R10, Exit 1 bei Drift)",
+            "conclusion": "success"
+          },
+          {
+            "name": "registry-consistency",
+            "conclusion": "success"
+          },
+          {
+            "name": "atc-repo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "quality",
+            "conclusion": "success"
+          },
+          {
+            "name": "Ruff format baseline",
+            "conclusion": "success"
+          },
+          {
+            "name": "tools-smoke",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo",
+            "conclusion": "success"
+          },
+          {
+            "name": "dependency-security",
+            "conclusion": "success"
+          },
+          {
+            "name": "validate",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "matrix",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-LANG",
@@ -20140,7 +20286,30 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "LIBRARY_AND_RUNTIME",
-      "execution_model_rationale": "Compiler executable plus language runtime/support libraries."
+      "execution_model_rationale": "Compiler executable plus language runtime/support libraries.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-SHIVA",
@@ -129509,7 +129678,58 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "RUNTIME",
-      "execution_model_rationale": "Capability microkernel executed as the OS runtime TCB."
+      "execution_model_rationale": "Capability microkernel executed as the OS runtime TCB.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+        "check_runs": [
+          {
+            "name": "evidence",
+            "conclusion": "success"
+          },
+          {
+            "name": "format",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "check",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "rust",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "npm-tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-tests",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-CHAIN",
@@ -137436,7 +137656,22 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Consumed as a library by the node runtime; no standalone process."
+      "execution_model_rationale": "Consumed as a library by the node runtime; no standalone process.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-ALGO",
@@ -138714,7 +138949,22 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Consensus/algorithm library consumed by the node and validators."
+      "execution_model_rationale": "Consensus/algorithm library consumed by the node and validators.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-VM",
@@ -141689,7 +141939,22 @@
         ]
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Deterministic bytecode execution library embedded in the node runtime."
+      "execution_model_rationale": "Deterministic bytecode execution library embedded in the node runtime.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-GLOBUS",
@@ -142547,7 +142812,58 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "RUNTIME",
-      "execution_model_rationale": "Operating system platform runtime (system services, drivers)."
+      "execution_model_rationale": "Operating system platform runtime (system services, drivers).",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+        "check_runs": [
+          {
+            "name": "evidence",
+            "conclusion": "success"
+          },
+          {
+            "name": "format",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "check",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "rust",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "npm-tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-tests",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-AURORA",
@@ -165706,7 +166022,30 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "RUNTIME",
-      "execution_model_rationale": "Agent/AI control-plane service runtime."
+      "execution_model_rationale": "Agent/AI control-plane service runtime.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-TOOLCHAIN",
@@ -165977,7 +166316,42 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "LIBRARY_AND_RUNTIME",
-      "execution_model_rationale": "Build tooling executables plus shared build libraries."
+      "execution_model_rationale": "Build tooling executables plus shared build libraries.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "82fe4a238603476d7c6c19d5c3044c88b71c5f2d",
+        "check_runs": [
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "smoke",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "python",
+            "conclusion": "success"
+          },
+          {
+            "name": "smoke",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-GENESIS",
@@ -189015,7 +189389,18 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "LIBRARY_AND_RUNTIME",
-      "execution_model_rationale": "Engine libraries plus editor/runtime executables."
+      "execution_model_rationale": "Engine libraries plus editor/runtime executables.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "8b7100e8a88f3c9bb6e24ddda31706902f125bb5",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-ECOSYSTEM",
@@ -191334,7 +191719,22 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "TOOLING",
-      "execution_model_rationale": "Integration, inventory and evidence tooling executed during CI runs; control-plane documents are non-executable."
+      "execution_model_rationale": "Integration, inventory and evidence tooling executed during CI runs; control-plane documents are non-executable.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "5b103bf3bff7045a7ee4eafa447e68888ab116b4",
+        "check_runs": [
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-SDK",
@@ -192945,7 +193345,70 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "SDK/CLI library surface for external consumers."
+      "execution_model_rationale": "SDK/CLI library surface for external consumers.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
+        "check_runs": [
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "evidence",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "npm-tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "pytest",
+            "conclusion": "success"
+          },
+          {
+            "name": "typescript",
+            "conclusion": "success"
+          },
+          {
+            "name": "rust",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-NODE",
@@ -196159,7 +196622,50 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "RUNTIME",
-      "execution_model_rationale": "Standalone blockchain node process (L1 runtime)."
+      "execution_model_rationale": "Standalone blockchain node process (L1 runtime).",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+        "check_runs": [
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "codeql",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "conformance",
+            "conclusion": "success"
+          },
+          {
+            "name": "codeql",
+            "conclusion": "success"
+          },
+          {
+            "name": "determinism",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-CONTRACTS",
@@ -196418,7 +196924,98 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Contract definitions and registry consumed as dependency artifacts."
+      "execution_model_rationale": "Contract definitions and registry consumed as dependency artifacts.",
+      "ci_verification": {
+        "status": "RESIDUAL",
+        "exact_source_sha": "a7c8b417f482665ef30e94fcacae6469c28b1125",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "Dependabot",
+            "conclusion": "success"
+          },
+          {
+            "name": "Dependabot",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "update-pip-graph",
+            "conclusion": "success"
+          },
+          {
+            "name": "Adjust Configuration",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "evidence",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Dependabot",
+            "conclusion": "success"
+          },
+          {
+            "name": "Dependabot",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "atclang-conformance",
+            "conclusion": "failure"
+          },
+          {
+            "name": "npm-tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "exec-chain-native",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "determinism",
+            "conclusion": "failure"
+          },
+          {
+            "name": ".github/dependabot.yml",
+            "conclusion": "success"
+          }
+        ],
+        "note": "CI at this exact SHA has non-success runs: Adjust Configuration, evidence, atclang-conformance, determinism. Component-level evidence is partial; failing runs must be triaged before any verification claim."
+      }
     },
     {
       "id": "COMP-ZKP",
@@ -197729,7 +198326,54 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Zero-knowledge proof library consumed by protocol components."
+      "execution_model_rationale": "Zero-knowledge proof library consumed by protocol components.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f",
+        "check_runs": [
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "codeql",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "rust",
+            "conclusion": "success"
+          },
+          {
+            "name": "codeql",
+            "conclusion": "success"
+          },
+          {
+            "name": "determinism",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-STORAGE-ARCHIVED",
@@ -197987,7 +198631,18 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "NON_EXECUTABLE_REFERENCE",
-      "execution_model_rationale": "Archived reference only; no executable implementation in scope."
+      "execution_model_rationale": "Archived reference only; no executable implementation in scope.",
+      "ci_verification": {
+        "status": "RESIDUAL",
+        "exact_source_sha": null,
+        "check_runs": [
+          {
+            "name": "api_error",
+            "conclusion": "error"
+          }
+        ],
+        "note": "CI at this exact SHA has non-success runs: api_error. Component-level evidence is partial; failing runs must be triaged before any verification claim."
+      }
     },
     {
       "id": "COMP-COMPUTE",
@@ -198617,7 +199272,13 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "RUNTIME",
-      "execution_model_rationale": "AI compute/scheduler service runtime."
+      "execution_model_rationale": "AI compute/scheduler service runtime.",
+      "ci_verification": {
+        "status": "NOT_RUN",
+        "exact_source_sha": "89d833edf338085d6141b0c703ebf92a0db83a5e",
+        "check_runs": [],
+        "note": "No CI check runs recorded at this exact SHA; component-level CI evidence requires a workflow run at the pinned SHA or a local test run with recorded output."
+      }
     },
     {
       "id": "COMP-LAUNCHPAD",
@@ -200543,7 +201204,22 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "RUNTIME",
-      "execution_model_rationale": "End-user application runtime."
+      "execution_model_rationale": "End-user application runtime.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "bd1a48c69983247a8428f90a77edd061ba79316b",
+        "check_runs": [
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "codeql",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-MARKET",
@@ -202784,7 +203460,38 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "RUNTIME",
-      "execution_model_rationale": "Marketplace application runtime."
+      "execution_model_rationale": "Marketplace application runtime.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "5c3bab7da8a80d58af725b7dea2478ece2456f39",
+        "check_runs": [
+          {
+            "name": "Dependabot",
+            "conclusion": "success"
+          },
+          {
+            "name": "Dependabot",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-IDE",
@@ -211759,7 +212466,26 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "RUNTIME",
-      "execution_model_rationale": "Developer IDE application runtime."
+      "execution_model_rationale": "Developer IDE application runtime.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
+        "check_runs": [
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "markdownlint / markdownlint-cli2",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-CHRONICLES",
@@ -216814,7 +217540,22 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "RUNTIME",
-      "execution_model_rationale": "Game application runtime (flagship product)."
+      "execution_model_rationale": "Game application runtime (flagship product).",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+        "check_runs": [
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-GFF",
@@ -218557,7 +219298,42 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "RUNTIME",
-      "execution_model_rationale": "Franchise factory application/tool runtime."
+      "execution_model_rationale": "Franchise factory application/tool runtime.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "673fa560322b1449e8f23cc38bf839de1b246361",
+        "check_runs": [
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "ruff / Ruff",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "quality-gates",
+            "conclusion": "success"
+          },
+          {
+            "name": "quality",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-OS-INTEGRATION",
@@ -232581,7 +233357,34 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "RUNTIME",
-      "execution_model_rationale": "OS integration orchestration runtime."
+      "execution_model_rationale": "OS integration orchestration runtime.",
+      "ci_verification": {
+        "status": "RESIDUAL",
+        "exact_source_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
+        "check_runs": [
+          {
+            "name": "Dependabot",
+            "conclusion": "success"
+          },
+          {
+            "name": "Windows Release (signiert, attested)",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "Quality Gates (fmt / clippy / test / audit)",
+            "conclusion": "success"
+          },
+          {
+            "name": "integration",
+            "conclusion": "success"
+          }
+        ],
+        "note": "CI at this exact SHA has non-success runs: Windows Release (signiert, attested). Component-level evidence is partial; failing runs must be triaged before any verification claim."
+      }
     },
     {
       "id": "COMP-SHIVA-SPEC",
@@ -236908,7 +237711,38 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "NON_EXECUTABLE_REFERENCE",
-      "execution_model_rationale": "Specification support only; kernel SSOT remains globus-os."
+      "execution_model_rationale": "Specification support only; kernel SSOT remains globus-os.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "21c99769654ff5915c421c3446e62c2a29c22b40",
+        "check_runs": [
+          {
+            "name": "Dependabot",
+            "conclusion": "success"
+          },
+          {
+            "name": "Dependabot",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "codeql",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-VM-SPEC",
@@ -238037,7 +238871,94 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "NON_EXECUTABLE_REFERENCE",
-      "execution_model_rationale": "Specification support only; VM SSOT remains a-townchain/components/vm."
+      "execution_model_rationale": "Specification support only; VM SSOT remains a-townchain/components/vm.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "21132a49355eb5fd6ea4b8a7b4e4deb5d9be60f0",
+        "check_runs": [
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "codeql",
+            "conclusion": "success"
+          },
+          {
+            "name": "Dependabot",
+            "conclusion": "success"
+          },
+          {
+            "name": "Dependabot",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "codeql",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "Dependabot",
+            "conclusion": "success"
+          },
+          {
+            "name": "Dependabot",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "codeql",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "exec-chain",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "codeql",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-ALGO-SPEC",
@@ -239035,7 +239956,38 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "NON_EXECUTABLE_REFERENCE",
-      "execution_model_rationale": "Specification support only; algorithm SSOT remains a-townchain/components/algorithm."
+      "execution_model_rationale": "Specification support only; algorithm SSOT remains a-townchain/components/algorithm.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "codeql",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "determinism",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-DOCS",
@@ -256516,7 +257468,38 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "NON_EXECUTABLE_REFERENCE",
-      "execution_model_rationale": "Documentation hub; no executable implementation."
+      "execution_model_rationale": "Documentation hub; no executable implementation.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
+        "check_runs": [
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "docs",
+            "conclusion": "success"
+          },
+          {
+            "name": "docs-smoke",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-ORG-GOV",
@@ -259127,7 +260110,26 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "TOOLING",
-      "execution_model_rationale": "GitHub workflow automation executed as CI tooling."
+      "execution_model_rationale": "GitHub workflow automation executed as CI tooling.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "af5d803dace369b83e4bffd2e4e6ba001d4aa000",
+        "check_runs": [
+          {
+            "name": "scan",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "quality",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-DEMO",
@@ -259367,7 +260369,22 @@
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       },
       "execution_model": "NON_EXECUTABLE_REFERENCE",
-      "execution_model_rationale": "Demo fixture repository; excluded from drift scope, no product runtime."
+      "execution_model_rationale": "Demo fixture repository; excluded from drift scope, no product runtime.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "d9b0da9c966dea02586b6be64139e6b3cd669dfd",
+        "check_runs": [
+          {
+            "name": "build",
+            "conclusion": "success"
+          },
+          {
+            "name": "build",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-WALLET",
@@ -262084,7 +263101,22 @@
         "reason": "No terminal current-HEAD test evidence has been bound to these function records."
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Wallet/signing library consumed by SDK and tooling."
+      "execution_model_rationale": "Wallet/signing library consumed by SDK and tooling.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-STORAGE-CORE",
@@ -263876,7 +264908,22 @@
         "reason": "Not production-capable as canonical blockchain state storage until cryptographic address semantics, durable atomic persistence and canonical state-root rules are approved and verified."
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Storage core library consumed by the node and services."
+      "execution_model_rationale": "Storage core library consumed by the node and services.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-SDK-TS",
@@ -265241,7 +266288,22 @@
         "reason": "No terminal exact-SHA cross-language conformance evidence is attached; known validation discrepancy remains open."
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "TypeScript protocol primitives consumed as a dependency."
+      "execution_model_rationale": "TypeScript protocol primitives consumed as a dependency.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-DRIVERS",
@@ -269647,7 +270709,58 @@
         "exported_symbols_reconciled": true
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Kernel driver framework consumed by ShivaCore-family kernels; executed in hosted cargo test via simulated device backends (real-hardware bring-up not claimed)."
+      "execution_model_rationale": "Kernel driver framework consumed by ShivaCore-family kernels; executed in hosted cargo test via simulated device backends (real-hardware bring-up not claimed).",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+        "check_runs": [
+          {
+            "name": "evidence",
+            "conclusion": "success"
+          },
+          {
+            "name": "format",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "check",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "rust",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "npm-tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-tests",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-SERVICES",
@@ -313811,7 +314924,58 @@
         "exported_symbols_reconciled": true
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Kernel service-space library consumed by ShivaCore-family kernels and services; behavior exercised via hosted cargo tests (simulated network and chain state)."
+      "execution_model_rationale": "Kernel service-space library consumed by ShivaCore-family kernels and services; behavior exercised via hosted cargo tests (simulated network and chain state).",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+        "check_runs": [
+          {
+            "name": "evidence",
+            "conclusion": "success"
+          },
+          {
+            "name": "format",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "check",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "rust",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "npm-tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-tests",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-EXPLORER",
@@ -316116,7 +317280,22 @@
         "exported_symbols_reconciled": true
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests."
+      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-INTEROP",
@@ -317249,7 +318428,22 @@
         "exported_symbols_reconciled": true
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests."
+      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-MINING",
@@ -319303,7 +320497,22 @@
         "exported_symbols_reconciled": true
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests."
+      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-ORACLE",
@@ -320008,7 +321217,22 @@
         "exported_symbols_reconciled": true
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests."
+      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-DNS",
@@ -321264,7 +322488,22 @@
         "exported_symbols_reconciled": true
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests."
+      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-GOVERNANCE",
@@ -322833,7 +324072,22 @@
         "exported_symbols_reconciled": true
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests."
+      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-ATCNET",
@@ -326048,7 +327302,22 @@
         "exported_symbols_reconciled": true
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests."
+      "execution_model_rationale": "Monorepo library components consumed by node, services and frontend builds; behavior exercised via hosted tests.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-CHAIN-MONO",
@@ -332744,7 +334013,22 @@
         "exported_symbols_reconciled": true
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Monorepo mirror sources consumed by the integration build; canonical contracts live in the standalone component repos."
+      "execution_model_rationale": "Monorepo mirror sources consumed by the integration build; canonical contracts live in the standalone component repos.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+        "check_runs": [
+          {
+            "name": "Analyze (python)",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-GLOBUS-SYS",
@@ -366094,7 +367378,58 @@
         "exported_symbols_reconciled": true
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Kernel subsystem libraries consumed by GlobusOS builds; behavior exercised via hosted cargo tests."
+      "execution_model_rationale": "Kernel subsystem libraries consumed by GlobusOS builds; behavior exercised via hosted cargo tests.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+        "check_runs": [
+          {
+            "name": "evidence",
+            "conclusion": "success"
+          },
+          {
+            "name": "format",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "check",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "rust",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "npm-tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-tests",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     },
     {
       "id": "COMP-GLOBUS-EDITIONS",
@@ -370228,7 +371563,58 @@
         "exported_symbols_reconciled": true
       },
       "execution_model": "LIBRARY",
-      "execution_model_rationale": "Kernel subsystem libraries consumed by GlobusOS builds; behavior exercised via hosted cargo tests."
+      "execution_model_rationale": "Kernel subsystem libraries consumed by GlobusOS builds; behavior exercised via hosted cargo tests.",
+      "ci_verification": {
+        "status": "VERIFIED",
+        "exact_source_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+        "check_runs": [
+          {
+            "name": "evidence",
+            "conclusion": "success"
+          },
+          {
+            "name": "format",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze (javascript-typescript)",
+            "conclusion": "success"
+          },
+          {
+            "name": "check",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "rust",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo",
+            "conclusion": "success"
+          },
+          {
+            "name": "audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "analyze",
+            "conclusion": "success"
+          },
+          {
+            "name": "npm-tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "cargo-tests",
+            "conclusion": "success"
+          }
+        ],
+        "note": "All recorded CI check runs at this exact source SHA succeeded. This is component-level automated evidence at the pinned SHA; it does not constitute per-function verification of every catalog binding."
+      }
     }
   ],
   "cross_component_interfaces": [

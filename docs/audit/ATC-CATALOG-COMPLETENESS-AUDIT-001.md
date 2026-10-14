@@ -352,3 +352,13 @@ The last 959 unbound candidates were bound in one sweep, closing the org-wide bi
 - **COMP-ALGO-SPEC +12**: atc-algorithm bound at current SHA `f25b4338…`; the stale-inventory finding is RESOLVED (inventory refreshed from `5a562804…` to the current census SHA) and every binding cross-references atc-algorithm's own machine-readable function catalog (PR #17) to prevent duplicate contracts.
 
 **Final state: 45 components / 5,619 functions; reconcile 5,572 candidates bound, 0 unbound, 0 duplicate groups, 0 component findings, no binding completion gaps.** Catalog validator `PASS_STRUCTURAL_ONLY` (0 errors); tools tests 58/58. Remaining org-wide gates are evidence-only: all new bindings are `SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED` (mapping is not functional verification) and readiness remains `BLOCKED` until per-function terminal exact-SHA verification evidence is produced.
+
+## 27. Component-level CI evidence at exact SHAs (2026-10-14)
+
+Following the binding closure (section 26), a **`ci_verification` block** was added to every component, recording the GitHub check runs **at the exact census source SHA** (SHA-specific merge evidence rule: results from an older commit are not valid for the current HEAD). All 26 active repos queried; 45 components covered.
+
+- **VERIFIED (40 components / 22 repos)**: every recorded CI check run at the exact SHA succeeded (e.g. globus-os 11/11, atc-vm 20/20, atc-sdk 14/14, atc-node 9/9, atc-zkp 10/10, atc-standards 13/13, atc-toolchain 7/7, a-townchain 2/2, aurora-ai 4/4, genesis-engine 1/1). This is component-level automated evidence at the pinned SHA — it does **not** constitute per-function verification of every catalog binding; bindings remain `SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED`.
+- **RESIDUAL (4 components / 3 repos)**: COMP-ATC-ENG (atc-engineering), COMP-CONTRACTS (atc-contracts), COMP-STORAGE-ARCHIVED (atc-storage), COMP-OS-INTEGRATION (a-townchain-os). Non-success runs at the exact SHA must be triaged before any verification claim for these components.
+- **NOT_RUN (1 component)**: COMP-COMPUTE — atc-compute has no recorded CI check runs at the pinned SHA; needs a workflow run or a recorded local test run.
+
+Catalog validator `PASS_STRUCTURAL_ONLY` (0 errors), reconcile unchanged (5,572 bound, 0 unbound, 0 findings), tools tests 58/58. **Open:** triage of the failing runs in the 3 partial repos, CI-or-local evidence for atc-compute, and the per-function functional verification program which remains the sole org-wide completion gate.
