@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-GENESIS-ENGINE-MODULES-ATC-GENESIS-AI-CARGO-TOML-D93A4B8D63",
-  "timestamp": "2026-10-13T22:01:15.287894Z",
+  "timestamp": "2026-10-14T07:42:12.340027Z",
   "category": "evidence",
   "title": "Indexed source: components/genesis-engine/modules/atc-genesis-ai/Cargo.toml",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/genesis-engine/modules/atc-genesis-ai/Cargo.toml",
-    "commit": "9e851f3ead8759ea0bbc275f377980dfba8c2b45"
+    "commit": "5b103bf3bff7045a7ee4eafa447e68888ab116b4"
   },
   "tags": [
     "generated",

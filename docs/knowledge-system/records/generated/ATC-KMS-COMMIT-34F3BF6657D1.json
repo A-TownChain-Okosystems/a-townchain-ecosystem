@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-34F3BF6657D1",
-  "timestamp": "2026-10-13T22:01:15.287894Z",
+  "timestamp": "2026-10-14T07:42:12.340027Z",
   "category": "change",
   "title": "Commit: ci: test source symbol scanner on exact revision",
   "context": "Git commit 34f3bf6657d18a9fa49aa31c7b00e19acb9677c6 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/34f3bf6657d18a9fa49aa31c7b00e19acb9677c6",
-    "commit": "9e851f3ead8759ea0bbc275f377980dfba8c2b45"
+    "commit": "5b103bf3bff7045a7ee4eafa447e68888ab116b4"
   },
   "tags": [
     "commit",
