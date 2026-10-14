@@ -600,3 +600,12 @@ atc-standards main is PR-protected (14 required checks) — PR #109 open for own
 
 ### Running total after passes 1-13
 **3,656 of 5,619 bindings functionally verified (65.1%).** Remaining test-surface work: COMP-AURORA (297 TSX), COMP-IDE (143), COMP-DOCS (271), COMP-CHRONICLES (64 py), COMP-ATC-ENG (47), COMP-LANG (30), COMP-GFF (5), COMP-VM-SPEC (7), long-tail main() entries.
+
+## 43. Functional verification pass 14: COMP-CHRONICLES test-surface tranche (2026-10-14)
+
+Second test-surface-writing pass: new pytest suite `tests/test_contract_suite.py` in genesis-chronicles (commit `69103e14` on main, 8 tests, no network) covering GenesisChroniclesContract lifecycle (mint/transfer/gain_xp/battle/get_token/get_owner_tokens/get_stats, Stats.total, NFT.to_dict), MarketplaceContract (set_token_contract, set_balance_oracle, list_for_sale incl. error paths, buy, cancel_listing, get_listings, get_listing, get_token_listing, get_sales_history, get_stats, Listing.to_dict), BattleEngine (battle, is_alive, hp_percent) and the Flask API handlers (health, listings, get_listing, token_listing, list_nft, buy, cancel, sales_history, stats) against isolated infra stubs (base contract, flask, smart_contracts) — the contract/engine logic itself runs unmodified.
+
+COMP-CHRONICLES bindings re-bound to main `69103e14` (source identical to census SHA a3f417b2, diff: the new test file only, documented per binding). Verification: **all 80 of 80 bindings now FUNCTIONALLY_VERIFIED_TEST_REFERENCE** — including the 16 Rust bindings verified in pass 10, which keep their cargo-suite evidence from a3f417b2. **COMP-CHRONICLES is the first large component fully functionally verified.**
+
+### Running total after passes 1-14
+**3,720 of 5,619 bindings functionally verified (66.2%).** Remaining test-surface work: COMP-AURORA (297 TSX), COMP-DOCS (271), COMP-IDE (143), COMP-ATC-ENG (47), COMP-LANG (30), smaller tails.

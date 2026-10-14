@@ -1,31 +1,15 @@
 {
  "component": "COMP-CHRONICLES",
- "repo": "wt-genesis-chronicles",
- "head_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+ "repo": "wt-chron",
+ "head_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
  "ci_evidence": null,
  "test_run": {
-  "command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+  "command": "python3 -m pytest tests/ -q 2>&1",
   "exit_code": 0,
-  "passed": 5,
+  "passed": 8,
   "log_tail": [
-   "Compiling atc_game v0.1.0 (/tmp/wt-genesis-chronicles/modules/atc-game)",
-   "    Finished `release` profile [optimized] target(s) in 0.28s",
-   "     Running unittests src/lib.rs (modules/atc-game/target/release/build/atc_game/07efbe9bb55b0067/out/atc_game-07efbe9bb55b0067)",
-   "",
-   "running 5 tests",
-   "test scoring::tests::test_leaderboard ... ok",
-   "test engine::tests::test_engine ... ok",
-   "test entities::tests::test_entity ... ok",
-   "test rules::tests::test_move ... ok",
-   "test state::tests::test_state ... ok",
-   "",
-   "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
-   "",
-   "   Doc-tests atc_game",
-   "",
-   "running 0 tests",
-   "",
-   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+   "........                                                                 [100%]",
+   "8 passed in 0.02s"
   ]
  },
  "bindings": [
@@ -41,224 +25,224 @@
    "symbol": "mint",
    "source_path": "contracts/genesis_chronicles_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-003",
    "symbol": "health",
    "source_path": "api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-004",
    "symbol": "listings",
    "source_path": "api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-005",
    "symbol": "get_listing",
    "source_path": "api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-006",
    "symbol": "token_listing",
    "source_path": "api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-007",
    "symbol": "list_nft",
    "source_path": "api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-008",
    "symbol": "buy",
    "source_path": "api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-009",
    "symbol": "cancel",
    "source_path": "api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-010",
    "symbol": "sales_history",
    "source_path": "api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-011",
    "symbol": "stats",
    "source_path": "api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-012",
    "symbol": "total",
    "source_path": "contracts/genesis_chronicles_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-013",
    "symbol": "gain_xp",
    "source_path": "contracts/genesis_chronicles_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-014",
    "symbol": "to_dict",
    "source_path": "contracts/genesis_chronicles_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-015",
    "symbol": "transfer",
    "source_path": "contracts/genesis_chronicles_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-016",
    "symbol": "battle",
    "source_path": "contracts/genesis_chronicles_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-017",
    "symbol": "get_token",
    "source_path": "contracts/genesis_chronicles_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-018",
    "symbol": "get_owner_tokens",
    "source_path": "contracts/genesis_chronicles_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-019",
    "symbol": "get_stats",
    "source_path": "contracts/genesis_chronicles_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-020",
    "symbol": "to_dict",
    "source_path": "contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-021",
    "symbol": "set_token_contract",
    "source_path": "contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-022",
    "symbol": "set_balance_oracle",
    "source_path": "contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-023",
    "symbol": "list_for_sale",
    "source_path": "contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-024",
    "symbol": "buy",
    "source_path": "contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-025",
    "symbol": "cancel_listing",
    "source_path": "contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-026",
    "symbol": "get_listings",
    "source_path": "contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-027",
    "symbol": "get_listing",
    "source_path": "contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-028",
    "symbol": "get_token_listing",
    "source_path": "contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-029",
    "symbol": "get_sales_history",
    "source_path": "contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-030",
    "symbol": "get_stats",
    "source_path": "contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-031",
    "symbol": "is_alive",
    "source_path": "engine/battle_engine.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-032",
    "symbol": "hp_percent",
    "source_path": "engine/battle_engine.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-033",
    "symbol": "battle",
    "source_path": "engine/battle_engine.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-034",
@@ -370,230 +354,230 @@
    "symbol": "health",
    "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-050",
    "symbol": "listings",
    "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-051",
    "symbol": "get_listing",
    "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-052",
    "symbol": "token_listing",
    "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-053",
    "symbol": "list_nft",
    "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-054",
    "symbol": "buy",
    "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-055",
    "symbol": "cancel",
    "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-056",
    "symbol": "sales_history",
    "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-057",
    "symbol": "stats",
    "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-058",
    "symbol": "to_dict",
    "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-059",
    "symbol": "set_token_contract",
    "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-060",
    "symbol": "set_balance_oracle",
    "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-061",
    "symbol": "list_for_sale",
    "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-062",
    "symbol": "buy",
    "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-063",
    "symbol": "cancel_listing",
    "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-064",
    "symbol": "get_listings",
    "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-065",
    "symbol": "get_listing",
    "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-066",
    "symbol": "get_token_listing",
    "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-067",
    "symbol": "get_sales_history",
    "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-068",
    "symbol": "get_stats",
    "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-069",
    "symbol": "total",
    "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-070",
    "symbol": "gain_xp",
    "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-071",
    "symbol": "to_dict",
    "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-072",
    "symbol": "mint",
    "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-073",
    "symbol": "transfer",
    "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-074",
    "symbol": "battle",
    "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-075",
    "symbol": "get_token",
    "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-076",
    "symbol": "get_owner_tokens",
    "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-077",
    "symbol": "get_stats",
    "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-078",
    "symbol": "is_alive",
    "source_path": "modules/genesis-chronicles/engine/battle_engine.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-079",
    "symbol": "hp_percent",
    "source_path": "modules/genesis-chronicles/engine/battle_engine.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-CHRON-080",
    "symbol": "battle",
    "source_path": "modules/genesis-chronicles/engine/battle_engine.py",
    "language": "python",
-   "test_reference": false
+   "test_reference": true
   }
  ],
  "summary": {
   "total": 80,
-  "test_referenced": 16,
+  "test_referenced": 80,
   "suite_pass": true,
-  "eligible_functionally_verified": 16
+  "eligible_functionally_verified": 80
  }
 }

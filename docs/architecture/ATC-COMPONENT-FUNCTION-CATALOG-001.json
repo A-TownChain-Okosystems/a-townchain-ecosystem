@@ -230120,7 +230120,7 @@
       "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/atc-game/src/engine.rs",
       "symbol_or_entrypoint": "start",
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "file_blob_sha": "f79a0609d51305053146e4a9a5e286125b9da43f",
       "evidence": "https://github.com/A-TownChain-Okosystems/genesis-chronicles/blob/a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab/modules/atc-game/src/engine.rs",
       "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: start at modules/atc-game/src/engine.rs (additional related symbols in the original qualified mapping: GameEngine::{start,update,stop}).",
@@ -230128,12 +230128,13 @@
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles",
      "preconditions": {
@@ -230205,14 +230206,24 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/genesis_chronicles_contract.py",
       "symbol_or_entrypoint": "mint",
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "file_blob_sha": "6e28e518f9c045184a393cb3076e7fe0621c81f4",
       "evidence": "https://github.com/A-TownChain-Okosystems/genesis-chronicles/blob/a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab/contracts/genesis_chronicles_contract.py",
       "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: mint at contracts/genesis_chronicles_contract.py (additional related symbols in the original qualified mapping: GenesisChroniclesNFT::mint). Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
-      "symbol_kind": "function"
+      "symbol_kind": "function",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles",
      "preconditions": {
@@ -230275,13 +230286,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "api/marketplace_routes.py",
       "symbol_or_entrypoint": "health",
       "symbol_kind": "function",
       "line_start": 13,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -230336,13 +230357,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "api/marketplace_routes.py",
       "symbol_or_entrypoint": "listings",
       "symbol_kind": "function",
       "line_start": 18,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -230397,13 +230428,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "api/marketplace_routes.py",
       "symbol_or_entrypoint": "get_listing",
       "symbol_kind": "function",
       "line_start": 34,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -230458,13 +230499,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "api/marketplace_routes.py",
       "symbol_or_entrypoint": "token_listing",
       "symbol_kind": "function",
       "line_start": 39,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -230519,13 +230570,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "api/marketplace_routes.py",
       "symbol_or_entrypoint": "list_nft",
       "symbol_kind": "function",
       "line_start": 44,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -230580,13 +230641,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "api/marketplace_routes.py",
       "symbol_or_entrypoint": "buy",
       "symbol_kind": "function",
       "line_start": 59,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -230641,13 +230712,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "api/marketplace_routes.py",
       "symbol_or_entrypoint": "cancel",
       "symbol_kind": "function",
       "line_start": 71,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -230702,13 +230783,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "api/marketplace_routes.py",
       "symbol_or_entrypoint": "sales_history",
       "symbol_kind": "function",
       "line_start": 84,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -230763,13 +230854,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "api/marketplace_routes.py",
       "symbol_or_entrypoint": "stats",
       "symbol_kind": "function",
       "line_start": 97,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -230824,13 +230925,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/genesis_chronicles_contract.py",
       "symbol_or_entrypoint": "total",
       "symbol_kind": "function",
       "line_start": 56,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -230885,13 +230996,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/genesis_chronicles_contract.py",
       "symbol_or_entrypoint": "gain_xp",
       "symbol_kind": "function",
       "line_start": 118,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -230946,13 +231067,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/genesis_chronicles_contract.py",
       "symbol_or_entrypoint": "to_dict",
       "symbol_kind": "function",
       "line_start": 130,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231009,13 +231140,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/genesis_chronicles_contract.py",
       "symbol_or_entrypoint": "transfer",
       "symbol_kind": "function",
       "line_start": 216,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231071,13 +231212,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/genesis_chronicles_contract.py",
       "symbol_or_entrypoint": "battle",
       "symbol_kind": "function",
       "line_start": 230,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231132,13 +231283,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/genesis_chronicles_contract.py",
       "symbol_or_entrypoint": "get_token",
       "symbol_kind": "function",
       "line_start": 284,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231193,13 +231354,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/genesis_chronicles_contract.py",
       "symbol_or_entrypoint": "get_owner_tokens",
       "symbol_kind": "function",
       "line_start": 288,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231254,13 +231425,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/genesis_chronicles_contract.py",
       "symbol_or_entrypoint": "get_stats",
       "symbol_kind": "function",
       "line_start": 292,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "genesis_chronicles_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231315,13 +231496,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "to_dict",
       "symbol_kind": "function",
       "line_start": 47,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231376,13 +231567,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "set_token_contract",
       "symbol_kind": "function",
       "line_start": 85,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231437,13 +231638,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "set_balance_oracle",
       "symbol_kind": "function",
       "line_start": 89,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231498,13 +231709,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "list_for_sale",
       "symbol_kind": "function",
       "line_start": 94,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231561,13 +231782,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "buy",
       "symbol_kind": "function",
       "line_start": 142,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231623,13 +231854,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "cancel_listing",
       "symbol_kind": "function",
       "line_start": 196,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231684,13 +231925,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "get_listings",
       "symbol_kind": "function",
       "line_start": 214,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231745,13 +231996,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "get_listing",
       "symbol_kind": "function",
       "line_start": 263,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231806,13 +232067,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "get_token_listing",
       "symbol_kind": "function",
       "line_start": 267,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231869,13 +232140,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "get_sales_history",
       "symbol_kind": "function",
       "line_start": 271,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231930,13 +232211,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "get_stats",
       "symbol_kind": "function",
       "line_start": 279,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -231991,13 +232282,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "engine/battle_engine.py",
       "symbol_or_entrypoint": "is_alive",
       "symbol_kind": "function",
       "line_start": 58,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "battle_engine.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "battle_engine.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232052,13 +232353,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "engine/battle_engine.py",
       "symbol_or_entrypoint": "hp_percent",
       "symbol_kind": "function",
       "line_start": 61,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "battle_engine.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "battle_engine.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232113,13 +232424,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "engine/battle_engine.py",
       "symbol_or_entrypoint": "battle",
       "symbol_kind": "function",
       "line_start": 122,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "battle_engine.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "battle_engine.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232179,17 +232500,18 @@
       "symbol_or_entrypoint": "new",
       "symbol_kind": "function",
       "line_start": 9,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "engine.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232249,17 +232571,18 @@
       "symbol_or_entrypoint": "stop",
       "symbol_kind": "function",
       "line_start": 11,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "engine.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232319,17 +232642,18 @@
       "symbol_or_entrypoint": "update",
       "symbol_kind": "function",
       "line_start": 12,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "engine.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232389,17 +232713,18 @@
       "symbol_or_entrypoint": "is_running",
       "symbol_kind": "function",
       "line_start": 16,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "engine.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232459,17 +232784,18 @@
       "symbol_or_entrypoint": "new",
       "symbol_kind": "function",
       "line_start": 5,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "entities.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232530,17 +232856,18 @@
       "symbol_or_entrypoint": "move_to",
       "symbol_kind": "function",
       "line_start": 6,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "entities.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232600,17 +232927,18 @@
       "symbol_or_entrypoint": "destroy",
       "symbol_kind": "function",
       "line_start": 7,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "entities.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232672,17 +233000,18 @@
       "symbol_or_entrypoint": "is_valid_move",
       "symbol_kind": "function",
       "line_start": 3,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "rules.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232742,17 +233071,18 @@
       "symbol_or_entrypoint": "new",
       "symbol_kind": "function",
       "line_start": 6,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "scoring.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232813,17 +233143,18 @@
       "symbol_or_entrypoint": "add_score",
       "symbol_kind": "function",
       "line_start": 7,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "scoring.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232883,17 +233214,18 @@
       "symbol_or_entrypoint": "top_n",
       "symbol_kind": "function",
       "line_start": 10,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "scoring.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -232954,17 +233286,18 @@
       "symbol_or_entrypoint": "new",
       "symbol_kind": "function",
       "line_start": 10,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "state.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233025,17 +233358,18 @@
       "symbol_or_entrypoint": "set",
       "symbol_kind": "function",
       "line_start": 11,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "state.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233095,17 +233429,18 @@
       "symbol_or_entrypoint": "get",
       "symbol_kind": "function",
       "line_start": 12,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "state.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233165,17 +233500,18 @@
       "symbol_or_entrypoint": "advance",
       "symbol_kind": "function",
       "line_start": 13,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
       "note": "state.rs binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "cargo test --release --manifest-path modules/atc-game/Cargo.toml 2>&1",
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 5,
+       "suite_passed": 8,
        "ci_evidence": null,
-       "verified_against_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
-      }
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      },
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence."
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233230,13 +233566,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
       "symbol_or_entrypoint": "health",
       "symbol_kind": "function",
       "line_start": 13,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233291,13 +233637,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
       "symbol_or_entrypoint": "listings",
       "symbol_kind": "function",
       "line_start": 18,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233352,13 +233708,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
       "symbol_or_entrypoint": "get_listing",
       "symbol_kind": "function",
       "line_start": 34,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233413,13 +233779,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
       "symbol_or_entrypoint": "token_listing",
       "symbol_kind": "function",
       "line_start": 39,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233474,13 +233850,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
       "symbol_or_entrypoint": "list_nft",
       "symbol_kind": "function",
       "line_start": 44,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233535,13 +233921,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
       "symbol_or_entrypoint": "buy",
       "symbol_kind": "function",
       "line_start": 59,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233596,13 +233992,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
       "symbol_or_entrypoint": "cancel",
       "symbol_kind": "function",
       "line_start": 71,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233657,13 +234063,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
       "symbol_or_entrypoint": "sales_history",
       "symbol_kind": "function",
       "line_start": 84,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233718,13 +234134,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/api/marketplace_routes.py",
       "symbol_or_entrypoint": "stats",
       "symbol_kind": "function",
       "line_start": 97,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_routes.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233779,13 +234205,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "to_dict",
       "symbol_kind": "function",
       "line_start": 47,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233840,13 +234276,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "set_token_contract",
       "symbol_kind": "function",
       "line_start": 85,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233901,13 +234347,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "set_balance_oracle",
       "symbol_kind": "function",
       "line_start": 89,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -233962,13 +234418,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "list_for_sale",
       "symbol_kind": "function",
       "line_start": 94,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234025,13 +234491,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "buy",
       "symbol_kind": "function",
       "line_start": 142,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234087,13 +234563,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "cancel_listing",
       "symbol_kind": "function",
       "line_start": 196,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234148,13 +234634,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "get_listings",
       "symbol_kind": "function",
       "line_start": 214,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234209,13 +234705,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "get_listing",
       "symbol_kind": "function",
       "line_start": 263,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234270,13 +234776,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "get_token_listing",
       "symbol_kind": "function",
       "line_start": 267,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234333,13 +234849,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "get_sales_history",
       "symbol_kind": "function",
       "line_start": 271,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234394,13 +234920,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/marketplace_contract.py",
       "symbol_or_entrypoint": "get_stats",
       "symbol_kind": "function",
       "line_start": 279,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "marketplace_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234455,13 +234991,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
       "symbol_or_entrypoint": "total",
       "symbol_kind": "function",
       "line_start": 56,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234516,13 +235062,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
       "symbol_or_entrypoint": "gain_xp",
       "symbol_kind": "function",
       "line_start": 118,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234577,13 +235133,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
       "symbol_or_entrypoint": "to_dict",
       "symbol_kind": "function",
       "line_start": 130,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234638,13 +235204,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
       "symbol_or_entrypoint": "mint",
       "symbol_kind": "function",
       "line_start": 176,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234701,13 +235277,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
       "symbol_or_entrypoint": "transfer",
       "symbol_kind": "function",
       "line_start": 216,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234763,13 +235349,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
       "symbol_or_entrypoint": "battle",
       "symbol_kind": "function",
       "line_start": 230,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234824,13 +235420,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
       "symbol_or_entrypoint": "get_token",
       "symbol_kind": "function",
       "line_start": 284,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234885,13 +235491,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
       "symbol_or_entrypoint": "get_owner_tokens",
       "symbol_kind": "function",
       "line_start": 288,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -234946,13 +235562,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/contracts/shivamon_contract.py",
       "symbol_or_entrypoint": "get_stats",
       "symbol_kind": "function",
       "line_start": 292,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "shivamon_contract.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -235007,13 +235633,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/engine/battle_engine.py",
       "symbol_or_entrypoint": "is_alive",
       "symbol_kind": "function",
       "line_start": 58,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "battle_engine.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "battle_engine.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -235068,13 +235704,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/engine/battle_engine.py",
       "symbol_or_entrypoint": "hp_percent",
       "symbol_kind": "function",
       "line_start": 61,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "battle_engine.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "battle_engine.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
@@ -235129,13 +235775,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "modules/genesis-chronicles/engine/battle_engine.py",
       "symbol_or_entrypoint": "battle",
       "symbol_kind": "function",
       "line_start": 122,
-      "exact_source_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "note": "battle_engine.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2)."
+      "exact_source_sha": "69103e14ece737c2993c7913691320b3f588ea8e",
+      "note": "battle_engine.py binding; census-verified at exact HEAD a3f417b2350b. Mapping only, functional verification pending. Internal mirror of the repo-root path of the same module; the repo-root path is the primary surface. Suite passes at the bound SHA but no direct test reference for this symbol (verified a3f417b2).",
+      "sha_note": "SHA refreshed to genesis-chronicles main 69103e14 after test-surface commit; source identical to census SHA a3f417b2 (diff: tests/test_contract_suite.py only). Rust bindings previously verified at a3f417b2 keep their verification evidence.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "python3 -m pytest tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 8,
+       "ci_evidence": null,
+       "verified_against_sha": "69103e14ece737c2993c7913691320b3f588ea8e"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles/",
      "dependencies": {
