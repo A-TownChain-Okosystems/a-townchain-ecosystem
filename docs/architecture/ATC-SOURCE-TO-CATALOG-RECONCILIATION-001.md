@@ -161,3 +161,26 @@ The previous refresh limitation is narrowed: direct GitHub REST reads of `refs/h
 - This snapshot does **not** declare all repositories synchronized. No repository has been advanced, reset, force-pushed, or merged as part of this pass.
 - Remaining gates before any source synchronization: resolve each commit's tree SHA; compare canonical source repositories with integration/catalog pins; inspect ahead/behind and open PR divergence; collect required CI status for each exact HEAD; then create narrowly scoped PRs for confirmed drift.
 - Status: `REF_SNAPSHOT=VERIFIED`; `TREE_AND_CI_AUDIT=RESIDUAL`; `CROSS_REPOSITORY_SYNC=BLOCKED_PENDING_DIFF_AND_GATE_EVIDENCE`.
+
+## Crypto Service candidate reconciliation — 2026-10-15
+
+- Catalog change: [ATC-COMPONENT-FUNCTION-CATALOG-001.json](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/blob/audit/source-function-inventory-001-2026-10-11/docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json)
+- Proposed component: `COMP-CRYPTO-SERVICE`; architecture candidate only, not a claim that a unified service is implemented.
+- Candidate IDs checked against the catalog's existing IDs before insertion: no collisions observed for the new component or its seven function IDs.
+- Source evidence is deliberately differentiated from service-level capability claims:
+
+| Candidate function ID | Source/reconciliation result | Readiness |
+|---|---|---|
+| `FUNC-CRYPTO-SERVICE-WALLET-ACCESS` | Mapped to `Wallet::{address,sign_transaction}` in canonical `a-townchain/components/wallet/src/wallet.rs`, source commit `a5e689671b1870699c7a1750f8a166e83590a41c`, blob `ab7edae3844277b8c9c7596e3b2bfa1c47c9b816`. This proves a wallet façade/signing symbol exists, not a hosted wallet service. | `RESIDUAL` |
+| `FUNC-CRYPTO-SERVICE-PAYMENT-SUBMIT` | Wallet signing is not payment submission. No canonical service/RPC submission symbol bound. | `UNRESOLVED` |
+| `FUNC-CRYPTO-SERVICE-FINALITY-QUERY` | `ATC-CONSENSUS-306-FINALITY.md` at source commit `a5e689671b1870699c7a1750f8a166e83590a41c` is explicitly draft; it states implementation, tests and evidence are pending. Specification only, no query symbol. | `BLOCKED` |
+| `FUNC-CRYPTO-SERVICE-RPC-DISCOVERY` | No canonical discovery symbol/provider contract source-mapped. | `UNRESOLVED` |
+| `FUNC-CRYPTO-SERVICE-INDEXER-QUERY` | Known `atc-indexer` is recorded as archived reference-only; no active canonical implementation owner or source SHA established. | `BLOCKED` |
+| `FUNC-CRYPTO-SERVICE-SDK-CONFORMANCE` | `atc-sdk/docs/specs/SPEC-OVERVIEW.md` at source commit `34eef345907935cdaf279e0546f230c03c86bb0c` records conformance/CI evidence as not complete. This is a gap document, not an implementation symbol. | `RESIDUAL` |
+| `FUNC-CRYPTO-SERVICE-CROSSCHAIN-ADAPTER` | Remains blocked on normative security/finality/replay/failure contracts tracked by [issue #126](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/126); no implementation symbol claimed. | `BLOCKED` |
+
+- Bidirectional source-to-catalog reconciliation is **NOT COMPLETE**. The symbol census remains pending/residual; this change only records candidate contracts and known evidence gaps.
+- Validator/CI state: pending terminal workflow evidence for this exact PR head. No PASS is asserted here.
+- Release decision remains `BLOCKED`; no auto-merge or gate relaxation.
+- A-Town watermark: Globus OS / A-TownChain.
+
