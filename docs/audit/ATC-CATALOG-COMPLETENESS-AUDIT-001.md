@@ -574,3 +574,10 @@ Exact-SHA worktrees, fail-closed suites, all green:
 
 ### Running total after passes 1-10
 **3,574 of 5,619 bindings functionally verified (63.6%)**. Remaining bulk: COMP-DOCS (280), COMP-AURORA (297), COMP-IDE (143, no test files at all), COMP-ATC-ENG residual (47), COMP-STANDARDS residual (102), COMP-LANG residual (30) and small tails.
+
+## 40. Functional verification pass 11: COMP-DOCS (2026-10-14)
+
+COMP-DOCS (a-townchain-os-docs @ `f6599260`): the `aistudio` vitest suite passes at the bound SHA (6 test files, 27 tests, exit 0). Only **9 of 280 bindings** are test-referenced by the existing test files and were upgraded; the remaining 271 (mostly UI views/components without test files referencing them) keep the source-mapped status — honest residual, closing them requires new test files, not verification effort.
+
+### Running total after passes 1-11
+**3,583 of 5,619 bindings functionally verified (63.8%)**. Remaining: COMP-AURORA 297, COMP-IDE 143, COMP-DOCS 271, COMP-STANDARDS 102, COMP-ATC-ENG 47, COMP-LANG 30, COMP-ALGO-SPEC 14 (SHA-split), COMP-CHRONICLES 64 (py), smaller tails — nearly all gated on missing test surfaces (new pytest/vitest files), not on verification runs.
