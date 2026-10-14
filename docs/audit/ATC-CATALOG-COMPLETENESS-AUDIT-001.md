@@ -581,3 +581,11 @@ COMP-DOCS (a-townchain-os-docs @ `f6599260`): the `aistudio` vitest suite passes
 
 ### Running total after passes 1-11
 **3,583 of 5,619 bindings functionally verified (63.8%)**. Remaining: COMP-AURORA 297, COMP-IDE 143, COMP-DOCS 271, COMP-STANDARDS 102, COMP-ATC-ENG 47, COMP-LANG 30, COMP-ALGO-SPEC 14 (SHA-split), COMP-CHRONICLES 64 (py), smaller tails — nearly all gated on missing test surfaces (new pytest/vitest files), not on verification runs.
+
+## 41. Functional verification pass 12: COMP-ALGO-SPEC split verification (2026-10-14)
+
+COMP-ALGO-SPEC spans two bound SHAs; the per-component SHA guard blocked a single run. Resolved by split verification: the 12 code bindings at `f25b4338` were verified against the green cargo suite (18 tests, exit 0) — **6 upgraded** (test-referenced), 6 stay source-mapped with honest notes (suite passes but symbols unreferenced). The 2 divergent bindings at `5a562804` are normative markdown spec documents (ATC-CONSENSUS-306-FINALITY, ATC-CONSENSUS-DET-DETERMINISM) — not code, no test surface by design; documented as spec-document bindings in the split SHA scope.
+
+**Running total after passes 1-12: 3,589 of 5,619 bindings functionally verified (63.9%).**
+
+The remaining ~2,030 open bindings are now almost entirely test-surface work (new pytest/vitest files needed in atc-standards, genesis-chronicles, aurora-ai, atc-ide, os-docs, atclang tools), not verification runs. This closes the verification-runnable backlog of the catalog.

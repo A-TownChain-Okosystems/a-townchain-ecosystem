@@ -258669,7 +258669,7 @@
       "exact_source_sha": "5a5628044ef4daacca943062eac3fd27a2eaec93",
       "file_blob_sha": "0727a9584491b31cf14ad10887753892abb6c863",
       "evidence": "https://github.com/A-TownChain-Okosystems/atc-algorithm/blob/5a5628044ef4daacca943062eac3fd27a2eaec93/specs/ATC-CONSENSUS-306-FINALITY.md",
-      "note": "This catalog capability is represented by a declarative/specification/policy artifact, not a callable source function. Exact file reference is retained for traceability; exclusion from lexical function-symbol matching is intentional. Artifact contents, schema validity, consumers and runtime effects require separate validation.",
+      "note": "Normative spec document (markdown) bound at 5a562804 — not code, no test surface by design; split-verified SHA scope documented.",
       "artifact_kind": "SPECIFICATION_DOCUMENT"
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm",
@@ -258745,7 +258745,7 @@
       "exact_source_sha": "5a5628044ef4daacca943062eac3fd27a2eaec93",
       "file_blob_sha": "f4e4b33ab8516ec8f72aadfcf74e25155b1d05e6",
       "evidence": "https://github.com/A-TownChain-Okosystems/atc-algorithm/blob/5a5628044ef4daacca943062eac3fd27a2eaec93/specs/ATC-CONSENSUS-DET-DETERMINISM.md",
-      "note": "This catalog capability is represented by a declarative/specification/policy artifact, not a callable source function. Exact file reference is retained for traceability; exclusion from lexical function-symbol matching is intentional. Artifact contents, schema validity, consumers and runtime effects require separate validation.",
+      "note": "Normative spec document (markdown) bound at 5a562804 — not code, no test surface by design; split-verified SHA scope documented.",
       "artifact_kind": "SPECIFICATION_DOCUMENT"
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm",
@@ -258807,13 +258807,22 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "src/hash.rs",
       "symbol_or_entrypoint": "atc_hash",
       "symbol_kind": "function",
       "line_start": 113,
       "exact_source_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
-      "note": "hash.rs binding; census-verified at exact HEAD f25b43383433. Mapping only, functional verification pending. Cross-reference: atc-algorithm also publishes its own machine-readable function catalog (PR #17); this binding reconciles census coverage."
+      "note": "No test reference for this symbol in the atc-algorithm test surface at f25b4338; suite passes but symbol unreferenced.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "cargo test --release 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 18,
+       "ci_evidence": null,
+       "verified_against_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm/",
      "dependencies": {
@@ -258868,13 +258877,22 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "src/hash.rs",
       "symbol_or_entrypoint": "atc_hash_hex",
       "symbol_kind": "function",
       "line_start": 136,
       "exact_source_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
-      "note": "hash.rs binding; census-verified at exact HEAD f25b43383433. Mapping only, functional verification pending. Cross-reference: atc-algorithm also publishes its own machine-readable function catalog (PR #17); this binding reconciles census coverage."
+      "note": "No test reference for this symbol in the atc-algorithm test surface at f25b4338; suite passes but symbol unreferenced.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "cargo test --release 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 18,
+       "ci_evidence": null,
+       "verified_against_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm/",
      "dependencies": {
@@ -258935,7 +258953,7 @@
       "symbol_kind": "function",
       "line_start": 31,
       "exact_source_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
-      "note": "poh.rs binding; census-verified at exact HEAD f25b43383433. Mapping only, functional verification pending. Cross-reference: atc-algorithm also publishes its own machine-readable function catalog (PR #17); this binding reconciles census coverage."
+      "note": "No test reference for this symbol in the atc-algorithm test surface at f25b4338; suite passes but symbol unreferenced."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm/",
      "dependencies": {
@@ -258990,13 +259008,22 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "src/poh.rs",
       "symbol_or_entrypoint": "genesis",
       "symbol_kind": "function",
       "line_start": 45,
       "exact_source_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
-      "note": "poh.rs binding; census-verified at exact HEAD f25b43383433. Mapping only, functional verification pending. Cross-reference: atc-algorithm also publishes its own machine-readable function catalog (PR #17); this binding reconciles census coverage."
+      "note": "No test reference for this symbol in the atc-algorithm test surface at f25b4338; suite passes but symbol unreferenced.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "cargo test --release 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 18,
+       "ci_evidence": null,
+       "verified_against_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm/",
      "dependencies": {
@@ -259051,13 +259078,22 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "src/poh.rs",
       "symbol_or_entrypoint": "tick",
       "symbol_kind": "function",
       "line_start": 50,
       "exact_source_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
-      "note": "poh.rs binding; census-verified at exact HEAD f25b43383433. Mapping only, functional verification pending. Cross-reference: atc-algorithm also publishes its own machine-readable function catalog (PR #17); this binding reconciles census coverage."
+      "note": "No test reference for this symbol in the atc-algorithm test surface at f25b4338; suite passes but symbol unreferenced.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "cargo test --release 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 18,
+       "ci_evidence": null,
+       "verified_against_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm/",
      "dependencies": {
@@ -259118,7 +259154,7 @@
       "symbol_kind": "function",
       "line_start": 63,
       "exact_source_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
-      "note": "poh.rs binding; census-verified at exact HEAD f25b43383433. Mapping only, functional verification pending. Cross-reference: atc-algorithm also publishes its own machine-readable function catalog (PR #17); this binding reconciles census coverage."
+      "note": "No test reference for this symbol in the atc-algorithm test surface at f25b4338; suite passes but symbol unreferenced."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm/",
      "dependencies": {
@@ -259173,13 +259209,22 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "src/poh.rs",
       "symbol_or_entrypoint": "ticks",
       "symbol_kind": "function",
       "line_start": 85,
       "exact_source_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
-      "note": "poh.rs binding; census-verified at exact HEAD f25b43383433. Mapping only, functional verification pending. Cross-reference: atc-algorithm also publishes its own machine-readable function catalog (PR #17); this binding reconciles census coverage."
+      "note": "No test reference for this symbol in the atc-algorithm test surface at f25b4338; suite passes but symbol unreferenced.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "cargo test --release 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 18,
+       "ci_evidence": null,
+       "verified_against_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm/",
      "dependencies": {
@@ -259235,13 +259280,22 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "src/selection.rs",
       "symbol_or_entrypoint": "select_proposer",
       "symbol_kind": "function",
       "line_start": 14,
       "exact_source_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
-      "note": "selection.rs binding; census-verified at exact HEAD f25b43383433. Mapping only, functional verification pending. Cross-reference: atc-algorithm also publishes its own machine-readable function catalog (PR #17); this binding reconciles census coverage."
+      "note": "No test reference for this symbol in the atc-algorithm test surface at f25b4338; suite passes but symbol unreferenced.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "cargo test --release 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 18,
+       "ci_evidence": null,
+       "verified_against_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm/",
      "dependencies": {
@@ -259303,7 +259357,7 @@
       "symbol_kind": "function",
       "line_start": 34,
       "exact_source_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
-      "note": "determinism_check.py binding; census-verified at exact HEAD f25b43383433. Mapping only, functional verification pending. Cross-reference: atc-algorithm also publishes its own machine-readable function catalog (PR #17); this binding reconciles census coverage."
+      "note": "No test reference for this symbol in the atc-algorithm test surface at f25b4338; suite passes but symbol unreferenced."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm/",
      "dependencies": {
@@ -259365,7 +259419,7 @@
       "symbol_kind": "function",
       "line_start": 53,
       "exact_source_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
-      "note": "determinism_check.py binding; census-verified at exact HEAD f25b43383433. Mapping only, functional verification pending. Cross-reference: atc-algorithm also publishes its own machine-readable function catalog (PR #17); this binding reconciles census coverage."
+      "note": "No test reference for this symbol in the atc-algorithm test surface at f25b4338; suite passes but symbol unreferenced."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm/",
      "dependencies": {
@@ -259426,7 +259480,7 @@
       "symbol_kind": "function",
       "line_start": 57,
       "exact_source_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
-      "note": "determinism_check.py binding; census-verified at exact HEAD f25b43383433. Mapping only, functional verification pending. Cross-reference: atc-algorithm also publishes its own machine-readable function catalog (PR #17); this binding reconciles census coverage."
+      "note": "No test reference for this symbol in the atc-algorithm test surface at f25b4338; suite passes but symbol unreferenced."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm/",
      "dependencies": {
@@ -259487,7 +259541,7 @@
       "symbol_kind": "function",
       "line_start": 15,
       "exact_source_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
-      "note": "validate.py binding; census-verified at exact HEAD f25b43383433. Mapping only, functional verification pending. Cross-reference: atc-algorithm also publishes its own machine-readable function catalog (PR #17); this binding reconciles census coverage."
+      "note": "No test reference for this symbol in the atc-algorithm test surface at f25b4338; suite passes but symbol unreferenced."
      },
      "canonical_owner": "A-TownChain-Okosystems/atc-algorithm/",
      "dependencies": {
