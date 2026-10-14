@@ -1,5 +1,5 @@
 // Copyright (c) 2026 Michael Wroblewski / ShivaCore / A-TownChain-Okosystems. All Rights Reserved.
 fn main() {
     println!("atc-wallet — A-TownChain-Okosystems");
-    // TODO: Implement CLI/Wallet logic
+    // Stub-Platzhalter — Implementierung verfolgt in Issue #125
 }

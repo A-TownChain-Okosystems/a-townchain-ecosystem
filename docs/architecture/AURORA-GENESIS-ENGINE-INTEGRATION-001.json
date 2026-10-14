@@ -1,0 +1,145 @@
+{
+  "schema_id": "AURORA-GENESIS-ENGINE-INTEGRATION-001",
+  "schema_version": "1.0.0",
+  "snapshot_date": "2026-10-13",
+  "status": "SPECIFIED_NOT_IMPLEMENTATION_VERIFIED",
+  "purpose": "Define the intended integration boundary through which Aurora AI can use Genesis Engine capabilities without claiming that a working adapter or runtime connection already exists.",
+  "participants": {
+    "caller": "A-TownChain-Okosystems/aurora-ai",
+    "service": "A-TownChain-Okosystems/genesis-engine",
+    "integration_governance": "A-TownChain-Okosystems/a-townchain-ecosystem"
+  },
+  "responsibility": {
+    "aurora_ai": [
+      "Interpret user intent and formulate proposed engine tasks",
+      "Select only registered and authorized Genesis tools",
+      "Validate request schema and apply policy/capability checks before invocation",
+      "Present progress, errors and results with provenance",
+      "Require explicit approval for policy-designated consequential side effects"
+    ],
+    "genesis_engine": [
+      "Own engine runtime, ECS/world simulation, rendering, assets, build/editor and franchise-factory behavior",
+      "Validate and execute engine-native commands",
+      "Preserve deterministic simulation rules",
+      "Return typed results, errors and artifact provenance"
+    ],
+    "ecosystem_control_plane": [
+      "Track ownership, versioned contracts, compatibility, security review and exact-SHA evidence",
+      "Not implement the Aurora adapter or Genesis runtime"
+    ]
+  },
+  "use_cases": [
+    {
+      "id": "AURORA-GENESIS-001",
+      "name": "Natural-language game project creation",
+      "flow": "Aurora intent -> validated project specification -> authorized Genesis project/template/build tools -> typed artifact result",
+      "status": "PLANNED"
+    },
+    {
+      "id": "AURORA-GENESIS-002",
+      "name": "World and gameplay prototyping",
+      "flow": "Aurora proposal -> schema validation and policy check -> Genesis simulation/editor command -> deterministic engine validation -> result",
+      "status": "PLANNED"
+    },
+    {
+      "id": "AURORA-GENESIS-003",
+      "name": "Franchise Factory workflow orchestration",
+      "flow": "Aurora proposal -> authorized workflow selection -> Genesis Franchise Factory executor boundary -> artifact/provenance report",
+      "status": "PLANNED"
+    },
+    {
+      "id": "AURORA-GENESIS-004",
+      "name": "Build, QA and packaging assistance",
+      "flow": "Aurora task plan -> bounded and authorized build/QA tool -> Genesis executor -> logs, status and artifact references",
+      "status": "PLANNED"
+    }
+  ],
+  "contract_requirements": {
+    "transport": "UNDECIDED. Source inspection found an in-process Python WorkflowEngine with injected Executor, but no established Aurora-to-Genesis transport/API. Select a versioned adapter boundary only after ownership, deployment topology and isolation requirements are resolved.",
+    "request_response_schema": "REQUIRED",
+    "tool_registry_and_capability_declarations": "REQUIRED",
+    "identity_and_authorization": "REQUIRED",
+    "timeout_cancellation_resource_limits": "REQUIRED",
+    "idempotency_and_retry_semantics": "REQUIRED_FOR_MUTATING_OPERATIONS",
+    "artifact_provenance_and_audit_events": "REQUIRED",
+    "compatibility_and_version_negotiation": "REQUIRED",
+    "error_taxonomy": "REQUIRED",
+    "deterministic_simulation_boundary": "REQUIRED"
+  },
+  "security_and_authority": [
+    "Deny by default; Aurora model output is a proposal, not authorization.",
+    "Every engine tool call must pass schema validation, policy evaluation and capability authorization.",
+    "Mutating, publishing, deleting, deploying, or externally visible actions require approval when policy marks them consequential.",
+    "AI inference and asynchronous agent output must not directly mutate deterministic simulation state; changes enter through validated engine commands.",
+    "Genesis Engine remains distinct from ShivaCore TCB, A-TownChain consensus, canonical ATC-VM and governance authority.",
+    "No ambient credentials or unrestricted network access are granted to tool executors."
+  ],
+  "verification_gates": [
+    "Inspect exact source symbols and manifests in both aurora-ai and genesis-engine at pinned SHAs.",
+    "Publish and review a versioned adapter/tool contract.",
+    "Pass contract conformance and compatibility tests.",
+    "Pass authorization-denial, malformed-input, isolation, timeout, cancellation, retry/idempotency and audit-provenance tests.",
+    "Run a small end-to-end task on pinned SHAs and capture Run ID, Job ID, Step ID, exit code and terminal logs.",
+    "Keep implementation status unverified until the above evidence exists."
+  ],
+  "evidence": {
+    "aurora_readme_blob_sha": "f2d7311feb22a21ed6ea8171fa6b9ee7e71b1fc6",
+    "genesis_monolith_doc_blob_sha": "a905464b2fe4604c6a657df29d87b142d6775a3e",
+    "genesis_readme_blob_sha": "45c740f04bd12a7945e3166c4a924c8d3f5f0b8b",
+    "implementation_verified": false,
+    "end_to_end_test_verified": false
+  },
+  "residuals": [
+    "No implemented Aurora-to-Genesis adapter is established by the inspected source files.",
+    "Aurora runtime tool_executor and sandbox are explicitly PLANNED in the inspected component plan.",
+    "Genesis WorkflowEngine is an in-process Python API; no remote/IPC contract was identified in inspected files.",
+    "Transport, concrete request/response schemas, identity propagation, capability enforcement and runtime lifecycle remain undecided.",
+    "Source mapping is partial: candidate workflow and artifact symbols are identified, but complete manifests, callers, tests and adapter conformance remain to be inspected.",
+    "No end-to-end exact-SHA verification has been run for Aurora invoking a Genesis workflow."
+  ],
+  "source_reconciliation": {
+    "inspected_at": "2026-10-13",
+    "findings": [
+      {
+        "repository": "A-TownChain-Okosystems/aurora-ai",
+        "path": "README.md",
+        "blob_sha": "f2d7311feb22a21ed6ea8171fa6b9ee7e71b1fc6",
+        "finding": "Aurora is documented as AI services/agents/inference/runtime integration and explicitly not ShivaCore TCB."
+      },
+      {
+        "repository": "A-TownChain-Okosystems/aurora-ai",
+        "path": "modules/atc-aurora-runtime/COMPONENT_PLAN.md",
+        "blob_sha": "6a4d7e3968a55c0016436c272f35dd45032a55ee",
+        "finding": "agent_runtime.atc, tool_executor.atc and sandbox/task scheduler/result collector are marked PLANNED; no request/response contract is specified in this plan."
+      },
+      {
+        "repository": "A-TownChain-Okosystems/genesis-engine",
+        "path": "README.md",
+        "blob_sha": "45c740f04bd12a7945e3166c4a924c8d3f5f0b8b",
+        "finding": "Engine owns runtime/simulation/editor/build/SDK/Franchise Factory; provider and chain/VM integrations remain explicit boundaries."
+      },
+      {
+        "repository": "A-TownChain-Okosystems/genesis-engine",
+        "path": "franchise_factory/README.md",
+        "blob_sha": "d562e4e4400aa05520062abe671e628e28a49616",
+        "finding": "Factory documents 17 provider-neutral workflows and says external providers and engine adapters are injected boundaries; production adapters remain unproven."
+      },
+      {
+        "repository": "A-TownChain-Okosystems/genesis-engine",
+        "path": "franchise_factory/gff/workflows.py",
+        "blob_sha": "0891f2e063b81d7517a4fa98b6b39c8364520f7e",
+        "finding": "Source contains WorkflowRegistry, WorkflowEngine.run(workflow_id, payload, executor), stage-based injected Executor, and workflow definitions. This is a concrete candidate integration seam, not a remotely callable API."
+      },
+      {
+        "repository": "A-TownChain-Okosystems/genesis-engine",
+        "path": "franchise_factory/gff/artifacts.py",
+        "blob_sha": "5d4d8ec753116bc3da9abcdf91479f4a9071243e",
+        "finding": "Source contains ArtifactRef, ArtifactEnvelope, ArtifactContractError and validate_artifact; suitable for typed artifact/provenance mapping, but not itself an Aurora transport contract."
+      }
+    ],
+    "source_mapping_status": "PARTIAL_CANDIDATE_SYMBOLS_IDENTIFIED",
+    "adapter_implementation_verified": false,
+    "remote_or_local_service_contract_verified": false,
+    "end_to_end_test_verified": false
+  }
+}

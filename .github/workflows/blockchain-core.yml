@@ -14,8 +14,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: atc-vm
-            manifest: components/atc-vm/Cargo.toml
+          # ATC-VM is canonical inside the imported a-townchain L1 subtree.
+          # Do not build the legacy top-level components/atc-vm snapshot as production VM.
+          - name: a-townchain-vm
+            manifest: components/a-townchain/components/vm/Cargo.toml
           - name: atc-blockchain
             manifest: components/a-townchain/modules/atc-blockchain/kernel/Cargo.toml
           - name: atc-sdk

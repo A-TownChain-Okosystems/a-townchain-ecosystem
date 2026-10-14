@@ -14,9 +14,20 @@ READINESS = {
 }
 GATE_STATUS = {"NOT_RUN", "VERIFIED", "BLOCKED", "RESIDUAL"}
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+FUNCTION_ID_RE = re.compile(r"^(?:ATC-)?(?:FUNC|FN)(?:-[A-Z0-9]+)+-[0-9]{3,}$")
 REQUIRED_FUNCTION_FIELDS = {
-    "id", "name", "purpose", "inputs", "outputs", "failure_modes",
-    "acceptance", "test_classes", "readiness",
+    "id", "name", "purpose", "canonical_owner", "source_binding",
+    "inputs", "outputs", "preconditions", "postconditions", "failure_modes",
+    "resource_limits", "security_boundary", "versioning_compatibility",
+    "dependencies", "acceptance", "test_classes", "verification_evidence",
+    "readiness",
+}
+SYMBOL_KINDS = {"function", "type", "value", "macro", "other"}
+INTERFACE_REQUIRED_FIELDS = {
+    "producer", "consumer", "contract", "status", "status_reason",
+    "contract_version", "version_status", "request_schema", "response_schema",
+    "error_timeout_semantics", "authorization_capability", "compatibility",
+    "contract_tests", "source_evidence", "resolution_rule",
 }
 
 
@@ -104,6 +115,11 @@ def validate(doc: dict) -> tuple[list[str], dict]:
                 errors.append(f"{cid}: missing required field {field}")
         if component.get("readiness") not in READINESS:
             errors.append(f"{cid}: invalid readiness {component.get('readiness')!r}")
+        EXECUTION_MODELS = {"LIBRARY", "RUNTIME", "LIBRARY_AND_RUNTIME", "TOOLING", "NON_EXECUTABLE_REFERENCE"}
+        if component.get("execution_model") not in EXECUTION_MODELS:
+            errors.append(f"{cid}: invalid or missing execution_model {component.get('execution_model')!r}")
+        if not isinstance(component.get("execution_model_rationale"), str) or not component.get("execution_model_rationale").strip():
+            errors.append(f"{cid}: execution_model_rationale must be a non-empty string")
         if component.get("readiness") == "PRODUCTION_READY":
             production_ready_components += 1
             _check_evidence(component, cid, errors)
@@ -125,6 +141,8 @@ def validate(doc: dict) -> tuple[list[str], dict]:
                 errors.append(f"{cid}: functions[{fidx}] missing id")
                 continue
             function_ids.append(fid)
+            if not FUNCTION_ID_RE.fullmatch(fid):
+                errors.append(f"{fid}: function id must follow the stable FN-<DOMAIN>-<NNN> or ATC-FUNC-<DOMAIN>-<NNN> convention")
             missing = sorted(REQUIRED_FUNCTION_FIELDS - set(fn))
             if missing:
                 errors.append(f"{fid}: missing required fields: {', '.join(missing)}")
@@ -134,6 +152,20 @@ def validate(doc: dict) -> tuple[list[str], dict]:
                 value = fn.get(list_field)
                 if not isinstance(value, list) or not value or any(not isinstance(x, str) or not x.strip() for x in value):
                     errors.append(f"{fid}: {list_field} must be a non-empty array of non-empty strings")
+            binding = fn.get("source_binding")
+            if not isinstance(binding, dict):
+                errors.append(f"{fid}: source_binding must be an object")
+            else:
+                source_path = binding.get("source_path")
+                source_symbol = binding.get("symbol_or_entrypoint")
+                if source_path and source_symbol:
+                    symbol_kind = binding.get("symbol_kind")
+                    if symbol_kind not in SYMBOL_KINDS:
+                        errors.append(f"{fid}: source_binding.symbol_kind must be one of {sorted(SYMBOL_KINDS)}")
+                    if binding.get("status") == "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED" and symbol_kind != "function":
+                        errors.append(f"{fid}: function-level source mapping cannot use symbol_kind={symbol_kind!r}; use RELATED_SOURCE_SURFACE_ONLY for types/values")
+                if binding.get("exact_source_sha") and not SHA_RE.fullmatch(str(binding["exact_source_sha"])):
+                    errors.append(f"{fid}: source_binding.exact_source_sha must be a full 40-character SHA")
             if fn.get("readiness") == "PRODUCTION_READY":
                 production_ready_functions += 1
                 _check_evidence(fn, fid, errors)
@@ -167,9 +199,28 @@ def validate(doc: dict) -> tuple[list[str], dict]:
             continue
         iid = interface.get("id")
         interface_ids.append(iid)
-        for field in ("producer", "consumer", "contract", "status"):
+        missing_interface_fields = sorted(INTERFACE_REQUIRED_FIELDS - set(interface))
+        if missing_interface_fields:
+            errors.append(f"{iid}: missing interface contract fields: {', '.join(missing_interface_fields)}")
+        for field in ("producer", "consumer", "contract", "status", "status_reason", "resolution_rule"):
             if not interface.get(field):
                 errors.append(f"{iid}: missing required field {field}")
+        for field in ("request_schema", "response_schema", "error_timeout_semantics", "authorization_capability", "compatibility", "contract_tests", "source_evidence"):
+            value = interface.get(field)
+            if not isinstance(value, dict):
+                errors.append(f"{iid}: {field} must be an object")
+            elif value.get("status") not in GATE_STATUS:
+                errors.append(f"{iid}: {field}.status must be a valid gate status")
+        for field in ("request_schema", "response_schema"):
+            value = interface.get(field)
+            if isinstance(value, dict):
+                if "format" not in value or not isinstance(value.get("fields"), list) or not value.get("notes"):
+                    errors.append(f"{iid}: {field} requires explicit format, fields array and notes")
+        tests = interface.get("contract_tests")
+        if isinstance(tests, dict) and (not isinstance(tests.get("required_classes"), list) or not tests.get("required_classes")):
+            errors.append(f"{iid}: contract_tests.required_classes must be a non-empty array")
+        if interface.get("status") == "BLOCKED" and not interface.get("status_reason"):
+            errors.append(f"{iid}: BLOCKED interface requires a concrete status_reason")
         if interface.get("producer") not in all_component_ids:
             errors.append(f"{iid}: unknown producer {interface.get('producer')!r}")
         if interface.get("consumer") not in all_component_ids:

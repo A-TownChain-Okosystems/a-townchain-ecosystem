@@ -1,0 +1,282 @@
+{
+ "component": "COMP-MINING",
+ "repo": "a-townchain",
+ "head_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "for m in components/algorithm/Cargo.toml components/interop/modules/atc-bridge/Cargo.toml components/mining/Cargo.toml components/node/Cargo.toml components/oracle/Cargo.toml components/sdk/Cargo.toml components/sdk/modules/atc-cli/Cargo.toml components/sdk/modules/atc-sdk/rust/Cargo.toml components/storage/Cargo.toml components/vm/Cargo.toml components/wallet/Cargo.toml components/wallet/modules/atc-wallet/Cargo.toml components/zkp/Cargo.toml components/zkp/crates/zkp-circuits/Cargo.toml components/zkp/crates/zkp-core/Cargo.toml components/zkp/crates/zkp-crypto/Cargo.toml components/zkp/crates/zkp-prover/Cargo.toml components/zkp/crates/zkp-sdk/Cargo.toml components/zkp/crates/zkp-verifier/Cargo.toml components/zkp/crates/zkp-vm/Cargo.toml modules/atc-dns/Cargo.toml modules/atc-governance/Cargo.toml modules/atc-zkp/Cargo.toml ; do cargo test --release --manifest-path $m 2>&1 || exit 101; done",
+  "exit_code": 0,
+  "passed": 222,
+  "log_tail": [
+   "test timelock::tests::test_timelock ... ok",
+   "test delegation::tests::test_delegation ... ok",
+   "test proposal::tests::test_proposal_lifecycle ... ok",
+   "test proposal::tests::test_proposal_reject ... ok",
+   "test treasury::tests::test_treasury ... ok",
+   "test treasury::tests::accounting_invariant_violation_is_reported ... ok",
+   "test treasury::tests::allocation_overflow_is_rejected_atomically ... ok",
+   "test treasury::tests::max_amount_is_supported ... ok",
+   "test voting::tests::test_voting ... ok",
+   "",
+   "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_governance",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "    Finished `release` profile [optimized] target(s) in 0.01s",
+   "     Running unittests src/lib.rs (modules/atc-zkp/target/release/build/atc_zkp/62372ac65e53ffae/out/atc_zkp-62372ac65e53ffae)",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_zkp",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-MINING-001",
+   "symbol": "compute_hash",
+   "source_path": "components/mining/src/algorithms.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-002",
+   "symbol": "new",
+   "source_path": "components/mining/src/executor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-003",
+   "symbol": "submit",
+   "source_path": "components/mining/src/executor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-004",
+   "symbol": "execute_next",
+   "source_path": "components/mining/src/executor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-005",
+   "symbol": "executed",
+   "source_path": "components/mining/src/executor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-006",
+   "symbol": "new",
+   "source_path": "components/mining/src/manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-007",
+   "symbol": "update_target",
+   "source_path": "components/mining/src/manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-008",
+   "symbol": "current_target",
+   "source_path": "components/mining/src/manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-009",
+   "symbol": "push_job",
+   "source_path": "components/mining/src/manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-010",
+   "symbol": "next_job",
+   "source_path": "components/mining/src/manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-011",
+   "symbol": "queue_len",
+   "source_path": "components/mining/src/manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-012",
+   "symbol": "classify_device",
+   "source_path": "components/mining/src/miner.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-013",
+   "symbol": "hash_candidate",
+   "source_path": "components/mining/src/miner.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-014",
+   "symbol": "meets_target",
+   "source_path": "components/mining/src/miner.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-015",
+   "symbol": "mine",
+   "source_path": "components/mining/src/miner.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-016",
+   "symbol": "new",
+   "source_path": "components/mining/src/network.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-017",
+   "symbol": "node_id",
+   "source_path": "components/mining/src/network.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-018",
+   "symbol": "process_proof",
+   "source_path": "components/mining/src/network.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-019",
+   "symbol": "canonical_block_subsidy",
+   "source_path": "components/mining/src/reward.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-020",
+   "symbol": "canonical_max_supply",
+   "source_path": "components/mining/src/reward.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-MINING-021",
+   "symbol": "validate",
+   "source_path": "components/mining/src/reward.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-022",
+   "symbol": "issue",
+   "source_path": "components/mining/src/reward.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-023",
+   "symbol": "issue_canonical",
+   "source_path": "components/mining/src/reward.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-024",
+   "symbol": "new",
+   "source_path": "components/mining/src/telemetry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-025",
+   "symbol": "register_claim",
+   "source_path": "components/mining/src/telemetry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-026",
+   "symbol": "is_claimed",
+   "source_path": "components/mining/src/telemetry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-027",
+   "symbol": "new",
+   "source_path": "components/mining/src/telemetry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-028",
+   "symbol": "emit",
+   "source_path": "components/mining/src/telemetry.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-MINING-029",
+   "symbol": "claim_reward",
+   "source_path": "components/mining/src/telemetry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-030",
+   "symbol": "events",
+   "source_path": "components/mining/src/telemetry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-MINING-031",
+   "symbol": "scan_sources",
+   "source_path": "components/mining/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-MINING-032",
+   "symbol": "run_tests",
+   "source_path": "components/mining/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-MINING-033",
+   "symbol": "main",
+   "source_path": "components/mining/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 33,
+  "test_referenced": 28,
+  "suite_pass": true,
+  "eligible_functionally_verified": 28
+ }
+}

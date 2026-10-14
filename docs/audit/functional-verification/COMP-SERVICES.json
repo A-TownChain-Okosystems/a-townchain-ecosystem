@@ -1,0 +1,5091 @@
+{
+ "component": "COMP-SERVICES",
+ "repo": "wt-globus",
+ "head_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "cargo test --release --workspace 2>&1",
+  "exit_code": 0,
+  "passed": 1298,
+  "log_tail": [
+   "",
+   "   Doc-tests globus_vfs",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests globus_wallet_service",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests libshivacore",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests shivacore",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests shivacore_service_space",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-SERVICES-001",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-002",
+   "symbol": "scalar",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-003",
+   "symbol": "zeros",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-004",
+   "symbol": "from_vec",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-005",
+   "symbol": "rank",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-006",
+   "symbol": "size",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-007",
+   "symbol": "add",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-008",
+   "symbol": "mul",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-009",
+   "symbol": "scale",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-010",
+   "symbol": "matmul",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-011",
+   "symbol": "relu",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-012",
+   "symbol": "sigmoid",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-013",
+   "symbol": "softmax",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-014",
+   "symbol": "transpose",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-015",
+   "symbol": "mean",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-016",
+   "symbol": "dot",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-017",
+   "symbol": "apply",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-018",
+   "symbol": "name",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-019",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-020",
+   "symbol": "forward",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-021",
+   "symbol": "name",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-022",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-023",
+   "symbol": "add_layer",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-024",
+   "symbol": "forward",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-025",
+   "symbol": "layer_count",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-026",
+   "symbol": "param_count",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-027",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-028",
+   "symbol": "register",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-029",
+   "symbol": "get",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-030",
+   "symbol": "exists",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-031",
+   "symbol": "count",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-032",
+   "symbol": "run_inference",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-033",
+   "symbol": "gas_cost",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-034",
+   "symbol": "name",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-035",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-036",
+   "symbol": "grant",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-037",
+   "symbol": "check",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-038",
+   "symbol": "grant_all",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-039",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-040",
+   "symbol": "store",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-041",
+   "symbol": "retrieve",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-042",
+   "symbol": "count",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-043",
+   "symbol": "similarity_search",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-044",
+   "symbol": "cosine_similarity",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-045",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-046",
+   "symbol": "set_default_model",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-047",
+   "symbol": "infer",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-048",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-049",
+   "symbol": "deploy_model",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-050",
+   "symbol": "infer",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-051",
+   "symbol": "store_context",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-052",
+   "symbol": "llm_infer",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-053",
+   "symbol": "model_count",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-054",
+   "symbol": "context_count",
+   "source_path": "modules/atc-shivacore/service_space/src/ai.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-055",
+   "symbol": "from_byte",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-056",
+   "symbol": "serialize_handshake",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-057",
+   "symbol": "deserialize_handshake",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-058",
+   "symbol": "serialize_block_ann",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-059",
+   "symbol": "deserialize_block_ann",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-060",
+   "symbol": "serialize_ping",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-061",
+   "symbol": "deserialize_ping",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-062",
+   "symbol": "serialize_pong",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-063",
+   "symbol": "deserialize_pong",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-064",
+   "symbol": "serialize_tx_broadcast",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-065",
+   "symbol": "deserialize_tx_broadcast",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-066",
+   "symbol": "serialize_peer_list",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-067",
+   "symbol": "deserialize_peer_list",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-068",
+   "symbol": "serialize_get_blocks",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-069",
+   "symbol": "deserialize_get_blocks",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-070",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-071",
+   "symbol": "connect",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-072",
+   "symbol": "send_handshake",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-073",
+   "symbol": "handle_message",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-074",
+   "symbol": "send_ping",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-075",
+   "symbol": "send_block_ann",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-076",
+   "symbol": "gossip_tx",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-077",
+   "symbol": "disconnect",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-078",
+   "symbol": "set_height",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-079",
+   "symbol": "connection_count",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-080",
+   "symbol": "connection_ids",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-081",
+   "symbol": "stats",
+   "source_path": "modules/atc-shivacore/service_space/src/atcnet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-082",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-083",
+   "symbol": "tx_count",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-084",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-085",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-086",
+   "symbol": "add_genesis",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-087",
+   "symbol": "add_block",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-088",
+   "symbol": "get_block",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-089",
+   "symbol": "get_by_hash",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-090",
+   "symbol": "current_height",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-091",
+   "symbol": "block_count",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-092",
+   "symbol": "last_block",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-093",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-094",
+   "symbol": "create_genesis",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-095",
+   "symbol": "propose_block",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-096",
+   "symbol": "vote_on_block",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-097",
+   "symbol": "cleanup_mempool",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-098",
+   "symbol": "chain",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-099",
+   "symbol": "mempool",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-100",
+   "symbol": "consensus",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-101",
+   "symbol": "state",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-102",
+   "symbol": "current_height",
+   "source_path": "modules/atc-shivacore/service_space/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-103",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-104",
+   "symbol": "tick",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-105",
+   "symbol": "record",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-106",
+   "symbol": "current_hash",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-107",
+   "symbol": "tick_count",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-108",
+   "symbol": "entries",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-109",
+   "symbol": "verify",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-110",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-111",
+   "symbol": "genesis",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-112",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-113",
+   "symbol": "add_vertex",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-114",
+   "symbol": "get_vertex",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-115",
+   "symbol": "get_children",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-116",
+   "symbol": "get_tips",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-117",
+   "symbol": "vertex_count",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-118",
+   "symbol": "tip_count",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-119",
+   "symbol": "topological_order",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-120",
+   "symbol": "confirm_vertex",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-121",
+   "symbol": "confirmed_count",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-122",
+   "symbol": "tips_hash",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-123",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-124",
+   "symbol": "register",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-125",
+   "symbol": "deactivate",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-126",
+   "symbol": "is_active",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-127",
+   "symbol": "get_stake",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-128",
+   "symbol": "total_stake",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-129",
+   "symbol": "validator_count",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-130",
+   "symbol": "active_count",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-131",
+   "symbol": "select_proposer",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-132",
+   "symbol": "record_vote",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-133",
+   "symbol": "record_proposal",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-134",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-135",
+   "symbol": "cast_vote",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-136",
+   "symbol": "is_final",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-137",
+   "symbol": "vote_count",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-138",
+   "symbol": "approve_count",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-139",
+   "symbol": "reject_count",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-140",
+   "symbol": "finalized_vertices",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-141",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-142",
+   "symbol": "init_genesis",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-143",
+   "symbol": "propose_vertex",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-144",
+   "symbol": "vote",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-145",
+   "symbol": "handle_vote",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-146",
+   "symbol": "next_proposer",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-147",
+   "symbol": "fork_choice",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-148",
+   "symbol": "our_did",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-149",
+   "symbol": "dag",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-150",
+   "symbol": "poh",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-151",
+   "symbol": "validators",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-152",
+   "symbol": "votes",
+   "source_path": "modules/atc-shivacore/service_space/src/consensus.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-153",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-154",
+   "symbol": "zero",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-155",
+   "symbol": "is_zero",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-156",
+   "symbol": "to_u32",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-157",
+   "symbol": "from_u32",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-158",
+   "symbol": "to_string",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-159",
+   "symbol": "in_subnet",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-160",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-161",
+   "symbol": "broadcast",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-162",
+   "symbol": "zero",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-163",
+   "symbol": "is_broadcast",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-164",
+   "symbol": "is_zero",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-165",
+   "symbol": "to_string",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-166",
+   "symbol": "random",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-167",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-168",
+   "symbol": "netmask",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-169",
+   "symbol": "mask_from_prefix",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-170",
+   "symbol": "broadcast_addr",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-171",
+   "symbol": "host_capacity",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-172",
+   "symbol": "contains",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-173",
+   "symbol": "to_string",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-174",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-175",
+   "symbol": "add_interface",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-176",
+   "symbol": "remove_interface",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-177",
+   "symbol": "get_interface",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-178",
+   "symbol": "get_interface_mut",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-179",
+   "symbol": "list_interfaces",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-180",
+   "symbol": "add_route",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-181",
+   "symbol": "remove_route",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-182",
+   "symbol": "lookup_route",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-183",
+   "symbol": "set_dns",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-184",
+   "symbol": "set_interface_up",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-185",
+   "symbol": "set_interface_ip",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-186",
+   "symbol": "set_mtu",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-187",
+   "symbol": "rx",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-188",
+   "symbol": "tx",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-189",
+   "symbol": "record_error",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-190",
+   "symbol": "as_str",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-191",
+   "symbol": "new_veth",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-192",
+   "symbol": "new_bridge",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-193",
+   "symbol": "subnet",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-194",
+   "symbol": "is_up",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-195",
+   "symbol": "has_ip",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-196",
+   "symbol": "default",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-197",
+   "symbol": "is_default",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-198",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-199",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-200",
+   "symbol": "set_container_ip",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-201",
+   "symbol": "set_host_ip",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-202",
+   "symbol": "bring_up",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-203",
+   "symbol": "tear_down",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-204",
+   "symbol": "attach_to_bridge",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-205",
+   "symbol": "detach_from_bridge",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-206",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-207",
+   "symbol": "set_subnet",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-208",
+   "symbol": "enable_dhcp",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-209",
+   "symbol": "add_port",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-210",
+   "symbol": "remove_port",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-211",
+   "symbol": "learn_mac",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-212",
+   "symbol": "lookup_port",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-213",
+   "symbol": "arp_resolve",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-214",
+   "symbol": "arp_learn",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-215",
+   "symbol": "forward_frame",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-216",
+   "symbol": "enable_stp",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-217",
+   "symbol": "disable_stp",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-218",
+   "symbol": "allocate_ip",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-219",
+   "symbol": "release_ip",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-220",
+   "symbol": "leased_ips",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-221",
+   "symbol": "capacity",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-222",
+   "symbol": "allocate",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-223",
+   "symbol": "release",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-224",
+   "symbol": "is_expired",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-225",
+   "symbol": "cleanup_expired",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-226",
+   "symbol": "as_str",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-227",
+   "symbol": "as_str",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-228",
+   "symbol": "accept",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-229",
+   "symbol": "drop",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-230",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-231",
+   "symbol": "with_protocol",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-232",
+   "symbol": "with_src",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-233",
+   "symbol": "with_dst",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-234",
+   "symbol": "with_dst_port",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-235",
+   "symbol": "with_dst_port_range",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-236",
+   "symbol": "with_src_port",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-237",
+   "symbol": "with_iface_in",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-238",
+   "symbol": "with_iface_out",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-239",
+   "symbol": "with_priority",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-240",
+   "symbol": "with_log",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-241",
+   "symbol": "with_comment",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-242",
+   "symbol": "matches",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-243",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-244",
+   "symbol": "add_rule",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-245",
+   "symbol": "remove_rule",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-246",
+   "symbol": "set_policy",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-247",
+   "symbol": "evaluate",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-248",
+   "symbol": "as_str",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-249",
+   "symbol": "dnat",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-250",
+   "symbol": "masquerade",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-251",
+   "symbol": "translate_dst",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-252",
+   "symbol": "translate_src",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-253",
+   "symbol": "record_connection",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-254",
+   "symbol": "total_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-255",
+   "symbol": "total_packets",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-256",
+   "symbol": "error_rate",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-257",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-258",
+   "symbol": "create_namespace",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-259",
+   "symbol": "destroy_namespace",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-260",
+   "symbol": "get_namespace",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-261",
+   "symbol": "get_namespace_mut",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-262",
+   "symbol": "list_namespaces",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-263",
+   "symbol": "create_bridge",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-264",
+   "symbol": "destroy_bridge",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-265",
+   "symbol": "get_bridge",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-266",
+   "symbol": "get_bridge_mut",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-267",
+   "symbol": "create_veth_pair",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-268",
+   "symbol": "destroy_veth_pair",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-269",
+   "symbol": "add_port_forward",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-270",
+   "symbol": "remove_port_forward",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-271",
+   "symbol": "add_masquerade",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-272",
+   "symbol": "lookup_port_forward",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-273",
+   "symbol": "add_firewall_rule",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-274",
+   "symbol": "remove_firewall_rule",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-275",
+   "symbol": "set_firewall_policy",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-276",
+   "symbol": "check_firewall",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-277",
+   "symbol": "register_dns",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-278",
+   "symbol": "resolve_dns",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-279",
+   "symbol": "unregister_dns",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-280",
+   "symbol": "simulate_packet",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-281",
+   "symbol": "namespace_stats",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-282",
+   "symbol": "bridge_stats",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-283",
+   "symbol": "firewall_stats",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-284",
+   "symbol": "port_forward_stats",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-285",
+   "symbol": "total_namespaces",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-286",
+   "symbol": "total_bridges",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-287",
+   "symbol": "total_veth_pairs",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-288",
+   "symbol": "total_port_forwards",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-289",
+   "symbol": "total_dns_entries",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-290",
+   "symbol": "total_firewall_rules",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-291",
+   "symbol": "report",
+   "source_path": "modules/atc-shivacore/service_space/src/container_net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-292",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/contract.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-293",
+   "symbol": "process_deploy",
+   "source_path": "modules/atc-shivacore/service_space/src/contract.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-294",
+   "symbol": "process_call",
+   "source_path": "modules/atc-shivacore/service_space/src/contract.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-295",
+   "symbol": "process_tx",
+   "source_path": "modules/atc-shivacore/service_space/src/contract.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-296",
+   "symbol": "vm",
+   "source_path": "modules/atc-shivacore/service_space/src/contract.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-297",
+   "symbol": "build_deploy_payload",
+   "source_path": "modules/atc-shivacore/service_space/src/contract.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-298",
+   "symbol": "build_call_payload",
+   "source_path": "modules/atc-shivacore/service_space/src/contract.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-299",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/did.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-300",
+   "symbol": "as_str",
+   "source_path": "modules/atc-shivacore/service_space/src/did.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-301",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/did.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-302",
+   "symbol": "with_key",
+   "source_path": "modules/atc-shivacore/service_space/src/did.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-303",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/did.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-304",
+   "symbol": "from_signing_key",
+   "source_path": "modules/atc-shivacore/service_space/src/did.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-305",
+   "symbol": "from_seed",
+   "source_path": "modules/atc-shivacore/service_space/src/did.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-306",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-307",
+   "symbol": "add_validator",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-308",
+   "symbol": "add_allocation",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-309",
+   "symbol": "validate",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-310",
+   "symbol": "to_hash_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-311",
+   "symbol": "genesis_hash",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-312",
+   "symbol": "block_id",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-313",
+   "symbol": "is_genesis",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-314",
+   "symbol": "signing_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-315",
+   "symbol": "block_hash",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-316",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-317",
+   "symbol": "add_balance",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-318",
+   "symbol": "add_validator",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-319",
+   "symbol": "state_root",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-320",
+   "symbol": "build",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-321",
+   "symbol": "sign",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-322",
+   "symbol": "verify",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-323",
+   "symbol": "export_json",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-324",
+   "symbol": "from_genesis",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-325",
+   "symbol": "is_genesis",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-326",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-327",
+   "symbol": "tick",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-328",
+   "symbol": "current_hash",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-329",
+   "symbol": "tick_count",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-330",
+   "symbol": "verify",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-331",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-332",
+   "symbol": "from_genesis",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-333",
+   "symbol": "register",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-334",
+   "symbol": "deactivate",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-335",
+   "symbol": "is_active",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-336",
+   "symbol": "get_stake",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-337",
+   "symbol": "total_stake",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-338",
+   "symbol": "validator_count",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-339",
+   "symbol": "active_count",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-340",
+   "symbol": "select_proposer",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-341",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-342",
+   "symbol": "add_genesis",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-343",
+   "symbol": "add_block",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-344",
+   "symbol": "get_block",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-345",
+   "symbol": "get_by_hash",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-346",
+   "symbol": "current_height",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-347",
+   "symbol": "block_count",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-348",
+   "symbol": "last_block",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-349",
+   "symbol": "chain_id",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-350",
+   "symbol": "genesis_hash",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-351",
+   "symbol": "init_from_config",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-352",
+   "symbol": "propose_block",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-353",
+   "symbol": "next_proposer",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-354",
+   "symbol": "total_stake",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-355",
+   "symbol": "active_validators",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-356",
+   "symbol": "chain_id",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-357",
+   "symbol": "genesis_hash",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-358",
+   "symbol": "state_root",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-359",
+   "symbol": "height",
+   "source_path": "modules/atc-shivacore/service_space/src/genesis_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-360",
+   "symbol": "init",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-361",
+   "symbol": "connect_peer",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-362",
+   "symbol": "complete_handshake",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-363",
+   "symbol": "disconnect_peer",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-364",
+   "symbol": "peer_count",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-365",
+   "symbol": "peer_conn_ids",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-366",
+   "symbol": "update_peer_height",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-367",
+   "symbol": "best_peer_height",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-368",
+   "symbol": "gossip_block",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-369",
+   "symbol": "propose_and_gossip",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-370",
+   "symbol": "request_blocks",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-371",
+   "symbol": "sync_from_best_peer",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-372",
+   "symbol": "respond_get_blocks",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-373",
+   "symbol": "process_blocks",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-374",
+   "symbol": "gossip_vote",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-375",
+   "symbol": "process_vote",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-376",
+   "symbol": "validate_peer_chain",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-377",
+   "symbol": "validate_block_ann",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-378",
+   "symbol": "gossip_transaction",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-379",
+   "symbol": "handle_block_ann",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-380",
+   "symbol": "handle_peer_message",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-381",
+   "symbol": "height",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-382",
+   "symbol": "chain_id",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-383",
+   "symbol": "genesis_hash",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-384",
+   "symbol": "total_stake",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-385",
+   "symbol": "pending_sync_count",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-386",
+   "symbol": "stats",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-387",
+   "symbol": "serialize_bridge_block",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-388",
+   "symbol": "deserialize_bridge_block",
+   "source_path": "modules/atc-shivacore/service_space/src/gossip_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-389",
+   "symbol": "load_key",
+   "source_path": "modules/atc-shivacore/service_space/src/identity_key_service.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-390",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/knowledge_graph.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-391",
+   "symbol": "create_entity",
+   "source_path": "modules/atc-shivacore/service_space/src/knowledge_graph.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-392",
+   "symbol": "add_triple",
+   "source_path": "modules/atc-shivacore/service_space/src/knowledge_graph.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-393",
+   "symbol": "query",
+   "source_path": "modules/atc-shivacore/service_space/src/knowledge_graph.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-394",
+   "symbol": "outgoing",
+   "source_path": "modules/atc-shivacore/service_space/src/knowledge_graph.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-395",
+   "symbol": "incoming",
+   "source_path": "modules/atc-shivacore/service_space/src/knowledge_graph.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-396",
+   "symbol": "transitive_closure",
+   "source_path": "modules/atc-shivacore/service_space/src/knowledge_graph.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-397",
+   "symbol": "remove_triple",
+   "source_path": "modules/atc-shivacore/service_space/src/knowledge_graph.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-398",
+   "symbol": "delete_entity",
+   "source_path": "modules/atc-shivacore/service_space/src/knowledge_graph.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-399",
+   "symbol": "get_entity",
+   "source_path": "modules/atc-shivacore/service_space/src/knowledge_graph.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-400",
+   "symbol": "entity_count",
+   "source_path": "modules/atc-shivacore/service_space/src/knowledge_graph.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-401",
+   "symbol": "triple_count",
+   "source_path": "modules/atc-shivacore/service_space/src/knowledge_graph.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-402",
+   "symbol": "grant_read",
+   "source_path": "modules/atc-shivacore/service_space/src/knowledge_graph.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-403",
+   "symbol": "from_u8",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-404",
+   "symbol": "base_gas",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-405",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-406",
+   "symbol": "gas_cost",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-407",
+   "symbol": "max_fee",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-408",
+   "symbol": "payload_hash",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-409",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-410",
+   "symbol": "add",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-411",
+   "symbol": "validate_tx",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-412",
+   "symbol": "get_pending_batch",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-413",
+   "symbol": "mark_in_dag",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-414",
+   "symbol": "mark_confirmed",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-415",
+   "symbol": "cleanup",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-416",
+   "symbol": "get",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-417",
+   "symbol": "count",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-418",
+   "symbol": "pending_count",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-419",
+   "symbol": "validated_count",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-420",
+   "symbol": "confirmed_count",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-421",
+   "symbol": "rejected_count",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-422",
+   "symbol": "txs_by_sender",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-423",
+   "symbol": "sender_nonce",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-424",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-425",
+   "symbol": "check_and_advance",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-426",
+   "symbol": "expected_nonce",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-427",
+   "symbol": "set_nonce",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-428",
+   "symbol": "reset",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-429",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-430",
+   "symbol": "get_balance",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-431",
+   "symbol": "get_staked",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-432",
+   "symbol": "get_nonce",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-433",
+   "symbol": "deposit",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-434",
+   "symbol": "withdraw",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-435",
+   "symbol": "stake",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-436",
+   "symbol": "unstake",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-437",
+   "symbol": "increment_nonce",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-438",
+   "symbol": "total_supply",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-439",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-440",
+   "symbol": "validate",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-441",
+   "symbol": "apply",
+   "source_path": "modules/atc-shivacore/service_space/src/mempool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-442",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-443",
+   "symbol": "broadcast",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-444",
+   "symbol": "zero",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-445",
+   "symbol": "is_broadcast",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-446",
+   "symbol": "is_zero",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-447",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-448",
+   "symbol": "zero",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-449",
+   "symbol": "broadcast",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-450",
+   "symbol": "is_broadcast",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-451",
+   "symbol": "is_zero",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-452",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-453",
+   "symbol": "to_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-454",
+   "symbol": "from_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-455",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-456",
+   "symbol": "lookup",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-457",
+   "symbol": "insert",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-458",
+   "symbol": "insert_permanent",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-459",
+   "symbol": "remove",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-460",
+   "symbol": "purge_expired",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-461",
+   "symbol": "entry_count",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-462",
+   "symbol": "clear",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-463",
+   "symbol": "request",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-464",
+   "symbol": "reply",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-465",
+   "symbol": "to_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-466",
+   "symbol": "from_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-467",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-468",
+   "symbol": "queue_len",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-469",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-470",
+   "symbol": "arp_request",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-471",
+   "symbol": "handle_frame",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-472",
+   "symbol": "resolve_mac",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-473",
+   "symbol": "arp_entries",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-474",
+   "symbol": "our_ip",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-475",
+   "symbol": "send_to",
+   "source_path": "modules/atc-shivacore/service_space/src/net.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-476",
+   "symbol": "from_u8",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-477",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-478",
+   "symbol": "to_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-479",
+   "symbol": "from_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-480",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-481",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-482",
+   "symbol": "add_peer",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-483",
+   "symbol": "remove_peer",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-484",
+   "symbol": "get_peer",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-485",
+   "symbol": "find_by_addr",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-486",
+   "symbol": "set_status",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-487",
+   "symbol": "set_did",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-488",
+   "symbol": "touch",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-489",
+   "symbol": "record_sent",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-490",
+   "symbol": "record_recv",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-491",
+   "symbol": "peer_count",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-492",
+   "symbol": "connected_count",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-493",
+   "symbol": "list_peers",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-494",
+   "symbol": "our_did",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-495",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-496",
+   "symbol": "broadcast",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-497",
+   "symbol": "send_to",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-498",
+   "symbol": "handle_message",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-499",
+   "symbol": "recv",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-500",
+   "symbol": "pending_messages",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-501",
+   "symbol": "make_ping",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-502",
+   "symbol": "make_pong",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-503",
+   "symbol": "make_handshake",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-504",
+   "symbol": "make_peer_list",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-505",
+   "symbol": "handle_peer_list",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-506",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-507",
+   "symbol": "connect_peer",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-508",
+   "symbol": "handle_handshake",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-509",
+   "symbol": "ping_all",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-510",
+   "symbol": "announce_block",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-511",
+   "symbol": "announce_tx",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-512",
+   "symbol": "disconnect_peer",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-513",
+   "symbol": "peers",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-514",
+   "symbol": "gossip",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-515",
+   "symbol": "listen_port",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-516",
+   "symbol": "peer_count",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-517",
+   "symbol": "from_u8",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-518",
+   "symbol": "is_control_type",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-519",
+   "symbol": "error_code",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-520",
+   "symbol": "category",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-521",
+   "symbol": "retryable",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-522",
+   "symbol": "severity",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-523",
+   "symbol": "with",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-524",
+   "symbol": "has",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-525",
+   "symbol": "intersection",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-526",
+   "symbol": "to_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-527",
+   "symbol": "from_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-528",
+   "symbol": "canonical_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-529",
+   "symbol": "to_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-530",
+   "symbol": "sign",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-531",
+   "symbol": "verify_signature",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-532",
+   "symbol": "from_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-533",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-534",
+   "symbol": "check_and_insert",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-535",
+   "symbol": "len",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-536",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-537",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-538",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-539",
+   "symbol": "ensure",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-540",
+   "symbol": "challenge_of",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-541",
+   "symbol": "public_of",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-542",
+   "symbol": "capabilities_of",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-543",
+   "symbol": "update",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-544",
+   "symbol": "phase",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-545",
+   "symbol": "is_verified",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-546",
+   "symbol": "session_key",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-547",
+   "symbol": "ban",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-548",
+   "symbol": "is_banned",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-549",
+   "symbol": "count",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-550",
+   "symbol": "derive_session_key",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-551",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-552",
+   "symbol": "our_public_key",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-553",
+   "symbol": "secure_peers",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-554",
+   "symbol": "next_nonce",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-555",
+   "symbol": "next_message_id",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-556",
+   "symbol": "build_envelope",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-557",
+   "symbol": "negotiate_version",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-558",
+   "symbol": "hello_payload",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-559",
+   "symbol": "parse_hello",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-560",
+   "symbol": "begin_handshake",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-561",
+   "symbol": "handle_hello",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-562",
+   "symbol": "handle_capability_exchange",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-563",
+   "symbol": "handle_auth_challenge",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-564",
+   "symbol": "handle_auth_response",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-565",
+   "symbol": "handle_key_exchange",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-566",
+   "symbol": "finalize_handshake",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-567",
+   "symbol": "handle_wire",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-568",
+   "symbol": "send_data",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-569",
+   "symbol": "ban_peer",
+   "source_path": "modules/atc-shivacore/service_space/src/p2p_secure.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-570",
+   "symbol": "signing_payload",
+   "source_path": "modules/atc-shivacore/service_space/src/remote_caps.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-571",
+   "symbol": "issue_ticket",
+   "source_path": "modules/atc-shivacore/service_space/src/remote_caps.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-572",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/remote_caps.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-573",
+   "symbol": "consume_operation",
+   "source_path": "modules/atc-shivacore/service_space/src/remote_caps.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-574",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/remote_caps.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-575",
+   "symbol": "check_and_record",
+   "source_path": "modules/atc-shivacore/service_space/src/remote_caps.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-576",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/remote_caps.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-577",
+   "symbol": "set_time",
+   "source_path": "modules/atc-shivacore/service_space/src/remote_caps.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-578",
+   "symbol": "resolve",
+   "source_path": "modules/atc-shivacore/service_space/src/remote_caps.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-579",
+   "symbol": "resolve_chain",
+   "source_path": "modules/atc-shivacore/service_space/src/remote_caps.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-580",
+   "symbol": "is_pass",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-581",
+   "symbol": "is_critical",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-582",
+   "symbol": "is_high",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-583",
+   "symbol": "label",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-584",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-585",
+   "symbol": "add",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-586",
+   "symbol": "is_secure",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-587",
+   "symbol": "summary",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-588",
+   "symbol": "findings_by_severity",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-589",
+   "symbol": "audit",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-590",
+   "symbol": "simulate_chain_forgery",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-591",
+   "symbol": "simulate_genesis_replay",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-592",
+   "symbol": "simulate_height_skip",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-593",
+   "symbol": "simulate_orphan_block",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-594",
+   "symbol": "simulate_unsigned_genesis",
+   "source_path": "modules/atc-shivacore/service_space/src/security_audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-595",
+   "symbol": "label",
+   "source_path": "modules/atc-shivacore/service_space/src/service_init.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-596",
+   "symbol": "boot_log",
+   "source_path": "modules/atc-shivacore/service_space/src/service_init.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-597",
+   "symbol": "as_str",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-598",
+   "symbol": "is_local",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-599",
+   "symbol": "is_network",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-600",
+   "symbol": "as_str",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-601",
+   "symbol": "is_connection_oriented",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-602",
+   "symbol": "is_connectionless",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-603",
+   "symbol": "requires_root",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-604",
+   "symbol": "from_u8",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-605",
+   "symbol": "to_u8",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-606",
+   "symbol": "as_str",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-607",
+   "symbol": "unix",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-608",
+   "symbol": "inet",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-609",
+   "symbol": "loopback",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-610",
+   "symbol": "any_addr",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-611",
+   "symbol": "is_unix",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-612",
+   "symbol": "is_inet",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-613",
+   "symbol": "domain",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-614",
+   "symbol": "port",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-615",
+   "symbol": "ip_str",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-616",
+   "symbol": "path",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-617",
+   "symbol": "is_active",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-618",
+   "symbol": "is_readable",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-619",
+   "symbol": "is_writable",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-620",
+   "symbol": "is_closed",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-621",
+   "symbol": "as_str",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-622",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-623",
+   "symbol": "write",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-624",
+   "symbol": "read",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-625",
+   "symbol": "available",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-626",
+   "symbol": "remaining",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-627",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-628",
+   "symbol": "is_full",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-629",
+   "symbol": "clear",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-630",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-631",
+   "symbol": "is_stream",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-632",
+   "symbol": "is_dgram",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-633",
+   "symbol": "is_listening",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-634",
+   "symbol": "is_connected",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-635",
+   "symbol": "has_pending",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-636",
+   "symbol": "pending_count",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-637",
+   "symbol": "can_read",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-638",
+   "symbol": "can_write",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-639",
+   "symbol": "has_error",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-640",
+   "symbol": "errno",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-641",
+   "symbol": "as_str",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-642",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-643",
+   "symbol": "socket",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-644",
+   "symbol": "bind",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-645",
+   "symbol": "listen",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-646",
+   "symbol": "accept",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-647",
+   "symbol": "connect",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-648",
+   "symbol": "send",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-649",
+   "symbol": "recv",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-650",
+   "symbol": "sendto",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-651",
+   "symbol": "recvfrom",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-652",
+   "symbol": "close",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-653",
+   "symbol": "setsockopt",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-654",
+   "symbol": "getsockopt",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-655",
+   "symbol": "get_socket",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-656",
+   "symbol": "socket_count",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-657",
+   "symbol": "list_sockets",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-658",
+   "symbol": "poll_sockets",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-659",
+   "symbol": "stats",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-660",
+   "symbol": "is_any",
+   "source_path": "modules/atc-shivacore/service_space/src/sockets.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-661",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-662",
+   "symbol": "to_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-663",
+   "symbol": "from_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-664",
+   "symbol": "calculate_checksum",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-665",
+   "symbol": "with_checksum",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-666",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-667",
+   "symbol": "to_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-668",
+   "symbol": "from_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-669",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-670",
+   "symbol": "to_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-671",
+   "symbol": "from_bytes",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-672",
+   "symbol": "is_syn",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-673",
+   "symbol": "is_ack",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-674",
+   "symbol": "is_fin",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-675",
+   "symbol": "is_rst",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-676",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-677",
+   "symbol": "add",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-678",
+   "symbol": "lookup",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-679",
+   "symbol": "route_count",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-680",
+   "symbol": "clear",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-681",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-682",
+   "symbol": "udp_bind",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-683",
+   "symbol": "udp_connect",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-684",
+   "symbol": "udp_send",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-685",
+   "symbol": "udp_recv",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-686",
+   "symbol": "handle_udp",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-687",
+   "symbol": "udp_close",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-688",
+   "symbol": "tcp_bind",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-689",
+   "symbol": "tcp_connect",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-690",
+   "symbol": "tcp_state",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-691",
+   "symbol": "handle_tcp",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-692",
+   "symbol": "tcp_recv",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-693",
+   "symbol": "tcp_close",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-694",
+   "symbol": "socket_count",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-695",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-696",
+   "symbol": "handle_ipv4",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-697",
+   "symbol": "handle_frame",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-698",
+   "symbol": "routing",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-699",
+   "symbol": "sockets",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-700",
+   "symbol": "net",
+   "source_path": "modules/atc-shivacore/service_space/src/tcpip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-701",
+   "symbol": "from_u8",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-702",
+   "symbol": "gas_cost",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-703",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-704",
+   "symbol": "load",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-705",
+   "symbol": "store",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-706",
+   "symbol": "total_entries",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-707",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-708",
+   "symbol": "deploy",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-709",
+   "symbol": "get",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-710",
+   "symbol": "exists",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-711",
+   "symbol": "count",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-712",
+   "symbol": "balance",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-713",
+   "symbol": "deposit",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-714",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-715",
+   "symbol": "execute",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SERVICES-716",
+   "symbol": "new",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-717",
+   "symbol": "deploy",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-718",
+   "symbol": "call",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-719",
+   "symbol": "contract_count",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SERVICES-720",
+   "symbol": "build_bytecode",
+   "source_path": "modules/atc-shivacore/service_space/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  }
+ ],
+ "summary": {
+  "total": 720,
+  "test_referenced": 658,
+  "suite_pass": true,
+  "eligible_functionally_verified": 658
+ }
+}

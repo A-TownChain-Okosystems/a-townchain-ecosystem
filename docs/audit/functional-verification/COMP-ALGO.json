@@ -1,0 +1,156 @@
+{
+ "component": "COMP-ALGO",
+ "repo": "a-townchain",
+ "head_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "for m in components/algorithm/Cargo.toml components/interop/modules/atc-bridge/Cargo.toml components/mining/Cargo.toml components/node/Cargo.toml components/oracle/Cargo.toml components/sdk/Cargo.toml components/sdk/modules/atc-cli/Cargo.toml components/sdk/modules/atc-sdk/rust/Cargo.toml components/storage/Cargo.toml components/vm/Cargo.toml components/wallet/Cargo.toml components/wallet/modules/atc-wallet/Cargo.toml components/zkp/Cargo.toml components/zkp/crates/zkp-circuits/Cargo.toml components/zkp/crates/zkp-core/Cargo.toml components/zkp/crates/zkp-crypto/Cargo.toml components/zkp/crates/zkp-prover/Cargo.toml components/zkp/crates/zkp-sdk/Cargo.toml components/zkp/crates/zkp-verifier/Cargo.toml components/zkp/crates/zkp-vm/Cargo.toml modules/atc-dns/Cargo.toml modules/atc-governance/Cargo.toml modules/atc-zkp/Cargo.toml ; do cargo test --release --manifest-path $m 2>&1 || exit 101; done",
+  "exit_code": 0,
+  "passed": 222,
+  "log_tail": [
+   "test timelock::tests::test_timelock ... ok",
+   "test proposal::tests::test_proposal_lifecycle ... ok",
+   "test delegation::tests::test_delegation ... ok",
+   "test proposal::tests::test_proposal_reject ... ok",
+   "test treasury::tests::test_treasury ... ok",
+   "test treasury::tests::max_amount_is_supported ... ok",
+   "test treasury::tests::allocation_overflow_is_rejected_atomically ... ok",
+   "test treasury::tests::accounting_invariant_violation_is_reported ... ok",
+   "test voting::tests::test_voting ... ok",
+   "",
+   "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_governance",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "    Finished `release` profile [optimized] target(s) in 0.01s",
+   "     Running unittests src/lib.rs (modules/atc-zkp/target/release/build/atc_zkp/62372ac65e53ffae/out/atc_zkp-62372ac65e53ffae)",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_zkp",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-ALGO-001",
+   "symbol": "verify",
+   "source_path": "components/algorithm/src/poh.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-002",
+   "symbol": "select_proposer",
+   "source_path": "components/algorithm/src/selection.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-003",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ALGO-004",
+   "symbol": "verify",
+   "source_path": "components/algorithm/src/poh.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-005",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ALGO-006",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ALGO-007",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ALGO-008",
+   "symbol": "atc_hash",
+   "source_path": "components/algorithm/src/hash.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-009",
+   "symbol": "atc_hash_hex",
+   "source_path": "components/algorithm/src/hash.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-010",
+   "symbol": "genesis",
+   "source_path": "components/algorithm/src/poh.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-011",
+   "symbol": "tick",
+   "source_path": "components/algorithm/src/poh.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-012",
+   "symbol": "ticks",
+   "source_path": "components/algorithm/src/poh.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-013",
+   "symbol": "scan_sources",
+   "source_path": "components/algorithm/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ALGO-014",
+   "symbol": "run_tests",
+   "source_path": "components/algorithm/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ALGO-015",
+   "symbol": "main",
+   "source_path": "components/algorithm/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 15,
+  "test_referenced": 8,
+  "suite_pass": true,
+  "eligible_functionally_verified": 8
+ }
+}

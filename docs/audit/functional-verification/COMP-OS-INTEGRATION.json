@@ -1,0 +1,1633 @@
+{
+ "component": "COMP-OS-INTEGRATION",
+ "repo": "wt-kaios",
+ "head_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "cargo test --release --manifest-path kai-os/Cargo.toml --workspace 2>&1",
+  "exit_code": 0,
+  "passed": 111,
+  "log_tail": [
+   "",
+   "   Doc-tests kai_os_node",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests kai_os_pkg",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests kai_os_runtime",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests kai_os_state",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests kai_os_syncd",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-OSINT-001",
+   "symbol": "apply_block",
+   "source_path": "kai-os/state/src/sync.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-002",
+   "symbol": "boot",
+   "source_path": "kai-os/integration/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-003",
+   "symbol": "new",
+   "source_path": "kai-os/ai/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-004",
+   "symbol": "record",
+   "source_path": "kai-os/ai/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-005",
+   "symbol": "events",
+   "source_path": "kai-os/ai/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-006",
+   "symbol": "verify",
+   "source_path": "kai-os/ai/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-007",
+   "symbol": "by_kind",
+   "source_path": "kai-os/ai/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-008",
+   "symbol": "by_actor",
+   "source_path": "kai-os/ai/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-009",
+   "symbol": "new",
+   "source_path": "kai-os/ai/src/ipc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-010",
+   "symbol": "register_agent",
+   "source_path": "kai-os/ai/src/ipc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-011",
+   "symbol": "audit",
+   "source_path": "kai-os/ai/src/ipc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-012",
+   "symbol": "deliver",
+   "source_path": "kai-os/ai/src/ipc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-013",
+   "symbol": "sha_hex",
+   "source_path": "kai-os/ai/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-014",
+   "symbol": "new",
+   "source_path": "kai-os/ai/src/model_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-015",
+   "symbol": "matches",
+   "source_path": "kai-os/ai/src/model_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-016",
+   "symbol": "new",
+   "source_path": "kai-os/ai/src/model_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-017",
+   "symbol": "publish",
+   "source_path": "kai-os/ai/src/model_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-018",
+   "symbol": "best_match",
+   "source_path": "kai-os/ai/src/model_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-019",
+   "symbol": "get",
+   "source_path": "kai-os/ai/src/model_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-020",
+   "symbol": "model_count",
+   "source_path": "kai-os/ai/src/model_registry.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-021",
+   "symbol": "versions_of",
+   "source_path": "kai-os/ai/src/model_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-022",
+   "symbol": "new",
+   "source_path": "kai-os/ai/src/proposal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-023",
+   "symbol": "submit",
+   "source_path": "kai-os/ai/src/proposal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-024",
+   "symbol": "get",
+   "source_path": "kai-os/ai/src/proposal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-025",
+   "symbol": "all",
+   "source_path": "kai-os/ai/src/proposal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-026",
+   "symbol": "mark_specified",
+   "source_path": "kai-os/ai/src/proposal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-027",
+   "symbol": "mark_handed_to_vm",
+   "source_path": "kai-os/ai/src/proposal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-028",
+   "symbol": "audit",
+   "source_path": "kai-os/ai/src/proposal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-029",
+   "symbol": "new",
+   "source_path": "kai-os/ai/src/verified_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-030",
+   "symbol": "put",
+   "source_path": "kai-os/ai/src/verified_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-031",
+   "symbol": "get",
+   "source_path": "kai-os/ai/src/verified_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-032",
+   "symbol": "len",
+   "source_path": "kai-os/ai/src/verified_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-033",
+   "symbol": "is_empty",
+   "source_path": "kai-os/ai/src/verified_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-034",
+   "symbol": "cmd_status",
+   "source_path": "kai-os/cli/src/commands.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-035",
+   "symbol": "cmd_keys_list",
+   "source_path": "kai-os/cli/src/commands.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-036",
+   "symbol": "cmd_state_root",
+   "source_path": "kai-os/cli/src/commands.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-037",
+   "symbol": "cmd_audit_report",
+   "source_path": "kai-os/cli/src/commands.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-038",
+   "symbol": "dispatch",
+   "source_path": "kai-os/cli/src/commands.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-039",
+   "symbol": "new",
+   "source_path": "kai-os/health/src/gossip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-040",
+   "symbol": "observe",
+   "source_path": "kai-os/health/src/gossip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-041",
+   "symbol": "merge",
+   "source_path": "kai-os/health/src/gossip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-042",
+   "symbol": "snapshot",
+   "source_path": "kai-os/health/src/gossip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-043",
+   "symbol": "consensus_view",
+   "source_path": "kai-os/health/src/gossip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-044",
+   "symbol": "new",
+   "source_path": "kai-os/health/src/watchdog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-045",
+   "symbol": "now_tick",
+   "source_path": "kai-os/health/src/watchdog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-046",
+   "symbol": "register",
+   "source_path": "kai-os/health/src/watchdog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-047",
+   "symbol": "heartbeat",
+   "source_path": "kai-os/health/src/watchdog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-048",
+   "symbol": "tick",
+   "source_path": "kai-os/health/src/watchdog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-049",
+   "symbol": "state",
+   "source_path": "kai-os/health/src/watchdog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-050",
+   "symbol": "report",
+   "source_path": "kai-os/health/src/watchdog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-051",
+   "symbol": "restart_count",
+   "source_path": "kai-os/health/src/watchdog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-052",
+   "symbol": "restart",
+   "source_path": "kai-os/health/src/watchdog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-053",
+   "symbol": "ok",
+   "source_path": "kai-os/integration/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-054",
+   "symbol": "new",
+   "source_path": "kai-os/keyring/src/keyring.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-055",
+   "symbol": "import_seed",
+   "source_path": "kai-os/keyring/src/keyring.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-056",
+   "symbol": "list",
+   "source_path": "kai-os/keyring/src/keyring.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-057",
+   "symbol": "public_key",
+   "source_path": "kai-os/keyring/src/keyring.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-058",
+   "symbol": "sign",
+   "source_path": "kai-os/keyring/src/keyring.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-059",
+   "symbol": "revoke",
+   "source_path": "kai-os/keyring/src/keyring.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-060",
+   "symbol": "rotate",
+   "source_path": "kai-os/keyring/src/keyring.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-061",
+   "symbol": "verify",
+   "source_path": "kai-os/keyring/src/keyring.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-062",
+   "symbol": "challenge_payload",
+   "source_path": "kai-os/network/src/auth.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-063",
+   "symbol": "new",
+   "source_path": "kai-os/network/src/auth.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-064",
+   "symbol": "next",
+   "source_path": "kai-os/network/src/auth.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-065",
+   "symbol": "respond",
+   "source_path": "kai-os/network/src/auth.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-066",
+   "symbol": "new",
+   "source_path": "kai-os/network/src/auth.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-067",
+   "symbol": "verify",
+   "source_path": "kai-os/network/src/auth.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-068",
+   "symbol": "session_id",
+   "source_path": "kai-os/network/src/auth.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-069",
+   "symbol": "new",
+   "source_path": "kai-os/network/src/discovery.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-070",
+   "symbol": "store",
+   "source_path": "kai-os/network/src/discovery.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-071",
+   "symbol": "store_mut",
+   "source_path": "kai-os/network/src/discovery.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-072",
+   "symbol": "handle",
+   "source_path": "kai-os/network/src/discovery.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-073",
+   "symbol": "peer_list",
+   "source_path": "kai-os/network/src/discovery.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-074",
+   "symbol": "hex",
+   "source_path": "kai-os/network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-075",
+   "symbol": "from_seed",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-076",
+   "symbol": "public_bytes",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-077",
+   "symbol": "peer_id",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-078",
+   "symbol": "verifying_key",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-079",
+   "symbol": "sign",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-080",
+   "symbol": "verify_signature",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-081",
+   "symbol": "new",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-082",
+   "symbol": "upsert",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-083",
+   "symbol": "get",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-084",
+   "symbol": "remove",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-085",
+   "symbol": "len",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-086",
+   "symbol": "is_empty",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-087",
+   "symbol": "all",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-088",
+   "symbol": "evict_stale",
+   "source_path": "kai-os/network/src/peer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-089",
+   "symbol": "new",
+   "source_path": "kai-os/network/src/session.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-090",
+   "symbol": "send",
+   "source_path": "kai-os/network/src/session.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-091",
+   "symbol": "receive",
+   "source_path": "kai-os/network/src/session.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-092",
+   "symbol": "envelope_bytes",
+   "source_path": "kai-os/network/src/session.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-093",
+   "symbol": "connect",
+   "source_path": "kai-os/network/src/tcp.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-094",
+   "symbol": "from_stream",
+   "source_path": "kai-os/network/src/tcp.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-095",
+   "symbol": "peer_addr",
+   "source_path": "kai-os/network/src/tcp.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-096",
+   "symbol": "send",
+   "source_path": "kai-os/network/src/tcp.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-097",
+   "symbol": "receive",
+   "source_path": "kai-os/network/src/tcp.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-098",
+   "symbol": "frame",
+   "source_path": "kai-os/network/src/transport.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-099",
+   "symbol": "parse_frame",
+   "source_path": "kai-os/network/src/transport.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-100",
+   "symbol": "ours",
+   "source_path": "kai-os/network/src/upgrade.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-101",
+   "symbol": "validate",
+   "source_path": "kai-os/network/src/upgrade.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-102",
+   "symbol": "negotiate",
+   "source_path": "kai-os/network/src/upgrade.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-103",
+   "symbol": "encode",
+   "source_path": "kai-os/network/src/upgrade.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-104",
+   "symbol": "decode_checked",
+   "source_path": "kai-os/network/src/upgrade.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-105",
+   "symbol": "to_wire",
+   "source_path": "kai-os/network/src/upgrade.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-106",
+   "symbol": "from_wire",
+   "source_path": "kai-os/network/src/upgrade.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-107",
+   "symbol": "in_memory",
+   "source_path": "kai-os/node/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-108",
+   "symbol": "to_file",
+   "source_path": "kai-os/node/src/audit.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-109",
+   "symbol": "record",
+   "source_path": "kai-os/node/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-110",
+   "symbol": "events",
+   "source_path": "kai-os/node/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-111",
+   "symbol": "events_mut",
+   "source_path": "kai-os/node/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-112",
+   "symbol": "verify_chain",
+   "source_path": "kai-os/node/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-113",
+   "symbol": "validate",
+   "source_path": "kai-os/node/src/config.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-114",
+   "symbol": "from_json",
+   "source_path": "kai-os/node/src/config.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-115",
+   "symbol": "from_file",
+   "source_path": "kai-os/node/src/config.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-116",
+   "symbol": "default_for_test",
+   "source_path": "kai-os/node/src/config.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-117",
+   "symbol": "worst",
+   "source_path": "kai-os/node/src/health.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-118",
+   "symbol": "overall",
+   "source_path": "kai-os/node/src/health.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-119",
+   "symbol": "ensure_not_root",
+   "source_path": "kai-os/node/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-120",
+   "symbol": "can_transition",
+   "source_path": "kai-os/node/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-121",
+   "symbol": "new",
+   "source_path": "kai-os/node/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-122",
+   "symbol": "at",
+   "source_path": "kai-os/node/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-123",
+   "symbol": "with_audit",
+   "source_path": "kai-os/node/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-124",
+   "symbol": "current",
+   "source_path": "kai-os/node/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-125",
+   "symbol": "history",
+   "source_path": "kai-os/node/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-126",
+   "symbol": "transition",
+   "source_path": "kai-os/node/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-127",
+   "symbol": "to_json",
+   "source_path": "kai-os/node/src/shutdown.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-128",
+   "symbol": "shutdown_all",
+   "source_path": "kai-os/node/src/shutdown.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-129",
+   "symbol": "new",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-130",
+   "symbol": "register",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-131",
+   "symbol": "start_all",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-132",
+   "symbol": "tick_all",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-133",
+   "symbol": "overall_health",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-134",
+   "symbol": "restart_count",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-135",
+   "symbol": "persist_state",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-136",
+   "symbol": "snapshot",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-137",
+   "symbol": "restore",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-138",
+   "symbol": "load_state",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-139",
+   "symbol": "shutdown_order",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-140",
+   "symbol": "stop_subsystem",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-141",
+   "symbol": "new",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-142",
+   "symbol": "failing_starts",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-143",
+   "symbol": "failing_ticks",
+   "source_path": "kai-os/node/src/supervisor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-144",
+   "symbol": "sha_hex",
+   "source_path": "kai-os/pkg/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-145",
+   "symbol": "from_plan",
+   "source_path": "kai-os/pkg/src/lockfile.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-146",
+   "symbol": "to_text",
+   "source_path": "kai-os/pkg/src/lockfile.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-147",
+   "symbol": "verify",
+   "source_path": "kai-os/pkg/src/lockfile.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-148",
+   "symbol": "new",
+   "source_path": "kai-os/pkg/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-149",
+   "symbol": "publish",
+   "source_path": "kai-os/pkg/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-150",
+   "symbol": "best_match",
+   "source_path": "kai-os/pkg/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-151",
+   "symbol": "highest",
+   "source_path": "kai-os/pkg/src/registry.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-152",
+   "symbol": "resolve",
+   "source_path": "kai-os/pkg/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-153",
+   "symbol": "integrity_of",
+   "source_path": "kai-os/pkg/src/registry.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-154",
+   "symbol": "matches",
+   "source_path": "kai-os/pkg/src/version.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-155",
+   "symbol": "closed",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-156",
+   "symbol": "allows_outbound",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-157",
+   "symbol": "allows_inbound",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-158",
+   "symbol": "validate",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-159",
+   "symbol": "builder",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-160",
+   "symbol": "allows_syscall",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-161",
+   "symbol": "cpu_ms",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-162",
+   "symbol": "memory",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-163",
+   "symbol": "storage",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-164",
+   "symbol": "allow_outbound",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-165",
+   "symbol": "allow_inbound",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-166",
+   "symbol": "allow_syscall",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-167",
+   "symbol": "allow_crypto",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-168",
+   "symbol": "build",
+   "source_path": "kai-os/runtime/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-169",
+   "symbol": "new",
+   "source_path": "kai-os/runtime/src/resources.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-170",
+   "symbol": "usage",
+   "source_path": "kai-os/runtime/src/resources.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-171",
+   "symbol": "consume_cpu",
+   "source_path": "kai-os/runtime/src/resources.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-172",
+   "symbol": "alloc_memory",
+   "source_path": "kai-os/runtime/src/resources.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-173",
+   "symbol": "free_memory",
+   "source_path": "kai-os/runtime/src/resources.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-174",
+   "symbol": "consume_storage",
+   "source_path": "kai-os/runtime/src/resources.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-175",
+   "symbol": "record_network_out",
+   "source_path": "kai-os/runtime/src/resources.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-176",
+   "symbol": "record_network_in",
+   "source_path": "kai-os/runtime/src/resources.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-177",
+   "symbol": "reset_tick",
+   "source_path": "kai-os/runtime/src/resources.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-178",
+   "symbol": "new",
+   "source_path": "kai-os/runtime/src/sandbox.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-179",
+   "symbol": "execute",
+   "source_path": "kai-os/runtime/src/sandbox.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-180",
+   "symbol": "new",
+   "source_path": "kai-os/runtime/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-181",
+   "symbol": "register",
+   "source_path": "kai-os/runtime/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-182",
+   "symbol": "registered",
+   "source_path": "kai-os/runtime/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-183",
+   "symbol": "next_turn",
+   "source_path": "kai-os/runtime/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-184",
+   "symbol": "one_pass",
+   "source_path": "kai-os/runtime/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-185",
+   "symbol": "sha_hex",
+   "source_path": "kai-os/state/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-186",
+   "symbol": "leaf_hash",
+   "source_path": "kai-os/state/src/merkle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-187",
+   "symbol": "merkle_root",
+   "source_path": "kai-os/state/src/merkle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-188",
+   "symbol": "prove",
+   "source_path": "kai-os/state/src/merkle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-189",
+   "symbol": "verify_proof",
+   "source_path": "kai-os/state/src/merkle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-190",
+   "symbol": "save_snapshot_store",
+   "source_path": "kai-os/state/src/persistence.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-191",
+   "symbol": "load_snapshot_store",
+   "source_path": "kai-os/state/src/persistence.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-192",
+   "symbol": "snapshot_meta",
+   "source_path": "kai-os/state/src/persistence.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-193",
+   "symbol": "from_state",
+   "source_path": "kai-os/state/src/snapshot.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-194",
+   "symbol": "snapshot_id",
+   "source_path": "kai-os/state/src/snapshot.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-195",
+   "symbol": "verify_against",
+   "source_path": "kai-os/state/src/snapshot.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-196",
+   "symbol": "to_state",
+   "source_path": "kai-os/state/src/snapshot.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-197",
+   "symbol": "new",
+   "source_path": "kai-os/state/src/state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-198",
+   "symbol": "apply",
+   "source_path": "kai-os/state/src/state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-199",
+   "symbol": "apply_all",
+   "source_path": "kai-os/state/src/state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-200",
+   "symbol": "get",
+   "source_path": "kai-os/state/src/state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-201",
+   "symbol": "len",
+   "source_path": "kai-os/state/src/state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-202",
+   "symbol": "is_empty",
+   "source_path": "kai-os/state/src/state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-203",
+   "symbol": "entries",
+   "source_path": "kai-os/state/src/state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-204",
+   "symbol": "state_root",
+   "source_path": "kai-os/state/src/state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-205",
+   "symbol": "block_hash",
+   "source_path": "kai-os/state/src/sync.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-206",
+   "symbol": "new",
+   "source_path": "kai-os/state/src/sync.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-207",
+   "symbol": "state_root",
+   "source_path": "kai-os/state/src/sync.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-208",
+   "symbol": "block_hash_at",
+   "source_path": "kai-os/state/src/sync.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-209",
+   "symbol": "hash",
+   "source_path": "kai-os/state/src/wal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-210",
+   "symbol": "open",
+   "source_path": "kai-os/state/src/wal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-211",
+   "symbol": "append",
+   "source_path": "kai-os/state/src/wal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-212",
+   "symbol": "append_op",
+   "source_path": "kai-os/state/src/wal.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-213",
+   "symbol": "tip_hash",
+   "source_path": "kai-os/state/src/wal.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-214",
+   "symbol": "seq",
+   "source_path": "kai-os/state/src/wal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-215",
+   "symbol": "path",
+   "source_path": "kai-os/state/src/wal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-216",
+   "symbol": "replay",
+   "source_path": "kai-os/state/src/wal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-217",
+   "symbol": "open",
+   "source_path": "kai-os/state/src/wal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-218",
+   "symbol": "apply",
+   "source_path": "kai-os/state/src/wal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-219",
+   "symbol": "checkpoint",
+   "source_path": "kai-os/state/src/wal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-220",
+   "symbol": "state_path_hint",
+   "source_path": "kai-os/state/src/wal.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-221",
+   "symbol": "last_verified_boundary",
+   "source_path": "kai-os/state/src/wal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-222",
+   "symbol": "snapshot_from_store",
+   "source_path": "kai-os/syncd/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-223",
+   "symbol": "verify_snapshot",
+   "source_path": "kai-os/syncd/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-OSINT-224",
+   "symbol": "receive_and_verify",
+   "source_path": "kai-os/syncd/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-225",
+   "symbol": "persist_verified",
+   "source_path": "kai-os/syncd/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-OSINT-226",
+   "symbol": "send_and_await_ack",
+   "source_path": "kai-os/syncd/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 226,
+  "test_referenced": 195,
+  "suite_pass": true,
+  "eligible_functionally_verified": 195
+ }
+}

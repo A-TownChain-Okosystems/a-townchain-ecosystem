@@ -1,0 +1,387 @@
+{
+ "component": "COMP-LANG",
+ "repo": "wt-lang2",
+ "head_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
+  "exit_code": 0,
+  "passed": 96,
+  "log_tail": [
+   "test top_level_statements_laufen_in_entry ... ok",
+   "test unbegrenzte_rekursion_ist_deterministischer_fehler ... ok",
+   "",
+   "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "     Running tests/stdlib_reference_conformance.rs (target/debug/build/atc-core/eaaaeb5318d8395a/out/stdlib_reference_conformance-eaaaeb5318d8395a)",
+   "",
+   "running 11 tests",
+   "test tests::canonical_bytes_empty_parts ... ok",
+   "test tests::checked_cast_roundtrip ... ok",
+   "test tests::canonical_bytes_is_length_delimited ... ok",
+   "test tests::u128_boundaries ... ok",
+   "test tests::sha256_known_answer ... ok",
+   "test tests::u128_decode_rejects_wrong_length ... ok",
+   "test tests::require_fails_closed ... ok",
+   "test tests::u256_add_overflow_fails_closed ... ok",
+   "test tests::u256_roundtrip_max ... ok",
+   "test tests::u256_boundaries ... ok",
+   "test tests::u256_sub_underflow_fails_closed ... ok",
+   "",
+   "test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_core",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   ".........                                                                [100%]",
+   "9 passed in 0.32s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-LANG-001",
+   "symbol": "parse_program",
+   "source_path": "crates/atc-core/src/parser.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-002",
+   "symbol": "parse_native_contract",
+   "source_path": "crates/atc-core/src/native.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-003",
+   "symbol": "lower_program",
+   "source_path": "crates/atc-core/src/lower.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-004",
+   "symbol": "verify",
+   "source_path": "crates/atc-core/src/bytecode.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-005",
+   "symbol": "decode_and_verify",
+   "source_path": "crates/atc-core/src/artifact.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-006",
+   "symbol": "abi_type",
+   "source_path": "crates/atc-core/src/value.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-007",
+   "symbol": "execute_verified",
+   "source_path": "crates/atc-core/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-008",
+   "symbol": "differential_gemeinsamer_subset",
+   "source_path": "crates/atc-core/tests/differential.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-009",
+   "symbol": "encode_be",
+   "source_path": "crates/atc-core/tests/stdlib_reference_conformance.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-010",
+   "symbol": "main",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-011",
+   "symbol": "from_program",
+   "source_path": "crates/atc-core/src/artifact.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-012",
+   "symbol": "canonical_payload",
+   "source_path": "crates/atc-core/src/artifact.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-013",
+   "symbol": "compute_hash",
+   "source_path": "crates/atc-core/src/artifact.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-014",
+   "symbol": "encode",
+   "source_path": "crates/atc-core/src/artifact.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-015",
+   "symbol": "verify",
+   "source_path": "crates/atc-core/src/artifact.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-016",
+   "symbol": "into_program",
+   "source_path": "crates/atc-core/src/artifact.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-017",
+   "symbol": "metadata",
+   "source_path": "crates/atc-core/src/artifact.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-018",
+   "symbol": "artifact_hash",
+   "source_path": "crates/atc-core/src/artifact.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-019",
+   "symbol": "into_program",
+   "source_path": "crates/atc-core/src/artifact.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-020",
+   "symbol": "to_json",
+   "source_path": "crates/atc-core/src/ast.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-021",
+   "symbol": "encode",
+   "source_path": "crates/atc-core/src/bytecode.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-022",
+   "symbol": "encode",
+   "source_path": "crates/atc-core/src/bytecode.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-023",
+   "symbol": "encode_canonical",
+   "source_path": "crates/atc-core/src/bytecode.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-024",
+   "symbol": "verify_with_signatures",
+   "source_path": "crates/atc-core/src/bytecode.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-025",
+   "symbol": "ir_type",
+   "source_path": "crates/atc-core/src/ir.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-026",
+   "symbol": "tokenize",
+   "source_path": "crates/atc-core/src/lexer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-LANG-027",
+   "symbol": "function_count",
+   "source_path": "crates/atc-core/src/lower.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-028",
+   "symbol": "verify",
+   "source_path": "crates/atc-core/src/lower.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-029",
+   "symbol": "validate_native_contract",
+   "source_path": "crates/atc-core/src/native.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-030",
+   "symbol": "from_name",
+   "source_path": "crates/atc-core/src/value.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-031",
+   "symbol": "is_type",
+   "source_path": "crates/atc-core/src/value.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-032",
+   "symbol": "read",
+   "source_path": "tools/ci_independent_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-033",
+   "symbol": "fail",
+   "source_path": "tools/ci_independent_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-034",
+   "symbol": "files",
+   "source_path": "tools/ci_independent_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-035",
+   "symbol": "audit_metadata",
+   "source_path": "tools/ci_independent_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-036",
+   "symbol": "audit_workflows",
+   "source_path": "tools/ci_independent_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-037",
+   "symbol": "audit_security_and_determinism",
+   "source_path": "tools/ci_independent_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-038",
+   "symbol": "audit_placeholders_and_docs",
+   "source_path": "tools/ci_independent_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-039",
+   "symbol": "audit_evidence",
+   "source_path": "tools/ci_independent_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-040",
+   "symbol": "audit_inventory",
+   "source_path": "tools/ci_independent_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-041",
+   "symbol": "audit_duplicates",
+   "source_path": "tools/ci_independent_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-042",
+   "symbol": "main",
+   "source_path": "tools/ci_independent_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-043",
+   "symbol": "load_allowlist",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-044",
+   "symbol": "code_view_py",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-045",
+   "symbol": "code_view_rust",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-046",
+   "symbol": "scan_sources",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-047",
+   "symbol": "run_tests",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-LANG-048",
+   "symbol": "normalize_output",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": true
+  }
+ ],
+ "summary": {
+  "total": 48,
+  "test_referenced": 47,
+  "suite_pass": true,
+  "eligible_functionally_verified": 47
+ }
+}

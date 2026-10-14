@@ -1,0 +1,3852 @@
+{
+ "component": "COMP-GLOBUS-SYS",
+ "repo": "wt-globus",
+ "head_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "cargo test --release --workspace 2>&1",
+  "exit_code": 0,
+  "passed": 1298,
+  "log_tail": [
+   "",
+   "   Doc-tests globus_vfs",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests globus_wallet_service",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests libshivacore",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests shivacore",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests shivacore_service_space",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-GLOBUS-SYS-001",
+   "symbol": "validate",
+   "source_path": "system/audio/src/codec.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-002",
+   "symbol": "new",
+   "source_path": "system/audio/src/codec.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-003",
+   "symbol": "frames",
+   "source_path": "system/audio/src/codec.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-004",
+   "symbol": "new",
+   "source_path": "system/audio/src/device_policy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-005",
+   "symbol": "routes",
+   "source_path": "system/audio/src/device_policy.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-006",
+   "symbol": "add",
+   "source_path": "system/audio/src/device_policy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-007",
+   "symbol": "remove",
+   "source_path": "system/audio/src/device_policy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-008",
+   "symbol": "route_for",
+   "source_path": "system/audio/src/device_policy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-009",
+   "symbol": "new",
+   "source_path": "system/audio/src/media_pipeline.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-010",
+   "symbol": "mixer",
+   "source_path": "system/audio/src/media_pipeline.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-011",
+   "symbol": "mixer_mut",
+   "source_path": "system/audio/src/media_pipeline.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-012",
+   "symbol": "output",
+   "source_path": "system/audio/src/media_pipeline.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-013",
+   "symbol": "output_mut",
+   "source_path": "system/audio/src/media_pipeline.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-014",
+   "symbol": "open",
+   "source_path": "system/audio/src/media_pipeline.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-015",
+   "symbol": "start",
+   "source_path": "system/audio/src/media_pipeline.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-016",
+   "symbol": "pump",
+   "source_path": "system/audio/src/media_pipeline.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-017",
+   "symbol": "stop",
+   "source_path": "system/audio/src/media_pipeline.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-018",
+   "symbol": "new",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-019",
+   "symbol": "push",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-020",
+   "symbol": "clear",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-021",
+   "symbol": "len",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-022",
+   "symbol": "is_empty",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-023",
+   "symbol": "current",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-024",
+   "symbol": "select",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-025",
+   "symbol": "next",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-026",
+   "symbol": "previous",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-027",
+   "symbol": "new",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-028",
+   "symbol": "queue",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-029",
+   "symbol": "queue_mut",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-030",
+   "symbol": "state",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-031",
+   "symbol": "repeat",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-032",
+   "symbol": "position_ms",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-033",
+   "symbol": "volume",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-034",
+   "symbol": "muted",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-035",
+   "symbol": "set_repeat",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-036",
+   "symbol": "set_volume",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-037",
+   "symbol": "set_muted",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-038",
+   "symbol": "play",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-039",
+   "symbol": "pause",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-040",
+   "symbol": "stop",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-041",
+   "symbol": "seek_ms",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-042",
+   "symbol": "advance_ms",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-043",
+   "symbol": "next_track",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-044",
+   "symbol": "previous",
+   "source_path": "system/audio/src/media_player.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-045",
+   "symbol": "new",
+   "source_path": "system/audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-046",
+   "symbol": "set_gain",
+   "source_path": "system/audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-047",
+   "symbol": "gain",
+   "source_path": "system/audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-048",
+   "symbol": "set_muted",
+   "source_path": "system/audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-049",
+   "symbol": "muted",
+   "source_path": "system/audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-050",
+   "symbol": "mix",
+   "source_path": "system/audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-051",
+   "symbol": "new",
+   "source_path": "system/audio/src/output.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-052",
+   "symbol": "is_running",
+   "source_path": "system/audio/src/output.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-053",
+   "symbol": "transition",
+   "source_path": "system/aurora-core/src/state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-054",
+   "symbol": "new",
+   "source_path": "system/aurora-core/src/types.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-055",
+   "symbol": "as_str",
+   "source_path": "system/aurora-core/src/types.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-056",
+   "symbol": "is_operational",
+   "source_path": "system/core/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-057",
+   "symbol": "checksum_valid",
+   "source_path": "system/devices/src/acpi.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-058",
+   "symbol": "validate_rsdp",
+   "source_path": "system/devices/src/acpi.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-059",
+   "symbol": "validate",
+   "source_path": "system/devices/src/acpi.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-060",
+   "symbol": "ecam_address",
+   "source_path": "system/devices/src/acpi.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-061",
+   "symbol": "validate_mcfg_table",
+   "source_path": "system/devices/src/acpi.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-062",
+   "symbol": "new",
+   "source_path": "system/devices/src/apic.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-063",
+   "symbol": "set_redirection",
+   "source_path": "system/devices/src/apic.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-064",
+   "symbol": "get",
+   "source_path": "system/devices/src/apic.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-065",
+   "symbol": "mask",
+   "source_path": "system/devices/src/apic.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-066",
+   "symbol": "entries",
+   "source_path": "system/devices/src/apic.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-067",
+   "symbol": "capacity_bytes",
+   "source_path": "system/devices/src/block.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-068",
+   "symbol": "valid",
+   "source_path": "system/devices/src/block.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-069",
+   "symbol": "validate_request",
+   "source_path": "system/devices/src/block.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-070",
+   "symbol": "new",
+   "source_path": "system/devices/src/block.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-071",
+   "symbol": "new",
+   "source_path": "system/devices/src/block_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-072",
+   "symbol": "geometry",
+   "source_path": "system/devices/src/block_cache.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-073",
+   "symbol": "read_block",
+   "source_path": "system/devices/src/block_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-074",
+   "symbol": "write_block",
+   "source_path": "system/devices/src/block_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-075",
+   "symbol": "new",
+   "source_path": "system/devices/src/block_manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-076",
+   "symbol": "register",
+   "source_path": "system/devices/src/block_manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-077",
+   "symbol": "geometry",
+   "source_path": "system/devices/src/block_manager.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-078",
+   "symbol": "read",
+   "source_path": "system/devices/src/block_manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-079",
+   "symbol": "write",
+   "source_path": "system/devices/src/block_manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-080",
+   "symbol": "ids",
+   "source_path": "system/devices/src/block_manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-081",
+   "symbol": "end_exclusive",
+   "source_path": "system/devices/src/boot.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-082",
+   "symbol": "is_dma_safe",
+   "source_path": "system/devices/src/boot.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-083",
+   "symbol": "validate_framebuffer",
+   "source_path": "system/devices/src/boot.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-084",
+   "symbol": "validate_tx",
+   "source_path": "system/devices/src/ethernet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-085",
+   "symbol": "validate_rx",
+   "source_path": "system/devices/src/ethernet.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-086",
+   "symbol": "new",
+   "source_path": "system/devices/src/ethernet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-087",
+   "symbol": "len",
+   "source_path": "system/devices/src/ethernet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-088",
+   "symbol": "is_empty",
+   "source_path": "system/devices/src/ethernet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-089",
+   "symbol": "capacity",
+   "source_path": "system/devices/src/ethernet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-090",
+   "symbol": "submit",
+   "source_path": "system/devices/src/ethernet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-091",
+   "symbol": "device_complete",
+   "source_path": "system/devices/src/ethernet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-092",
+   "symbol": "new",
+   "source_path": "system/devices/src/ethernet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-093",
+   "symbol": "available",
+   "source_path": "system/devices/src/ethernet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-094",
+   "symbol": "post",
+   "source_path": "system/devices/src/ethernet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-095",
+   "symbol": "device_receive",
+   "source_path": "system/devices/src/ethernet.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-096",
+   "symbol": "valid",
+   "source_path": "system/devices/src/interrupt.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-097",
+   "symbol": "new",
+   "source_path": "system/devices/src/interrupt.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-098",
+   "symbol": "route",
+   "source_path": "system/devices/src/interrupt.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-099",
+   "symbol": "mask",
+   "source_path": "system/devices/src/interrupt.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-100",
+   "symbol": "route_for",
+   "source_path": "system/devices/src/interrupt.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-101",
+   "symbol": "routes",
+   "source_path": "system/devices/src/interrupt.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-102",
+   "symbol": "validate_region",
+   "source_path": "system/devices/src/iommu.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-103",
+   "symbol": "mappings",
+   "source_path": "system/devices/src/iommu.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-104",
+   "symbol": "valid_vector_count",
+   "source_path": "system/devices/src/msi.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-105",
+   "symbol": "new",
+   "source_path": "system/devices/src/msi.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-106",
+   "symbol": "allocate",
+   "source_path": "system/devices/src/msi.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-107",
+   "symbol": "release",
+   "source_path": "system/devices/src/msi.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-108",
+   "symbol": "is_allocated",
+   "source_path": "system/devices/src/msi.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-109",
+   "symbol": "allocated",
+   "source_path": "system/devices/src/msi.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-110",
+   "symbol": "new",
+   "source_path": "system/devices/src/msi.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-111",
+   "symbol": "set",
+   "source_path": "system/devices/src/msi.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-112",
+   "symbol": "mask",
+   "source_path": "system/devices/src/msi.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-113",
+   "symbol": "get",
+   "source_path": "system/devices/src/msi.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-114",
+   "symbol": "valid",
+   "source_path": "system/devices/src/nvme.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-115",
+   "symbol": "new",
+   "source_path": "system/devices/src/nvme.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-116",
+   "symbol": "id",
+   "source_path": "system/devices/src/nvme.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-117",
+   "symbol": "depth",
+   "source_path": "system/devices/src/nvme.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-118",
+   "symbol": "pending",
+   "source_path": "system/devices/src/nvme.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-119",
+   "symbol": "submit",
+   "source_path": "system/devices/src/nvme.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-120",
+   "symbol": "take_submission",
+   "source_path": "system/devices/src/nvme.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-121",
+   "symbol": "complete",
+   "source_path": "system/devices/src/nvme.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-122",
+   "symbol": "poll_completion",
+   "source_path": "system/devices/src/nvme.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-123",
+   "symbol": "validate_config",
+   "source_path": "system/devices/src/nvme_controller.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-124",
+   "symbol": "new",
+   "source_path": "system/devices/src/nvme_controller.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-125",
+   "symbol": "state",
+   "source_path": "system/devices/src/nvme_controller.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-126",
+   "symbol": "config",
+   "source_path": "system/devices/src/nvme_controller.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-127",
+   "symbol": "configure_admin_queues",
+   "source_path": "system/devices/src/nvme_controller.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-128",
+   "symbol": "enable",
+   "source_path": "system/devices/src/nvme_controller.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-129",
+   "symbol": "poll_ready",
+   "source_path": "system/devices/src/nvme_controller.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-130",
+   "symbol": "decode_id",
+   "source_path": "system/devices/src/pci.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-131",
+   "symbol": "validate_bar",
+   "source_path": "system/devices/src/pci.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-132",
+   "symbol": "new",
+   "source_path": "system/devices/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-133",
+   "symbol": "register",
+   "source_path": "system/devices/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-134",
+   "symbol": "bind_driver",
+   "source_path": "system/devices/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-135",
+   "symbol": "by_class",
+   "source_path": "system/devices/src/registry.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-136",
+   "symbol": "get",
+   "source_path": "system/devices/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-137",
+   "symbol": "devices",
+   "source_path": "system/devices/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-138",
+   "symbol": "new",
+   "source_path": "system/devices/src/smp.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-139",
+   "symbol": "register",
+   "source_path": "system/devices/src/smp.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-140",
+   "symbol": "start",
+   "source_path": "system/devices/src/smp.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-141",
+   "symbol": "halt",
+   "source_path": "system/devices/src/smp.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-142",
+   "symbol": "get",
+   "source_path": "system/devices/src/smp.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-143",
+   "symbol": "cpus",
+   "source_path": "system/devices/src/smp.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-144",
+   "symbol": "valid",
+   "source_path": "system/devices/src/timer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-145",
+   "symbol": "new",
+   "source_path": "system/devices/src/timer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-146",
+   "symbol": "frequency",
+   "source_path": "system/devices/src/timer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-147",
+   "symbol": "tick",
+   "source_path": "system/devices/src/timer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-148",
+   "symbol": "ticks",
+   "source_path": "system/devices/src/timer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-149",
+   "symbol": "driver_crash",
+   "source_path": "system/diagnostics/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-150",
+   "symbol": "record_driver_crash",
+   "source_path": "system/diagnostics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-151",
+   "symbol": "mark_recovered",
+   "source_path": "system/diagnostics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-152",
+   "symbol": "events",
+   "source_path": "system/diagnostics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-153",
+   "symbol": "contains",
+   "source_path": "system/graphics/src/compositor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-154",
+   "symbol": "new",
+   "source_path": "system/graphics/src/compositor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-155",
+   "symbol": "create",
+   "source_path": "system/graphics/src/compositor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-156",
+   "symbol": "remove",
+   "source_path": "system/graphics/src/compositor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-157",
+   "symbol": "focus",
+   "source_path": "system/graphics/src/compositor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-158",
+   "symbol": "hit_test",
+   "source_path": "system/graphics/src/compositor.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-159",
+   "symbol": "surfaces",
+   "source_path": "system/graphics/src/compositor.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-160",
+   "symbol": "new",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-161",
+   "symbol": "unlock",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-162",
+   "symbol": "lock",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-163",
+   "symbol": "suspend",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-164",
+   "symbol": "resume",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-165",
+   "symbol": "shutdown",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-166",
+   "symbol": "mode",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-167",
+   "symbol": "viewport",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-168",
+   "symbol": "open_window",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-169",
+   "symbol": "close_window",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-170",
+   "symbol": "set_window_state",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-171",
+   "symbol": "route_input",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-172",
+   "symbol": "hit_test",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-173",
+   "symbol": "windows",
+   "source_path": "system/graphics/src/desktop.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-174",
+   "symbol": "new",
+   "source_path": "system/graphics/src/input.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-175",
+   "symbol": "set_pointer_focus",
+   "source_path": "system/graphics/src/input.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-176",
+   "symbol": "set_keyboard_focus",
+   "source_path": "system/graphics/src/input.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-177",
+   "symbol": "route",
+   "source_path": "system/graphics/src/input.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-178",
+   "symbol": "keyboard_focus",
+   "source_path": "system/graphics/src/input.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-179",
+   "symbol": "new",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-180",
+   "symbol": "set_state",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-181",
+   "symbol": "set_fullscreen",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-182",
+   "symbol": "set_picture_in_picture",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-183",
+   "symbol": "resize",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-184",
+   "symbol": "mark_ready",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-185",
+   "symbol": "present",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-186",
+   "symbol": "suspend",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-187",
+   "symbol": "resume",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-188",
+   "symbol": "register",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-189",
+   "symbol": "remove",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-190",
+   "symbol": "get",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-191",
+   "symbol": "get_mut",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-192",
+   "symbol": "window_mut",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-193",
+   "symbol": "input",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-194",
+   "symbol": "surfaces",
+   "source_path": "system/graphics/src/media_surface.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-195",
+   "symbol": "new",
+   "source_path": "system/graphics/src/shell.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-196",
+   "symbol": "register_app",
+   "source_path": "system/graphics/src/shell.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-197",
+   "symbol": "search_apps",
+   "source_path": "system/graphics/src/shell.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-198",
+   "symbol": "attach_task",
+   "source_path": "system/graphics/src/shell.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-199",
+   "symbol": "activate_task",
+   "source_path": "system/graphics/src/shell.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-200",
+   "symbol": "minimize_task",
+   "source_path": "system/graphics/src/shell.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-201",
+   "symbol": "notify",
+   "source_path": "system/graphics/src/shell.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-202",
+   "symbol": "dismiss_notification",
+   "source_path": "system/graphics/src/shell.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-203",
+   "symbol": "set_clipboard_owner",
+   "source_path": "system/graphics/src/shell.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-204",
+   "symbol": "clipboard_owner",
+   "source_path": "system/graphics/src/shell.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-205",
+   "symbol": "apps",
+   "source_path": "system/graphics/src/shell.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-206",
+   "symbol": "tasks",
+   "source_path": "system/graphics/src/shell.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-207",
+   "symbol": "notifications",
+   "source_path": "system/graphics/src/shell.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-208",
+   "symbol": "new",
+   "source_path": "system/graphics/src/wm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-209",
+   "symbol": "open",
+   "source_path": "system/graphics/src/wm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-210",
+   "symbol": "focus",
+   "source_path": "system/graphics/src/wm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-211",
+   "symbol": "set_state",
+   "source_path": "system/graphics/src/wm.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-212",
+   "symbol": "close",
+   "source_path": "system/graphics/src/wm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-213",
+   "symbol": "focused",
+   "source_path": "system/graphics/src/wm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-214",
+   "symbol": "windows",
+   "source_path": "system/graphics/src/wm.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-215",
+   "symbol": "placements",
+   "source_path": "system/graphics/src/wm.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-216",
+   "symbol": "parse",
+   "source_path": "system/identity/src/account_lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-217",
+   "symbol": "as_str",
+   "source_path": "system/identity/src/account_lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-218",
+   "symbol": "new",
+   "source_path": "system/identity/src/account_lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-219",
+   "symbol": "positions",
+   "source_path": "system/identity/src/account_lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-220",
+   "symbol": "verify",
+   "source_path": "system/identity/src/account_lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-221",
+   "symbol": "open",
+   "source_path": "system/identity/src/account_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-222",
+   "symbol": "path",
+   "source_path": "system/identity/src/account_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-223",
+   "symbol": "open",
+   "source_path": "system/identity/src/file_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-224",
+   "symbol": "path",
+   "source_path": "system/identity/src/file_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-225",
+   "symbol": "new",
+   "source_path": "system/identity/src/ipc_key_provider.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-226",
+   "symbol": "key_id",
+   "source_path": "system/identity/src/key_provider.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-227",
+   "symbol": "into_service",
+   "source_path": "system/identity/src/key_provider.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-228",
+   "symbol": "new",
+   "source_path": "system/identity/src/keystore.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-229",
+   "symbol": "as_str",
+   "source_path": "system/identity/src/keystore.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-230",
+   "symbol": "new",
+   "source_path": "system/identity/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-231",
+   "symbol": "as_str",
+   "source_path": "system/identity/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-232",
+   "symbol": "as_str",
+   "source_path": "system/identity/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-233",
+   "symbol": "new",
+   "source_path": "system/identity/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-234",
+   "symbol": "is_active",
+   "source_path": "system/identity/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-235",
+   "symbol": "lock",
+   "source_path": "system/identity/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-236",
+   "symbol": "from_seed",
+   "source_path": "system/identity/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-237",
+   "symbol": "seed_len",
+   "source_path": "system/identity/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-238",
+   "symbol": "expose",
+   "source_path": "system/identity/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-239",
+   "symbol": "word_count",
+   "source_path": "system/identity/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-240",
+   "symbol": "recovery_phrase",
+   "source_path": "system/identity/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-241",
+   "symbol": "create_wallet",
+   "source_path": "system/identity/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-242",
+   "symbol": "restore_wallet",
+   "source_path": "system/identity/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-243",
+   "symbol": "new",
+   "source_path": "system/identity/src/multi_account.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-244",
+   "symbol": "account_count",
+   "source_path": "system/identity/src/multi_account.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-245",
+   "symbol": "register",
+   "source_path": "system/identity/src/multi_account.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-246",
+   "symbol": "restore",
+   "source_path": "system/identity/src/multi_account.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-247",
+   "symbol": "login",
+   "source_path": "system/identity/src/multi_account.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-248",
+   "symbol": "logout",
+   "source_path": "system/identity/src/multi_account.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-249",
+   "symbol": "session",
+   "source_path": "system/identity/src/multi_account.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-250",
+   "symbol": "remove_account",
+   "source_path": "system/identity/src/multi_account.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-251",
+   "symbol": "argon2id",
+   "source_path": "system/identity/src/persistence.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-252",
+   "symbol": "is_supported",
+   "source_path": "system/identity/src/persistence.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-253",
+   "symbol": "new",
+   "source_path": "system/identity/src/persistence.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-254",
+   "symbol": "validate",
+   "source_path": "system/identity/src/persistence.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-255",
+   "symbol": "new",
+   "source_path": "system/identity/src/persistence.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-256",
+   "symbol": "is_empty",
+   "source_path": "system/identity/src/persistence.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-257",
+   "symbol": "new",
+   "source_path": "system/identity/src/secure_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-258",
+   "symbol": "into_parts",
+   "source_path": "system/identity/src/secure_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-259",
+   "symbol": "load_plaintext",
+   "source_path": "system/identity/src/secure_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-260",
+   "symbol": "replace_plaintext",
+   "source_path": "system/identity/src/secure_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-261",
+   "symbol": "delete",
+   "source_path": "system/identity/src/secure_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-262",
+   "symbol": "register",
+   "source_path": "system/identity/src/service.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-263",
+   "symbol": "restore",
+   "source_path": "system/identity/src/service.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-264",
+   "symbol": "snapshot",
+   "source_path": "system/identity/src/service.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-265",
+   "symbol": "persist",
+   "source_path": "system/identity/src/service.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-266",
+   "symbol": "load_from_store",
+   "source_path": "system/identity/src/service.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-267",
+   "symbol": "load_record",
+   "source_path": "system/identity/src/service.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-268",
+   "symbol": "login",
+   "source_path": "system/identity/src/service.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-269",
+   "symbol": "logout",
+   "source_path": "system/identity/src/service.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-270",
+   "symbol": "lock",
+   "source_path": "system/identity/src/service.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-271",
+   "symbol": "session",
+   "source_path": "system/identity/src/service.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-272",
+   "symbol": "profile",
+   "source_path": "system/identity/src/service.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-273",
+   "symbol": "binding",
+   "source_path": "system/identity/src/service.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-274",
+   "symbol": "decode_all",
+   "source_path": "system/identity/src/transaction_journal.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-275",
+   "symbol": "replay",
+   "source_path": "system/identity/src/transaction_journal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-276",
+   "symbol": "append_transition",
+   "source_path": "system/identity/src/transaction_journal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-277",
+   "symbol": "new",
+   "source_path": "system/ipc/src/channel.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-278",
+   "symbol": "register",
+   "source_path": "system/ipc/src/channel.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-279",
+   "symbol": "send",
+   "source_path": "system/ipc/src/channel.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-280",
+   "symbol": "receive",
+   "source_path": "system/ipc/src/channel.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-281",
+   "symbol": "len",
+   "source_path": "system/ipc/src/channel.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-282",
+   "symbol": "new",
+   "source_path": "system/ipc/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-283",
+   "symbol": "validate",
+   "source_path": "system/ipc/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-284",
+   "symbol": "validate_payload",
+   "source_path": "system/ipc/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-285",
+   "symbol": "action",
+   "source_path": "system/media/src/av_sync.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-286",
+   "symbol": "is_late",
+   "source_path": "system/media/src/av_sync.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-287",
+   "symbol": "decide",
+   "source_path": "system/media/src/av_sync.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-288",
+   "symbol": "validate",
+   "source_path": "system/media/src/codec.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-289",
+   "symbol": "from_uri",
+   "source_path": "system/media/src/demux.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-290",
+   "symbol": "new",
+   "source_path": "system/media/src/demux.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-291",
+   "symbol": "presentation_delay_us",
+   "source_path": "system/media/src/demux.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-292",
+   "symbol": "new",
+   "source_path": "system/media/src/demux.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-293",
+   "symbol": "remaining",
+   "source_path": "system/media/src/demux.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-294",
+   "symbol": "reorder_timestamp",
+   "source_path": "system/media/src/demux.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-295",
+   "symbol": "new",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-296",
+   "symbol": "attach",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-297",
+   "symbol": "suspend",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-298",
+   "symbol": "resume",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-299",
+   "symbol": "detach",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-300",
+   "symbol": "close",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-301",
+   "symbol": "set_duration",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-302",
+   "symbol": "set_position",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-303",
+   "symbol": "play",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-304",
+   "symbol": "pause",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-305",
+   "symbol": "stop",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-306",
+   "symbol": "seek_by",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-307",
+   "symbol": "apply",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-308",
+   "symbol": "sync_audio",
+   "source_path": "system/media/src/desktop.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-309",
+   "symbol": "required",
+   "source_path": "system/media/src/gpu.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-310",
+   "symbol": "next_deadline",
+   "source_path": "system/media/src/gpu.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-311",
+   "symbol": "presented",
+   "source_path": "system/media/src/gpu.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-312",
+   "symbol": "from_extension",
+   "source_path": "system/media/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-313",
+   "symbol": "kind",
+   "source_path": "system/media/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-314",
+   "symbol": "validate",
+   "source_path": "system/media/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-315",
+   "symbol": "validate",
+   "source_path": "system/media/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-316",
+   "symbol": "new",
+   "source_path": "system/media/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-317",
+   "symbol": "position_ms",
+   "source_path": "system/media/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-318",
+   "symbol": "duration_ms",
+   "source_path": "system/media/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-319",
+   "symbol": "seek",
+   "source_path": "system/media/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-320",
+   "symbol": "new",
+   "source_path": "system/media/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-321",
+   "symbol": "items",
+   "source_path": "system/media/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-322",
+   "symbol": "add",
+   "source_path": "system/media/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-323",
+   "symbol": "remove",
+   "source_path": "system/media/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-324",
+   "symbol": "find",
+   "source_path": "system/media/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-325",
+   "symbol": "upsert",
+   "source_path": "system/media/src/library.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-326",
+   "symbol": "items",
+   "source_path": "system/media/src/library.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-327",
+   "symbol": "set_favorite",
+   "source_path": "system/media/src/library.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-328",
+   "symbol": "is_favorite",
+   "source_path": "system/media/src/library.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-329",
+   "symbol": "add_to_album",
+   "source_path": "system/media/src/library.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-330",
+   "symbol": "search",
+   "source_path": "system/media/src/library.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-331",
+   "symbol": "sorted",
+   "source_path": "system/media/src/library.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-332",
+   "symbol": "duplicate_ids",
+   "source_path": "system/media/src/library.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-333",
+   "symbol": "mime_from_extension",
+   "source_path": "system/media/src/library.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-334",
+   "symbol": "validate",
+   "source_path": "system/media/src/photo.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-335",
+   "symbol": "new",
+   "source_path": "system/media/src/photo.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-336",
+   "symbol": "frame",
+   "source_path": "system/media/src/photo.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-337",
+   "symbol": "viewport",
+   "source_path": "system/media/src/photo.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-338",
+   "symbol": "load",
+   "source_path": "system/media/src/photo.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-339",
+   "symbol": "reset",
+   "source_path": "system/media/src/photo.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-340",
+   "symbol": "set_zoom",
+   "source_path": "system/media/src/photo.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-341",
+   "symbol": "pan",
+   "source_path": "system/media/src/photo.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-342",
+   "symbol": "rotate_quarter_turn",
+   "source_path": "system/media/src/photo.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-343",
+   "symbol": "new",
+   "source_path": "system/media/src/playback.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-344",
+   "symbol": "stats",
+   "source_path": "system/media/src/playback.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-345",
+   "symbol": "queue_len",
+   "source_path": "system/media/src/playback.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-346",
+   "symbol": "set_audio_clock",
+   "source_path": "system/media/src/playback.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-347",
+   "symbol": "submit_packet",
+   "source_path": "system/media/src/playback.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-348",
+   "symbol": "drain_decoder",
+   "source_path": "system/media/src/playback.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-349",
+   "symbol": "next_for_presentation",
+   "source_path": "system/media/src/playback.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-350",
+   "symbol": "drop_late",
+   "source_path": "system/media/src/playback.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-351",
+   "symbol": "new",
+   "source_path": "system/media/src/queue.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-352",
+   "symbol": "len",
+   "source_path": "system/media/src/queue.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-353",
+   "symbol": "is_empty",
+   "source_path": "system/media/src/queue.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-354",
+   "symbol": "push",
+   "source_path": "system/media/src/queue.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-355",
+   "symbol": "peek_pts",
+   "source_path": "system/media/src/queue.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-356",
+   "symbol": "pop",
+   "source_path": "system/media/src/queue.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-357",
+   "symbol": "drop_late",
+   "source_path": "system/media/src/queue.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-358",
+   "symbol": "clear",
+   "source_path": "system/media/src/queue.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-359",
+   "symbol": "new",
+   "source_path": "system/media/src/scanner.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-360",
+   "symbol": "metadata_for",
+   "source_path": "system/media/src/scanner.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-361",
+   "symbol": "scan",
+   "source_path": "system/media/src/scanner.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-362",
+   "symbol": "new",
+   "source_path": "system/media/src/surface.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-363",
+   "symbol": "resize",
+   "source_path": "system/media/src/surface.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-364",
+   "symbol": "set_fullscreen",
+   "source_path": "system/media/src/surface.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-365",
+   "symbol": "set_picture_in_picture",
+   "source_path": "system/media/src/surface.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-366",
+   "symbol": "set_visible",
+   "source_path": "system/media/src/surface.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-367",
+   "symbol": "mark_ready",
+   "source_path": "system/media/src/surface.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-368",
+   "symbol": "present",
+   "source_path": "system/media/src/surface.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-369",
+   "symbol": "suspend",
+   "source_path": "system/media/src/surface.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-370",
+   "symbol": "resume",
+   "source_path": "system/media/src/surface.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-371",
+   "symbol": "action",
+   "source_path": "system/media/src/sync.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-372",
+   "symbol": "new",
+   "source_path": "system/media/src/thumbnail.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-373",
+   "symbol": "len",
+   "source_path": "system/media/src/thumbnail.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-374",
+   "symbol": "is_empty",
+   "source_path": "system/media/src/thumbnail.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-375",
+   "symbol": "get",
+   "source_path": "system/media/src/thumbnail.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-376",
+   "symbol": "insert",
+   "source_path": "system/media/src/thumbnail.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-377",
+   "symbol": "clear",
+   "source_path": "system/media/src/thumbnail.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-378",
+   "symbol": "new",
+   "source_path": "system/media/src/thumbnail_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-379",
+   "symbol": "with_limits",
+   "source_path": "system/media/src/thumbnail_cache.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-380",
+   "symbol": "len",
+   "source_path": "system/media/src/thumbnail_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-381",
+   "symbol": "is_empty",
+   "source_path": "system/media/src/thumbnail_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-382",
+   "symbol": "bytes",
+   "source_path": "system/media/src/thumbnail_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-383",
+   "symbol": "insert",
+   "source_path": "system/media/src/thumbnail_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-384",
+   "symbol": "get",
+   "source_path": "system/media/src/thumbnail_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-385",
+   "symbol": "invalidate_uri",
+   "source_path": "system/media/src/thumbnail_cache.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-386",
+   "symbol": "clear",
+   "source_path": "system/media/src/thumbnail_cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-387",
+   "symbol": "new",
+   "source_path": "system/media/src/thumbnail_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-388",
+   "symbol": "len",
+   "source_path": "system/media/src/thumbnail_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-389",
+   "symbol": "is_empty",
+   "source_path": "system/media/src/thumbnail_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-390",
+   "symbol": "contains",
+   "source_path": "system/media/src/thumbnail_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-391",
+   "symbol": "advance",
+   "source_path": "system/media/src/video.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-392",
+   "symbol": "delta_us",
+   "source_path": "system/media/src/video.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-393",
+   "symbol": "new",
+   "source_path": "system/media/src/video.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-394",
+   "symbol": "state",
+   "source_path": "system/media/src/video.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-395",
+   "symbol": "clock",
+   "source_path": "system/media/src/video.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-396",
+   "symbol": "current_frame",
+   "source_path": "system/media/src/video.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-397",
+   "symbol": "play",
+   "source_path": "system/media/src/video.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-398",
+   "symbol": "pause",
+   "source_path": "system/media/src/video.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-399",
+   "symbol": "stop",
+   "source_path": "system/media/src/video.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-400",
+   "symbol": "seek_us",
+   "source_path": "system/media/src/video.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-401",
+   "symbol": "pump",
+   "source_path": "system/media/src/video.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-402",
+   "symbol": "new",
+   "source_path": "system/memory/src/allocator.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-403",
+   "symbol": "allocate",
+   "source_path": "system/memory/src/allocator.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-404",
+   "symbol": "classify",
+   "source_path": "system/memory/src/fault.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-405",
+   "symbol": "authorize_fault",
+   "source_path": "system/memory/src/fault.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-406",
+   "symbol": "new",
+   "source_path": "system/memory/src/frames.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-407",
+   "symbol": "allocate",
+   "source_path": "system/memory/src/frames.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-408",
+   "symbol": "remaining",
+   "source_path": "system/memory/src/frames.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-409",
+   "symbol": "new",
+   "source_path": "system/memory/src/paging.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-410",
+   "symbol": "map",
+   "source_path": "system/memory/src/paging.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-411",
+   "symbol": "unmap",
+   "source_path": "system/memory/src/paging.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-412",
+   "symbol": "lookup",
+   "source_path": "system/memory/src/paging.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-413",
+   "symbol": "mapped_pages",
+   "source_path": "system/memory/src/paging.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-414",
+   "symbol": "is_unspecified",
+   "source_path": "system/net/src/address.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-415",
+   "symbol": "validate_endpoint",
+   "source_path": "system/net/src/address.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-416",
+   "symbol": "new",
+   "source_path": "system/net/src/socket.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-417",
+   "symbol": "create",
+   "source_path": "system/net/src/socket.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-418",
+   "symbol": "transition",
+   "source_path": "system/net/src/socket.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-419",
+   "symbol": "get",
+   "source_path": "system/net/src/socket.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-420",
+   "symbol": "resolve",
+   "source_path": "system/package/src/dependency.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-421",
+   "symbol": "new",
+   "source_path": "system/process/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-422",
+   "symbol": "register",
+   "source_path": "system/process/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-423",
+   "symbol": "set_state",
+   "source_path": "system/process/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-424",
+   "symbol": "next_process",
+   "source_path": "system/process/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-425",
+   "symbol": "current",
+   "source_path": "system/process/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-426",
+   "symbol": "processes",
+   "source_path": "system/process/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-427",
+   "symbol": "spawn",
+   "source_path": "system/runtime/src/core_api.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-428",
+   "symbol": "validate_payload_len",
+   "source_path": "system/runtime/src/core_api.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-429",
+   "symbol": "require_capability",
+   "source_path": "system/runtime/src/core_api.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-430",
+   "symbol": "present",
+   "source_path": "system/runtime/src/error_reporting.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-431",
+   "symbol": "latest_error",
+   "source_path": "system/runtime/src/error_reporting.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-432",
+   "symbol": "new",
+   "source_path": "system/runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-433",
+   "symbol": "active",
+   "source_path": "system/runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-434",
+   "symbol": "lock",
+   "source_path": "system/runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-435",
+   "symbol": "devnet_genesis_config",
+   "source_path": "system/runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-436",
+   "symbol": "boot_userspace",
+   "source_path": "system/runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-437",
+   "symbol": "aurora_request_lifecycle",
+   "source_path": "system/runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-438",
+   "symbol": "initial_status",
+   "source_path": "system/runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-439",
+   "symbol": "new",
+   "source_path": "system/security/src/capability_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-440",
+   "symbol": "grant",
+   "source_path": "system/security/src/capability_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-441",
+   "symbol": "revoke",
+   "source_path": "system/security/src/capability_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-442",
+   "symbol": "authorize",
+   "source_path": "system/security/src/capability_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-443",
+   "symbol": "get",
+   "source_path": "system/security/src/capability_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-444",
+   "symbol": "purpose_allowed",
+   "source_path": "system/security/src/identity.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-445",
+   "symbol": "authorize",
+   "source_path": "system/security/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-446",
+   "symbol": "boot_order",
+   "source_path": "system/services/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-447",
+   "symbol": "authorize",
+   "source_path": "system/settings/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-448",
+   "symbol": "simple_hash",
+   "source_path": "system/shivacore-api/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-449",
+   "symbol": "encode",
+   "source_path": "system/update/src/boot_state.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-450",
+   "symbol": "decode",
+   "source_path": "system/update/src/boot_state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-451",
+   "symbol": "record_attempt",
+   "source_path": "system/update/src/boot_state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-452",
+   "symbol": "confirm",
+   "source_path": "system/update/src/boot_state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-453",
+   "symbol": "switch_slot",
+   "source_path": "system/update/src/boot_state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-454",
+   "symbol": "new",
+   "source_path": "system/update/src/health.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-455",
+   "symbol": "record_attempt",
+   "source_path": "system/update/src/health.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-456",
+   "symbol": "confirm",
+   "source_path": "system/update/src/health.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-457",
+   "symbol": "new",
+   "source_path": "system/update/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-458",
+   "symbol": "advance",
+   "source_path": "system/update/src/transition.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-459",
+   "symbol": "new",
+   "source_path": "system/vfs/src/allocator.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-460",
+   "symbol": "allocate",
+   "source_path": "system/vfs/src/allocator.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-461",
+   "symbol": "release",
+   "source_path": "system/vfs/src/allocator.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-462",
+   "symbol": "is_free",
+   "source_path": "system/vfs/src/allocator.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-463",
+   "symbol": "free_blocks",
+   "source_path": "system/vfs/src/allocator.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-464",
+   "symbol": "new",
+   "source_path": "system/vfs/src/bitmap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-465",
+   "symbol": "len",
+   "source_path": "system/vfs/src/bitmap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-466",
+   "symbol": "is_empty",
+   "source_path": "system/vfs/src/bitmap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-467",
+   "symbol": "total_blocks",
+   "source_path": "system/vfs/src/bitmap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-468",
+   "symbol": "reserve",
+   "source_path": "system/vfs/src/bitmap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-469",
+   "symbol": "release",
+   "source_path": "system/vfs/src/bitmap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-470",
+   "symbol": "is_free",
+   "source_path": "system/vfs/src/bitmap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-471",
+   "symbol": "allocate",
+   "source_path": "system/vfs/src/bitmap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-472",
+   "symbol": "encoded_len",
+   "source_path": "system/vfs/src/bitmap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-473",
+   "symbol": "encode",
+   "source_path": "system/vfs/src/bitmap.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-474",
+   "symbol": "decode",
+   "source_path": "system/vfs/src/bitmap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-475",
+   "symbol": "new",
+   "source_path": "system/vfs/src/dir_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-476",
+   "symbol": "entries",
+   "source_path": "system/vfs/src/dir_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-477",
+   "symbol": "lookup",
+   "source_path": "system/vfs/src/dir_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-478",
+   "symbol": "insert",
+   "source_path": "system/vfs/src/dir_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-479",
+   "symbol": "remove",
+   "source_path": "system/vfs/src/dir_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-480",
+   "symbol": "encoded_len",
+   "source_path": "system/vfs/src/dir_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-481",
+   "symbol": "encode",
+   "source_path": "system/vfs/src/dir_store.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-482",
+   "symbol": "decode",
+   "source_path": "system/vfs/src/dir_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-483",
+   "symbol": "extent_for_bytes",
+   "source_path": "system/vfs/src/dir_store.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-484",
+   "symbol": "encoded_len",
+   "source_path": "system/vfs/src/directory.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-485",
+   "symbol": "encode",
+   "source_path": "system/vfs/src/directory.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-486",
+   "symbol": "decode",
+   "source_path": "system/vfs/src/directory.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-487",
+   "symbol": "new",
+   "source_path": "system/vfs/src/extent.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-488",
+   "symbol": "contains",
+   "source_path": "system/vfs/src/extent.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-489",
+   "symbol": "physical_for",
+   "source_path": "system/vfs/src/extent.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-490",
+   "symbol": "new",
+   "source_path": "system/vfs/src/extent.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-491",
+   "symbol": "extents",
+   "source_path": "system/vfs/src/extent.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-492",
+   "symbol": "insert",
+   "source_path": "system/vfs/src/extent.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-493",
+   "symbol": "physical_for",
+   "source_path": "system/vfs/src/extent.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-494",
+   "symbol": "advance",
+   "source_path": "system/vfs/src/file.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-495",
+   "symbol": "new",
+   "source_path": "system/vfs/src/file_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-496",
+   "symbol": "block_size",
+   "source_path": "system/vfs/src/file_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-497",
+   "symbol": "into_device",
+   "source_path": "system/vfs/src/file_store.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-498",
+   "symbol": "read_at",
+   "source_path": "system/vfs/src/file_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-499",
+   "symbol": "write_at",
+   "source_path": "system/vfs/src/file_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-500",
+   "symbol": "parse_header",
+   "source_path": "system/vfs/src/gpt.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-501",
+   "symbol": "encode",
+   "source_path": "system/vfs/src/inode.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-502",
+   "symbol": "decode",
+   "source_path": "system/vfs/src/inode.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-503",
+   "symbol": "new",
+   "source_path": "system/vfs/src/inode.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-504",
+   "symbol": "allocate",
+   "source_path": "system/vfs/src/inode.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-505",
+   "symbol": "new",
+   "source_path": "system/vfs/src/journal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-506",
+   "symbol": "encode",
+   "source_path": "system/vfs/src/journal.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-507",
+   "symbol": "decode",
+   "source_path": "system/vfs/src/journal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-508",
+   "symbol": "new",
+   "source_path": "system/vfs/src/journal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-509",
+   "symbol": "records",
+   "source_path": "system/vfs/src/journal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-510",
+   "symbol": "pending",
+   "source_path": "system/vfs/src/journal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-511",
+   "symbol": "append",
+   "source_path": "system/vfs/src/journal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-512",
+   "symbol": "clear",
+   "source_path": "system/vfs/src/journal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-513",
+   "symbol": "recover",
+   "source_path": "system/vfs/src/journal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-514",
+   "symbol": "calculate",
+   "source_path": "system/vfs/src/layout.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-515",
+   "symbol": "required_mounts",
+   "source_path": "system/vfs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-516",
+   "symbol": "new",
+   "source_path": "system/vfs/src/mounts.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-517",
+   "symbol": "add",
+   "source_path": "system/vfs/src/mounts.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-518",
+   "symbol": "resolve",
+   "source_path": "system/vfs/src/mounts.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-519",
+   "symbol": "mounts",
+   "source_path": "system/vfs/src/mounts.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-520",
+   "symbol": "normalize",
+   "source_path": "system/vfs/src/path.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-521",
+   "symbol": "encode",
+   "source_path": "system/vfs/src/persistent.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-522",
+   "symbol": "decode",
+   "source_path": "system/vfs/src/persistent.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-523",
+   "symbol": "format",
+   "source_path": "system/vfs/src/persistent.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-524",
+   "symbol": "mount",
+   "source_path": "system/vfs/src/persistent.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-525",
+   "symbol": "superblock",
+   "source_path": "system/vfs/src/persistent.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-526",
+   "symbol": "layout",
+   "source_path": "system/vfs/src/persistent.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-527",
+   "symbol": "device_geometry",
+   "source_path": "system/vfs/src/persistent.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-528",
+   "symbol": "allocate_blocks",
+   "source_path": "system/vfs/src/persistent.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-529",
+   "symbol": "release_blocks",
+   "source_path": "system/vfs/src/persistent.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-530",
+   "symbol": "replay_pending",
+   "source_path": "system/vfs/src/recovery.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-531",
+   "symbol": "begin",
+   "source_path": "system/vfs/src/transaction.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-532",
+   "symbol": "write",
+   "source_path": "system/vfs/src/transaction.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-533",
+   "symbol": "commit",
+   "source_path": "system/vfs/src/transaction.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-534",
+   "symbol": "writes",
+   "source_path": "system/vfs/src/transaction.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-535",
+   "symbol": "new",
+   "source_path": "system/vfs/src/tree.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-536",
+   "symbol": "root",
+   "source_path": "system/vfs/src/tree.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-537",
+   "symbol": "stat",
+   "source_path": "system/vfs/src/tree.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-538",
+   "symbol": "create",
+   "source_path": "system/vfs/src/tree.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-539",
+   "symbol": "list",
+   "source_path": "system/vfs/src/tree.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-540",
+   "symbol": "write",
+   "source_path": "system/vfs/src/tree.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-541",
+   "symbol": "new",
+   "source_path": "system/wallet-service/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-542",
+   "symbol": "sign_ipc",
+   "source_path": "system/wallet-service/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-SYS-543",
+   "symbol": "sign",
+   "source_path": "system/wallet-service/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  }
+ ],
+ "summary": {
+  "total": 543,
+  "test_referenced": 419,
+  "suite_pass": true,
+  "eligible_functionally_verified": 419
+ }
+}

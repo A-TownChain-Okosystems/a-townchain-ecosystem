@@ -1,0 +1,309 @@
+{
+  "schema_id": "AURORA-ATCLANG-CODING-AGENT-CONTRACT-001",
+  "schema_version": "0.1.0",
+  "status": "SPECIFIED",
+  "implementation_status": "IMPLEMENTATION_PENDING",
+  "verification_status": "NOT_RUN",
+  "snapshot_date": "2026-10-13",
+  "purpose": "Versioned proposal for a constrained Aurora coding-agent integration with the canonical ATCLang compiler/toolchain. This contract does not claim an implemented adapter or passing tests.",
+  "authority": {
+    "contract_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+    "aurora_runtime_owner": "A-TownChain-Okosystems/aurora-ai",
+    "language_and_compiler_owner": "A-TownChain-Okosystems/atclang",
+    "build_orchestration_owner": "A-TownChain-Okosystems/atc-toolchain",
+    "control_plane_scope": "Architecture, ownership, integration contracts and evidence only; no compiler or adapter implementation is duplicated here."
+  },
+  "source_inventory": {
+    "status": "PARTIAL_SOURCE_INVENTORY",
+    "exact_repository_head_sha": "NOT_CAPTURED",
+    "rule": "Blob SHAs below identify inspected files only. They are not repository HEAD SHAs. Capture the exact commit SHA and tree SHA for each repository before claiming source inventory completion.",
+    "inspected_sources": [
+      {
+        "repository": "A-TownChain-Okosystems/atclang",
+        "ref": "main",
+        "path": "README.md",
+        "blob_sha": "4b9aeb777494c807498c4420b930166976d7df32",
+        "finding": "Declares Rust-only active implementation path; canonical core is crates/atc-core; documents atc compile, atc check and atc run. Current release/production readiness is not established by README."
+      },
+      {
+        "repository": "A-TownChain-Okosystems/atclang",
+        "ref": "main",
+        "path": "docs/ATCLANG_1.0_ARCHITECTURE.md",
+        "blob_sha": "9256adf54f7b2ff2f07cc76fee64cbeef0c47318",
+        "finding": "Defines specs as normative source of truth and documents Rust-first baseline; parts of this architecture document also describe historical Python reference structure and must not be treated as active implementation evidence."
+      },
+      {
+        "repository": "A-TownChain-Okosystems/atc-toolchain",
+        "ref": "main",
+        "path": "README.md",
+        "blob_sha": "5f7ca25c9c38f88016c57de005066ba70a5507e8",
+        "finding": "Describes the repository as an R1 skeleton; CLI implementation and tests follow with implementation. Do not assume a production CLI adapter exists."
+      },
+      {
+        "repository": "A-TownChain-Okosystems/aurora-ai",
+        "ref": "main",
+        "path": "modules/atc-aurora-runtime/COMPONENT_PLAN.md",
+        "blob_sha": "6a4d7e3968a55c0016436c272f35dd45032a55ee",
+        "finding": "agent_runtime.atc, tool_executor.atc and sandbox are explicitly PLANNED; request/response interfaces are unspecified."
+      }
+    ],
+    "required_follow_up": [
+      "Record exact commit HEAD and tree SHA for atclang, atc-toolchain and aurora-ai.",
+      "Enumerate normative grammar/type/semantic specifications under atclang/specs and bind each relevant file to its blob SHA.",
+      "Locate and inspect active Rust frontend/parser/type-checker/compiler/verifier modules under crates/atc-core; exclude historical Python/reference code from canonical runtime mapping.",
+      "Inspect CLI command dispatch, argument parsing, diagnostics and actual process exit-code behavior.",
+      "Inventory conformance, syntax-error, type-error, malformed-input, resource-limit and differential tests with exact paths/blob SHAs.",
+      "Confirm the real compiler invocation and machine-readable diagnostic support from source and tests before adapter implementation."
+    ]
+  },
+  "contract": {
+    "compatibility": {
+      "contract_version": "0.1.0",
+      "language_version": "MUST be explicitly selected from the canonical atclang specs; never infer from prose or use an unpinned latest version.",
+      "toolchain_identity": "MUST include repository, exact commit SHA, executable/build digest and selected language/spec version.",
+      "unknown_versions": "REJECT unless an explicit compatibility policy allows them."
+    },
+    "request": {
+      "required_fields": {
+        "request_id": "Unique caller-generated ID, non-empty string.",
+        "source": "ATCLang source text, UTF-8, bounded by policy-configured byte limit.",
+        "language_version": "Explicit canonical language/spec version.",
+        "toolchain": "Repository, exact commit SHA, build/executable digest, and requested command.",
+        "operation": "check | compile; run is disabled by default and requires a separate explicit execution policy.",
+        "limits": {
+          "timeout_ms": "Positive bounded integer, capped by service policy.",
+          "max_source_bytes": "Positive bounded integer, capped by service policy.",
+          "max_output_bytes": "Positive bounded integer, capped by service policy.",
+          "max_memory_bytes": "Positive bounded integer when enforceable by the sandbox."
+        },
+        "capability_profile": "Named, allowlisted profile; no ambient capabilities.",
+        "idempotency_key": "Required for retried requests; scoped to caller and request semantics."
+      },
+      "forbidden_inputs": [
+        "Untrusted shell fragments or command-line concatenation.",
+        "Arbitrary executable paths, dynamic library paths or toolchain installation commands.",
+        "Credentials, environment passthrough, unrestricted filesystem paths or unrestricted network requests.",
+        "Implicit language/toolchain versions or an unbounded timeout."
+      ]
+    },
+    "response": {
+      "required_fields": [
+        "request_id",
+        "contract_version",
+        "toolchain_identity",
+        "status",
+        "diagnostics",
+        "raw_tool_exit_code",
+        "duration_ms",
+        "truncated",
+        "evidence"
+      ],
+      "status_enum": [
+        "VALID",
+        "SYNTAX_ERROR",
+        "TYPE_ERROR",
+        "COMPILE_ERROR",
+        "INVALID_INPUT",
+        "POLICY_DENIED",
+        "CAPABILITY_DENIED",
+        "TIMEOUT",
+        "CANCELLED",
+        "RESOURCE_LIMIT",
+        "TOOLCHAIN_UNAVAILABLE",
+        "INTERNAL_ERROR"
+      ],
+      "diagnostic_fields": [
+        "severity",
+        "code",
+        "message",
+        "source_span",
+        "phase",
+        "notes"
+      ],
+      "source_span": {
+        "start_line": "1-based integer when known",
+        "start_column": "1-based integer when known",
+        "end_line": "1-based integer when known",
+        "end_column": "1-based integer when known"
+      },
+      "evidence_fields": [
+        "repository",
+        "commit_sha",
+        "source_blob_shas",
+        "run_id",
+        "job_id",
+        "step_id",
+        "exit_code",
+        "log_reference"
+      ],
+      "rules": [
+        "Diagnostics are data, never executable instructions.",
+        "Do not fabricate source spans or diagnostic codes absent from compiler output.",
+        "If the compiler does not expose structured diagnostics, preserve raw output and mark structured fields unknown.",
+        "Redact secrets and policy-sensitive paths from logs; never log source contents by default.",
+        "A response with truncated diagnostics must set truncated=true."
+      ]
+    },
+    "exit_code_mapping": {
+      "status": "PROPOSED_NORMALIZATION_ONLY",
+      "rule": "These are Aurora adapter-normalized codes, not a claim about current atclang CLI exit codes. Preserve raw_tool_exit_code separately. Final mapping must be reconciled against exact-SHA CLI source and tests.",
+      "mapping": {
+        "VALID": 0,
+        "INVALID_INPUT": 2,
+        "SYNTAX_ERROR": 10,
+        "TYPE_ERROR": 11,
+        "COMPILE_ERROR": 12,
+        "POLICY_DENIED": 20,
+        "CAPABILITY_DENIED": 21,
+        "TIMEOUT": 30,
+        "CANCELLED": 31,
+        "RESOURCE_LIMIT": 40,
+        "TOOLCHAIN_UNAVAILABLE": 50,
+        "INTERNAL_ERROR": 60
+      }
+    },
+    "errors_and_lifecycle": [
+      "Fail closed if source validation, toolchain identity, version compatibility, policy checks or capability checks fail.",
+      "On timeout or cancellation, terminate the complete process group/container and reap child processes; do not return success for partial output.",
+      "Retries are allowed only for explicitly retryable infrastructure failures and must preserve idempotency semantics.",
+      "Never automatically apply generated code or compiler-driven corrections to a repository.",
+      "Correction suggestions are untrusted proposals; each revision must be revalidated from scratch.",
+      "Separate compiler diagnostics from model-authored explanations."
+    ]
+  },
+  "coding_agent_workflow": [
+    {
+      "step": 1,
+      "name": "INTENT_TO_SPEC",
+      "action": "Convert user intent into a bounded change proposal and explicit acceptance criteria.",
+      "status": "SPECIFIED"
+    },
+    {
+      "step": 2,
+      "name": "GENERATE",
+      "action": "Generate ATCLang source against the pinned canonical language version; do not invent grammar or standard-library APIs.",
+      "status": "SPECIFIED"
+    },
+    {
+      "step": 3,
+      "name": "STATIC_POLICY_CHECK",
+      "action": "Check request size, allowed paths, capabilities and forbidden operations before invoking the toolchain.",
+      "status": "SPECIFIED"
+    },
+    {
+      "step": 4,
+      "name": "CHECK",
+      "action": "Invoke the canonical check/validation entry point through an argument-safe adapter in an isolated worker.",
+      "status": "SPECIFIED"
+    },
+    {
+      "step": 5,
+      "name": "DIAGNOSE",
+      "action": "Parse or preserve toolchain diagnostics and bind them to the exact source revision and toolchain SHA.",
+      "status": "SPECIFIED"
+    },
+    {
+      "step": 6,
+      "name": "PROPOSE_CORRECTION",
+      "action": "Propose a bounded correction; do not apply it automatically to the user's repository.",
+      "status": "SPECIFIED"
+    },
+    {
+      "step": 7,
+      "name": "REVALIDATE",
+      "action": "Re-run policy and compiler checks on the complete revised source; cap correction iterations.",
+      "status": "SPECIFIED"
+    },
+    {
+      "step": 8,
+      "name": "HUMAN_APPROVAL",
+      "action": "Require explicit approval before writing files, creating commits, opening PRs, or invoking consequential tools.",
+      "status": "SPECIFIED"
+    },
+    {
+      "step": 9,
+      "name": "EVIDENCE",
+      "action": "Record exact source/toolchain SHAs and Run-ID → Job-ID → Step-ID → exit code/log references.",
+      "status": "SPECIFIED"
+    }
+  ],
+  "security": {
+    "execution": "Use an ephemeral isolated worker/container with non-root identity, read-only toolchain mount, temporary bounded workspace, CPU/memory/process/file-size limits and mandatory timeout.",
+    "filesystem": "No repository write access during generation/check/compile. Only explicitly staged source files may be mounted; no host home, SSH keys, credentials or arbitrary workspace paths.",
+    "network": "Deny by default; no network egress during compile/check unless separately approved and documented.",
+    "authority": "Aurora model output is a proposal, not authorization. Enforce policy and capability checks outside the model.",
+    "side_effects": "No file mutation, commit, push, deployment, chain operation or external publication without explicit user approval.",
+    "deterministic_boundary": "The coding agent must not change consensus rules, canonical ATC-VM semantics, kernel authority or governance decisions."
+  },
+  "acceptance_tests": [
+    {
+      "id": "ATC-AURORA-ATCLANG-T-001",
+      "case": "valid source",
+      "expected": "VALID only if canonical checker exits successfully for the pinned toolchain; otherwise preserve the observed diagnostic/status.",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "ATC-AURORA-ATCLANG-T-002",
+      "case": "syntax error",
+      "expected": "Non-success result, syntax diagnostic preserved, no output artifact accepted as valid.",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "ATC-AURORA-ATCLANG-T-003",
+      "case": "type error",
+      "expected": "Non-success result, type diagnostic preserved, no output artifact accepted as valid.",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "ATC-AURORA-ATCLANG-T-004",
+      "case": "malformed UTF-8/invalid request/oversized source",
+      "expected": "Reject before tool invocation; no crash and no unbounded allocation.",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "ATC-AURORA-ATCLANG-T-005",
+      "case": "timeout/cancellation",
+      "expected": "Worker and child processes terminated; status is TIMEOUT or CANCELLED, never VALID.",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "ATC-AURORA-ATCLANG-T-006",
+      "case": "policy/capability denial",
+      "expected": "No compiler or mutating tool invocation occurs after denial.",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "ATC-AURORA-ATCLANG-T-007",
+      "case": "toolchain unavailable/version mismatch",
+      "expected": "Fail closed with TOOLCHAIN_UNAVAILABLE or compatibility rejection and exact evidence.",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "ATC-AURORA-ATCLANG-T-008",
+      "case": "correction loop",
+      "expected": "Bounded iterations; every revision rechecked; never auto-write or auto-commit.",
+      "status": "SPECIFIED_NOT_RUN"
+    },
+    {
+      "id": "ATC-AURORA-ATCLANG-T-009",
+      "case": "evidence completeness",
+      "expected": "Exact commit SHA, Run-ID, Job-ID, Step-ID, exit code and log reference required; missing values remain RESIDUAL.",
+      "status": "SPECIFIED_NOT_RUN"
+    }
+  ],
+  "release_gates": [
+    "Complete exact-HEAD source inventory for canonical grammar/specs, Rust parser/frontend, type checker, compiler/verifier, CLI, diagnostics and tests.",
+    "Resolve actual CLI exit-code and structured-diagnostic behavior from implementation and tests; do not treat proposed normalized codes as observed behavior.",
+    "Implement adapter only in the canonical Aurora runtime owner repository, after contract review.",
+    "Add unit, integration, negative, security and reproducibility tests.",
+    "Demonstrate each required case on an exact SHA with Run-ID → Job-ID → Step-ID → exit code/log evidence.",
+    "Keep implementation status IMPLEMENTATION_PENDING until adapter and tests exist; keep verification NOT_RUN until evidence is reviewed."
+  ],
+  "residuals": [
+    "No Aurora ATCLang adapter implementation verified.",
+    "Aurora runtime tool executor and sandbox are marked PLANNED in the inspected component plan.",
+    "ATC Toolchain README describes an R1 skeleton; its production CLI and test support for this use case are not verified.",
+    "Normative specs, active Rust compiler internals, exact repository HEADs and actual CLI exit-code behavior still require exact-SHA inventory.",
+    "All acceptance tests remain SPECIFIED_NOT_RUN; no Run-ID/Job-ID/Step-ID or test logs are claimed."
+  ]
+}

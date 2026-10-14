@@ -1,0 +1,415 @@
+{
+  "schema_id": "ATC-CATALOG-SOURCE-REGISTRY-001",
+  "schema_version": "1.0.0",
+  "status": "RECONCILIATION_REQUIRED",
+  "purpose": "Single registry of component/function/capability catalogs across A-TownChain-Okosystems. This source registry is the staging manifest for producing one normalized master catalog; it is not itself proof that all source records have been imported or verified.",
+  "authority": {
+    "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+    "role": "Architecture, ownership, integration, compliance and evidence control plane only",
+    "canonical_implementation_rule": "Catalog aggregation must not transfer or duplicate implementation ownership."
+  },
+  "merge_policy": {
+    "preserve_source_records": true,
+    "preserve_original_ids": true,
+    "normalized_id_rule": "Use a stable namespace derived from source repository and source catalog ID; retain the original ID and source_record.",
+    "deduplicate_by_name_only": false,
+    "semantic_overlap": "Mark as POSSIBLE_DUPLICATE and reconcile explicitly; never silently delete or merge records.",
+    "counts": "Keep source counts separate until record-level import and reconciliation are complete. Do not sum overlapping catalog classes as unique functions.",
+    "verification": "Catalog presence, source mapping, implementation, tests and functional verification are separate states.",
+    "unresolved_consensus": "BLOCKED until an approved versioned normative decision exists.",
+    "implementation_order": "Finish source inventory, contracts, validation and reconciliation before implementation changes."
+  },
+  "source_catalogs": [
+    {
+      "source_id": "SRC-ECOSYSTEM-COMPONENT-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "pull_request": 115,
+      "branch": "audit/public-symbol-scan-001-2026-10-11",
+      "head_sha": "81fb59a43e8760d1fe94953f9f57c659ce03b4b8",
+      "path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
+      "catalog_type": [
+        "component",
+        "function_contract",
+        "interface"
+      ],
+      "reported_counts": {
+        "components": 33,
+        "function_capability_contracts": 210,
+        "interfaces": 19,
+        "source_mapped_function_contracts": 169,
+        "unresolved_full_contract_surfaces": 12,
+        "functionally_verified": 0
+      },
+      "status": "BASELINE_RESIDUAL",
+      "notes": "Central architecture/control-plane catalog. Counts are the latest recorded PR description, not a claim of terminal exact-HEAD reconciliation.",
+      "snapshot_format": "json"
+    },
+    {
+      "source_id": "SRC-GENESIS-UNIFIED-CAPABILITY-001",
+      "repository": "A-TownChain-Okosystems/genesis-engine",
+      "pull_request": 34,
+      "branch": "docs/genesis-function-catalog-20261013",
+      "head_sha": "41e3d6d563806353fda4d50a45078d7e5ae71f34",
+      "path": "docs/architecture/genesis-unified-capability-catalog.json",
+      "catalog_type": [
+        "function_contract",
+        "capability_requirement"
+      ],
+      "reported_counts": {
+        "function_contracts": 205,
+        "unreal_inspired_target_requirements": 295,
+        "unity_inspired_target_requirements": 313,
+        "total_source_records": 813,
+        "domain_labels_pending_semantic_reconciliation": 53
+      },
+      "status": "MERGED_SOURCE_CATALOGS_RECONCILIATION_REQUIRED",
+      "notes": "Retain clean-room target requirements as a distinct record class; do not treat Unity/Unreal-inspired requirements as implemented functions.",
+      "snapshot_format": "json"
+    },
+    {
+      "source_id": "SRC-ATC-ALGORITHM-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/atc-algorithm",
+      "pull_request": 17,
+      "branch": "docs/function-catalog-20261013",
+      "head_sha": "19fb7ec2c9a72207f71105bebe6054ce2efd1ed5",
+      "path": "docs/function-catalog.json",
+      "catalog_type": [
+        "function_declaration",
+        "test_function"
+      ],
+      "reported_counts": {
+        "explicit_function_declarations": 37,
+        "test_functions_included": 18,
+        "source_files_examined": 6
+      },
+      "status": "BASELINE_RESIDUAL",
+      "notes": "Count is an initial inventory based on the recorded base source tree; refresh and reconcile against the current PR head. Consensus semantics remain BLOCKED where normative decisions are unresolved.",
+      "snapshot_format": "json"
+    },
+    {
+      "source_id": "SRC-ATC-VM-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/a-townchain",
+      "pull_request": 72,
+      "branch": "fix/atc-vm-read-limits-followup-2026-10-12",
+      "head_sha": "00f9e6aab801d272da25d8d6e06059e402f49f7e",
+      "path": "components/vm/docs/VM_FUNCTION_CATALOG.json",
+      "catalog_type": [
+        "function_candidate",
+        "function_contract_candidate"
+      ],
+      "reported_counts": {
+        "function_contract_candidates": 62
+      },
+      "status": "AUDIT_BASELINE_RESIDUAL",
+      "notes": "Canonical VM owner remains a-townchain/components/vm. Do not create a second production VM in the atc-vm support repository.",
+      "snapshot_format": "json"
+    },
+    {
+      "source_id": "SRC-GLOBUSOS-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/globus-os",
+      "pull_request": 27,
+      "branch": "audit/os-function-catalog-2026-09-27",
+      "head_sha": "76010c3109f3005b3f95237be758058e6436e2ba",
+      "path": "docs/OS_FUNCTION_CATALOG.json",
+      "catalog_type": [
+        "os_function",
+        "service_surface"
+      ],
+      "reported_counts": {
+        "domain_level_function_records": 80
+      },
+      "status": "BASELINE_RESIDUAL",
+      "notes": "The 80 records are a domain-level baseline, not a complete runtime-symbol census.",
+      "snapshot_format": "json"
+    },
+    {
+      "source_id": "SRC-GLOBUSOS-UI-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/globus-os",
+      "pull_request": 27,
+      "branch": "audit/os-function-catalog-2026-09-27",
+      "head_sha": "76010c3109f3005b3f95237be758058e6436e2ba",
+      "path": "docs/GLOBUSOS_FRONTEND_FUNCTION_CATALOG.json",
+      "catalog_type": [
+        "ui_action",
+        "frontend_function"
+      ],
+      "reported_counts": {
+        "stable_ui_function_records": 114
+      },
+      "status": "UNASSESSED_INCOMPLETE",
+      "notes": "UI routes, screens and mockups are not implementation evidence for backend or privileged operations.",
+      "snapshot_format": "json"
+    },
+    {
+      "source_id": "SRC-ATC-STANDARDS-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/atc-standards",
+      "pull_request": 106,
+      "branch": "docs/function-catalog-20261013",
+      "head_sha": "446e210212841dc138fed6fa113b7d99dd70a32d",
+      "path": "docs/function-catalog.json",
+      "catalog_type": [
+        "function_declaration",
+        "python_ast_inventory"
+      ],
+      "reported_counts": null,
+      "status": "VALIDATION_PENDING",
+      "notes": "Python AST inventory is scoped; workflows, shell entrypoints, YAML contracts and other language surfaces remain residual. Do not infer semantic contracts from names or signatures.",
+      "snapshot_format": "json"
+    },
+    {
+      "source_id": "SRC-AURORA-MEMORY-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/aurora-ai",
+      "branch": "main",
+      "head_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
+      "path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json",
+      "snapshot_format": "json",
+      "catalog_type": [
+        "function_contract",
+        "capability"
+      ],
+      "reported_counts": null,
+      "status": "SPECIFIED_BASELINE_RECONCILIATION_REQUIRED",
+      "notes": "Canonical source is aurora-ai. Catalog status SPECIFIED does not prove implementation or runtime verification."
+    },
+    {
+      "source_id": "SRC-ATCLANG-LANGUAGE-REGISTRY-001",
+      "repository": "A-TownChain-Okosystems/atclang",
+      "branch": "main",
+      "head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+      "path": "specs/language/registry.json",
+      "snapshot_format": "json",
+      "catalog_type": [
+        "token",
+        "keyword",
+        "type_definition",
+        "grammar_registry"
+      ],
+      "reported_counts": null,
+      "status": "NORMATIVE_REGISTRY_RECONCILIATION_REQUIRED",
+      "notes": "Language registry is a semantic/specification inventory, not a function implementation catalog."
+    },
+    {
+      "source_id": "SRC-ATCLANG-SEMANTICS-REGISTRY-001",
+      "repository": "A-TownChain-Okosystems/atclang",
+      "branch": "main",
+      "head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+      "path": "specs/semantics/registry.json",
+      "snapshot_format": "json",
+      "catalog_type": [
+        "builtin",
+        "semantic_rule",
+        "type_contract"
+      ],
+      "reported_counts": null,
+      "status": "NORMATIVE_REGISTRY_RECONCILIATION_REQUIRED",
+      "notes": "Semantic builtins/type rules are retained as their own record classes; their presence does not prove compiler/runtime conformance."
+    },
+    {
+      "source_id": "SRC-GLOBUSOS-COMPONENT-FUNCTION-MD-001",
+      "repository": "A-TownChain-Okosystems/globus-os",
+      "branch": "main",
+      "head_sha": "7dbc7753032016cf6aeaf1a99807cd9c5173d090",
+      "path": "docs/COMPONENT_FUNCTION_CATALOG.md",
+      "snapshot_format": "markdown",
+      "catalog_type": [
+        "component",
+        "function_group",
+        "interface_boundary"
+      ],
+      "reported_counts": null,
+      "status": "DOCUMENTED_BASELINE_RECONCILIATION_REQUIRED",
+      "notes": "Markdown table inventory of GlobusOS subsystem ownership and function groups; it is not evidence of implementation or verification."
+    },
+    {
+      "source_id": "SRC-AURORA-AI-COMPONENT-FUNCTION-001",
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "pull_request": 115,
+      "branch": "audit/public-symbol-scan-001-2026-10-11",
+      "head_sha": "533eee4abb18f35955f50e5256d26b3c0ef51898",
+      "path": "docs/architecture/ATC-AI-COMPONENT-FUNCTION-CATALOG-001.json",
+      "snapshot_format": "json",
+      "catalog_type": [
+        "ai_component",
+        "ai_function_contract",
+        "ai_function_candidate",
+        "ai_interface"
+      ],
+      "reported_counts": {
+        "components": 6,
+        "functions": 26,
+        "interfaces": 4,
+        "specified_memory_functions": 16,
+        "planned_function_candidates": 10,
+        "functionally_verified": 0
+      },
+      "status": "RECONCILIATION_REQUIRED",
+      "notes": "Supplemental Aurora AI catalog based on Aurora README, memory catalog and module component plans. Component/function counts are inventory records, not verified implementations. Preserve planned/specification status and reconcile against source symbols."
+    },
+    {
+      "source_id": "SRC-AURORA-CHATGPT-PARITY-MATRIX-001",
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "pull_request": 115,
+      "branch": "audit/public-symbol-scan-001-2026-10-11",
+      "head_sha": "23faf8c81af7cd4db3798a09607c30688b4d12a6",
+      "path": "docs/architecture/AURORA-CHATGPT-FUNCTION-PARITY-MATRIX-001.json",
+      "snapshot_format": "json",
+      "catalog_type": [
+        "ai_capability_gap",
+        "acceptance_criteria",
+        "verification_requirement"
+      ],
+      "reported_counts": {
+        "target_features": 20,
+        "source_symbol_mappings_pending": 20,
+        "functionally_verified": 0
+      },
+      "status": "BLOCKED_RECONCILIATION_REQUIRED",
+      "notes": "ChatGPT-like Aurora capability target matrix. Requirements and acceptance evidence are defined; it does not assert implementation or feature parity."
+    },
+    {
+      "source_id": "SRC-AURORA-GENESIS-INTEGRATION-001",
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "pull_request": 115,
+      "branch": "audit/public-symbol-scan-001-2026-10-11",
+      "head_sha": "e6e9d2928b1bdf28fb8e4098cc9867aa0804c820",
+      "path": "docs/architecture/AURORA-GENESIS-ENGINE-INTEGRATION-001.json",
+      "snapshot_format": "json",
+      "catalog_type": [
+        "integration_contract",
+        "service_boundary",
+        "security_requirement",
+        "verification_gate"
+      ],
+      "reported_counts": {
+        "use_cases": 4,
+        "contract_requirements": 10,
+        "implementation_verified": 0,
+        "end_to_end_test_verified": 0,
+        "source_files_inspected": 6,
+        "candidate_symbols_identified": 6
+      },
+      "status": "PARTIAL_SOURCE_RECONCILIATION_NOT_IMPLEMENTATION_VERIFIED",
+      "notes": "Exact-blob inspection identified the Genesis Franchise Factory WorkflowRegistry/WorkflowEngine.run and typed ArtifactEnvelope surfaces, while Aurora tool_executor/sandbox remain PLANNED. No adapter/transport or end-to-end integration is verified."
+    },
+    {
+      "source_id": "SRC-AURORA-ATCLANG-CODING-AGENT-001",
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "pull_request": 115,
+      "branch": "audit/public-symbol-scan-001-2026-10-11",
+      "head_sha": "NOT_CAPTURED_AFTER_UPDATE",
+      "path": "docs/architecture/AURORA-ATCLANG-CODING-AGENT-CONTRACT-001.json",
+      "catalog_type": [
+        "integration_contract",
+        "coding_agent_workflow",
+        "acceptance_test_specification"
+      ],
+      "reported_counts": {
+        "workflow_steps": 9,
+        "acceptance_test_cases": 9,
+        "inspected_source_files": 4,
+        "tests_run": 0,
+        "implementation_verified": 0
+      },
+      "status": "SPECIFIED_IMPLEMENTATION_PENDING",
+      "notes": "Contract specifies normalized response/exit semantics; actual atclang CLI exit behavior and structured diagnostics remain to be reconciled against exact source HEAD. Source blob SHAs are recorded in the contract; repository HEAD SHAs are not yet captured. No tests run and no implementation claim."
+    }
+  ],
+  "required_reconciliation_fields": [
+    "source_id",
+    "source_repository",
+    "source_catalog_path",
+    "source_catalog_sha256",
+    "source_head_sha",
+    "source_record_id",
+    "normalized_record_id",
+    "record_kind",
+    "canonical_component_id",
+    "canonical_owner",
+    "source_path",
+    "symbol_kind",
+    "symbol_name",
+    "contract_status",
+    "implementation_status",
+    "verification_status",
+    "duplicate_candidates",
+    "exclusion_reason",
+    "dependencies",
+    "interfaces",
+    "evidence"
+  ],
+  "completion_gates": [
+    "Every active repository and every discovered catalog/list is registered or has a reasoned exclusion.",
+    "Every source record is imported with original ID, provenance and source hash preserved.",
+    "Every component/function/capability/interface is classified by record kind and canonical owner.",
+    "Potential duplicates and semantic overlaps are reconciled explicitly; no record is silently discarded.",
+    "Every runtime source candidate is mapped to a catalog record or explicitly excluded with rationale.",
+    "Schema validation, uniqueness checks, count reconciliation and source reconciliation pass on the exact commit SHA.",
+    "Functional verification is only claimed with exact-SHA Run-to-Job-to-Step evidence and terminal logs.",
+    "The pull request remains Draft and unmerged while any required gate is residual or blocked."
+  ],
+  "overall_status": "BLOCKED",
+  "residuals": [
+    "This manifest registers known source catalogs; it does not yet contain a lossless record-level union of all source catalogs.",
+    "Current catalog JSON payloads must be imported and normalized by deterministic tooling, not by manually copying summary counts.",
+    "Additional catalogs in the remaining active repositories must be discovered and registered.",
+    "No functional verification is inferred from catalog membership.",
+    "Newly discovered Aurora AI memory catalog and ATCLang language/semantics registries are registered but not yet imported or reconciled.",
+    "Markdown catalogs and language-specific source inventories require format-specific extraction before they can be counted as complete.",
+    "GlobusOS component/function Markdown catalog is registered and requires table extraction plus semantic reconciliation against the JSON OS function catalog.",
+    "Organization-wide source discovery is not complete: repository scope is now enumerated, but all 26 active repositories still require per-repository catalog/list inventory and evidenced inclusion or exclusion.",
+    "Aurora AI component/function catalog added as a supplemental source; reconcile its 26 function records against the memory source catalog and all Aurora module source trees before claiming completeness.",
+    "Aurora ChatGPT capability parity matrix is registered; all 20 feature-to-source-symbol mappings and implementation/verification states remain pending.",
+    "Aurora-to-Genesis Engine integration contract added; adapter/source-symbol mapping, transport decision, contract tests and end-to-end exact-SHA verification remain pending.",
+    "Aurora-to-Genesis source reconciliation identified candidate workflow/artifact symbols; adapter, transport contract, security tests and end-to-end exact-SHA verification remain pending."
+  ],
+  "repository_scope": {
+    "observed_at": "2026-10-13",
+    "discovery_method": "GitHub organization repository listing; active/archive state from repository metadata",
+    "active_repositories": [
+      "a-townchain-os",
+      "atclang",
+      "a-townchain-os-docs",
+      "atc-shivacore",
+      "a-townchain",
+      "globus-os",
+      "aurora-ai",
+      "genesis-engine",
+      "atc-sdk",
+      "atc-node",
+      "atc-contracts",
+      "genesis-chronicles",
+      "atc-launchpad",
+      "atc-marketplace",
+      "atc-compute",
+      "atc-standards",
+      "atc-vm",
+      "atc-algorithm",
+      "atc-zkp",
+      ".github",
+      "demo-repository",
+      "atc-ide",
+      "genesis-franchise-factory",
+      "atc-engineering",
+      "a-townchain-ecosystem",
+      "atc-toolchain"
+    ],
+    "archived_repositories": [
+      "atc-wallet",
+      "atc-explorer",
+      "atc-indexer",
+      "atc-mining",
+      "atc-interop",
+      "atc-oracle",
+      "atc-storage"
+    ],
+    "active_repository_count": 26,
+    "archived_repository_count": 7,
+    "source_discovery_status": "PARTIAL",
+    "rule": "Every active repository must be scanned for catalog-like files, manifests, registries, APIs, source symbols, workflows and capability declarations. Record explicit exclusions with evidence. Archived repositories are reference-only unless a maintained canonical dependency requires inclusion.",
+    "known_scope_residuals": [
+      "A repository being listed here does not mean its catalog files have been discovered.",
+      "Private repository content may require an authenticated inventory pass.",
+      "Source-language AST and YAML/workflow inventories need dedicated extractors and scope declarations."
+    ]
+  }
+}
