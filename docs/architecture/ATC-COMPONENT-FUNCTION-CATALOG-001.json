@@ -1,8 +1,8 @@
 {
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
-  "catalog_date": "2026-10-15",
-  "catalog_revision_note": "Expanded support, documentation and governance roles. Canonical implementation boundaries are explicit; all readiness claims remain evidence-gated. 2026-10-15: Added proposed COMP-CRYPTO-SERVICE with seven candidate function contracts. Only the canonical wallet façade/signing symbols are source-mapped; payment submission and RPC discovery remain unresolved, finality/indexer/cross-chain are blocked, and SDK conformance is residual. No functional verification or release readiness is claimed. A-Town watermark: Globus OS / A-TownChain.",
+  "catalog_date": "2026-10-11",
+  "catalog_revision_note": "Expanded support, documentation and governance roles. Canonical implementation boundaries are explicit; all readiness claims remain evidence-gated.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -2451,294 +2451,6 @@
           "readiness": "RESIDUAL"
         }
       ]
-    },
-    {
-      "id": "COMP-CRYPTO-SERVICE",
-      "name": "Decentralized Crypto Service",
-      "layer": "L5-L7",
-      "canonical_owner": "UNRESOLVED — architecture proposal only; implementation owner not assigned",
-      "role": "Proposed user/developer-facing integration boundary for wallet, payments, chain queries, RPC discovery, indexed events, SDK conformance and cross-chain adapters. This component is a catalog candidate, not an assertion that a unified service exists.",
-      "readiness": "RESIDUAL",
-      "criticality": "P1",
-      "depends_on": [
-        "COMP-CHAIN",
-        "COMP-NODE",
-        "COMP-SDK",
-        "COMP-ALGO"
-      ],
-      "functions": [
-        {
-          "id": "FUNC-CRYPTO-SERVICE-WALLET-ACCESS",
-          "name": "Wallet access and transaction signing",
-          "purpose": "Expose wallet address/key-backed transaction signing through a client-controlled wallet boundary; does not imply hosted custody or a remote signing service.",
-          "canonical_owner": "A-TownChain-Okosystems/a-townchain (wallet implementation only)",
-          "readiness": "RESIDUAL",
-          "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
-            "repository": "A-TownChain-Okosystems/a-townchain",
-            "source_path": "components/wallet/src/wallet.rs",
-            "symbol_or_entrypoint": "Wallet::{address,sign_transaction}",
-            "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
-            "file_blob_sha": "ab7edae3844277b8c9c7596e3b2bfa1c47c9b816",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a5e689671b1870699c7a1750f8a166e83590a41c/components/wallet/src/wallet.rs",
-            "note": "Wallet façade and signing methods are source-mapped. This does not prove remote service access, custody safety, full API contract, or passing CI."
-          },
-          "inputs": [
-            "wallet instance or locally controlled signing context",
-            "transaction domain and transaction fields"
-          ],
-          "outputs": [
-            "wallet address/public key or signed transaction"
-          ],
-          "failure_modes": [
-            "key generation/signing error",
-            "invalid transaction domain",
-            "nonce overflow"
-          ],
-          "acceptance": [
-            "Private keys remain client-controlled by default",
-            "Signing is explicit and domain-bound",
-            "No remote signing or custody is inferred from the wallet façade"
-          ],
-          "test_classes": [
-            "unit",
-            "negative",
-            "security",
-            "integration"
-          ]
-        },
-        {
-          "id": "FUNC-CRYPTO-SERVICE-PAYMENT-SUBMIT",
-          "name": "Payment submission",
-          "purpose": "Proposed service operation to submit a signed payment transaction to a selected node; no dedicated service entrypoint has been source-mapped.",
-          "canonical_owner": "UNRESOLVED — service/API owner not assigned",
-          "readiness": "BLOCKED",
-          "source_binding": {
-            "status": "UNRESOLVED",
-            "repository": "A-TownChain-Okosystems/a-townchain",
-            "note": "The wallet source contains transaction signing, but that is not proof of a payment submission/RPC entrypoint. Active node/API source and symbol binding are still required."
-          },
-          "inputs": [
-            "signed transaction",
-            "selected node/network identifier"
-          ],
-          "outputs": [
-            "submission result or typed rejection"
-          ],
-          "failure_modes": [
-            "invalid signature",
-            "network unavailable",
-            "duplicate/replayed transaction",
-            "node rejection"
-          ],
-          "acceptance": [
-            "Submission API is bound to a canonical node implementation",
-            "Retry/idempotency and typed errors are specified",
-            "No payment success is claimed before authoritative acknowledgement"
-          ],
-          "test_classes": [
-            "unit",
-            "integration",
-            "negative",
-            "security"
-          ]
-        },
-        {
-          "id": "FUNC-CRYPTO-SERVICE-FINALITY-QUERY",
-          "name": "Transaction and block finality query",
-          "purpose": "Proposed read operation to query inclusion and finality; current finality document is explicitly a draft and implementation is pending.",
-          "canonical_owner": "UNRESOLVED — canonical query API not assigned",
-          "readiness": "BLOCKED",
-          "source_binding": {
-            "status": "BLOCKED",
-            "repository": "A-TownChain-Okosystems/a-townchain",
-            "source_path": "components/algorithm/specs/ATC-CONSENSUS-306-FINALITY.md",
-            "symbol_or_entrypoint": "ATC-CONSENSUS-306 requirements only; no function symbol",
-            "exact_source_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
-            "file_blob_sha": "0727a9584491b31cf14ad10887753892abb6c863",
-            "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a5e689671b1870699c7a1750f8a166e83590a41c/components/algorithm/specs/ATC-CONSENSUS-306-FINALITY.md",
-            "note": "The document says SPEC-DRAFT and implementation/tests/evidence pending. It is specification evidence only, not an implemented query."
-          },
-          "inputs": [
-            "transaction ID or block height/hash",
-            "network identifier"
-          ],
-          "outputs": [
-            "inclusion status and finality evidence or typed unavailable state"
-          ],
-          "failure_modes": [
-            "unknown transaction",
-            "stale index",
-            "non-final block",
-            "unavailable node"
-          ],
-          "acceptance": [
-            "Finality semantics come from frozen normative consensus contract",
-            "Unknown consensus behavior remains BLOCKED",
-            "Query distinguishes included from finalized"
-          ],
-          "test_classes": [
-            "contract",
-            "integration",
-            "security"
-          ]
-        },
-        {
-          "id": "FUNC-CRYPTO-SERVICE-RPC-DISCOVERY",
-          "name": "RPC endpoint discovery",
-          "purpose": "Proposed discovery of independently operated node endpoints with provenance and capability metadata; no canonical discovery function is mapped.",
-          "canonical_owner": "UNRESOLVED — discovery/API owner not assigned",
-          "readiness": "BLOCKED",
-          "source_binding": {
-            "status": "UNRESOLVED",
-            "note": "No verified exported discovery symbol or canonical endpoint registry has been identified in the current source search."
-          },
-          "inputs": [
-            "network identifier",
-            "optional capability constraints"
-          ],
-          "outputs": [
-            "candidate endpoints with provenance and supported protocol versions"
-          ],
-          "failure_modes": [
-            "empty provider set",
-            "untrusted endpoint",
-            "stale metadata",
-            "capability mismatch"
-          ],
-          "acceptance": [
-            "No mandatory centralized gateway",
-            "Endpoint authenticity and capability metadata are validated",
-            "Empty or inaccessible discovery fails closed"
-          ],
-          "test_classes": [
-            "unit",
-            "integration",
-            "security"
-          ]
-        },
-        {
-          "id": "FUNC-CRYPTO-SERVICE-INDEXER-QUERY",
-          "name": "Indexed event and transaction query",
-          "purpose": "Proposed query against an indexer; the known atc-indexer repository is archived and cannot be treated as active implementation authority.",
-          "canonical_owner": "UNRESOLVED — active indexer owner not assigned",
-          "readiness": "BLOCKED",
-          "source_binding": {
-            "status": "BLOCKED",
-            "repository": "A-TownChain-Okosystems/atc-indexer",
-            "note": "Repository inventory identifies atc-indexer as ARCHIVED_REFERENCE_ONLY. No active canonical implementation binding or exact active source SHA is available."
-          },
-          "inputs": [
-            "query/filter and pagination cursor",
-            "network identifier"
-          ],
-          "outputs": [
-            "indexed records with source height and freshness metadata"
-          ],
-          "failure_modes": [
-            "stale index",
-            "missing event",
-            "cursor invalid",
-            "indexer unavailable"
-          ],
-          "acceptance": [
-            "Index results expose source height/freshness",
-            "Indexer data is not represented as consensus truth",
-            "A maintained canonical owner is assigned before implementation claims"
-          ],
-          "test_classes": [
-            "unit",
-            "integration",
-            "reorg/recovery",
-            "security"
-          ]
-        },
-        {
-          "id": "FUNC-CRYPTO-SERVICE-SDK-CONFORMANCE",
-          "name": "SDK conformance verification",
-          "purpose": "Proposed conformance checks across supported SDKs; current SDK evidence records conformance as not verified.",
-          "canonical_owner": "A-TownChain-Okosystems/atc-sdk (SDK implementation; conformance status unresolved)",
-          "readiness": "RESIDUAL",
-          "source_binding": {
-            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
-            "repository": "A-TownChain-Okosystems/atc-sdk",
-            "source_path": "docs/specs/SPEC-OVERVIEW.md",
-            "symbol_or_entrypoint": "Specification document only; no conformance function symbol",
-            "exact_source_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
-            "file_blob_sha": "3891a690bcc84bdc335cfc6a13065db4fb0655cf",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-sdk/blob/34eef345907935cdaf279e0546f230c03c86bb0c/docs/specs/SPEC-OVERVIEW.md",
-            "note": "The document explicitly lists conformance/CI evidence as not yet complete. This is a gap record, not proof of a conformance implementation."
-          },
-          "inputs": [
-            "SDK package/version",
-            "normative test vectors and contract version"
-          ],
-          "outputs": [
-            "per-test conformance report bound to SDK revision"
-          ],
-          "failure_modes": [
-            "version mismatch",
-            "missing vector",
-            "test failure",
-            "incomplete evidence"
-          ],
-          "acceptance": [
-            "Every result binds SDK source SHA and test run",
-            "Missing/skipped tests are residual, not pass",
-            "Cross-SDK vectors are normative and reproducible"
-          ],
-          "test_classes": [
-            "golden/vector",
-            "compatibility",
-            "integration",
-            "security"
-          ]
-        },
-        {
-          "id": "FUNC-CRYPTO-SERVICE-CROSSCHAIN-ADAPTER",
-          "name": "Cross-chain adapter boundary",
-          "purpose": "Proposed adapter interface for cross-chain message verification and settlement; remains blocked pending normative security and finality contracts.",
-          "canonical_owner": "UNRESOLVED — no canonical active adapter owner assigned",
-          "readiness": "BLOCKED",
-          "source_binding": {
-            "status": "BLOCKED",
-            "note": "Related architecture issue #126 records cross-chain interoperability as a design topic; proof verification, finality assumptions, replay protection and failure/recovery contracts are not yet closed. No implementation symbol is claimed."
-          },
-          "inputs": [
-            "source-chain proof/message",
-            "destination-chain and contract version"
-          ],
-          "outputs": [
-            "verified/rejected message and settlement status"
-          ],
-          "failure_modes": [
-            "invalid proof",
-            "replay",
-            "finality violation",
-            "bridge/provider outage"
-          ],
-          "acceptance": [
-            "Normative trust and threat model is approved",
-            "Replay protection and finality assumptions are explicit",
-            "Independent security review and adversarial tests pass"
-          ],
-          "test_classes": [
-            "contract",
-            "property/fuzz",
-            "adversarial",
-            "integration",
-            "security"
-          ]
-        }
-      ],
-      "known_conflicts_and_residuals": [
-        "No unified active crypto-service implementation has been identified.",
-        "Wallet façade source mapping does not imply a hosted wallet or payment-submission API.",
-        "Finality query is blocked by draft consensus/finality specification and missing implementation evidence.",
-        "Indexer candidate is blocked because the known atc-indexer repository is archived.",
-        "Cross-chain adapter remains blocked pending issue #126 normative security contracts.",
-        "All candidates remain unverified until exact-SHA source and test evidence are reconciled."
-      ]
     }
   ],
   "cross_component_interfaces": [
@@ -2792,7 +2504,17 @@
       "status": "RESIDUAL"
     }
   ],
-  "release_decision": "BLOCKED",
+  "release_decision": {
+    "status": "BLOCKED",
+    "reason": "This catalog establishes ownership and measurable function-level acceptance criteria. Component production readiness remains unverified until source-specific implementation, exact-SHA gates, interface conformance and required security/operational evidence are attached.",
+    "forbidden_shortcuts": [
+      "infer implementation from repository name",
+      "infer verification from file presence",
+      "count skipped checks as passed",
+      "archive or delete source repositories based on catalog alone",
+      "auto-merge"
+    ]
+  },
   "scope": {
     "organization_repository_count": 33,
     "active_repository_count": 26,
