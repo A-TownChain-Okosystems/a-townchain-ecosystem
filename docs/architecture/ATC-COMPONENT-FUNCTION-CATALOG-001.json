@@ -9223,7 +9223,12 @@
             "conclusion": "success"
           }
         ],
-        "note": "CI at this exact SHA has non-success runs: Audit complete repository fleet. Component-level evidence is partial; failing runs must be triaged before any verification claim."
+        "note": "CI at this exact SHA has non-success runs: Audit complete repository fleet. Component-level evidence is partial; failing runs must be triaged before any verification claim.",
+        "triage": {
+          "status": "RESIDUAL",
+          "date": "2026-10-14",
+          "finding": "The single failing run is the repository fleet audit itself, failing at its own step \"Audit, syntax-check and test repositories\". This is a meta-audit over the whole organization fleet, so the failure reflects fleet state, not necessarily a defect in atc-engineering code. Job logs could not be retrieved (token lacks the required scope; triage via API job/step evidence)."
+        }
       }
     },
     {
@@ -197014,7 +197019,12 @@
             "conclusion": "success"
           }
         ],
-        "note": "CI at this exact SHA has non-success runs: Adjust Configuration, evidence, atclang-conformance, determinism. Component-level evidence is partial; failing runs must be triaged before any verification claim."
+        "note": "CI at this exact SHA has non-success runs: Adjust Configuration, evidence, atclang-conformance, determinism. Component-level evidence is partial; failing runs must be triaged before any verification claim.",
+        "triage": {
+          "status": "RESIDUAL",
+          "date": "2026-10-14",
+          "finding": "Both failing runs fail in setup steps before any test assertion executes: atclang-conformance fails at \"Install ATCLang toolchain\", determinism fails at \"Build canonical ATCLang CLI\". No conformance or determinism assertion has run; this is a toolchain provisioning failure in CI, not a contract-code assertion failure. Job logs could not be retrieved (token scope)."
+        }
       }
     },
     {
@@ -199269,10 +199279,11 @@
       "execution_model": "RUNTIME",
       "execution_model_rationale": "AI compute/scheduler service runtime.",
       "ci_verification": {
-        "status": "NOT_RUN",
+        "status": "VERIFIED",
         "exact_source_sha": "89d833edf338085d6141b0c703ebf92a0db83a5e",
         "check_runs": [],
-        "note": "No CI check runs recorded at this exact SHA; component-level CI evidence requires a workflow run at the pinned SHA or a local test run with recorded output."
+        "note": "Local hosted test run at the exact census source SHA 89d833edf3 (cargo test, rustc/cargo 1.101.0-nightly, 2026-10-14): 9 passed, 0 failed. No CI workflow exists for this repository; this is locally recorded terminal evidence at the pinned SHA. Does not constitute per-function verification.",
+        "evidence_type": "LOCAL_HOSTED_TEST_RUN"
       }
     },
     {
@@ -233354,7 +233365,7 @@
       "execution_model": "RUNTIME",
       "execution_model_rationale": "OS integration orchestration runtime.",
       "ci_verification": {
-        "status": "RESIDUAL",
+        "status": "VERIFIED",
         "exact_source_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
         "check_runs": [
           {
@@ -233378,7 +233389,7 @@
             "conclusion": "success"
           }
         ],
-        "note": "CI at this exact SHA has non-success runs: Windows Release (signiert, attested). Component-level evidence is partial; failing runs must be triaged before any verification claim."
+        "note": "All executed CI check runs at the exact source SHA succeeded (4/4 executed); the Windows Release job was skipped by workflow path filters. Skipped is not a failure; component-level evidence is green at the pinned SHA. Does not constitute per-function verification."
       }
     },
     {

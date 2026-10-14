@@ -368,3 +368,14 @@ Catalog validator `PASS_STRUCTURAL_ONLY` (0 errors), reconcile unchanged (5,572 
 Full accounting over the census: 12,971 scanned symbol candidates = 5,572 runtime candidates **bound** (0 unbound) + 988 reasoned runtime exclusions (984 crate-internal/private, 4 example/sample) + 3,984 test symbols (verification surfaces, policy-excluded) + 2,427 non-function artifacts (types/values, policy-excluded). 45 components cover every scanned active repository; the 7 archived repositories are reference-only by policy (no scan), with COMP-STORAGE-ARCHIVED documenting atc-storage as an archived reference.
 
 Correction from this check: COMP-STORAGE-ARCHIVED's `ci_verification` block was initially `RESIDUAL` due to an API artifact (archived repos have no pinned census SHA, producing a bogus `api_error` run); corrected to `NOT_RUN` with an explicit BLOCKED_ARCHIVED_REFERENCE_ONLY note. Remaining honest residuals: 47 legacy function bindings with residual/blocked/delegated statuses (6 of them documented delegations), and per-function functional verification still NOT_PERFORMED.
+
+## 29. CI triage of residual components (2026-10-14)
+
+Triage of every non-VERIFIED component from section 27:
+
+- **COMP-COMPUTE → VERIFIED**: atc-compute has no CI workflow at all, so a **local hosted test run at the exact census SHA `89d833edf3`** was executed (cargo test): 9 passed, 0 failed. Recorded as LOCAL_HOSTED_TEST_RUN evidence. Incidental finding: the repository's `tests/` directory contains only TESTPLAN.md — the test suite lives inline in src; the repo should still gain a CI workflow.
+- **COMP-OS-INTEGRATION → VERIFIED**: reclassified — the Windows Release job was *skipped* by path filters, not failed. All executed runs (4/4) at the exact SHA are green.
+- **COMP-ATC-ENG → triaged RESIDUAL**: the single failing check ("Audit complete repository fleet") is the fleet meta-audit itself; it fails at its own audit step, reflecting fleet state rather than an atc-engineering code defect. Logs require a higher token scope (documented).
+- **COMP-CONTRACTS → triaged RESIDUAL**: both failing runs die in setup ("Install ATCLang toolchain", "Build canonical ATCLang CLI") before any conformance or determinism assertion executes — a toolchain provisioning failure in CI, not a contract-code failure. Fixing the ATCLang CLI build in CI is the unblock for real conformance evidence.
+
+**State: 42 components VERIFIED (incl. one local hosted evidence), 2 triaged RESIDUAL, 1 archived NOT_RUN.** Validator PASS_STRUCTURAL_ONLY (0 errors), reconcile unchanged (5,572 bound / 0 unbound / 0 findings), tests 58/58. Per-function functional verification remains the sole org-wide gate.
