@@ -178,3 +178,26 @@ Update this catalog only from reviewed source/interface evidence. Every change s
 - Repository coverage: **33 total / 26 active / 7 archived**
 
 The catalog includes support/governance records for the standalone ATC-VM and ATC-Algorithm repositories, but their canonical production implementations remain in `a-townchain/components/vm` and `a-townchain/components/algorithm`. The standalone `atc-shivacore` repository is specification/support only; the canonical kernel remains under GlobusOS. Archived repositories are retained as reference records and are not silently reactivated.
+
+## Proposed component: Decentralized Crypto Service — 2026-10-15
+
+**Component ID:** `COMP-CRYPTO-SERVICE`  
+**Readiness:** `RESIDUAL`  
+**Implementation owner:** `UNRESOLVED` — architecture candidate only; no unified service implementation is asserted.
+
+This proposal groups user/developer-facing crypto capabilities without moving or duplicating canonical implementations. The catalog remains an architecture/integration/evidence control plane. Wallet keys remain client-controlled by default; no mandatory centralized gateway or hosted custody is implied. AI agents cannot sign, bypass approvals, or control consensus.
+
+| Function ID | Candidate | Source reconciliation | Readiness |
+|---|---|---|---|
+| `FUNC-CRYPTO-SERVICE-WALLET-ACCESS` | Wallet access and transaction signing | Mapped to `Wallet::{address,sign_transaction}` in canonical `a-townchain/components/wallet/src/wallet.rs`, commit `a5e689671b1870699c7a1750f8a166e83590a41c`, blob `ab7edae3844277b8c9c7596e3b2bfa1c47c9b816`. This is a wallet façade, not a hosted service. | `RESIDUAL` |
+| `FUNC-CRYPTO-SERVICE-PAYMENT-SUBMIT` | Payment submission | No canonical node/RPC submission symbol bound; signing alone does not prove submission. | `BLOCKED` |
+| `FUNC-CRYPTO-SERVICE-FINALITY-QUERY` | Transaction/block finality query | Finality spec at `a5e689671b1870699c7a1750f8a166e83590a41c` is `SPEC-DRAFT`; implementation, tests and evidence are pending. | `BLOCKED` |
+| `FUNC-CRYPTO-SERVICE-RPC-DISCOVERY` | RPC endpoint discovery | No verified exported discovery symbol or canonical provider registry identified. | `BLOCKED` |
+| `FUNC-CRYPTO-SERVICE-INDEXER-QUERY` | Indexed event/transaction query | Known `atc-indexer` is archived reference-only; active implementation owner and source SHA are missing. | `BLOCKED` |
+| `FUNC-CRYPTO-SERVICE-SDK-CONFORMANCE` | SDK conformance | `atc-sdk/docs/specs/SPEC-OVERVIEW.md` at `34eef345907935cdaf279e0546f230c03c86bb0c` documents conformance/CI evidence as incomplete; no implementation symbol claimed. | `RESIDUAL` |
+| `FUNC-CRYPTO-SERVICE-CROSSCHAIN-ADAPTER` | Cross-chain adapter boundary | Blocked pending normative security, finality, replay and failure/recovery contracts tracked by [issue #126](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/126). | `BLOCKED` |
+
+**Evidence policy:** Source mapping is not functional verification. Payment submission and RPC discovery remain unbound; finality, indexer and cross-chain are blocked; SDK conformance is residual. Bidirectional source-to-catalog reconciliation and terminal CI evidence remain outstanding. Release decision remains `BLOCKED`; no automatic merge or gate relaxation.
+
+A-Town watermark: Globus OS / A-TownChain.
+
