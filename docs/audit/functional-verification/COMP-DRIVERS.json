@@ -1,0 +1,548 @@
+{
+ "component": "COMP-DRIVERS",
+ "repo": "wt-globus",
+ "head_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "cargo test --release --workspace 2>&1",
+  "exit_code": 0,
+  "passed": 1298,
+  "log_tail": [
+   "",
+   "   Doc-tests globus_vfs",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests globus_wallet_service",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests libshivacore",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests shivacore",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests shivacore_service_space",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-DRIVERS-001",
+   "symbol": "new",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-002",
+   "symbol": "new",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-003",
+   "symbol": "bdf",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-004",
+   "symbol": "add_bar",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-005",
+   "symbol": "find_mmio_bar",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-006",
+   "symbol": "is_virtio",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-007",
+   "symbol": "new",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-008",
+   "symbol": "register",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-009",
+   "symbol": "scan",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-010",
+   "symbol": "find_by_class",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-011",
+   "symbol": "find_virtio",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-012",
+   "symbol": "find_by_id",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-013",
+   "symbol": "device_count",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-014",
+   "symbol": "simulated",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-015",
+   "symbol": "new",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-016",
+   "symbol": "read",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-017",
+   "symbol": "write",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-018",
+   "symbol": "read_reg",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-019",
+   "symbol": "write_reg",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-020",
+   "symbol": "base_address",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-021",
+   "symbol": "size",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-022",
+   "symbol": "new",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-023",
+   "symbol": "init",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-024",
+   "symbol": "disable",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-025",
+   "symbol": "is_enabled",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-026",
+   "symbol": "counter_value",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-027",
+   "symbol": "advance_ticks",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-028",
+   "symbol": "frequency_hz",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-029",
+   "symbol": "femtoseconds_per_tick",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-030",
+   "symbol": "ticks_to_ns",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-031",
+   "symbol": "ns_to_ticks",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-032",
+   "symbol": "tick_count",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-033",
+   "symbol": "read_reg",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-034",
+   "symbol": "write_reg",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-035",
+   "symbol": "read",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-036",
+   "symbol": "write",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-037",
+   "symbol": "flush",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-038",
+   "symbol": "new",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-039",
+   "symbol": "init",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-040",
+   "symbol": "is_initialized",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-041",
+   "symbol": "config",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-042",
+   "symbol": "read_count",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-043",
+   "symbol": "write_count",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-044",
+   "symbol": "flush_count",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-045",
+   "symbol": "total_bytes",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-046",
+   "symbol": "is_read_only",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-047",
+   "symbol": "fill_block",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-048",
+   "symbol": "new",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-049",
+   "symbol": "init",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-050",
+   "symbol": "is_initialized",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-051",
+   "symbol": "link_is_up",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-052",
+   "symbol": "set_link_down",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-053",
+   "symbol": "set_link_up",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-054",
+   "symbol": "mtu",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-055",
+   "symbol": "speed_mbps",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-056",
+   "symbol": "rx_count",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-057",
+   "symbol": "tx_count",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-058",
+   "symbol": "inject_rx_packet",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-059",
+   "symbol": "tx_queue_contents",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DRIVERS-060",
+   "symbol": "config",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-061",
+   "symbol": "new",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-062",
+   "symbol": "simulated",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-063",
+   "symbol": "init_all",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-064",
+   "symbol": "is_initialized",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-065",
+   "symbol": "device_summary",
+   "source_path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-066",
+   "symbol": "HardwareDriversView",
+   "source_path": "modules/atc-drivers/src/components/HardwareDriversView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DRIVERS-067",
+   "symbol": "register",
+   "source_path": "modules/atc-drivers/src/driver_framework.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-068",
+   "symbol": "mark_active",
+   "source_path": "modules/atc-drivers/src/driver_framework.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-069",
+   "symbol": "report_fault",
+   "source_path": "modules/atc-drivers/src/driver_framework.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-070",
+   "symbol": "get",
+   "source_path": "modules/atc-drivers/src/driver_framework.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DRIVERS-071",
+   "symbol": "records",
+   "source_path": "modules/atc-drivers/src/driver_framework.rs",
+   "language": "rust",
+   "test_reference": true
+  }
+ ],
+ "summary": {
+  "total": 71,
+  "test_referenced": 69,
+  "suite_pass": true,
+  "eligible_functionally_verified": 69
+ }
+}

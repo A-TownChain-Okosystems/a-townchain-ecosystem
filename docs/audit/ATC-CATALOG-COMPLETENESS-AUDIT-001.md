@@ -524,3 +524,21 @@ Running total after passes 1+2: 676 of 5,619 bindings functionally verified (COM
 
 ### Running total after passes 1-5
 **2,377 of 5,619 bindings functionally verified** (LANG 18, SERVICES 658, GENESIS 230, SHIVA 1,396, AURORA 75). Tooling: test-result counting now sums across all crate result lines; TS spec surfaces (vitest `*.test.ts(x)`) are scanned for test references.
+
+## 37. Functional verification pass 6: globus-os workspace sweep (2026-10-14)
+
+All globus-os-hosted components share the bound SHA `2682d49f`; one exact-HEAD worktree with a single green workspace suite (`cargo test --release --workspace`, **1,298 passed, 0 failed, exit 0**) provides the suite-pass evidence for six components in one sweep:
+
+| Component | Bindings | Upgraded | Residual (source-mapped) |
+|---|---|---|---|
+| COMP-GLOBUS-SYS | 543 | 419 | 124 |
+| COMP-GLOBUS-EDITIONS | 67 | 40 | 27 |
+| COMP-DRIVERS | 71 | 69 | 2 |
+| COMP-GLOBUS | 9 | 8 | 1 |
+| COMP-SHIVA (re-run, idempotent) | 1,504 | 1,396 | 108 |
+| COMP-SERVICES (re-run, idempotent) | 720 | 658 | 62 |
+
+New verifications this pass: **536**. CI at the SHA shows only Dependabot workflows, so the recorded evidence is the local exact-SHA workspace run (no CI claim, consistent with pass 2).
+
+### Running total after passes 1-6
+**2,913 of 5,619 bindings functionally verified (51.8%)**. Remaining bulk: COMP-OS-INTEGRATION (226), COMP-DOCS (280), COMP-AURORA TS/TSX (297), COMP-IDE (143), COMP-ATC-ENG (145), COMP-STANDARDS (124 py), COMP-CHAIN-MONO (108) and the a-townchain/atc-* protocol-service components; Python-heavy components still need pytest surfaces.
