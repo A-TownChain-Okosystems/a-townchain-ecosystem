@@ -2512,7 +2512,7 @@
           "name": "Payment submission",
           "purpose": "Proposed service operation to submit a signed payment transaction to a selected node; no dedicated service entrypoint has been source-mapped.",
           "canonical_owner": "UNRESOLVED — service/API owner not assigned",
-          "readiness": "UNRESOLVED",
+          "readiness": "BLOCKED",
           "source_binding": {
             "status": "UNRESOLVED",
             "repository": "A-TownChain-Okosystems/a-townchain",
@@ -2588,7 +2588,7 @@
           "name": "RPC endpoint discovery",
           "purpose": "Proposed discovery of independently operated node endpoints with provenance and capability metadata; no canonical discovery function is mapped.",
           "canonical_owner": "UNRESOLVED — discovery/API owner not assigned",
-          "readiness": "UNRESOLVED",
+          "readiness": "BLOCKED",
           "source_binding": {
             "status": "UNRESOLVED",
             "note": "No verified exported discovery symbol or canonical endpoint registry has been identified in the current source search."
