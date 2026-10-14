@@ -426,3 +426,20 @@ The atc-engineering fleet audit failure is the **health gate working as designed
 - **AUDIT-002** (2): missing `docs/ENGINEERING_AUDIT.md` (a-townchain-ecosystem, atc-toolchain) — agent-actionable.
 
 The findings matrix is escalated as an atc-engineering issue; the catalog triage block for COMP-ATC-ENG records the local reproduction evidence. Note: the fleet audit also runs per-repo cargo/npm/python verification in CI, which the local reproduction does not re-run (the census-replica CI evidence in sections 27-29 covers that layer).
+
+## 32. Fleet remediation tranche 1: 4 of 6 finding categories addressed (2026-10-14)
+
+First remediation tranche of the section 31 findings matrix (issue atc-engineering#24). All fixes committed with agent trailers and locally re-verified with the patched audit CLI:
+
+| Repository | Fix | Commit | Re-audit |
+|---|---|---|---|
+| a-townchain-os | `kai-os/Cargo.lock` committed (CONS-AUDIT-001) | `a929fe7` | **PASS** |
+| atc-zkp | root `Cargo.lock` committed (CONS-AUDIT-001) | `df9e694` | **PASS** |
+| atc-toolchain | `docs/ENGINEERING_AUDIT.md` created (AUDIT-002) | `aaed3da` | **PASS** |
+| a-townchain-os-docs | README repository identification inserted (CONS-AUDIT-002) | `fd992bc` | 3 AUDIT-003 TODOs remain (next tranche) |
+| demo-repository | README repository identification inserted (CONS-AUDIT-002) | `6fca8f6` | 1 SEC-AUDIT-003 remains (owner action: workflow file) |
+| a-townchain-ecosystem | `docs/ENGINEERING_AUDIT.md` created (AUDIT-002) | `0a315def8` (this PR) | remaining findings unchanged (SEC-AUDIT-003 owner action, AUDIT-003 TODOs, CONS-AUDIT-003 mirrors) |
+
+**Checker fix:** the CONS-AUDIT-001 check in `atc-audit-cli` only looked for `Cargo.lock` at the repository root, so a nested workspace with a correctly committed lockfile (a-townchain-os `kai-os/Cargo.lock`) stayed flagged. Fixed to accept the lockfile at the workspace manifest directory; submitted as **atc-engineering PR #25** (main is PR-protected there: 3 required status checks). The re-verification above uses the patched CLI build.
+
+**Result: 3 of the previously 16 findings repositories are now fully PASS; 2 are improved with remaining findings categorized; the fleet health-gate signal shrinks correspondingly.** Open: AUDIT-003 TODO triage (5 repos), CONS-AUDIT-003 mirror policy + dedupe (5 repos), SEC-AUDIT-003 workflow permissions (9 repos, owner action), PR #25 merge.
