@@ -10,20 +10,48 @@
       "archived": false,
       "role": "L7 orchestrator",
       "snapshot_ref": "main",
-      "observed_head_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
-      "observed_root_tree_sha": "85368a3f351bf8b07a41c7aff1ffc5c57c713635",
+      "observed_head_sha": "a929fe77c65e3a6da4a2c5805f3e290291d47aaa",
+      "observed_root_tree_sha": "b9ab44e7d283ce9b9ba2906b2e5d1853391782ef",
       "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
-      "expected_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8"
+      "expected_sha": "a929fe77c65e3a6da4a2c5805f3e290291d47aaa",
+      "previous_snapshot": {
+        "observed_head_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
+        "observed_root_tree_sha": "85368a3f351bf8b07a41c7aff1ffc5c57c713635",
+        "expected_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
+        "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"
+      },
+      "pin_provenance": {
+        "source": "ATC-ORG-REPOSITORY-DRIFT-REPORT-001",
+        "workflow_run_id": 38493534934,
+        "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38493534934",
+        "observed_ref": "main",
+        "refreshed_at": "2026-10-14",
+        "note": "Live HEAD and root tree copied from the run's drift artifact; previous snapshot preserved in previous_snapshot. Re-run live drift validation before integration decisions."
+      }
     },
     {
       "name": "atclang",
       "archived": false,
       "role": "L0 language",
       "snapshot_ref": "main",
-      "observed_head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
-      "observed_root_tree_sha": "4649b749ce4be530a2acdf1c5446df4752d73198",
+      "observed_head_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+      "observed_root_tree_sha": "41e6a63b30422ad22355c4d21070cb80c819999f",
       "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
-      "expected_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb"
+      "expected_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+      "previous_snapshot": {
+        "observed_head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+        "observed_root_tree_sha": "4649b749ce4be530a2acdf1c5446df4752d73198",
+        "expected_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+        "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"
+      },
+      "pin_provenance": {
+        "source": "ATC-ORG-REPOSITORY-DRIFT-REPORT-001",
+        "workflow_run_id": 38493534934,
+        "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38493534934",
+        "observed_ref": "main",
+        "refreshed_at": "2026-10-14",
+        "note": "Live HEAD and root tree copied from the run's drift artifact; previous snapshot preserved in previous_snapshot. Re-run live drift validation before integration decisions."
+      }
     },
     {
       "name": "a-townchain-os-docs",
@@ -48,10 +76,24 @@
         }
       ],
       "snapshot_ref": "main",
-      "observed_head_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
-      "observed_root_tree_sha": "02d7c551989ecd345d4dbc656ef3a79fc59a0c84",
+      "observed_head_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+      "observed_root_tree_sha": "b4b1595a40eba29ce9059f8c332999fc4874d7d1",
       "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
-      "expected_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947"
+      "expected_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+      "previous_snapshot": {
+        "observed_head_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
+        "observed_root_tree_sha": "02d7c551989ecd345d4dbc656ef3a79fc59a0c84",
+        "expected_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
+        "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"
+      },
+      "pin_provenance": {
+        "source": "ATC-ORG-REPOSITORY-DRIFT-REPORT-001",
+        "workflow_run_id": 38493534934,
+        "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38493534934",
+        "observed_ref": "main",
+        "refreshed_at": "2026-10-14",
+        "note": "Live HEAD and root tree copied from the run's drift artifact; previous snapshot preserved in previous_snapshot. Re-run live drift validation before integration decisions."
+      }
     },
     {
       "name": "atc-shivacore",
@@ -78,20 +120,48 @@
       "archived": false,
       "role": "L4 operating system",
       "snapshot_ref": "main",
-      "observed_head_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
-      "observed_root_tree_sha": "7fd8598fe854534958009bef78c544813c31c817",
+      "observed_head_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+      "observed_root_tree_sha": "66413b78b5a9c09bdb2988ad33e6bcf8e71bc1fa",
       "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
-      "expected_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4"
+      "expected_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+      "previous_snapshot": {
+        "observed_head_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+        "observed_root_tree_sha": "7fd8598fe854534958009bef78c544813c31c817",
+        "expected_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+        "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"
+      },
+      "pin_provenance": {
+        "source": "ATC-ORG-REPOSITORY-DRIFT-REPORT-001",
+        "workflow_run_id": 38493534934,
+        "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38493534934",
+        "observed_ref": "main",
+        "refreshed_at": "2026-10-14",
+        "note": "Live HEAD and root tree copied from the run's drift artifact; previous snapshot preserved in previous_snapshot. Re-run live drift validation before integration decisions."
+      }
     },
     {
       "name": "aurora-ai",
       "archived": false,
       "role": "L2 AI runtime",
       "snapshot_ref": "main",
-      "observed_head_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
-      "observed_root_tree_sha": "63eb0ad422c80fe7eb9b2227f6368f2e7a154464",
+      "observed_head_sha": "3aa4940fa54a734e2c16ae9b1a4ad6b9ef7dc99a",
+      "observed_root_tree_sha": "8004121f0f2dd214b9701398a66baa5d62a4f3c3",
       "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
-      "expected_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2"
+      "expected_sha": "3aa4940fa54a734e2c16ae9b1a4ad6b9ef7dc99a",
+      "previous_snapshot": {
+        "observed_head_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
+        "observed_root_tree_sha": "63eb0ad422c80fe7eb9b2227f6368f2e7a154464",
+        "expected_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
+        "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"
+      },
+      "pin_provenance": {
+        "source": "ATC-ORG-REPOSITORY-DRIFT-REPORT-001",
+        "workflow_run_id": 38493534934,
+        "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38493534934",
+        "observed_ref": "main",
+        "refreshed_at": "2026-10-14",
+        "note": "Live HEAD and root tree copied from the run's drift artifact; previous snapshot preserved in previous_snapshot. Re-run live drift validation before integration decisions."
+      }
     },
     {
       "name": "genesis-engine",
@@ -188,10 +258,24 @@
       "archived": false,
       "role": "application/service",
       "snapshot_ref": "main",
-      "observed_head_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
-      "observed_root_tree_sha": "1bc74a2c40394d8c76e3223de272ec3281db23e4",
+      "observed_head_sha": "9710bd9b314ca4bce836589f5fc8649619fc5604",
+      "observed_root_tree_sha": "19fdb0a75dda524b635829c95c95ff1324816f55",
       "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
-      "expected_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab"
+      "expected_sha": "9710bd9b314ca4bce836589f5fc8649619fc5604",
+      "previous_snapshot": {
+        "observed_head_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+        "observed_root_tree_sha": "1bc74a2c40394d8c76e3223de272ec3281db23e4",
+        "expected_sha": "a3f417b2350bb1cb920fd9a8f7b480ce7a67f5ab",
+        "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"
+      },
+      "pin_provenance": {
+        "source": "ATC-ORG-REPOSITORY-DRIFT-REPORT-001",
+        "workflow_run_id": 38493534934,
+        "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38493534934",
+        "observed_ref": "main",
+        "refreshed_at": "2026-10-14",
+        "note": "Live HEAD and root tree copied from the run's drift artifact; previous snapshot preserved in previous_snapshot. Re-run live drift validation before integration decisions."
+      }
     },
     {
       "name": "atc-oracle",
@@ -278,10 +362,24 @@
       "archived": false,
       "role": "zero-knowledge proofs",
       "snapshot_ref": "main",
-      "observed_head_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f",
-      "observed_root_tree_sha": "b9ac1abf479be23234af5afa4178887d2b3cae6a",
+      "observed_head_sha": "df9e694772ffc955129739805fc1692753dbea84",
+      "observed_root_tree_sha": "08290da2d511c7e2ec1f54a9b25c993315173ac9",
       "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
-      "expected_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f"
+      "expected_sha": "df9e694772ffc955129739805fc1692753dbea84",
+      "previous_snapshot": {
+        "observed_head_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f",
+        "observed_root_tree_sha": "b9ac1abf479be23234af5afa4178887d2b3cae6a",
+        "expected_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f",
+        "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"
+      },
+      "pin_provenance": {
+        "source": "ATC-ORG-REPOSITORY-DRIFT-REPORT-001",
+        "workflow_run_id": 38493534934,
+        "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38493534934",
+        "observed_ref": "main",
+        "refreshed_at": "2026-10-14",
+        "note": "Live HEAD and root tree copied from the run's drift artifact; previous snapshot preserved in previous_snapshot. Re-run live drift validation before integration decisions."
+      }
     },
     {
       "name": ".github",
@@ -310,10 +408,24 @@
       "archived": false,
       "role": "developer tooling",
       "snapshot_ref": "main",
-      "observed_head_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
-      "observed_root_tree_sha": "553ef11c7d2ced67ac06662b91bc0e28f1cc23a4",
+      "observed_head_sha": "40a07acbbb2f240f0d409e97bd0262b8c63688b4",
+      "observed_root_tree_sha": "93d4d6353588e04d1ca81ae35a580e5b50fbae63",
       "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
-      "expected_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a"
+      "expected_sha": "40a07acbbb2f240f0d409e97bd0262b8c63688b4",
+      "previous_snapshot": {
+        "observed_head_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
+        "observed_root_tree_sha": "553ef11c7d2ced67ac06662b91bc0e28f1cc23a4",
+        "expected_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
+        "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"
+      },
+      "pin_provenance": {
+        "source": "ATC-ORG-REPOSITORY-DRIFT-REPORT-001",
+        "workflow_run_id": 38493534934,
+        "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38493534934",
+        "observed_ref": "main",
+        "refreshed_at": "2026-10-14",
+        "note": "Live HEAD and root tree copied from the run's drift artifact; previous snapshot preserved in previous_snapshot. Re-run live drift validation before integration decisions."
+      }
     },
     {
       "name": "genesis-franchise-factory",
@@ -356,10 +468,24 @@
       "archived": false,
       "role": "compiler/toolchain",
       "snapshot_ref": "main",
-      "observed_head_sha": "82fe4a238603476d7c6c19d5c3044c88b71c5f2d",
-      "observed_root_tree_sha": "dc853d005a8c68ebbdc88f8a4f47586102ec837a",
+      "observed_head_sha": "aaed3daad2f6823349bb8c89bbeb996a7911317e",
+      "observed_root_tree_sha": "c3c16423e35f882308e0fa4af44cc9ef65c871de",
       "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14",
-      "expected_sha": "82fe4a238603476d7c6c19d5c3044c88b71c5f2d"
+      "expected_sha": "aaed3daad2f6823349bb8c89bbeb996a7911317e",
+      "previous_snapshot": {
+        "observed_head_sha": "82fe4a238603476d7c6c19d5c3044c88b71c5f2d",
+        "observed_root_tree_sha": "dc853d005a8c68ebbdc88f8a4f47586102ec837a",
+        "expected_sha": "82fe4a238603476d7c6c19d5c3044c88b71c5f2d",
+        "snapshot_status": "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"
+      },
+      "pin_provenance": {
+        "source": "ATC-ORG-REPOSITORY-DRIFT-REPORT-001",
+        "workflow_run_id": 38493534934,
+        "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38493534934",
+        "observed_ref": "main",
+        "refreshed_at": "2026-10-14",
+        "note": "Live HEAD and root tree copied from the run's drift artifact; previous snapshot preserved in previous_snapshot. Re-run live drift validation before integration decisions."
+      }
     }
   ],
   "snapshot": {
