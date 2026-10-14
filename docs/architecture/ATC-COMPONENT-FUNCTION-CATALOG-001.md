@@ -178,3 +178,8 @@ Update this catalog only from reviewed source/interface evidence. Every change s
 - Repository coverage: **33 total / 26 active / 7 archived**
 
 The catalog includes support/governance records for the standalone ATC-VM and ATC-Algorithm repositories, but their canonical production implementations remain in `a-townchain/components/vm` and `a-townchain/components/algorithm`. The standalone `atc-shivacore` repository is specification/support only; the canonical kernel remains under GlobusOS. Archived repositories are retained as reference records and are not silently reactivated.
+
+
+## Cross-chain interoperability proposal (2026-10-15)
+
+The machine-readable catalog adds `COMP-XCHAIN-INTEROP` with `FN-XCHAIN-001` through `FN-XCHAIN-003` for message-contract validation, chain capability/proof-policy resolution, and replay-safe lifecycle/reconciliation. These are **specification-only, `BLOCKED`** entries linked to [atc-standards issue #110](https://github.com/A-TownChain-Okosystems/atc-standards/issues/110) and [ecosystem issue #126](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/126). No canonical executable symbol or exact source SHA has been identified, so this catalog change does not claim implementation, source completeness, bridge security, or asset-transfer readiness. Unknown consensus/finality remains `BLOCKED`; no mint/unlock/release is authorized.
