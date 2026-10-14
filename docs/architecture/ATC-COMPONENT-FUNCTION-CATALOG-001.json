@@ -197023,7 +197023,17 @@
         "triage": {
           "status": "RESIDUAL",
           "date": "2026-10-14",
-          "finding": "Both failing runs fail in setup steps before any test assertion executes: atclang-conformance fails at \"Install ATCLang toolchain\", determinism fails at \"Build canonical ATCLang CLI\". No conformance or determinism assertion has run; this is a toolchain provisioning failure in CI, not a contract-code assertion failure. Job logs could not be retrieved (token scope)."
+          "root_cause_identified": true,
+          "finding": "Both CI failures are setup-phase (pip toolchain step stale, ATC_CLI path mismatch) - documented with ready-to-apply patch in atc-contracts issue #14 (owner action: org token lacks workflow scope). After setup repair the honest conformance state is 2/46 PASS: 44 contract files use indexed access (self.balances[msg.sender]) which is normative per atclang specs/language/SPEC.md (parse_postfix Index, AST IndexAccess) but unimplemented in atc-core (no bracket tokens in lexer) - tracked in atclang issue #28.",
+          "local_validation": {
+            "toolchain_build": "cargo build --locked --release atclang/crates/atc-core at atclang main: SUCCESS",
+            "conformance_run": "tests/run_atclang_conformance.sh at atc-contracts a7c8b417: 2/46 PASS, 44 lex failures at indexed access",
+            "date": "2026-10-14"
+          },
+          "issues": [
+            "A-TownChain-Okosystems/atc-contracts#14",
+            "A-TownChain-Okosystems/atclang#28"
+          ]
         }
       }
     },

@@ -379,3 +379,15 @@ Triage of every non-VERIFIED component from section 27:
 - **COMP-CONTRACTS → triaged RESIDUAL**: both failing runs die in setup ("Install ATCLang toolchain", "Build canonical ATCLang CLI") before any conformance or determinism assertion executes — a toolchain provisioning failure in CI, not a contract-code failure. Fixing the ATCLang CLI build in CI is the unblock for real conformance evidence.
 
 **State: 42 components VERIFIED (incl. one local hosted evidence), 2 triaged RESIDUAL, 1 archived NOT_RUN.** Validator PASS_STRUCTURAL_ONLY (0 errors), reconcile unchanged (5,572 bound / 0 unbound / 0 findings), tests 58/58. Per-function functional verification remains the sole org-wide gate.
+
+## 30. COMP-CONTRACTS root cause: setup bugs + ATCLang IndexAccess gap (2026-10-14)
+
+Deep triage of the atc-contracts CI failures (setup + reproduction, all validated locally at atc-contracts `a7c8b417` + atclang main):
+
+1. **Setup bug A (test-suite.yml)**: "Install ATCLang toolchain" runs `pip install -e .` against the atclang checkout, but atclang no longer ships a pip-installable package — the toolchain is the Rust CLI in `crates/atc-core` (SCR-0083/0085). Replaced in a ready-to-apply patch: locked release build of atc-core.
+2. **Setup bug B (determinism-gate.yml)**: the manifest-path build emits `atclang/crates/atc-core/target/release/atc`, but both determinism runs invoke `atclang/target/release/atc` — a path mismatch that would fail even after a successful build.
+3. **Honest conformance state**: local reproduction shows **2/46 PASS**. All 44 failures are lex errors at `[` — the contract corpus uses indexed access (`self.balances[msg.sender]`), which is **normative** per atclang `specs/language/SPEC.md` (parse_postfix Index `[...]`, AST node IndexAccess) but unimplemented in atc-core (the lexer has no bracket tokens at all). This is an ATCLang implementation gap behind its own spec.
+
+**Actions:** agent-side patch prepared and locally validated (commit `bf17a99`, branch `fix/atclang-toolchain-setup` — **cannot be pushed: org token lacks workflow scope**, documented F-009/F-010 blocker pattern). Escalated as ready-to-apply owner actions: **atc-contracts issue #14** (CI setup patch) and **atclang issue #28** (IndexAccess implementation, unblocks the conformance evidence chain). Cross-linked in both issues.
+
+**Catalog state:** 42 components VERIFIED, 2 triaged RESIDUAL with root causes (COMP-ATC-ENG fleet meta-audit, COMP-CONTRACTS setup + IndexAccess), 1 archived NOT_RUN. Validator PASS_STRUCTURAL_ONLY (0 errors); reconcile 5,572 bound / 0 unbound / 0 findings; tests 58/58. Per-function functional verification remains the sole org-wide gate.
