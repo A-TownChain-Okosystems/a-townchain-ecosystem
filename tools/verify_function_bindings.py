@@ -64,21 +64,86 @@ def find_test_files(repo: Path, language: str) -> list[Path]:
     return out
 
 
+def _rust_code_mask(text: str) -> str:
+    """Rust-Quelltext ohne Strings/Char-Literale/Kommentare (als Maske gleicher Laenge).
+
+    Braces in String- und Roh-String-Literalen sowie Kommentaren wuerden die
+    naive Klammerbilanz der Test-Region-Extraktion derailen (reale Faelle:
+    r#""#-Fixtures mit Schema-Brazen, Fehlermeldungen mit '{'/''). Die Maske
+    ersetzt Nicht-Code-Zeichen durch Leerzeichen; die Original-Slices bleiben
+    unberuehrt.
+    """
+    out = list(text)
+    i, n = 0, len(text)
+    while i < n:
+        ch = text[i]
+        nxt = text[i + 1] if i + 1 < n else ""
+        if ch == "/" and nxt == "/":                      # Zeilenkommentar
+            while i < n and text[i] != "\n":
+                out[i] = " "; i += 1
+        elif ch == "/" and nxt == "*":                    # Blockkommentar
+            out[i] = out[i + 1] = " "; i += 2
+            while i < n:
+                if text[i] == "*" and i + 1 < n and text[i + 1] == "/":
+                    out[i] = out[i + 1] = " "; i += 2; break
+                out[i] = " "; i += 1
+        elif ch == '"':                                   # normale / rohe Strings
+            j = i
+            hashes = 0
+            if j > 0 and text[j - 1] == "r":
+                k = j + 1
+                while k < n and text[k] == "#":
+                    hashes += 1; k += 1
+                if hashes == 0:                            # r"..." gibt es nicht, aber "r unmittelbar davor
+                    pass
+            else:
+                hashes = 0
+            out[i] = " "; i += 1
+            if hashes:                                     # r#...#"#### raw string
+                closer = '"' + "#" * hashes
+                while i < n:
+                    if text.startswith(closer, i):
+                        for k in range(i, i + len(closer)):
+                            out[k] = " "
+                        i += len(closer); break
+                    out[i] = " "; i += 1
+            else:                                          # "..." mit Escapes
+                while i < n:
+                    if text[i] == "\\" and i + 1 < n:
+                        out[i] = out[i + 1] = " "; i += 2; continue
+                    if text[i] == '"':
+                        out[i] = " "; i += 1; break
+                    out[i] = " "; i += 1
+        elif ch == "'":                                   # Char-Literal 'x', '\\n' oder Lifetime
+            # Lifetime ('a) bleibt unangetastet: kein Brace-Literal moeglich.
+            j = i + 1
+            if j < n and text[j] != "'":
+                if text[j] == "\\" and j + 2 < n and text[j + 2] == "'":
+                    for k in range(i, j + 3):
+                        out[k] = " "
+                    i = j + 3; continue
+                if text[j] == "'" and text[j - 1] != "\\":
+                    out[i] = out[j] = " "; i = j + 1; continue
+        i += 1
+    return "".join(out)
+
+
 def test_regions(text: str, language: str) -> str:
     """Return only the test-relevant text (inline cfg(test) regions + tests/ files are whole)."""
     if language != "rust" or "#[cfg(test)]" not in text:
         return text
+    mask = _rust_code_mask(text)
     regions, idx = [], 0
     while True:
-        m = text.find("#[cfg(test)]", idx)
+        m = mask.find("#[cfg(test)]", idx)
         if m < 0:
             break
-        brace = text.find("{", m)
+        brace = mask.find("{", m)
         depth, i = 0, brace
-        while i < len(text):
-            if text[i] == "{":
+        while i < len(mask):
+            if mask[i] == "{":
                 depth += 1
-            elif text[i] == "}":
+            elif mask[i] == "}":
                 depth -= 1
                 if depth == 0:
                     regions.append(text[brace:i + 1]); break

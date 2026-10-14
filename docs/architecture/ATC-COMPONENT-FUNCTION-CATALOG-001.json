@@ -18731,7 +18731,7 @@
       "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/parser.rs",
       "symbol_or_entrypoint": "parse_program",
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "file_blob_sha": "993df7a9a6626d869ef3e22f02a006fa13466586",
       "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/parser.rs",
       "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified.",
@@ -18739,13 +18739,13 @@
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang",
      "preconditions": {
@@ -18816,15 +18816,24 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/native.rs",
       "symbol_or_entrypoint": "parse_native_contract",
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "file_blob_sha": "43fdf67e3b9b57f38aed5c008ae6e8da3cc9e477",
       "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/native.rs",
       "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
       "symbol_kind": "function",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 96,
+       "ci_evidence": null,
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang",
      "preconditions": {
@@ -18898,7 +18907,7 @@
       "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/lower.rs",
       "symbol_or_entrypoint": "lower_program",
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "file_blob_sha": "ab3c28accab95339594fb5d797d83bc855ef0d0f",
       "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/lower.rs",
       "note": "SCR-0128 Stufe 1 lowering with fail-closed subset policy; CLI entry via crates/atc-core/src/main.rs; runtime correctness and completeness remain unverified.",
@@ -18906,13 +18915,13 @@
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang",
      "preconditions": {
@@ -18981,15 +18990,24 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/bytecode.rs",
       "symbol_or_entrypoint": "verify",
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "file_blob_sha": "d63ba13087a71d6f06ec44c0dc2496644906eeea",
       "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/bytecode.rs",
       "note": "G3 baseline canonical format, SCR-0128 Stufe 1 PC-relative jump model; wire contract conformance vs the normative VM specification remains pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
       "symbol_kind": "function",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 96,
+       "ci_evidence": null,
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang",
      "preconditions": {
@@ -19062,7 +19080,7 @@
       "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/artifact.rs",
       "symbol_or_entrypoint": "decode_and_verify",
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "file_blob_sha": "1b98def2f848a51c147eaad13a39fd8154fa2b06",
       "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/artifact.rs",
       "note": "ATCA envelope v1 with fixed limits (16 MiB artifact, 255-byte strings, 64 capabilities); envelope verification is a precondition for VM execution.",
@@ -19070,13 +19088,13 @@
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang",
      "preconditions": {
@@ -19149,7 +19167,7 @@
       "source_path": "crates/atc-core/src/value.rs",
       "symbol_or_entrypoint": "abi_type",
       "symbol_kind": "function",
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "file_blob_sha": "cb720e71cbdc26f01cae36388a99d6f2c1a5d8a0",
       "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/value.rs#L66",
       "note": "Exact function binding to TypedValue::abi_type. ABI wire encoding remains explicitly unimplemented and ATC-ABI-001 remains draft; mapping does not imply ABI conformance.",
@@ -19157,13 +19175,13 @@
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang",
      "preconditions": {
@@ -19236,7 +19254,7 @@
       "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/vm.rs",
       "symbol_or_entrypoint": "execute_verified",
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "file_blob_sha": "009bdec170527898957b9622cb29ec406f77ed81",
       "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/vm.rs",
       "note": "Reference-only stack machine per ATC-RUNTIME-CLASSIFICATION-001; runtime correctness remains unverified.",
@@ -19244,13 +19262,13 @@
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang",
      "preconditions": {
@@ -19322,7 +19340,7 @@
       "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/tests/differential.rs",
       "symbol_or_entrypoint": "differential_gemeinsamer_subset",
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "file_blob_sha": "5f588cb83291ea1be90ef455a15f9d6bce8bd193",
       "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/tests/differential.rs",
       "note": "This is a private test function in crates/atc-core/tests/differential.rs, not a runtime parser implementation. The exact test source remains part of the catalog's test-surface inventory; do not count it as an implementation function.",
@@ -19330,13 +19348,13 @@
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang",
      "preconditions": {
@@ -19408,7 +19426,7 @@
       "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/tests/stdlib_reference_conformance.rs",
       "symbol_or_entrypoint": "encode_be",
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "file_blob_sha": "a7ada9f5e3c8597ca647cec206201e1ef0ede68c",
       "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/tests/stdlib_reference_conformance.rs",
       "note": "Exact source symbol is a test/conformance surface, not a runtime implementation entrypoint. Link it to test evidence; do not count it as runtime source coverage.",
@@ -19416,13 +19434,13 @@
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang",
      "preconditions": {
@@ -19496,20 +19514,20 @@
       "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "tools/determinism_check.py",
       "symbol_or_entrypoint": "main",
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "file_blob_sha": "1d360ba239362a3b7cabfa99e17f2299786ae0a1",
       "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/tools/determinism_check.py",
       "note": "ATC Determinism Gate v2 per ATC-STD-ENG-001 REQ-ENG-002 (SCR-0126); self-exclusion and allowlist with justification duty. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
       "symbol_kind": "function",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang",
@@ -19578,18 +19596,18 @@
       "symbol_or_entrypoint": "from_program",
       "symbol_kind": "function",
       "line_start": 71,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "artifact.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -19644,14 +19662,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/artifact.rs",
       "symbol_or_entrypoint": "canonical_payload",
       "symbol_kind": "function",
       "line_start": 104,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "artifact.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 96,
+       "ci_evidence": null,
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -19706,14 +19733,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/artifact.rs",
       "symbol_or_entrypoint": "compute_hash",
       "symbol_kind": "function",
       "line_start": 133,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "artifact.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 96,
+       "ci_evidence": null,
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -19768,14 +19804,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/artifact.rs",
       "symbol_or_entrypoint": "encode",
       "symbol_kind": "function",
       "line_start": 137,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "artifact.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 96,
+       "ci_evidence": null,
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -19830,14 +19875,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/artifact.rs",
       "symbol_or_entrypoint": "verify",
       "symbol_kind": "function",
       "line_start": 143,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "artifact.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 96,
+       "ci_evidence": null,
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -19897,18 +19951,18 @@
       "symbol_or_entrypoint": "into_program",
       "symbol_kind": "function",
       "line_start": 227,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "artifact.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -19963,14 +20017,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/artifact.rs",
       "symbol_or_entrypoint": "metadata",
       "symbol_kind": "function",
       "line_start": 234,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "artifact.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 96,
+       "ci_evidence": null,
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20030,18 +20093,18 @@
       "symbol_or_entrypoint": "artifact_hash",
       "symbol_kind": "function",
       "line_start": 238,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "artifact.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20101,18 +20164,18 @@
       "symbol_or_entrypoint": "into_program",
       "symbol_kind": "function",
       "line_start": 242,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "artifact.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20172,18 +20235,18 @@
       "symbol_or_entrypoint": "to_json",
       "symbol_kind": "function",
       "line_start": 251,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "ast.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20238,14 +20301,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/bytecode.rs",
       "symbol_or_entrypoint": "encode",
       "symbol_kind": "function",
       "line_start": 95,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "bytecode.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 96,
+       "ci_evidence": null,
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20300,14 +20372,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/bytecode.rs",
       "symbol_or_entrypoint": "encode",
       "symbol_kind": "function",
       "line_start": 145,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "bytecode.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 96,
+       "ci_evidence": null,
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20367,18 +20448,18 @@
       "symbol_or_entrypoint": "encode_canonical",
       "symbol_kind": "function",
       "line_start": 172,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "bytecode.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20438,18 +20519,18 @@
       "symbol_or_entrypoint": "verify_with_signatures",
       "symbol_kind": "function",
       "line_start": 240,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "bytecode.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20509,18 +20590,18 @@
       "symbol_or_entrypoint": "ir_type",
       "symbol_kind": "function",
       "line_start": 40,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "ir.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20580,8 +20661,8 @@
       "symbol_or_entrypoint": "tokenize",
       "symbol_kind": "function",
       "line_start": 59,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
-      "note": "lexer.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending.",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
+      "note": "lexer.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified d528480e).",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
@@ -20591,7 +20672,7 @@
        "ci_evidence": null,
        "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20646,14 +20727,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/lower.rs",
       "symbol_or_entrypoint": "function_count",
       "symbol_kind": "function",
       "line_start": 49,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "lower.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 96,
+       "ci_evidence": null,
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20708,14 +20798,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/lower.rs",
       "symbol_or_entrypoint": "verify",
       "symbol_kind": "function",
       "line_start": 54,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "lower.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 96,
+       "ci_evidence": null,
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20770,14 +20869,23 @@
      ],
      "readiness": "RESIDUAL",
      "source_binding": {
-      "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+      "status": "FUNCTIONALLY_VERIFIED_TEST_REFERENCE",
       "source_path": "crates/atc-core/src/native.rs",
       "symbol_or_entrypoint": "validate_native_contract",
       "symbol_kind": "function",
       "line_start": 86,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "native.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
+      "functional_verification": {
+       "method": "test_reference_at_bound_sha",
+       "test_reference": true,
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_exit_code": 0,
+       "suite_passed": 96,
+       "ci_evidence": null,
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
+      }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20837,18 +20945,18 @@
       "symbol_or_entrypoint": "from_name",
       "symbol_kind": "function",
       "line_start": 26,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "value.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20908,18 +21016,18 @@
       "symbol_or_entrypoint": "is_type",
       "symbol_kind": "function",
       "line_start": 78,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "value.rs binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       },
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1."
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA."
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
      "dependencies": {
@@ -20979,17 +21087,17 @@
       "symbol_or_entrypoint": "read",
       "symbol_kind": "function",
       "line_start": 56,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "ci_independent_audit.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21051,17 +21159,17 @@
       "symbol_or_entrypoint": "fail",
       "symbol_kind": "function",
       "line_start": 60,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "ci_independent_audit.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21122,17 +21230,17 @@
       "symbol_or_entrypoint": "files",
       "symbol_kind": "function",
       "line_start": 64,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "ci_independent_audit.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21193,17 +21301,17 @@
       "symbol_or_entrypoint": "audit_metadata",
       "symbol_kind": "function",
       "line_start": 72,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "ci_independent_audit.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21264,17 +21372,17 @@
       "symbol_or_entrypoint": "audit_workflows",
       "symbol_kind": "function",
       "line_start": 93,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "ci_independent_audit.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21335,17 +21443,17 @@
       "symbol_or_entrypoint": "audit_security_and_determinism",
       "symbol_kind": "function",
       "line_start": 115,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "ci_independent_audit.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21406,17 +21514,17 @@
       "symbol_or_entrypoint": "audit_placeholders_and_docs",
       "symbol_kind": "function",
       "line_start": 161,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "ci_independent_audit.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21477,17 +21585,17 @@
       "symbol_or_entrypoint": "audit_evidence",
       "symbol_kind": "function",
       "line_start": 203,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "ci_independent_audit.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21548,17 +21656,17 @@
       "symbol_or_entrypoint": "audit_inventory",
       "symbol_kind": "function",
       "line_start": 243,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "ci_independent_audit.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21619,17 +21727,17 @@
       "symbol_or_entrypoint": "audit_duplicates",
       "symbol_kind": "function",
       "line_start": 257,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "ci_independent_audit.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21690,17 +21798,17 @@
       "symbol_or_entrypoint": "main",
       "symbol_kind": "function",
       "line_start": 270,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "ci_independent_audit.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21761,17 +21869,17 @@
       "symbol_or_entrypoint": "load_allowlist",
       "symbol_kind": "function",
       "line_start": 48,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "determinism_check.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21832,17 +21940,17 @@
       "symbol_or_entrypoint": "code_view_py",
       "symbol_kind": "function",
       "line_start": 65,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "determinism_check.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21903,17 +22011,17 @@
       "symbol_or_entrypoint": "code_view_rust",
       "symbol_kind": "function",
       "line_start": 88,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "determinism_check.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -21975,17 +22083,17 @@
       "symbol_or_entrypoint": "scan_sources",
       "symbol_kind": "function",
       "line_start": 101,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "determinism_check.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -22047,17 +22155,17 @@
       "symbol_or_entrypoint": "run_tests",
       "symbol_kind": "function",
       "line_start": 122,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "determinism_check.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",
@@ -22118,17 +22226,17 @@
       "symbol_or_entrypoint": "normalize_output",
       "symbol_kind": "function",
       "line_start": 129,
-      "exact_source_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+      "exact_source_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
       "note": "determinism_check.py binding; census-verified at exact HEAD 21c595dc389b. Mapping only, functional verification pending. Suite passes at the bound SHA but no direct test reference for this symbol (verified 21c595dc).",
-      "sha_note": "SHA refreshed to atclang main 12b63db9 after test-surface and CI-evidence commits; function source identical to census SHA 21c595dc (diff: tools/tests/* and CI-evidence artifacts only). Rust bindings keep cargo-suite evidence from pass 1.",
+      "sha_note": "SHA refreshed to atclang main d528480e after crate-test and CI-evidence commits; function source identical to census SHA 21c595dc except the new inline tests. Rust bindings verified via cargo suite at this SHA.",
       "functional_verification": {
        "method": "test_reference_at_bound_sha",
        "test_reference": true,
-       "suite_command": "python3 -m pytest tools/tests/ -q 2>&1",
+       "suite_command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
        "suite_exit_code": 0,
-       "suite_passed": 9,
+       "suite_passed": 96,
        "ci_evidence": null,
-       "verified_against_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971"
+       "verified_against_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c"
       }
      },
      "canonical_owner": "A-TownChain-Okosystems/atclang/",

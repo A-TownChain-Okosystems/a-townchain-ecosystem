@@ -617,3 +617,14 @@ Third test-surface-writing pass: new pytest suite `tools/tests/test_tooling_suit
 COMP-LANG bindings re-bound to main `12b63db` (source identical to census SHA 21c595dc; diff: new test file + CI-evidence artifact only, per binding noted). Verification: **36 of 48 bindings FUNCTIONALLY_VERIFIED_TEST_REFERENCE**. The remaining 12 are pure Rust symbols in `crates/atc-core` (canonical_payload, compute_hash, encode, function_count, metadata, parse_native_contract, validate_native_contract, verify) and require genuine crate test additions.
 
 **Counter correction (SSOT):** previous running totals accumulated the tool's "applied" counts, which include re-affirmed bindings. Direct catalog count is authoritative: **3,711 of 5,584 function-source bindings verified (66.5%)** (plus 35 catalog entries in special statuses: non-function artifacts, blocked, normative-decision). All component per-component numbers in the catalog are exact.
+
+## 45. Functional verification pass 16: COMP-LANG complete (2026-10-14)
+
+Fourth test-surface pass closes COMP-LANG entirely. Four new `#[cfg(test)]` functions in atc-core (main `d528480`): Artifact::canonical_payload / compute_hash / encode / verify plus VerifiedArtifact::metadata round-trip with hash-tail assertions; Instruction::encode wire format; Bytecode::encode legacy header plus fail-closed Bytecode::verify on undeclared locals; CompiledProgram::function_count and CompiledProgram::verify including the empty-program error path; parse_native_contract / validate_native_contract including the broken-version error path. cargo suite at the bound SHA: 63 lib + 24 integration tests green; combined with the python tooling suite the verification run reports 96 tests passed.
+
+**Verifier tool upgrade (fail-closed, Werkzeug-Upgrade):** rust test-region extraction used a naive brace counter that derailed on braces inside string literals (real case: the native.rs `r#""#` contract fixture). New `_rust_code_mask` strips strings, raw strings, char literals and comments before brace matching; original region text stays untouched for symbol matching. Ecosystem tool test suite: 58/58 green.
+
+COMP-LANG bindings re-bound to main `d528480` (source identical to census SHA 21c595dc except the new inline tests; per binding noted). **COMP-LANG: 48 of 48 bindings FUNCTIONALLY_VERIFIED_TEST_REFERENCE — second fully verified component after COMP-CHRONICLES.**
+
+### Running total (catalog SSOT count)
+**3,723 of 5,584 function-source bindings verified (66.7%)** (plus 35 special-status entries). Largest remaining test-surface blocks: COMP-AURORA (297 TSX), COMP-DOCS (270), COMP-IDE (143), COMP-CHAIN-MONO (41), COMP-ATC-ENG (47).

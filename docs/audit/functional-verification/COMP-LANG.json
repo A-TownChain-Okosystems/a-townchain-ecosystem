@@ -1,15 +1,43 @@
 {
  "component": "COMP-LANG",
- "repo": "wt-lang",
- "head_sha": "12b63db9aabecaebe8426f72523ae8f43caa9971",
+ "repo": "wt-lang2",
+ "head_sha": "d528480efb1c07fa8fef831a77d5cdc2d01c570c",
  "ci_evidence": null,
  "test_run": {
-  "command": "python3 -m pytest tools/tests/ -q 2>&1",
+  "command": "bash -c 'cd crates/atc-core && cargo test 2>&1' && python3 -m pytest tools/tests/ -q 2>&1",
   "exit_code": 0,
-  "passed": 9,
+  "passed": 96,
   "log_tail": [
+   "test top_level_statements_laufen_in_entry ... ok",
+   "test unbegrenzte_rekursion_ist_deterministischer_fehler ... ok",
+   "",
+   "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "     Running tests/stdlib_reference_conformance.rs (target/debug/build/atc-core/eaaaeb5318d8395a/out/stdlib_reference_conformance-eaaaeb5318d8395a)",
+   "",
+   "running 11 tests",
+   "test tests::canonical_bytes_empty_parts ... ok",
+   "test tests::checked_cast_roundtrip ... ok",
+   "test tests::canonical_bytes_is_length_delimited ... ok",
+   "test tests::u128_boundaries ... ok",
+   "test tests::sha256_known_answer ... ok",
+   "test tests::u128_decode_rejects_wrong_length ... ok",
+   "test tests::require_fails_closed ... ok",
+   "test tests::u256_add_overflow_fails_closed ... ok",
+   "test tests::u256_roundtrip_max ... ok",
+   "test tests::u256_boundaries ... ok",
+   "test tests::u256_sub_underflow_fails_closed ... ok",
+   "",
+   "test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_core",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
    ".........                                                                [100%]",
-   "9 passed in 0.17s"
+   "9 passed in 0.32s"
   ]
  },
  "bindings": [
@@ -25,7 +53,7 @@
    "symbol": "parse_native_contract",
    "source_path": "crates/atc-core/src/native.rs",
    "language": "rust",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-LANG-003",
@@ -39,7 +67,7 @@
    "symbol": "verify",
    "source_path": "crates/atc-core/src/bytecode.rs",
    "language": "rust",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-LANG-005",
@@ -95,28 +123,28 @@
    "symbol": "canonical_payload",
    "source_path": "crates/atc-core/src/artifact.rs",
    "language": "rust",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-LANG-013",
    "symbol": "compute_hash",
    "source_path": "crates/atc-core/src/artifact.rs",
    "language": "rust",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-LANG-014",
    "symbol": "encode",
    "source_path": "crates/atc-core/src/artifact.rs",
    "language": "rust",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-LANG-015",
    "symbol": "verify",
    "source_path": "crates/atc-core/src/artifact.rs",
    "language": "rust",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-LANG-016",
@@ -130,7 +158,7 @@
    "symbol": "metadata",
    "source_path": "crates/atc-core/src/artifact.rs",
    "language": "rust",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-LANG-018",
@@ -158,14 +186,14 @@
    "symbol": "encode",
    "source_path": "crates/atc-core/src/bytecode.rs",
    "language": "rust",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-LANG-022",
    "symbol": "encode",
    "source_path": "crates/atc-core/src/bytecode.rs",
    "language": "rust",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-LANG-023",
@@ -193,28 +221,28 @@
    "symbol": "tokenize",
    "source_path": "crates/atc-core/src/lexer.rs",
    "language": "rust",
-   "test_reference": true
+   "test_reference": false
   },
   {
    "function_id": "FN-LANG-027",
    "symbol": "function_count",
    "source_path": "crates/atc-core/src/lower.rs",
    "language": "rust",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-LANG-028",
    "symbol": "verify",
    "source_path": "crates/atc-core/src/lower.rs",
    "language": "rust",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-LANG-029",
    "symbol": "validate_native_contract",
    "source_path": "crates/atc-core/src/native.rs",
    "language": "rust",
-   "test_reference": false
+   "test_reference": true
   },
   {
    "function_id": "FN-LANG-030",
@@ -352,8 +380,8 @@
  ],
  "summary": {
   "total": 48,
-  "test_referenced": 36,
+  "test_referenced": 47,
   "suite_pass": true,
-  "eligible_functionally_verified": 36
+  "eligible_functionally_verified": 47
  }
 }
