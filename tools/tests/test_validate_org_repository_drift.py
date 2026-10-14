@@ -70,5 +70,16 @@ class OrganizationRepositoryDriftTests(unittest.TestCase):
         self.assertEqual(report["repositories"][0]["error"], "INVALID_EXPECTED_HEAD_SHA")
 
 
+    def test_archived_reference_with_empty_pins_is_excluded_without_fetch(self):
+        data = manifest()
+        data["repositories"][0]["archived"] = True
+        data["repositories"][0]["observed_head_sha"] = ""
+        data["repositories"][0]["observed_root_tree_sha"] = ""
+        report = validate(data, None, lambda *args: self.fail("archived reference must not be fetched"))
+        self.assertEqual(report["status"], "PASS_NO_DRIFT")
+        self.assertEqual(report["summary"], {"MATCH": 0, "DRIFT": 0, "BLOCKED": 0, "EXCLUDED": 1})
+        self.assertEqual(report["repositories"][0]["status"], "EXCLUDED")
+
+
 if __name__ == "__main__":
     unittest.main()
