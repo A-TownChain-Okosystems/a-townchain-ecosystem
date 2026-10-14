@@ -555,3 +555,22 @@ Python and pure-TS bindings remain source-mapped (no pytest/vitest surfaces in t
 
 ### Running total after passes 1-8
 **3,348 of 5,619 bindings functionally verified (59.6%)**. Remaining: COMP-DOCS (280), COMP-AURORA (297), COMP-IDE (143), COMP-ATC-ENG (145), COMP-STANDARDS (124), COMP-SHIVA residual (108), COMP-GENESIS residual (143), COMP-LANG residual (30) and smaller tails.
+
+## 39. Functional verification passes 9-10: SPEC/Rust+Python repos + engineering (2026-10-14)
+
+Exact-SHA worktrees, fail-closed suites, all green:
+
+| Component | Repo @ SHA | Suite | Upgraded |
+|---|---|---|---|
+| COMP-SHIVA-SPEC | atc-shivacore @ 21c99769 | cargo (security+sdk), exit 0 | 48/68 |
+| COMP-VM-SPEC | atc-vm @ 21132a49 | cargo, exit 0 | 9/16 |
+| COMP-ZKP | atc-zkp @ ffa8ec10 | cargo, exit 0 | 12/19 |
+| COMP-CHRONICLES | genesis-chronicles @ a3f417b2 | cargo (atc-game), exit 0 | 16/80 |
+| COMP-GFF | genesis-franchise-factory @ 673fa560 | pytest (5 files), exit 0 | 21/26 |
+| COMP-STANDARDS | atc-standards @ c362d15e | pytest (determinism checker), exit 0 | 22/124 |
+| COMP-ATC-ENG | atc-engineering @ c2a4b93f | cargo --workspace, 95 passed | 98/145 |
+
+**226 new verifications.** COMP-ALGO-SPEC remains residual: its 14 bindings span two SHAs (f25b4338 / 5a562804) and the SHA guard is per-component; needs a targeted split verification. Python-heavy residuals (atc-standards validators, chronicles tooling) still lack pytest surfaces for most symbols.
+
+### Running total after passes 1-10
+**3,574 of 5,619 bindings functionally verified (63.6%)**. Remaining bulk: COMP-DOCS (280), COMP-AURORA (297), COMP-IDE (143, no test files at all), COMP-ATC-ENG residual (47), COMP-STANDARDS residual (102), COMP-LANG residual (30) and small tails.
