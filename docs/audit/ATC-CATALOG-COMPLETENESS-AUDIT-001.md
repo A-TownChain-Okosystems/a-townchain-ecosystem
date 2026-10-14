@@ -475,3 +475,23 @@ Note: standalone **atc-wallet is archived** (read-only); its live code is the ve
 2. **CONS-AUDIT-003** cross-repo mirror duplication (5 repos incl. 479 in the ecosystem repo): mirror-policy owner decision.
 3. **AUDIT-003 TODOs in ci-cd-fix/ legacy branches** (globus-os): historical branch content, candidate for branch cleanup.
 4. **atc-engineering PR #25** merge (3 required status checks).
+
+## 34. Functional verification pass 1: COMP-LANG pilot (2026-10-14)
+
+First tranche of the per-function functional verification (the org-wide completion-gate blocker from sections 28-31). New tooling: `tools/verify_function_bindings.py` (deterministic, fail-closed).
+
+### Method (verification ladder)
+`SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED` is upgraded **only** with all of:
+1. repo working copy exactly at the bound SHA (SHA guard, else the run aborts),
+2. whole-word test reference for the symbol in a test surface at that SHA (files under `tests/` plus inline `#[cfg(test)]` regions; common-word symbols additionally require `::`/`.` usage context),
+3. the component test suite passes at that SHA (local run, exit 0) plus green CI at the same SHA.
+Without a direct symbol reference the binding keeps its old status and gains an honest note. **A failing or skipped suite never upgrades a binding** (fail-closed).
+
+### Pilot result: COMP-LANG (atclang @ `21c595dc`)
+- 48 bindings checked; 13 Rust test surfaces scanned.
+- Suite: `cargo test --release` 59 passed, exit 0; CI green at the SHA (Code Quality: Push on main, run 38072403170; plus CodeQL, Cargo Security Audit, scheduled quality).
+- **18/48 bindings upgraded to `FUNCTIONALLY_VERIFIED_TEST_REFERENCE`** (evidence fields: method, suite command/exit/passed, CI URL, verified SHA). 30 bindings keep `SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED` with a no-direct-reference note (mostly common-word tool symbols in `tools/*.py`, which have no Python test surface yet).
+- Report: `docs/audit/functional-verification/COMP-LANG.json`; catalog validator: PASS_STRUCTURAL_ONLY, 0 errors.
+
+### Rollout
+The same pass can be executed per component with `--component/--repo/--test-command`; priority by binding volume: COMP-SHIVA (212), COMP-SERVICES (720), COMP-CHAIN-MONO, COMP-AI (aurora-ai 369), COMP-GENESIS (371). Python-heavy components need a pytest surface first.
