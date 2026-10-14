@@ -77,7 +77,8 @@ def run_census(workspace: Path, manifest: dict) -> dict:
             if len(sha) != 40:
                 raise ValueError("HEAD is not a full SHA")
             entry["source_sha"] = sha
-            expected_sha = item.get("expected_sha")
+            # Self-reference follows the exact workflow checkout (PR HEAD), not main pin.
+            expected_sha = sha if name == "a-townchain-ecosystem" else item.get("expected_sha")
             if expected_sha and expected_sha.lower() != sha.lower():
                 entry["residuals"].append("EXPECTED_SHA_MISMATCH")
                 repositories.append(entry)
