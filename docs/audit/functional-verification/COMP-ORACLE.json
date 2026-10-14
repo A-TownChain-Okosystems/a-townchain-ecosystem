@@ -1,0 +1,128 @@
+{
+ "component": "COMP-ORACLE",
+ "repo": "a-townchain",
+ "head_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "for m in components/algorithm/Cargo.toml components/interop/modules/atc-bridge/Cargo.toml components/mining/Cargo.toml components/node/Cargo.toml components/oracle/Cargo.toml components/sdk/Cargo.toml components/sdk/modules/atc-cli/Cargo.toml components/sdk/modules/atc-sdk/rust/Cargo.toml components/storage/Cargo.toml components/vm/Cargo.toml components/wallet/Cargo.toml components/wallet/modules/atc-wallet/Cargo.toml components/zkp/Cargo.toml components/zkp/crates/zkp-circuits/Cargo.toml components/zkp/crates/zkp-core/Cargo.toml components/zkp/crates/zkp-crypto/Cargo.toml components/zkp/crates/zkp-prover/Cargo.toml components/zkp/crates/zkp-sdk/Cargo.toml components/zkp/crates/zkp-verifier/Cargo.toml components/zkp/crates/zkp-vm/Cargo.toml modules/atc-dns/Cargo.toml modules/atc-governance/Cargo.toml modules/atc-zkp/Cargo.toml ; do cargo test --release --manifest-path $m 2>&1 || exit 101; done",
+  "exit_code": 0,
+  "passed": 222,
+  "log_tail": [
+   "test delegation::tests::test_delegation ... ok",
+   "test proposal::tests::test_proposal_lifecycle ... ok",
+   "test proposal::tests::test_proposal_reject ... ok",
+   "test timelock::tests::test_timelock ... ok",
+   "test treasury::tests::accounting_invariant_violation_is_reported ... ok",
+   "test treasury::tests::allocation_overflow_is_rejected_atomically ... ok",
+   "test treasury::tests::max_amount_is_supported ... ok",
+   "test voting::tests::test_voting ... ok",
+   "test treasury::tests::test_treasury ... ok",
+   "",
+   "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_governance",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "    Finished `release` profile [optimized] target(s) in 0.00s",
+   "     Running unittests src/lib.rs (modules/atc-zkp/target/release/build/atc_zkp/62372ac65e53ffae/out/atc_zkp-62372ac65e53ffae)",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_zkp",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-ORACLE-001",
+   "symbol": "new",
+   "source_path": "components/oracle/src/adapter.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ORACLE-002",
+   "symbol": "set_value",
+   "source_path": "components/oracle/src/adapter.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ORACLE-003",
+   "symbol": "new",
+   "source_path": "components/oracle/src/consensus_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ORACLE-004",
+   "symbol": "set_emergency_paused",
+   "source_path": "components/oracle/src/consensus_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ORACLE-005",
+   "symbol": "stage_payload",
+   "source_path": "components/oracle/src/consensus_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ORACLE-006",
+   "symbol": "staged_count",
+   "source_path": "components/oracle/src/consensus_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ORACLE-007",
+   "symbol": "clear_staged",
+   "source_path": "components/oracle/src/consensus_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ORACLE-008",
+   "symbol": "commit_to_consensus_truth",
+   "source_path": "components/oracle/src/consensus_bridge.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ORACLE-009",
+   "symbol": "aggregate_median",
+   "source_path": "components/oracle/src/feed.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ORACLE-010",
+   "symbol": "check_deviation",
+   "source_path": "components/oracle/src/feed.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ORACLE-011",
+   "symbol": "new",
+   "source_path": "components/oracle/src/verification.rs",
+   "language": "rust",
+   "test_reference": true
+  }
+ ],
+ "summary": {
+  "total": 11,
+  "test_referenced": 11,
+  "suite_pass": true,
+  "eligible_functionally_verified": 11
+ }
+}

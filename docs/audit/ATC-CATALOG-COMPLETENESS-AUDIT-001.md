@@ -542,3 +542,16 @@ New verifications this pass: **536**. CI at the SHA shows only Dependabot workfl
 
 ### Running total after passes 1-6
 **2,913 of 5,619 bindings functionally verified (51.8%)**. Remaining bulk: COMP-OS-INTEGRATION (226), COMP-DOCS (280), COMP-AURORA TS/TSX (297), COMP-IDE (143), COMP-ATC-ENG (145), COMP-STANDARDS (124 py), COMP-CHAIN-MONO (108) and the a-townchain/atc-* protocol-service components; Python-heavy components still need pytest surfaces.
+
+## 38. Functional verification passes 7-8: a-townchain family (2026-10-14)
+
+COMP-OS-INTEGRATION (a-townchain-os @ `3f85a6e6`): Kai-OS workspace suite (`cargo test --release --workspace`, 111 passed, exit 0) — **195/226 bindings upgraded**; 31 remain source-mapped with honest notes.
+
+a-townchain @ `a5e68967` (14 components, 550 open bindings): 23 of 24 crate manifests form a passing suite chain (fail-closed loop, exit 0) — **240 bindings upgraded** across CHAIN 17, ALGO 8, VM 14, WALLET 19, STORAGE-CORE 18, INTEROP 13, MINING 28, ORACLE 11, DNS 17, GOVERNANCE 19, CHAIN-MONO 67, SDK-TS 5, EXPLORER 0, ATCNET 4.
+
+**Finding (FV-002):** `modules/atc-blockchain/kernel` is structurally incomplete at the bound SHA — `src/` contains only `blockchain.rs`, which references `crate::mempool`, `crate::consensus`, `crate::security` (modules that do not exist) and an undeclared `spin` dependency, plus unresolved `alloc::` paths. The crate cannot build; 5 kernel-sourced bindings were explicitly excluded from upgrades and keep the source-mapped status with a broken-crate note. Needs module implementation on a-townchain main (repo work, not a verification fix); re-verification after re-binding.
+
+Python and pure-TS bindings remain source-mapped (no pytest/vitest surfaces in this suite). Tooling: None-source-path bindings are now handled gracefully (no test-reference claim).
+
+### Running total after passes 1-8
+**3,348 of 5,619 bindings functionally verified (59.6%)**. Remaining: COMP-DOCS (280), COMP-AURORA (297), COMP-IDE (143), COMP-ATC-ENG (145), COMP-STANDARDS (124), COMP-SHIVA residual (108), COMP-GENESIS residual (143), COMP-LANG residual (30) and smaller tails.

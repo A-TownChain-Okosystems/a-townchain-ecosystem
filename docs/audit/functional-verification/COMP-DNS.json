@@ -1,0 +1,191 @@
+{
+ "component": "COMP-DNS",
+ "repo": "a-townchain",
+ "head_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "for m in components/algorithm/Cargo.toml components/interop/modules/atc-bridge/Cargo.toml components/mining/Cargo.toml components/node/Cargo.toml components/oracle/Cargo.toml components/sdk/Cargo.toml components/sdk/modules/atc-cli/Cargo.toml components/sdk/modules/atc-sdk/rust/Cargo.toml components/storage/Cargo.toml components/vm/Cargo.toml components/wallet/Cargo.toml components/wallet/modules/atc-wallet/Cargo.toml components/zkp/Cargo.toml components/zkp/crates/zkp-circuits/Cargo.toml components/zkp/crates/zkp-core/Cargo.toml components/zkp/crates/zkp-crypto/Cargo.toml components/zkp/crates/zkp-prover/Cargo.toml components/zkp/crates/zkp-sdk/Cargo.toml components/zkp/crates/zkp-verifier/Cargo.toml components/zkp/crates/zkp-vm/Cargo.toml modules/atc-dns/Cargo.toml modules/atc-governance/Cargo.toml modules/atc-zkp/Cargo.toml ; do cargo test --release --manifest-path $m 2>&1 || exit 101; done",
+  "exit_code": 0,
+  "passed": 222,
+  "log_tail": [
+   "test timelock::tests::test_timelock ... ok",
+   "test delegation::tests::test_delegation ... ok",
+   "test treasury::tests::accounting_invariant_violation_is_reported ... ok",
+   "test proposal::tests::test_proposal_reject ... ok",
+   "test proposal::tests::test_proposal_lifecycle ... ok",
+   "test treasury::tests::allocation_overflow_is_rejected_atomically ... ok",
+   "test treasury::tests::max_amount_is_supported ... ok",
+   "test treasury::tests::test_treasury ... ok",
+   "test voting::tests::test_voting ... ok",
+   "",
+   "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_governance",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "    Finished `release` profile [optimized] target(s) in 0.00s",
+   "     Running unittests src/lib.rs (modules/atc-zkp/target/release/build/atc_zkp/62372ac65e53ffae/out/atc_zkp-62372ac65e53ffae)",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_zkp",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-DNS-001",
+   "symbol": "new",
+   "source_path": "modules/atc-dns/src/cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-002",
+   "symbol": "get",
+   "source_path": "modules/atc-dns/src/cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-003",
+   "symbol": "put",
+   "source_path": "modules/atc-dns/src/cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-004",
+   "symbol": "remove",
+   "source_path": "modules/atc-dns/src/cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-005",
+   "symbol": "clear",
+   "source_path": "modules/atc-dns/src/cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-006",
+   "symbol": "len",
+   "source_path": "modules/atc-dns/src/cache.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-007",
+   "symbol": "new",
+   "source_path": "modules/atc-dns/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-008",
+   "symbol": "add",
+   "source_path": "modules/atc-dns/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-009",
+   "symbol": "lookup",
+   "source_path": "modules/atc-dns/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-010",
+   "symbol": "remove",
+   "source_path": "modules/atc-dns/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-011",
+   "symbol": "count",
+   "source_path": "modules/atc-dns/src/registry.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DNS-012",
+   "symbol": "new",
+   "source_path": "modules/atc-dns/src/resolver.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-013",
+   "symbol": "register",
+   "source_path": "modules/atc-dns/src/resolver.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-014",
+   "symbol": "resolve",
+   "source_path": "modules/atc-dns/src/resolver.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-015",
+   "symbol": "unregister",
+   "source_path": "modules/atc-dns/src/resolver.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DNS-016",
+   "symbol": "new",
+   "source_path": "modules/atc-dns/src/zones.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-017",
+   "symbol": "create_zone",
+   "source_path": "modules/atc-dns/src/zones.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-018",
+   "symbol": "add_to_zone",
+   "source_path": "modules/atc-dns/src/zones.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-019",
+   "symbol": "list_zone",
+   "source_path": "modules/atc-dns/src/zones.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DNS-020",
+   "symbol": "list_zones",
+   "source_path": "modules/atc-dns/src/zones.rs",
+   "language": "rust",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 20,
+  "test_referenced": 17,
+  "suite_pass": true,
+  "eligible_functionally_verified": 17
+ }
+}

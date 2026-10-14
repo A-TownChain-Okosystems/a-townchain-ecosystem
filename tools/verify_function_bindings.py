@@ -120,7 +120,7 @@ def main() -> int:
     head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=repo, capture_output=True, text=True).stdout.strip()
 
     langs = {}
-    fn_lang = lambda p: "rust" if p.endswith(".rs") else "python" if p.endswith(".py") else "ts"
+    fn_lang = lambda p: "rust" if (p or "").endswith(".rs") else "python" if (p or "").endswith(".py") else "ts"
     bindings = [(f["id"], f["source_binding"]) for f in comp["functions"] if f.get("source_binding")]
 
     # 1. SHA guard: every binding must reference the checked-out HEAD
@@ -140,8 +140,14 @@ def main() -> int:
     # 3. Symbol references
     results = []
     for fid, b in bindings:
-        lang = fn_lang(b["source_path"])
-        region = regions.get(lang) or regions.get("rust") or ""
+        sp = b.get("source_path")
+        if not sp:
+            results.append({"function_id": fid, "symbol": b["symbol_or_entrypoint"],
+                            "source_path": None, "language": None,
+                            "test_reference": False})
+            continue
+        lang = fn_lang(sp)
+        region = regions.get(lang) or ""
         referenced = symbol_referenced(b["symbol_or_entrypoint"], region) if region else False
         results.append({"function_id": fid, "symbol": b["symbol_or_entrypoint"],
                         "source_path": b["source_path"], "language": lang,
