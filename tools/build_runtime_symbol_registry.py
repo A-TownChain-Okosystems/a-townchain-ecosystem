@@ -76,7 +76,12 @@ def catalog_bindings(catalog: dict) -> tuple[set, list, list, list]:
                 delegated.append({"function_id": function["id"],
                                   "delegates_to_function_id": binding["delegates_to_function_id"]})
                 continue
-            path = binding.get("source_path")
+            # Specification-only contracts describe a gap, not executable source.
+            # Ignore them even if stale placeholder strings remain in the binding.
+            if (binding.get("binding_kind") == "specification_only"
+                    or binding.get("status") == "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING"):
+                continue
+            path = binding.get("source_path"
             symbol = binding.get("symbol_or_entrypoint")
             if path and symbol:
                 bound.setdefault((repo, path, symbol), []).append(function["id"])
