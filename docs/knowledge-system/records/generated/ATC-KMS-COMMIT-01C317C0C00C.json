@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-01C317C0C00C",
+  "timestamp": "2026-10-15T21:11:39.159665Z",
+  "category": "change",
+  "title": "Commit: feat(arch): add complete layer architecture for the ecosystem",
+  "context": "Git commit 01c317c0c00c09748672a016e448daa5a19e97cc on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/01c317c0c00c09748672a016e448daa5a19e97cc",
+    "commit": "1927a9dc1a01cafabc71b54538308a41abbc8c9d"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "feat(arch): add complete layer architecture for the ecosystem\n\nImplements the owner's full layer architecture specification:\n- 11 main layers (L0-L10) from Hardware through Applications\n- 8 cross-cutting layers (X1-X8) for Security, Identity, Protocol,\n  Data, Standards, Testing, Observability, and Build\n- 51 sub-layers with unique IDs\n- 30 existing catalog components mapped to the new layer scheme\n- Installation models A-D with fail-closed kernel-layer restrictions\n- Catalog hierarchy levels 0-7 (layer to verification)\n- Metadata schema fields for every catalog entry\n- Binding status values (MAPPED/IMPLEMENTED/VERIFIED/RESIDUAL/\n  UNRESOLVED/BLOCKED/EXCLUDED) with fail-closed evidence rules\n- 10 validation rules (VAL-LR-001 through VAL-LR-010)\n\nNew files:\n- docs/architecture/layers/ATC-LAYER-REGISTRY-001.yaml (SSOT for layers)\n- docs/architecture/layers/ATC-LAYER-MAPPING-001.yaml (component mapping)\n- docs/architecture/ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001.md (spec doc)\n- tools/validate_layer_registry.py (fail-closed validator)\n\nThe old flat 'layer' field in the catalog (L0-L7 with different\nsemantics) is superseded by this mapping. Migration traceability is\npreserved via the old_layer field in each mapping entry.\n\nValidator: 13/13 checks pass, 0 errors, 0 warnings.\nTool tests: 32 collected, all passing.\n\nAgent-ID: aurora-base44-superagent-6a1d37209d7f46ac065d39c5\nTask-ID: ECOSYSTEM-LAYER-ARCH-001\nAI-Role: repo-agent\nValidation: validate_layer_registry.py 13/13 PASS, pytest tools 32/32 PASS"
+}

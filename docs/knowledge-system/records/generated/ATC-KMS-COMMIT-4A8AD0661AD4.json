@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-4A8AD0661AD4",
+  "timestamp": "2026-10-15T21:11:39.159665Z",
+  "category": "change",
+  "title": "Commit: feat(l0): upgrade 8 contracts to IMPLEMENTED with test evidence at binding SHA",
+  "context": "Git commit 4a8ad0661ad4983105bf903b3abd13188ebcb7e0 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/4a8ad0661ad4983105bf903b3abd13188ebcb7e0",
+    "commit": "1927a9dc1a01cafabc71b54538308a41abbc8c9d"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "feat(l0): upgrade 8 contracts to IMPLEMENTED with test evidence at binding SHA\n\nFunctional verification at the exact binding SHA 3bf0001\n(globus-os workspace suite: 1298 passed, 0 failed, exit 0,\nlocal cargo test --workspace, 2026-10-15) plus whole-word\ninline test references per symbol (Pass-1 methodology):\n\nIMPLEMENTED (8) - contract -> evidence:\n- ATC-L0-CPU-001 -> cpu.rs detects_current_cpu_without_panicking,\n  vendor_parser_accepts_intel_and_amd (CpuInfo::detect)\n- ATC-L0-CPU-002 -> cpu.rs absent_feature_leaves_decode_as_unsupported\n  (features_from_leaves; x86-64 only)\n- ATC-L0-CPU-004 -> cpu.rs absent_feature_leaves_decode_as_unsupported\n  (CpuFeatures sse2; no AVX/crypto flags)\n- ATC-L0-MEM-002 -> mmap.rs test_mmap (MemoryMap::is_in_kernel)\n- ATC-L0-THM-001 -> power.rs test_pm_add_thermal,\n  test_pm_check_thermal_critical/hot, test_thermal_*\n- ATC-L0-PWR-001 -> power.rs test_rsdp_new/v1/invalid_sig,\n  test_fadt_new, test_acpi_header_*, test_power_state_s_numbers\n- ATC-L0-IO-001 -> hw_drivers.rs test_pci_bus_scan/register/\n  simulated/find_by_id, test_pci_device_bdf/add_bar\n- ATC-L0-IO-003 -> hw_drivers.rs test_pci_bus_find_by_class/\n  find_virtio, test_virtio_net_* (10 tests)\n\nRemain honest (2 MAPPED):\n- MEM-001: no capacity/type fields captured; inline test covers\n  region membership only (evidence counted for MEM-002)\n- DISC-001: boot inventory in main.rs has no #[cfg(test)] region;\n  validate_acpi_boot_tables not test-referenced\n\nNo contract VERIFIED: CI evidence at binding SHA still pending;\nverification.result=LOCAL_SUITE_PASS with open gap documented.\n\nCatalog bumped to 0.3.0. Validator: 19/19 checks pass.\n\nAgent-ID: aurora-base44-superagent-6a1d37209d7f46ac065d39c5\nTask-ID: ECOSYSTEM-L0-IMPLEMENTED-UPGRADE\nAI-Role: repo-agent\nValidation: validate_layer_registry.py 19/19 PASS, cargo workspace suite 1298/1298 PASS at 3bf0001"
+}

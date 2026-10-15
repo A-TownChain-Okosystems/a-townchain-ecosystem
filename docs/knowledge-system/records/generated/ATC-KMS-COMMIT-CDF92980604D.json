@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-CDF92980604D",
+  "timestamp": "2026-10-15T21:11:39.159665Z",
+  "category": "change",
+  "title": "Commit: feat(l0): bind 10 function contracts to globus-os implementations (SSOT)",
+  "context": "Git commit cdf92980604de9ff4b11c5df1ac487334d13ec87 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/cdf92980604de9ff4b11c5df1ac487334d13ec87",
+    "commit": "1927a9dc1a01cafabc71b54538308a41abbc8c9d"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "feat(l0): bind 10 function contracts to globus-os implementations (SSOT)\n\nRepository-stand check per the L0 Sollstruktur acceptance sequence:\nwhich of the 35 proposed contracts have implementations today.\n\nResult at globus-os main 3bf0001 (exact binding SHA per entry):\n\n10 contracts MAPPED with full SSOT (repo, path, symbol, commit\nSHA, blob SHA):\n- ATC-L0-CPU-001/002/004 <- hal/cpu.rs CpuInfo::detect,\n  vendor_name, features_from_leaves (CPUID; partial: no\n  brand_string, x86-64 only, sse2 only)\n- ATC-L0-MEM-001/002 <- bootloader mmap.rs MemoryMap (firmware\n  regions; partial: no NUMA/ECC/type)\n- ATC-L0-THM-001 <- power.rs ThermalZone, check_thermal,\n  thermal_zone_count\n- ATC-L0-PWR-001 <- power.rs Rsdp/Fadt/PowerManager (partial:\n  no full S/C/P-state enumeration)\n- ATC-L0-IO-001/003 <- hw_drivers.rs PciBus::scan,\n  PCI_CLASS_NETWORK, VirtioNetDevice (partial: PCI not full\n  PCIe topology; virtio backend only)\n- ATC-L0-DISC-001 <- kernel main.rs boot-time inventory\n  (CPU + memory map + ACPI tables)\n\n25 contracts remain UNRESOLVED with documented evidence-based\nreasons (not bare UNRESOLVED):\n- GPU-001..006: gpu.rs is a PLANNED stub (blob b2184d63)\n- NPU-001..005: no NPU code anywhere (earlier grep hits were\n  false positives from 'input')\n- SEC-001..003: IdentityKeyHal references TPM/TEE only as\n  abstract key backends; no detection\n- STO-001..003: block-device abstraction exists, storage\n  driver is a PLANNED stub\n- IO-002: no IOMMU presence query\n- CPU-003/005/006, MEM-003, DISC-002/003/004: no matching\n  implementations in kernel HAL\n\nHonesty rules preserved:\n- No contract upgraded to IMPLEMENTED or VERIFIED: functional\n  verification at binding SHA 3bf0001 is pending (prior\n  globus-os workspace suite 1298/1298 green at 2682d49f is NOT\n  valid evidence for 3bf0001)\n- All MAPPED entries carry verification.result=NOT_RUN with the\n  open gap documented\n- All UNRESOLVED entries carry evidence-based status_reason\n\nCatalog bumped to 0.2.0. Validator: 19/19 checks pass.\n\nAgent-ID: aurora-base44-superagent-6a1d37209d7f46ac065d39c5\nTask-ID: ECOSYSTEM-L0-SSOT-BINDING\nAI-Role: repo-agent\nValidation: validate_layer_registry.py 19/19 PASS"
+}

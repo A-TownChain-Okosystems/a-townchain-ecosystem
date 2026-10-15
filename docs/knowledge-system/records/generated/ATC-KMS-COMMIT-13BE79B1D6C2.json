@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-13BE79B1D6C2",
-  "timestamp": "2026-10-15T13:57:19.630086Z",
+  "timestamp": "2026-10-15T21:11:39.159665Z",
   "category": "change",
   "title": "Commit: test: verify fail-closed organization census behavior",
   "context": "Git commit 13be79b1d6c24328f41e5a6289e24ecd1819adef on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/13be79b1d6c24328f41e5a6289e24ecd1819adef",
-    "commit": "99765f6dd61efddf5ce6f4f58bb227877b362f9c"
+    "commit": "1927a9dc1a01cafabc71b54538308a41abbc8c9d"
   },
   "tags": [
     "commit",

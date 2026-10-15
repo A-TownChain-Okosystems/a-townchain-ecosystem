@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-801A9F36EEC5",
-  "timestamp": "2026-10-15T13:57:19.630086Z",
+  "timestamp": "2026-10-15T21:11:39.159665Z",
   "category": "change",
   "title": "Commit: fix(audit): support direct CLI import for census scanner",
   "context": "Git commit 801a9f36eec55bf9d922f791a98b97a52b01353f on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/801a9f36eec55bf9d922f791a98b97a52b01353f",
-    "commit": "99765f6dd61efddf5ce6f4f58bb227877b362f9c"
+    "commit": "1927a9dc1a01cafabc71b54538308a41abbc8c9d"
   },
   "tags": [
     "commit",
