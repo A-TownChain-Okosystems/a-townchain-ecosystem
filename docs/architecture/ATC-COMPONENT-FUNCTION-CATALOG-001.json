@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-15",
-  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification.",
+  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification. EVM architecture addendum (2026-10-15): added COMP-EVM-COMPAT and FN-EVM-COMPAT-001..005 as separate, BLOCKED architecture/function contracts. Added ATC-EVM-COMPATIBILITY-DECISION-001.md. No option selected; no EVM compatibility or implementation is asserted; native ATC-VM remains unchanged pending explicit approval.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -13721,6 +13721,513 @@
         "status": "RESIDUAL",
         "reason": "Source mapping only; no verified test run is asserted."
       }
+    },
+    {
+      "id": "COMP-EVM-COMPAT",
+      "name": "EVM Compatibility Architecture and Adapter Contract",
+      "layer": "L3",
+      "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "role": "architecture decision and specification registry for optional EVM compatibility; not an EVM or ATC-VM implementation owner",
+      "readiness": "BLOCKED",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-VM",
+        "COMP-CHAIN",
+        "COMP-STANDARDS",
+        "COMP-SDK"
+      ],
+      "functions": [
+        {
+          "id": "FN-EVM-COMPAT-001",
+          "name": "EVM compatibility decision and profile registry",
+          "purpose": "Record the selected compatibility option and a fork-pinned EVM profile without changing native ATC-VM semantics.",
+          "inputs": [
+            "Decision option, compatibility level, pinned Ethereum execution-specification revision"
+          ],
+          "outputs": [
+            "Versioned decision/profile or explicit OPEN/BLOCKED result"
+          ],
+          "failure_modes": [
+            "missing approval",
+            "unpinned fork",
+            "ambiguous compatibility level"
+          ],
+          "acceptance": [
+            "Architecture option and approving authority are explicit before status becomes APPROVED.",
+            "L0-L3 profile scope is explicit; L4 is excluded unless separately approved.",
+            "Native ATC-VM remains non-EVM unless a separate normative decision changes that contract."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "boundary",
+            "differential",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "docs/architecture/ATC-EVM-COMPATIBILITY-DECISION-001.md",
+            "symbol_or_entrypoint": "architecture decision/specification record (not executable implementation)",
+            "note": "Architecture-only contract. EVM option/profile is not approved; no implementation, exact source SHA, or conformance is asserted."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Requires explicit architecture approval, pinned EVM fork/profile, and selected canonical runtime owner."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Normative runtime behavior and conformance evidence do not exist yet."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Profile-specific code, memory, stack, call depth, gas, return-data, logs and storage limits remain to be normatively specified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Adapter isolation, transaction authorization, address mapping, state overlay and host capability boundaries require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No approved EVM fork/profile, transaction envelope, runtime identifier or RPC compatibility version exists yet."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Depends on architecture approval, normative atc-standards entry, canonical runtime owner, and versioned chain/state/transaction interfaces."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "Decision remains OPEN; no EVM implementation or exact-SHA differential conformance evidence is claimed.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "approved decision ID and authority",
+              "pinned Ethereum fork/specification revision",
+              "canonical implementation repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "independent differential test report",
+              "security review"
+            ]
+          }
+        },
+        {
+          "id": "FN-EVM-COMPAT-002",
+          "name": "Isolated EVM runtime boundary contract",
+          "purpose": "Specify the isolated EVM runtime/adapter boundary and explicit runtime selection if EVM support is approved.",
+          "inputs": [
+            "Versioned runtime identifier, transaction/deployment metadata, chain context"
+          ],
+          "outputs": [
+            "Deterministic runtime selection and adapter contract"
+          ],
+          "failure_modes": [
+            "unknown runtime",
+            "ambiguous dispatch",
+            "unsupported fork feature"
+          ],
+          "acceptance": [
+            "Unknown or unsupported runtime identifiers fail closed.",
+            "EVM adapter cannot alter native ATC-VM opcode, bytecode, gas, or state semantics.",
+            "Canonical implementation owner is selected outside the ecosystem control plane."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "boundary",
+            "differential",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "docs/architecture/ATC-EVM-COMPATIBILITY-DECISION-001.md",
+            "symbol_or_entrypoint": "architecture decision/specification record (not executable implementation)",
+            "note": "Architecture-only contract. EVM option/profile is not approved; no implementation, exact source SHA, or conformance is asserted."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Requires explicit architecture approval, pinned EVM fork/profile, and selected canonical runtime owner."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Normative runtime behavior and conformance evidence do not exist yet."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Profile-specific code, memory, stack, call depth, gas, return-data, logs and storage limits remain to be normatively specified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Adapter isolation, transaction authorization, address mapping, state overlay and host capability boundaries require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No approved EVM fork/profile, transaction envelope, runtime identifier or RPC compatibility version exists yet."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Depends on architecture approval, normative atc-standards entry, canonical runtime owner, and versioned chain/state/transaction interfaces."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "Decision remains OPEN; no EVM implementation or exact-SHA differential conformance evidence is claimed.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "approved decision ID and authority",
+              "pinned Ethereum fork/specification revision",
+              "canonical implementation repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "independent differential test report",
+              "security review"
+            ]
+          }
+        },
+        {
+          "id": "FN-EVM-COMPAT-003",
+          "name": "EVM transaction, address, state and gas mapping",
+          "purpose": "Specify transaction envelope, account/address mapping, state overlay, gas/fee mapping, reverts, logs and receipts between EVM semantics and ATC chain interfaces.",
+          "inputs": [
+            "Pinned EVM profile and versioned ATC integration interfaces"
+          ],
+          "outputs": [
+            "Normative mapping tables, canonical vectors and failure semantics"
+          ],
+          "failure_modes": [
+            "signature/replay mismatch",
+            "address collision",
+            "gas overflow",
+            "state rollback mismatch"
+          ],
+          "acceptance": [
+            "EVM transaction envelopes are not implicitly equated with native TX-V2.",
+            "Address mapping is deterministic, versioned and collision-safe.",
+            "Gas mapping is deterministic, overflow-safe and cannot undercharge or make underfunded execution succeed.",
+            "Reverts and exceptional halts preserve the selected EVM fork's rollback semantics."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "boundary",
+            "differential",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "docs/architecture/ATC-EVM-COMPATIBILITY-DECISION-001.md",
+            "symbol_or_entrypoint": "architecture decision/specification record (not executable implementation)",
+            "note": "Architecture-only contract. EVM option/profile is not approved; no implementation, exact source SHA, or conformance is asserted."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Requires explicit architecture approval, pinned EVM fork/profile, and selected canonical runtime owner."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Normative runtime behavior and conformance evidence do not exist yet."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Profile-specific code, memory, stack, call depth, gas, return-data, logs and storage limits remain to be normatively specified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Adapter isolation, transaction authorization, address mapping, state overlay and host capability boundaries require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No approved EVM fork/profile, transaction envelope, runtime identifier or RPC compatibility version exists yet."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Depends on architecture approval, normative atc-standards entry, canonical runtime owner, and versioned chain/state/transaction interfaces."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "Decision remains OPEN; no EVM implementation or exact-SHA differential conformance evidence is claimed.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "approved decision ID and authority",
+              "pinned Ethereum fork/specification revision",
+              "canonical implementation repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "independent differential test report",
+              "security review"
+            ]
+          }
+        },
+        {
+          "id": "FN-EVM-COMPAT-004",
+          "name": "Differential EVM conformance gate",
+          "purpose": "Define and aggregate exact-SHA differential tests against a pinned independent EVM reference implementation.",
+          "inputs": [
+            "Candidate source SHA, pinned fork, reference-client version/configuration, test vectors"
+          ],
+          "outputs": [
+            "Reproducible conformance report and blocking residual list"
+          ],
+          "failure_modes": [
+            "reference version drift",
+            "vector mismatch",
+            "missing exact-SHA evidence"
+          ],
+          "acceptance": [
+            "Every claimed supported opcode/precompile has positive, negative and boundary vectors.",
+            "State diff, logs, receipts, gas and failure outcomes match the pinned profile.",
+            "Run→Job→Step→terminal conclusion→exit code→artifact evidence is bound to the exact candidate SHA.",
+            "Generic CI or source presence is not treated as conformance."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "boundary",
+            "differential",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "docs/architecture/ATC-EVM-COMPATIBILITY-DECISION-001.md",
+            "symbol_or_entrypoint": "architecture decision/specification record (not executable implementation)",
+            "note": "Architecture-only contract. EVM option/profile is not approved; no implementation, exact source SHA, or conformance is asserted."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Requires explicit architecture approval, pinned EVM fork/profile, and selected canonical runtime owner."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Normative runtime behavior and conformance evidence do not exist yet."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Profile-specific code, memory, stack, call depth, gas, return-data, logs and storage limits remain to be normatively specified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Adapter isolation, transaction authorization, address mapping, state overlay and host capability boundaries require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No approved EVM fork/profile, transaction envelope, runtime identifier or RPC compatibility version exists yet."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Depends on architecture approval, normative atc-standards entry, canonical runtime owner, and versioned chain/state/transaction interfaces."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "Decision remains OPEN; no EVM implementation or exact-SHA differential conformance evidence is claimed.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "approved decision ID and authority",
+              "pinned Ethereum fork/specification revision",
+              "canonical implementation repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "independent differential test report",
+              "security review"
+            ]
+          }
+        },
+        {
+          "id": "FN-EVM-COMPAT-005",
+          "name": "EVM RPC and developer-tooling compatibility profile",
+          "purpose": "Define the supported JSON-RPC/provider/wallet/compiler/tooling surface separately from bytecode execution compatibility.",
+          "inputs": [
+            "Pinned EVM profile, RPC methods, client/tool versions"
+          ],
+          "outputs": [
+            "Versioned supported/unsupported method matrix and interoperability vectors"
+          ],
+          "failure_modes": [
+            "unsupported method assumed supported",
+            "encoding mismatch",
+            "provider divergence"
+          ],
+          "acceptance": [
+            "Each RPC method and error behavior is explicitly supported, unsupported, or residual.",
+            "Solidity compilation alone does not imply bytecode execution or RPC compatibility.",
+            "Unsupported methods fail explicitly and deterministically."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "boundary",
+            "differential",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "docs/architecture/ATC-EVM-COMPATIBILITY-DECISION-001.md",
+            "symbol_or_entrypoint": "architecture decision/specification record (not executable implementation)",
+            "note": "Architecture-only contract. EVM option/profile is not approved; no implementation, exact source SHA, or conformance is asserted."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Requires explicit architecture approval, pinned EVM fork/profile, and selected canonical runtime owner."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Normative runtime behavior and conformance evidence do not exist yet."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Profile-specific code, memory, stack, call depth, gas, return-data, logs and storage limits remain to be normatively specified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Adapter isolation, transaction authorization, address mapping, state overlay and host capability boundaries require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No approved EVM fork/profile, transaction envelope, runtime identifier or RPC compatibility version exists yet."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Depends on architecture approval, normative atc-standards entry, canonical runtime owner, and versioned chain/state/transaction interfaces."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "Decision remains OPEN; no EVM implementation or exact-SHA differential conformance evidence is claimed.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "approved decision ID and authority",
+              "pinned Ethereum fork/specification revision",
+              "canonical implementation repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "independent differential test report",
+              "security review"
+            ]
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+        "canonical_path": "docs/architecture/ATC-EVM-COMPATIBILITY-DECISION-001.md",
+        "observed_head_sha": null,
+        "observed_tree_sha": null,
+        "census_date": "2026-10-15",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/blob/docs/catalog-missing-platform-functions-2026-10-15/docs/architecture/ATC-EVM-COMPATIBILITY-DECISION-001.md",
+        "source_paths_examined": [
+          "docs/architecture/ATC-EVM-COMPATIBILITY-DECISION-001.md"
+        ],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Architecture decision/specification only; no executable EVM implementation or source-symbol inventory is asserted."
+      },
+      "canonical_path": "docs/architecture/ATC-EVM-COMPATIBILITY-DECISION-001.md",
+      "role_and_non_goals": {
+        "status": "RESIDUAL",
+        "role": "Owns the architecture decision record and compatibility profile contract only.",
+        "non_goals": [
+          "does not implement an EVM",
+          "does not change canonical ATC-VM semantics",
+          "does not imply Solidity or Ethereum tooling compatibility",
+          "does not replace atc-standards as normative registry"
+        ]
+      },
+      "public_interfaces": [
+        {
+          "name": "EVM compatibility profile contract",
+          "version": "unapproved",
+          "status": "BLOCKED",
+          "description": "Profile must pin execution-specification fork, compatibility level, runtime interface, transaction/state/gas mapping, RPC scope, and conformance evidence before approval."
+        }
+      ],
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "requirements": [
+          "isolated runtime/adapter boundary",
+          "deterministic consensus execution",
+          "fail-closed unsupported features",
+          "explicit transaction/address mapping",
+          "bounded resources",
+          "no ambient host authority"
+        ],
+        "reason": "No approved implementation or threat model exists."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Fork-specific gas and all runtime limits must be specified normatively before implementation."
+      },
+      "test_and_ci_gates": {
+        "status": "BLOCKED",
+        "required": [
+          "pinned fork and reference-client version",
+          "opcode/precompile differential vectors",
+          "state/gas/revert/receipt vectors",
+          "fuzz/property tests",
+          "cross-platform reproducibility",
+          "exact-SHA Run→Job→Step evidence",
+          "security review",
+          "activation/rollback plan"
+        ]
+      },
+      "known_conflicts_and_residuals": [
+        "Decision status OPEN — DECISION REQUIRED; no option approved.",
+        "Native ATC-VM remains a separate stack-based runtime; EVM semantics must not be inferred.",
+        "ATCB-vs-ATC1 native bytecode conflict remains independent and BLOCKED.",
+        "EVM transaction/address/gas/state/RPC mappings are not defined normatively.",
+        "No implementation, functional verification, or Mainnet readiness is claimed."
+      ],
+      "verification_evidence": {
+        "status": "BLOCKED",
+        "reason": "Architecture decision is not approved; no implementation or conformance evidence is claimed.",
+        "required_evidence": [
+          "approved decision record",
+          "pinned normative EVM profile",
+          "canonical implementation owner",
+          "exact source SHA",
+          "differential conformance evidence",
+          "security review",
+          "activation governance"
+        ]
+      }
     }
   ],
   "cross_component_interfaces": [
@@ -13772,11 +14279,18 @@
       "consumer": "COMP-ATC-ENG",
       "contract": "Versioned normative governance and conformance rules",
       "status": "RESIDUAL"
+    },
+    {
+      "id": "IF-008",
+      "producer": "COMP-CHAIN",
+      "consumer": "COMP-EVM-COMPAT",
+      "contract": "Proposed EVM transaction/runtime integration: versioned transaction envelope, runtime selection, state overlay, deterministic gas/fee mapping, receipts/logs and failure semantics; not approved",
+      "status": "BLOCKED"
     }
   ],
   "release_decision": {
     "status": "BLOCKED",
-    "reason": "Source mappings for selected canonical a-townchain functions have been added, but full bidirectional source reconciliation, exact-head terminal test evidence, independent hash security review, consensus/finality decisions, wallet/TX-V2 end-to-end verification, and ATCB-vs-ATC1 resolution remain incomplete.",
+    "reason": "Source mappings for selected canonical a-townchain functions have been added, but full bidirectional source reconciliation, exact-head terminal test evidence, independent hash security review, consensus/finality decisions, wallet/TX-V2 end-to-end verification, and ATCB-vs-ATC1 resolution remain incomplete. EVM compatibility is separately documented as an OPEN architecture decision; no EVM option/profile is approved, and no implementation/conformance is claimed.",
     "forbidden_shortcuts": [
       "infer implementation from repository name",
       "infer verification from file presence",
