@@ -36354,7 +36354,9 @@
             "repository": "A-TownChain-Okosystems/globus-os",
             "source_path": "system/graphics/src/wm.rs",
             "symbol_or_entrypoint": "WindowManager::{open,set_state,placements}",
-            "note": "Maps window placement/state operations only; no general UI widget positioning API is claimed."
+            "note": "Maps window placement/state operations only; no general UI widget positioning API is claimed.",
+            "exact_source_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "file_blob_sha": "eeee511cffe49b2d70915975926f29a3c911855b"
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
@@ -36500,7 +36502,9 @@
             "repository": "A-TownChain-Okosystems/globus-os",
             "source_path": "system/graphics/src/compositor.rs",
             "symbol_or_entrypoint": "Rect; SurfacePlacement; Compositor::{create,focus}",
-            "note": "Maps geometry and surface placement primitives; responsive layout/docking remains unverified."
+            "note": "Maps geometry and surface placement primitives; responsive layout/docking remains unverified.",
+            "exact_source_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "file_blob_sha": "2c1e1001ab2b7734cc4e55c89ba6ec16b4660014"
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
@@ -37080,7 +37084,9 @@
             "repository": "A-TownChain-Okosystems/globus-os",
             "source_path": "system/graphics/src/shell.rs",
             "symbol_or_entrypoint": "DesktopShell::{notify,dismiss_notification,notifications}",
-            "note": "Maps notification/taskbar model operations; visual rendering and delivery integration remain unverified."
+            "note": "Maps notification/taskbar model operations; visual rendering and delivery integration remain unverified.",
+            "exact_source_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "file_blob_sha": "392a6aaa3968116748be970d901c383b59fa482e"
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
@@ -37668,7 +37674,9 @@
             "repository": "A-TownChain-Okosystems/globus-os",
             "source_path": "system/graphics/src/input.rs",
             "symbol_or_entrypoint": "InputRouter::{set_pointer_focus,set_keyboard_focus,route}",
-            "note": "Maps input focus and routing primitives; accessibility/shortcut conformance remains unverified."
+            "note": "Maps input focus and routing primitives; accessibility/shortcut conformance remains unverified.",
+            "exact_source_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "file_blob_sha": "1b4c03b8a3abe6116bd6092dc98b6f72abc3a72f"
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
@@ -38248,7 +38256,9 @@
             "repository": "A-TownChain-Okosystems/globus-os",
             "source_path": "system/graphics/src/desktop.rs",
             "symbol_or_entrypoint": "DesktopSession::{mode,lock,suspend,resume,shutdown}",
-            "note": "Maps desktop session lifecycle state only; persistent UI-state restoration is not established."
+            "note": "Maps desktop session lifecycle state only; persistent UI-state restoration is not established.",
+            "exact_source_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "file_blob_sha": "ee3e839dae95e2b8552d7c94f3b690b3f321b808"
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
@@ -38397,7 +38407,9 @@
             "repository": "A-TownChain-Okosystems/globus-os",
             "source_path": "system/graphics/src/input.rs",
             "symbol_or_entrypoint": "InputRouter::route",
-            "note": "Maps desktop input event routing only; generic command binding and owner-service authorization remain unverified."
+            "note": "Maps desktop input event routing only; generic command binding and owner-service authorization remain unverified.",
+            "exact_source_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "file_blob_sha": "1b4c03b8a3abe6116bd6092dc98b6f72abc3a72f"
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
