@@ -57,3 +57,35 @@ CP0–CP8 align with M0–M8. Each checkpoint requires exact catalog/source SHAs
 ## Sprint close definition
 
 Report planned/done/blocked/deferred tasks, exact SHAs, changed IDs, test evidence, residuals and dependencies. Documentation written is not by itself sprint completion or implementation verification.
+
+
+## Implementation order and dependency gates
+
+The detailed sequence is authoritative for planning only; it does not indicate completion.
+
+1. **Baseline first:** pin catalog/source revisions and repository manifest; preserve `demo-repository` exclusion from live drift checks.
+2. **Registry second:** reconcile all L1–L10 and X1–X36 records, existing issues, IDs and boundaries.
+3. **Structure third:** complete sublayer inventory and L-layer × X-layer applicability matrix with explicit dispositions.
+4. **Source census fourth:** map canonical source candidates to components, symbols, interfaces and functions; classify every candidate.
+5. **Ownership/risk fifth:** resolve SSOT and block on unknown critical protocol, consensus, security, VM, language or AI-runtime semantics.
+6. **Contracts sixth:** normalize function contracts and testable acceptance criteria.
+7. **Graph seventh:** build source-backed dependency, interface, data-flow and trust-boundary graphs.
+8. **Evidence tooling eighth:** implement deterministic validators, drift/duplication checks and fail-closed evidence generation.
+9. **Implementation waves ninth:** dispatch tasks to canonical owner repositories, following Wave A–G in the master catalog's Section 18.
+10. **End-to-end acceptance last:** verify integration, portability, security, lifecycle and recovery; obtain an explicit independent decision.
+
+### Dependency rule
+
+Parallel work is allowed only after ownership, interface contracts and acceptance criteria are stable. Do not implement a guessed contract to unblock a dependent task. Mark the dependency `BLOCKED` or `UNRESOLVED`, document the decision owner and resume only when evidence resolves it.
+
+### Wave summary
+
+- Wave A: boot/HAL, identity/capabilities, trust and evidence foundation.
+- Wave B: ShivaCore/GlobusOS substrate and system services.
+- Wave C: blockchain core and canonical ATC-VM.
+- Wave D: ATCLang/toolchain.
+- Wave E: Aurora AI with policy, sandboxing and explicit approval boundaries.
+- Wave F: desktop/UI, applications and ecosystem services.
+- Wave G: installation, release composition, recovery and end-to-end compatibility.
+
+See [Section 18 in the master catalog](../ATC-ARCH-CATALOG-MASTER-X1-X36-L1-L10.md) for the complete ordered table, checkpoint exit conditions and stop/go rules.
