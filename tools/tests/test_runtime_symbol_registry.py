@@ -1,3 +1,4 @@
+import json
 import unittest
 
 from tools.build_runtime_symbol_registry import build_registry, runtime_id
