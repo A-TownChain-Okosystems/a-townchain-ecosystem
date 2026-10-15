@@ -345,3 +345,131 @@ The catalog is complete for a defined revision only when all the following are t
 - L1–L10 work items #136–#145 — reconcile against the system layer registry.
 
 This document is an organizing artifact for the above work, not evidence that the issues are completed.
+
+
+## 16. Implementation roadmap — milestones, checkpoints, sprints and TODOs
+
+**Roadmap ID:** `ATC-ROADMAP-CATALOG-X1-X36-L1-L10`  
+**Roadmap status:** `PROPOSED / NOT VERIFIED`  
+**Planning cadence:** two-week sprints are a planning assumption, not a delivery commitment. Re-estimate after the baseline census.  
+**Execution rule:** catalog/governance work may be performed in this repository; production implementation TODOs must be dispatched to the canonical owner repository. No production implementation is to be copied into the ecosystem repository.
+
+### 16.1 Delivery strategy and milestone sequence
+
+| Milestone | Target outcome | Exit checkpoint | Blocking conditions |
+|---|---|---|---|
+| M0 — Baseline and scope lock | Establish exact catalog baseline, source revisions, owners, existing IDs and scope. | **CP0:** baseline commit and inventory inputs are recorded; no silent ID replacement. | Missing repository manifest, unpinned source revisions or scope conflicts. |
+| M1 — Registry reconciliation | Reconcile existing L1–L10 and X1–X36 records, Issues #136–#183, and existing catalog artifacts. | **CP1:** every layer has a disposition; duplicate/conflicting IDs have explicit decisions. | Unresolved ID collisions or overwritten prior work. |
+| M2 — Sublayer completeness | Enumerate domain-specific sublayers and layer applicability. | **CP2:** every layer/sublayer is mapped, missing, unresolved or excluded with rationale. | Unexplained empty applicability or generic template presented as exhaustive inventory. |
+| M3 — Component and function census | Inventory components, public/internal functions, APIs, ABIs, IPC, events and protocol contracts from canonical source trees. | **CP3:** reproducible counts and source-backed mappings exist for each inspected revision. | Unpinned source tree, unexplained exclusions, hidden unresolved items or duplicate SSOT. |
+| M4 — Contract normalization | Define behavior, types, errors, invariants, limits, versioning and acceptance tests. | **CP4:** each in-scope contract has a complete contract record or explicit blocked/unresolved disposition. | Ambiguous normative semantics, especially security, consensus, serialization or VM behavior. |
+| M5 — Dependency and interface graph | Build cross-layer, component, interface and dependency edges. | **CP5:** graph validates referential integrity, ownership, version constraints and prohibited cycles. | Missing edge endpoint, inferred ownership or unresolved critical dependency. |
+| M6 — Validators and evidence pipeline | Implement catalog schema/graph/evidence validators and reproducible reports. | **CP6:** validators run on a pinned catalog SHA; logs, exit codes and artifact hashes are retained. | Missing fail-closed behavior, untraceable artifacts or checks that can pass on missing data. |
+| M7 — Canonical implementation waves | Dispatch prioritized contract gaps to their canonical repositories and track implementation PRs. | **CP7:** each claimed implementation links to owner-repo PR/commit and required tests; catalog tracks residuals. | Duplicate implementations, source drift, unsafe scope, missing owner or absent acceptance criteria. |
+| M8 — End-to-end acceptance and release decision | Run layer/system acceptance, independent review and residual-risk disposition. | **CP8:** G0–G9 decisions are recorded against exact SHAs; accepted residuals and blocked items are explicit. | Any hard gate unresolved, missing mandatory evidence, or aggregate status overstating component evidence. |
+
+Milestones are sequential where a dependency is hard; independent layer censuses can run in parallel after M0, provided they use pinned source revisions and shared stable-ID rules.
+
+### 16.2 Sprint plan
+
+Sprint numbers are sequencing labels. Sprint length is provisionally two weeks; do not attach calendar dates or promise completion until capacity, repository access and dependencies are confirmed.
+
+| Sprint | Focus | Definition of done |
+|---|---|---|
+| S0 — Setup and baseline | M0; pin catalog branch/commit, source manifests, current registry exports, ID policy and owner map. | Reproducible baseline manifest exists; all inputs have source/revision metadata; exclusions are recorded. |
+| S1 — Layer and issue reconciliation | M1; compare L1–L10 and X1–X36 with current issues/catalog files. | Reconciliation table includes existing ID, canonical record, conflict, disposition, owner and evidence. |
+| S2 — Sublayer and applicability matrix | M2; enumerate sublayers and cross-cutting applicability per L-layer. | No blank status is interpreted as N/A; every absence has a reason or remains unresolved. |
+| S3 — Source census wave A | M3; prioritize L1–L4 and their applicable X-layer contracts. | Pinned repository snapshots, component/function inventories and reproducible totals published. |
+| S4 — Source census wave B | M3; prioritize L5–L7, including blockchain, ATC-VM and ATCLang. | Canonical mappings and explicit unresolved protocol/language/VM semantics recorded; no consensus assumptions invented. |
+| S5 — Source census wave C | M3; prioritize L8–L10, Aurora AI, applications, install/release/operations. | Model/tool/approval boundaries and install/release ownership are mapped or explicitly unresolved. |
+| S6 — Contract normalization | M4; normalize high-risk contracts first, then remaining API/ABI/IPC/event/state contracts. | Contract schema passes; testable acceptance criteria and negative/error cases exist. |
+| S7 — Dependency graph | M5; add dependency edges, interface versions, security boundaries and compatibility links. | Graph validator identifies no untriaged dangling edge, duplicate owner or prohibited cycle. |
+| S8 — Validator implementation | M6; implement schema, ID, referential integrity, SSOT uniqueness, stale SHA and evidence completeness checks. | Pinned run includes exact logs, exit codes and artifacts; missing mandatory data fails closed. |
+| S9 — Priority implementation wave | M7; select P0/P1 gaps from evidence-backed risk ranking and create owner-repo work items. | Every work item has canonical repository, contract IDs, acceptance criteria, dependency links and test plan. |
+| S10 — Integration and acceptance | M8; run cross-layer and end-to-end checks, independent review, residual triage and release decision. | G0–G9 decisions are evidence-linked; blocked items remain blocked; no unsupported VERIFIED status. |
+
+**Sprint boundary rule:** at sprint close, report planned/done/blocked/deferred items, exact catalog/source SHAs, changed IDs, test evidence, residuals, and next-sprint dependencies. A sprint is not complete solely because its documentation was written.
+
+### 16.3 Checkpoints and required review packet
+
+Each checkpoint must produce a review packet containing:
+
+- checkpoint ID, date, accountable reviewer and decision;
+- exact catalog commit SHA and each source repository's full commit SHA;
+- changed/new/retired IDs and before/after inventory counts;
+- sublayer/component/contract coverage and explicit exclusions;
+- dependency changes and SSOT ownership conflicts;
+- validator/test Run → Job → Step references, exit codes, logs and artifact hashes;
+- unresolved items, risk severity, owner, blocker and next action;
+- decision: `PASS`, `PASS_WITH_ACCEPTED_RESIDUALS`, or `BLOCKED`, with rationale.
+
+Checkpoint approval does not promote unrelated records. Status promotion is scoped to the exact IDs, source revisions and evidence reviewed.
+
+### 16.4 Prioritization and work-item rules
+
+Prioritize work in this order, subject to evidence-backed risk review:
+
+1. **P0 — Safety/security/correctness blockers:** capability bypass, trust-boundary failure, consensus/protocol ambiguity, nondeterminism, unsafe install/update/recovery, signing/provenance gaps, privileged AI actions without policy/approval, or missing hard-gate evidence.
+2. **P1 — SSOT and contract integrity:** duplicate ownership, incorrect source mappings, broken API/ABI/IPC/event contracts, serialization/version conflicts, state consistency and critical dependency gaps.
+3. **P2 — Verification and operations:** missing negative/fault-injection tests, observability, recovery, portability matrix, reproducible builds and operational readiness.
+4. **P3 — Optimization and completeness improvements:** performance tuning, non-blocking documentation, ergonomics and low-risk maintainability work.
+
+Do not assign severity based on layer number or convenience. Every priority needs a reason, impact, likelihood/uncertainty, owner and acceptance test.
+
+Every TODO must be a trackable item with:
+- `todo_id`, title, priority and status;
+- parent milestone/sprint/checkpoint and affected layer/sublayer/component/contract IDs;
+- canonical repository and exact path when known, otherwise `UNRESOLVED`;
+- accountable owner or `UNASSIGNED`;
+- prerequisite/dependency IDs and blocker;
+- implementation scope and explicit non-goals;
+- acceptance criteria and required positive/negative/boundary tests;
+- evidence expected, exact source revision after execution, and reviewer;
+- estimate only when a responsible team has assessed it;
+- closure rule and linked PR/commit/issue.
+
+### 16.5 Initial TODO backlog
+
+These are proposed backlog entries, not assertions that the work has started or completed.
+
+| TODO ID | Priority | Work item | Depends on | Completion evidence |
+|---|---|---|---|---|
+| TODO-CAT-001 | P0 | Pin catalog baseline, repository manifest and source SHAs; exclude `demo-repository` from live drift gate. | M0 | Manifest and exact revisions retained; exclusion test proves demo repo is not a live gate input. |
+| TODO-CAT-002 | P1 | Reconcile existing layer records, issue references and stable-ID collisions without deleting established IDs. | TODO-CAT-001 | Machine-readable reconciliation report and reviewer decision. |
+| TODO-CAT-003 | P1 | Produce complete L1–L10 × X1–X36 applicability matrix with rationale and owners. | TODO-CAT-002 | Every relationship has applicable/not-applicable/unresolved disposition and provenance. |
+| TODO-CAT-004 | P1 | Enumerate domain-specific sublayers for every layer; distinguish template families from actual exhaustive inventory. | TODO-CAT-003 | Sublayer registry with stable IDs, parent links, boundaries and dispositions. |
+| TODO-CAT-005 | P1 | Run source census for each canonical repository and record component/function/API/ABI/IPC/event inventories. | TODO-CAT-001, TODO-CAT-004 | Reproducible per-repository reports tied to full commit SHAs and paths. |
+| TODO-CAT-006 | P0 | Triage unknown security, consensus, transaction, serialization, VM and ATCLang semantic decisions. | TODO-CAT-005 | Decision records or explicit `BLOCKED` contracts; no semantics inferred from names/docs alone. |
+| TODO-CAT-007 | P1 | Normalize contract schema and acceptance criteria; link requirements to source and tests. | TODO-CAT-005, TODO-CAT-006 | Schema-valid contract records and requirement-to-test traceability. |
+| TODO-CAT-008 | P1 | Generate dependency/interface graph and detect dangling edges, duplicate SSOT and cycles. | TODO-CAT-003, TODO-CAT-007 | Reproducible graph artifact and triaged validator findings. |
+| TODO-CAT-009 | P0 | Implement fail-closed schema, ID, source-SHA, SSOT and evidence validators in the appropriate catalog/governance location. | TODO-CAT-007, TODO-CAT-008 | Pinned workflow evidence with non-zero failure tests for deliberately invalid fixtures. |
+| TODO-CAT-010 | P0 | Define and execute evidence packet generation with Run/Job/Step, exit code, logs and artifact hashes. | TODO-CAT-009 | Evidence records validate and can be independently reproduced. |
+| TODO-CAT-011 | P0 | Create owner-repository implementation issues for accepted P0/P1 gaps; avoid production code in ecosystem. | TODO-CAT-006, TODO-CAT-009 | Each issue links contract IDs, canonical owner, acceptance tests and dependencies. |
+| TODO-CAT-012 | P1 | Run cross-layer integration and domain-specific acceptance profiles; document residual risks. | TODO-CAT-010, TODO-CAT-011 | G0–G9 results, exact SHAs, reviewer decisions and explicit residuals. |
+| TODO-CAT-013 | P1 | Reconcile human-readable catalog counts with machine-readable registries and generated reports. | TODO-CAT-005, TODO-CAT-009 | Count parity report and deterministic regeneration instructions. |
+| TODO-CAT-014 | P1 | Prepare independent release/acceptance review for the exact catalog revision. | TODO-CAT-012, TODO-CAT-013 | Signed/attributed review decision; no unresolved hard gate presented as accepted. |
+
+### 16.6 Roadmap reporting dashboard
+
+At each sprint review, publish these measures with numerator, denominator, scope, source revision and generation method:
+
+- layer registry coverage: reconciled layers / 46 total layer IDs;
+- sublayer disposition coverage: dispositioned sublayers / discovered or proposed sublayers;
+- component mapping coverage: source-mapped components / discovered components;
+- function-contract coverage: represented contracts / discovered in-scope functions and interfaces;
+- SSOT resolution: capabilities with evidenced canonical owner / in-scope capabilities;
+- dependency graph coverage: validated edges / discovered edges;
+- contract acceptance coverage: contracts passing required gates / contracts in acceptance scope;
+- evidence completeness: claims with complete evidence packet / claims requiring verification;
+- validator coverage: required invariants checked / required invariants;
+- open blockers and accepted residuals by priority, layer, repository and owner.
+
+Counts must never conflate `UNRESOLVED`, `EXCLUDED`, `NOT_IMPLEMENTED` and `VERIFIED`. Publish raw totals and the exact query/script or artifact used to compute them; do not report a percentage without its denominator.
+
+### 16.7 Roadmap governance
+
+- This roadmap is a planning baseline, not a delivery guarantee or normative standard.
+- Dates, estimates, assignees and sprint capacity remain uncommitted until explicitly agreed.
+- Changes to scope, acceptance gates, normative semantics or canonical ownership require traceable review and, where applicable, approved `atc-standards` change control.
+- Work must remain in Draft until the relevant review and evidence criteria are met; no merge or release is implied by a milestone table.
+- The current disposition remains `PROPOSED / NOT VERIFIED`; all milestones are open until checkpoint evidence is reviewed.
