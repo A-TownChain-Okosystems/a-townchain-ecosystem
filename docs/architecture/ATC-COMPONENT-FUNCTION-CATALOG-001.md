@@ -6,6 +6,8 @@
 
 This catalog is the architecture/control-plane inventory. It does not replace component source code, normative standards, or repository-local API documentation.
 
+**Related format registry:** [ATC-FILE-FORMAT-REGISTRY-001.md](ATC-FILE-FORMAT-REGISTRY-001.md) and [machine-readable registry](ATC-FILE-FORMAT-REGISTRY-001.json). The registry inventories formats and processing requirements; implementation function contracts remain in this catalog's JSON SSOT. Registry presence does not establish implementation or verification.
+
 ## Rules
 
 - Each capability has a stable component ID and function ID.
