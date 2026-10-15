@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.1.0",
   "catalog_date": "2026-10-15",
-  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification. EVM architecture addendum (2026-10-15): added COMP-EVM-COMPAT and FN-EVM-COMPAT-001..005 as separate, BLOCKED architecture/function contracts. Added ATC-EVM-COMPATIBILITY-DECISION-001.md. No option selected; no EVM compatibility or implementation is asserted; native ATC-VM remains unchanged pending explicit approval. Guest OS virtualization addendum (2026-10-15): added COMP-GUEST-OS-VIRT and FN-GUEST-VIRT-001..005 for hosted Windows/Linux VMs, backend/profile selection, capability/resource isolation, desktop console integration, and compatibility verification. Added GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md. Native dual boot is separately scoped; backend not selected; implementation and verification are not claimed. Contract-analysis migration (2026-10-15): added machine-readable purpose, inputs/outputs, preconditions, behavior, architecture placement, consumers, reuse, failure semantics, and source evidence for each function. Unknown call graph, side effects, trust boundaries, error contract, and reuse remain explicitly UNRESOLVED; this migration is not source or functional verification. Added 10 user-facing control/UI/system-area components and 20 explicit function contracts on 2026-10-15. All new entries remain UNBOUND_RESIDUAL with no implementation claim; owner SSOTs are retained. 2026-10-15: Added COMP-API-ORCHESTRATOR and FN-API-ORCH-001..011 as residual contract records after ownership search. Python/ATCLang evidence is documentation-only; canonical implementation owner remains unresolved; IF-010 is proposed/residual. 2026-10-15: Added COMP-MAINTENANCE-LIFECYCLE and FN-MAINT-000..024 plus IF-011/IF-012 aligned to atc-standards Issue #112. Catalog/control-plane registration only; no runtime implementation or verification is asserted. 2026-10-15: Added connection_matrix schema 1.0.0 covering declared component dependencies and critical cross-component paths. Matrix entries are RESIDUAL/BLOCKED/EXCLUDED until canonical source bindings and exact-SHA conformance evidence exist; no connection is marked VERIFIED by inference. Matrix count fields clarified: declared dependency edges, unique dependency pairs, and additional critical paths are reported separately. 2026-10-15: Added shared GlobusOS UI primitives component covering settings/options, menus, dropdowns, sliders, switches, buttons, lever/actuator controls, form inputs, positions/layout, dialogs, status, accessibility, state persistence and event routing. All new contracts are RESIDUAL/UNBOUND_RESIDUAL.",
+  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification. EVM architecture addendum (2026-10-15): added COMP-EVM-COMPAT and FN-EVM-COMPAT-001..005 as separate, BLOCKED architecture/function contracts. Added ATC-EVM-COMPATIBILITY-DECISION-001.md. No option selected; no EVM compatibility or implementation is asserted; native ATC-VM remains unchanged pending explicit approval. Guest OS virtualization addendum (2026-10-15): added COMP-GUEST-OS-VIRT and FN-GUEST-VIRT-001..005 for hosted Windows/Linux VMs, backend/profile selection, capability/resource isolation, desktop console integration, and compatibility verification. Added GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md. Native dual boot is separately scoped; backend not selected; implementation and verification are not claimed. Contract-analysis migration (2026-10-15): added machine-readable purpose, inputs/outputs, preconditions, behavior, architecture placement, consumers, reuse, failure semantics, and source evidence for each function. Unknown call graph, side effects, trust boundaries, error contract, and reuse remain explicitly UNRESOLVED; this migration is not source or functional verification. Added 10 user-facing control/UI/system-area components and 20 explicit function contracts on 2026-10-15. All new entries remain UNBOUND_RESIDUAL with no implementation claim; owner SSOTs are retained. 2026-10-15: Added COMP-API-ORCHESTRATOR and FN-API-ORCH-001..011 as residual contract records after ownership search. Python/ATCLang evidence is documentation-only; canonical implementation owner remains unresolved; IF-010 is proposed/residual. 2026-10-15: Added COMP-MAINTENANCE-LIFECYCLE and FN-MAINT-000..024 plus IF-011/IF-012 aligned to atc-standards Issue #112. Catalog/control-plane registration only; no runtime implementation or verification is asserted. 2026-10-15: Added connection_matrix schema 1.0.0 covering declared component dependencies and critical cross-component paths. Matrix entries are RESIDUAL/BLOCKED/EXCLUDED until canonical source bindings and exact-SHA conformance evidence exist; no connection is marked VERIFIED by inference. Matrix count fields clarified: declared dependency edges, unique dependency pairs, and additional critical paths are reported separately. 2026-10-15: Added shared GlobusOS UI primitives component covering settings/options, menus, dropdowns, sliders, switches, buttons, lever/actuator controls, form inputs, positions/layout, dialogs, status, accessibility, state persistence and event routing. All new contracts are RESIDUAL/UNBOUND_RESIDUAL. 2026-10-15: Added partial exact-HEAD GlobusOS source bindings for six existing desktop/input/state/notification contracts; source mapping only, UI toolkit census incomplete and all affected functions remain RESIDUAL.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -36350,11 +36350,11 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "UNBOUND_RESIDUAL",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/globus-os",
-            "source_path": "UNRESOLVED",
-            "symbol_or_entrypoint": "NOT_IDENTIFIED",
-            "note": "UI primitive contract only; source path/symbol and implementation are not yet evidenced."
+            "source_path": "system/graphics/src/wm.rs",
+            "symbol_or_entrypoint": "WindowManager::{open,set_state,placements}",
+            "note": "Maps window placement/state operations only; no general UI widget positioning API is claimed."
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
@@ -36383,8 +36383,8 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No implementation or exact-SHA terminal verification is claimed.",
-            "source_binding_status": "UNBOUND_RESIDUAL",
+            "reason": "Exact-head source mapping exists; functional integration and exact-SHA test evidence are not established.",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "canonical source path and symbol",
               "exact full source commit SHA and blob SHA",
@@ -36431,8 +36431,8 @@
               "component_id": "COMP-UI-PRIMITIVES",
               "layer": "L4",
               "canonical_owner": "A-TownChain-Okosystems/globus-os",
-              "source_path": "UNRESOLVED",
-              "symbol": "NOT_IDENTIFIED"
+              "source_path": "system/graphics/src/wm.rs",
+              "symbol": "WindowManager::{open,set_state,placements}"
             },
             "consumers": {
               "status": "UNRESOLVED",
@@ -36455,12 +36455,12 @@
               "recovery_status": "UNRESOLVED"
             },
             "source_evidence": {
-              "status": "UNRESOLVED",
+              "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/globus-os",
-              "commit_sha": null,
-              "path": "UNRESOLVED",
-              "symbol": "NOT_IDENTIFIED",
-              "blob_sha": null
+              "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+              "path": "system/graphics/src/wm.rs",
+              "symbol": "WindowManager::{open,set_state,placements}",
+              "blob_sha": "eeee511cffe49b2d70915975926f29a3c911855b"
             }
           }
         },
@@ -36496,11 +36496,11 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "UNBOUND_RESIDUAL",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/globus-os",
-            "source_path": "UNRESOLVED",
-            "symbol_or_entrypoint": "NOT_IDENTIFIED",
-            "note": "UI primitive contract only; source path/symbol and implementation are not yet evidenced."
+            "source_path": "system/graphics/src/compositor.rs",
+            "symbol_or_entrypoint": "Rect; SurfacePlacement; Compositor::{create,focus}",
+            "note": "Maps geometry and surface placement primitives; responsive layout/docking remains unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
@@ -36529,8 +36529,8 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No implementation or exact-SHA terminal verification is claimed.",
-            "source_binding_status": "UNBOUND_RESIDUAL",
+            "reason": "Exact-head source mapping exists; functional integration and exact-SHA test evidence are not established.",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "canonical source path and symbol",
               "exact full source commit SHA and blob SHA",
@@ -36575,8 +36575,8 @@
               "component_id": "COMP-UI-PRIMITIVES",
               "layer": "L4",
               "canonical_owner": "A-TownChain-Okosystems/globus-os",
-              "source_path": "UNRESOLVED",
-              "symbol": "NOT_IDENTIFIED"
+              "source_path": "system/graphics/src/compositor.rs",
+              "symbol": "Rect; SurfacePlacement; Compositor::{create,focus}"
             },
             "consumers": {
               "status": "UNRESOLVED",
@@ -36599,12 +36599,12 @@
               "recovery_status": "UNRESOLVED"
             },
             "source_evidence": {
-              "status": "UNRESOLVED",
+              "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/globus-os",
-              "commit_sha": null,
-              "path": "UNRESOLVED",
-              "symbol": "NOT_IDENTIFIED",
-              "blob_sha": null
+              "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+              "path": "system/graphics/src/compositor.rs",
+              "symbol": "Rect; SurfacePlacement; Compositor::{create,focus}",
+              "blob_sha": "2c1e1001ab2b7734cc4e55c89ba6ec16b4660014"
             }
           }
         },
@@ -37076,11 +37076,11 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "UNBOUND_RESIDUAL",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/globus-os",
-            "source_path": "UNRESOLVED",
-            "symbol_or_entrypoint": "NOT_IDENTIFIED",
-            "note": "UI primitive contract only; source path/symbol and implementation are not yet evidenced."
+            "source_path": "system/graphics/src/shell.rs",
+            "symbol_or_entrypoint": "DesktopShell::{notify,dismiss_notification,notifications}",
+            "note": "Maps notification/taskbar model operations; visual rendering and delivery integration remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
@@ -37109,8 +37109,8 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No implementation or exact-SHA terminal verification is claimed.",
-            "source_binding_status": "UNBOUND_RESIDUAL",
+            "reason": "Exact-head source mapping exists; functional integration and exact-SHA test evidence are not established.",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "canonical source path and symbol",
               "exact full source commit SHA and blob SHA",
@@ -37156,8 +37156,8 @@
               "component_id": "COMP-UI-PRIMITIVES",
               "layer": "L4",
               "canonical_owner": "A-TownChain-Okosystems/globus-os",
-              "source_path": "UNRESOLVED",
-              "symbol": "NOT_IDENTIFIED"
+              "source_path": "system/graphics/src/shell.rs",
+              "symbol": "DesktopShell::{notify,dismiss_notification,notifications}"
             },
             "consumers": {
               "status": "UNRESOLVED",
@@ -37180,12 +37180,12 @@
               "recovery_status": "UNRESOLVED"
             },
             "source_evidence": {
-              "status": "UNRESOLVED",
+              "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/globus-os",
-              "commit_sha": null,
-              "path": "UNRESOLVED",
-              "symbol": "NOT_IDENTIFIED",
-              "blob_sha": null
+              "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+              "path": "system/graphics/src/shell.rs",
+              "symbol": "DesktopShell::{notify,dismiss_notification,notifications}",
+              "blob_sha": "392a6aaa3968116748be970d901c383b59fa482e"
             }
           }
         },
@@ -37664,11 +37664,11 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "UNBOUND_RESIDUAL",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/globus-os",
-            "source_path": "UNRESOLVED",
-            "symbol_or_entrypoint": "NOT_IDENTIFIED",
-            "note": "UI primitive contract only; source path/symbol and implementation are not yet evidenced."
+            "source_path": "system/graphics/src/input.rs",
+            "symbol_or_entrypoint": "InputRouter::{set_pointer_focus,set_keyboard_focus,route}",
+            "note": "Maps input focus and routing primitives; accessibility/shortcut conformance remains unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
@@ -37697,8 +37697,8 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No implementation or exact-SHA terminal verification is claimed.",
-            "source_binding_status": "UNBOUND_RESIDUAL",
+            "reason": "Exact-head source mapping exists; functional integration and exact-SHA test evidence are not established.",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "canonical source path and symbol",
               "exact full source commit SHA and blob SHA",
@@ -37744,8 +37744,8 @@
               "component_id": "COMP-UI-PRIMITIVES",
               "layer": "L4",
               "canonical_owner": "A-TownChain-Okosystems/globus-os",
-              "source_path": "UNRESOLVED",
-              "symbol": "NOT_IDENTIFIED"
+              "source_path": "system/graphics/src/input.rs",
+              "symbol": "InputRouter::{set_pointer_focus,set_keyboard_focus,route}"
             },
             "consumers": {
               "status": "UNRESOLVED",
@@ -37768,12 +37768,12 @@
               "recovery_status": "UNRESOLVED"
             },
             "source_evidence": {
-              "status": "UNRESOLVED",
+              "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/globus-os",
-              "commit_sha": null,
-              "path": "UNRESOLVED",
-              "symbol": "NOT_IDENTIFIED",
-              "blob_sha": null
+              "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+              "path": "system/graphics/src/input.rs",
+              "symbol": "InputRouter::{set_pointer_focus,set_keyboard_focus,route}",
+              "blob_sha": "1b4c03b8a3abe6116bd6092dc98b6f72abc3a72f"
             }
           }
         },
@@ -38244,11 +38244,11 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "UNBOUND_RESIDUAL",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/globus-os",
-            "source_path": "UNRESOLVED",
-            "symbol_or_entrypoint": "NOT_IDENTIFIED",
-            "note": "UI primitive contract only; source path/symbol and implementation are not yet evidenced."
+            "source_path": "system/graphics/src/desktop.rs",
+            "symbol_or_entrypoint": "DesktopSession::{mode,lock,suspend,resume,shutdown}",
+            "note": "Maps desktop session lifecycle state only; persistent UI-state restoration is not established."
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
@@ -38277,8 +38277,8 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No implementation or exact-SHA terminal verification is claimed.",
-            "source_binding_status": "UNBOUND_RESIDUAL",
+            "reason": "Exact-head source mapping exists; functional integration and exact-SHA test evidence are not established.",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "canonical source path and symbol",
               "exact full source commit SHA and blob SHA",
@@ -38324,8 +38324,8 @@
               "component_id": "COMP-UI-PRIMITIVES",
               "layer": "L4",
               "canonical_owner": "A-TownChain-Okosystems/globus-os",
-              "source_path": "UNRESOLVED",
-              "symbol": "NOT_IDENTIFIED"
+              "source_path": "system/graphics/src/desktop.rs",
+              "symbol": "DesktopSession::{mode,lock,suspend,resume,shutdown}"
             },
             "consumers": {
               "status": "UNRESOLVED",
@@ -38348,12 +38348,12 @@
               "recovery_status": "UNRESOLVED"
             },
             "source_evidence": {
-              "status": "UNRESOLVED",
+              "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/globus-os",
-              "commit_sha": null,
-              "path": "UNRESOLVED",
-              "symbol": "NOT_IDENTIFIED",
-              "blob_sha": null
+              "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+              "path": "system/graphics/src/desktop.rs",
+              "symbol": "DesktopSession::{mode,lock,suspend,resume,shutdown}",
+              "blob_sha": "ee3e839dae95e2b8552d7c94f3b690b3f321b808"
             }
           }
         },
@@ -38393,11 +38393,11 @@
           ],
           "readiness": "RESIDUAL",
           "source_binding": {
-            "status": "UNBOUND_RESIDUAL",
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "repository": "A-TownChain-Okosystems/globus-os",
-            "source_path": "UNRESOLVED",
-            "symbol_or_entrypoint": "NOT_IDENTIFIED",
-            "note": "UI primitive contract only; source path/symbol and implementation are not yet evidenced."
+            "source_path": "system/graphics/src/input.rs",
+            "symbol_or_entrypoint": "InputRouter::route",
+            "note": "Maps desktop input event routing only; generic command binding and owner-service authorization remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/globus-os",
           "preconditions": {
@@ -38426,8 +38426,8 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No implementation or exact-SHA terminal verification is claimed.",
-            "source_binding_status": "UNBOUND_RESIDUAL",
+            "reason": "Exact-head source mapping exists; functional integration and exact-SHA test evidence are not established.",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "canonical source path and symbol",
               "exact full source commit SHA and blob SHA",
@@ -38474,8 +38474,8 @@
               "component_id": "COMP-UI-PRIMITIVES",
               "layer": "L4",
               "canonical_owner": "A-TownChain-Okosystems/globus-os",
-              "source_path": "UNRESOLVED",
-              "symbol": "NOT_IDENTIFIED"
+              "source_path": "system/graphics/src/input.rs",
+              "symbol": "InputRouter::route"
             },
             "consumers": {
               "status": "UNRESOLVED",
@@ -38499,12 +38499,12 @@
               "recovery_status": "UNRESOLVED"
             },
             "source_evidence": {
-              "status": "UNRESOLVED",
+              "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/globus-os",
-              "commit_sha": null,
-              "path": "UNRESOLVED",
-              "symbol": "NOT_IDENTIFIED",
-              "blob_sha": null
+              "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+              "path": "system/graphics/src/input.rs",
+              "symbol": "InputRouter::route",
+              "blob_sha": "1b4c03b8a3abe6116bd6092dc98b6f72abc3a72f"
             }
           }
         },
@@ -39095,18 +39095,28 @@
       ],
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/globus-os",
-        "canonical_path": "UNRESOLVED",
-        "observed_head_sha": null,
-        "observed_tree_sha": null,
+        "canonical_path": "system/graphics/src plus system/settings/src and modules/atc-globus-desktop/src",
+        "observed_head_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+        "observed_tree_sha": "66413b78b5a9c09bdb2988ad33e6bcf8e71bc1fa",
         "census_date": "2026-10-15",
-        "evidence_source": "https://github.com/A-TownChain-Okosystems/globus-os",
-        "evidence_note": "Shared UI primitives need source-census and symbol binding; no source completeness claimed.",
-        "source_paths_examined": [],
+        "evidence_source": "GitHub main branch tree and exact-path file fetch at 3bf000143ec9bfad79d0bacc36b99b8111178b95",
+        "source_paths_examined": [
+          "system/graphics/src/wm.rs",
+          "system/graphics/src/compositor.rs",
+          "system/graphics/src/desktop.rs",
+          "system/graphics/src/shell.rs",
+          "system/graphics/src/input.rs",
+          "system/settings/src/lib.rs",
+          "modules/atc-globus-desktop/src/settings_ui.atc",
+          "modules/atc-globus-desktop/src/window_manager.atc",
+          "modules/atc-globus-desktop/src/themes.atc",
+          "modules/atc-globus-desktop/src/notifications.atc"
+        ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "UI control catalog contract added; canonical toolkit path and actual symbols remain unresolved."
+        "status_reason": "Partial exact-HEAD source mapping for desktop geometry, window state, input routing, session state and notifications. Generic menu/dropdown/slider/switch/button primitives are not established; ATCLang desktop settings/window/theme/notification modules include planned/TODO code. This is source mapping only, not functional verification."
       },
-      "canonical_path": "UNRESOLVED",
+      "canonical_path": "system/graphics/src plus system/settings/src; ATCLang UI drafts under modules/atc-globus-desktop/src",
       "role_and_non_goals": {
         "role": "Shared canonical UI control primitives and interaction semantics for GlobusOS desktop, settings, system tools and ecosystem panels. It delegates domain behavior and privileged operations to canonical owner services; this catalog entry does not claim source implementation.",
         "non_goals": [
@@ -39169,7 +39179,10 @@
       "known_conflicts_and_residuals": [
         "Source paths and exported symbols are not yet reconciled.",
         "No functional verification or production readiness is asserted.",
-        "Implementation must remain in the canonical owner repository; this catalog is control-plane metadata only."
+        "Implementation must remain in the canonical owner repository; this catalog is control-plane metadata only.",
+        "Partial exact-HEAD mapping only: window state/placement, compositor geometry, input routing, desktop session lifecycle and notification model.",
+        "Generic reusable dropdown, slider, switch, button, menu and form widget implementations were not established in the examined source paths.",
+        "modules/atc-globus-desktop settings/window/theme/notification ATCLang modules contain TODO or planned implementation; they are not evidence of completed widgets."
       ],
       "verification_evidence": {
         "status": "RESIDUAL",
