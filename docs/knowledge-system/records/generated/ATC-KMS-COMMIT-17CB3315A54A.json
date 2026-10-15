@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-17CB3315A54A",
-  "timestamp": "2026-10-15T07:30:09.646094Z",
+  "timestamp": "2026-10-15T13:53:02.051368Z",
   "category": "change",
   "title": "Commit: test(audit): reject census checkouts with unexpected source SHA",
   "context": "Git commit 17cb3315a54a0c137ca095f85b7ab938a8063f76 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/17cb3315a54a0c137ca095f85b7ab938a8063f76",
-    "commit": "c91c8c6fc60b1c28403c3125f728495e2efa124b"
+    "commit": "b4a4685fa00298d110028416a39cb28a7adc9473"
   },
   "tags": [
     "commit",

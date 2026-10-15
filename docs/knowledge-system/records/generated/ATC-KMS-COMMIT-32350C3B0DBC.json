@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-32350C3B0DBC",
-  "timestamp": "2026-10-15T07:30:09.646094Z",
+  "timestamp": "2026-10-15T13:53:02.051368Z",
   "category": "change",
   "title": "Commit: fix(census): exclude private repositories from CI census via documented EXCLUDED_PRIVATE_NO_CI_ACCESS",
   "context": "Git commit 32350c3b0dbcffa605e4e234a792cbc78db82781 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/32350c3b0dbcffa605e4e234a792cbc78db82781",
-    "commit": "c91c8c6fc60b1c28403c3125f728495e2efa124b"
+    "commit": "b4a4685fa00298d110028416a39cb28a7adc9473"
   },
   "tags": [
     "commit",
