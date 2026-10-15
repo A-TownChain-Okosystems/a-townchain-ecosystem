@@ -74,6 +74,19 @@ The revision pins below are captured observations, not permanent assertions. Any
 | `genesis-franchise-factory` | `main` | `673fa560322b1449e8f23cc38bf839de1b246361` | `cbc461e067f5d46d0d5b7a378b80867673f92dd3` | included |
 | `globus-os` | `main` | `3bf000143ec9bfad79d0bacc36b99b8111178b95` | `66413b78b5a9c09bdb2988ad33e6bcf8e71bc1fa` | included |
 
+### Corrected automated validation — PASS
+
+- Workflow run: [38811855932](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38811855932)
+- Exact tested revision: `88722afe8f1ad2b91a6d094857eb4690bc284732`
+- Job: `116686774782`, `Validate live repository refs and root trees`; job completed `success`.
+- Validator step: completed `success`; validator process exit code `0`.
+- Report status: `PASS`; `errors=[]`; inventory entries `33`; live inventory `32`; explicit exclusion `demo-repository`; revision pins checked `32/32`.
+- Report JSON SHA-256 (recomputed from downloaded artifact and matching the log): `d143d52568ab16fd49b222e6fa53b43b3d1dcef2cea3955f5a4b39e3af04eade`.
+- Artifact: [wp-m0-baseline-validation-38811855932-1](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38811855932/artifacts/12008074502)
+- Artifact ZIP digest (GitHub upload digest): `sha256:ac3997db5616922dbfc5b2e14e3bc22ff4d108bcf2e0a6d1c8d8e5df31d86ac6`.
+- The downloaded ZIP was inspected: it contains the JSON report and its `.sha256` file; the embedded JSON digest matches the report bytes.
+- Decision boundary: this PASS applies to the automated WP-M0 manifest/live-ref validation at the exact tested revision only. Independent review and checkpoint approval are still pending; CP0 remains `BLOCKED` until that review records its decision.
+
 ### First automated validation run — failed closed as intended
 
 - Workflow run: [38811486409](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38811486409)
@@ -128,7 +141,7 @@ Run the new WP-M0 workflow against the updated manifest; inspect the live-invent
 
 ## 5. Evidence and status
 
-The revision-pinned inventory is captured from direct ref and commit objects. The first automated comparison failed closed because the validator incorrectly treated the explicitly excluded private `demo-repository` as a missing in-scope repository. A corrective validator commit is present; CP0 remains blocked until its rerun is examined, evidence is retained, and an independent review is recorded. No normative approval is implied.
+The revision-pinned inventory is captured from direct ref and commit objects. The first automated comparison failed closed because the validator incorrectly treated the explicitly excluded private `demo-repository` as a missing in-scope repository. The corrected rerun passed at exact revision `88722afe8f1ad2b91a6d094857eb4690bc284732` with exit code 0 and a retained report artifact. CP0 remains blocked until an independent review is recorded. No normative approval is implied.
 
 - **WP-M0:** `BLOCKED`
 - **CP0:** `BLOCKED`
