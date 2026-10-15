@@ -32,6 +32,18 @@ This catalog is the architecture/control-plane inventory. It does not replace co
 | Genesis Engine | [genesis-engine](https://github.com/A-TownChain-Okosystems/genesis-engine) | Genesis configuration and runtime/bootstrap orchestration |
 | Ecosystem control plane | [a-townchain-ecosystem](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem) | Architecture, integration, compliance and evidence only |
 
+## Function contract analysis (schema 1.1.0)
+
+Every function record carries a machine-readable `contract_analysis` object in the JSON SSOT. It extends the existing function fields rather than creating a parallel catalog:
+
+- `purpose`, `inputs`, `outputs`, `preconditions`, and `failure_semantics`
+- `behavior` including invariants, side-effect and trust-boundary assessment
+- `architecture_placement` with owning component, layer, canonical owner, path and symbol where known
+- `consumers` and `reuse` for direct/transitive callers, delegation, adapters and duplicate/conflicting implementations
+- `source_evidence` with repository, full 40-character commit SHA, path, symbol and file blob SHA
+
+The migration marks unproven behavior, consumers, reuse, error contracts and recovery as `UNRESOLVED`; it does not infer them from names or prose. A source mapping is not functional verification. The validator rejects malformed structures, mismatched component placement and incomplete or malformed SHA evidence. Reconciliation only accepts a source binding when repository HEAD, path/symbol and file blob SHA agree; missing or mismatched blob evidence remains residual. The source inventory is lexical evidence, not a complete call graph.
+
 ## Production gates
 
 1. **Ownership:** exactly one canonical implementation per capability.
