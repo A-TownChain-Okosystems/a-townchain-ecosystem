@@ -228,3 +228,12 @@ Repository inspected: [`a-townchain` exact HEAD `a5e689671b1870699c7a1750f8a166e
 - The evidence manifest in the source repository records a partial, not-audited, not-conformance-verified development state. Its recorded test PASS applies only to its bound commit/run; it is not blanket evidence for every function or the current HEAD.
 - The custom ATC-HASH-001 implementation remains unaudited; PoH, Devnet block/gossip, and wallet/TX-V2 end-to-end claims remain bounded by the source comments and open gates.
 - The update does not claim complete source census, complete wallet security, consensus/finality completion, or Mainnet readiness. Release remains `BLOCKED`.
+
+
+## Exact-head source-binding reconciliation — 2026-10-15
+
+A follow-up audit checked the selected `a-townchain` source paths against exact HEAD `a5e689671b1870699c7a1750f8a166e83590a41c`. Function bindings and observed-symbol inventories were updated to the current commit and the file blob SHA returned for each exact path. Paths whose blobs changed since the previous census (including `components/vm/src/assembler.rs` and `components/vm/src/main.rs`) were checked at the current HEAD before rebinding.
+
+`COMP-NODE` now identifies `a-townchain/components/node` as the canonical implementation path. The separate `atc-node` repository remains recorded as a migration-source candidate for `FN-NODE-001..002`; it is not a second canonical implementation. The selected-path inventory remains `RESIDUAL`, exported-symbol reconciliation is still incomplete, and no functional verification is inferred from source presence.
+
+Wallet source inventory now records the verified repository root tree SHA; this is not a wallet subtree SHA. Full source census, test evidence, interface conformance, and security gates remain open. Release remains `BLOCKED`.
