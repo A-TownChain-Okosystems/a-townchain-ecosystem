@@ -1,0 +1,4296 @@
+{
+  "schema_id": "ATCLANG-G1-SEMANTIC-REVIEW-001",
+  "schema_version": "1.0.0",
+  "created_at": "2026-10-15",
+  "status": "RESIDUAL",
+  "release_decision": "BLOCKED",
+  "verification_claimed": false,
+  "scope": {
+    "registry_total": 332,
+    "source_repository": "A-TownChain-Okosystems/atclang",
+    "source_commit": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+    "source_tree_sha": "41e6a63b30422ad22355c4d21070cb80c819999f",
+    "registry_path": "specs/language/registry.json",
+    "registry_blob_sha": "72237be58c4419cc2d0f8248a9be08e0c8d6bf03",
+    "registry_counts": {
+      "tokens": 63,
+      "keywords": 76,
+      "types": 84,
+      "atc_namespaces": 31,
+      "parser_productions": 28,
+      "ast_nodes": 50
+    }
+  },
+  "source_evidence": {
+    "lexer": {
+      "path": "crates/atc-core/src/lexer.rs",
+      "blob_sha": "6f503a1b1c7a7145284eb5670830946fdcfdac09"
+    },
+    "parser": {
+      "path": "crates/atc-core/src/parser.rs",
+      "blob_sha": "993df7a9a6626d869ef3e22f02a006fa13466586"
+    },
+    "ast": {
+      "path": "crates/atc-core/src/ast.rs",
+      "blob_sha": "8721d367971ac93db2578303006045bac754993b"
+    },
+    "native": {
+      "path": "crates/atc-core/src/native.rs",
+      "blob_sha": "b3d42b9d2df2fceab055adf70c52cbb71dadd737"
+    },
+    "lower": {
+      "path": "crates/atc-core/src/lower.rs",
+      "blob_sha": "4be61143f65de3455c72b878ad4e7ff700d4bd18"
+    },
+    "value": {
+      "path": "crates/atc-core/src/value.rs",
+      "blob_sha": "cb720e71cbdc26f01cae36388a99d6f2c1a5d8a0"
+    },
+    "differential_tests": {
+      "path": "crates/atc-core/tests/differential.rs",
+      "blob_sha": "5f588cb83291ea1be90ef455a15f9d6bce8bd193"
+    },
+    "e2e_tests": {
+      "path": "crates/atc-core/tests/run.rs",
+      "blob_sha": "d4e758b4213ca433778d2d076915459cc563b6e9"
+    }
+  },
+  "method": "Read-only source inspection at the exact source commit. Text matches are discovery hints only. No CI, tests, or runtime behavior were executed. No record is VERIFIED.",
+  "semantic_observations": [
+    {
+      "id": "OBS-001",
+      "finding": "The canonical Rust lexer explicitly emits a narrow Token enum; recognized keyword spellings include let, const, return, fn, if, else, while, contract, state, function, capability, policy, require. Other words fall through to Ident.",
+      "evidence": [
+        "crates/atc-core/src/lexer.rs"
+      ],
+      "impact": "Registry keyword presence does not establish parser or runtime semantics; each keyword needs grammar/use-site mapping and positive/negative behavior tests."
+    },
+    {
+      "id": "OBS-002",
+      "finding": "The canonical parser is a recursive-descent subset centered on let/const, function declarations, brace-delimited blocks, if/else, while, return, and arithmetic/comparison/call expressions.",
+      "evidence": [
+        "crates/atc-core/src/parser.rs"
+      ],
+      "impact": "Registry productions require semantic reconciliation against actual parser entry points; a method-name match is insufficient."
+    },
+    {
+      "id": "OBS-003",
+      "finding": "The AST uses a limited Expr/Stmt model, including integer literals, identifiers, unary/binary operations, calls, let, function, return, expression, if, and while.",
+      "evidence": [
+        "crates/atc-core/src/ast.rs"
+      ],
+      "impact": "No AST variant name match is not by itself proof of missing support; equivalent representation or intentionally unsupported syntax must be checked."
+    },
+    {
+      "id": "OBS-004",
+      "finding": "native.rs implements a separate native contract frontend with contract/state/function parsing and semantic validation, including rejection tests for malformed or unknown directives/types/decorators.",
+      "evidence": [
+        "crates/atc-core/src/native.rs"
+      ],
+      "impact": "Native contract syntax must not be mistaken for general language grammar coverage; identify exact entry points and delegation boundaries."
+    },
+    {
+      "id": "OBS-005",
+      "finding": "lower.rs lowers the restricted AST to bytecode and contains end-to-end tests for arithmetic, branching, loops, calls, and fail-closed handling of unsupported operators.",
+      "evidence": [
+        "crates/atc-core/src/lower.rs",
+        "crates/atc-core/tests/run.rs"
+      ],
+      "impact": "Passing source presence is not test execution; current report records no test run."
+    },
+    {
+      "id": "OBS-006",
+      "finding": "value.rs defines an explicit ABI type/value model; textual type-name matches need conversion, validation, and runtime-use evidence.",
+      "evidence": [
+        "crates/atc-core/src/value.rs"
+      ],
+      "impact": "Type spelling alone does not prove type-system conformance."
+    }
+  ],
+  "required_next_actions": [
+    "For each UNRESOLVED row, inspect normative definition and actual parser/lexer/AST/lowering/runtime call path.",
+    "Separate true unsupported normative requirements from equivalent representations, native-only contracts, delegated behavior, and explicitly excluded scope.",
+    "Add positive and negative tests for confirmed mappings and gaps.",
+    "Run the relevant workflow against the exact source SHA; capture run ID, job/step results, exit codes and artifacts.",
+    "Update classifications only with cited source/test evidence; preserve RESIDUAL/BLOCKED until acceptance criteria pass."
+  ],
+  "items": [
+    {
+      "id": "G1-TOKEN-001",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "INT",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-002",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "FLOAT",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-003",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "STRING",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-004",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "BOOL",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-005",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "HEX_INT",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-006",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "OCTAL_INT",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-007",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "BIN_INT",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-008",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "BYTES_LIT",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-009",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "IDENT",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-010",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "KEYWORD",
+      "source_text_candidate_files": [
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-011",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "TYPE",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-012",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "ATC_STD",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-013",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "PLUS",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-014",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "MINUS",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-015",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "STAR",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-016",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "SLASH",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-017",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "PERCENT",
+      "source_text_candidate_files": [
+        "lexer"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-018",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "STARSTAR",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-019",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "PLUSEQ",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-020",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "MINUSEQ",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-021",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "STAREQ",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-022",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "SLASHEQ",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-023",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "EQ",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-024",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "EQEQ",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-025",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "NEQ",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-026",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "LT",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-027",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "GT",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-028",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "LTE",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-029",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "GTE",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-030",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "AMP",
+      "source_text_candidate_files": [
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-031",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "PIPE",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-032",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "CARET",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-033",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "TILDE",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-034",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "LSHIFT",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-035",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "RSHIFT",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-036",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "AND",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-037",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "OR",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-038",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "NOT",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-039",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "ARROW",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-040",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "FAT_ARROW",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-041",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "DCOLON",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-042",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "ASSIGN",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-043",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "QUESTION",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-044",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "DOTDOT",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-045",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "DOTDOTEQ",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-046",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "HASH",
+      "source_text_candidate_files": [
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-047",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "AT",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-048",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "LPAREN",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-049",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "RPAREN",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-050",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "LBRACE",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-051",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "RBRACE",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-052",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "LBRACKET",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-053",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "RBRACKET",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-054",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "COMMA",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-055",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "COLON",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-056",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "SEMICOLON",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-057",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "DOT",
+      "source_text_candidate_files": [
+        "lexer",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-058",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "UNDERSCORE",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-059",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "NEWLINE",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-060",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "INDENT",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-061",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "DEDENT",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-062",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "EOF",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TOKEN-063",
+      "kind": "token",
+      "registry_key": "tokens",
+      "registry_value": "COMMENT",
+      "source_text_candidate_files": [
+        "lexer"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-064",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "wallet",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-065",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "contract",
+      "source_text_candidate_files": [
+        "lexer",
+        "native",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-066",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "struct",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-067",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "enum",
+      "source_text_candidate_files": [
+        "lexer",
+        "ast",
+        "native",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-068",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "impl",
+      "source_text_candidate_files": [
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-069",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "trait",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-070",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "fn",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-071",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "state",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-072",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "let",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-073",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "const",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-074",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "pub",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-075",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "priv",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-076",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "static",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-077",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "type",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-078",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "interface",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-079",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "if",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-080",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "else",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-081",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "elif",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-082",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "for",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-083",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "while",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-084",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "loop",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-085",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "in",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-086",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "break",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-087",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "continue",
+      "source_text_candidate_files": [
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-088",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "return",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-089",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "match",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-090",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "case",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-091",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "async",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-092",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "await",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-093",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "deploy",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-094",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "call",
+      "source_text_candidate_files": [
+        "parser",
+        "ast",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-095",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "new",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-096",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "delete",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-097",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "import",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-098",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "from",
+      "source_text_candidate_files": [
+        "ast",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-099",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "as",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-100",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "use",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-101",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "emit",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-102",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "require",
+      "source_text_candidate_files": [
+        "lexer",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-103",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "event",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-104",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "error",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-105",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "assert",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-106",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "genesis",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-107",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "mint",
+      "source_text_candidate_files": [
+        "lexer",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-108",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "burn",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-109",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "stake",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-110",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "unstake",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-111",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "vote",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-112",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "transfer",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-113",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "approve",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-114",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "delegate",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-115",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "node",
+      "source_text_candidate_files": [
+        "parser",
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-116",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "consensus",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-117",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "kernel",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-118",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "process",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-119",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "spawn",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-120",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "channel",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-121",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "syscall",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-122",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "interrupt",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-123",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "self",
+      "source_text_candidate_files": [
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-124",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "caller",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-125",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "block",
+      "source_text_candidate_files": [
+        "parser",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-126",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "tx",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-127",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "null",
+      "source_text_candidate_files": [
+        "parser",
+        "ast",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-128",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "true",
+      "source_text_candidate_files": [
+        "lexer",
+        "ast",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-129",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "false",
+      "source_text_candidate_files": [
+        "ast",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-130",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "override",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-131",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "virtual",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-132",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "abstract",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-133",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "final",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-134",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "inline",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-135",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "extern",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-136",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "unsafe",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-137",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "packed",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-138",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "where",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-KEYWORD-139",
+      "kind": "keyword",
+      "registry_key": "keywords",
+      "registry_value": "with",
+      "source_text_candidate_files": [
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-140",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "UInt8",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-141",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "UInt16",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-142",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "UInt32",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-143",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "UInt64",
+      "source_text_candidate_files": [
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-144",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "UInt128",
+      "source_text_candidate_files": [
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-145",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "UInt256",
+      "source_text_candidate_files": [
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-146",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Int8",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-147",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Int16",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-148",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Int32",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-149",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Int64",
+      "source_text_candidate_files": [
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-150",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Int128",
+      "source_text_candidate_files": [
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-151",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Int256",
+      "source_text_candidate_files": [
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-152",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "USize",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-153",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "ISize",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-154",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Float32",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-155",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Float64",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-156",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Float128",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-157",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Bool",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-158",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Char",
+      "source_text_candidate_files": [
+        "lexer",
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-159",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Byte",
+      "source_text_candidate_files": [
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-160",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "String",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-161",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Bytes",
+      "source_text_candidate_files": [
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-162",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Str",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-163",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Address",
+      "source_text_candidate_files": [
+        "lexer",
+        "native",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-164",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Hash256",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-165",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Hash512",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-166",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "PubKey",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-167",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "PrivKey",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-168",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Signature",
+      "source_text_candidate_files": [
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-169",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "TxHash",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-170",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "BlockHash",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-171",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "CID",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-172",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Map",
+      "source_text_candidate_files": [
+        "parser",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-173",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "List",
+      "source_text_candidate_files": [
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-174",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Set",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-175",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Array",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-176",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Vec",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-177",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Tuple",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-178",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Option",
+      "source_text_candidate_files": [
+        "ast",
+        "native",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-179",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Result",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-180",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Either",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-181",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "ATC8300",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-182",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "ATC9000",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-183",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "ATCContract",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-184",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "ATCWallet",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-185",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "ATCBlock",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-186",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "ATCTx",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-187",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Process",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-188",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Thread",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-189",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Channel",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-190",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Mutex",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-191",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Semaphore",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-192",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "INode",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-193",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "FileHandle",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-194",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "DirHandle",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-195",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Peer",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-196",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "NodeID",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-197",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Port",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-198",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "IPAddr",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-199",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Any",
+      "source_text_candidate_files": [
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-200",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Void",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-201",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "Never",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-202",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "u8",
+      "source_text_candidate_files": [
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-203",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "u16",
+      "source_text_candidate_files": [
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-204",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "u32",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-205",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "u64",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-206",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "u128",
+      "source_text_candidate_files": [
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-207",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "u256",
+      "source_text_candidate_files": [
+        "native",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-208",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "i8",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-209",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "i16",
+      "source_text_candidate_files": [
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-210",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "i32",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-211",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "i64",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-212",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "i128",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-213",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "i256",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-214",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "f32",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-215",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "f64",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-216",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "f128",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-217",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "bool",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-218",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "char",
+      "source_text_candidate_files": [
+        "lexer",
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-219",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "byte",
+      "source_text_candidate_files": [
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-220",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "string",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-221",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "bytes",
+      "source_text_candidate_files": [
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-222",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "usize",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-TYPE-223",
+      "kind": "type",
+      "registry_key": "types",
+      "registry_value": "isize",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-224",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC8300",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-225",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC9000",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-226",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATCContract",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-227",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATCWallet",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-228",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATCBlock",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-229",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATCTx",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-230",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-231",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Hash",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-232",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Crypto",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-233",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Rand",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-234",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Net",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-235",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Net::UDP",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-236",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Net::Kademlia",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-237",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::OS",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-238",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::OS::Memory",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-239",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::OS::Kernel",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-240",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::OS::Filesystem",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-241",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Storage",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-242",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::RPC",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-243",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Lang",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-244",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Lang::Compiler",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-245",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Lang::VM",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-246",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Blockchain",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-247",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Blockchain::Core",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-248",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Consensus",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-249",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Consensus::Shiva",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-250",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Gateway",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-251",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Gateway::API",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-252",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::UI",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-253",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::UI::Dashboard",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-NAMESPACE-254",
+      "kind": "namespace",
+      "registry_key": "atc_namespaces",
+      "registry_value": "ATC::Wallet",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-255",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_addition",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-256",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_block",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-257",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_class",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-258",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_comparison",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-259",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_contract",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-260",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_emit",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-261",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_enum",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-262",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_expr",
+      "source_text_candidate_files": [
+        "parser"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-263",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_for",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-264",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_function",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-265",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_if",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-266",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_let",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-267",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_logical",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-268",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_match_expr",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-269",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_match_stmt",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-270",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_module",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-271",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_multiplication",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-272",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_param",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-273",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_postfix",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-274",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_primary",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-275",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_program",
+      "source_text_candidate_files": [
+        "parser",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-276",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_require",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-277",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_return",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-278",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_statement",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-279",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_struct",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-280",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_type",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-281",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_unary",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-PARSER_PRODUCTION-282",
+      "kind": "parser_production",
+      "registry_key": "parser_productions",
+      "registry_value": "parse_while",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-283",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "ASTNode",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-284",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "Assignment",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-285",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "BinaryOp",
+      "source_text_candidate_files": [
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-286",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "BoolLiteral",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-287",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "BreakStatement",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-288",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "CastExpr",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-289",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "ClassDef",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-290",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "ContinueStatement",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-291",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "ContractDef",
+      "source_text_candidate_files": [
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-292",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "DotAccess",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-293",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "EmitStatement",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-294",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "EnumDef",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-295",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "ErrorDef",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-296",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "EventDef",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-297",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "ExprStatement",
+      "source_text_candidate_files": [
+        "parser",
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-298",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "FloatLiteral",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-299",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "ForStatement",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-300",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "FunctionCall",
+      "source_text_candidate_files": [
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-301",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "FunctionDef",
+      "source_text_candidate_files": [
+        "parser",
+        "ast",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-302",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "Identifier",
+      "source_text_candidate_files": [
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-303",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "IfStatement",
+      "source_text_candidate_files": [
+        "parser",
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-304",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "ImportStatement",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-305",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "IndexAccess",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-306",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "IntLiteral",
+      "source_text_candidate_files": [
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-307",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "LambdaExpr",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-308",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "LetStatement",
+      "source_text_candidate_files": [
+        "parser",
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-309",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "ListLiteral",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-310",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "MapLiteral",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-311",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "MatchStatement",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-312",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "NamespaceAccess",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-313",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "NullLiteral",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-314",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "Parameter",
+      "source_text_candidate_files": [
+        "parser",
+        "ast",
+        "native",
+        "lower"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-315",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "Program",
+      "source_text_candidate_files": [
+        "parser",
+        "ast",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-316",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "RangeExpr",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-317",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "RequireStatement",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-318",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "ReturnStatement",
+      "source_text_candidate_files": [
+        "parser",
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-319",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "SliceExpr",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-320",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "StateField",
+      "source_text_candidate_files": [
+        "native"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-321",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "StorageBlock",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-322",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "StringLiteral",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-323",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "StructDef",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-324",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "StructLiteral",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-325",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "TernaryExpr",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-326",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "TupleExpr",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-327",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "TypeAliasDef",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-328",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "TypeAnnotation",
+      "source_text_candidate_files": [
+        "parser",
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-329",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "UnaryOp",
+      "source_text_candidate_files": [
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-330",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "WalletDef",
+      "source_text_candidate_files": [],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-331",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "WhileStatement",
+      "source_text_candidate_files": [
+        "parser",
+        "ast"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    },
+    {
+      "id": "G1-AST_NODE-332",
+      "kind": "ast_node",
+      "registry_key": "ast_nodes",
+      "registry_value": "X",
+      "source_text_candidate_files": [
+        "lexer",
+        "parser",
+        "ast",
+        "native",
+        "lower",
+        "value"
+      ],
+      "classification": "UNRESOLVED",
+      "verification": "NOT_RUN",
+      "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
+      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+    }
+  ]
+}
