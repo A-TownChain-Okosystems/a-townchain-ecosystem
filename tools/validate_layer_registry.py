@@ -25,6 +25,7 @@ DEFAULT_REGISTRY = REPO_ROOT / "docs/architecture/layers/ATC-LAYER-REGISTRY-001.
 DEFAULT_MAPPING = REPO_ROOT / "docs/architecture/layers/ATC-LAYER-MAPPING-001.yaml"
 DEFAULT_CATALOG = REPO_ROOT / "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
 DEFAULT_L0_CATALOG = REPO_ROOT / "docs/architecture/layers/ATC-L0-FUNCTION-CATALOG-001.yaml"
+DEFAULT_L1_CATALOG = REPO_ROOT / "docs/architecture/layers/ATC-L1-FUNCTION-CATALOG-001.yaml"
 
 VALID_STATUS = {"MAPPED", "IMPLEMENTED", "VERIFIED", "RESIDUAL", "UNRESOLVED", "BLOCKED", "EXCLUDED"}
 VALID_INSTALL_MODELS = {"A", "B", "C", "D"}
@@ -237,33 +238,33 @@ def validate_catalog_reference(catalog_path, registry):
     return comp_ids, result
 
 
-def validate_l0_catalog(l0_path, registry):
-    """Validate the L0 Hardware & Compute function catalog (Sollstruktur)."""
+def validate_function_catalog(cat_path, registry, layer_id, schema_id):
+    """Validate a layer function catalog (L0/L1/...) against the registry."""
     result = ValidationResult()
-    result.ok(f"L0 function catalog found: {l0_path}")
+    result.ok(f"Function catalog found: {cat_path} (layer {layer_id})")
 
-    with open(l0_path) as f:
+    with open(cat_path) as f:
         cat = yaml.safe_load(f)
 
-    if cat.get("schema_id") != "ATC-L0-FUNCTION-CATALOG-001":
-        result.error("VAL-L0-000", f"Unexpected schema_id: {cat.get('schema_id')}")
+    if cat.get("schema_id") != schema_id:
+        result.error("VAL-FC-000", f"Unexpected schema_id: {cat.get('schema_id')}, expected {schema_id}")
         return cat, result
-    result.ok("Schema ID matches ATC-L0-FUNCTION-CATALOG-001")
+    result.ok(f"Schema ID matches {schema_id}")
 
     # Registry L0 sub-layer IDs (cross-check)
-    l0_entry = next((l for l in registry.get("layers", []) if l.get("id") == "L0"), None)
-    if not l0_entry:
-        result.error("VAL-L0-000", "L0 not found in registry")
+    layer_entry = next((l for l in registry.get("layers", []) if l.get("id") == layer_id), None)
+    if not layer_entry:
+        result.error("VAL-FC-000", f"{layer_id} not found in registry")
         return cat, result
     reg_sub_ids = set()
-    for sub in l0_entry.get("sub_layers", []):
+    for sub in layer_entry.get("sub_layers", []):
         if isinstance(sub, dict) and "id" in sub:
             reg_sub_ids.add(sub["id"])
-    result.ok(f"Registry L0 sub-layers: {len(reg_sub_ids)}")
+    result.ok(f"Registry {layer_id} sub-layers: {len(reg_sub_ids)}")
 
     functions = cat.get("functions", [])
     if not functions:
-        result.error("VAL-L0-001", "L0 function catalog is empty")
+        result.error("VAL-FC-001", f"{layer_id} function catalog is empty")
         return cat, result
 
     seen = set()
@@ -284,13 +285,13 @@ def validate_l0_catalog(l0_path, registry):
                 result.error("VAL-L0-002", f"Function {fid}: missing required field '{field}'")
 
         # VAL-L0-003: layer assignment
-        if fn.get("layer_id") != "L0":
-            result.error("VAL-L0-003", f"Function {fid}: layer_id must be 'L0', got '{fn.get('layer_id')}'")
+        if fn.get("layer_id") != layer_id:
+            result.error("VAL-FC-003", f"Function {fid}: layer_id must be '{layer_id}', got '{fn.get('layer_id')}'")
 
         # VAL-L0-004: sub-layer valid against registry
         sl = fn.get("sub_layer_id")
         if sl not in reg_sub_ids:
-            result.error("VAL-L0-004", f"Function {fid}: sub_layer_id '{sl}' not in registry L0 sub-layers")
+            result.error("VAL-FC-004", f"Function {fid}: sub_layer_id '{sl}' not in registry {layer_id} sub-layers")
         else:
             sub_coverage[sl] = sub_coverage.get(sl, 0) + 1
 
@@ -314,14 +315,14 @@ def validate_l0_catalog(l0_path, registry):
                 if cf not in c:
                     result.warn("VAL-L0-007", f"Function {fid}: contract missing '{cf}'")
 
-    result.ok(f"L0 functions validated: {len(functions)} entries")
+    result.ok(f"Functions validated: {len(functions)} entries")
 
     # VAL-L0-008: sub-layer coverage
     uncovered = reg_sub_ids - set(sub_coverage)
     if uncovered:
-        result.warn("VAL-L0-008", f"L0 sub-layers without functions: {sorted(uncovered)}")
+        result.warn("VAL-FC-008", f"{layer_id} sub-layers without functions: {sorted(uncovered)}")
     else:
-        result.ok(f"All {len(reg_sub_ids)} L0 sub-layers covered by functions")
+        result.ok(f"All {len(reg_sub_ids)} {layer_id} sub-layers covered by functions")
 
     # VAL-L0-009: layer dependency targets valid
     valid_layers = {l["id"] for l in registry.get("layers", [])}
@@ -339,6 +340,7 @@ def main():
     parser = argparse.ArgumentParser(description="ATC Layer Registry Validator")
     parser.add_argument("--registry", default=str(DEFAULT_REGISTRY), help="Path to layer registry YAML")
     parser.add_argument("--mapping", default=str(DEFAULT_MAPPING), help="Path to layer mapping YAML")
+    parser.add_argument("--l1_catalog", default=str(DEFAULT_L1_CATALOG), help="Path to L1 function catalog YAML")
     parser.add_argument("--l0_catalog", default=str(DEFAULT_L0_CATALOG), help="Path to L0 function catalog YAML")
     parser.add_argument("--catalog", default=str(DEFAULT_CATALOG), help="Path to component catalog JSON")
     parser.add_argument("--quiet", action="store_true", help="Only show summary")
@@ -404,22 +406,26 @@ def main():
         sys.exit(2)
 
 
-    # 4. Validate L0 function catalog
-    print("\n[4/4] Validating L0 Hardware & Compute function catalog...")
-    try:
-        _, r4 = validate_l0_catalog(args.l0_catalog, registry)
-        all_errors.extend(r4.errors)
-        all_warnings.extend(r4.warnings)
-        total_checks += r4.checks_passed
-        if not args.quiet:
-            for e in r4.errors:
-                print(f"  ERROR {e}")
-            for w in r4.warnings:
-                print(f"  WARN  {w}")
-        print(f"  Checks passed: {r4.checks_passed}, Errors: {len(r4.errors)}, Warnings: {len(r4.warnings)}")
-    except Exception as e:
-        print(f"  FATAL: {e}")
-        sys.exit(2)
+    # 4. Validate layer function catalogs (L0, L1)
+    for layer_id, schema_id, cat_path in [
+        ("L0", "ATC-L0-FUNCTION-CATALOG-001", args.l0_catalog),
+        ("L1", "ATC-L1-FUNCTION-CATALOG-001", args.l1_catalog),
+    ]:
+        print(f"\n[4/4] Validating {layer_id} function catalog...")
+        try:
+            _, r4 = validate_function_catalog(cat_path, registry, layer_id, schema_id)
+            all_errors.extend(r4.errors)
+            all_warnings.extend(r4.warnings)
+            total_checks += r4.checks_passed
+            if not args.quiet:
+                for e in r4.errors:
+                    print(f"  ERROR {e}")
+                for w in r4.warnings:
+                    print(f"  WARN  {w}")
+            print(f"  Checks passed: {r4.checks_passed}, Errors: {len(r4.errors)}, Warnings: {len(r4.warnings)}")
+        except Exception as e:
+            print(f"  FATAL: {e}")
+            sys.exit(2)
 
     # Summary
     print("\n" + "=" * 70)

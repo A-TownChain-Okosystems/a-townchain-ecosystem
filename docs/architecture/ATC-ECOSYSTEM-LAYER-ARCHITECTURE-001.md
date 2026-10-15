@@ -1,7 +1,7 @@
 # ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001 — Complete Layer Architecture for the A-TownChain Ecosystem
 
 > **Document ID:** ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001
-> **Version:** 0.2.0 (DRAFT)
+> **Version:** 0.3.0 (DRAFT)
 > **Date:** 2026-10-15
 > **Authority:** A-TownChain-Okosystems/a-townchain-ecosystem
 > **Registry:** [ATC-LAYER-REGISTRY-001.yaml](layers/ATC-LAYER-REGISTRY-001.yaml)
@@ -248,6 +248,16 @@ The foundation of the entire A-TownChain ecosystem: physical compute resources, 
 
 ---
 
+### L1 — Boot, Firmware & Hardware Abstraction (`ATC-LAYER-L1-BOOT-FIRMWARE-HAL`)
+
+Platform initialization, boot chain of trust, firmware/hardware detection, standardized hardware contracts, and secure kernel handoff between platform and ShivaCore. L1 does not replace the kernel and implements no second driver/kernel SSOT. Firmware tables and addresses are untrusted inputs requiring validation; signature verification, measured boot, and policy enforcement are separate functions. Source: [Issue #136](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/136).
+
+**Sub-layers (9):** L1.1 Boot Manager, L1.2 Secure Boot & Trust Chain, L1.3 Firmware Interface, L1.4 Platform Discovery, L1.5 Hardware Abstraction Layer (HAL), L1.6 Bus & Device Interface, L1.7 Boot Storage & Loading, L1.8 Platform Diagnostics, L1.9 Kernel Handoff & Platform Contract.
+
+**Function contracts (56):** [ATC-L1-FUNCTION-CATALOG-001.yaml](layers/ATC-L1-FUNCTION-CATALOG-001.yaml). Inventory at globus-os main `3bf0001`: **14 IMPLEMENTED** (inline test refs + workspace suite 1298/1298, exit 0 — e.g. BootSequence, TrustAnchor/LoadPolicy, RSDP validation, MmioRegion, PciBus, entry_point, MemoryMap handoff, DriverFaultManager), **16 MAPPED** (source exists, test evidence unconfirmed — e.g. ModuleSignature model, version pinning, IDT/PIC init, BootInfo), **26 UNRESOLVED** with evidence-based reasons (no UEFI service consumption, no measured boot, no DMA/IOMMU capture, no kernel-image verification). No contract VERIFIED: CI evidence at binding SHA pending. Intel/AMD/QEMU test targets from Issue #136 remain pending.
+
+---
+
 ## 9. Architecture Reference Model
 
 This document is the layer architecture companion to:
@@ -263,3 +273,4 @@ The architecture presented here is the **proposed overall plan**. It is not yet 
 |---------|------|--------|
 | 0.1.0 | 2026-10-15 | Initial draft: 11 main layers + 8 cross-cutting layers, 30 components mapped, validation tool created |
 | 0.2.0 | 2026-10-15 | L0 detail added per owner spec: 9 sub-layers (L0.1-L0.9), 35 function contracts (ATC-L0-*), layer dependency matrix, capability-not-permission principle; sub-layer ID format normalized to dot notation |
+| 0.3.0 | 2026-10-15 | L1 detail added per Issue #136: 9 sub-layers (L1.1-L1.9), 56 function contracts (ATC-L1-*), inventory at globus-os 3bf0001 (14 IMPLEMENTED, 16 MAPPED, 26 UNRESOLVED); validator generalized to per-layer function catalogs |

@@ -22,7 +22,7 @@
 # IMPORTANT: Source code existence alone does NOT qualify for VERIFIED.
 
 schema_id: ATC-LAYER-REGISTRY-001
-schema_version: "0.2.0"
+schema_version: "0.3.0"
 generated: "2026-10-15"
 authority: "A-TownChain-Okosystems/a-townchain-ecosystem"
 status: DRAFT
@@ -103,33 +103,52 @@ layers:
       The canonical source for hardware interface specifications is the
       driver/HAL layer (L1).
   - id: L1
-    name: "Boot, Firmware & Hardware-Abstraction"
+    architecture_id: "ATC-LAYER-L1-BOOT-FIRMWARE-HAL"
+    name: "Boot, Firmware & Hardware Abstraction"
     responsibility: >
-      Boot chain, secure boot, ACPI, hardware abstraction layer (HAL),
-      and device drivers. This layer abstracts hardware specifics so the
-      kernel can operate independently of specific hardware.
+      Platform initialization, boot chain of trust, firmware/hardware
+      detection, standardized hardware contracts, and secure kernel
+      handoff between platform and ShivaCore. L1 does not replace the
+      kernel and does not implement a second driver or kernel SSOT.
+      Signature verification, measured boot, and policy enforcement
+      must be modeled as separate functions: measurement alone proves
+      no trust. Firmware tables and addresses are untrusted inputs
+      requiring validation before use.
     sub_layers:
       - id: L1.1
-        name: "Boot Chain"
-        description: "UEFI/BIOS handoff, secure boot verification, bootloader stages"
+        name: "Boot Manager"
+        description: "Boot-Auswahl, Startsequenz, Fehlerbehandlung"
       - id: L1.2
-        name: "Secure Boot"
-        description: "Signature verification, measured boot, TPM-backed boot attestation"
+        name: "Secure Boot & Trust Chain"
+        description: "Signaturpruefung, Vertrauensanker, Integritaetskontrolle"
       - id: L1.3
-        name: "ACPI & Power Management"
-        description: "ACPI tables, power states, thermal management"
+        name: "Firmware Interface"
+        description: "UEFI, Boot Services, Runtime Services"
       - id: L1.4
-        name: "HAL (Hardware Abstraction Layer)"
-        description: "Arch-specific abstractions (x86_64, aarch64), MMU configuration, interrupt controllers"
+        name: "Platform Discovery"
+        description: "ACPI, PCIe/ECAM, Firmwaretabellen, Geraeteinventar"
       - id: L1.5
-        name: "Device Drivers"
-        description: "Storage, network, display, input, audio, bus drivers"
+        name: "Hardware Abstraction Layer (HAL)"
+        description: "Gemeinsame Hardwarevertraege und Architekturadapter"
+      - id: L1.6
+        name: "Bus & Device Interface"
+        description: "Geraetebusse, MMIO, Interrupts, DMA-/IOMMU-Ressourcen"
+      - id: L1.7
+        name: "Boot Storage & Loading"
+        description: "Boot-Medien, Kernel-Image, Initramfs, Laden und Pruefen"
+      - id: L1.8
+        name: "Platform Diagnostics"
+        description: "Boot-Protokoll, Fehlercodes, Hardware-/Firmwarediagnose"
+      - id: L1.9
+        name: "Kernel Handoff & Platform Contract"
+        description: "CPU-Zustand, Memory Map, Bootparameter, kontrollierte Kernel-Initialisierung"
     components: []
+    function_catalog: docs/architecture/layers/ATC-L1-FUNCTION-CATALOG-001.yaml
     ssot_note: >
-      Canonical driver implementations live in the GlobusOS repo under
-      modules/atc-drivers/. Boot chain components live in the globus-os
-      kernel build system.
-
+      Implementations live in globus-os (atc-bootloader, ShivaCore kernel
+      platform modules). This registry is the control, mapping, and evidence
+      layer, not a second implementation SSOT. Host adapters for Windows/
+      Linux are catalogued separately from the native GlobusOS boot chain.
   - id: L2
     name: "ShivaCore Kernel & Trusted Computing Base"
     responsibility: >
