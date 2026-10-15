@@ -2,20 +2,20 @@
   "schema_id": "ATC-CATALOG-GAP-TRIAGE-001",
   "schema_version": "1.0.0",
   "status": "BLOCKED",
-  "purpose": "Machine-readable remediation queue derived from exact-head Source Symbol Inventory run 38649311231. This is audit evidence, not a second catalog or implementation SSOT.",
+  "purpose": "Machine-readable remediation queue derived from exact-head Source Symbol Inventory run 38698951457. This is audit evidence, not a second catalog or implementation SSOT.",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
     "role": "Catalog reconciliation and evidence control plane only"
   },
   "provenance": {
-    "workflow_run_id": 38649311231,
-    "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38649311231",
-    "checked_head_sha": "33108e465f0716bdc6477cdb5eb3557e68a34fb5",
-    "artifact_id": 11933627036,
-    "artifact_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38649311231/artifacts/11933627036",
-    "source_census_sha": "33108e465f0716bdc6477cdb5eb3557e68a34fb5",
-    "catalog_blob_sha": "b1e34d4000575c5900266438c9512fb4e95c9889",
-    "functional_verification": "NOT_PERFORMED"
+    "workflow_run_id": 38698951457,
+    "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38698951457",
+    "checked_head_sha": "54eea0b87ffbec1efc511083fc52fcd273b8b687",
+    "artifact_id": 11954984678,
+    "artifact_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38698951457/artifacts/11954984678",
+    "source_census_sha": "54eea0b87ffbec1efc511083fc52fcd273b8b687",
+    "functional_verification": "NOT_PERFORMED",
+    "note": "Census/reconciliation artifact was produced at this exact PR head; this commit updates the audit queue afterward, so the next run must validate the new resulting head."
   },
   "observed_counts": {
     "active_repositories_expected": 26,
@@ -33,7 +33,10 @@
     "runtime_registry_entries": 8278,
     "runtime_function_candidates": 5612,
     "catalog_bound_candidates": 65,
-    "reconciliation_status": "BLOCKED"
+    "reconciliation_status": "BLOCKED",
+    "self_referential_component_heads": 1,
+    "runtime_registry_validation": "FAIL",
+    "functional_verification": "NOT_PERFORMED"
   },
   "blocking_findings": [
     {
@@ -70,7 +73,39 @@
         "A-TownChain-Okosystems/atclang",
         "A-TownChain-Okosystems/genesis-chronicles"
       ],
-      "required_action": "Regenerate the committed runtime registry from the same census and catalog inputs, then validate both the generated artifact and committed registry. Resolve every per-repository accounting difference; do not bypass R3 accounting."
+      "required_action": "Regenerate the committed runtime registry from the exact-head census and catalog inputs, inspect the generated-versus-committed diff, and reconcile every per-repository delta above. Validate both the generated artifact and committed registry; do not bypass R3 accounting.",
+      "per_repository_deltas": {
+        "A-TownChain-Okosystems/.github": {
+          "classified": 40,
+          "census_candidates": 59,
+          "delta": -19
+        },
+        "A-TownChain-Okosystems/a-townchain-ecosystem": {
+          "classified": 17846,
+          "census_candidates": 17849,
+          "delta": -3
+        },
+        "A-TownChain-Okosystems/atc-algorithm": {
+          "classified": 16,
+          "census_candidates": 17,
+          "delta": -1
+        },
+        "A-TownChain-Okosystems/atc-engineering": {
+          "classified": 230,
+          "census_candidates": 237,
+          "delta": -7
+        },
+        "A-TownChain-Okosystems/atclang": {
+          "classified": 94,
+          "census_candidates": 106,
+          "delta": -12
+        },
+        "A-TownChain-Okosystems/genesis-chronicles": {
+          "classified": 110,
+          "census_candidates": 128,
+          "delta": -18
+        }
+      }
     },
     {
       "id": "GAP-005",
@@ -83,6 +118,13 @@
       "severity": "P0",
       "finding": "INCOMPLETE_FUNCTIONAL_VERIFICATION",
       "required_action": "After source mapping is reconciled, run contract-specific tests and exact-HEAD CI. Record Run -> Job -> Step -> exit code -> logs/artifact. Structural validation or lexical matching is not functional verification."
+    },
+    {
+      "id": "GAP-007",
+      "severity": "P0",
+      "finding": "SELF_REFERENTIAL_COMPONENT_HEAD",
+      "count": 1,
+      "required_action": "Inspect the one self-referential component HEAD recorded by the exact-head reconciliation artifact; replace it with the canonical implementation repository HEAD only when source ownership and evidence support that mapping. Do not treat the ecosystem catalog's own head as implementation evidence."
     }
   ],
   "high_priority_known_residuals": [
