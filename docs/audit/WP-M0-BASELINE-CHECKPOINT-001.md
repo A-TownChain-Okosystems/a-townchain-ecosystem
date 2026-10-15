@@ -74,6 +74,21 @@ The revision pins below are captured observations, not permanent assertions. Any
 | `genesis-franchise-factory` | `main` | `673fa560322b1449e8f23cc38bf839de1b246361` | `cbc461e067f5d46d0d5b7a378b80867673f92dd3` | included |
 | `globus-os` | `main` | `3bf000143ec9bfad79d0bacc36b99b8111178b95` | `66413b78b5a9c09bdb2988ad33e6bcf8e71bc1fa` | included |
 
+### First automated validation run — failed closed as intended
+
+- Workflow run: [38811486409](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38811486409)
+- Run head: `dff79bcb812a018be17cb4d216800923a3ceecf8`
+- Job: `116685536408`, `Validate live repository refs and root trees`
+- Validator step: failed; process exit code `1`
+- Result: `BLOCKED`, inventory manifest `33`, repositories visible to the workflow token `32`, revision pins compared `32/32`
+- Report JSON SHA-256 (from job log): `9dd8506f51961a403c6427ebd600797efeab5b4d0d267ace5091f6d5f7a65975`
+- Uploaded artifact: [wp-m0-baseline-validation-38811486409-1](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38811486409/artifacts/12009300863)
+- Uploaded artifact ZIP digest: `sha256:9f3c42bfd94253949aa7f59ec582084f32e74c94924aa2c09e39651a6ed662a6`
+- Failure detail: `demo-repository` was absent from the workflow token's organization listing. This repository is explicitly excluded from the live drift gate, so treating its absence from that listing as a baseline mismatch was an exclusion-handling defect in the validator—not evidence that a tracked in-scope repository was missing.
+- Corrective commit: `88722afe8f1ad2b91a6d094857eb4690bc284732` updates the validator to exempt explicitly excluded repositories from the live-listing comparison and to validate the captured default-branch value dynamically rather than hard-coding `main`.
+
+The first CI run is **not a pass**. The corrected validator must run again and its new report, exit code, artifact digest, and independent review must be checked before CP0 can be decided.
+
 ### Reproducible validator added
 
 - Validator: `scripts/validate_wp_m0_baseline.py`
@@ -113,7 +128,7 @@ Run the new WP-M0 workflow against the updated manifest; inspect the live-invent
 
 ## 5. Evidence and status
 
-The revision-pinned inventory is now captured from direct ref and commit objects. This is not yet a successful automated comparison, CI verification, independent review, or normative approval.
+The revision-pinned inventory is captured from direct ref and commit objects. The first automated comparison failed closed because the validator incorrectly treated the explicitly excluded private `demo-repository` as a missing in-scope repository. A corrective validator commit is present; CP0 remains blocked until its rerun is examined, evidence is retained, and an independent review is recorded. No normative approval is implied.
 
 - **WP-M0:** `BLOCKED`
 - **CP0:** `BLOCKED`
