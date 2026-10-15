@@ -22,6 +22,7 @@ class CatalogReconciliationTests(unittest.TestCase):
                         "source_path": "src/lib.rs",
                         "symbol_or_entrypoint": "execute",
                         "exact_source_sha": "a" * 40,
+                        "file_blob_sha": "c" * 40,
                     },
                 }],
             }],
@@ -36,6 +37,7 @@ class CatalogReconciliationTests(unittest.TestCase):
                 "report": {
                     "files": [{
                         "path": "src/lib.rs",
+                        "blob_sha": "c" * 40,
                         "candidate_public_symbols": [{"kind": "function", "name": "execute"}],
                     }],
                 },
@@ -49,6 +51,18 @@ class CatalogReconciliationTests(unittest.TestCase):
         finding = report["function_findings"][0]
         self.assertEqual(finding["finding"], "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING")
         self.assertEqual(report["summary"]["functional_verification"], "NOT_PERFORMED")
+
+    def test_missing_blob_sha_is_residual_not_a_binding(self):
+        self.catalog["components"][0]["functions"][0]["source_binding"].pop("file_blob_sha")
+        report = reconcile(self.catalog, self.census)
+        self.assertEqual(report["function_findings"][0]["finding"], "SOURCE_BLOB_SHA_MISSING")
+        self.assertEqual(report["summary"]["candidate_symbols_unbound"], 1)
+
+    def test_blob_sha_mismatch_is_not_accepted_as_a_binding(self):
+        self.catalog["components"][0]["functions"][0]["source_binding"]["file_blob_sha"] = "d" * 40
+        report = reconcile(self.catalog, self.census)
+        self.assertEqual(report["function_findings"][0]["finding"], "SOURCE_BLOB_SHA_MISMATCH")
+        self.assertEqual(report["summary"]["candidate_symbols_unbound"], 1)
 
     def test_sha_mismatch_is_not_accepted_as_a_binding(self):
         self.catalog["components"][0]["functions"][0]["source_binding"]["exact_source_sha"] = "b" * 40

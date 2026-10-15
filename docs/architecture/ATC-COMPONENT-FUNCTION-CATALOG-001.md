@@ -32,6 +32,18 @@ This catalog is the architecture/control-plane inventory. It does not replace co
 | Genesis Engine | [genesis-engine](https://github.com/A-TownChain-Okosystems/genesis-engine) | Genesis configuration and runtime/bootstrap orchestration |
 | Ecosystem control plane | [a-townchain-ecosystem](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem) | Architecture, integration, compliance and evidence only |
 
+## Function contract analysis (schema 1.1.0)
+
+Every function record carries a machine-readable `contract_analysis` object in the JSON SSOT. It extends the existing function fields rather than creating a parallel catalog:
+
+- `purpose`, `inputs`, `outputs`, `preconditions`, and `failure_semantics`
+- `behavior` including invariants, side-effect and trust-boundary assessment
+- `architecture_placement` with owning component, layer, canonical owner, path and symbol where known
+- `consumers` and `reuse` for direct/transitive callers, delegation, adapters and duplicate/conflicting implementations
+- `source_evidence` with repository, full 40-character commit SHA, path, symbol and file blob SHA
+
+The migration marks unproven behavior, consumers, reuse, error contracts and recovery as `UNRESOLVED`; it does not infer them from names or prose. `preconditions` may be a status-bearing object or a non-empty array of explicit condition strings; the array form is descriptive only and never implies verification. A source mapping is not functional verification. The validator rejects malformed structures, mismatched component placement and incomplete or malformed SHA evidence. Reconciliation only accepts a source binding when repository HEAD, path/symbol and file blob SHA agree; missing or mismatched blob evidence remains residual. The source inventory is lexical evidence, not a complete call graph.
+
 ## Production gates
 
 1. **Ownership:** exactly one canonical implementation per capability.
@@ -178,3 +190,326 @@ Update this catalog only from reviewed source/interface evidence. Every change s
 - Repository coverage: **33 total / 26 active / 7 archived**
 
 The catalog includes support/governance records for the standalone ATC-VM and ATC-Algorithm repositories, but their canonical production implementations remain in `a-townchain/components/vm` and `a-townchain/components/algorithm`. The standalone `atc-shivacore` repository is specification/support only; the canonical kernel remains under GlobusOS. Archived repositories are retained as reference records and are not silently reactivated.
+
+
+## Missing capability contracts — cross-platform deployment and function gaps (2026-10-15)
+
+This additive revision records missing capabilities identified in the dual-deployment architecture. These are **catalog contracts only**; they do not claim that the implementation exists or has passed verification.
+
+### New component
+
+- `COMP-PLATFORM-DISTRIBUTION` — cross-platform distribution and deployment control-plane contracts.
+
+### New function contracts
+
+- Deployment: `FN-PLAT-DIST-001` through `FN-PLAT-DIST-007` — package matrix, native boot/install path, Windows/Linux host-process packaging, lifecycle/rollback, signed updates/provenance, cross-platform VM/protocol conformance, and host capability boundaries.
+- GlobusOS: `FN-GLOBUS-004` through `FN-GLOBUS-006` — native desktop/window management, host-edition lifecycle, and OS service capability mediation.
+- Node: `FN-NODE-003` through `FN-NODE-005` — lifecycle/synchronization status, RPC transport/error contract, and a finality query explicitly blocked until normative finality semantics exist.
+- SDK: `FN-SDK-003` and `FN-SDK-004` — cross-language canonical transaction vectors and RPC/provider compatibility.
+- Aurora AI: `FN-AURORA-005` and `FN-AURORA-006` — policy/capability-gated tool execution and approval-gated wallet/transaction actions.
+- Blockchain core: `FN-CHAIN-004` and `FN-CHAIN-005` — canonical transaction validation/submission and explicit consensus/finality decision tracking.
+- ATC-VM: `FN-VM-030` — bytecode artifact decode/validation, **BLOCKED** until the ATCB/ATC1 conflict is resolved normatively.
+
+### Evidence and status
+
+- All new functions are `RESIDUAL` or `BLOCKED` with explicit `UNBOUND_RESIDUAL` source bindings; no implementation or exact-SHA verification is implied.
+- The ecosystem repository remains the architecture/evidence control plane. Canonical implementations remain in `a-townchain`, `globus-os`, `aurora-ai`, `atc-sdk`, and `atc-standards` as applicable.
+- Source-to-catalog reconciliation must bind each function to exact repository HEAD SHA, path, symbol/entry point, and blob SHA—or record a reproducible exclusion.
+- Unknown consensus/finality semantics and the ATCB-versus-ATC1 bytecode conflict remain blocked. Release remains `BLOCKED`.
+
+
+## Canonical blockchain source mapping — exact HEAD addendum (2026-10-15)
+
+Repository inspected: [`a-townchain` exact HEAD `a5e689671b1870699c7a1750f8a166e83590a41c`](https://github.com/A-TownChain-Okosystems/a-townchain/commit/a5e689671b1870699c7a1750f8a166e83590a41c). The source mappings below bind exact source paths and file blob SHAs. They establish **source mapping only**, not functional verification.
+
+### Added canonical component and function contracts
+
+- New component `COMP-WALLET`: canonical wallet key and transaction signing code under `a-townchain/components/wallet`.
+- `FN-ALGO-003`: `MonetaryPolicy::{epoch,raw_subsidy,subsidy}` in `components/algorithm/src/economics.rs` (blob `f415428712ad99302ff54d6e090cb72e600570b6`).
+- `FN-ALGO-004`: `atc_hash` / `atc_hash_hex` in `components/algorithm/src/hash.rs` (blob `97d3bee54f95caf2439765383041b0e120d1ab46`); **BLOCKED for Mainnet** pending independent cryptographic analysis.
+- `FN-ALGO-005`: `PohChain::{genesis,tick,verify,ticks}` in `components/algorithm/src/poh.rs` (blob `75a62238e2a3e4083caa6e420c2de3f215e28450`); **BLOCKED** as a production consensus/finality claim.
+- `FN-VM-031`: explicit-gas, context-gated VM state-transition path in `components/vm/src/vm.rs` (blob `57a919d911ae7900f740bab739bb20fabf0d4313`).
+- `FN-CHAIN-006`: Devnet block production/chain validation in `components/node/src/chain.rs` (blob `9876cda188a353195686ded9de533770d5c5fe94`).
+- `FN-NODE-006`: pull-based gossip synchronization in `components/node/src/gossip.rs` (blob `2d7c0538c0aa5bff9c524691c285e7705554405a`); TCP MVP without TLS/auth/signatures.
+- `FN-WALLET-001`: `WalletKey::{from_seed,public_key,sign_digest,verify_digest}` in `components/wallet/src/keys.rs` (blob `0279290bcf68fd4471125deac20e208b29a67756`).
+- `FN-WALLET-002`: `Transaction::{signing_bytes,id,digest,sign,verify}` in `components/wallet/src/tx.rs` (blob `2693b7ba015456addcc8d129455b7e5a9e2f1860`).
+
+### Status and boundaries
+
+- All entries remain `RESIDUAL` or `BLOCKED`, with `SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED` source bindings.
+- The evidence manifest in the source repository records a partial, not-audited, not-conformance-verified development state. Its recorded test PASS applies only to its bound commit/run; it is not blanket evidence for every function or the current HEAD.
+- The custom ATC-HASH-001 implementation remains unaudited; PoH, Devnet block/gossip, and wallet/TX-V2 end-to-end claims remain bounded by the source comments and open gates.
+- The update does not claim complete source census, complete wallet security, consensus/finality completion, or Mainnet readiness. Release remains `BLOCKED`.
+
+
+## Exact-head source-binding reconciliation — 2026-10-15
+
+A follow-up audit checked the selected `a-townchain` source paths against exact HEAD `a5e689671b1870699c7a1750f8a166e83590a41c`. Function bindings and observed-symbol inventories were updated to the current commit and the file blob SHA returned for each exact path. Paths whose blobs changed since the previous census (including `components/vm/src/assembler.rs` and `components/vm/src/main.rs`) were checked at the current HEAD before rebinding.
+
+`COMP-NODE` now identifies `a-townchain/components/node` as the canonical implementation path. The separate `atc-node` repository remains recorded as a migration-source candidate for `FN-NODE-001..002`; it is not a second canonical implementation. The selected-path inventory remains `RESIDUAL`, exported-symbol reconciliation is still incomplete, and no functional verification is inferred from source presence.
+
+Wallet source inventory now records the verified repository root tree SHA; this is not a wallet subtree SHA. Full source census, test evidence, interface conformance, and security gates remain open. Release remains `BLOCKED`.
+
+## Separate architecture decision — EVM compatibility (2026-10-15)
+
+Specification: [`ATC-EVM-COMPATIBILITY-DECISION-001.md`](ATC-EVM-COMPATIBILITY-DECISION-001.md).
+
+This is a **separate, open architecture decision**, not an implicit feature of ATC-VM. Decision status is `OPEN — DECISION REQUIRED`; implementation/conformance status is not asserted.
+
+### Catalog additions
+
+- `COMP-EVM-COMPAT` — architecture decision and adapter contract registry only; it is **not** a VM implementation owner.
+- `FN-EVM-COMPAT-001` — decision/profile registry and pinned EVM fork.
+- `FN-EVM-COMPAT-002` — isolated EVM runtime/adapter boundary and explicit runtime selection.
+- `FN-EVM-COMPAT-003` — transaction, address, state, gas/fee, revert, logs and receipts mapping.
+- `FN-EVM-COMPAT-004` — exact-SHA differential conformance gate against a pinned independent reference client.
+- `FN-EVM-COMPAT-005` — explicit JSON-RPC/provider/wallet/compiler/tooling compatibility matrix.
+- `IF-008` — proposed chain-to-EVM integration boundary, currently `BLOCKED`.
+
+All five function contracts are `BLOCKED` with residual/unbound evidence. They are architecture contracts only; no source implementation, EVM compatibility, or exact-SHA conformance is claimed.
+
+### Decision options and guardrails
+
+- **Option A:** no EVM compatibility; keep native ATC-VM only.
+- **Option B:** separate, versioned EVM runtime/adapter with isolated semantics — preferred for evaluation, **not approved**.
+- **Option C:** make canonical ATC-VM EVM-compatible — requires a separate protocol migration and explicit compatibility-break analysis.
+
+No option is selected in this draft. Until a decision is approved, the canonical `a-townchain/components/vm` remains the native ATC-VM; its bytecode, opcode, gas and state semantics must not be silently reinterpreted as EVM. The native `ATCB` versus `ATC1` conflict remains an independent blocker.
+
+The specification requires a fork-pinned compatibility profile, explicit levels (L0 tooling through L3 RPC/tooling; L4 Ethereum network/protocol equivalence out of scope by default), deterministic transaction/address/state/gas mapping, fail-closed unsupported features, independent differential vectors, fuzz/property tests, cross-platform reproducibility, exact-SHA Run→Job→Step evidence, security review, and activation/rollback governance.
+
+Catalog total after this addition: **33 components / 131 function contracts**. This is an inventory count, not proof of implementation completeness or verification. Release remains `BLOCKED`; Mainnet EVM compatibility remains `NO-GO`.
+
+## GlobusOS guest operating system virtualization (2026-10-15)
+
+Specification: [`GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md`](GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md).
+
+Goal: allow a user to install Windows or Linux as a separately managed guest OS inside GlobusOS, start it in a window/full-screen session, and switch between the guest and the GlobusOS desktop without rebooting the physical host.
+
+### Catalog additions
+
+- `COMP-GUEST-OS-VIRT` — canonical implementation ownership assigned to `A-TownChain-Okosystems/globus-os`; the ecosystem repository only records architecture, interfaces and evidence.
+- `FN-GUEST-VIRT-001` — guest VM installation and lifecycle.
+- `FN-GUEST-VIRT-002` — virtualization backend and versioned machine-profile adapter.
+- `FN-GUEST-VIRT-003` — guest resource quotas and capability isolation.
+- `FN-GUEST-VIRT-004` — guest console/input integration with the GlobusOS desktop/window manager.
+- `FN-GUEST-VIRT-005` — host/guest compatibility matrix and exact-SHA verification.
+- `IF-009` — proposed GlobusOS-to-guest-VM lifecycle/console interface, currently `BLOCKED`.
+
+All five function contracts are `BLOCKED` / `UNBOUND_RESIDUAL`. No backend is selected; QEMU is an evaluation candidate only. No Windows/Linux guest implementation or compatibility is claimed.
+
+### Important distinction: VM vs. dual boot
+
+- **Hosted VM (primary target):** GlobusOS remains running; Windows/Linux runs in an isolated virtual machine with its own virtual disk, virtual firmware/devices, quotas and guest lifecycle. Switching between host and guest does not require rebooting the physical machine.
+- **Native dual boot (future, separately approved):** a second OS is installed to a physical disk/partition and selected before boot. Only one OS runs at a time; this is not emulation and is outside the initial VM milestone.
+- **Full-system CPU emulation (fallback):** may support some cross-architecture combinations, with a significant potential performance cost. It is not interchangeable with hardware-assisted virtualization.
+
+Security defaults: guests are untrusted; host files, clipboard, physical disks, USB, GPU, bridged networking, host wallet keys, validator secrets and privileged ATC interfaces are not exposed automatically. Resource limits, capability grants, backend isolation, image validation, and explicit host/guest input handling are mandatory.
+
+Catalog totals after this addition: **34 components / 136 function records**. This is a contract inventory, not proof of implementation completeness. Release remains `BLOCKED` until a backend and support matrix are selected and exact-head installation, isolation, recovery, UI integration and security evidence passes.
+
+## User-facing controls, control panels and system areas — 2026-10-15
+
+This catalog extension records ten UI/system-area components and twenty function contracts. It is architecture/control-plane metadata only: no UI, privileged service, wallet signing, consensus, virtualization backend or model runtime is implemented by this repository.
+
+### Canonical ownership
+
+| Component | Canonical owner | Scope |
+|---|---|---|
+| `COMP-UI-DESKTOP-SHELL` | `globus-os` | Desktop shell, launcher, taskbar, window/workspace management and session locking |
+| `COMP-UI-CONTROL-PANEL` | `globus-os` | Display/audio/input/accessibility/network/storage/privacy settings via owner APIs |
+| `COMP-SYSTEM-MONITOR` | `globus-os` | Process/resource telemetry, logs and bounded diagnostic reports |
+| `COMP-SYSTEM-ADMIN` | `globus-os` | Service administration, updates, backup, restore and recovery controls |
+| `COMP-DEVICE-MANAGEMENT` | `globus-os` | Device inventory, health and capability-gated access policy |
+| `COMP-SECURITY-CENTER` | `globus-os` | Evidence-backed security posture, identity/key-provider status and policy controls |
+| `COMP-ATC-DASHBOARD` | `a-townchain` | Node/peer/sync visibility and wallet/cross-chain operation status through canonical APIs |
+| `COMP-AURORA-CONTROL-PANEL` | `aurora-ai` | Model/agent/runtime administration and exact-action approval/denial |
+| `COMP-VIRTUALIZATION-CONTROL` | `globus-os` | Guest lifecycle, resource quotas and host integration policy for the proposed hosted-VM capability |
+| `COMP-DEVELOPER-TOOLS` | `atc-sdk` | API/SDK diagnostics and exact-SHA build/test/artifact visibility |
+
+### Function contracts added
+
+- `FN-UI-WINDOW-001`, `FN-UI-SESSION-001`
+- `FN-CTRL-SETTINGS-001`, `FN-CTRL-DEVICE-001`
+- `FN-SYS-MONITOR-001`, `FN-SYS-DIAG-001`
+- `FN-SYS-ADMIN-001`, `FN-SYS-RECOVERY-001`
+- `FN-DEVICE-INVENTORY-001`, `FN-DEVICE-POLICY-001`
+- `FN-SEC-POLICY-001`, `FN-SEC-POSTURE-001`
+- `FN-ATC-DASH-001`, `FN-ATC-OPS-001`
+- `FN-AURORA-APPROVAL-001`, `FN-AURORA-MODEL-001`
+- `FN-VIRT-GUEST-001`, `FN-VIRT-POLICY-001`
+- `FN-DEV-TOOLS-001`, `FN-DEV-TOOLS-002`
+
+All 20 new function contracts have `source_binding.status = UNBOUND_RESIDUAL`; exact source paths, exported symbols and exact-head verification have not yet been established. Sensitive operations remain `BLOCKED` where authorization, host isolation or security evidence is a prerequisite. Other contracts remain `RESIDUAL`. The dashboard may not present unknown telemetry as healthy, infer consensus/finality from display state, expose key material, or grant implicit host/device access to guest VMs. UI approval does not create unrestricted or reusable authority.
+
+### Verification boundary
+
+The canonical implementation owners remain responsible for the actual UI, APIs and privileged behavior. Before any new contract can be marked implemented or verified, reconcile the owner repository's exact HEAD, source path, symbol/blob SHA, versioned interface, negative/security tests and terminal workflow Run→Job→Step/exit evidence. Source presence or a rendered screen is not proof of functional correctness. Release remains `BLOCKED`.
+
+Catalog total after this extension: **44 components / 156 function contracts**. Inventory growth is not a completeness or verification claim.
+
+## Ecosystem reference architecture — 2026-10-15
+
+Reference architecture: [ATC-ECOSYSTEM-REFERENCE-ARCHITECTURE-001.md](ATC-ECOSYSTEM-REFERENCE-ARCHITECTURE-001.md).
+
+The reference architecture connects existing component contracts across native GlobusOS installation, Windows/Linux host-app deployment, guest virtualization, security/capability boundaries, cryptographic providers, blockchain/VM semantics, cross-chain proof/finality, versioned APIs, Aurora tool execution and reproducible developer workflows. It is an architecture/control-plane document and does not create a second implementation SSOT.
+
+Canonical implementation ownership is unchanged: a-townchain owns blockchain/node/ATC-VM/algorithm/wallet; globus-os owns GlobusOS and ShivaCore kernel; aurora-ai owns Aurora; atc-sdk owns SDK/CLI; atc-standards owns normative protocol/interface standards; this repository owns only catalog, integration, architecture decisions and evidence.
+
+The document explicitly keeps the following unresolved gates visible: consensus/finality semantics, ATCB-versus-ATC1 bytecode format, EVM compatibility decision, independent custom-hash review, TX-V2 end-to-end vectors, cross-chain proof/finality trust model, native installer support matrix, guest-VM backend/isolation, API version/error/idempotency contracts, Aurora capability/approval tests, and bidirectional source reconciliation.
+
+These additions do not change any implementation status. The catalog remains an inventory of mixed source-mapped and residual contracts; exact-HEAD workflow evidence is still required before any function or release gate can be marked VERIFIED.
+
+
+## API Orchestrator ownership audit — 2026-10-15
+
+### Audit result
+
+The catalog now records `COMP-API-ORCHESTRATOR`, eleven residual function contracts (`FN-API-ORCH-001..011`) and proposed interface `IF-010`. This is an additive update to the existing JSON SSOT, not a second catalog.
+
+**Canonical implementation owner: UNRESOLVED.** The active repository search found no executable `APIOrchestrator` implementation in `a-townchain-os`. The located Python file is in `a-townchain-os-docs` at commit `1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c`, path `docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py`, blob `06a23d546da81b44cdcb035cadab71046c89d114`; the ATCLang artifact is at `wiki/kai-os/backend/api/orchestrator/orchestrator.atc`, blob `f68761008b8ec349ee0a4d24b5c2907fbef2ad86`. These are documentation-repository artifacts, and archived monorepo copies are reference-only. They do not establish a production runtime, owner, compiled ATCLang artifact, or successful tests.
+
+The `a-townchain-os` integration/validation role must not be conflated with ownership of a backend API runtime. Ownership remains explicitly unassigned until an active executable source, exact repository HEAD, path/symbol, and test entry point are identified.
+
+### Contract inventory
+
+- `FN-API-ORCH-001`: service registry and health
+- `FN-API-ORCH-002`: typed routing and version negotiation
+- `FN-API-ORCH-003`: capability and policy authorization
+- `FN-API-ORCH-004`: bounded queue, concurrency and backpressure
+- `FN-API-ORCH-005`: deadlines, cancellation, retry and idempotency
+- `FN-API-ORCH-006`: load balancing and circuit-breaker recovery
+- `FN-API-ORCH-007`: event delivery, correlation and replay semantics
+- `FN-API-ORCH-008`: structured errors, tracing and redacted audit
+- `FN-API-ORCH-009`: graceful shutdown, recovery and resource bounds
+- `FN-API-ORCH-010`: secure external service adapters
+- `FN-API-ORCH-011`: standalone Windows/Linux and GlobusOS runtime integration
+- `IF-010`: proposed API-Orchestrator-to-chain service-dispatch contract
+
+Every function remains `RESIDUAL` with `UNBOUND_RESIDUAL` source binding. No function is `VERIFIED`. No gateway, Aurora, wallet, kernel, chain, or VM implementation is duplicated. Normative contract work remains tracked in [atc-standards Issue #111](https://github.com/A-TownChain-Okosystems/atc-standards/issues/111).
+
+### Required follow-up
+
+1. Identify the active executable owner and record exact repository HEAD, source path, symbol and blob SHA.
+2. Bind only source-backed functions; keep unresolved records residual or blocked.
+3. Run the catalog validator and source reconciliation against the updated branch.
+4. Execute authorization, routing, deadline/idempotency, overload, breaker recovery, event replay, redaction, shutdown and Windows/Linux tests.
+5. Attach exact-SHA Run→Job→Step, terminal conclusion, exit code, logs and artifact hashes before any status promotion.
+
+Catalog totals after this additive update: **45 components / 167 function contracts / 10 cross-component interfaces**. These are inventory counts, not implementation-completeness or verification claims. Release remains `BLOCKED`.
+
+
+## Maintenance System — ATC-STD-MAINT-000 (2026-10-15)
+
+Normative parent-standard work is tracked in [atc-standards Issue #112](https://github.com/A-TownChain-Okosystems/atc-standards/issues/112). The existing catalog has been extended with `COMP-MAINTENANCE-LIFECYCLE`, `FN-MAINT-000..024`, and residual interfaces `IF-011` and `IF-012`.
+
+### Lifecycle
+
+`DETECT → ASSESS → CLASSIFY → PLAN → APPROVE → IMPLEMENT → TEST → VALIDATE → DEPLOY → MONITOR → EVIDENCE → CLOSE`
+
+Risk classes: `M0` routine; `M1` operational; `M2` security-sensitive; `M3` critical/trust-boundary changes requiring independent review, explicit human approval, recovery planning and post-deployment verification.
+
+### Ownership boundary
+
+- `atc-standards` owns the normative lifecycle, risk, approval and evidence contract.
+- Each implementation repository remains the SSOT for its own runtime, package, wallet, VM, node, kernel, Aurora or OS behavior.
+- `a-townchain-ecosystem` owns integration/catalog/compliance/evidence orchestration only; it must not become a second updater or domain implementation.
+- Maintenance actions must delegate to canonical owner APIs and must not bypass owner authorization or capability checks.
+
+### Initial state and evidence rule
+
+All 25 maintenance function contracts are `RESIDUAL` with `UNBOUND_RESIDUAL` source bindings. The component verification gate is `BLOCKED`. No implementation or verification is claimed. A maintenance run may be called `VERIFIED` only with exact-SHA terminal Run→Job→Step, conclusion, exit code, logs and artifact hashes; green CI alone is insufficient.
+
+Catalog inventory after the additive update: **47 components / 227 function contracts / 12 cross-component interfaces**. These are inventory counts, not proof of implementation completeness or release readiness.
+
+
+## Ecosystem Connection Matrix — what must connect where (2026-10-15)
+
+The machine-readable matrix is stored in the existing JSON catalog under `connection_matrix` (schema `1.0.0`). It records **115 unique provider→consumer connections** derived from catalog dependencies plus explicit critical paths. These are declared integration requirements, not proof of working interfaces.
+
+### Integration map and required order
+
+| Priority | Provider → consumer | What must be integrated | Gate before treating as available |
+|---|---|---|---|
+| P0 | `COMP-STANDARDS → component owners` | Normative schemas, versioning, encodings, error semantics, conformance vectors | Standard registry entry + owner/source bindings |
+| P0 | `COMP-SHIVA → COMP-GLOBUS` | Kernel syscall/capability/IPC ABI | ABI version, privilege tests, IPC/error tests |
+| P0 | `COMP-CHAIN ↔ COMP-ALGO` | Consensus inputs, canonical encodings and transition/error semantics | Consensus decision and exact conformance vectors; unknown finality stays BLOCKED |
+| P0 | `COMP-CHAIN ↔ COMP-VM` | Execution context, state access, deterministic results, resource/gas accounting | Bytecode/runtime compatibility vectors and deterministic replay tests |
+| P0 | `COMP-TOOLCHAIN → COMP-VM` and `COMP-LANG → COMP-TOOLCHAIN` | Compiler/build artifact to VM input, diagnostics and bytecode format | Canonical ATCB decision, versioned schema and end-to-end vectors |
+| P0 | `COMP-NODE → COMP-SDK / COMP-WALLET / COMP-ATC-DASHBOARD` | RPC, transaction submission, typed errors, receipt and status reporting | Versioned RPC schema, negative tests, exact source and CI evidence |
+| P0 | `COMP-WALLET → COMP-CHAIN` | Canonically encoded signed transactions and transaction result reconciliation | TX-V2 vectors, signature/domain/replay tests; chain remains authoritative |
+| P0 | `COMP-GLOBUS → COMP-AURORA` | Capability-scoped OS/service API, quotas, policy and audit | Deny-by-default and privilege-boundary tests |
+| P0 | `COMP-AURORA → approval-gated COMP-WALLET path` | AI-requested wallet actions with explicit user approval | No direct key/seed access; approval-state and audit-redaction tests |
+| P1 | `COMP-PLATFORM-DISTRIBUTION → native GlobusOS + Windows/Linux host targets` | Package/install/update/rollback delegation, platform support matrix | Exact host/hardware tests, signed artifacts and recovery evidence |
+| P1 | `COMP-GLOBUS / COMP-SHIVA → COMP-GUEST-OS-VIRT` | Guest lifecycle, isolation, device/display/input boundary and resource quotas | Backend decision, host/guest matrix, isolation and recovery tests; currently BLOCKED |
+| P1 | `COMP-MAINTENANCE-LIFECYCLE → canonical owners → release gate` | Drift/risk/approval, owner-delegated action, rollback and evidence collection | Per-target exact SHA, run/job/step, exit code/logs/artifact hashes; missing evidence blocks release |
+| P1 | `COMP-STANDARDS → COMP-ECOSYSTEM / COMP-ATC-ENG` | Normative registry, requirement-to-contract mapping and policy validation | Schema/registry validator output tied to exact commit |
+| P1 | `COMP-SDK → COMP-NODE / COMP-CHAIN` | Provider compatibility, transaction vectors, chain identity and typed RPC errors | Cross-version compatibility tests and reproducible vectors |
+| P2 | `COMP-IDE → COMP-TOOLCHAIN / COMP-VM` | Canonical compile/run/diagnostic delegation and source mapping | No second compiler/VM; reproducible build and integration tests |
+| P2 | `COMP-CONTRACTS → COMP-CHAIN / COMP-VM` | Contract registry, deployment references and runtime interface | Schema/version, authorization and deterministic execution tests |
+| P2 | `COMP-LAUNCHPAD / COMP-MARKET → COMP-CONTRACTS / COMP-CHAIN` | Product/domain workflows against canonical contract and chain APIs | Auth, idempotency, typed errors and end-to-end tests |
+| P2 | `COMP-STORAGE → COMP-SHIVA` | Capability-scoped storage, integrity metadata and recovery | Access-boundary, integrity and restore tests |
+| P2 | `COMP-ZKP → COMP-CHAIN` | Proof/public-input encoding and verification result contract | Normative approval and positive/negative vectors; no security property inferred |
+| P2 | `COMP-GENESIS → COMP-CHAIN / COMP-GLOBUS / COMP-TOOLCHAIN` | Genesis workflow, chain state, OS service and build artifact contracts | Versioned schemas, reproducibility and end-to-end evidence |
+
+### Matrix rules
+
+- **Provider** supplies the contract or service; **consumer** depends on it. Existing `cross_component_interfaces` remain cross-referenced; their direction is not silently rewritten.
+- `RESIDUAL` means required but not source-bound/conformance-tested; `BLOCKED` means the architecture/implementation decision must be resolved first; `EXCLUDED` means no production connection is implied.
+- Every production edge must carry canonical repository, exact full commit SHA, source path/symbol, interface version, failure semantics, security boundary, compatibility tests and terminal CI evidence.
+- No edge becomes `VERIFIED` merely because it exists in `depends_on`, a catalog row or a green CI summary. The live drift gate must continue to exclude `demo-repository`.
+- Ownership remains unchanged: implementation SSOTs stay in their canonical repositories; `a-townchain-ecosystem` maintains the integration matrix, compliance mapping and evidence only.
+
+**Current matrix inventory:** 115 matrix connections; 116 declared dependency edges; 112 unique dependency pairs; 3 additional critical paths; 2 blocked; 1 excluded; 0 verified. These counts are planning state, not a completeness or release-readiness claim.
+
+
+## Shared UI Controls and Interaction Contracts (2026-10-15)
+
+The existing catalog now includes `COMP-UI-PRIMITIVES` for shared GlobusOS UI controls. It is a catalog/control contract, not a claim that a toolkit has been implemented or source-verified. Canonical UI source path and symbols remain unresolved; all 35 new function contracts are `RESIDUAL` / `UNBOUND_RESIDUAL`.
+
+### Controls covered
+
+| Group | Catalog contracts | Required integration |
+|---|---|---|
+| Settings and options | settings pages, category navigation, option panels | Delegate each setting to its owning system/service API; validate schema, scope and policy |
+| Menus and navigation | application menus, context menus, tabs, accordions | Stable action IDs, keyboard navigation, stale-state checks and execution-time authorization |
+| Input controls | dropdowns, sliders, switches, buttons, radio groups, checkboxes, text/numeric inputs and forms | Typed values, min/max/step/units, validation, pending/error states and duplicate-submit protection |
+| Physical/device controls | lever/actuator widgets, device controls | Commands are requests, not proof of observed physical state; device owner enforces interlocks, limits and authorization |
+| Layout and positioning | window/control position, docking, responsive layout, drag/drop/resize | Valid display/workspace bounds, constraints, keyboard alternatives and restoration |
+| Action feedback | dialogs/confirmation, status indicators, notifications, progress, empty/error views | Distinguish requested, pending, observed, failed and completed states; confirmation binds to exact action |
+| Accessibility and presentation | focus/keyboard/shortcuts, accessibility semantics, themes/scaling, localization | Accessible names/roles/states, keyboard operation, locale-independent IDs and policy-respecting appearance |
+| State and event lifecycle | persistence/restoration, event routing, undo/redo, apply/save/cancel/reset, permission-aware state | Versioned state, no restoration of trusted authorization, typed owner API calls and fail-closed privileged actions |
+
+### UI integration boundaries
+
+- `COMP-UI-PRIMITIVES` is a shared component owned by the GlobusOS implementation repository, subject to confirmation of the canonical source path. It is consumed by desktop shell, system settings, monitor, administration/recovery, device management, security center, ATC dashboard, Aurora control panel, virtualization control panel and developer tools.
+- UI controls emit typed action requests. **The owning service** validates inputs, permissions, policy, interlocks and state transitions. A disabled button, hidden menu item, slider position or switch state is never an authorization boundary.
+- For a switch or lever, distinguish the *requested value*, *accepted command*, and *observed effective state*. Never display success solely because the user moved the control.
+- Position, window geometry and docking belong to UI/window-management services; they must not confer access to the represented process, file, device or guest OS.
+- Persistent UI state is versioned and limited to non-sensitive preferences/layout. Secrets, capabilities, approvals and authentication state must not be restored as trusted state.
+- Each control requires keyboard/focus behavior, accessibility semantics, validation, loading/disabled/unavailable/error states, and negative tests. Security-sensitive actions additionally require owner-side authorization and audit/redaction tests.
+
+### Updated matrix inventory
+
+**125 matrix connections; 129 declared dependency edges; 125 unique dependency pairs; 3 additional critical paths; 2 BLOCKED; 1 EXCLUDED; 0 VERIFIED.** These are catalog counts only. No implementation or accessibility/security compliance is inferred.
+
+
+## GlobusOS UI source reconciliation — exact HEAD 2026-10-15
+
+Repository: [`globus-os`](https://github.com/A-TownChain-Okosystems/globus-os/commit/3bf000143ec9bfad79d0bacc36b99b8111178b95)  
+Commit SHA: `3bf000143ec9bfad79d0bacc36b99b8111178b95` · root tree SHA: `66413b78b5a9c09bdb2988ad33e6bcf8e71bc1fa`
+
+A partial source reconciliation binds six existing UI-adjacent contracts to exact files and blob SHAs. These are source mappings only; readiness remains `RESIDUAL` and no function is marked `VERIFIED`.
+
+| Function contract | Exact source path | Source blob SHA | Symbol / scope |
+|---|---|---|---|
+| `FN-UI-POSITION-001` | `system/graphics/src/wm.rs` | `eeee511cffe49b2d70915975926f29a3c911855b` | `WindowManager::{open,set_state,placements}` — window state/placement only |
+| `FN-UI-LAYOUT-001` | `system/graphics/src/compositor.rs` | `2c1e1001ab2b7734cc4e55c89ba6ec16b4660014` | `Rect`, `SurfacePlacement`, `Compositor::{create,focus}` |
+| `FN-UI-FOCUS-001` | `system/graphics/src/input.rs` | `1b4c03b8a3abe6116bd6092dc98b6f72abc3a72f` | `InputRouter::{set_pointer_focus,set_keyboard_focus,route}` |
+| `FN-UI-EVENT-001` | `system/graphics/src/input.rs` | `1b4c03b8a3abe6116bd6092dc98b6f72abc3a72f` | `InputRouter::route` |
+| `FN-UI-STATE-001` | `system/graphics/src/desktop.rs` | `ee3e839dae95e2b8552d7c94f3b690b3f321b808` | `DesktopSession::{mode,lock,suspend,resume,shutdown}` |
+| `FN-UI-NOTIFICATION-001` | `system/graphics/src/shell.rs` | `392a6aaa3968116748be970d901c383b59fa482e` | `DesktopShell::{notify,dismiss_notification,notifications}` |
+
+Additional inspected candidates include `system/settings/src/lib.rs` (capability-gated settings core) and the ATCLang draft modules under `modules/atc-globus-desktop/src/`. The latter include TODO/planned functions and are not treated as completed UI widgets. No generic reusable dropdown, slider, switch, button, menu or form toolkit was established in this pass.
+
+All six bindings use `SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED`; the six function readiness values remain `RESIDUAL`. The component source inventory remains incomplete and exported-symbol reconciliation is false. Required next evidence: full source census, owner-service interface mapping, exact-head UI/API and negative-path tests, accessibility/security tests, and Run → Job → Step terminal results with exit codes/logs/artifact hashes.

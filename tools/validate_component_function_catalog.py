@@ -16,8 +16,14 @@ GATE_STATUS = {"NOT_RUN", "VERIFIED", "BLOCKED", "RESIDUAL"}
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 REQUIRED_FUNCTION_FIELDS = {
     "id", "name", "purpose", "inputs", "outputs", "failure_modes",
-    "acceptance", "test_classes", "readiness",
+    "acceptance", "test_classes", "readiness", "contract_analysis",
 }
+CONTRACT_ANALYSIS_FIELDS = {
+    "schema_version", "purpose", "inputs", "outputs", "preconditions",
+    "behavior", "architecture_placement", "consumers", "reuse",
+    "failure_semantics", "source_evidence",
+}
+ANALYSIS_STATES = {"DOCUMENTED_RESIDUAL", "UNRESOLVED", "BLOCKED", "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED"}
 
 
 def validate(doc: dict) -> tuple[list[str], dict]:
@@ -128,6 +134,57 @@ def validate(doc: dict) -> tuple[list[str], dict]:
             missing = sorted(REQUIRED_FUNCTION_FIELDS - set(fn))
             if missing:
                 errors.append(f"{fid}: missing required fields: {', '.join(missing)}")
+            analysis = fn.get("contract_analysis")
+            if not isinstance(analysis, dict):
+                errors.append(f"{fid}: contract_analysis must be an object")
+            else:
+                missing_analysis = sorted(CONTRACT_ANALYSIS_FIELDS - set(analysis))
+                if missing_analysis:
+                    errors.append(f"{fid}: contract_analysis missing fields: {', '.join(missing_analysis)}")
+                for field in ("purpose", "inputs", "outputs", "behavior",
+                              "architecture_placement", "consumers", "reuse", "failure_semantics", "source_evidence"):
+                    value = analysis.get(field)
+                    if not isinstance(value, dict):
+                        errors.append(f"{fid}: contract_analysis.{field} must be an object")
+                # Preconditions may be represented either as a status-bearing object
+                # or as an explicit list of condition strings. A list is descriptive
+                # only; it never upgrades the function's verification status.
+                preconditions = analysis.get("preconditions")
+                if not isinstance(preconditions, dict):
+                    if (not isinstance(preconditions, list) or not preconditions
+                            or any(not isinstance(item, str) or not item.strip() for item in preconditions)):
+                        errors.append(f"{fid}: contract_analysis.preconditions must be an object or a non-empty array of non-empty strings")
+                for field in ("purpose", "inputs", "outputs", "failure_semantics"):
+                    value = analysis.get(field)
+                    if isinstance(value, dict) and value.get("status") not in ANALYSIS_STATES:
+                        errors.append(f"{fid}: contract_analysis.{field} has invalid status {value.get('status')!r}")
+                for field in ("consumers", "reuse"):
+                    value = analysis.get(field)
+                    if isinstance(value, dict):
+                        if value.get("status") not in {"DOCUMENTED_RESIDUAL", "UNRESOLVED", "BLOCKED"}:
+                            errors.append(f"{fid}: contract_analysis.{field} must remain residual/unresolved/blocked until evidence-backed")
+                        if not isinstance(value.get("entries"), list):
+                            errors.append(f"{fid}: contract_analysis.{field}.entries must be an array")
+                placement = analysis.get("architecture_placement")
+                if isinstance(placement, dict):
+                    if placement.get("component_id") != cid:
+                        errors.append(f"{fid}: architecture_placement.component_id must equal owning component {cid}")
+                    if placement.get("canonical_owner") in (None, "", "UNKNOWN", "UNRESOLVED"):
+                        errors.append(f"{fid}: architecture_placement.canonical_owner must identify a canonical owner or be explicitly blocked")
+                evidence = analysis.get("source_evidence")
+                if isinstance(evidence, dict):
+                    if evidence.get("status") == "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED":
+                        for key in ("repository", "commit_sha", "path", "symbol", "blob_sha"):
+                            if not evidence.get(key):
+                                errors.append(f"{fid}: source_evidence marked source-mapped but missing {key}")
+                        for key in ("commit_sha", "blob_sha"):
+                            if evidence.get(key) and not SHA_RE.fullmatch(str(evidence[key])):
+                                errors.append(f"{fid}: source_evidence.{key} must be a full 40-character SHA")
+                    elif evidence.get("status") not in {"UNRESOLVED", "BLOCKED", "DOCUMENTED_RESIDUAL"}:
+                        errors.append(f"{fid}: invalid source_evidence status {evidence.get('status')!r}")
+                behavior = analysis.get("behavior")
+                if isinstance(behavior, dict) and behavior.get("status") not in {"DOCUMENTED_RESIDUAL", "UNRESOLVED", "BLOCKED"}:
+                    errors.append(f"{fid}: behavior must remain residual/unresolved/blocked until behavior invariants are source-backed")
             if fn.get("readiness") not in READINESS:
                 errors.append(f"{fid}: invalid readiness {fn.get('readiness')!r}")
             for list_field in ("inputs", "outputs", "failure_modes", "acceptance", "test_classes"):
