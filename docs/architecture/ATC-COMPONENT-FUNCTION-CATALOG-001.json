@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.1.0",
   "catalog_date": "2026-10-15",
-  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification. EVM architecture addendum (2026-10-15): added COMP-EVM-COMPAT and FN-EVM-COMPAT-001..005 as separate, BLOCKED architecture/function contracts. Added ATC-EVM-COMPATIBILITY-DECISION-001.md. No option selected; no EVM compatibility or implementation is asserted; native ATC-VM remains unchanged pending explicit approval. Guest OS virtualization addendum (2026-10-15): added COMP-GUEST-OS-VIRT and FN-GUEST-VIRT-001..005 for hosted Windows/Linux VMs, backend/profile selection, capability/resource isolation, desktop console integration, and compatibility verification. Added GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md. Native dual boot is separately scoped; backend not selected; implementation and verification are not claimed. Contract-analysis migration (2026-10-15): added machine-readable purpose, inputs/outputs, preconditions, behavior, architecture placement, consumers, reuse, failure semantics, and source evidence for each function. Unknown call graph, side effects, trust boundaries, error contract, and reuse remain explicitly UNRESOLVED; this migration is not source or functional verification. Added 10 user-facing control/UI/system-area components and 20 explicit function contracts on 2026-10-15. All new entries remain UNBOUND_RESIDUAL with no implementation claim; owner SSOTs are retained. 2026-10-15: Added COMP-API-ORCHESTRATOR and FN-API-ORCH-001..011 as residual contract records after ownership search. Python/ATCLang evidence is documentation-only; canonical implementation owner remains unresolved; IF-010 is proposed/residual.",
+  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification. EVM architecture addendum (2026-10-15): added COMP-EVM-COMPAT and FN-EVM-COMPAT-001..005 as separate, BLOCKED architecture/function contracts. Added ATC-EVM-COMPATIBILITY-DECISION-001.md. No option selected; no EVM compatibility or implementation is asserted; native ATC-VM remains unchanged pending explicit approval. Guest OS virtualization addendum (2026-10-15): added COMP-GUEST-OS-VIRT and FN-GUEST-VIRT-001..005 for hosted Windows/Linux VMs, backend/profile selection, capability/resource isolation, desktop console integration, and compatibility verification. Added GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md. Native dual boot is separately scoped; backend not selected; implementation and verification are not claimed. Contract-analysis migration (2026-10-15): added machine-readable purpose, inputs/outputs, preconditions, behavior, architecture placement, consumers, reuse, failure semantics, and source evidence for each function. Unknown call graph, side effects, trust boundaries, error contract, and reuse remain explicitly UNRESOLVED; this migration is not source or functional verification. Added 10 user-facing control/UI/system-area components and 20 explicit function contracts on 2026-10-15. All new entries remain UNBOUND_RESIDUAL with no implementation claim; owner SSOTs are retained. 2026-10-15: Added COMP-API-ORCHESTRATOR and FN-API-ORCH-001..011 as residual contract records after ownership search. Python/ATCLang evidence is documentation-only; canonical implementation owner remains unresolved; IF-010 is proposed/residual. 2026-10-15: Added COMP-MAINTENANCE-LIFECYCLE and FN-MAINT-000..024 plus IF-011/IF-012 aligned to atc-standards Issue #112. Catalog/control-plane registration only; no runtime implementation or verification is asserted.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -30032,6 +30032,3913 @@
           "security review"
         ]
       }
+    },
+    {
+      "id": "COMP-MAINTENANCE-LIFECYCLE",
+      "name": "Ecosystem Maintenance and Lifecycle Management",
+      "layer": "L7",
+      "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "role": "Cross-ecosystem maintenance control-plane contract for inventory, risk, approval, rollout, recovery and evidence; execution delegates to each canonical component owner.",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-STANDARDS",
+        "COMP-ATC-ENG",
+        "COMP-PLATFORM-DISTRIBUTION",
+        "COMP-GLOBUS",
+        "COMP-SHIVA",
+        "COMP-CHAIN",
+        "COMP-VM",
+        "COMP-AURORA",
+        "COMP-WALLET",
+        "COMP-NODE"
+      ],
+      "functions": [
+        {
+          "id": "FN-MAINT-000",
+          "name": "Canonical inventory and ownership",
+          "purpose": "Resolve each maintenance target to one canonical implementation owner and exact version.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Resolve each maintenance target to one canonical implementation owner and exact version."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-001",
+          "name": "Drift and version detection",
+          "purpose": "Compare expected and observed source, configuration, dependency, manifest and deployed state.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Compare expected and observed source, configuration, dependency, manifest and deployed state."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-002",
+          "name": "Vulnerability and advisory assessment",
+          "purpose": "Assess advisories against exact affected versions, deployment context and exposure.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Assess advisories against exact affected versions, deployment context and exposure."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-003",
+          "name": "Risk classification M0-M3",
+          "purpose": "Classify risk from impact, trust boundary, reversibility, blast radius and evidence uncertainty.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Classify risk from impact, trust boundary, reversibility, blast radius and evidence uncertainty."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-004",
+          "name": "Plan and dependency ordering",
+          "purpose": "Build a dependency-aware plan with preconditions, stop conditions and bounded scope.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Build a dependency-aware plan with preconditions, stop conditions and bounded scope."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-005",
+          "name": "Identity, capability and authorization",
+          "purpose": "Enforce least-privilege identity and canonical owner policy before every action.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Enforce least-privilege identity and canonical owner policy before every action."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-006",
+          "name": "Approval and separation of duties",
+          "purpose": "Require risk-appropriate approvals, including independent review and human approval for M3.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Require risk-appropriate approvals, including independent review and human approval for M3."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-007",
+          "name": "Artifact provenance and integrity",
+          "purpose": "Verify artifact digest, signature, provenance and authorized source before execution.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Verify artifact digest, signature, provenance and authorized source before execution."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-008",
+          "name": "Backup and restore preconditions",
+          "purpose": "Validate backup integrity and restore readiness before risky changes.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Validate backup integrity and restore readiness before risky changes."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-009",
+          "name": "Staged and atomic update",
+          "purpose": "Stage updates and commit atomically where supported, with bounded interruption recovery.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Stage updates and commit atomically where supported, with bounded interruption recovery."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-010",
+          "name": "Migration and schema compatibility",
+          "purpose": "Validate schema versions, migration direction and compatibility windows.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Validate schema versions, migration direction and compatibility windows."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-011",
+          "name": "Rollback and recovery safety",
+          "purpose": "Validate rollback limits and block deployment when no safe recovery path exists.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Validate rollback limits and block deployment when no safe recovery path exists."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-012",
+          "name": "Repair and reconciliation",
+          "purpose": "Reconcile drift without destructive guessing or overwriting canonical data.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Reconcile drift without destructive guessing or overwriting canonical data."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-013",
+          "name": "Health and readiness checks",
+          "purpose": "Evaluate pre/post maintenance health using component-owner contracts.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Evaluate pre/post maintenance health using component-owner contracts."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-014",
+          "name": "Resource bounds and concurrency",
+          "purpose": "Bound queue, concurrency, rates, storage and execution time.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Bound queue, concurrency, rates, storage and execution time."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-015",
+          "name": "Offline and interrupted operation",
+          "purpose": "Handle disconnection and resume safely after revalidating identity and artifact digests.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Handle disconnection and resume safely after revalidating identity and artifact digests."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-016",
+          "name": "Native GlobusOS lifecycle",
+          "purpose": "Define maintenance contracts for native installation, boot chain, kernel and system services.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Define maintenance contracts for native installation, boot chain, kernel and system services."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-017",
+          "name": "Windows/Linux host lifecycle",
+          "purpose": "Maintain supported host applications without conflating host mode with native OS mode.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Maintain supported host applications without conflating host mode with native OS mode."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-018",
+          "name": "Cross-platform conformance and SSOT reuse",
+          "purpose": "Verify platforms reuse canonical protocol/runtime behavior and do not duplicate implementations.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Verify platforms reuse canonical protocol/runtime behavior and do not duplicate implementations."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-019",
+          "name": "Security patch and emergency path",
+          "purpose": "Prioritize critical fixes without bypassing authorization, provenance or audit controls.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Prioritize critical fixes without bypassing authorization, provenance or audit controls."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-020",
+          "name": "Monitoring and anomaly detection",
+          "purpose": "Monitor rollout health, drift, failures and unexpected state changes.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Monitor rollout health, drift, failures and unexpected state changes."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-021",
+          "name": "Audit events and secret redaction",
+          "purpose": "Record attributable maintenance events while redacting secrets and sensitive payloads.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Record attributable maintenance events while redacting secrets and sensitive payloads."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-022",
+          "name": "Evidence retention and reproducibility",
+          "purpose": "Bind evidence to exact source/artifact digests and reproducible test provenance.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Bind evidence to exact source/artifact digests and reproducible test provenance."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-023",
+          "name": "Closeout, residuals, deprecation and EOL",
+          "purpose": "Close only after required gates pass and residuals have explicit disposition.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Close only after required gates pass and residuals have explicit disposition."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-MAINT-024",
+          "name": "Maintenance run state machine",
+          "purpose": "Gate every lifecycle transition from DETECT through CLOSE.",
+          "inputs": [
+            "target identity and exact version",
+            "risk class and policy",
+            "canonical owner contract",
+            "maintenance run/evidence context"
+          ],
+          "outputs": [
+            "typed decision/result",
+            "audit correlation ID",
+            "evidence reference"
+          ],
+          "failure_modes": [
+            "missing or stale evidence",
+            "owner/policy unavailable",
+            "authorization denied",
+            "target/version mismatch"
+          ],
+          "acceptance": [
+            "Unknown state fails closed and never implies success",
+            "Canonical owner retains implementation authority",
+            "Every result binds to exact target version and maintenance run"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "negative",
+            "integration",
+            "evidence"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Maintenance contract candidate only. No runtime implementation is claimed; bind to canonical owner APIs and exact source SHA after ownership review."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Owner policy, target identity and exact version remain to be bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and side effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Time, concurrency, storage, retry and retention limits require normative values and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability checks, owner-policy delegation and trust boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative standard and owner interface versions are not yet registered or source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Dependency graph and owner API versions require source-backed reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA implementation evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical owner repository",
+              "exact full commit SHA",
+              "source path and symbol",
+              "workflow run ID",
+              "job and step",
+              "terminal conclusion and exit code",
+              "logs and artifact hashes"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Gate every lifecycle transition from DETECT through CLOSE."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "target identity and exact version",
+                "risk class and policy",
+                "canonical owner contract",
+                "maintenance run/evidence context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed decision/result",
+                "audit correlation ID",
+                "evidence reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Owner policy and operation preconditions remain to be source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-MAINTENANCE-LIFECYCLE",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Canonical consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Maintenance must reuse canonical owner APIs; bindings remain unresolved."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing or stale evidence",
+                "owner/policy unavailable",
+                "authorization denied",
+                "target/version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+        "canonical_path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Maintenance is registered as a control-plane contract only. No updater, package manager, kernel, wallet, VM, node or Aurora implementation is asserted."
+      },
+      "canonical_path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
+      "role_and_non_goals": {
+        "role": "Normative lifecycle is owned by atc-standards; ecosystem owns catalog/integration/compliance/evidence only.",
+        "non_goals": {
+          "status": "RESIDUAL",
+          "reason": "No implementation SSOT may be created here; execution delegates to canonical component owners."
+        }
+      },
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "Maintenance request, approval, state-transition and evidence schemas remain to be specified by ATC-STD-MAINT-000."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "reason": "Deny-by-default authorization, provenance, human approval and redaction are requirements, not demonstrated enforcement."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Queue, concurrency, timeouts, resource limits, offline behavior and evidence retention need values and tests."
+      },
+      "test_and_ci_gates": {
+        "status": "BLOCKED",
+        "required": [
+          "standard registry registration",
+          "catalog schema validation",
+          "owner/SSOT reconciliation",
+          "M0-M3 policy tests",
+          "authorization tests",
+          "artifact signature/provenance tests",
+          "interrupted-update tests",
+          "backup/restore and rollback tests",
+          "Windows/Linux and native GlobusOS lifecycle tests",
+          "audit redaction tests",
+          "exact-SHA Run→Job→Step/exit/log/artifact evidence"
+        ]
+      },
+      "known_conflicts_and_residuals": [
+        "Normative parent standard tracked in atc-standards Issue #112; standard file and registry registration remain pending.",
+        "Each component remains its own implementation SSOT; ecosystem is not an updater/runtime implementation.",
+        "All 25 function contracts are residual; none is VERIFIED."
+      ],
+      "verification_evidence": {
+        "status": "BLOCKED",
+        "reason": "No maintenance runtime, owner API conformance suite or terminal exact-SHA evidence is established.",
+        "required_evidence": [
+          "canonical owner and exact SHA per function",
+          "workflow run/job/step terminal result",
+          "exit codes and logs",
+          "artifact hashes",
+          "security review",
+          "recovery test evidence"
+        ]
+      }
     }
   ],
   "cross_component_interfaces": [
@@ -30103,6 +34010,20 @@
       "producer": "COMP-API-ORCHESTRATOR",
       "consumer": "COMP-CHAIN",
       "contract": "Proposed versioned service-dispatch envelope carrying request ID, deadline/cancellation, caller capability context, typed result/error and audit correlation; must delegate chain semantics to COMP-CHAIN and never confer consensus/finality authority.",
+      "status": "RESIDUAL"
+    },
+    {
+      "id": "IF-011",
+      "producer": "COMP-STANDARDS",
+      "consumer": "COMP-MAINTENANCE-LIFECYCLE",
+      "contract": "Normative ATC-STD-MAINT-000 lifecycle, M0-M3 risk classes, approval policy, evidence requirements and terminal status contract; version must be registered before conformance claims.",
+      "status": "RESIDUAL"
+    },
+    {
+      "id": "IF-012",
+      "producer": "COMP-MAINTENANCE-LIFECYCLE",
+      "consumer": "COMP-PLATFORM-DISTRIBUTION",
+      "contract": "Delegated package/install/update/rollback request with exact target digest, risk class, approval reference, preconditions and evidence; package implementation remains with canonical owners.",
       "status": "RESIDUAL"
     }
   ],
