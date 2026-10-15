@@ -288,44 +288,36 @@
   ],
   "missing_contract_candidates": [
     {
-      "suggested_id": "FN-LANG-011",
+      "id": "FN-LANG-011",
       "name": "Lexical analysis and token diagnostics",
       "source_path": "crates/atc-core/src/lexer.rs",
       "symbol": "tokenize",
       "blob_sha": "6f503a1b1c7a7145284eb5670830946fdcfdac09",
-      "readiness": "RESIDUAL"
+      "status": "REGISTERED_RESIDUAL"
     },
     {
-      "suggested_id": "FN-LANG-012",
+      "id": "FN-LANG-012",
       "name": "AST model and canonical serialization",
       "source_path": "crates/atc-core/src/ast.rs",
       "symbol": "Program::to_json",
       "blob_sha": "8721d367971ac93db2578303006045bac754993b",
-      "readiness": "RESIDUAL"
+      "status": "REGISTERED_RESIDUAL"
     },
     {
-      "suggested_id": "FN-LANG-013",
-      "name": "ABI and protocol IR domain separation",
+      "id": "FN-LANG-013",
+      "name": "ABI and protocol IR type separation",
       "source_path": "crates/atc-core/src/ir.rs",
       "symbol": "IrValue::ir_type",
       "blob_sha": "081cf8df0600cb952fc2b569122eed5a22912047",
-      "readiness": "RESIDUAL"
+      "status": "REGISTERED_RESIDUAL"
     },
     {
-      "suggested_id": "FN-LANG-014",
-      "name": "Compiler CLI contract and process exit semantics",
+      "id": "FN-LANG-014",
+      "name": "Compiler CLI process and command contract",
       "source_path": "crates/atc-core/src/main.rs",
       "symbol": "main",
       "blob_sha": "95ffe8f6c37fb7d687f77f2c778e3802cf34d760",
-      "readiness": "RESIDUAL"
-    },
-    {
-      "suggested_id": "FN-LANG-015",
-      "name": "Independent repository policy and evidence audit",
-      "source_path": "tools/ci_independent_audit.py",
-      "symbol": "main",
-      "blob_sha": "a6437ee8c4067568b41c9a8b440fc0d1aede4ae5",
-      "readiness": "RESIDUAL"
+      "status": "REGISTERED_RESIDUAL"
     }
   ],
   "test_inventory": {
@@ -384,6 +376,40 @@
     "This is a source-census addendum, not a claim that the whole repository or every .atc example/specification is semantically reconciled.",
     "Symbols listed under missing_contract_candidates are candidates pending comparison with all catalog contracts and source call graph; do not treat candidate IDs as already registered.",
     "No function is marked VERIFIED. Exact-head workflow summary alone does not prove every function's behavior.",
-    "The 174-entry tree includes all repository paths; the 22-file source/build count and 5 test-path count are retained from the initial census classification and require deterministic re-run evidence."
+    "The 174-entry tree includes all repository paths; the 22-file source/build count and 5 test-path count are retained from the initial census classification and require deterministic re-run evidence.",
+    "The canonical COMP-LANG section has been updated on the PR branch, but reconciliation remains partial and no function is marked VERIFIED."
+  ],
+  "catalog_reconciliation": {
+    "status": "PARTIAL_RECONCILIATION_COMMITTED",
+    "catalog_path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
+    "catalog_commit_sha": "bdd00eaa4b73fdb80dba971e16882eb3fe0a4f69",
+    "catalog_blob_sha": "980faeaca4f74acbb0fbecafbed6ee55320b2676",
+    "component_id": "COMP-LANG",
+    "source_commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+    "source_tree_sha": "41e6a63b30422ad22355c4d21070cb80c819999f",
+    "existing_contracts_refreshed": 10,
+    "new_contracts_registered": [
+      "FN-LANG-011",
+      "FN-LANG-012",
+      "FN-LANG-013",
+      "FN-LANG-014"
+    ],
+    "current_function_contract_count": 14,
+    "stable_id_collision_check": "PASS — all catalog function IDs unique at readback",
+    "stale_source_commit_bindings": "0 among COMP-LANG function bindings",
+    "additional_tooling_candidate": {
+      "path": "tools/ci_independent_audit.py",
+      "classification": "TOOLING_OR_GOVERNANCE_CANDIDATE_NOT_REGISTERED_AS_LANGUAGE_FUNCTION",
+      "reason": "The script audits repository policy/evidence rather than implementing a language/compiler capability; classify under tooling unless a separate tooling component contract is warranted."
+    },
+    "verification_boundary": "No function marked VERIFIED; source mapping and JSON readback do not prove runtime correctness."
+  },
+  "reconciliation_status": "PARTIAL",
+  "reconciliation_note": "COMP-LANG catalog reconciliation has been written on the PR branch: all ten existing bindings point to the current ATCLang commit with exact file blob SHAs, and four additional residual contracts are registered. Full bidirectional declaration classification, .atc/spec conformance and terminal CI evidence remain open.",
+  "next_actions": [
+    "Classify every remaining source declaration as contract-bound, parent/helper, test-only, tooling-only, excluded with reason, or unresolved",
+    "Map all 24 .atc files and 23 spec files to grammar/compiler capabilities and tests",
+    "Retrieve current PR CI for the resulting catalog commit and preserve Run→Job→Step→terminal conclusion/exit/log evidence",
+    "Keep COMP-LANG contracts RESIDUAL until semantic, security and test evidence supports a stronger status"
   ]
 }
