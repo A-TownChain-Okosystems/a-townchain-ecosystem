@@ -70,7 +70,34 @@
     "unresolved": 3,
     "implemented_full": 0,
     "verified": 0,
-    "headline": "The canonical Rust parser is a deliberate, fail-closed subset; G1 spec/registry and provenance still describe a broader Python-reference language. Equivalence is not established."
+    "headline": "The canonical Rust parser is a deliberate, fail-closed subset; G1 spec/registry and provenance still describe a broader Python-reference language. Equivalence is not established.",
+    "registry_items_crosswalk": {
+      "tokens": 63,
+      "keywords": 76,
+      "types": 84,
+      "namespaces": 31,
+      "parser_productions": 28,
+      "ast_nodes": 50,
+      "total": 332,
+      "token_status_counts": {
+        "SYMBOL_MATCH_ONLY": 24,
+        "NO_DIRECT_TOKEN_SYMBOL": 39
+      },
+      "keyword_status_counts": {
+        "NO_DEDICATED_KEYWORD_TOKEN": 66,
+        "RESERVED_BY_RUST_LEXER": 10
+      },
+      "production_status_counts": {
+        "METHOD_NAME_MATCH": 11,
+        "NO_DIRECT_METHOD_NAME_MATCH": 17
+      },
+      "ast_status_counts": {
+        "NO_DIRECT_AST_VARIANT_MATCH": 50
+      },
+      "types_all_semantic_review_required": 84,
+      "namespaces_all_resolver_review_required": 31,
+      "verified": 0
+    }
   },
   "features": [
     {
@@ -292,5 +319,2053 @@
     "Map every registry token, keyword, type, namespace, parser production, AST node and semantic rule to an implementation symbol and positive/negative test or documented exclusion.",
     "Fix stale G1 source-of-truth metadata: current repo documents Rust canonical and Python historical/unverified, while the spec/registry cite Python source as authority.",
     "Run exact-head CI and preserve Run→Job→Step→exit-code/log evidence; only then assign VERIFIED to individual contracts."
-  ]
+  ],
+  "registry_item_crosswalk": {
+    "schema_id": "ATCLANG-G1-REGISTRY-ITEM-CROSSWALK-001",
+    "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+    "registry_blob_sha": "72237be58c4419cc2d0f8248a9be08e0c8d6bf03",
+    "lexer_blob_sha": "6f503a1b1c7a7145284eb5670830946fdcfdac09",
+    "parser_blob_sha": "993df7a9a6626d869ef3e22f02a006fa13466586",
+    "ast_blob_sha": "8721d367971ac93db2578303006045bac754993b",
+    "method": "Automated name-level crosswalk over every registry entry against exact source blobs. This is a triage inventory, not a semantic proof. Any match requires grammar/call-site/test confirmation; no item is VERIFIED by name matching.",
+    "summary": {
+      "tokens": 63,
+      "keywords": 76,
+      "types": 84,
+      "namespaces": 31,
+      "parser_productions": 28,
+      "ast_nodes": 50,
+      "total": 332,
+      "token_status_counts": {
+        "SYMBOL_MATCH_ONLY": 24,
+        "NO_DIRECT_TOKEN_SYMBOL": 39
+      },
+      "keyword_status_counts": {
+        "NO_DEDICATED_KEYWORD_TOKEN": 66,
+        "RESERVED_BY_RUST_LEXER": 10
+      },
+      "production_status_counts": {
+        "METHOD_NAME_MATCH": 11,
+        "NO_DIRECT_METHOD_NAME_MATCH": 17
+      },
+      "ast_status_counts": {
+        "NO_DIRECT_AST_VARIANT_MATCH": 50
+      },
+      "types_all_semantic_review_required": 84,
+      "namespaces_all_resolver_review_required": 31,
+      "verified": 0
+    },
+    "items": {
+      "tokens": [
+        {
+          "item": "INT",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Int",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "FLOAT",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "STRING",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::String",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "BOOL",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "HEX_INT",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "OCTAL_INT",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "BIN_INT",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "BYTES_LIT",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "IDENT",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Ident",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "KEYWORD",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "TYPE",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "ATC_STD",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "PLUS",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Plus",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "MINUS",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Minus",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "STAR",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Star",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "SLASH",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Slash",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "PERCENT",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Percent",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "STARSTAR",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "PLUSEQ",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "MINUSEQ",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "STAREQ",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "SLASHEQ",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "EQ",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Eq",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "EQEQ",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "NEQ",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "LT",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Lt",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "GT",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Gt",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "LTE",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::LtEq",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "GTE",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::GtEq",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "AMP",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "PIPE",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "CARET",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "TILDE",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "LSHIFT",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "RSHIFT",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "AND",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "OR",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "NOT",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "ARROW",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Arrow",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "FAT_ARROW",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "DCOLON",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "ASSIGN",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Assign",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "QUESTION",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "DOTDOT",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "DOTDOTEQ",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "HASH",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "AT",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::At",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "LPAREN",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::LParen",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "RPAREN",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::RParen",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "LBRACE",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::LBrace",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "RBRACE",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::RBrace",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "LBRACKET",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "RBRACKET",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "COMMA",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Comma",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "COLON",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Colon",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "SEMICOLON",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "DOT",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Dot",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "UNDERSCORE",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "NEWLINE",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "INDENT",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "DEDENT",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "EOF",
+          "status": "SYMBOL_MATCH_ONLY",
+          "rust_symbol": "Token::Eof",
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        },
+        {
+          "item": "COMMENT",
+          "status": "NO_DIRECT_TOKEN_SYMBOL",
+          "rust_symbol": null,
+          "meaning": "A name match is not proof of lexical/semantic conformance; verify grammar and tests."
+        }
+      ],
+      "keywords": [
+        {
+          "item": "wallet",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "contract",
+          "status": "RESERVED_BY_RUST_LEXER",
+          "rust_symbol": "Token::Contract",
+          "meaning": "Reserved by lexer; grammar/semantic use still needs mapping."
+        },
+        {
+          "item": "struct",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "enum",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "impl",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "trait",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "fn",
+          "status": "RESERVED_BY_RUST_LEXER",
+          "rust_symbol": "Token::Fn",
+          "meaning": "Reserved by lexer; grammar/semantic use still needs mapping."
+        },
+        {
+          "item": "state",
+          "status": "RESERVED_BY_RUST_LEXER",
+          "rust_symbol": "Token::State",
+          "meaning": "Reserved by lexer; grammar/semantic use still needs mapping."
+        },
+        {
+          "item": "let",
+          "status": "RESERVED_BY_RUST_LEXER",
+          "rust_symbol": "Token::Let",
+          "meaning": "Reserved by lexer; grammar/semantic use still needs mapping."
+        },
+        {
+          "item": "const",
+          "status": "RESERVED_BY_RUST_LEXER",
+          "rust_symbol": "Token::Const",
+          "meaning": "Reserved by lexer; grammar/semantic use still needs mapping."
+        },
+        {
+          "item": "pub",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "priv",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "static",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "type",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "interface",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "if",
+          "status": "RESERVED_BY_RUST_LEXER",
+          "rust_symbol": "Token::If",
+          "meaning": "Reserved by lexer; grammar/semantic use still needs mapping."
+        },
+        {
+          "item": "else",
+          "status": "RESERVED_BY_RUST_LEXER",
+          "rust_symbol": "Token::Else",
+          "meaning": "Reserved by lexer; grammar/semantic use still needs mapping."
+        },
+        {
+          "item": "elif",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "for",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "while",
+          "status": "RESERVED_BY_RUST_LEXER",
+          "rust_symbol": "Token::While",
+          "meaning": "Reserved by lexer; grammar/semantic use still needs mapping."
+        },
+        {
+          "item": "loop",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "in",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "break",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "continue",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "return",
+          "status": "RESERVED_BY_RUST_LEXER",
+          "rust_symbol": "Token::Return",
+          "meaning": "Reserved by lexer; grammar/semantic use still needs mapping."
+        },
+        {
+          "item": "match",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "case",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "async",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "await",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "deploy",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "call",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "new",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "delete",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "import",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "from",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "as",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "use",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "emit",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "require",
+          "status": "RESERVED_BY_RUST_LEXER",
+          "rust_symbol": "Token::Require",
+          "meaning": "Reserved by lexer; grammar/semantic use still needs mapping."
+        },
+        {
+          "item": "event",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "error",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "assert",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "genesis",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "mint",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "burn",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "stake",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "unstake",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "vote",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "transfer",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "approve",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "delegate",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "node",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "consensus",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "kernel",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "process",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "spawn",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "channel",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "syscall",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "interrupt",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "self",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "caller",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "block",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "tx",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "null",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "true",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "false",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "override",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "virtual",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "abstract",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "final",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "inline",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "extern",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "unsafe",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "packed",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "where",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        },
+        {
+          "item": "with",
+          "status": "NO_DEDICATED_KEYWORD_TOKEN",
+          "rust_symbol": null,
+          "meaning": "May lex as Ident or be handled elsewhere; do not infer supported syntax."
+        }
+      ],
+      "types": [
+        {
+          "item": "UInt8",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "UInt16",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "UInt32",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "UInt64",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "UInt128",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "UInt256",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Int8",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Int16",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Int32",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Int64",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Int128",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Int256",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "USize",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "ISize",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Float32",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Float64",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Float128",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Bool",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Char",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Byte",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "String",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Bytes",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Str",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Address",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Hash256",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Hash512",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "PubKey",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "PrivKey",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Signature",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "TxHash",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "BlockHash",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "CID",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Map",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "List",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Set",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Array",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Vec",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Tuple",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Option",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Result",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Either",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "ATC8300",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "ATC9000",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "ATCContract",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "ATCWallet",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "ATCBlock",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "ATCTx",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Process",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Thread",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Channel",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Mutex",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Semaphore",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "INode",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "FileHandle",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "DirHandle",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Peer",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "NodeID",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Port",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "IPAddr",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Any",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Void",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "Never",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "u8",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "u16",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "u32",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "u64",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "u128",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "u256",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "i8",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "i16",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "i32",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "i64",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "i128",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "i256",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "f32",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "f64",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "f128",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "bool",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "char",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "byte",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "string",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "bytes",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "usize",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        },
+        {
+          "item": "isize",
+          "status": "IDENTIFIER_ONLY_UNLESS_SEMANTICS_PROVEN",
+          "rust_symbol": "Token::Ident(String) / TypeHint { name }",
+          "meaning": "simple_type consumes one identifier; a name being lexically accepted does not prove type validity, generic parsing, or semantic support."
+        }
+      ],
+      "namespaces": [
+        {
+          "item": "ATC8300",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC9000",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATCContract",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATCWallet",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATCBlock",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATCTx",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Hash",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Crypto",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Rand",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Net",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Net::UDP",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Net::Kademlia",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::OS",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::OS::Memory",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::OS::Kernel",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::OS::Filesystem",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Storage",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::RPC",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Lang",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Lang::Compiler",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Lang::VM",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Blockchain",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Blockchain::Core",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Consensus",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Consensus::Shiva",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Gateway",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Gateway::API",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::UI",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::UI::Dashboard",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        },
+        {
+          "item": "ATC::Wallet",
+          "status": "UNRESOLVED_NAMESPACE_BINDING",
+          "rust_symbol": "No namespace-specific token/parser production established",
+          "meaning": "Needs exact resolver/native subsystem binding and positive/negative tests."
+        }
+      ],
+      "parser_productions": [
+        {
+          "item": "parse_addition",
+          "status": "METHOD_NAME_MATCH",
+          "rust_symbol": "Parser::addition",
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_block",
+          "status": "METHOD_NAME_MATCH",
+          "rust_symbol": "Parser::block",
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_class",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_comparison",
+          "status": "METHOD_NAME_MATCH",
+          "rust_symbol": "Parser::comparison",
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_contract",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_emit",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_enum",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_expr",
+          "status": "METHOD_NAME_MATCH",
+          "rust_symbol": "Parser::expr",
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_for",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_function",
+          "status": "METHOD_NAME_MATCH",
+          "rust_symbol": "Parser::function",
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_if",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_let",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_logical",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_match_expr",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_match_stmt",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_module",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_multiplication",
+          "status": "METHOD_NAME_MATCH",
+          "rust_symbol": "Parser::multiplication",
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_param",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_postfix",
+          "status": "METHOD_NAME_MATCH",
+          "rust_symbol": "Parser::postfix",
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_primary",
+          "status": "METHOD_NAME_MATCH",
+          "rust_symbol": "Parser::primary",
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_program",
+          "status": "METHOD_NAME_MATCH",
+          "rust_symbol": "Parser::parse_program",
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_require",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_return",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_statement",
+          "status": "METHOD_NAME_MATCH",
+          "rust_symbol": "Parser::statement",
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_struct",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_type",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_unary",
+          "status": "METHOD_NAME_MATCH",
+          "rust_symbol": "Parser::unary",
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        },
+        {
+          "item": "parse_while",
+          "status": "NO_DIRECT_METHOD_NAME_MATCH",
+          "rust_symbol": null,
+          "meaning": "Name matching is only a candidate; production semantics and callers require review."
+        }
+      ],
+      "ast_nodes": [
+        {
+          "item": "ASTNode",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "Assignment",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "BinaryOp",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "BoolLiteral",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "BreakStatement",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "CastExpr",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "ClassDef",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "ContinueStatement",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "ContractDef",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "DotAccess",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "EmitStatement",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "EnumDef",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "ErrorDef",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "EventDef",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "ExprStatement",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "FloatLiteral",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "ForStatement",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "FunctionCall",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "FunctionDef",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "Identifier",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "IfStatement",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "ImportStatement",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "IndexAccess",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "IntLiteral",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "LambdaExpr",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "LetStatement",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "ListLiteral",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "MapLiteral",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "MatchStatement",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "NamespaceAccess",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "NullLiteral",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "Parameter",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "Program",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "RangeExpr",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "RequireStatement",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "ReturnStatement",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "SliceExpr",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "StateField",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "StorageBlock",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "StringLiteral",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "StructDef",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "StructLiteral",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "TernaryExpr",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "TupleExpr",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "TypeAliasDef",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "TypeAnnotation",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "UnaryOp",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "WalletDef",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "WhileStatement",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        },
+        {
+          "item": "X",
+          "status": "NO_DIRECT_AST_VARIANT_MATCH",
+          "rust_symbol": null,
+          "meaning": "The Rust AST has a small enum-based schema; unmatched registry names are not mapped by name."
+        }
+      ]
+    },
+    "next_actions": [
+      "Review all NO_DIRECT_* and UNRESOLVED_* items against native.rs/lower.rs/value.rs and tests; name matching is not enough.",
+      "For each claimed supported feature, add positive tests and negative tests for unsupported constructs.",
+      "Record explicit profile exclusions and owner/version decisions; do not infer that any unlisted construct is supported.",
+      "Run exact-head CI and preserve Run→Job→Step→terminal status/exit code/log artifacts before marking any contract VERIFIED."
+    ]
+  }
 }
