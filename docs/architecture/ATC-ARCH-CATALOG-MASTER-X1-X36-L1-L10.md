@@ -504,3 +504,43 @@ Counts must never conflate `UNRESOLVED`, `EXCLUDED`, `NOT_IMPLEMENTED` and `VERI
 7. Normative requirements become authoritative only through approved `atc-standards` change control.
 
 The files are stored as version-controlled Markdown chapters in the catalog repository so changes can be reviewed with the same pull-request and commit evidence. They are a **Wiki-style chapter set**, not proof that GitHub's separate repository Wiki feature has been published or enabled.
+
+
+## 18. Implementation order — dependency-driven execution sequence
+
+**Status:** `PROPOSED / NOT VERIFIED`. This sequence defines prerequisite order, not calendar commitments or proof that any task has completed. The roadmap is dependency-driven: do not start broad production implementation while scope, ownership or acceptance criteria remain ambiguous.
+
+### Ordered execution
+
+| Order | Stage | Required work | Exit condition / checkpoint |
+|---:|---|---|---|
+| 0 | Freeze baseline | Pin catalog branch/commit, repository manifest, active/archived scope and exclusion rules; exclude `demo-repository` from live drift | CP0: baseline reproducible; source revisions recorded |
+| 1 | Reconcile architecture registry | Reconcile L1–L10 and X1–X36 IDs, existing issues, duplicates, names, boundaries and ownership | CP1: every registry record has an explicit disposition |
+| 2 | Build applicability and sublayer map | Construct L-layer × X-layer applicability matrix; enumerate sublayers; document N/A rationales and unresolved cells | CP2: no blank cells masquerade as non-applicability |
+| 3 | Run canonical source census | Inventory components, symbols, interfaces, functions, tests and generated/runtime distinctions from canonical repositories | CP3: every candidate mapped, excluded with rationale, or unresolved |
+| 4 | Resolve SSOT and risk blockers | Confirm canonical owner/path and flag ambiguous protocol, consensus, security, VM, language and AI-runtime semantics | CP4: no guessed production ownership; hard blockers visible |
+| 5 | Normalize contracts | Define typed inputs/outputs, behavior, invariants, errors, side effects, limits, compatibility and acceptance tests | CP5: contracts meet the catalog schema and have testable criteria |
+| 6 | Build dependency/interface graph | Map calls, interfaces, data flows, trust boundaries, version constraints and cross-layer dependencies | CP6: graph edges are source/evidence-backed or explicitly unresolved |
+| 7 | Implement validation and evidence tooling | Add deterministic catalog validators, duplicate/SSOT/drift checks, evidence schema and fail-closed reporting | CP7: negative tests prove missing/stale evidence is rejected |
+| 8 | Execute implementation waves | Create prioritized tasks in canonical owner repositories; implement in dependency order; no duplicate ecosystem implementation | Per-wave gate: exact source SHA, tests, artifacts and review |
+| 9 | Integrate and accept end-to-end | Run cross-layer compatibility, security, portability, lifecycle and recovery checks; triage residuals | CP8: independent PASS, PASS_WITH_ACCEPTED_RESIDUALS, or BLOCKED decision |
+
+### Implementation wave ordering
+
+1. **Wave A — foundation and trust:** boot/HAL, identity/capabilities, security boundaries, build provenance and core test/evidence plumbing (L1–L2 with relevant X-layers).
+2. **Wave B — OS substrate:** kernel integration, OS services, storage, IPC, configuration, update/lifecycle and resource controls (L2–L3).
+3. **Wave C — blockchain and execution:** protocol/cryptography/state, blockchain core and canonical ATC-VM, with security and deterministic-execution gates (L5–L6).
+4. **Wave D — developer toolchain:** ATCLang and build/artifact pipeline, only after its source inventory and language semantics are reconciled (L7).
+5. **Wave E — AI platform:** Aurora control plane, policy/capability mediation, sandboxed runtime, model adapters and approval/audit paths; AI must not acquire kernel, consensus or wallet authority implicitly (L8).
+6. **Wave F — user-facing integration:** desktop/window manager, applications and ecosystem services against accepted OS/service contracts (L4 and L9).
+7. **Wave G — release composition:** installer and platform profiles, upgrade/rollback, supply-chain provenance, observability, disaster recovery and full-system compatibility (L10 and X1–X36).
+
+Wave order is a default dependency sequence, not a claim that every feature in a layer is blocked on every prior feature. Independent work may proceed in parallel only after its contract, owner, interfaces and acceptance criteria are stable. Security, identity, evidence and resource governance remain cross-cutting gates throughout.
+
+### Stop/go rules
+
+- Stop if canonical owner, interface semantics, security invariants or normative requirement is unresolved and affects correctness.
+- No implementation task is marked complete from a documentation change alone.
+- No gate passes without exact revision, reproducible test/evidence references and explicit result.
+- Failed validators, missing artifacts, stale SHAs and empty required evidence fail closed.
+- Re-plan only through recorded changes to dependencies, scope and checkpoint decision; do not silently reorder gates.
