@@ -404,13 +404,14 @@
     },
     "verification_boundary": "No function marked VERIFIED; source mapping and JSON readback do not prove runtime correctness."
   },
-  "reconciliation_status": "PARTIAL_SOURCE_AND_PATH_INVENTORY",
+  "reconciliation_status": "PARTIAL_CONTENT_LEVEL_RECONCILIATION",
   "reconciliation_note": "Exact-head recursive tree is not truncated (174 entries). All 24 .atc paths and 23 spec paths have been enumerated and pinned to file blob SHAs. Current classifications are based on path/format only; content-level semantic mapping is still pending.",
   "next_actions": [
-    "Map every ATCLang production declaration and exported symbol to a contract, helper/delegation, tooling, test, explicit exclusion or unresolved bucket.",
-    "Read all 24 .atc files and map each to grammar/semantic/bytecode/CLI contracts and relevant tests; distinguish examples from differential corpus fixtures.",
-    "Read all 23 specification/registry/vector files, reconcile normative versus draft status, and map clauses to implementation symbols and conformance tests.",
-    "Collect exact PR CI Run→Job→Step→terminal conclusion/exit/log evidence before changing any readiness status."
+    "Resolve the G1 language-spec versus Rust-subset scope conflict with an explicit feature-by-feature matrix; do not infer support from examples.",
+    "Resolve the big-endian frozen ATCB v1 versus little-endian draft execution-contract conflict through normative governance and a versioned boundary contract.",
+    "Finish symbol-level mapping for artifact.rs, vm.rs, native.rs, value.rs, CLI and test harnesses; record exclusions and delegation explicitly.",
+    "Map all 23 specification/registry/vector files requirement-by-requirement to exact implementation symbols and positive/negative conformance tests; preserve DRAFT/PENDING statuses.",
+    "Run the relevant CI against exact source and PR head, then record Run→Job→Step→terminal conclusion, exit code and logs/artifacts. Do not promote readiness without this evidence."
   ],
   "exact_head_inventory": {
     "atc_files": {
@@ -695,5 +696,684 @@
       "classification_status": "PATH_AND_FORMAT_CLASSIFIED_ONLY",
       "semantic_contract_mapping_status": "PENDING"
     }
+  },
+  "content_reconciliation_wave_1": {
+    "source_commit": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+    "source_tree_sha": "41e6a63b30422ad22355c4d21070cb80c819999f",
+    "method": "Read content of the 24 .atc files and compare them with exact-head Rust lexer/parser/AST/lowering/bytecode source, test inventory, and relevant spec/registry content. This is semantic mapping triage, not proof of passing tests.",
+    "atc_files_reviewed": [
+      {
+        "path": "crates/atc-core/differential/corpus/arith_precedence.atc",
+        "blob_sha": "37f6b505e32574e860fcc9a27957b14917267ab3",
+        "content_theme": "ARITHMETIC_PRECEDENCE",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-003",
+          "FN-LANG-004",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/calls.atc",
+        "blob_sha": "805f0e93320c459be8667702d48f0db638ee0ce3",
+        "content_theme": "NESTED_FUNCTION_CALLS",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-003",
+          "FN-LANG-004",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/compare_chain.atc",
+        "blob_sha": "b4868636d6eda9ed29e973ecb4bb71f9fc0cd213",
+        "content_theme": "COMPARISON_PRECEDENCE_AND_CHAIN",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-003",
+          "FN-LANG-004",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "UNRESOLVED_EXPECTED_SEMANTICS",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/const_typed.atc",
+        "blob_sha": "27f6ec99f0fc2416188db1d1801f9d13a4a34e86",
+        "content_theme": "TYPED_CONST_DECLARATION",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-002",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/control_else_if.atc",
+        "blob_sha": "cb94918664b2ca86cebb1c2c10383896d8b93ae2",
+        "content_theme": "ELSE_IF_LOWERING_AND_BRANCHES",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-003",
+          "FN-LANG-004",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/control_if.atc",
+        "blob_sha": "a6c319dca115cf53f5446a88cf388280c3885301",
+        "content_theme": "IF_WITHOUT_ELSE",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-003",
+          "FN-LANG-004",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/control_if_else.atc",
+        "blob_sha": "2a3319702a97fa0f4bf0c57d4597c0b33520443f",
+        "content_theme": "IF_ELSE_BRANCHING",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-003",
+          "FN-LANG-004",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/control_while.atc",
+        "blob_sha": "e72c9ff458e55a3e88864783ad0f44294ab71aeb",
+        "content_theme": "WHILE_LOOP_AND_MUTATION_BY_SHADOWING",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-003",
+          "FN-LANG-004",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/fn_expr_stmt.atc",
+        "blob_sha": "3cd1be29f74559b014fdcbd8d608869ff1059c05",
+        "content_theme": "EXPRESSION_STATEMENT_AND_IMPLICIT_RETURN",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-003",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/fn_implicit.atc",
+        "blob_sha": "5edbd6563b0ee520cb860c1c5b8ac0fee1995c16",
+        "content_theme": "FUNCTION_WITHOUT_EXPLICIT_RETURN_TYPE",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-002",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/fn_mixed_program.atc",
+        "blob_sha": "643d35eca377a4de0fa806c0ac8b09fa454790d4",
+        "content_theme": "MIXED_TOP_LEVEL_AND_FUNCTIONS",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-003",
+          "FN-LANG-004",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/fn_nested.atc",
+        "blob_sha": "59f93d39ed2a3094ddd36e1d4f3d119128fb0226",
+        "content_theme": "NESTED_CALLS_AND_FUNCTION_LOWERING",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-003",
+          "FN-LANG-004",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/fn_simple.atc",
+        "blob_sha": "13be6df8a9e296cca1e06708a90759e6abacfeb8",
+        "content_theme": "FUNCTION_DECLARATION_AND_RETURN",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-003",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/let_no_semi.atc",
+        "blob_sha": "6c1718aba9cffd13fcffbb2eb34997f4c9ddf4fe",
+        "content_theme": "LET_WITHOUT_SEMICOLON",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-002",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/let_simple.atc",
+        "blob_sha": "fabb92f19da2db66a4f82c511f449256009465aa",
+        "content_theme": "LET_DECLARATION",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-002",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/mixed.atc",
+        "blob_sha": "c6ab20d3d038dc7955ae464e2312ea33f276e31d",
+        "content_theme": "TYPED_AND_INFERRED_LETS_AND_CALLS",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-002",
+          "FN-LANG-003",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/parens.atc",
+        "blob_sha": "639254cdc0f5ad2ec12136cf06085ec2340a567b",
+        "content_theme": "PARENTHESIS_AND_OPERATOR_PRECEDENCE",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-003",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "crates/atc-core/differential/corpus/unary.atc",
+        "blob_sha": "ca98c585fcb7037cd3834236dbd24aa220fa004c",
+        "content_theme": "UNARY_NEGATION",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-003",
+          "FN-LANG-004",
+          "FN-LANG-008"
+        ],
+        "mapping_status": "MAPPED_TO_TEST_SCOPE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "examples/atc8300.atc",
+        "blob_sha": "ccf3c01419a7493bbdb1cc16d235d8268a257832",
+        "content_theme": "ADVANCED_CONTRACT_AND_TOKEN_STANDARD_EXAMPLE",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-002",
+          "FN-LANG-003",
+          "FN-LANG-004"
+        ],
+        "mapping_status": "EXAMPLE_ONLY_FEATURE_SUPPORT_UNRESOLVED",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "examples/atcos_main.atc",
+        "blob_sha": "53ff2bf5e9bd6bd88d36783a1c095f8a90b204e8",
+        "content_theme": "ARCHIVED_V1_SHOWCASE_MARKED_UNPARSABLE_BY_CURRENT_PARSER",
+        "candidate_contract_ids": [
+          "NONE"
+        ],
+        "mapping_status": "EXCLUDED_FROM_CURRENT_CONFORMANCE",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "examples/event_bus.atc",
+        "blob_sha": "0028ef3958848211835a1254dfcd9fba83192d16",
+        "content_theme": "ADVANCED_TYPES_COLLECTIONS_SLICES_EVENTS_AND_HOST_TIME",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-002",
+          "FN-LANG-003",
+          "FN-LANG-006"
+        ],
+        "mapping_status": "EXAMPLE_ONLY_FEATURE_SUPPORT_UNRESOLVED",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "examples/kernel.atc",
+        "blob_sha": "90a9afe07020b883b6955f67ef646e3e5084df95",
+        "content_theme": "ADVANCED_KERNEL_PROCESS_TYPES_AND_CONTROL_FLOW",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-002",
+          "FN-LANG-003",
+          "FN-LANG-006"
+        ],
+        "mapping_status": "EXAMPLE_ONLY_FEATURE_SUPPORT_UNRESOLVED",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "examples/main.atc",
+        "blob_sha": "016e20341df2ece895ee57b3ad060d695e52e920",
+        "content_theme": "ADVANCED_API_GATEWAY_CONTRACT_AND_COLLECTIONS",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-002",
+          "FN-LANG-003",
+          "FN-LANG-006"
+        ],
+        "mapping_status": "EXAMPLE_ONLY_FEATURE_SUPPORT_UNRESOLVED",
+        "semantic_verification": "NOT_ASSERTED"
+      },
+      {
+        "path": "examples/shivamon.atc",
+        "blob_sha": "4f3572316be04fdec23f98ac7291e17fb4636d55",
+        "content_theme": "ADVANCED_NFT_CONTRACT_MATCH_ENUMS_AND_CRYPTO",
+        "candidate_contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-002",
+          "FN-LANG-003",
+          "FN-LANG-006"
+        ],
+        "mapping_status": "EXAMPLE_ONLY_FEATURE_SUPPORT_UNRESOLVED",
+        "semantic_verification": "NOT_ASSERTED"
+      }
+    ],
+    "spec_reconciliation": [
+      {
+        "path": "specs/language/SPEC.md",
+        "blob_sha": "630716b531be95b782f82c963cb69ac3b585ca96",
+        "role": "G1 language contract",
+        "status": "CONFLICT_REQUIRES_SCOPE_DECISION",
+        "finding": "The spec describes the Python reference, 63-token inventory and indentation-based syntax; the Rust canonical core describes a narrower recursive-descent subset with braces and semicolons. A feature-by-feature compatibility matrix is required before treating this as one language contract."
+      },
+      {
+        "path": "specs/language/registry.json",
+        "blob_sha": "72237be58c4419cc2d0f8248a9be08e0c8d6bf03",
+        "role": "Machine-readable G1 token/keyword/type registry",
+        "status": "CONFLICT_REQUIRES_SCOPE_DECISION",
+        "finding": "Registry reflects broad Python reference language. It cannot be presumed implemented by the current Rust lexer/parser."
+      },
+      {
+        "path": "specs/semantics/SPEC.md",
+        "blob_sha": "975fcac79b5f2fff56c3a137b0926d83676dde61",
+        "role": "G2 semantic/type-checking contract",
+        "status": "PARTIAL_IMPLEMENTATION_MAPPING",
+        "finding": "Spec names Python type_checker.py; exact-head Rust core has parser/IR modules but no standalone type_checker.rs in the tree. Need per-rule mapping or explicit unsupported/excluded status."
+      },
+      {
+        "path": "specs/semantics/registry.json",
+        "blob_sha": "b20fe1e30c9415e66a6ff134188c538ef5307b69",
+        "role": "G2 machine-readable rules and builtins",
+        "status": "PARTIAL_IMPLEMENTATION_MAPPING",
+        "finding": "Registry declares types and semantic rules beyond what source path inventory alone establishes; each rule requires a matching Rust implementation symbol and negative/conformance test."
+      },
+      {
+        "path": "specs/bytecode/SPEC.md",
+        "blob_sha": "0848bbf3c48237a61e0fc09d2e26877bccd1b40c",
+        "role": "ATC-BC-001 frozen canonical ATCB v1 encoding",
+        "status": "NORMATIVE_CANDIDATE_BUT_CROSS_SPEC_CONFLICT",
+        "finding": "Frozen spec states ATCB container and all multibyte fields/operands are big-endian; bytecode.rs documents canonical big-endian encoding and verifier."
+      },
+      {
+        "path": "specs/bytecode/ATCB-1.md",
+        "blob_sha": "a7dbf9596567790a4fae4fe314621e5df3e4eefd",
+        "role": "Implementation baseline/reference to frozen carrier",
+        "status": "ALIGNED_WITH_FROZEN_BYTECODE_SPEC",
+        "finding": "Explicitly delegates normative authority to specs/bytecode/SPEC.md and documents ATCB magic/version/count."
+      },
+      {
+        "path": "specs/execution/ATCB-1-ATC-VM-EXECUTION-CONTRACT.md",
+        "blob_sha": "b27562d35a5fc0485feeb2ef06b1886168d11bec",
+        "role": "ATCLang-to-canonical-ATC-VM boundary",
+        "status": "BLOCKING_CONTRADICTION",
+        "finding": "Draft describes little-endian integer fields and a module envelope with ABI/VM/function/capability fields, while frozen ATCB v1 spec defines a flat ATCB container with big-endian fields. Must resolve in the normative owner workflow; do not silently choose one or call the cross-boundary contract verified."
+      },
+      {
+        "path": "specs/abi/SPEC.md",
+        "blob_sha": "c186967641046fd1b77a222afabdb4b50d247d2f",
+        "role": "ABI calling convention/type encoding",
+        "status": "DRAFT_IMPLEMENTATION_PENDING",
+        "finding": "Document labels itself SPEC-DRAFT and says implementation/tests/evidence pending; map requirements to ATC-VM ABI and Rust IR before promotion."
+      },
+      {
+        "path": "specs/ir/SPEC.md",
+        "blob_sha": "c4638ef2478de6bbd0f16e0b1768d65f8b29503c",
+        "role": "Typed intermediate representation",
+        "status": "DRAFT_IMPLEMENTATION_PENDING",
+        "finding": "Document labels itself SPEC-DRAFT and requires canonical typed nodes/serialization; current ir.rs has a small type-separation surface, not evidence of full spec coverage."
+      },
+      {
+        "path": "specs/stdlib/SPEC.md",
+        "blob_sha": "09b9d5f3234157b3da2193161a047dbbace2c1b1",
+        "role": "Standard-library trust classes and module catalogue",
+        "status": "DRAFT_IMPLEMENTATION_PENDING",
+        "finding": "Spec describes nine modules; STDLIB-CONTRACT.yaml lists six production contract modules. Reconcile the intended scope and map every function to the reference conformance tests."
+      },
+      {
+        "path": "specs/stdlib/STDLIB-CONTRACT.yaml",
+        "blob_sha": "bae7f3fb6a60d1f3228238277ef3eacab92e392b",
+        "role": "Machine-readable stdlib boundary",
+        "status": "CONTRACT_REGISTERED_NOT_VERIFIED",
+        "finding": "Requires golden/negative vectors, cross-runtime tests, Rust/reference differential and exact-SHA release gate."
+      },
+      {
+        "path": "specs/conformance/atcb-vm-vectors.json",
+        "blob_sha": "9913903cb048e8b548a0d7ad1c9b5878c9e0b3fc",
+        "role": "ATCB/ATC-VM cross-boundary vector",
+        "status": "DRAFT_VECTOR_COVERAGE_INCOMPLETE",
+        "finding": "One vector exists and status is draft; cannot infer complete compiler-to-production-VM conformance."
+      },
+      {
+        "path": "specs/VERSION.toml",
+        "blob_sha": "9675a270681d8a6f19b0455da1a68a3bff635f80",
+        "role": "Version/status registry",
+        "status": "INCONSISTENT_STATUS_NEEDS_AUDIT",
+        "finding": "Language and bytecode gates are marked passed/frozen while ABI/artifact version entries are present without equivalent implementation evidence; reconcile status claims with the exact release gates."
+      },
+      {
+        "path": "specs/runtime/RUNTIME-CLASSIFICATION.yaml",
+        "blob_sha": "761627d61a4b3c755e3cafad49ac87ac67ff8af4",
+        "role": "Runtime role authority boundary",
+        "status": "ARCHITECTURE_ALIGNED_RELEASE_GATE_OPEN",
+        "finding": "Correctly distinguishes non-consensus ATCLang reference from production VM at a-townchain/components/vm; requires exact-SHA CI and fail-closed runtime selection."
+      },
+      {
+        "path": "specs/artifact/DRAFT.md",
+        "blob_sha": "20cdb973b23505143058f4e2617209f53047ced3",
+        "role": "Artifact spec extraction placeholder",
+        "status": "PLACEHOLDER_DRAFT"
+      },
+      {
+        "path": "specs/gas/DRAFT.md",
+        "blob_sha": "4e59abb96814646321aa9a45412b4fb91651e597",
+        "role": "Gas spec extraction placeholder",
+        "status": "PLACEHOLDER_DRAFT"
+      },
+      {
+        "path": "specs/profiles/DRAFT.md",
+        "blob_sha": "0eaebefc8aebd436038344bd92af1626673bf046",
+        "role": "Language profile spec extraction placeholder",
+        "status": "PLACEHOLDER_DRAFT"
+      },
+      {
+        "path": "specs/security/DRAFT.md",
+        "blob_sha": "6237592ad5eb5033e9e272df1d41620effbf3bfd",
+        "role": "Security spec extraction placeholder",
+        "status": "PLACEHOLDER_DRAFT"
+      },
+      {
+        "path": "specs/vm/DRAFT.md",
+        "blob_sha": "4d16ea8a33b1b7919f94f49e9a88ef7546eb0441",
+        "role": "VM spec extraction placeholder",
+        "status": "PLACEHOLDER_DRAFT"
+      },
+      {
+        "path": "specs/language/DRAFT.md",
+        "blob_sha": "c813db23fb5fff9767641e3cf4c7221a4f76a4a5",
+        "role": "Superseded G1 draft",
+        "status": "EXCLUDED_AS_SUPERSEDED"
+      },
+      {
+        "path": "specs/bytecode/DRAFT.md",
+        "blob_sha": "a62e89d5e78555ac1d953b092b35f8fdcf057c5a",
+        "role": "Superseded bytecode draft",
+        "status": "EXCLUDED_AS_SUPERSEDED"
+      },
+      {
+        "path": "specs/vm/SPEC.md",
+        "blob_sha": "d8aa6ec196becaf38471ce817ace2ce99903accc",
+        "role": "ATVM execution/gas/error semantics",
+        "status": "DRAFT_IMPLEMENTATION_PENDING",
+        "finding": "Spec explicitly says implementation pending; map every requirement to canonical production VM, not a second VM in atclang."
+      }
+    ],
+    "source_symbol_contract_matrix": [
+      {
+        "source_path": "crates/atc-core/src/lexer.rs",
+        "blob_sha": "6f503a1b1c7a7145284eb5670830946fdcfdac09",
+        "symbols": [
+          "tokenize",
+          "Token",
+          "LexError"
+        ],
+        "contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-011"
+        ],
+        "test_evidence_path": "inline unit tests in lexer.rs",
+        "status": "SOURCE_AND_TEST_SYMBOLS_MAPPED_NOT_RUN_EVIDENCE"
+      },
+      {
+        "source_path": "crates/atc-core/src/parser.rs",
+        "blob_sha": "993df7a9a6626d869ef3e22f02a006fa13466586",
+        "symbols": [
+          "parse_program",
+          "Parser::program",
+          "simple_type",
+          "let_stmt",
+          "function",
+          "block",
+          "statement",
+          "if_stmt",
+          "while_stmt",
+          "expr",
+          "comparison",
+          "addition",
+          "multiplication",
+          "unary",
+          "postfix",
+          "primary"
+        ],
+        "contract_ids": [
+          "FN-LANG-001",
+          "FN-LANG-002"
+        ],
+        "test_evidence_path": "inline unit tests in parser.rs; crates/atc-core/tests/differential.rs",
+        "status": "SOURCE_AND_TEST_SYMBOLS_MAPPED_NOT_RUN_EVIDENCE"
+      },
+      {
+        "source_path": "crates/atc-core/src/ast.rs",
+        "blob_sha": "8721d367971ac93db2578303006045bac754993b",
+        "symbols": [
+          "Expr",
+          "TypeHint",
+          "LetStmt",
+          "Param",
+          "FunctionDef",
+          "Stmt",
+          "Program::to_json"
+        ],
+        "contract_ids": [
+          "FN-LANG-002",
+          "FN-LANG-012"
+        ],
+        "test_evidence_path": "inline unit tests and differential JSON contract",
+        "status": "SOURCE_AND_TEST_SYMBOLS_MAPPED_NOT_RUN_EVIDENCE"
+      },
+      {
+        "source_path": "crates/atc-core/src/lower.rs",
+        "blob_sha": "4be61143f65de3455c72b878ad4e7ff700d4bd18",
+        "symbols": [
+          "lower_program",
+          "CompiledProgram::verify",
+          "lower_stmt",
+          "lower_expr",
+          "lower_user_function"
+        ],
+        "contract_ids": [
+          "FN-LANG-003",
+          "FN-LANG-008"
+        ],
+        "test_evidence_path": "inline lowering tests; differential corpus",
+        "status": "SOURCE_AND_TEST_SYMBOLS_MAPPED_NOT_RUN_EVIDENCE"
+      },
+      {
+        "source_path": "crates/atc-core/src/bytecode.rs",
+        "blob_sha": "8c4419edbaff6ea5fad5cf486a70e990c7a8fb9f",
+        "symbols": [
+          "Instruction::encode",
+          "Bytecode::encode",
+          "Bytecode::encode_canonical",
+          "Bytecode::verify",
+          "Bytecode::verify_with_signatures"
+        ],
+        "contract_ids": [
+          "FN-LANG-004",
+          "FN-LANG-008"
+        ],
+        "test_evidence_path": "inline bytecode tests; specs/bytecode/SPEC.md",
+        "status": "SOURCE_AND_TEST_SYMBOLS_MAPPED_NOT_RUN_EVIDENCE"
+      },
+      {
+        "source_path": "crates/atc-core/src/artifact.rs",
+        "blob_sha": "8da375daf60ba8317a1558824f3c5fcb7f41d351",
+        "symbols": [
+          "artifact encoder/decoder surface requires symbol-by-symbol follow-up"
+        ],
+        "contract_ids": [
+          "FN-LANG-005"
+        ],
+        "status": "SYMBOL_LEVEL_FOLLOW_UP_REQUIRED"
+      },
+      {
+        "source_path": "crates/atc-core/src/ir.rs",
+        "blob_sha": "081cf8df0600cb952fc2b569122eed5a22912047",
+        "symbols": [
+          "ProtocolType::host_type",
+          "IrValue::ir_type",
+          "IrType",
+          "IrValue"
+        ],
+        "contract_ids": [
+          "FN-LANG-006",
+          "FN-LANG-013"
+        ],
+        "status": "PARTIAL_SURFACE_ONLY"
+      },
+      {
+        "source_path": "crates/atc-core/src/vm.rs",
+        "blob_sha": "009bdec170527898957b9622cb29ec406f77ed81",
+        "symbols": [
+          "reference VM execution surface requires symbol-by-symbol follow-up"
+        ],
+        "contract_ids": [
+          "FN-LANG-007"
+        ],
+        "status": "REFERENCE_ONLY_NOT_PRODUCTION_VM"
+      },
+      {
+        "source_path": "crates/atc-core/tests/differential.rs",
+        "blob_sha": "5f588cb83291ea1be90ef455a15f9d6bce8bd193",
+        "symbols": [
+          "differential corpus harness"
+        ],
+        "contract_ids": [
+          "FN-LANG-008"
+        ],
+        "status": "TEST_SOURCE_MAPPED_NOT_RUN_EVIDENCE"
+      },
+      {
+        "source_path": "crates/atc-core/tests/stdlib_reference_conformance.rs",
+        "blob_sha": "a7ada9f5e3c8597ca647cec206201e1ef0ede68c",
+        "symbols": [
+          "stdlib reference conformance harness"
+        ],
+        "contract_ids": [
+          "FN-LANG-009"
+        ],
+        "status": "TEST_SOURCE_MAPPED_NOT_RUN_EVIDENCE"
+      },
+      {
+        "source_path": "tools/determinism_check.py",
+        "blob_sha": "1d360ba239362a3b7cabfa99e17f2299786ae0a1",
+        "symbols": [
+          "load_allowlist",
+          "code_view_py",
+          "code_view_rust",
+          "scan_sources",
+          "run_tests",
+          "normalize_output",
+          "main"
+        ],
+        "contract_ids": [
+          "FN-LANG-010"
+        ],
+        "status": "TOOLING_SYMBOLS_MAPPED_NOT_RUN_EVIDENCE"
+      },
+      {
+        "source_path": "crates/atc-core/src/main.rs",
+        "blob_sha": "95ffe8f6c37fb7d687f77f2c778e3802cf34d760",
+        "symbols": [
+          "compile_to_bytecode",
+          "main"
+        ],
+        "contract_ids": [
+          "FN-LANG-014"
+        ],
+        "status": "CLI_CONTRACT_REGISTERED_SYMBOL_LEVEL_FOLLOW_UP_REQUIRED"
+      }
+    ],
+    "blocking_findings": [
+      {
+        "id": "ATCLANG-RECON-001",
+        "severity": "BLOCKING",
+        "finding": "G1 Python reference language registry (63 tokens, indentation-based syntax) and current Rust canonical core subset are not proven equivalent.",
+        "required_action": "Create a feature-by-feature matrix: implemented, delegated, unsupported by design, test-only, or unresolved; attach exact symbols and positive/negative tests."
+      },
+      {
+        "id": "ATCLANG-RECON-002",
+        "severity": "BLOCKING",
+        "finding": "Frozen ATCB v1 uses big-endian flat container, while draft ATCB-ATVM execution contract describes little-endian fields and a distinct module envelope.",
+        "required_action": "Resolve through normative standards change/explicit versioned boundary contract; do not edit canonical production VM or silently reinterpret frozen ATCB v1."
+      },
+      {
+        "id": "ATCLANG-RECON-003",
+        "severity": "HIGH",
+        "finding": "Reference VM in atclang and production VM authority in a-townchain/components/vm must not be conflated.",
+        "required_action": "Keep atclang reference-only; require cross-runtime vectors against canonical production VM."
+      },
+      {
+        "id": "ATCLANG-RECON-004",
+        "severity": "HIGH",
+        "finding": "Spec status registry and explicit DRAFT/PENDING statements are not yet reconciled into a single evidence-backed release gate.",
+        "required_action": "Bind each normative requirement to source symbol, conformance test, exact source SHA, workflow run/job/step, exit code and logs."
+      },
+      {
+        "id": "ATCLANG-RECON-005",
+        "severity": "HIGH",
+        "finding": "Five advanced example programs are not proven parseable or supported by current Rust core; atcos_main explicitly says it is an archived, unparseable v1 showcase.",
+        "required_action": "Treat examples as feature-demand evidence, not conformance evidence; classify each syntax/API feature and decide implemented, planned, or excluded."
+      }
+    ],
+    "overall_status": "RESIDUAL",
+    "release_decision": "BLOCKED",
+    "verification_claimed": false
   }
 }
