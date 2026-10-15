@@ -2,8 +2,8 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.1.0",
   "catalog_date": "2026-10-15",
-  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification. EVM architecture addendum (2026-10-15): added COMP-EVM-COMPAT and FN-EVM-COMPAT-001..005 as separate, BLOCKED architecture/function contracts. Added ATC-EVM-COMPATIBILITY-DECISION-001.md. No option selected; no EVM compatibility or implementation is asserted; native ATC-VM remains unchanged pending explicit approval. Guest OS virtualization addendum (2026-10-15): added COMP-GUEST-OS-VIRT and FN-GUEST-VIRT-001..005 for hosted Windows/Linux VMs, backend/profile selection, capability/resource isolation, desktop console integration, and compatibility verification. Added GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md. Native dual boot is separately scoped; backend not selected; implementation and verification are not claimed. Contract-analysis migration (2026-10-15): added machine-readable purpose, inputs/outputs, preconditions, behavior, architecture placement, consumers, reuse, failure semantics, and source evidence for each function. Unknown call graph, side effects, trust boundaries, error contract, and reuse remain explicitly UNRESOLVED; this migration is not source or functional verification. Added 10 user-facing control/UI/system-area components and 20 explicit function contracts on 2026-10-15. All new entries remain UNBOUND_RESIDUAL with no implementation claim; owner SSOTs are retained. 2026-10-15: Added COMP-API-ORCHESTRATOR and FN-API-ORCH-001..011 as residual contract records after ownership search. Python/ATCLang evidence is documentation-only; canonical implementation owner remains unresolved; IF-010 is proposed/residual. 2026-10-15: Added COMP-MAINTENANCE-LIFECYCLE and FN-MAINT-000..024 plus IF-011/IF-012 aligned to atc-standards Issue #112. Catalog/control-plane registration only; no runtime implementation or verification is asserted. 2026-10-15: Added connection_matrix schema 1.0.0 covering declared component dependencies and critical cross-component paths. Matrix entries are RESIDUAL/BLOCKED/EXCLUDED until canonical source bindings and exact-SHA conformance evidence exist; no connection is marked VERIFIED by inference. Matrix count fields clarified: declared dependency edges, unique dependency pairs, and additional critical paths are reported separately. 2026-10-15: Added shared GlobusOS UI primitives component covering settings/options, menus, dropdowns, sliders, switches, buttons, lever/actuator controls, form inputs, positions/layout, dialogs, status, accessibility, state persistence and event routing. All new contracts are RESIDUAL/UNBOUND_RESIDUAL. 2026-10-15: Added partial exact-HEAD GlobusOS source bindings for six existing desktop/input/state/notification contracts; source mapping only, UI toolkit census incomplete and all affected functions remain RESIDUAL. File-format registry supplement (2026-10-15): added residual/blocked format-processing function contracts for normative format profiles, ATC-VM bytecode, transaction/block/state containers, OS/boot/install/package/virtualization images, Aurora model formats, config/WASM validation, build provenance, and exact-SHA evidence binding. No source implementation or verification is claimed.",
-  "status": "BASELINE_RESIDUAL",
+  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification. EVM architecture addendum (2026-10-15): added COMP-EVM-COMPAT and FN-EVM-COMPAT-001..005 as separate, BLOCKED architecture/function contracts. Added ATC-EVM-COMPATIBILITY-DECISION-001.md. No option selected; no EVM compatibility or implementation is asserted; native ATC-VM remains unchanged pending explicit approval. Guest OS virtualization addendum (2026-10-15): added COMP-GUEST-OS-VIRT and FN-GUEST-VIRT-001..005 for hosted Windows/Linux VMs, backend/profile selection, capability/resource isolation, desktop console integration, and compatibility verification. Added GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md. Native dual boot is separately scoped; backend not selected; implementation and verification are not claimed. Contract-analysis migration (2026-10-15): added machine-readable purpose, inputs/outputs, preconditions, behavior, architecture placement, consumers, reuse, failure semantics, and source evidence for each function. Unknown call graph, side effects, trust boundaries, error contract, and reuse remain explicitly UNRESOLVED; this migration is not source or functional verification. Added 10 user-facing control/UI/system-area components and 20 explicit function contracts on 2026-10-15. All new entries remain UNBOUND_RESIDUAL with no implementation claim; owner SSOTs are retained. 2026-10-15: Added COMP-API-ORCHESTRATOR and FN-API-ORCH-001..011 as residual contract records after ownership search. Python/ATCLang evidence is documentation-only; canonical implementation owner remains unresolved; IF-010 is proposed/residual. 2026-10-15: Added COMP-MAINTENANCE-LIFECYCLE and FN-MAINT-000..024 plus IF-011/IF-012 aligned to atc-standards Issue #112. Catalog/control-plane registration only; no runtime implementation or verification is asserted. 2026-10-15: Added connection_matrix schema 1.0.0 covering declared component dependencies and critical cross-component paths. Matrix entries are RESIDUAL/BLOCKED/EXCLUDED until canonical source bindings and exact-SHA conformance evidence exist; no connection is marked VERIFIED by inference. Matrix count fields clarified: declared dependency edges, unique dependency pairs, and additional critical paths are reported separately. 2026-10-15: Added shared GlobusOS UI primitives component covering settings/options, menus, dropdowns, sliders, switches, buttons, lever/actuator controls, form inputs, positions/layout, dialogs, status, accessibility, state persistence and event routing. All new contracts are RESIDUAL/UNBOUND_RESIDUAL. 2026-10-15: Added partial exact-HEAD GlobusOS source bindings for six existing desktop/input/state/notification contracts; source mapping only, UI toolkit census incomplete and all affected functions remain RESIDUAL. File-format registry supplement (2026-10-15): added residual/blocked format-processing function contracts for normative format profiles, ATC-VM bytecode, transaction/block/state containers, OS/boot/install/package/virtualization images, Aurora model formats, config/WASM validation, build provenance, and exact-SHA evidence binding. No source implementation or verification is claimed. ATCLang current-head reconciliation: COMP-LANG source commit/tree and file blob bindings refreshed; four residual compiler contracts added. No readiness promotion or verification claim.",
+  "status": "RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
     "role": "architecture, ownership, interface, acceptance and evidence registry only",
@@ -1314,9 +1314,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "crates/atc-core/src/parser.rs",
             "symbol_or_entrypoint": "parse_program",
-            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "file_blob_sha": "993df7a9a6626d869ef3e22f02a006fa13466586",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/parser.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/crates/atc-core/src/parser.rs",
             "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/atclang",
@@ -1347,7 +1347,7 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -1419,7 +1419,7 @@
             "source_evidence": {
               "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/atclang",
-              "commit_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
               "path": "crates/atc-core/src/parser.rs",
               "symbol": "parse_program",
               "blob_sha": "993df7a9a6626d869ef3e22f02a006fa13466586"
@@ -1458,9 +1458,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "crates/atc-core/src/native.rs",
             "symbol_or_entrypoint": "parse_native_contract",
-            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
-            "file_blob_sha": "43fdf67e3b9b57f38aed5c008ae6e8da3cc9e477",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/native.rs",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+            "file_blob_sha": "b3d42b9d2df2fceab055adf70c52cbb71dadd737",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/crates/atc-core/src/native.rs",
             "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/atclang",
@@ -1491,7 +1491,7 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -1564,10 +1564,10 @@
             "source_evidence": {
               "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/atclang",
-              "commit_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
               "path": "crates/atc-core/src/native.rs",
               "symbol": "parse_native_contract",
-              "blob_sha": "43fdf67e3b9b57f38aed5c008ae6e8da3cc9e477"
+              "blob_sha": "b3d42b9d2df2fceab055adf70c52cbb71dadd737"
             }
           }
         },
@@ -1603,9 +1603,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "crates/atc-core/src/lower.rs",
             "symbol_or_entrypoint": "lower_program",
-            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
-            "file_blob_sha": "ab3c28accab95339594fb5d797d83bc855ef0d0f",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/lower.rs",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+            "file_blob_sha": "4be61143f65de3455c72b878ad4e7ff700d4bd18",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/crates/atc-core/src/lower.rs",
             "note": "SCR-0128 Stufe 1 lowering with fail-closed subset policy; CLI entry via crates/atc-core/src/main.rs; runtime correctness and completeness remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/atclang",
@@ -1636,7 +1636,7 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -1709,10 +1709,10 @@
             "source_evidence": {
               "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/atclang",
-              "commit_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
               "path": "crates/atc-core/src/lower.rs",
               "symbol": "lower_program",
-              "blob_sha": "ab3c28accab95339594fb5d797d83bc855ef0d0f"
+              "blob_sha": "4be61143f65de3455c72b878ad4e7ff700d4bd18"
             }
           }
         },
@@ -1745,10 +1745,10 @@
           "source_binding": {
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "crates/atc-core/src/bytecode.rs",
-            "symbol_or_entrypoint": "verify",
-            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
-            "file_blob_sha": "d63ba13087a71d6f06ec44c0dc2496644906eeea",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/bytecode.rs",
+            "symbol_or_entrypoint": "Bytecode::verify",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+            "file_blob_sha": "8c4419edbaff6ea5fad5cf486a70e990c7a8fb9f",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/crates/atc-core/src/bytecode.rs",
             "note": "G3 baseline canonical format, SCR-0128 Stufe 1 PC-relative jump model; wire contract conformance vs the normative VM specification remains pending."
           },
           "canonical_owner": "A-TownChain-Okosystems/atclang",
@@ -1779,7 +1779,7 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -1825,7 +1825,7 @@
               "layer": "L0",
               "canonical_owner": "A-TownChain-Okosystems/atclang",
               "source_path": "crates/atc-core/src/bytecode.rs",
-              "symbol": "verify"
+              "symbol": "Bytecode::verify"
             },
             "consumers": {
               "status": "UNRESOLVED",
@@ -1850,10 +1850,10 @@
             "source_evidence": {
               "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/atclang",
-              "commit_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
               "path": "crates/atc-core/src/bytecode.rs",
-              "symbol": "verify",
-              "blob_sha": "d63ba13087a71d6f06ec44c0dc2496644906eeea"
+              "symbol": "Bytecode::verify",
+              "blob_sha": "8c4419edbaff6ea5fad5cf486a70e990c7a8fb9f"
             }
           }
         },
@@ -1887,10 +1887,10 @@
           "source_binding": {
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "crates/atc-core/src/artifact.rs",
-            "symbol_or_entrypoint": "decode_and_verify",
-            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
-            "file_blob_sha": "1b98def2f848a51c147eaad13a39fd8154fa2b06",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/artifact.rs",
+            "symbol_or_entrypoint": "Artifact::decode_and_verify",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+            "file_blob_sha": "8da375daf60ba8317a1558824f3c5fcb7f41d351",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/crates/atc-core/src/artifact.rs",
             "note": "ATCA envelope v1 with fixed limits (16 MiB artifact, 255-byte strings, 64 capabilities); envelope verification is a precondition for VM execution."
           },
           "canonical_owner": "A-TownChain-Okosystems/atclang",
@@ -1921,7 +1921,7 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -1968,7 +1968,7 @@
               "layer": "L0",
               "canonical_owner": "A-TownChain-Okosystems/atclang",
               "source_path": "crates/atc-core/src/artifact.rs",
-              "symbol": "decode_and_verify"
+              "symbol": "Artifact::decode_and_verify"
             },
             "consumers": {
               "status": "UNRESOLVED",
@@ -1993,10 +1993,10 @@
             "source_evidence": {
               "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/atclang",
-              "commit_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
               "path": "crates/atc-core/src/artifact.rs",
-              "symbol": "decode_and_verify",
-              "blob_sha": "1b98def2f848a51c147eaad13a39fd8154fa2b06"
+              "symbol": "Artifact::decode_and_verify",
+              "blob_sha": "8da375daf60ba8317a1558824f3c5fcb7f41d351"
             }
           }
         },
@@ -2029,9 +2029,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "crates/atc-core/src/value.rs",
             "symbol_or_entrypoint": "AbiType",
-            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "file_blob_sha": "cb720e71cbdc26f01cae36388a99d6f2c1a5d8a0",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/value.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/crates/atc-core/src/value.rs",
             "note": "Canonical ABI value contract; protocol boundary in crates/atc-core/src/ir.rs (ProtocolType/IrValue); ATC-ABI-001 remains draft."
           },
           "canonical_owner": "A-TownChain-Okosystems/atclang",
@@ -2062,7 +2062,7 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -2133,7 +2133,7 @@
             "source_evidence": {
               "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/atclang",
-              "commit_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
               "path": "crates/atc-core/src/value.rs",
               "symbol": "AbiType",
               "blob_sha": "cb720e71cbdc26f01cae36388a99d6f2c1a5d8a0"
@@ -2171,9 +2171,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "crates/atc-core/src/vm.rs",
             "symbol_or_entrypoint": "execute_verified",
-            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "file_blob_sha": "009bdec170527898957b9622cb29ec406f77ed81",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/vm.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/crates/atc-core/src/vm.rs",
             "note": "Reference-only stack machine per ATC-RUNTIME-CLASSIFICATION-001; runtime correctness remains unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/atclang",
@@ -2204,7 +2204,7 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -2276,7 +2276,7 @@
             "source_evidence": {
               "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/atclang",
-              "commit_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
               "path": "crates/atc-core/src/vm.rs",
               "symbol": "execute_verified",
               "blob_sha": "009bdec170527898957b9622cb29ec406f77ed81"
@@ -2313,9 +2313,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "crates/atc-core/tests/differential.rs",
             "symbol_or_entrypoint": "differential_gemeinsamer_subset",
-            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "file_blob_sha": "5f588cb83291ea1be90ef455a15f9d6bce8bd193",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/tests/differential.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/crates/atc-core/tests/differential.rs",
             "note": "Test-surface binding; the census scanner extracted no symbols from this test file, so the lexical match is pending. Expectations were generated by tools/differential/dump_reference.py from the Python reference parser.",
             "binding_kind": "non_public_internal_helper"
           },
@@ -2347,7 +2347,7 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -2419,7 +2419,7 @@
             "source_evidence": {
               "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/atclang",
-              "commit_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
               "path": "crates/atc-core/tests/differential.rs",
               "symbol": "differential_gemeinsamer_subset",
               "blob_sha": "5f588cb83291ea1be90ef455a15f9d6bce8bd193"
@@ -2455,10 +2455,10 @@
           "source_binding": {
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "crates/atc-core/tests/stdlib_reference_conformance.rs",
-            "symbol_or_entrypoint": "encode_be",
-            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "symbol_or_entrypoint": "encode_u128_be;decode_u128_be;U256::encode_be;U256::decode_be",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "file_blob_sha": "a7ada9f5e3c8597ca647cec206201e1ef0ede68c",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/tests/stdlib_reference_conformance.rs",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/crates/atc-core/tests/stdlib_reference_conformance.rs",
             "note": "Census-verified test symbol; REFERENCE-only role per ATC-RUNTIME-CLASSIFICATION-001; replaced the former Python reference (Rust-only policy 2026-09-17)."
           },
           "canonical_owner": "A-TownChain-Okosystems/atclang",
@@ -2489,7 +2489,7 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -2535,7 +2535,7 @@
               "layer": "L0",
               "canonical_owner": "A-TownChain-Okosystems/atclang",
               "source_path": "crates/atc-core/tests/stdlib_reference_conformance.rs",
-              "symbol": "encode_be"
+              "symbol": "encode_u128_be;decode_u128_be;U256::encode_be;U256::decode_be"
             },
             "consumers": {
               "status": "UNRESOLVED",
@@ -2560,9 +2560,9 @@
             "source_evidence": {
               "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/atclang",
-              "commit_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
               "path": "crates/atc-core/tests/stdlib_reference_conformance.rs",
-              "symbol": "encode_be",
+              "symbol": "encode_u128_be;decode_u128_be;U256::encode_be;U256::decode_be",
               "blob_sha": "a7ada9f5e3c8597ca647cec206201e1ef0ede68c"
             }
           }
@@ -2599,9 +2599,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "tools/determinism_check.py",
             "symbol_or_entrypoint": "main",
-            "exact_source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "file_blob_sha": "1d360ba239362a3b7cabfa99e17f2299786ae0a1",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/tools/determinism_check.py",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/tools/determinism_check.py",
             "note": "ATC Determinism Gate v2 per ATC-STD-ENG-001 REQ-ENG-002 (SCR-0126); self-exclusion and allowlist with justification duty."
           },
           "canonical_owner": "A-TownChain-Okosystems/atclang",
@@ -2632,7 +2632,7 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -2705,10 +2705,572 @@
             "source_evidence": {
               "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
               "repository": "A-TownChain-Okosystems/atclang",
-              "commit_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
               "path": "tools/determinism_check.py",
               "symbol": "main",
               "blob_sha": "1d360ba239362a3b7cabfa99e17f2299786ae0a1"
+            }
+          }
+        },
+        {
+          "id": "FN-LANG-011",
+          "name": "Lexical analysis and token diagnostics",
+          "purpose": "Convert source text into tokens and controlled lexical diagnostics before parsing.",
+          "inputs": [
+            "UTF-8 source text"
+          ],
+          "outputs": [
+            "Token sequence or LexError"
+          ],
+          "failure_modes": [
+            "invalid character",
+            "malformed token",
+            "unterminated literal/comment"
+          ],
+          "acceptance": [
+            "Token boundaries and keywords match grammar",
+            "Invalid input returns controlled error",
+            "Lexer positive and negative tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "property"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "crates/atc-core/src/lexer.rs",
+            "symbol_or_entrypoint": "tokenize",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+            "file_blob_sha": "6f503a1b1c7a7145284eb5670830946fdcfdac09",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/crates/atc-core/src/lexer.rs",
+            "note": "Declaration and blob SHA pinned to exact source head; functional behavior and test evidence remain residual."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atclang",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping is not functional verification; exact Run→Job→Step, terminal conclusion, exit code and log/artifact evidence remain unreconciled.",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Convert source text into tokens and controlled lexical diagnostics before parsing."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "UTF-8 source text"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "Token sequence or LexError"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Input validation and resource bounds require source/test review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-LANG",
+              "layer": "L0",
+              "canonical_owner": "A-TownChain-Okosystems/atclang",
+              "source_path": "crates/atc-core/src/lexer.rs",
+              "symbol": "tokenize"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct/transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Overlap and delegation require explicit reconciliation."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "invalid character",
+                "malformed token",
+                "unterminated literal/comment"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+              "repository": "A-TownChain-Okosystems/atclang",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+              "path": "crates/atc-core/src/lexer.rs",
+              "symbol": "tokenize",
+              "blob_sha": "6f503a1b1c7a7145284eb5670830946fdcfdac09"
+            }
+          }
+        },
+        {
+          "id": "FN-LANG-012",
+          "name": "AST model and canonical serialization",
+          "purpose": "Represent language AST nodes and serialize the AST to its normalized representation.",
+          "inputs": [
+            "AST Program"
+          ],
+          "outputs": [
+            "Normalized JSON string"
+          ],
+          "failure_modes": [
+            "unsupported/inconsistent AST shape",
+            "serialization escaping mismatch"
+          ],
+          "acceptance": [
+            "All AST variants have defined serialization",
+            "Escaping and output are deterministic",
+            "Golden serialization tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "golden",
+            "determinism"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "crates/atc-core/src/ast.rs",
+            "symbol_or_entrypoint": "Program::to_json",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+            "file_blob_sha": "8721d367971ac93db2578303006045bac754993b",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/crates/atc-core/src/ast.rs",
+            "note": "Declaration and blob SHA pinned to exact source head; functional behavior and test evidence remain residual."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atclang",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping is not functional verification; exact Run→Job→Step, terminal conclusion, exit code and log/artifact evidence remain unreconciled.",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Represent language AST nodes and serialize the AST to its normalized representation."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "AST Program"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "Normalized JSON string"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Input validation and resource bounds require source/test review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-LANG",
+              "layer": "L0",
+              "canonical_owner": "A-TownChain-Okosystems/atclang",
+              "source_path": "crates/atc-core/src/ast.rs",
+              "symbol": "Program::to_json"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct/transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Overlap and delegation require explicit reconciliation."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "unsupported/inconsistent AST shape",
+                "serialization escaping mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+              "repository": "A-TownChain-Okosystems/atclang",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+              "path": "crates/atc-core/src/ast.rs",
+              "symbol": "Program::to_json",
+              "blob_sha": "8721d367971ac93db2578303006045bac754993b"
+            }
+          }
+        },
+        {
+          "id": "FN-LANG-013",
+          "name": "ABI and protocol IR type separation",
+          "purpose": "Keep ABI value types distinct from protocol metadata and expose explicit IR type classification.",
+          "inputs": [
+            "IR value or protocol type"
+          ],
+          "outputs": [
+            "Explicit IrType / host type classification"
+          ],
+          "failure_modes": [
+            "unsupported mapping",
+            "ABI/protocol domain confusion"
+          ],
+          "acceptance": [
+            "Protocol counters are not confused with ABI values",
+            "Mappings are exhaustive and deterministic",
+            "Type-domain boundary tests pass"
+          ],
+          "test_classes": [
+            "unit",
+            "type-safety",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "crates/atc-core/src/ir.rs",
+            "symbol_or_entrypoint": "IrValue::ir_type",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+            "file_blob_sha": "081cf8df0600cb952fc2b569122eed5a22912047",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/crates/atc-core/src/ir.rs",
+            "note": "Declaration and blob SHA pinned to exact source head; functional behavior and test evidence remain residual."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atclang",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping is not functional verification; exact Run→Job→Step, terminal conclusion, exit code and log/artifact evidence remain unreconciled.",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Keep ABI value types distinct from protocol metadata and expose explicit IR type classification."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "IR value or protocol type"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "Explicit IrType / host type classification"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Input validation and resource bounds require source/test review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-LANG",
+              "layer": "L0",
+              "canonical_owner": "A-TownChain-Okosystems/atclang",
+              "source_path": "crates/atc-core/src/ir.rs",
+              "symbol": "IrValue::ir_type"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct/transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Overlap and delegation require explicit reconciliation."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "unsupported mapping",
+                "ABI/protocol domain confusion"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+              "repository": "A-TownChain-Okosystems/atclang",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+              "path": "crates/atc-core/src/ir.rs",
+              "symbol": "IrValue::ir_type",
+              "blob_sha": "081cf8df0600cb952fc2b569122eed5a22912047"
+            }
+          }
+        },
+        {
+          "id": "FN-LANG-014",
+          "name": "Compiler CLI process and command contract",
+          "purpose": "Expose compiler CLI commands with defined input handling, output channels and process exit semantics.",
+          "inputs": [
+            "Command-line arguments",
+            "source input"
+          ],
+          "outputs": [
+            "Compilation/execution output or diagnostic and process ExitCode"
+          ],
+          "failure_modes": [
+            "invalid command/source",
+            "verification failure",
+            "runtime error"
+          ],
+          "acceptance": [
+            "Command behavior and exit codes are documented",
+            "Invalid input fails closed",
+            "CLI integration tests pass"
+          ],
+          "test_classes": [
+            "integration",
+            "negative",
+            "compatibility"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "source_path": "crates/atc-core/src/main.rs",
+            "symbol_or_entrypoint": "main",
+            "exact_source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+            "file_blob_sha": "95ffe8f6c37fb7d687f77f2c778e3802cf34d760",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atclang/blob/27dc3678f67dc81180768be60ffd025e2fa6c9b9/crates/atc-core/src/main.rs",
+            "note": "Declaration and blob SHA pinned to exact source head; functional behavior and test evidence remain residual."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atclang",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific state, caller authority, initialization phase and input constraints require source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Success/failure state changes, preserved invariants and resource ownership require tests and source review."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific input bounds, time/memory/stack/operation limits and exhaustion semantics are not yet verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Function-specific trust boundary, capability/authorization and untrusted-data handling require review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "API/ABI or contract version, compatibility guarantees and deprecation policy are not yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level call/dependency graph and required interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Source mapping is not functional verification; exact Run→Job→Step, terminal conclusion, exit code and log/artifact evidence remain unreconciled.",
+            "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+            "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Expose compiler CLI commands with defined input handling, output channels and process exit semantics."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "Command-line arguments",
+                "source input"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "Compilation/execution output or diagnostic and process ExitCode"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Input validation and resource bounds require source/test review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-LANG",
+              "layer": "L0",
+              "canonical_owner": "A-TownChain-Okosystems/atclang",
+              "source_path": "crates/atc-core/src/main.rs",
+              "symbol": "main"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct/transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Overlap and delegation require explicit reconciliation."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "invalid command/source",
+                "verification failure",
+                "runtime error"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+              "repository": "A-TownChain-Okosystems/atclang",
+              "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+              "path": "crates/atc-core/src/main.rs",
+              "symbol": "main",
+              "blob_sha": "95ffe8f6c37fb7d687f77f2c778e3802cf34d760"
             }
           }
         }
@@ -2716,25 +3278,31 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/atclang",
         "canonical_path": ".",
-        "observed_head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
-        "observed_tree_sha": "4649b749ce4be530a2acdf1c5446df4752d73198",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atclang/commits/main",
+        "observed_head_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+        "observed_tree_sha": "41e6a63b30422ad22355c4d21070cb80c819999f",
+        "census_date": "2026-10-15",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atclang/git/trees/27dc3678f67dc81180768be60ffd025e2fa6c9b9?recursive=1",
         "source_paths_examined": [
           "crates/atc-core/src/artifact.rs",
+          "crates/atc-core/src/ast.rs",
           "crates/atc-core/src/bytecode.rs",
+          "crates/atc-core/src/ir.rs",
+          "crates/atc-core/src/lexer.rs",
           "crates/atc-core/src/lower.rs",
+          "crates/atc-core/src/main.rs",
           "crates/atc-core/src/native.rs",
           "crates/atc-core/src/parser.rs",
           "crates/atc-core/src/value.rs",
           "crates/atc-core/src/vm.rs",
           "crates/atc-core/tests/differential.rs",
           "crates/atc-core/tests/stdlib_reference_conformance.rs",
+          "tools/ci_independent_audit.py",
           "tools/determinism_check.py"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA recorded; ATCLang completeness pass 2026-10-12 enumerated the compiler pipeline from inspected source and bound all catalog functions (8 added). Lexical mapping is not functional verification; deep verification of the language surface against specs/ remains RESIDUAL."
+        "status_reason": "Four additional residual contracts are added from exact-head declarations; bidirectional source/spec/.atc reconciliation and terminal test evidence remain open.",
+        "status": "RESIDUAL"
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -2773,25 +3341,30 @@
       "source_inventory_with_exact_head_and_tree_sha": {
         "repository": "A-TownChain-Okosystems/atclang",
         "canonical_path": ".",
-        "observed_head_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
-        "observed_tree_sha": "4649b749ce4be530a2acdf1c5446df4752d73198",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atclang/commits/main",
+        "observed_head_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+        "observed_tree_sha": "41e6a63b30422ad22355c4d21070cb80c819999f",
+        "census_date": "2026-10-15",
+        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atclang/git/trees/27dc3678f67dc81180768be60ffd025e2fa6c9b9?recursive=1",
         "source_paths_examined": [
           "crates/atc-core/src/artifact.rs",
+          "crates/atc-core/src/ast.rs",
           "crates/atc-core/src/bytecode.rs",
+          "crates/atc-core/src/ir.rs",
+          "crates/atc-core/src/lexer.rs",
           "crates/atc-core/src/lower.rs",
+          "crates/atc-core/src/main.rs",
           "crates/atc-core/src/native.rs",
           "crates/atc-core/src/parser.rs",
           "crates/atc-core/src/value.rs",
           "crates/atc-core/src/vm.rs",
           "crates/atc-core/tests/differential.rs",
           "crates/atc-core/tests/stdlib_reference_conformance.rs",
+          "tools/ci_independent_audit.py",
           "tools/determinism_check.py"
         ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA recorded; ATCLang completeness pass 2026-10-12 enumerated the compiler pipeline from inspected source and bound all catalog functions (8 added). Lexical mapping is not functional verification; deep verification of the language surface against specs/ remains RESIDUAL.",
+        "status_reason": "Four additional residual contracts are added from exact-head declarations; bidirectional source/spec/.atc reconciliation and terminal test evidence remain open.",
         "status": "RESIDUAL"
       },
       "test_and_ci_gates": {
