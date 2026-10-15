@@ -31,6 +31,8 @@ on:
       - "docs/audit/ATC-RUNTIME-SYMBOL-REGISTRY-001.json"
       - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
       - ".github/workflows/source-symbol-inventory.yml"
+      - "tools/validate_catalog_minimum_requirements.py"
+      - "docs/architecture/ATC-CATALOG-MINIMUM-REQUIREMENTS-001.md"
   workflow_dispatch:
 
 permissions:
@@ -57,7 +59,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile scanner, orchestrator and tests
-        run: python -m py_compile tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/build_runtime_symbol_registry.py tools/validate_runtime_symbol_registry.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_runtime_symbol_registry.py
+        run: python -m py_compile tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/build_runtime_symbol_registry.py tools/validate_runtime_symbol_registry.py tools/validate_catalog_minimum_requirements.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_runtime_symbol_registry.py
       - name: Validate catalog minimum requirements
         run: python tools/validate_catalog_minimum_requirements.py docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json
       - name: Run scanner and organization census tests
