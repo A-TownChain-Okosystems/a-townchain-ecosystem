@@ -492,3 +492,24 @@ The existing catalog now includes `COMP-UI-PRIMITIVES` for shared GlobusOS UI co
 ### Updated matrix inventory
 
 **125 matrix connections; 129 declared dependency edges; 125 unique dependency pairs; 3 additional critical paths; 2 BLOCKED; 1 EXCLUDED; 0 VERIFIED.** These are catalog counts only. No implementation or accessibility/security compliance is inferred.
+
+
+## GlobusOS UI source reconciliation — exact HEAD 2026-10-15
+
+Repository: [`globus-os`](https://github.com/A-TownChain-Okosystems/globus-os/commit/3bf000143ec9bfad79d0bacc36b99b8111178b95)  
+Commit SHA: `3bf000143ec9bfad79d0bacc36b99b8111178b95` · root tree SHA: `66413b78b5a9c09bdb2988ad33e6bcf8e71bc1fa`
+
+A partial source reconciliation binds six existing UI-adjacent contracts to exact files and blob SHAs. These are source mappings only; readiness remains `RESIDUAL` and no function is marked `VERIFIED`.
+
+| Function contract | Exact source path | Source blob SHA | Symbol / scope |
+|---|---|---|---|
+| `FN-UI-POSITION-001` | `system/graphics/src/wm.rs` | `eeee511cffe49b2d70915975926f29a3c911855b` | `WindowManager::{open,set_state,placements}` — window state/placement only |
+| `FN-UI-LAYOUT-001` | `system/graphics/src/compositor.rs` | `2c1e1001ab2b7734cc4e55c89ba6ec16b4660014` | `Rect`, `SurfacePlacement`, `Compositor::{create,focus}` |
+| `FN-UI-FOCUS-001` | `system/graphics/src/input.rs` | `1b4c03b8a3abe6116bd6092dc98b6f72abc3a72f` | `InputRouter::{set_pointer_focus,set_keyboard_focus,route}` |
+| `FN-UI-EVENT-001` | `system/graphics/src/input.rs` | `1b4c03b8a3abe6116bd6092dc98b6f72abc3a72f` | `InputRouter::route` |
+| `FN-UI-STATE-001` | `system/graphics/src/desktop.rs` | `ee3e839dae95e2b8552d7c94f3b690b3f321b808` | `DesktopSession::{mode,lock,suspend,resume,shutdown}` |
+| `FN-UI-NOTIFICATION-001` | `system/graphics/src/shell.rs` | `392a6aaa3968116748be970d901c383b59fa482e` | `DesktopShell::{notify,dismiss_notification,notifications}` |
+
+Additional inspected candidates include `system/settings/src/lib.rs` (capability-gated settings core) and the ATCLang draft modules under `modules/atc-globus-desktop/src/`. The latter include TODO/planned functions and are not treated as completed UI widgets. No generic reusable dropdown, slider, switch, button, menu or form toolkit was established in this pass.
+
+All six bindings use `SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED`; the six function readiness values remain `RESIDUAL`. The component source inventory remains incomplete and exported-symbol reconciliation is false. Required next evidence: full source census, owner-service interface mapping, exact-head UI/API and negative-path tests, accessibility/security tests, and Run → Job → Step terminal results with exit codes/logs/artifact hashes.
