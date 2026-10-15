@@ -170,5 +170,100 @@
     "auto_merge_allowed": false,
     "implementation_ssot_changes_allowed_in_this_workstream": false
   },
-  "completion_rule": "Do not declare the catalog complete until every candidate from every in-scope active source tree is mapped to a unique contract or explicitly excluded with evidence, every binding is tied to the exact repository HEAD/path/symbol/file blob, the committed registry accounting matches the census, and functional verification is independently evidenced."
+  "completion_rule": "Do not declare the catalog complete until every candidate from every in-scope active source tree is mapped to a unique contract or explicitly excluded with evidence, every binding is tied to the exact repository HEAD/path/symbol/file blob, the committed registry accounting matches the census, and functional verification is independently evidenced.",
+  "function_filter_policy": {
+    "policy_id": "ATC-SOFTWARE-FUNCTION-FILTER-001",
+    "status": "ACTIVE_REMEDIATION_POLICY",
+    "purpose": "Classify source census candidates into product/API functions, internal helpers, reproducible exclusions, semantic duplicates/delegations, and unresolved/blocked candidates without treating lexical symbol matches as implementation proof.",
+    "scope": {
+      "active_repositories_expected": 26,
+      "archived_repositories": "REFERENCE_ONLY",
+      "private_repository": "EXCLUDED_FROM_CURRENT_SCAN_WITH_EXPLICIT_COVERAGE_GAP",
+      "implementation_authority": "Canonical implementation repositories only; ecosystem repository remains catalog/reconciliation control plane."
+    },
+    "classes": [
+      {
+        "id": "PRIMARY_FUNCTION",
+        "include_if": [
+          "Callable public/exported API, ABI, syscall, service, runtime, blockchain, wallet, SDK, or Aurora/agent/tool entrypoint is confirmed in source.",
+          "Observable responsibility, canonical owner, exact repository HEAD, source path, symbol kind/name, and file blob SHA are recorded.",
+          "Contract inputs/outputs, errors, authorization boundary, dependencies, and acceptance tests are specified or explicitly residual."
+        ],
+        "status_rule": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED until exact-head tests and required evidence pass",
+        "destination": "Existing unique function contract, or new contract only when distinct observable responsibility is evidenced"
+      },
+      {
+        "id": "INTERNAL_HELPER",
+        "include_if": [
+          "Callable implementation detail or helper has a concrete source declaration.",
+          "Its behavior supports a primary function but is not independently part of a public/service contract."
+        ],
+        "status_rule": "Do not create a product function solely because a helper is callable; retain helper inventory and link to its consumer where evidence exists.",
+        "destination": "Internal symbol inventory / dependency trace; promote only if an independent contract boundary is evidenced"
+      },
+      {
+        "id": "EXPLICIT_EXCLUSION",
+        "include_if": [
+          "Test/test fixture, generated symbol, documentation-only declaration, CI/workflow configuration, build/tooling-only symbol, type, constant/value, macro, archived-only source, or mirrored non-canonical implementation."
+        ],
+        "required_evidence": [
+          "Exact repository and source revision",
+          "Path and symbol/candidate identifier where available",
+          "Stable exclusion reason code and concise rationale",
+          "Canonical-owner check for archived or mirrored content"
+        ],
+        "status_rule": "Exclusion must be reproducible; do not use broad path/name heuristics without verifying the candidate category.",
+        "destination": "Documented exclusion record"
+      },
+      {
+        "id": "SEMANTIC_DUPLICATE_OR_DELEGATION",
+        "include_if": [
+          "Two or more candidates appear to implement the same responsibility, or one entrypoint delegates to another."
+        ],
+        "required_evidence": [
+          "Compare behavior, inputs/outputs, side effects, security boundary, and canonical ownership",
+          "Record duplicate group or directed delegation edge",
+          "Keep one canonical contract where semantics truly match; preserve distinct contracts where responsibilities differ"
+        ],
+        "status_rule": "UNRESOLVED until semantic comparison is evidenced; never merge based on name similarity alone.",
+        "destination": "Canonical function binding plus explicit alias/delegation record"
+      },
+      {
+        "id": "UNRESOLVED_OR_BLOCKED",
+        "include_if": [
+          "Candidate has no verified source declaration, canonical owner is unknown, source revision is stale, or contract/consensus behavior is not established."
+        ],
+        "status_rule": "UNRESOLVED for incomplete inventory/ownership evidence; BLOCKED when required implementation, normative contract, or critical dependency is absent.",
+        "destination": "Residual queue with required evidence and owner; never infer IMPLEMENTED or VERIFIED"
+      }
+    ],
+    "processing_order": [
+      "1. Re-run source census at the current PR head and capture every active repository's exact HEAD/tree SHA; report inaccessible/private coverage explicitly.",
+      "2. Reconcile the six known runtime-registry accounting deltas before accepting committed registry validation.",
+      "3. Refresh all 95 residual/blocked function bindings against exact census revisions; record repository, source HEAD, path, symbol kind/name, blob SHA, and evidence URL.",
+      "4. Triage source candidates by repository/path/symbol kind into primary function, internal helper, explicit exclusion, semantic duplicate/delegation, or unresolved/blocked.",
+      "5. Inspect the self-referential component HEAD and replace only with a canonical implementation HEAD supported by ownership evidence.",
+      "6. Rebuild the runtime registry, inspect generated-versus-committed diff, and require R1-R5 to pass for both generated and committed artifacts.",
+      "7. Run bidirectional reconciliation and contract-specific tests on the same exact PR head; record Run -> Job -> Step -> exit code -> logs/artifact.",
+      "8. Preserve Draft status and release BLOCKED until all in-scope candidates are mapped or excluded and functional verification is independently evidenced."
+    ],
+    "known_residuals": {
+      "primary_function_bindings_residual_or_blocked": 95,
+      "unbound_source_symbol_candidates": 35746,
+      "runtime_registry_drift_repositories": 6,
+      "self_referential_component_heads": 1,
+      "functional_verification": "NOT_PERFORMED"
+    },
+    "safety_rules": [
+      "Candidate symbol counts are not missing-function counts.",
+      "Do not create duplicate implementation SSOTs or move canonical ownership into the ecosystem repository.",
+      "Unknown consensus, fork-choice, quorum, and finality behavior remains BLOCKED.",
+      "No gates are weakened; no merge or auto-merge is authorized by this policy."
+    ]
+  },
+  "updated_for_user_request": {
+    "date": "2026-10-15",
+    "request": "Filter software functions by primary function, helper, reproducible exclusion, semantic duplicate/delegation, and unresolved/blocked candidate.",
+    "applied_to": "Triage policy and processing order only; source-level candidate decisions remain pending exact-head census evidence."
+  }
 }
