@@ -1,0 +1,269 @@
+{
+  "schema_id": "ATC-CATALOG-GAP-TRIAGE-001",
+  "schema_version": "1.0.0",
+  "status": "BLOCKED",
+  "purpose": "Machine-readable remediation queue derived from exact-head Source Symbol Inventory run 38698951457. This is audit evidence, not a second catalog or implementation SSOT.",
+  "authority": {
+    "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+    "role": "Catalog reconciliation and evidence control plane only"
+  },
+  "provenance": {
+    "workflow_run_id": 38698951457,
+    "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38698951457",
+    "checked_head_sha": "54eea0b87ffbec1efc511083fc52fcd273b8b687",
+    "artifact_id": 11954984678,
+    "artifact_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38698951457/artifacts/11954984678",
+    "source_census_sha": "54eea0b87ffbec1efc511083fc52fcd273b8b687",
+    "functional_verification": "NOT_PERFORMED",
+    "note": "Census/reconciliation artifact was produced at this exact PR head; this commit updates the audit queue afterward, so the next run must validate the new resulting head."
+  },
+  "observed_counts": {
+    "active_repositories_expected": 26,
+    "active_repositories_scanned": 25,
+    "active_repositories_explicitly_excluded_private": 1,
+    "archived_reference_repositories": 7,
+    "source_files_scanned": 4945,
+    "candidate_public_symbols": 35756,
+    "catalog_components": 31,
+    "catalog_function_contracts": 105,
+    "component_findings": 21,
+    "function_bindings_residual_or_blocked": 95,
+    "function_bindings_documented_exclusions": 33,
+    "candidate_symbols_unbound": 35746,
+    "runtime_registry_entries": 8278,
+    "runtime_function_candidates": 5612,
+    "catalog_bound_candidates": 65,
+    "reconciliation_status": "BLOCKED",
+    "self_referential_component_heads": 1,
+    "runtime_registry_validation": "FAIL",
+    "functional_verification": "NOT_PERFORMED"
+  },
+  "blocking_findings": [
+    {
+      "id": "GAP-001",
+      "severity": "P0",
+      "finding": "FUNCTION_BINDINGS_STALE_OR_UNRESOLVED",
+      "count": 95,
+      "required_action": "For each catalog function, refresh its binding only from the matching exact census HEAD and verify repository, path, symbol kind, symbol name, and file blob. If no implementation exists, retain BLOCKED/RESIDUAL and document the reason; do not invent a source binding."
+    },
+    {
+      "id": "GAP-002",
+      "severity": "P0",
+      "finding": "UNBOUND_SOURCE_SYMBOL_CANDIDATES",
+      "count": 35746,
+      "required_action": "Triage candidates by repository/path/kind. Map true callable API/runtime entrypoints to an existing or genuinely new contract; explicitly exclude tests, types, values, generated code, tooling, docs, archived references, and mirrored non-SSOT content with a reproducible reason. Candidate count is not missing-function count."
+    },
+    {
+      "id": "GAP-003",
+      "severity": "P0",
+      "finding": "COMPONENT_HEAD_SHA_MISMATCH",
+      "count": 21,
+      "required_action": "Refresh component source inventory pins from the same census evidence. Preserve previous snapshots and provenance. Do not mark a binding verified solely because a path or symbol name matches."
+    },
+    {
+      "id": "GAP-004",
+      "severity": "P0",
+      "finding": "RUNTIME_REGISTRY_ACCOUNTING_DRIFT",
+      "count": 6,
+      "repositories": [
+        "A-TownChain-Okosystems/.github",
+        "A-TownChain-Okosystems/a-townchain-ecosystem",
+        "A-TownChain-Okosystems/atc-algorithm",
+        "A-TownChain-Okosystems/atc-engineering",
+        "A-TownChain-Okosystems/atclang",
+        "A-TownChain-Okosystems/genesis-chronicles"
+      ],
+      "required_action": "Regenerate the committed runtime registry from the exact-head census and catalog inputs, inspect the generated-versus-committed diff, and reconcile every per-repository delta above. Validate both the generated artifact and committed registry; do not bypass R3 accounting.",
+      "per_repository_deltas": {
+        "A-TownChain-Okosystems/.github": {
+          "classified": 40,
+          "census_candidates": 59,
+          "delta": -19
+        },
+        "A-TownChain-Okosystems/a-townchain-ecosystem": {
+          "classified": 17846,
+          "census_candidates": 17849,
+          "delta": -3
+        },
+        "A-TownChain-Okosystems/atc-algorithm": {
+          "classified": 16,
+          "census_candidates": 17,
+          "delta": -1
+        },
+        "A-TownChain-Okosystems/atc-engineering": {
+          "classified": 230,
+          "census_candidates": 237,
+          "delta": -7
+        },
+        "A-TownChain-Okosystems/atclang": {
+          "classified": 94,
+          "census_candidates": 106,
+          "delta": -12
+        },
+        "A-TownChain-Okosystems/genesis-chronicles": {
+          "classified": 110,
+          "census_candidates": 128,
+          "delta": -18
+        }
+      }
+    },
+    {
+      "id": "GAP-005",
+      "severity": "P1",
+      "finding": "CATALOG_METADATA_COUNT_DRIFT",
+      "required_action": "Synchronize embedded specification metadata with the current catalog count (31 components / 105 function contracts) while preserving historical audit records. Keep the specification's functional_verification flag NOT_PERFORMED and release decision BLOCKED."
+    },
+    {
+      "id": "GAP-006",
+      "severity": "P0",
+      "finding": "INCOMPLETE_FUNCTIONAL_VERIFICATION",
+      "required_action": "After source mapping is reconciled, run contract-specific tests and exact-HEAD CI. Record Run -> Job -> Step -> exit code -> logs/artifact. Structural validation or lexical matching is not functional verification."
+    },
+    {
+      "id": "GAP-007",
+      "severity": "P0",
+      "finding": "SELF_REFERENTIAL_COMPONENT_HEAD",
+      "count": 1,
+      "required_action": "Inspect the one self-referential component HEAD recorded by the exact-head reconciliation artifact; replace it with the canonical implementation repository HEAD only when source ownership and evidence support that mapping. Do not treat the ecosystem catalog's own head as implementation evidence."
+    }
+  ],
+  "high_priority_known_residuals": [
+    {
+      "repository": "A-TownChain-Okosystems/a-townchain",
+      "canonical_owner": "a-townchain",
+      "required_review": [
+        "components/algorithm/src/hash.rs: atc_hash, atc_hash_hex",
+        "components/algorithm/src/poh.rs: genesis, tick, ticks",
+        "components/interop/modules/atc-bridge/src/: calculate, deposit, withdraw, submit, validate_signatures"
+      ],
+      "rule": "Confirm each symbol against the canonical L1 source and current contracts. Unknown consensus, fork-choice, quorum, and finality behavior remains BLOCKED."
+    },
+    {
+      "repository": "A-TownChain-Okosystems/globus-os",
+      "canonical_owner": "globus-os",
+      "required_review": [
+        "modules/atc-bootloader/src/entry.rs: entry_point",
+        "modules/atc-bootloader/src/mmap.rs: is_in_kernel",
+        "modules/atc-drivers/kernel/src/hw_drivers.rs: add_bar, advance_ticks"
+      ],
+      "rule": "Distinguish syscall/service/IPC/runtime entrypoints from helpers, tests, types, and values. Preserve ShivaCore kernel ownership boundaries."
+    },
+    {
+      "repository": "A-TownChain-Okosystems/aurora-ai",
+      "canonical_owner": "aurora-ai",
+      "required_review": [
+        "App",
+        "AuditView",
+        "EcosystemView"
+      ],
+      "rule": "Trace actual declarations and agent/tool policy boundaries before binding. UI symbols are not automatically standalone platform functions; model output grants no authority."
+    }
+  ],
+  "release_gates": {
+    "schema_validation": "PASS_STRUCTURAL_ONLY_IS_INSUFFICIENT",
+    "source_census": "RESIDUAL",
+    "bidirectional_reconciliation": "BLOCKED",
+    "runtime_registry_validation": "FAIL",
+    "functional_verification": "NOT_PERFORMED",
+    "release_decision": "BLOCKED",
+    "merge_allowed": false,
+    "auto_merge_allowed": false,
+    "implementation_ssot_changes_allowed_in_this_workstream": false
+  },
+  "completion_rule": "Do not declare the catalog complete until every candidate from every in-scope active source tree is mapped to a unique contract or explicitly excluded with evidence, every binding is tied to the exact repository HEAD/path/symbol/file blob, the committed registry accounting matches the census, and functional verification is independently evidenced.",
+  "function_filter_policy": {
+    "policy_id": "ATC-SOFTWARE-FUNCTION-FILTER-001",
+    "status": "ACTIVE_REMEDIATION_POLICY",
+    "purpose": "Classify source census candidates into product/API functions, internal helpers, reproducible exclusions, semantic duplicates/delegations, and unresolved/blocked candidates without treating lexical symbol matches as implementation proof.",
+    "scope": {
+      "active_repositories_expected": 26,
+      "archived_repositories": "REFERENCE_ONLY",
+      "private_repository": "EXCLUDED_FROM_CURRENT_SCAN_WITH_EXPLICIT_COVERAGE_GAP",
+      "implementation_authority": "Canonical implementation repositories only; ecosystem repository remains catalog/reconciliation control plane."
+    },
+    "classes": [
+      {
+        "id": "PRIMARY_FUNCTION",
+        "include_if": [
+          "Callable public/exported API, ABI, syscall, service, runtime, blockchain, wallet, SDK, or Aurora/agent/tool entrypoint is confirmed in source.",
+          "Observable responsibility, canonical owner, exact repository HEAD, source path, symbol kind/name, and file blob SHA are recorded.",
+          "Contract inputs/outputs, errors, authorization boundary, dependencies, and acceptance tests are specified or explicitly residual."
+        ],
+        "status_rule": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED until exact-head tests and required evidence pass",
+        "destination": "Existing unique function contract, or new contract only when distinct observable responsibility is evidenced"
+      },
+      {
+        "id": "INTERNAL_HELPER",
+        "include_if": [
+          "Callable implementation detail or helper has a concrete source declaration.",
+          "Its behavior supports a primary function but is not independently part of a public/service contract."
+        ],
+        "status_rule": "Do not create a product function solely because a helper is callable; retain helper inventory and link to its consumer where evidence exists.",
+        "destination": "Internal symbol inventory / dependency trace; promote only if an independent contract boundary is evidenced"
+      },
+      {
+        "id": "EXPLICIT_EXCLUSION",
+        "include_if": [
+          "Test/test fixture, generated symbol, documentation-only declaration, CI/workflow configuration, build/tooling-only symbol, type, constant/value, macro, archived-only source, or mirrored non-canonical implementation."
+        ],
+        "required_evidence": [
+          "Exact repository and source revision",
+          "Path and symbol/candidate identifier where available",
+          "Stable exclusion reason code and concise rationale",
+          "Canonical-owner check for archived or mirrored content"
+        ],
+        "status_rule": "Exclusion must be reproducible; do not use broad path/name heuristics without verifying the candidate category.",
+        "destination": "Documented exclusion record"
+      },
+      {
+        "id": "SEMANTIC_DUPLICATE_OR_DELEGATION",
+        "include_if": [
+          "Two or more candidates appear to implement the same responsibility, or one entrypoint delegates to another."
+        ],
+        "required_evidence": [
+          "Compare behavior, inputs/outputs, side effects, security boundary, and canonical ownership",
+          "Record duplicate group or directed delegation edge",
+          "Keep one canonical contract where semantics truly match; preserve distinct contracts where responsibilities differ"
+        ],
+        "status_rule": "UNRESOLVED until semantic comparison is evidenced; never merge based on name similarity alone.",
+        "destination": "Canonical function binding plus explicit alias/delegation record"
+      },
+      {
+        "id": "UNRESOLVED_OR_BLOCKED",
+        "include_if": [
+          "Candidate has no verified source declaration, canonical owner is unknown, source revision is stale, or contract/consensus behavior is not established."
+        ],
+        "status_rule": "UNRESOLVED for incomplete inventory/ownership evidence; BLOCKED when required implementation, normative contract, or critical dependency is absent.",
+        "destination": "Residual queue with required evidence and owner; never infer IMPLEMENTED or VERIFIED"
+      }
+    ],
+    "processing_order": [
+      "1. Re-run source census at the current PR head and capture every active repository's exact HEAD/tree SHA; report inaccessible/private coverage explicitly.",
+      "2. Reconcile the six known runtime-registry accounting deltas before accepting committed registry validation.",
+      "3. Refresh all 95 residual/blocked function bindings against exact census revisions; record repository, source HEAD, path, symbol kind/name, blob SHA, and evidence URL.",
+      "4. Triage source candidates by repository/path/symbol kind into primary function, internal helper, explicit exclusion, semantic duplicate/delegation, or unresolved/blocked.",
+      "5. Inspect the self-referential component HEAD and replace only with a canonical implementation HEAD supported by ownership evidence.",
+      "6. Rebuild the runtime registry, inspect generated-versus-committed diff, and require R1-R5 to pass for both generated and committed artifacts.",
+      "7. Run bidirectional reconciliation and contract-specific tests on the same exact PR head; record Run -> Job -> Step -> exit code -> logs/artifact.",
+      "8. Preserve Draft status and release BLOCKED until all in-scope candidates are mapped or excluded and functional verification is independently evidenced."
+    ],
+    "known_residuals": {
+      "primary_function_bindings_residual_or_blocked": 95,
+      "unbound_source_symbol_candidates": 35746,
+      "runtime_registry_drift_repositories": 6,
+      "self_referential_component_heads": 1,
+      "functional_verification": "NOT_PERFORMED"
+    },
+    "safety_rules": [
+      "Candidate symbol counts are not missing-function counts.",
+      "Do not create duplicate implementation SSOTs or move canonical ownership into the ecosystem repository.",
+      "Unknown consensus, fork-choice, quorum, and finality behavior remains BLOCKED.",
+      "No gates are weakened; no merge or auto-merge is authorized by this policy."
+    ]
+  },
+  "updated_for_user_request": {
+    "date": "2026-10-15",
+    "request": "Filter software functions by primary function, helper, reproducible exclusion, semantic duplicate/delegation, and unresolved/blocked candidate.",
+    "applied_to": "Triage policy and processing order only; source-level candidate decisions remain pending exact-head census evidence."
+  }
+}

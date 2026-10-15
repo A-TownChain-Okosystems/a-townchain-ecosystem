@@ -13,6 +13,8 @@ on:
       - "tools/validate_runtime_symbol_registry.py"
       - "docs/audit/ATC-RUNTIME-SYMBOL-REGISTRY-001.json"
       - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md"
       - ".github/workflows/source-symbol-inventory.yml"
   push:
     branches: [main]
@@ -28,6 +30,8 @@ on:
       - "tools/validate_runtime_symbol_registry.py"
       - "docs/audit/ATC-RUNTIME-SYMBOL-REGISTRY-001.json"
       - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md"
       - ".github/workflows/source-symbol-inventory.yml"
   workflow_dispatch:
 
