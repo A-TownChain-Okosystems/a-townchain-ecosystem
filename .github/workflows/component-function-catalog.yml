@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "docs/architecture/ATC-COMPONENT-FUNCTION-SPEC-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
       - "tools/validate_component_function_spec.py"
       - ".github/workflows/component-function-catalog.yml"
   push:
