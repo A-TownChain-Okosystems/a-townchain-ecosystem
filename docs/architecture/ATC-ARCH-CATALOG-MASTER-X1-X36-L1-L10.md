@@ -473,3 +473,34 @@ Counts must never conflate `UNRESOLVED`, `EXCLUDED`, `NOT_IMPLEMENTED` and `VERI
 - Changes to scope, acceptance gates, normative semantics or canonical ownership require traceable review and, where applicable, approved `atc-standards` change control.
 - Work must remain in Draft until the relevant review and evidence criteria are met; no merge or release is implied by a milestone table.
 - The current disposition remains `PROPOSED / NOT VERIFIED`; all milestones are open until checkpoint evidence is reviewed.
+
+
+## 17. Catalog Wiki — chapter index and navigation
+
+**Wiki ID:** `ATC-ARCH-CATALOG-WIKI-X1-X36-L1-L10`  
+**Status:** `PROPOSED / NOT VERIFIED`  
+**Canonical source:** this master catalog and the chapter files linked below. The Wiki is a navigation/documentation view, not a second implementation SSOT or a normative standards registry.
+
+### Chapter index
+
+| Chapter | Subject | Intended reader / use |
+|---|---|---|
+| [00 — Home and navigation](wiki/ATC-ARCH-WIKI-00-Home.md) | Purpose, principles, status, navigation and contribution rules | All contributors and reviewers |
+| [01 — Architecture layers](wiki/ATC-ARCH-WIKI-01-Layers.md) | L1–L10 system layers and X1–X36 cross-cutting layers | Architecture owners |
+| [02 — Sublayers, components and contracts](wiki/ATC-ARCH-WIKI-02-Contracts.md) | Hierarchy, metadata, stable IDs, function-contract schema and exclusions | Catalog/source-census contributors |
+| [03 — SSOT and ownership](wiki/ATC-ARCH-WIKI-03-SSOT.md) | Canonical repositories, ownership boundaries and duplicate prevention | Implementers and maintainers |
+| [04 — Roadmap and delivery](wiki/ATC-ARCH-WIKI-04-Roadmap.md) | Milestones M0–M8, checkpoints CP0–CP8, sprints S0–S10 and TODO-CAT-001–014 | Workstream leads |
+| [05 — Verification and evidence](wiki/ATC-ARCH-WIKI-05-Evidence.md) | Status model, evidence packets, G0–G9 and hard gates | Reviewers and release decision owners |
+| [06 — Governance and change control](wiki/ATC-ARCH-WIKI-06-Governance.md) | Approval, normative standards, exceptions, residuals and release discipline | Governance owners |
+
+### Wiki maintenance rules
+
+1. Keep the master catalog as the architecture registry and source of cross-layer scope; chapter pages explain and navigate that registry.
+2. Do not copy production implementation details into the ecosystem repository as a competing implementation.
+3. Link every claim of implementation or verification to exact source revisions and evidence.
+4. Treat missing facts as `UNRESOLVED`; use `EXCLUDED` only with a reason and required approval.
+5. Update chapter links and this index in the same pull request when a chapter is added, renamed or retired.
+6. Do not label the Wiki complete until all chapter links resolve and the chapter-to-registry consistency check passes.
+7. Normative requirements become authoritative only through approved `atc-standards` change control.
+
+The files are stored as version-controlled Markdown chapters in the catalog repository so changes can be reviewed with the same pull-request and commit evidence. They are a **Wiki-style chapter set**, not proof that GitHub's separate repository Wiki feature has been published or enabled.
