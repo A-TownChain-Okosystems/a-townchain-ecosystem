@@ -19,12 +19,21 @@ def reconcile(catalog: dict, census: dict) -> dict:
         if isinstance(entry, dict) and entry.get("repository")
     }
     symbols_by_repo: dict[str, set[tuple[str, str]]] = {}
+    blob_sha_by_repo_path: dict[tuple[str, str], str] = {}
+    symbol_kind_by_repo_path_name: dict[tuple[str, str, str], str] = {}
     for repository, entry in census_repos.items():
         report = entry.get("report") or {}
         found: set[tuple[str, str]] = set()
         for file in report.get("files", []):
+            path = file.get("path", "")
+            blob_sha = file.get("blob_sha") or file.get("file_blob_sha") or file.get("sha")
+            if blob_sha:
+                blob_sha_by_repo_path[(repository, path)] = blob_sha
             for symbol in file.get("candidate_public_symbols", []):
-                found.add((file.get("path", ""), symbol.get("name", "")))
+                name = symbol.get("name", "")
+                found.add((path, name))
+                if symbol.get("kind"):
+                    symbol_kind_by_repo_path_name[(repository, path, name)] = symbol["kind"]
         symbols_by_repo[repository] = found
 
     bound: dict[str, set[tuple[str, str]]] = {}
@@ -114,8 +123,19 @@ def reconcile(catalog: dict, census: dict) -> dict:
                     item["finding"] = "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN"
             elif binding.get("exact_source_sha") != census_repos[repo].get("source_sha"):
                 item["finding"] = "FUNCTION_BINDING_SHA_MISMATCH"
+            elif not binding.get("file_blob_sha") or not blob_sha_by_repo_path.get((repo, path)):
+                item["finding"] = "SOURCE_BLOB_SHA_MISSING"
+                item["status"] = "RESIDUAL"
+            elif binding.get("file_blob_sha") != blob_sha_by_repo_path.get((repo, path)):
+                item["finding"] = "SOURCE_BLOB_SHA_MISMATCH"
+                item["status"] = "RESIDUAL"
+            elif binding.get("symbol_kind") and symbol_kind_by_repo_path_name.get((repo, path, symbol)) != binding.get("symbol_kind"):
+                item["finding"] = "SOURCE_SYMBOL_KIND_MISMATCH_OR_UNAVAILABLE"
+                item["status"] = "RESIDUAL"
             else:
                 item["finding"] = "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING"
+                item["source_blob_sha"] = blob_sha_by_repo_path[(repo, path)]
+                item["source_symbol_kind"] = symbol_kind_by_repo_path_name.get((repo, path, symbol))
                 bound.setdefault(repo, set()).add(key)
             function_findings.append(item)
 
@@ -173,6 +193,7 @@ def reconcile(catalog: dict, census: dict) -> dict:
             "A lexical name/path match is discovery evidence only, not a function contract or proof of behavior.",
             "Dynamic, generated, macro-expanded, conditional, indirect, and non-public entrypoints may be absent from the scan.",
             "A repository census SHA mismatch must be reconciled before any source binding can be considered current.",
+            "A source binding is not accepted without an exact 40-character file blob SHA matching the census file; symbol kind is compared when declared.",
             "Tests and workflow evidence must be separately linked and verified at the exact source SHA.",
         ],
     }
