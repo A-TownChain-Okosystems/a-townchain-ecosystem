@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.1.0",
   "catalog_date": "2026-10-15",
-  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification. EVM architecture addendum (2026-10-15): added COMP-EVM-COMPAT and FN-EVM-COMPAT-001..005 as separate, BLOCKED architecture/function contracts. Added ATC-EVM-COMPATIBILITY-DECISION-001.md. No option selected; no EVM compatibility or implementation is asserted; native ATC-VM remains unchanged pending explicit approval. Guest OS virtualization addendum (2026-10-15): added COMP-GUEST-OS-VIRT and FN-GUEST-VIRT-001..005 for hosted Windows/Linux VMs, backend/profile selection, capability/resource isolation, desktop console integration, and compatibility verification. Added GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md. Native dual boot is separately scoped; backend not selected; implementation and verification are not claimed. Contract-analysis migration (2026-10-15): added machine-readable purpose, inputs/outputs, preconditions, behavior, architecture placement, consumers, reuse, failure semantics, and source evidence for each function. Unknown call graph, side effects, trust boundaries, error contract, and reuse remain explicitly UNRESOLVED; this migration is not source or functional verification.",
+  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification. EVM architecture addendum (2026-10-15): added COMP-EVM-COMPAT and FN-EVM-COMPAT-001..005 as separate, BLOCKED architecture/function contracts. Added ATC-EVM-COMPATIBILITY-DECISION-001.md. No option selected; no EVM compatibility or implementation is asserted; native ATC-VM remains unchanged pending explicit approval. Guest OS virtualization addendum (2026-10-15): added COMP-GUEST-OS-VIRT and FN-GUEST-VIRT-001..005 for hosted Windows/Linux VMs, backend/profile selection, capability/resource isolation, desktop console integration, and compatibility verification. Added GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md. Native dual boot is separately scoped; backend not selected; implementation and verification are not claimed. Contract-analysis migration (2026-10-15): added machine-readable purpose, inputs/outputs, preconditions, behavior, architecture placement, consumers, reuse, failure semantics, and source evidence for each function. Unknown call graph, side effects, trust boundaries, error contract, and reuse remain explicitly UNRESOLVED; this migration is not source or functional verification. Added 10 user-facing control/UI/system-area components and 20 explicit function contracts on 2026-10-15. All new entries remain UNBOUND_RESIDUAL with no implementation claim; owner SSOTs are retained.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -24114,6 +24114,4150 @@
           "installation/isolation/recovery tests"
         ]
       }
+    },
+    {
+      "id": "COMP-UI-DESKTOP-SHELL",
+      "name": "GlobusOS Desktop Shell and Window Management",
+      "layer": "L4",
+      "canonical_owner": "A-TownChain-Okosystems/globus-os",
+      "role": "Canonical GlobusOS desktop shell, launcher, taskbar, window manager, workspace and session-facing presentation; ecosystem catalog only, no UI implementation here.",
+      "readiness": "RESIDUAL",
+      "criticality": "P2",
+      "depends_on": [
+        "COMP-GLOBUS",
+        "COMP-SHIVA"
+      ],
+      "functions": [
+        {
+          "id": "FN-UI-WINDOW-001",
+          "name": "Desktop windows and workspaces",
+          "purpose": "Open, focus, move, resize, minimize, maximize, restore and close application windows and manage workspaces through the canonical GlobusOS window manager.",
+          "inputs": [
+            "application/window request",
+            "window state",
+            "workspace action"
+          ],
+          "outputs": [
+            "window state transition",
+            "focus/workspace state",
+            "typed error"
+          ],
+          "failure_modes": [
+            "invalid window handle",
+            "unauthorized session",
+            "compositor unavailable",
+            "invalid state transition"
+          ],
+          "acceptance": [
+            "Window transitions are deterministic and session-scoped.",
+            "No window action bypasses process/session isolation.",
+            "Unsupported operations return typed errors."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Open, focus, move, resize, minimize, maximize, restore and close application windows and manage workspaces through the canonical GlobusOS window manager."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "application/window request",
+                "window state",
+                "workspace action"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "window state transition",
+                "focus/workspace state",
+                "typed error"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-UI-DESKTOP-SHELL",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "invalid window handle",
+                "unauthorized session",
+                "compositor unavailable",
+                "invalid state transition"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-UI-SESSION-001",
+          "name": "Session lock and user switching",
+          "purpose": "Lock an interactive session, request authenticated unlock and switch user sessions without exposing another session's data.",
+          "inputs": [
+            "session ID",
+            "identity proof",
+            "requested session action"
+          ],
+          "outputs": [
+            "session state",
+            "authorization decision",
+            "audit event"
+          ],
+          "failure_modes": [
+            "authentication failure",
+            "expired credential",
+            "session unavailable",
+            "policy denial"
+          ],
+          "acceptance": [
+            "Locked sessions do not expose protected content or accept privileged input.",
+            "Unlock requires identity verification.",
+            "Session transitions are audited."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Lock an interactive session, request authenticated unlock and switch user sessions without exposing another session's data."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "session ID",
+                "identity proof",
+                "requested session action"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "session state",
+                "authorization decision",
+                "audit event"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-UI-DESKTOP-SHELL",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "authentication failure",
+                "expired credential",
+                "session unavailable",
+                "policy denial"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/globus-os",
+        "canonical_path": "UNRESOLVED",
+        "observed_head_sha": null,
+        "observed_tree_sha": null,
+        "census_date": "2026-10-15",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/globus-os",
+        "evidence_note": "Owner repository identified from architecture SSOT; no exact source census or symbol binding claimed.",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "New catalog capability group; exact source paths and exported symbols have not been reconciled."
+      },
+      "canonical_path": "UNRESOLVED",
+      "role_and_non_goals": {
+        "role": "Canonical GlobusOS desktop shell, launcher, taskbar, window manager, workspace and session-facing presentation; ecosystem catalog only, no UI implementation here.",
+        "non_goals": [
+          "no duplicate implementation in a-townchain-ecosystem",
+          "UI state is not authoritative security or consensus state",
+          "no implementation or compatibility is claimed until source and exact-SHA evidence exist"
+        ]
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-GLOBUS",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-SHIVA",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "UI-facing API contracts must be bound to canonical owner interfaces and versioned; no implementation is asserted."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "requirements": [
+          "least privilege",
+          "explicit authorization for privileged actions",
+          "fail-closed unknown/error states",
+          "audit sensitive state changes",
+          "redact secrets and sensitive data"
+        ],
+        "reason": "Security behavior must be enforced by canonical services and independently tested; a control panel is not the authority."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Telemetry refresh, log retention, action timeouts and API/resource limits are not yet specified or evidenced."
+      },
+      "test_and_ci_gates": {
+        "status": "RESIDUAL",
+        "required": [
+          "schema validation",
+          "UI/API contract tests",
+          "authorization and negative-path tests",
+          "stale/unavailable data tests",
+          "accessibility and keyboard navigation tests",
+          "exact-SHA Run→Job→Step evidence",
+          "owner security review"
+        ]
+      },
+      "known_conflicts_and_residuals": [
+        "Source paths and exported symbols are not yet reconciled.",
+        "No functional verification or production readiness is asserted.",
+        "Implementation must remain in the canonical owner repository; this catalog is control-plane metadata only."
+      ],
+      "verification_evidence": {
+        "status": "RESIDUAL",
+        "reason": "Architecture/catalog contract only; no exact-head implementation or terminal test evidence.",
+        "required_evidence": [
+          "canonical source SHA and source blob SHA",
+          "workflow_run_id",
+          "job",
+          "step",
+          "terminal_conclusion",
+          "exit_code",
+          "log_or_artifact_url",
+          "security review"
+        ]
+      }
+    },
+    {
+      "id": "COMP-UI-CONTROL-PANEL",
+      "name": "GlobusOS Control Panels and Settings",
+      "layer": "L4",
+      "canonical_owner": "A-TownChain-Okosystems/globus-os",
+      "role": "Canonical system settings and control-panel experience; actual configuration APIs remain in their owning system components.",
+      "readiness": "RESIDUAL",
+      "criticality": "P2",
+      "depends_on": [
+        "COMP-GLOBUS",
+        "COMP-SHIVA"
+      ],
+      "functions": [
+        {
+          "id": "FN-CTRL-SETTINGS-001",
+          "name": "System settings management",
+          "purpose": "Read and change supported display, audio, input, accessibility, network, storage and privacy settings through versioned owner APIs.",
+          "inputs": [
+            "setting identifier",
+            "requested value",
+            "caller identity/capabilities"
+          ],
+          "outputs": [
+            "effective setting",
+            "validation result",
+            "audit record"
+          ],
+          "failure_modes": [
+            "unknown setting",
+            "invalid value",
+            "permission denied",
+            "backend unavailable"
+          ],
+          "acceptance": [
+            "Each setting is validated against its schema and owner policy.",
+            "Privileged changes require authorization.",
+            "Failed changes do not report success."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Read and change supported display, audio, input, accessibility, network, storage and privacy settings through versioned owner APIs."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "setting identifier",
+                "requested value",
+                "caller identity/capabilities"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "effective setting",
+                "validation result",
+                "audit record"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-UI-CONTROL-PANEL",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "unknown setting",
+                "invalid value",
+                "permission denied",
+                "backend unavailable"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-CTRL-DEVICE-001",
+          "name": "Device configuration controls",
+          "purpose": "Enumerate eligible devices and request device configuration through the canonical device/driver service.",
+          "inputs": [
+            "device identifier",
+            "configuration request",
+            "capability grant"
+          ],
+          "outputs": [
+            "device state",
+            "configuration result",
+            "typed error"
+          ],
+          "failure_modes": [
+            "device absent",
+            "unsupported configuration",
+            "policy denial",
+            "driver failure"
+          ],
+          "acceptance": [
+            "Device access is capability-gated.",
+            "No panel bypasses the owning device service.",
+            "Unsupported devices remain explicitly unavailable."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Enumerate eligible devices and request device configuration through the canonical device/driver service."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "device identifier",
+                "configuration request",
+                "capability grant"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "device state",
+                "configuration result",
+                "typed error"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-UI-CONTROL-PANEL",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "device absent",
+                "unsupported configuration",
+                "policy denial",
+                "driver failure"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/globus-os",
+        "canonical_path": "UNRESOLVED",
+        "observed_head_sha": null,
+        "observed_tree_sha": null,
+        "census_date": "2026-10-15",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/globus-os",
+        "evidence_note": "Owner repository identified from architecture SSOT; no exact source census or symbol binding claimed.",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "New catalog capability group; exact source paths and exported symbols have not been reconciled."
+      },
+      "canonical_path": "UNRESOLVED",
+      "role_and_non_goals": {
+        "role": "Canonical system settings and control-panel experience; actual configuration APIs remain in their owning system components.",
+        "non_goals": [
+          "no duplicate implementation in a-townchain-ecosystem",
+          "UI state is not authoritative security or consensus state",
+          "no implementation or compatibility is claimed until source and exact-SHA evidence exist"
+        ]
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-GLOBUS",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-SHIVA",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "UI-facing API contracts must be bound to canonical owner interfaces and versioned; no implementation is asserted."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "requirements": [
+          "least privilege",
+          "explicit authorization for privileged actions",
+          "fail-closed unknown/error states",
+          "audit sensitive state changes",
+          "redact secrets and sensitive data"
+        ],
+        "reason": "Security behavior must be enforced by canonical services and independently tested; a control panel is not the authority."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Telemetry refresh, log retention, action timeouts and API/resource limits are not yet specified or evidenced."
+      },
+      "test_and_ci_gates": {
+        "status": "RESIDUAL",
+        "required": [
+          "schema validation",
+          "UI/API contract tests",
+          "authorization and negative-path tests",
+          "stale/unavailable data tests",
+          "accessibility and keyboard navigation tests",
+          "exact-SHA Run→Job→Step evidence",
+          "owner security review"
+        ]
+      },
+      "known_conflicts_and_residuals": [
+        "Source paths and exported symbols are not yet reconciled.",
+        "No functional verification or production readiness is asserted.",
+        "Implementation must remain in the canonical owner repository; this catalog is control-plane metadata only."
+      ],
+      "verification_evidence": {
+        "status": "RESIDUAL",
+        "reason": "Architecture/catalog contract only; no exact-head implementation or terminal test evidence.",
+        "required_evidence": [
+          "canonical source SHA and source blob SHA",
+          "workflow_run_id",
+          "job",
+          "step",
+          "terminal_conclusion",
+          "exit_code",
+          "log_or_artifact_url",
+          "security review"
+        ]
+      }
+    },
+    {
+      "id": "COMP-SYSTEM-MONITOR",
+      "name": "System Monitor and Diagnostics",
+      "layer": "L4",
+      "canonical_owner": "A-TownChain-Okosystems/globus-os",
+      "role": "User-facing resource telemetry and diagnostics over canonical OS/kernel observability APIs; no second process manager or telemetry engine.",
+      "readiness": "RESIDUAL",
+      "criticality": "P2",
+      "depends_on": [
+        "COMP-GLOBUS",
+        "COMP-SHIVA"
+      ],
+      "functions": [
+        {
+          "id": "FN-SYS-MONITOR-001",
+          "name": "System resource monitoring",
+          "purpose": "Display authorized process, service, CPU, memory, storage, network and supported GPU/NPU telemetry with freshness metadata.",
+          "inputs": [
+            "telemetry query",
+            "caller capabilities",
+            "sampling interval"
+          ],
+          "outputs": [
+            "resource metrics",
+            "timestamp/freshness",
+            "partial-data warning"
+          ],
+          "failure_modes": [
+            "permission denied",
+            "source unavailable",
+            "stale sample",
+            "unsupported metric"
+          ],
+          "acceptance": [
+            "Metrics are labelled with source and freshness.",
+            "Read-only monitoring cannot terminate or mutate processes.",
+            "Missing telemetry is not rendered as zero or healthy."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Display authorized process, service, CPU, memory, storage, network and supported GPU/NPU telemetry with freshness metadata."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "telemetry query",
+                "caller capabilities",
+                "sampling interval"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "resource metrics",
+                "timestamp/freshness",
+                "partial-data warning"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-SYSTEM-MONITOR",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "permission denied",
+                "source unavailable",
+                "stale sample",
+                "unsupported metric"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-SYS-DIAG-001",
+          "name": "System logs and diagnostic reports",
+          "purpose": "Collect authorized logs and diagnostic metadata into a bounded report suitable for troubleshooting.",
+          "inputs": [
+            "time range",
+            "component filters",
+            "redaction policy"
+          ],
+          "outputs": [
+            "diagnostic report",
+            "source inventory",
+            "collection warnings"
+          ],
+          "failure_modes": [
+            "log source unavailable",
+            "quota exceeded",
+            "redaction failure"
+          ],
+          "acceptance": [
+            "Secrets and private data are redacted according to policy.",
+            "Collection is bounded and auditable.",
+            "Incomplete reports identify missing sources."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Collect authorized logs and diagnostic metadata into a bounded report suitable for troubleshooting."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "time range",
+                "component filters",
+                "redaction policy"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "diagnostic report",
+                "source inventory",
+                "collection warnings"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-SYSTEM-MONITOR",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "log source unavailable",
+                "quota exceeded",
+                "redaction failure"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/globus-os",
+        "canonical_path": "UNRESOLVED",
+        "observed_head_sha": null,
+        "observed_tree_sha": null,
+        "census_date": "2026-10-15",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/globus-os",
+        "evidence_note": "Owner repository identified from architecture SSOT; no exact source census or symbol binding claimed.",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "New catalog capability group; exact source paths and exported symbols have not been reconciled."
+      },
+      "canonical_path": "UNRESOLVED",
+      "role_and_non_goals": {
+        "role": "User-facing resource telemetry and diagnostics over canonical OS/kernel observability APIs; no second process manager or telemetry engine.",
+        "non_goals": [
+          "no duplicate implementation in a-townchain-ecosystem",
+          "UI state is not authoritative security or consensus state",
+          "no implementation or compatibility is claimed until source and exact-SHA evidence exist"
+        ]
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-GLOBUS",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-SHIVA",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "UI-facing API contracts must be bound to canonical owner interfaces and versioned; no implementation is asserted."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "requirements": [
+          "least privilege",
+          "explicit authorization for privileged actions",
+          "fail-closed unknown/error states",
+          "audit sensitive state changes",
+          "redact secrets and sensitive data"
+        ],
+        "reason": "Security behavior must be enforced by canonical services and independently tested; a control panel is not the authority."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Telemetry refresh, log retention, action timeouts and API/resource limits are not yet specified or evidenced."
+      },
+      "test_and_ci_gates": {
+        "status": "RESIDUAL",
+        "required": [
+          "schema validation",
+          "UI/API contract tests",
+          "authorization and negative-path tests",
+          "stale/unavailable data tests",
+          "accessibility and keyboard navigation tests",
+          "exact-SHA Run→Job→Step evidence",
+          "owner security review"
+        ]
+      },
+      "known_conflicts_and_residuals": [
+        "Source paths and exported symbols are not yet reconciled.",
+        "No functional verification or production readiness is asserted.",
+        "Implementation must remain in the canonical owner repository; this catalog is control-plane metadata only."
+      ],
+      "verification_evidence": {
+        "status": "RESIDUAL",
+        "reason": "Architecture/catalog contract only; no exact-head implementation or terminal test evidence.",
+        "required_evidence": [
+          "canonical source SHA and source blob SHA",
+          "workflow_run_id",
+          "job",
+          "step",
+          "terminal_conclusion",
+          "exit_code",
+          "log_or_artifact_url",
+          "security review"
+        ]
+      }
+    },
+    {
+      "id": "COMP-SYSTEM-ADMIN",
+      "name": "System Administration and Recovery",
+      "layer": "L4",
+      "canonical_owner": "A-TownChain-Okosystems/globus-os",
+      "role": "Administrative control surface delegating service, update, backup and recovery operations to their canonical system owners.",
+      "readiness": "RESIDUAL",
+      "criticality": "P2",
+      "depends_on": [
+        "COMP-GLOBUS",
+        "COMP-SHIVA",
+        "COMP-PLATFORM-DISTRIBUTION"
+      ],
+      "functions": [
+        {
+          "id": "FN-SYS-ADMIN-001",
+          "name": "Service administration",
+          "purpose": "Inspect and request start, stop, restart or status operations for authorized system services.",
+          "inputs": [
+            "service identifier",
+            "requested action",
+            "capability grant"
+          ],
+          "outputs": [
+            "service state",
+            "operation result",
+            "audit event"
+          ],
+          "failure_modes": [
+            "unknown service",
+            "dependency failure",
+            "permission denied",
+            "timeout"
+          ],
+          "acceptance": [
+            "Only authorized service controls are exposed.",
+            "Service state is confirmed by the owning service manager.",
+            "Timeouts are reported as indeterminate, not success."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Inspect and request start, stop, restart or status operations for authorized system services."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "service identifier",
+                "requested action",
+                "capability grant"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "service state",
+                "operation result",
+                "audit event"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-SYSTEM-ADMIN",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "unknown service",
+                "dependency failure",
+                "permission denied",
+                "timeout"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-SYS-RECOVERY-001",
+          "name": "Update, backup and recovery controls",
+          "purpose": "Initiate supported update, backup, restore and recovery workflows with explicit confirmation and rollback metadata.",
+          "inputs": [
+            "operation type",
+            "target/version",
+            "backup or restore source",
+            "user confirmation"
+          ],
+          "outputs": [
+            "operation state",
+            "recovery point",
+            "result or typed error"
+          ],
+          "failure_modes": [
+            "invalid recovery point",
+            "integrity check failure",
+            "insufficient storage",
+            "interrupted operation"
+          ],
+          "acceptance": [
+            "Destructive actions require explicit scope and confirmation.",
+            "Restore points are integrity-checked.",
+            "Recovery failure preserves available rollback information."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Initiate supported update, backup, restore and recovery workflows with explicit confirmation and rollback metadata."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "operation type",
+                "target/version",
+                "backup or restore source",
+                "user confirmation"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "operation state",
+                "recovery point",
+                "result or typed error"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-SYSTEM-ADMIN",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "invalid recovery point",
+                "integrity check failure",
+                "insufficient storage",
+                "interrupted operation"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/globus-os",
+        "canonical_path": "UNRESOLVED",
+        "observed_head_sha": null,
+        "observed_tree_sha": null,
+        "census_date": "2026-10-15",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/globus-os",
+        "evidence_note": "Owner repository identified from architecture SSOT; no exact source census or symbol binding claimed.",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "New catalog capability group; exact source paths and exported symbols have not been reconciled."
+      },
+      "canonical_path": "UNRESOLVED",
+      "role_and_non_goals": {
+        "role": "Administrative control surface delegating service, update, backup and recovery operations to their canonical system owners.",
+        "non_goals": [
+          "no duplicate implementation in a-townchain-ecosystem",
+          "UI state is not authoritative security or consensus state",
+          "no implementation or compatibility is claimed until source and exact-SHA evidence exist"
+        ]
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-GLOBUS",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-SHIVA",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-PLATFORM-DISTRIBUTION",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "UI-facing API contracts must be bound to canonical owner interfaces and versioned; no implementation is asserted."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "requirements": [
+          "least privilege",
+          "explicit authorization for privileged actions",
+          "fail-closed unknown/error states",
+          "audit sensitive state changes",
+          "redact secrets and sensitive data"
+        ],
+        "reason": "Security behavior must be enforced by canonical services and independently tested; a control panel is not the authority."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Telemetry refresh, log retention, action timeouts and API/resource limits are not yet specified or evidenced."
+      },
+      "test_and_ci_gates": {
+        "status": "RESIDUAL",
+        "required": [
+          "schema validation",
+          "UI/API contract tests",
+          "authorization and negative-path tests",
+          "stale/unavailable data tests",
+          "accessibility and keyboard navigation tests",
+          "exact-SHA Run→Job→Step evidence",
+          "owner security review"
+        ]
+      },
+      "known_conflicts_and_residuals": [
+        "Source paths and exported symbols are not yet reconciled.",
+        "No functional verification or production readiness is asserted.",
+        "Implementation must remain in the canonical owner repository; this catalog is control-plane metadata only."
+      ],
+      "verification_evidence": {
+        "status": "RESIDUAL",
+        "reason": "Architecture/catalog contract only; no exact-head implementation or terminal test evidence.",
+        "required_evidence": [
+          "canonical source SHA and source blob SHA",
+          "workflow_run_id",
+          "job",
+          "step",
+          "terminal_conclusion",
+          "exit_code",
+          "log_or_artifact_url",
+          "security review"
+        ]
+      }
+    },
+    {
+      "id": "COMP-DEVICE-MANAGEMENT",
+      "name": "Device Management and Hardware Status",
+      "layer": "L4",
+      "canonical_owner": "A-TownChain-Okosystems/globus-os",
+      "role": "Canonical user-facing inventory and policy controls for hardware discovery, drivers and device access; hardware control remains in OS/device subsystems.",
+      "readiness": "RESIDUAL",
+      "criticality": "P2",
+      "depends_on": [
+        "COMP-GLOBUS",
+        "COMP-SHIVA"
+      ],
+      "functions": [
+        {
+          "id": "FN-DEVICE-INVENTORY-001",
+          "name": "Device inventory and health",
+          "purpose": "List detected devices, driver binding and supported health/status data from canonical OS services.",
+          "inputs": [
+            "inventory query",
+            "caller capabilities"
+          ],
+          "outputs": [
+            "device inventory",
+            "driver/status metadata",
+            "collection warnings"
+          ],
+          "failure_modes": [
+            "device enumeration unavailable",
+            "driver status unknown",
+            "permission denied"
+          ],
+          "acceptance": [
+            "Inventory reports distinguish unknown from healthy.",
+            "No driver or device implementation is duplicated here.",
+            "Sensitive identifiers are minimized."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "List detected devices, driver binding and supported health/status data from canonical OS services."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "inventory query",
+                "caller capabilities"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "device inventory",
+                "driver/status metadata",
+                "collection warnings"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-DEVICE-MANAGEMENT",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "device enumeration unavailable",
+                "driver status unknown",
+                "permission denied"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-DEVICE-POLICY-001",
+          "name": "Device access policy controls",
+          "purpose": "Review and request policy changes for device access using the canonical capability/authorization layer.",
+          "inputs": [
+            "device identifier",
+            "requested principal",
+            "access policy",
+            "approval context"
+          ],
+          "outputs": [
+            "policy decision",
+            "effective access state",
+            "audit event"
+          ],
+          "failure_modes": [
+            "invalid policy",
+            "unauthorized caller",
+            "device unavailable"
+          ],
+          "acceptance": [
+            "Least privilege is the default.",
+            "Privileged device access requires explicit authorization.",
+            "Policy changes are auditable and fail closed."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Review and request policy changes for device access using the canonical capability/authorization layer."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "device identifier",
+                "requested principal",
+                "access policy",
+                "approval context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "policy decision",
+                "effective access state",
+                "audit event"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-DEVICE-MANAGEMENT",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "invalid policy",
+                "unauthorized caller",
+                "device unavailable"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/globus-os",
+        "canonical_path": "UNRESOLVED",
+        "observed_head_sha": null,
+        "observed_tree_sha": null,
+        "census_date": "2026-10-15",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/globus-os",
+        "evidence_note": "Owner repository identified from architecture SSOT; no exact source census or symbol binding claimed.",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "New catalog capability group; exact source paths and exported symbols have not been reconciled."
+      },
+      "canonical_path": "UNRESOLVED",
+      "role_and_non_goals": {
+        "role": "Canonical user-facing inventory and policy controls for hardware discovery, drivers and device access; hardware control remains in OS/device subsystems.",
+        "non_goals": [
+          "no duplicate implementation in a-townchain-ecosystem",
+          "UI state is not authoritative security or consensus state",
+          "no implementation or compatibility is claimed until source and exact-SHA evidence exist"
+        ]
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-GLOBUS",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-SHIVA",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "UI-facing API contracts must be bound to canonical owner interfaces and versioned; no implementation is asserted."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "requirements": [
+          "least privilege",
+          "explicit authorization for privileged actions",
+          "fail-closed unknown/error states",
+          "audit sensitive state changes",
+          "redact secrets and sensitive data"
+        ],
+        "reason": "Security behavior must be enforced by canonical services and independently tested; a control panel is not the authority."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Telemetry refresh, log retention, action timeouts and API/resource limits are not yet specified or evidenced."
+      },
+      "test_and_ci_gates": {
+        "status": "RESIDUAL",
+        "required": [
+          "schema validation",
+          "UI/API contract tests",
+          "authorization and negative-path tests",
+          "stale/unavailable data tests",
+          "accessibility and keyboard navigation tests",
+          "exact-SHA Run→Job→Step evidence",
+          "owner security review"
+        ]
+      },
+      "known_conflicts_and_residuals": [
+        "Source paths and exported symbols are not yet reconciled.",
+        "No functional verification or production readiness is asserted.",
+        "Implementation must remain in the canonical owner repository; this catalog is control-plane metadata only."
+      ],
+      "verification_evidence": {
+        "status": "RESIDUAL",
+        "reason": "Architecture/catalog contract only; no exact-head implementation or terminal test evidence.",
+        "required_evidence": [
+          "canonical source SHA and source blob SHA",
+          "workflow_run_id",
+          "job",
+          "step",
+          "terminal_conclusion",
+          "exit_code",
+          "log_or_artifact_url",
+          "security review"
+        ]
+      }
+    },
+    {
+      "id": "COMP-SECURITY-CENTER",
+      "name": "GlobusOS Security Center",
+      "layer": "L4",
+      "canonical_owner": "A-TownChain-Okosystems/globus-os",
+      "role": "Security posture and security-policy UI over canonical Secure Boot, identity, capability, key-provider and audit services; not a security authority itself.",
+      "readiness": "BLOCKED",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-GLOBUS",
+        "COMP-SHIVA",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-SEC-POLICY-001",
+          "name": "Security policy administration",
+          "purpose": "Review and request authorized security-policy changes through the canonical policy service.",
+          "inputs": [
+            "policy identifier",
+            "proposed policy",
+            "caller identity/capabilities",
+            "approval"
+          ],
+          "outputs": [
+            "policy validation",
+            "effective policy state",
+            "audit event"
+          ],
+          "failure_modes": [
+            "policy invalid",
+            "approval missing",
+            "permission denied",
+            "policy service unavailable"
+          ],
+          "acceptance": [
+            "Security decisions are enforced by the owning policy service, not UI state.",
+            "Privileged changes require authorization and audit.",
+            "Failure or unknown state fails closed."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Review and request authorized security-policy changes through the canonical policy service."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "policy identifier",
+                "proposed policy",
+                "caller identity/capabilities",
+                "approval"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "policy validation",
+                "effective policy state",
+                "audit event"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-SECURITY-CENTER",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "policy invalid",
+                "approval missing",
+                "permission denied",
+                "policy service unavailable"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-SEC-POSTURE-001",
+          "name": "Security posture and key status",
+          "purpose": "Display evidence-backed Secure Boot, identity-provider, key-provider and security-event status without exposing key material.",
+          "inputs": [
+            "posture query",
+            "authorized scope"
+          ],
+          "outputs": [
+            "evidence-linked posture report",
+            "unknown/degraded states",
+            "audit metadata"
+          ],
+          "failure_modes": [
+            "evidence unavailable",
+            "source stale",
+            "permission denied"
+          ],
+          "acceptance": [
+            "Private keys and secrets are never displayed.",
+            "Every status is bound to its evidence source and freshness.",
+            "Missing evidence is shown as unknown, not secure."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Display evidence-backed Secure Boot, identity-provider, key-provider and security-event status without exposing key material."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "posture query",
+                "authorized scope"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "evidence-linked posture report",
+                "unknown/degraded states",
+                "audit metadata"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-SECURITY-CENTER",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "evidence unavailable",
+                "source stale",
+                "permission denied"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/globus-os",
+        "canonical_path": "UNRESOLVED",
+        "observed_head_sha": null,
+        "observed_tree_sha": null,
+        "census_date": "2026-10-15",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/globus-os",
+        "evidence_note": "Owner repository identified from architecture SSOT; no exact source census or symbol binding claimed.",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "New catalog capability group; exact source paths and exported symbols have not been reconciled."
+      },
+      "canonical_path": "UNRESOLVED",
+      "role_and_non_goals": {
+        "role": "Security posture and security-policy UI over canonical Secure Boot, identity, capability, key-provider and audit services; not a security authority itself.",
+        "non_goals": [
+          "no duplicate implementation in a-townchain-ecosystem",
+          "UI state is not authoritative security or consensus state",
+          "no implementation or compatibility is claimed until source and exact-SHA evidence exist"
+        ]
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-GLOBUS",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-SHIVA",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-STANDARDS",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "UI-facing API contracts must be bound to canonical owner interfaces and versioned; no implementation is asserted."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "requirements": [
+          "least privilege",
+          "explicit authorization for privileged actions",
+          "fail-closed unknown/error states",
+          "audit sensitive state changes",
+          "redact secrets and sensitive data"
+        ],
+        "reason": "Security behavior must be enforced by canonical services and independently tested; a control panel is not the authority."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Telemetry refresh, log retention, action timeouts and API/resource limits are not yet specified or evidenced."
+      },
+      "test_and_ci_gates": {
+        "status": "BLOCKED",
+        "required": [
+          "schema validation",
+          "UI/API contract tests",
+          "authorization and negative-path tests",
+          "stale/unavailable data tests",
+          "accessibility and keyboard navigation tests",
+          "exact-SHA Run→Job→Step evidence",
+          "owner security review"
+        ]
+      },
+      "known_conflicts_and_residuals": [
+        "Source paths and exported symbols are not yet reconciled.",
+        "No functional verification or production readiness is asserted.",
+        "Implementation must remain in the canonical owner repository; this catalog is control-plane metadata only."
+      ],
+      "verification_evidence": {
+        "status": "BLOCKED",
+        "reason": "Architecture/catalog contract only; no exact-head implementation or terminal test evidence.",
+        "required_evidence": [
+          "canonical source SHA and source blob SHA",
+          "workflow_run_id",
+          "job",
+          "step",
+          "terminal_conclusion",
+          "exit_code",
+          "log_or_artifact_url",
+          "security review"
+        ]
+      }
+    },
+    {
+      "id": "COMP-ATC-DASHBOARD",
+      "name": "A-TownChain Operations Dashboard",
+      "layer": "L5",
+      "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+      "role": "User-facing dashboard consuming canonical node, wallet, validator and cross-chain APIs; it does not implement consensus, wallet signing or bridge verification.",
+      "readiness": "RESIDUAL",
+      "criticality": "P2",
+      "depends_on": [
+        "COMP-CHAIN",
+        "COMP-NODE",
+        "COMP-WALLET",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-ATC-DASH-001",
+          "name": "Blockchain and node status dashboard",
+          "purpose": "Display node synchronization, peer connectivity, observed block height and evidence-backed chain health from canonical node APIs.",
+          "inputs": [
+            "node/API endpoint",
+            "status query",
+            "network identity"
+          ],
+          "outputs": [
+            "node status",
+            "peer/sync metrics",
+            "source freshness and warnings"
+          ],
+          "failure_modes": [
+            "endpoint unavailable",
+            "stale data",
+            "chain identity mismatch",
+            "partial API response"
+          ],
+          "acceptance": [
+            "Observed status is distinguished from consensus/finality verification.",
+            "Unknown or empty API results fail closed.",
+            "Chain/network identity is always displayed."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Display node synchronization, peer connectivity, observed block height and evidence-backed chain health from canonical node APIs."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "node/API endpoint",
+                "status query",
+                "network identity"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "node status",
+                "peer/sync metrics",
+                "source freshness and warnings"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-ATC-DASHBOARD",
+              "layer": "L5",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "endpoint unavailable",
+                "stale data",
+                "chain identity mismatch",
+                "partial API response"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-ATC-OPS-001",
+          "name": "Wallet and cross-chain operation visibility",
+          "purpose": "Display wallet transaction state and cross-chain message lifecycle using canonical wallet and interoperability APIs.",
+          "inputs": [
+            "account reference",
+            "transaction/message ID",
+            "authorized query"
+          ],
+          "outputs": [
+            "operation status",
+            "signature/approval state",
+            "proof/finality state when supplied"
+          ],
+          "failure_modes": [
+            "unauthorized account",
+            "missing proof",
+            "unknown finality",
+            "API unavailable"
+          ],
+          "acceptance": [
+            "No signing occurs solely because a dashboard is opened.",
+            "Unverified cross-chain messages are never labelled finalized.",
+            "Sensitive account data is access-controlled."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Display wallet transaction state and cross-chain message lifecycle using canonical wallet and interoperability APIs."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "account reference",
+                "transaction/message ID",
+                "authorized query"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "operation status",
+                "signature/approval state",
+                "proof/finality state when supplied"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-ATC-DASHBOARD",
+              "layer": "L5",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "unauthorized account",
+                "missing proof",
+                "unknown finality",
+                "API unavailable"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/a-townchain",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/a-townchain",
+        "canonical_path": "UNRESOLVED",
+        "observed_head_sha": null,
+        "observed_tree_sha": null,
+        "census_date": "2026-10-15",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/a-townchain",
+        "evidence_note": "Owner repository identified from architecture SSOT; no exact source census or symbol binding claimed.",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "New catalog capability group; exact source paths and exported symbols have not been reconciled."
+      },
+      "canonical_path": "UNRESOLVED",
+      "role_and_non_goals": {
+        "role": "User-facing dashboard consuming canonical node, wallet, validator and cross-chain APIs; it does not implement consensus, wallet signing or bridge verification.",
+        "non_goals": [
+          "no duplicate implementation in a-townchain-ecosystem",
+          "UI state is not authoritative security or consensus state",
+          "no implementation or compatibility is claimed until source and exact-SHA evidence exist"
+        ]
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-CHAIN",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-NODE",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-WALLET",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-STANDARDS",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "UI-facing API contracts must be bound to canonical owner interfaces and versioned; no implementation is asserted."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "requirements": [
+          "least privilege",
+          "explicit authorization for privileged actions",
+          "fail-closed unknown/error states",
+          "audit sensitive state changes",
+          "redact secrets and sensitive data"
+        ],
+        "reason": "Security behavior must be enforced by canonical services and independently tested; a control panel is not the authority."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Telemetry refresh, log retention, action timeouts and API/resource limits are not yet specified or evidenced."
+      },
+      "test_and_ci_gates": {
+        "status": "RESIDUAL",
+        "required": [
+          "schema validation",
+          "UI/API contract tests",
+          "authorization and negative-path tests",
+          "stale/unavailable data tests",
+          "accessibility and keyboard navigation tests",
+          "exact-SHA Run→Job→Step evidence",
+          "owner security review"
+        ]
+      },
+      "known_conflicts_and_residuals": [
+        "Source paths and exported symbols are not yet reconciled.",
+        "No functional verification or production readiness is asserted.",
+        "Implementation must remain in the canonical owner repository; this catalog is control-plane metadata only."
+      ],
+      "verification_evidence": {
+        "status": "RESIDUAL",
+        "reason": "Architecture/catalog contract only; no exact-head implementation or terminal test evidence.",
+        "required_evidence": [
+          "canonical source SHA and source blob SHA",
+          "workflow_run_id",
+          "job",
+          "step",
+          "terminal_conclusion",
+          "exit_code",
+          "log_or_artifact_url",
+          "security review"
+        ]
+      }
+    },
+    {
+      "id": "COMP-AURORA-CONTROL-PANEL",
+      "name": "Aurora AI Control Panel",
+      "layer": "L2",
+      "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+      "role": "Canonical Aurora AI user/administrator control surface for models, agents, tools, runtime policy and approvals; not an independent model runtime or authority plane.",
+      "readiness": "RESIDUAL",
+      "criticality": "P2",
+      "depends_on": [
+        "COMP-AURORA",
+        "COMP-GLOBUS",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-AURORA-APPROVAL-001",
+          "name": "AI action approval and denial",
+          "purpose": "Present policy-gated agent actions for explicit user approval or denial and record the decision in the audit trail.",
+          "inputs": [
+            "agent/action proposal",
+            "requested capabilities",
+            "risk/policy context",
+            "user decision"
+          ],
+          "outputs": [
+            "approved/denied decision",
+            "scoped capability grant if approved",
+            "audit event"
+          ],
+          "failure_modes": [
+            "approval expired",
+            "policy denial",
+            "unauthorized approver",
+            "agent state changed"
+          ],
+          "acceptance": [
+            "Approval is bound to the exact action and parameters.",
+            "Wallet/privileged actions require separate explicit approval.",
+            "Approval never implies unrestricted future authority."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/aurora-ai",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Present policy-gated agent actions for explicit user approval or denial and record the decision in the audit trail."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "agent/action proposal",
+                "requested capabilities",
+                "risk/policy context",
+                "user decision"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "approved/denied decision",
+                "scoped capability grant if approved",
+                "audit event"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-AURORA-CONTROL-PANEL",
+              "layer": "L2",
+              "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "approval expired",
+                "policy denial",
+                "unauthorized approver",
+                "agent state changed"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/aurora-ai",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-AURORA-MODEL-001",
+          "name": "Model, agent and runtime administration",
+          "purpose": "Display and configure permitted local/external model endpoints, agent lifecycle and runtime resource policies via canonical Aurora APIs.",
+          "inputs": [
+            "model/agent identifier",
+            "configuration",
+            "policy/capabilities"
+          ],
+          "outputs": [
+            "effective configuration",
+            "runtime state",
+            "validation warnings"
+          ],
+          "failure_modes": [
+            "unsupported backend",
+            "credential unavailable",
+            "quota exceeded",
+            "policy denial"
+          ],
+          "acceptance": [
+            "Secrets are not exposed in UI logs.",
+            "Model/tool actions remain policy and capability gated.",
+            "Unavailable models are not shown as ready."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/aurora-ai",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Display and configure permitted local/external model endpoints, agent lifecycle and runtime resource policies via canonical Aurora APIs."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "model/agent identifier",
+                "configuration",
+                "policy/capabilities"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "effective configuration",
+                "runtime state",
+                "validation warnings"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-AURORA-CONTROL-PANEL",
+              "layer": "L2",
+              "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "unsupported backend",
+                "credential unavailable",
+                "quota exceeded",
+                "policy denial"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/aurora-ai",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/aurora-ai",
+        "canonical_path": "UNRESOLVED",
+        "observed_head_sha": null,
+        "observed_tree_sha": null,
+        "census_date": "2026-10-15",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/aurora-ai",
+        "evidence_note": "Owner repository identified from architecture SSOT; no exact source census or symbol binding claimed.",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "New catalog capability group; exact source paths and exported symbols have not been reconciled."
+      },
+      "canonical_path": "UNRESOLVED",
+      "role_and_non_goals": {
+        "role": "Canonical Aurora AI user/administrator control surface for models, agents, tools, runtime policy and approvals; not an independent model runtime or authority plane.",
+        "non_goals": [
+          "no duplicate implementation in a-townchain-ecosystem",
+          "UI state is not authoritative security or consensus state",
+          "no implementation or compatibility is claimed until source and exact-SHA evidence exist"
+        ]
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-AURORA",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-GLOBUS",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-STANDARDS",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "UI-facing API contracts must be bound to canonical owner interfaces and versioned; no implementation is asserted."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "requirements": [
+          "least privilege",
+          "explicit authorization for privileged actions",
+          "fail-closed unknown/error states",
+          "audit sensitive state changes",
+          "redact secrets and sensitive data"
+        ],
+        "reason": "Security behavior must be enforced by canonical services and independently tested; a control panel is not the authority."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Telemetry refresh, log retention, action timeouts and API/resource limits are not yet specified or evidenced."
+      },
+      "test_and_ci_gates": {
+        "status": "RESIDUAL",
+        "required": [
+          "schema validation",
+          "UI/API contract tests",
+          "authorization and negative-path tests",
+          "stale/unavailable data tests",
+          "accessibility and keyboard navigation tests",
+          "exact-SHA Run→Job→Step evidence",
+          "owner security review"
+        ]
+      },
+      "known_conflicts_and_residuals": [
+        "Source paths and exported symbols are not yet reconciled.",
+        "No functional verification or production readiness is asserted.",
+        "Implementation must remain in the canonical owner repository; this catalog is control-plane metadata only."
+      ],
+      "verification_evidence": {
+        "status": "RESIDUAL",
+        "reason": "Architecture/catalog contract only; no exact-head implementation or terminal test evidence.",
+        "required_evidence": [
+          "canonical source SHA and source blob SHA",
+          "workflow_run_id",
+          "job",
+          "step",
+          "terminal_conclusion",
+          "exit_code",
+          "log_or_artifact_url",
+          "security review"
+        ]
+      }
+    },
+    {
+      "id": "COMP-VIRTUALIZATION-CONTROL",
+      "name": "GlobusOS Virtualization Control Panel",
+      "layer": "L4",
+      "canonical_owner": "A-TownChain-Okosystems/globus-os",
+      "role": "Control surface for the canonical GlobusOS guest-OS virtualization capability; VM implementation remains owned by globus-os and backend selection remains open.",
+      "readiness": "BLOCKED",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-GLOBUS",
+        "COMP-SHIVA",
+        "COMP-GUEST-OS-VIRT"
+      ],
+      "functions": [
+        {
+          "id": "FN-VIRT-GUEST-001",
+          "name": "Guest operating system lifecycle controls",
+          "purpose": "Request installation, start, stop, pause, resume and recovery of an explicitly selected guest VM through the canonical virtualization service.",
+          "inputs": [
+            "VM identifier",
+            "lifecycle action",
+            "user authorization",
+            "resource profile"
+          ],
+          "outputs": [
+            "VM state transition",
+            "operation result",
+            "audit event"
+          ],
+          "failure_modes": [
+            "backend unavailable",
+            "unsupported guest",
+            "quota exceeded",
+            "authorization denied"
+          ],
+          "acceptance": [
+            "Guest lifecycle operations are scoped to one VM.",
+            "Host/guest isolation and resource quotas are enforced by the backend.",
+            "No guest OS support is claimed before compatibility testing."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Request installation, start, stop, pause, resume and recovery of an explicitly selected guest VM through the canonical virtualization service."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "VM identifier",
+                "lifecycle action",
+                "user authorization",
+                "resource profile"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "VM state transition",
+                "operation result",
+                "audit event"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-VIRTUALIZATION-CONTROL",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "backend unavailable",
+                "unsupported guest",
+                "quota exceeded",
+                "authorization denied"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-VIRT-POLICY-001",
+          "name": "Guest resource and integration policy",
+          "purpose": "Inspect and configure VM resource quotas and host integration grants for storage, network, clipboard and devices.",
+          "inputs": [
+            "VM identifier",
+            "resource/integration policy",
+            "approval context"
+          ],
+          "outputs": [
+            "effective policy",
+            "quota state",
+            "audit event"
+          ],
+          "failure_modes": [
+            "invalid quota",
+            "unsupported device",
+            "policy denial",
+            "backend unavailable"
+          ],
+          "acceptance": [
+            "No host file, disk, key, USB, GPU or privileged API access is granted implicitly.",
+            "Policy changes are explicit and auditable.",
+            "Unsupported integrations remain disabled."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "BLOCKED",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Inspect and configure VM resource quotas and host integration grants for storage, network, clipboard and devices."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "VM identifier",
+                "resource/integration policy",
+                "approval context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "effective policy",
+                "quota state",
+                "audit event"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-VIRTUALIZATION-CONTROL",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "invalid quota",
+                "unsupported device",
+                "policy denial",
+                "backend unavailable"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/globus-os",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/globus-os",
+        "canonical_path": "UNRESOLVED",
+        "observed_head_sha": null,
+        "observed_tree_sha": null,
+        "census_date": "2026-10-15",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/globus-os",
+        "evidence_note": "Owner repository identified from architecture SSOT; no exact source census or symbol binding claimed.",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "New catalog capability group; exact source paths and exported symbols have not been reconciled."
+      },
+      "canonical_path": "UNRESOLVED",
+      "role_and_non_goals": {
+        "role": "Control surface for the canonical GlobusOS guest-OS virtualization capability; VM implementation remains owned by globus-os and backend selection remains open.",
+        "non_goals": [
+          "no duplicate implementation in a-townchain-ecosystem",
+          "UI state is not authoritative security or consensus state",
+          "no implementation or compatibility is claimed until source and exact-SHA evidence exist"
+        ]
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-GLOBUS",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-SHIVA",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-GUEST-OS-VIRT",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "UI-facing API contracts must be bound to canonical owner interfaces and versioned; no implementation is asserted."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "requirements": [
+          "least privilege",
+          "explicit authorization for privileged actions",
+          "fail-closed unknown/error states",
+          "audit sensitive state changes",
+          "redact secrets and sensitive data"
+        ],
+        "reason": "Security behavior must be enforced by canonical services and independently tested; a control panel is not the authority."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Telemetry refresh, log retention, action timeouts and API/resource limits are not yet specified or evidenced."
+      },
+      "test_and_ci_gates": {
+        "status": "BLOCKED",
+        "required": [
+          "schema validation",
+          "UI/API contract tests",
+          "authorization and negative-path tests",
+          "stale/unavailable data tests",
+          "accessibility and keyboard navigation tests",
+          "exact-SHA Run→Job→Step evidence",
+          "owner security review"
+        ]
+      },
+      "known_conflicts_and_residuals": [
+        "Source paths and exported symbols are not yet reconciled.",
+        "No functional verification or production readiness is asserted.",
+        "Implementation must remain in the canonical owner repository; this catalog is control-plane metadata only."
+      ],
+      "verification_evidence": {
+        "status": "BLOCKED",
+        "reason": "Architecture/catalog contract only; no exact-head implementation or terminal test evidence.",
+        "required_evidence": [
+          "canonical source SHA and source blob SHA",
+          "workflow_run_id",
+          "job",
+          "step",
+          "terminal_conclusion",
+          "exit_code",
+          "log_or_artifact_url",
+          "security review"
+        ]
+      }
+    },
+    {
+      "id": "COMP-DEVELOPER-TOOLS",
+      "name": "ATC Developer Tools and Diagnostics",
+      "layer": "L5",
+      "canonical_owner": "A-TownChain-Okosystems/atc-sdk",
+      "role": "Developer-facing API/SDK diagnostics, logs, debugging and build/test status through canonical SDK and toolchain interfaces; no duplicate compiler or VM.",
+      "readiness": "RESIDUAL",
+      "criticality": "P2",
+      "depends_on": [
+        "COMP-SDK",
+        "COMP-TOOLCHAIN",
+        "COMP-VM",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-DEV-TOOLS-001",
+          "name": "Developer diagnostics and API inspection",
+          "purpose": "Expose documented API discovery, request diagnostics and structured errors for canonical SDK and service interfaces.",
+          "inputs": [
+            "API/SDK target",
+            "request metadata",
+            "developer authorization"
+          ],
+          "outputs": [
+            "schema/interface view",
+            "structured diagnostics",
+            "request trace reference"
+          ],
+          "failure_modes": [
+            "unsupported API version",
+            "permission denied",
+            "service unavailable"
+          ],
+          "acceptance": [
+            "Displayed schemas are versioned and source-linked.",
+            "Secrets are redacted from diagnostics.",
+            "Unsupported endpoints are clearly identified."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/atc-sdk",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-sdk",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Expose documented API discovery, request diagnostics and structured errors for canonical SDK and service interfaces."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "API/SDK target",
+                "request metadata",
+                "developer authorization"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "schema/interface view",
+                "structured diagnostics",
+                "request trace reference"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-DEVELOPER-TOOLS",
+              "layer": "L5",
+              "canonical_owner": "A-TownChain-Okosystems/atc-sdk",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "unsupported API version",
+                "permission denied",
+                "service unavailable"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/atc-sdk",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        },
+        {
+          "id": "FN-DEV-TOOLS-002",
+          "name": "Build, test and artifact status",
+          "purpose": "Display build/test outcomes and artifact provenance bound to exact repository commits and workflow evidence.",
+          "inputs": [
+            "repository and commit SHA",
+            "workflow/run reference",
+            "artifact metadata"
+          ],
+          "outputs": [
+            "build/test status",
+            "exact SHA",
+            "job/step/exit evidence",
+            "artifact hashes"
+          ],
+          "failure_modes": [
+            "missing run",
+            "SHA mismatch",
+            "skipped step",
+            "artifact unavailable"
+          ],
+          "acceptance": [
+            "Only terminal exact-SHA evidence can be marked verified.",
+            "Skipped/pending checks never count as passed.",
+            "Artifacts include verifiable provenance and hashes."
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "negative",
+            "boundary",
+            "security",
+            "cross-platform"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/atc-sdk",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Katalogvertrag für geplante Bedienoberfläche/Systemsteuerung. Kein konkreter Quellpfad oder Symbolbeleg identifiziert; keine Implementierung oder Funktionsprüfung behauptet."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-sdk",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, preserved invariants and error/recovery semantics require implementation-specific tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Input, time, memory, concurrency and retention bounds require explicit contract and tests."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Authorization, trust boundaries and handling of untrusted UI/API input require source-backed review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "The owning API/ABI version and compatibility policy have not been source-bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level consumers and owner API dependencies require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No implementation or exact-SHA terminal verification evidence is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical source repository and exact source SHA",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "security/negative-path test evidence"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Display build/test outcomes and artifact provenance bound to exact repository commits and workflow evidence."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "repository and commit SHA",
+                "workflow/run reference",
+                "artifact metadata"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "build/test status",
+                "exact SHA",
+                "job/step/exit evidence",
+                "artifact hashes"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Caller authority, initialization/session state, input constraints and owner API are not yet source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-DEVELOPER-TOOLS",
+              "layer": "L5",
+              "canonical_owner": "A-TownChain-Okosystems/atc-sdk",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Call sites, adapters, delegation, semantic duplicates, and conflicting implementations require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing run",
+                "SHA mismatch",
+                "skipped step",
+                "artifact unavailable"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "repository": "A-TownChain-Okosystems/atc-sdk",
+              "commit_sha": null,
+              "path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED",
+              "blob_sha": null
+            }
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/atc-sdk",
+        "canonical_path": "UNRESOLVED",
+        "observed_head_sha": null,
+        "observed_tree_sha": null,
+        "census_date": "2026-10-15",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/atc-sdk",
+        "evidence_note": "Owner repository identified from architecture SSOT; no exact source census or symbol binding claimed.",
+        "source_paths_examined": [],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "New catalog capability group; exact source paths and exported symbols have not been reconciled."
+      },
+      "canonical_path": "UNRESOLVED",
+      "role_and_non_goals": {
+        "role": "Developer-facing API/SDK diagnostics, logs, debugging and build/test status through canonical SDK and toolchain interfaces; no duplicate compiler or VM.",
+        "non_goals": [
+          "no duplicate implementation in a-townchain-ecosystem",
+          "UI state is not authoritative security or consensus state",
+          "no implementation or compatibility is claimed until source and exact-SHA evidence exist"
+        ]
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-SDK",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-TOOLCHAIN",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-VM",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        },
+        {
+          "component_id": "COMP-STANDARDS",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Dependency identified at architecture level; versioned owner interface and exact source binding remain pending."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "UI-facing API contracts must be bound to canonical owner interfaces and versioned; no implementation is asserted."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "requirements": [
+          "least privilege",
+          "explicit authorization for privileged actions",
+          "fail-closed unknown/error states",
+          "audit sensitive state changes",
+          "redact secrets and sensitive data"
+        ],
+        "reason": "Security behavior must be enforced by canonical services and independently tested; a control panel is not the authority."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Telemetry refresh, log retention, action timeouts and API/resource limits are not yet specified or evidenced."
+      },
+      "test_and_ci_gates": {
+        "status": "RESIDUAL",
+        "required": [
+          "schema validation",
+          "UI/API contract tests",
+          "authorization and negative-path tests",
+          "stale/unavailable data tests",
+          "accessibility and keyboard navigation tests",
+          "exact-SHA Run→Job→Step evidence",
+          "owner security review"
+        ]
+      },
+      "known_conflicts_and_residuals": [
+        "Source paths and exported symbols are not yet reconciled.",
+        "No functional verification or production readiness is asserted.",
+        "Implementation must remain in the canonical owner repository; this catalog is control-plane metadata only."
+      ],
+      "verification_evidence": {
+        "status": "RESIDUAL",
+        "reason": "Architecture/catalog contract only; no exact-head implementation or terminal test evidence.",
+        "required_evidence": [
+          "canonical source SHA and source blob SHA",
+          "workflow_run_id",
+          "job",
+          "step",
+          "terminal_conclusion",
+          "exit_code",
+          "log_or_artifact_url",
+          "security review"
+        ]
+      }
     }
   ],
   "cross_component_interfaces": [
@@ -24183,7 +28327,7 @@
   ],
   "release_decision": {
     "status": "BLOCKED",
-    "reason": "Source mappings for selected canonical a-townchain functions have been added, but full bidirectional source reconciliation, exact-head terminal test evidence, independent hash security review, consensus/finality decisions, wallet/TX-V2 end-to-end verification, and ATCB-vs-ATC1 resolution remain incomplete. EVM compatibility is separately documented as an OPEN architecture decision; no EVM option/profile is approved, and no implementation/conformance is claimed. GlobusOS guest-OS virtualization is cataloged as a proposed capability; backend, supported matrix, implementation, isolation tests and exact-head evidence remain unresolved.",
+    "reason": "Source mappings for selected canonical a-townchain functions have been added, but full bidirectional source reconciliation, exact-head terminal test evidence, independent hash security review, consensus/finality decisions, wallet/TX-V2 end-to-end verification, and ATCB-vs-ATC1 resolution remain incomplete. EVM compatibility is separately documented as an OPEN architecture decision; no EVM option/profile is approved, and no implementation/conformance is claimed. GlobusOS guest-OS virtualization is cataloged as a proposed capability; backend, supported matrix, implementation, isolation tests and exact-head evidence remain unresolved. User-facing desktop shell, control panels, system monitoring/administration, device/security center, A-TownChain dashboard, Aurora controls, virtualization controls and developer tools are now cataloged as residual/unbound contracts; their canonical source bindings and exact-head tests remain incomplete.",
     "forbidden_shortcuts": [
       "infer implementation from repository name",
       "infer verification from file presence",
@@ -24206,7 +28350,7 @@
     "source_verified_functions": 0,
     "selected_source_files_examined": 10,
     "selected_source_public_symbol_groups": 10,
-    "catalog_addition_note": "This revision adds missing capability contracts but does not claim source-census completeness. Each new record with source_binding.status UNBOUND_RESIDUAL must be source-mapped or excluded with a reproducible reason."
+    "catalog_addition_note": "This revision adds missing capability contracts but does not claim source-census completeness. Each new record with source_binding.status UNBOUND_RESIDUAL must be source-mapped or excluded with a reproducible reason. UI/control-panel/system-area extension adds 10 components and 20 contracts. New functions remain UNBOUND_RESIDUAL pending exact source-path/symbol reconciliation; the control plane does not implement UI or privileged services."
   },
   "repository_coverage": [
     {
