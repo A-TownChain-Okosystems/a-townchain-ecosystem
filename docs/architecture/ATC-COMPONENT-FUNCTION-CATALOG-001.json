@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.1.0",
   "catalog_date": "2026-10-15",
-  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification. EVM architecture addendum (2026-10-15): added COMP-EVM-COMPAT and FN-EVM-COMPAT-001..005 as separate, BLOCKED architecture/function contracts. Added ATC-EVM-COMPATIBILITY-DECISION-001.md. No option selected; no EVM compatibility or implementation is asserted; native ATC-VM remains unchanged pending explicit approval. Guest OS virtualization addendum (2026-10-15): added COMP-GUEST-OS-VIRT and FN-GUEST-VIRT-001..005 for hosted Windows/Linux VMs, backend/profile selection, capability/resource isolation, desktop console integration, and compatibility verification. Added GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md. Native dual boot is separately scoped; backend not selected; implementation and verification are not claimed. Contract-analysis migration (2026-10-15): added machine-readable purpose, inputs/outputs, preconditions, behavior, architecture placement, consumers, reuse, failure semantics, and source evidence for each function. Unknown call graph, side effects, trust boundaries, error contract, and reuse remain explicitly UNRESOLVED; this migration is not source or functional verification. Added 10 user-facing control/UI/system-area components and 20 explicit function contracts on 2026-10-15. All new entries remain UNBOUND_RESIDUAL with no implementation claim; owner SSOTs are retained. 2026-10-15: Added COMP-API-ORCHESTRATOR and FN-API-ORCH-001..011 as residual contract records after ownership search. Python/ATCLang evidence is documentation-only; canonical implementation owner remains unresolved; IF-010 is proposed/residual. 2026-10-15: Added COMP-MAINTENANCE-LIFECYCLE and FN-MAINT-000..024 plus IF-011/IF-012 aligned to atc-standards Issue #112. Catalog/control-plane registration only; no runtime implementation or verification is asserted. 2026-10-15: Added connection_matrix schema 1.0.0 covering declared component dependencies and critical cross-component paths. Matrix entries are RESIDUAL/BLOCKED/EXCLUDED until canonical source bindings and exact-SHA conformance evidence exist; no connection is marked VERIFIED by inference. Matrix count fields clarified: declared dependency edges, unique dependency pairs, and additional critical paths are reported separately. 2026-10-15: Added shared GlobusOS UI primitives component covering settings/options, menus, dropdowns, sliders, switches, buttons, lever/actuator controls, form inputs, positions/layout, dialogs, status, accessibility, state persistence and event routing. All new contracts are RESIDUAL/UNBOUND_RESIDUAL. 2026-10-15: Added partial exact-HEAD GlobusOS source bindings for six existing desktop/input/state/notification contracts; source mapping only, UI toolkit census incomplete and all affected functions remain RESIDUAL.",
+  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification. EVM architecture addendum (2026-10-15): added COMP-EVM-COMPAT and FN-EVM-COMPAT-001..005 as separate, BLOCKED architecture/function contracts. Added ATC-EVM-COMPATIBILITY-DECISION-001.md. No option selected; no EVM compatibility or implementation is asserted; native ATC-VM remains unchanged pending explicit approval. Guest OS virtualization addendum (2026-10-15): added COMP-GUEST-OS-VIRT and FN-GUEST-VIRT-001..005 for hosted Windows/Linux VMs, backend/profile selection, capability/resource isolation, desktop console integration, and compatibility verification. Added GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md. Native dual boot is separately scoped; backend not selected; implementation and verification are not claimed. Contract-analysis migration (2026-10-15): added machine-readable purpose, inputs/outputs, preconditions, behavior, architecture placement, consumers, reuse, failure semantics, and source evidence for each function. Unknown call graph, side effects, trust boundaries, error contract, and reuse remain explicitly UNRESOLVED; this migration is not source or functional verification. Added 10 user-facing control/UI/system-area components and 20 explicit function contracts on 2026-10-15. All new entries remain UNBOUND_RESIDUAL with no implementation claim; owner SSOTs are retained. 2026-10-15: Added COMP-API-ORCHESTRATOR and FN-API-ORCH-001..011 as residual contract records after ownership search. Python/ATCLang evidence is documentation-only; canonical implementation owner remains unresolved; IF-010 is proposed/residual. 2026-10-15: Added COMP-MAINTENANCE-LIFECYCLE and FN-MAINT-000..024 plus IF-011/IF-012 aligned to atc-standards Issue #112. Catalog/control-plane registration only; no runtime implementation or verification is asserted. 2026-10-15: Added connection_matrix schema 1.0.0 covering declared component dependencies and critical cross-component paths. Matrix entries are RESIDUAL/BLOCKED/EXCLUDED until canonical source bindings and exact-SHA conformance evidence exist; no connection is marked VERIFIED by inference. Matrix count fields clarified: declared dependency edges, unique dependency pairs, and additional critical paths are reported separately. 2026-10-15: Added shared GlobusOS UI primitives component covering settings/options, menus, dropdowns, sliders, switches, buttons, lever/actuator controls, form inputs, positions/layout, dialogs, status, accessibility, state persistence and event routing. All new contracts are RESIDUAL/UNBOUND_RESIDUAL. 2026-10-15: Added partial exact-HEAD GlobusOS source bindings for six existing desktop/input/state/notification contracts; source mapping only, UI toolkit census incomplete and all affected functions remain RESIDUAL. File-format registry supplement (2026-10-15): added residual/blocked format-processing function contracts for normative format profiles, ATC-VM bytecode, transaction/block/state containers, OS/boot/install/package/virtualization images, Aurora model formats, config/WASM validation, build provenance, and exact-SHA evidence binding. No source implementation or verification is claimed.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -401,6 +401,150 @@
               "blob_sha": "5bea1f27a09dfda18d59bfd91550cde77a3aa599"
             }
           }
+        },
+        {
+          "id": "FN-ATC-ENG-FMT-001",
+          "name": "Format-processing verification evidence binding",
+          "purpose": "Bind format conformance results to exact source SHA, workflow run, job, step, exit code, and artifact/log digest without upgrading missing evidence.",
+          "inputs": [
+            "format contract ID",
+            "exact source SHA",
+            "workflow and artifact metadata"
+          ],
+          "outputs": [
+            "auditable evidence record",
+            "residual/blocker report"
+          ],
+          "failure_modes": [
+            "SHA mismatch",
+            "pending/skipped check",
+            "missing log/artifact digest",
+            "scope mismatch"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-engineering",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Bind format conformance results to exact source SHA, workflow run, job, step, exit code, and artifact/log digest without upgrading missing evidence."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "format contract ID",
+                "exact source SHA",
+                "workflow and artifact metadata"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "auditable evidence record",
+                "residual/blocker report"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-ATC-ENG",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/atc-engineering",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "SHA mismatch",
+                "pending/skipped check",
+                "missing log/artifact digest",
+                "scope mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
         }
       ],
       "source_inventory": {
@@ -775,6 +919,288 @@
               "path": "sdk/src/lib.rs",
               "symbol": "conformance",
               "blob_sha": "a415029075f2c07dd6040390c4c29a5490e1ba68"
+            }
+          }
+        },
+        {
+          "id": "FN-STD-FMT-001",
+          "name": "Normative file-format profile and schema-version contract",
+          "purpose": "Define versioned format profiles, compatibility rules, media types where applicable, and normative ownership without duplicating implementations.",
+          "inputs": [
+            "format ID and version",
+            "canonical owner",
+            "schema/profile reference"
+          ],
+          "outputs": [
+            "versioned normative profile",
+            "compatibility and migration policy"
+          ],
+          "failure_modes": [
+            "unknown format ID",
+            "unsupported version",
+            "conflicting normative definition"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-standards",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Define versioned format profiles, compatibility rules, media types where applicable, and normative ownership without duplicating implementations."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "format ID and version",
+                "canonical owner",
+                "schema/profile reference"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "versioned normative profile",
+                "compatibility and migration policy"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-STANDARDS",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/atc-standards",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "unknown format ID",
+                "unsupported version",
+                "conflicting normative definition"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
+        },
+        {
+          "id": "FN-STD-FMT-002",
+          "name": "Canonical binary-container encoding profile",
+          "purpose": "Specify magic bytes, version fields, length semantics, endianness, canonical encoding, and invalid-input rules for each approved binary container.",
+          "inputs": [
+            "binary format proposal",
+            "protocol profile"
+          ],
+          "outputs": [
+            "normative byte-level encoding rules",
+            "conformance vectors"
+          ],
+          "failure_modes": [
+            "unresolved magic/version conflict",
+            "ambiguous encoding",
+            "invalid field widths"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-standards",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Specify magic bytes, version fields, length semantics, endianness, canonical encoding, and invalid-input rules for each approved binary container."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "binary format proposal",
+                "protocol profile"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "normative byte-level encoding rules",
+                "conformance vectors"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-STANDARDS",
+              "layer": "L7",
+              "canonical_owner": "A-TownChain-Okosystems/atc-standards",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "unresolved magic/version conflict",
+                "ambiguous encoding",
+                "invalid field widths"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
             }
           }
         }
@@ -4025,6 +4451,580 @@
               "path": "components/node/src/chain.rs",
               "symbol": "Chain::{from_genesis,produce,verify,from_blocks}; Block::genesis_block",
               "blob_sha": "9876cda188a353195686ded9de533770d5c5fe94"
+            }
+          }
+        },
+        {
+          "id": "FN-CHAIN-FMT-001",
+          "name": "Canonical transaction serialization and deserialization",
+          "purpose": "Encode and decode transactions with versioned canonical field encoding and TX-V2 signing-domain constraints.",
+          "inputs": [
+            "transaction fields",
+            "transaction format version"
+          ],
+          "outputs": [
+            "canonical transaction bytes",
+            "decoded transaction or structured error"
+          ],
+          "failure_modes": [
+            "legacy signing domain",
+            "non-canonical field encoding",
+            "length overflow",
+            "invalid signature representation"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Encode and decode transactions with versioned canonical field encoding and TX-V2 signing-domain constraints."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "transaction fields",
+                "transaction format version"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "canonical transaction bytes",
+                "decoded transaction or structured error"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-CHAIN",
+              "layer": "L3",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "legacy signing domain",
+                "non-canonical field encoding",
+                "length overflow",
+                "invalid signature representation"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
+        },
+        {
+          "id": "FN-CHAIN-FMT-002",
+          "name": "Block container encoding, decoding, and validation",
+          "purpose": "Serialize and deserialize blocks and validate header/body structure, chain context, and bounded lengths.",
+          "inputs": [
+            "block data",
+            "block format version",
+            "chain context"
+          ],
+          "outputs": [
+            "canonical block bytes",
+            "validated block or structured error"
+          ],
+          "failure_modes": [
+            "malformed header",
+            "invalid chain context",
+            "truncated body",
+            "resource limit exceeded"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Serialize and deserialize blocks and validate header/body structure, chain context, and bounded lengths."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "block data",
+                "block format version",
+                "chain context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "canonical block bytes",
+                "validated block or structured error"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-CHAIN",
+              "layer": "L3",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "malformed header",
+                "invalid chain context",
+                "truncated body",
+                "resource limit exceeded"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
+        },
+        {
+          "id": "FN-CHAIN-FMT-003",
+          "name": "State snapshot serialization, restore, and migration",
+          "purpose": "Define safe snapshot write/read, version compatibility, integrity checks, atomic restore, and explicit migration behavior.",
+          "inputs": [
+            "state snapshot",
+            "schema version",
+            "restore policy"
+          ],
+          "outputs": [
+            "validated state snapshot",
+            "restore/migration report"
+          ],
+          "failure_modes": [
+            "integrity mismatch",
+            "unsupported version",
+            "partial restore",
+            "migration failure"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Define safe snapshot write/read, version compatibility, integrity checks, atomic restore, and explicit migration behavior."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "state snapshot",
+                "schema version",
+                "restore policy"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "validated state snapshot",
+                "restore/migration report"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-CHAIN",
+              "layer": "L3",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "integrity mismatch",
+                "unsupported version",
+                "partial restore",
+                "migration failure"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
+        },
+        {
+          "id": "FN-CHAIN-FMT-004",
+          "name": "Cryptographic integrity and proof-container verification",
+          "purpose": "Verify hashes, signatures, and proof-container structure against the normative cryptographic profile.",
+          "inputs": [
+            "container bytes",
+            "expected digest or proof context",
+            "verification policy"
+          ],
+          "outputs": [
+            "integrity result with evidence",
+            "structured rejection reason"
+          ],
+          "failure_modes": [
+            "digest mismatch",
+            "invalid signature/proof",
+            "unsupported algorithm",
+            "malformed proof"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Verify hashes, signatures, and proof-container structure against the normative cryptographic profile."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "container bytes",
+                "expected digest or proof context",
+                "verification policy"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "integrity result with evidence",
+                "structured rejection reason"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-CHAIN",
+              "layer": "L3",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "digest mismatch",
+                "invalid signature/proof",
+                "unsupported algorithm",
+                "malformed proof"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
             }
           }
         }
@@ -9867,6 +10867,426 @@
               "blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313"
             }
           }
+        },
+        {
+          "id": "FN-VM-FMT-001",
+          "name": "Canonical ATC-VM binary bytecode decoder",
+          "purpose": "Decode the normative ATC-VM binary format with strict header, version, instruction-count, length, and resource-bound validation.",
+          "inputs": [
+            "untrusted bytecode bytes",
+            "normative format version"
+          ],
+          "outputs": [
+            "validated instruction representation",
+            "structured decode errors"
+          ],
+          "failure_modes": [
+            "ATCB versus ATC1 conflict",
+            "truncated input",
+            "unsupported version",
+            "resource limit exceeded"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "BLOCKED",
+            "note": "Normative ATCB versus ATC1 decision blocks a canonical decoder contract."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "preconditions": {
+            "status": "BLOCKED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "BLOCKED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "BLOCKED",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Decode the normative ATC-VM binary format with strict header, version, instruction-count, length, and resource-bound validation."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "untrusted bytecode bytes",
+                "normative format version"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "validated instruction representation",
+                "structured decode errors"
+              ]
+            },
+            "preconditions": {
+              "status": "BLOCKED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "BLOCKED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-VM",
+              "layer": "L3",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "ATCB versus ATC1 conflict",
+                "truncated input",
+                "unsupported version",
+                "resource limit exceeded"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "BLOCKED",
+              "reason": "Normative format conflict prevents canonical source mapping."
+            }
+          }
+        },
+        {
+          "id": "FN-VM-FMT-002",
+          "name": "Canonical ATC-VM bytecode encoder and disassembler",
+          "purpose": "Encode or disassemble validated VM instructions according to the single normative bytecode format.",
+          "inputs": [
+            "validated instruction representation",
+            "target format version"
+          ],
+          "outputs": [
+            "canonical byte sequence or disassembly"
+          ],
+          "failure_modes": [
+            "unsupported opcode",
+            "invalid instruction operand",
+            "non-canonical encoding"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Encode or disassemble validated VM instructions according to the single normative bytecode format."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "validated instruction representation",
+                "target format version"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "canonical byte sequence or disassembly"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-VM",
+              "layer": "L3",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "unsupported opcode",
+                "invalid instruction operand",
+                "non-canonical encoding"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
+        },
+        {
+          "id": "FN-VM-FMT-003",
+          "name": "ATC-VM bytecode conformance validator",
+          "purpose": "Validate bytecode structure, opcode validity, instruction bounds, stack/resource constraints, and format-version compatibility before execution.",
+          "inputs": [
+            "bytecode container",
+            "VM limits and opcode profile"
+          ],
+          "outputs": [
+            "conformance report",
+            "reject reason"
+          ],
+          "failure_modes": [
+            "invalid opcode",
+            "stack/resource bound violation",
+            "version mismatch"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Validate bytecode structure, opcode validity, instruction bounds, stack/resource constraints, and format-version compatibility before execution."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "bytecode container",
+                "VM limits and opcode profile"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "conformance report",
+                "reject reason"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-VM",
+              "layer": "L3",
+              "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/vm",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "invalid opcode",
+                "stack/resource bound violation",
+                "version mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
         }
       ],
       "source_inventory": {
@@ -11004,6 +12424,722 @@
               "blob_sha": null
             }
           }
+        },
+        {
+          "id": "FN-GLOBUS-FMT-001",
+          "name": "Executable and boot-image validation/loading",
+          "purpose": "Validate target architecture, executable structure, relocations, trust metadata, and secure-boot requirements before loading ELF/EFI artifacts.",
+          "inputs": [
+            "executable image",
+            "target architecture",
+            "trust policy"
+          ],
+          "outputs": [
+            "validated load plan or loaded image",
+            "structured error"
+          ],
+          "failure_modes": [
+            "architecture mismatch",
+            "invalid relocation",
+            "signature/trust failure",
+            "out-of-bounds segment"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Validate target architecture, executable structure, relocations, trust metadata, and secure-boot requirements before loading ELF/EFI artifacts."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "executable image",
+                "target architecture",
+                "trust policy"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "validated load plan or loaded image",
+                "structured error"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-GLOBUS",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "architecture mismatch",
+                "invalid relocation",
+                "signature/trust failure",
+                "out-of-bounds segment"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
+        },
+        {
+          "id": "FN-GLOBUS-FMT-002",
+          "name": "OS installation-image build and integrity verification",
+          "purpose": "Build installation images from a manifest and verify content digests, partition layout, version metadata, and provenance before installation.",
+          "inputs": [
+            "distribution manifest",
+            "build inputs",
+            "target profile"
+          ],
+          "outputs": [
+            "install image",
+            "digest/provenance manifest"
+          ],
+          "failure_modes": [
+            "missing input",
+            "manifest mismatch",
+            "partition overflow",
+            "digest mismatch"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Build installation images from a manifest and verify content digests, partition layout, version metadata, and provenance before installation."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "distribution manifest",
+                "build inputs",
+                "target profile"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "install image",
+                "digest/provenance manifest"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-GLOBUS",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing input",
+                "manifest mismatch",
+                "partition overflow",
+                "digest mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
+        },
+        {
+          "id": "FN-GLOBUS-FMT-003",
+          "name": "Package installation, update, rollback, and recovery",
+          "purpose": "Install only validated packages and implement atomic update/rollback semantics for supported GlobusOS distribution profiles.",
+          "inputs": [
+            "signed or digested package",
+            "dependency plan",
+            "target profile"
+          ],
+          "outputs": [
+            "installed version",
+            "transactional update report"
+          ],
+          "failure_modes": [
+            "signature/digest failure",
+            "dependency conflict",
+            "partial update",
+            "rollback failure"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Install only validated packages and implement atomic update/rollback semantics for supported GlobusOS distribution profiles."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "signed or digested package",
+                "dependency plan",
+                "target profile"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "installed version",
+                "transactional update report"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-GLOBUS",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "signature/digest failure",
+                "dependency conflict",
+                "partial update",
+                "rollback failure"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
+        },
+        {
+          "id": "FN-GLOBUS-FMT-004",
+          "name": "Virtual disk and appliance image validation/import",
+          "purpose": "Validate and import supported VM disk/appliance formats with explicit size limits, untrusted-image isolation, and target compatibility checks.",
+          "inputs": [
+            "virtual disk/appliance image",
+            "hypervisor profile",
+            "resource limits"
+          ],
+          "outputs": [
+            "validated import plan",
+            "converted image if supported"
+          ],
+          "failure_modes": [
+            "unsupported format",
+            "oversized image",
+            "malformed metadata",
+            "conversion failure"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Validate and import supported VM disk/appliance formats with explicit size limits, untrusted-image isolation, and target compatibility checks."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "virtual disk/appliance image",
+                "hypervisor profile",
+                "resource limits"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "validated import plan",
+                "converted image if supported"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-GLOBUS",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "unsupported format",
+                "oversized image",
+                "malformed metadata",
+                "conversion failure"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
+        },
+        {
+          "id": "FN-GLOBUS-FMT-005",
+          "name": "Hardware description and platform configuration parser",
+          "purpose": "Parse and validate supported hardware/platform descriptions and configuration inputs without assuming unsupported platform formats.",
+          "inputs": [
+            "hardware description or platform configuration",
+            "target profile"
+          ],
+          "outputs": [
+            "validated hardware model",
+            "diagnostics"
+          ],
+          "failure_modes": [
+            "malformed table",
+            "unsupported device description",
+            "resource bound exceeded"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Parse and validate supported hardware/platform descriptions and configuration inputs without assuming unsupported platform formats."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "hardware description or platform configuration",
+                "target profile"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "validated hardware model",
+                "diagnostics"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-GLOBUS",
+              "layer": "L4",
+              "canonical_owner": "A-TownChain-Okosystems/globus-os",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "malformed table",
+                "unsupported device description",
+                "resource bound exceeded"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
         }
       ],
       "source_inventory": {
@@ -11843,6 +13979,436 @@
               "blob_sha": null
             }
           }
+        },
+        {
+          "id": "FN-AURORA-FMT-001",
+          "name": "GGUF model metadata and tensor loader validation",
+          "purpose": "Validate GGUF metadata, tensor offsets/shapes, model compatibility, and allocation limits before exposing a model to the inference runtime.",
+          "inputs": [
+            "untrusted GGUF file",
+            "runtime/model compatibility profile",
+            "memory limits"
+          ],
+          "outputs": [
+            "validated model manifest and load plan",
+            "structured rejection"
+          ],
+          "failure_modes": [
+            "invalid offsets",
+            "tensor bounds violation",
+            "unsupported architecture",
+            "allocation limit exceeded"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Validate GGUF metadata, tensor offsets/shapes, model compatibility, and allocation limits before exposing a model to the inference runtime."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "untrusted GGUF file",
+                "runtime/model compatibility profile",
+                "memory limits"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "validated model manifest and load plan",
+                "structured rejection"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-AURORA",
+              "layer": "L2",
+              "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "invalid offsets",
+                "tensor bounds violation",
+                "unsupported architecture",
+                "allocation limit exceeded"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
+        },
+        {
+          "id": "FN-AURORA-FMT-002",
+          "name": "Safetensors header and tensor loader validation",
+          "purpose": "Validate Safetensors headers, offsets, tensor shapes, data ranges, and model provenance before loading weights.",
+          "inputs": [
+            "untrusted Safetensors file",
+            "model manifest",
+            "memory limits"
+          ],
+          "outputs": [
+            "validated tensor index/load plan",
+            "structured rejection"
+          ],
+          "failure_modes": [
+            "malformed header",
+            "offset overflow",
+            "tensor range mismatch",
+            "provenance failure"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Validate Safetensors headers, offsets, tensor shapes, data ranges, and model provenance before loading weights."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "untrusted Safetensors file",
+                "model manifest",
+                "memory limits"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "validated tensor index/load plan",
+                "structured rejection"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-AURORA",
+              "layer": "L2",
+              "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "malformed header",
+                "offset overflow",
+                "tensor range mismatch",
+                "provenance failure"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
+        },
+        {
+          "id": "FN-AURORA-FMT-003",
+          "name": "ONNX graph and runtime compatibility validation",
+          "purpose": "Validate ONNX graph structure, opset, operator support, model metadata, and execution resource constraints for the selected runtime.",
+          "inputs": [
+            "ONNX model",
+            "runtime version",
+            "allowed operator profile"
+          ],
+          "outputs": [
+            "validated graph/load plan",
+            "compatibility report"
+          ],
+          "failure_modes": [
+            "unsupported opset/operator",
+            "malformed graph",
+            "resource limit exceeded"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Validate ONNX graph structure, opset, operator support, model metadata, and execution resource constraints for the selected runtime."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "ONNX model",
+                "runtime version",
+                "allowed operator profile"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "validated graph/load plan",
+                "compatibility report"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-AURORA",
+              "layer": "L2",
+              "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "unsupported opset/operator",
+                "malformed graph",
+                "resource limit exceeded"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
         }
       ],
       "source_inventory": {
@@ -12237,6 +14803,436 @@
               "path": "tests/test_governance_smoke.py",
               "symbol": "test_repository_yaml_pflichtfelder",
               "blob_sha": "b0a1635c2741baafaf995cf4428651387001b0b1"
+            }
+          }
+        },
+        {
+          "id": "FN-TOOLCHAIN-FMT-001",
+          "name": "Schema-driven JSON/TOML/YAML configuration validation",
+          "purpose": "Validate configuration files against versioned schemas, reject unsafe parser behavior, and return deterministic field-level errors.",
+          "inputs": [
+            "configuration bytes",
+            "format identifier",
+            "schema/version"
+          ],
+          "outputs": [
+            "typed validated configuration",
+            "diagnostics"
+          ],
+          "failure_modes": [
+            "invalid syntax",
+            "schema mismatch",
+            "duplicate/ambiguous fields",
+            "unsafe construct"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-toolchain",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Validate configuration files against versioned schemas, reject unsafe parser behavior, and return deterministic field-level errors."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "configuration bytes",
+                "format identifier",
+                "schema/version"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed validated configuration",
+                "diagnostics"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-TOOLCHAIN",
+              "layer": "L5",
+              "canonical_owner": "A-TownChain-Okosystems/atc-toolchain",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "invalid syntax",
+                "schema mismatch",
+                "duplicate/ambiguous fields",
+                "unsafe construct"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
+        },
+        {
+          "id": "FN-TOOLCHAIN-FMT-002",
+          "name": "WASM module and WIT interface validation",
+          "purpose": "Validate WASM modules and WIT contracts against the target runtime feature profile, import/capability policy, and resource limits.",
+          "inputs": [
+            "WASM module or WIT source",
+            "runtime feature profile",
+            "capability policy"
+          ],
+          "outputs": [
+            "validated module/interface",
+            "compatibility diagnostics"
+          ],
+          "failure_modes": [
+            "invalid module",
+            "unsupported feature",
+            "unauthorized import",
+            "resource limit violation"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-toolchain",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Validate WASM modules and WIT contracts against the target runtime feature profile, import/capability policy, and resource limits."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "WASM module or WIT source",
+                "runtime feature profile",
+                "capability policy"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "validated module/interface",
+                "compatibility diagnostics"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-TOOLCHAIN",
+              "layer": "L5",
+              "canonical_owner": "A-TownChain-Okosystems/atc-toolchain",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "invalid module",
+                "unsupported feature",
+                "unauthorized import",
+                "resource limit violation"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
+            }
+          }
+        },
+        {
+          "id": "FN-TOOLCHAIN-FMT-003",
+          "name": "Build/package artifact manifest and provenance generation",
+          "purpose": "Generate manifests that bind produced artifacts to input source SHAs, toolchain versions, digests, target profiles, and reproducibility metadata.",
+          "inputs": [
+            "build artifacts",
+            "source commit SHA",
+            "toolchain and target metadata"
+          ],
+          "outputs": [
+            "versioned artifact manifest",
+            "artifact digests"
+          ],
+          "failure_modes": [
+            "missing provenance input",
+            "digest mismatch",
+            "non-reproducible output"
+          ],
+          "acceptance": [
+            "Contract is implemented only in the canonical owner repository; this catalog does not host implementation code.",
+            "Malformed, unsupported, and resource-exhausting inputs fail closed with deterministic errors.",
+            "Source mapping and functional verification remain separate; no verification is inferred from catalog presence."
+          ],
+          "test_classes": [
+            "unit",
+            "negative-input",
+            "boundary",
+            "fuzz",
+            "compatibility",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "note": "No source symbol is bound by this catalog addition; exact source reconciliation is required."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-toolchain",
+          "preconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+          },
+          "postconditions": {
+            "status": "UNRESOLVED",
+            "reason": "Successful output invariants and state/resource effects require implementation-backed tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Per-format input, allocation, depth, operation, and timeout bounds must be defined and tested."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Untrusted input handling, trust chain, authorization, and capability boundaries require security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Normative format version, compatibility guarantees, and migration policy remain to be bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Parser/runtime/crypto dependencies and interface versions require source and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-SHA functional verification is claimed by this catalog contract.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url",
+              "artifact_digest"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Generate manifests that bind produced artifacts to input source SHAs, toolchain versions, digests, target profiles, and reproducibility metadata."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "build artifacts",
+                "source commit SHA",
+                "toolchain and target metadata"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "versioned artifact manifest",
+                "artifact digests"
+              ]
+            },
+            "preconditions": {
+              "status": "UNRESOLVED",
+              "reason": "Format-specific preconditions and caller authority require source-backed contract review."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-TOOLCHAIN",
+              "layer": "L5",
+              "canonical_owner": "A-TownChain-Okosystems/atc-toolchain",
+              "source_path": null,
+              "symbol": null
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Callers and consumer relationships require source-backed evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Duplicate implementations, adapters, and delegated processing paths require source-backed evidence."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing provenance input",
+                "digest mismatch",
+                "non-reproducible output"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "UNRESOLVED",
+              "reason": "No exact repository/commit/path/symbol/blob binding is asserted; source census reconciliation is required."
             }
           }
         }
