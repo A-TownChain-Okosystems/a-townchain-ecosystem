@@ -347,3 +347,15 @@ All 20 new function contracts have `source_binding.status = UNBOUND_RESIDUAL`; e
 The canonical implementation owners remain responsible for the actual UI, APIs and privileged behavior. Before any new contract can be marked implemented or verified, reconcile the owner repository's exact HEAD, source path, symbol/blob SHA, versioned interface, negative/security tests and terminal workflow Run→Job→Step/exit evidence. Source presence or a rendered screen is not proof of functional correctness. Release remains `BLOCKED`.
 
 Catalog total after this extension: **44 components / 156 function contracts**. Inventory growth is not a completeness or verification claim.
+
+## Ecosystem reference architecture — 2026-10-15
+
+Reference architecture: [ATC-ECOSYSTEM-REFERENCE-ARCHITECTURE-001.md](ATC-ECOSYSTEM-REFERENCE-ARCHITECTURE-001.md).
+
+The reference architecture connects existing component contracts across native GlobusOS installation, Windows/Linux host-app deployment, guest virtualization, security/capability boundaries, cryptographic providers, blockchain/VM semantics, cross-chain proof/finality, versioned APIs, Aurora tool execution and reproducible developer workflows. It is an architecture/control-plane document and does not create a second implementation SSOT.
+
+Canonical implementation ownership is unchanged: a-townchain owns blockchain/node/ATC-VM/algorithm/wallet; globus-os owns GlobusOS and ShivaCore kernel; aurora-ai owns Aurora; atc-sdk owns SDK/CLI; atc-standards owns normative protocol/interface standards; this repository owns only catalog, integration, architecture decisions and evidence.
+
+The document explicitly keeps the following unresolved gates visible: consensus/finality semantics, ATCB-versus-ATC1 bytecode format, EVM compatibility decision, independent custom-hash review, TX-V2 end-to-end vectors, cross-chain proof/finality trust model, native installer support matrix, guest-VM backend/isolation, API version/error/idempotency contracts, Aurora capability/approval tests, and bidirectional source reconciliation.
+
+These additions do not change any implementation status. The catalog remains an inventory of mixed source-mapped and residual contracts; exact-HEAD workflow evidence is still required before any function or release gate can be marked VERIFIED.
