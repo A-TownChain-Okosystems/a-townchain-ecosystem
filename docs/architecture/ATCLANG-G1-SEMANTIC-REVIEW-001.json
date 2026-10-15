@@ -8,8 +8,7 @@
   "scope": {
     "registry_total": 332,
     "source_repository": "A-TownChain-Okosystems/atclang",
-    "source_commit": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
-    "source_tree_sha": "41e6a63b30422ad22355c4d21070cb80c819999f",
+    "source_commit": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb",
     "registry_path": "specs/language/registry.json",
     "registry_blob_sha": "72237be58c4419cc2d0f8248a9be08e0c8d6bf03",
     "registry_counts": {
@@ -22,9 +21,13 @@
     }
   },
   "source_evidence": {
+    "normative_spec": {
+      "path": "specs/language/SPEC.md",
+      "blob_sha": "630716b531be95b782f82c963cb69ac3b585ca96"
+    },
     "lexer": {
       "path": "crates/atc-core/src/lexer.rs",
-      "blob_sha": "6f503a1b1c7a7145284eb5670830946fdcfdac09"
+      "blob_sha": "c8c3210adf4aeb2a461976680f8533d1834d7a6c"
     },
     "parser": {
       "path": "crates/atc-core/src/parser.rs",
@@ -55,7 +58,7 @@
       "blob_sha": "d4e758b4213ca433778d2d076915459cc563b6e9"
     }
   },
-  "method": "Read-only source inspection at the exact source commit. Text matches are discovery hints only. No CI, tests, or runtime behavior were executed. No record is VERIFIED.",
+  "method": "Read-only source inspection at exact ATCLang PR head ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb; normative registry and all listed Rust frontend/runtime/test files were re-fetched by exact commit and blob SHA. GitHub Actions evidence is recorded separately. Workflow success does not classify individual language requirements as VERIFIED; no per-item semantic equivalence has been established. Registry rows remain UNRESOLVED / NOT_RUN unless individually proven.",
   "semantic_observations": [
     {
       "id": "OBS-001",
@@ -105,14 +108,26 @@
         "crates/atc-core/src/value.rs"
       ],
       "impact": "Type spelling alone does not prove type-system conformance."
+    },
+    {
+      "id": "OBS-007",
+      "finding": "The exact PR head adds checked decimal overflow handling and checked 0x/0o/0b integer parsing in the canonical Rust lexer, with positive and malformed-input regression tests in source.",
+      "evidence": [
+        "crates/atc-core/src/lexer.rs",
+        "crates/atc-core/src/lexer.rs#radix_integer_literals_are_accepted",
+        "crates/atc-core/src/lexer.rs#malformed_radix_integer_literals_are_rejected",
+        "crates/atc-core/src/lexer.rs#decimal_literal_overflow_is_rejected_without_wrapping"
+      ],
+      "impact": "This is a bounded lexer improvement only. The Rust lexer emits Token::Int(u64), whereas the normative registry distinguishes INT, HEX_INT, OCTAL_INT, and BIN_INT. Equivalence or intentional normalization is not yet specified/proven; these entries remain UNRESOLVED."
     }
   ],
   "required_next_actions": [
-    "For each UNRESOLVED row, inspect normative definition and actual parser/lexer/AST/lowering/runtime call path.",
-    "Separate true unsupported normative requirements from equivalent representations, native-only contracts, delegated behavior, and explicitly excluded scope.",
-    "Add positive and negative tests for confirmed mappings and gaps.",
-    "Run the relevant workflow against the exact source SHA; capture run ID, job/step results, exit codes and artifacts.",
-    "Update classifications only with cited source/test evidence; preserve RESIDUAL/BLOCKED until acceptance criteria pass."
+    "Classify each of the 332 rows MAPPED, EXCLUDED, or UNRESOLVED only after inspecting normative definition and actual lexer/parser/AST/lowering/runtime call path; include exact file/blob/symbol/test evidence.",
+    "Resolve the normative token-category question for INT versus HEX_INT/OCTAL_INT/BIN_INT and prove any proposed normalization with semantics and tests.",
+    "Separate unsupported normative requirements from equivalent representations, native-only contracts, delegated behavior, and explicitly excluded scope.",
+    "Inspect and repair the failed independent governance/security audit, Markdown lint, and code-quality workflow findings; capture full step logs and numeric exit codes.",
+    "Run relevant workflows again against the exact source SHA after fixes; preserve run/job/step/artifact hashes.",
+    "Keep all unproven registry entries UNRESOLVED / NOT_RUN and retain RESIDUAL/BLOCKED until item-level acceptance criteria pass."
   ],
   "items": [
     {
@@ -131,7 +146,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-002",
@@ -142,7 +157,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-003",
@@ -159,7 +174,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-004",
@@ -176,7 +191,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-005",
@@ -187,7 +202,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-006",
@@ -198,7 +213,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-007",
@@ -209,7 +224,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-008",
@@ -220,7 +235,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-009",
@@ -238,7 +253,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-010",
@@ -251,7 +266,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-011",
@@ -268,7 +283,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-012",
@@ -279,7 +294,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-013",
@@ -293,7 +308,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-014",
@@ -308,7 +323,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-015",
@@ -323,7 +338,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-016",
@@ -337,7 +352,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-017",
@@ -350,7 +365,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-018",
@@ -361,7 +376,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-019",
@@ -372,7 +387,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-020",
@@ -383,7 +398,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-021",
@@ -394,7 +409,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-022",
@@ -405,7 +420,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-023",
@@ -423,7 +438,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-024",
@@ -434,7 +449,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-025",
@@ -445,7 +460,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-026",
@@ -462,7 +477,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-027",
@@ -477,7 +492,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-028",
@@ -494,7 +509,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-029",
@@ -509,7 +524,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-030",
@@ -522,7 +537,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-031",
@@ -533,7 +548,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-032",
@@ -544,7 +559,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-033",
@@ -555,7 +570,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-034",
@@ -566,7 +581,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-035",
@@ -577,7 +592,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-036",
@@ -595,7 +610,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-037",
@@ -613,7 +628,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-038",
@@ -630,7 +645,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-039",
@@ -645,7 +660,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-040",
@@ -656,7 +671,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-041",
@@ -667,7 +682,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-042",
@@ -682,7 +697,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-043",
@@ -693,7 +708,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-044",
@@ -704,7 +719,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-045",
@@ -715,7 +730,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-046",
@@ -729,7 +744,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-047",
@@ -747,7 +762,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-048",
@@ -762,7 +777,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-049",
@@ -777,7 +792,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-050",
@@ -792,7 +807,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-051",
@@ -807,7 +822,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-052",
@@ -818,7 +833,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-053",
@@ -829,7 +844,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-054",
@@ -844,7 +859,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-055",
@@ -859,7 +874,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-056",
@@ -870,7 +885,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-057",
@@ -884,7 +899,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-058",
@@ -895,7 +910,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-059",
@@ -906,7 +921,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-060",
@@ -917,7 +932,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-061",
@@ -928,7 +943,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-062",
@@ -943,7 +958,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TOKEN-063",
@@ -956,7 +971,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-064",
@@ -967,7 +982,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-065",
@@ -982,7 +997,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-066",
@@ -1000,7 +1015,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-067",
@@ -1016,7 +1031,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-068",
@@ -1033,7 +1048,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-069",
@@ -1044,7 +1059,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-070",
@@ -1062,7 +1077,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-071",
@@ -1079,7 +1094,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-072",
@@ -1097,7 +1112,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-073",
@@ -1114,7 +1129,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-074",
@@ -1132,7 +1147,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-075",
@@ -1143,7 +1158,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-076",
@@ -1154,7 +1169,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-077",
@@ -1171,7 +1186,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-078",
@@ -1182,7 +1197,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-079",
@@ -1200,7 +1215,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-080",
@@ -1217,7 +1232,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-081",
@@ -1228,7 +1243,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-082",
@@ -1246,7 +1261,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-083",
@@ -1263,7 +1278,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-084",
@@ -1277,7 +1292,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-085",
@@ -1295,7 +1310,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-086",
@@ -1310,7 +1325,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-087",
@@ -1323,7 +1338,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-088",
@@ -1340,7 +1355,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-089",
@@ -1358,7 +1373,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-090",
@@ -1369,7 +1384,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-091",
@@ -1380,7 +1395,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-092",
@@ -1391,7 +1406,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-093",
@@ -1402,7 +1417,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-094",
@@ -1417,7 +1432,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-095",
@@ -1434,7 +1449,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-096",
@@ -1445,7 +1460,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-097",
@@ -1456,7 +1471,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-098",
@@ -1471,7 +1486,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-099",
@@ -1489,7 +1504,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-100",
@@ -1506,7 +1521,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-101",
@@ -1517,7 +1532,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-102",
@@ -1531,7 +1546,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-103",
@@ -1542,7 +1557,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-104",
@@ -1558,7 +1573,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-105",
@@ -1575,7 +1590,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-106",
@@ -1586,7 +1601,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-107",
@@ -1600,7 +1615,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-108",
@@ -1611,7 +1626,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-109",
@@ -1622,7 +1637,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-110",
@@ -1633,7 +1648,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-111",
@@ -1644,7 +1659,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-112",
@@ -1655,7 +1670,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-113",
@@ -1666,7 +1681,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-114",
@@ -1677,7 +1692,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-115",
@@ -1691,7 +1706,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-116",
@@ -1702,7 +1717,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-117",
@@ -1713,7 +1728,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-118",
@@ -1724,7 +1739,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-119",
@@ -1735,7 +1750,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-120",
@@ -1746,7 +1761,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-121",
@@ -1757,7 +1772,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-122",
@@ -1768,7 +1783,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-123",
@@ -1785,7 +1800,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-124",
@@ -1796,7 +1811,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-125",
@@ -1810,7 +1825,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-126",
@@ -1821,7 +1836,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-127",
@@ -1836,7 +1851,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-128",
@@ -1851,7 +1866,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-129",
@@ -1865,7 +1880,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-130",
@@ -1876,7 +1891,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-131",
@@ -1887,7 +1902,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-132",
@@ -1898,7 +1913,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-133",
@@ -1909,7 +1924,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-134",
@@ -1920,7 +1935,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-135",
@@ -1931,7 +1946,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-136",
@@ -1942,7 +1957,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-137",
@@ -1953,7 +1968,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-138",
@@ -1964,7 +1979,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-KEYWORD-139",
@@ -1977,7 +1992,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-140",
@@ -1988,7 +2003,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-141",
@@ -1999,7 +2014,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-142",
@@ -2010,7 +2025,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-143",
@@ -2023,7 +2038,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-144",
@@ -2036,7 +2051,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-145",
@@ -2049,7 +2064,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-146",
@@ -2060,7 +2075,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-147",
@@ -2071,7 +2086,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-148",
@@ -2082,7 +2097,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-149",
@@ -2095,7 +2110,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-150",
@@ -2108,7 +2123,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-151",
@@ -2121,7 +2136,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-152",
@@ -2137,7 +2152,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-153",
@@ -2148,7 +2163,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-154",
@@ -2159,7 +2174,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-155",
@@ -2170,7 +2185,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-156",
@@ -2181,7 +2196,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-157",
@@ -2198,7 +2213,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-158",
@@ -2212,7 +2227,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-159",
@@ -2226,7 +2241,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-160",
@@ -2243,7 +2258,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-161",
@@ -2256,7 +2271,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-162",
@@ -2274,7 +2289,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-163",
@@ -2289,7 +2304,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-164",
@@ -2300,7 +2315,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-165",
@@ -2311,7 +2326,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-166",
@@ -2322,7 +2337,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-167",
@@ -2333,7 +2348,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-168",
@@ -2346,7 +2361,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-169",
@@ -2357,7 +2372,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-170",
@@ -2368,7 +2383,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-171",
@@ -2379,7 +2394,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-172",
@@ -2395,7 +2410,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-173",
@@ -2408,7 +2423,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-174",
@@ -2424,7 +2439,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-175",
@@ -2435,7 +2450,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-176",
@@ -2453,7 +2468,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-177",
@@ -2464,7 +2479,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-178",
@@ -2479,7 +2494,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-179",
@@ -2495,7 +2510,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-180",
@@ -2506,7 +2521,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-181",
@@ -2517,7 +2532,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-182",
@@ -2528,7 +2543,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-183",
@@ -2539,7 +2554,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-184",
@@ -2550,7 +2565,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-185",
@@ -2561,7 +2576,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-186",
@@ -2572,7 +2587,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-187",
@@ -2583,7 +2598,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-188",
@@ -2594,7 +2609,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-189",
@@ -2605,7 +2620,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-190",
@@ -2616,7 +2631,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-191",
@@ -2627,7 +2642,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-192",
@@ -2638,7 +2653,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-193",
@@ -2649,7 +2664,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-194",
@@ -2660,7 +2675,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-195",
@@ -2671,7 +2686,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-196",
@@ -2682,7 +2697,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-197",
@@ -2693,7 +2708,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-198",
@@ -2704,7 +2719,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-199",
@@ -2717,7 +2732,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-200",
@@ -2728,7 +2743,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-201",
@@ -2739,7 +2754,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-202",
@@ -2752,7 +2767,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-203",
@@ -2765,7 +2780,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-204",
@@ -2776,7 +2791,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-205",
@@ -2791,7 +2806,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-206",
@@ -2804,7 +2819,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-207",
@@ -2818,7 +2833,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-208",
@@ -2829,7 +2844,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-209",
@@ -2842,7 +2857,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-210",
@@ -2853,7 +2868,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-211",
@@ -2869,7 +2884,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-212",
@@ -2880,7 +2895,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-213",
@@ -2891,7 +2906,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-214",
@@ -2902,7 +2917,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-215",
@@ -2913,7 +2928,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-216",
@@ -2924,7 +2939,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-217",
@@ -2941,7 +2956,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-218",
@@ -2955,7 +2970,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-219",
@@ -2969,7 +2984,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-220",
@@ -2986,7 +3001,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-221",
@@ -2999,7 +3014,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-222",
@@ -3015,7 +3030,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-TYPE-223",
@@ -3026,7 +3041,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-224",
@@ -3037,7 +3052,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-225",
@@ -3048,7 +3063,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-226",
@@ -3059,7 +3074,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-227",
@@ -3070,7 +3085,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-228",
@@ -3081,7 +3096,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-229",
@@ -3092,7 +3107,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-230",
@@ -3110,7 +3125,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-231",
@@ -3121,7 +3136,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-232",
@@ -3132,7 +3147,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-233",
@@ -3143,7 +3158,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-234",
@@ -3154,7 +3169,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-235",
@@ -3165,7 +3180,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-236",
@@ -3176,7 +3191,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-237",
@@ -3187,7 +3202,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-238",
@@ -3198,7 +3213,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-239",
@@ -3209,7 +3224,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-240",
@@ -3220,7 +3235,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-241",
@@ -3231,7 +3246,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-242",
@@ -3242,7 +3257,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-243",
@@ -3253,7 +3268,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-244",
@@ -3264,7 +3279,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-245",
@@ -3275,7 +3290,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-246",
@@ -3286,7 +3301,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-247",
@@ -3297,7 +3312,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-248",
@@ -3308,7 +3323,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-249",
@@ -3319,7 +3334,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-250",
@@ -3330,7 +3345,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-251",
@@ -3341,7 +3356,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-252",
@@ -3352,7 +3367,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-253",
@@ -3363,7 +3378,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-NAMESPACE-254",
@@ -3374,7 +3389,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-255",
@@ -3385,7 +3400,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-256",
@@ -3396,7 +3411,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-257",
@@ -3407,7 +3422,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-258",
@@ -3418,7 +3433,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-259",
@@ -3429,7 +3444,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-260",
@@ -3440,7 +3455,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-261",
@@ -3451,7 +3466,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-262",
@@ -3464,7 +3479,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-263",
@@ -3475,7 +3490,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-264",
@@ -3486,7 +3501,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-265",
@@ -3497,7 +3512,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-266",
@@ -3508,7 +3523,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-267",
@@ -3519,7 +3534,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-268",
@@ -3530,7 +3545,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-269",
@@ -3541,7 +3556,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-270",
@@ -3552,7 +3567,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-271",
@@ -3563,7 +3578,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-272",
@@ -3574,7 +3589,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-273",
@@ -3585,7 +3600,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-274",
@@ -3596,7 +3611,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-275",
@@ -3610,7 +3625,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-276",
@@ -3621,7 +3636,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-277",
@@ -3632,7 +3647,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-278",
@@ -3643,7 +3658,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-279",
@@ -3654,7 +3669,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-280",
@@ -3665,7 +3680,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-281",
@@ -3676,7 +3691,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-PARSER_PRODUCTION-282",
@@ -3687,7 +3702,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-283",
@@ -3698,7 +3713,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-284",
@@ -3709,7 +3724,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-285",
@@ -3722,7 +3737,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-286",
@@ -3733,7 +3748,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-287",
@@ -3744,7 +3759,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-288",
@@ -3755,7 +3770,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-289",
@@ -3766,7 +3781,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-290",
@@ -3777,7 +3792,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-291",
@@ -3790,7 +3805,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-292",
@@ -3801,7 +3816,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-293",
@@ -3812,7 +3827,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-294",
@@ -3823,7 +3838,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-295",
@@ -3834,7 +3849,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-296",
@@ -3845,7 +3860,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-297",
@@ -3859,7 +3874,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-298",
@@ -3870,7 +3885,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-299",
@@ -3881,7 +3896,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-300",
@@ -3894,7 +3909,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-301",
@@ -3909,7 +3924,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-302",
@@ -3922,7 +3937,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-303",
@@ -3936,7 +3951,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-304",
@@ -3947,7 +3962,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-305",
@@ -3958,7 +3973,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-306",
@@ -3971,7 +3986,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-307",
@@ -3982,7 +3997,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-308",
@@ -3996,7 +4011,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-309",
@@ -4007,7 +4022,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-310",
@@ -4018,7 +4033,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-311",
@@ -4029,7 +4044,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-312",
@@ -4040,7 +4055,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-313",
@@ -4051,7 +4066,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-314",
@@ -4067,7 +4082,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-315",
@@ -4083,7 +4098,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-316",
@@ -4094,7 +4109,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-317",
@@ -4105,7 +4120,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-318",
@@ -4119,7 +4134,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-319",
@@ -4130,7 +4145,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-320",
@@ -4143,7 +4158,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-321",
@@ -4154,7 +4169,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-322",
@@ -4165,7 +4180,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-323",
@@ -4176,7 +4191,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-324",
@@ -4187,7 +4202,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-325",
@@ -4198,7 +4213,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-326",
@@ -4209,7 +4224,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-327",
@@ -4220,7 +4235,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-328",
@@ -4234,7 +4249,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-329",
@@ -4247,7 +4262,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-330",
@@ -4258,7 +4273,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "No direct textual occurrence in reviewed source files; this alone does not prove absence or non-implementation.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-331",
@@ -4272,7 +4287,7 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     },
     {
       "id": "G1-AST_NODE-332",
@@ -4290,7 +4305,145 @@
       "classification": "UNRESOLVED",
       "verification": "NOT_RUN",
       "reason": "Textual occurrence is only a navigation hint; semantics and call path are not established.",
-      "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9"
+      "source_head": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb"
     }
-  ]
+  ],
+  "ci_evidence": {
+    "exact_commit": "ac488bcdf2a10be2c9ecc22fc1555444f5de0ccb",
+    "workflow_runs": [
+      {
+        "run_id": 38765191675,
+        "name": "ATC Test Suite",
+        "status": "completed",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "job_id": 116526466129,
+            "name": "npm-tests",
+            "conclusion": "success",
+            "relevant_steps": [
+              {
+                "number": 6,
+                "name": "npm install + test/build (SCR-0078)",
+                "conclusion": "success"
+              }
+            ]
+          },
+          {
+            "job_id": 116526466709,
+            "name": "rust-core",
+            "conclusion": "success",
+            "relevant_steps": [
+              {
+                "number": 6,
+                "name": "cargo test (Rust-Canonical-Core, SCR-0083/F-108)",
+                "conclusion": "success"
+              }
+            ]
+          },
+          {
+            "job_id": 116526466822,
+            "name": "differential",
+            "conclusion": "success",
+            "relevant_steps": [
+              {
+                "number": 6,
+                "name": "Differential-Test (Rust-Canonical vs. eingefrorenem expected/, SCR-0084)",
+                "conclusion": "success"
+              },
+              {
+                "number": 7,
+                "name": "Differential-Korpus-Integritaet (expected/ vollstaendig committed)",
+                "conclusion": "success"
+              }
+            ]
+          },
+          {
+            "job_id": 116526774178,
+            "name": "evidence",
+            "conclusion": "success",
+            "relevant_steps": [
+              {
+                "number": 5,
+                "name": "Build immutable evidence artifact",
+                "conclusion": "success"
+              },
+              {
+                "number": 6,
+                "name": "Upload immutable evidence",
+                "conclusion": "success"
+              }
+            ]
+          }
+        ],
+        "artifact": {
+          "id": 11989365052,
+          "name": "atclang-evidence-5550aa230f568b90763a0503115a2d0d494db35b",
+          "sha256": "9cf929bf86bab8acce307781bae9bee8167444bef3d6e5ae95e472665d95a63e",
+          "size_bytes": 794,
+          "expired": false
+        }
+      },
+      {
+        "run_id": 38765191700,
+        "name": "CI-Independent ATCLang Audit",
+        "status": "completed",
+        "conclusion": "failure",
+        "jobs": [
+          {
+            "job_id": 116526462622,
+            "name": "core-test",
+            "conclusion": "success"
+          },
+          {
+            "job_id": 116526463155,
+            "name": "audit",
+            "conclusion": "failure",
+            "relevant_steps": [
+              {
+                "number": 6,
+                "name": "Python syntax",
+                "conclusion": "success"
+              },
+              {
+                "number": 7,
+                "name": "Independent governance/security audit",
+                "conclusion": "failure"
+              }
+            ]
+          }
+        ],
+        "artifact": null
+      },
+      {
+        "run_id": 38765193019,
+        "name": "Markdown Lint",
+        "status": "completed",
+        "conclusion": "failure",
+        "jobs": [
+          {
+            "job_id": 116526472822,
+            "name": "markdownlint / markdownlint-cli2",
+            "conclusion": "failure",
+            "relevant_steps": [
+              {
+                "number": 4,
+                "name": "Lint Markdown",
+                "conclusion": "failure"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "run_id": 38765191981,
+        "name": "ATC Code Quality (STD-081/082)",
+        "status": "completed",
+        "conclusion": "failure"
+      }
+    ],
+    "exit_codes": "Not exposed by the retrieved workflow-job API response; do not infer numeric exit codes.",
+    "logs": "Jobs response supplied step conclusions but no downloadable logs URL. Full step logs remain uncollected in this record.",
+    "interpretation": "The exact-head test suite and Rust core/differential jobs passed, but independent audit, Markdown lint, and code-quality workflows failed. This is not full G1 conformance and does not satisfy the release gate."
+  }
 }
