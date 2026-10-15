@@ -15,7 +15,8 @@ on:
       - "docs/architecture/ATC-CATALOG-MINIMUM-REQUIREMENTS-001.md"
       - "docs/audit/ATC-RUNTIME-SYMBOL-REGISTRY-001.json"
       - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
-      - ".github/workflows/source-symbol-inventory.yml"      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - ".github/workflows/source-symbol-inventory.yml"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
 
   push:
     branches: [main]
@@ -33,7 +34,8 @@ on:
       - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
       - ".github/workflows/source-symbol-inventory.yml"
       - "tools/validate_catalog_minimum_requirements.py"
-      - "docs/architecture/ATC-CATALOG-MINIMUM-REQUIREMENTS-001.md"      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-CATALOG-MINIMUM-REQUIREMENTS-001.md"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
 
   workflow_dispatch:
 
