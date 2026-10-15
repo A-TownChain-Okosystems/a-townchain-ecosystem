@@ -1,7 +1,7 @@
 # ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001 — Complete Layer Architecture for the A-TownChain Ecosystem
 
 > **Document ID:** ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001
-> **Version:** 0.1.0 (DRAFT)
+> **Version:** 0.2.0 (DRAFT)
 > **Date:** 2026-10-15
 > **Authority:** A-TownChain-Okosystems/a-townchain-ecosystem
 > **Registry:** [ATC-LAYER-REGISTRY-001.yaml](layers/ATC-LAYER-REGISTRY-001.yaml)
@@ -74,7 +74,7 @@ Each main layer has a deeper structure. The following hierarchy applies to the c
 
 **Important:** These levels are catalog hierarchy and evidence chain, NOT seven additional operating system layers.
 
-The full sub-layer decomposition for each layer is defined in [ATC-LAYER-REGISTRY-001.yaml](layers/ATC-LAYER-REGISTRY-001.yaml) (51 sub-layers across L0-L10 and X1-X8).
+The full sub-layer decomposition for each layer is defined in [ATC-LAYER-REGISTRY-001.yaml](layers/ATC-LAYER-REGISTRY-001.yaml) (79 sub-layer entries across L0-L10 and X1-X8; L0 per owner spec: 9 sub-layers L0.1-L0.9).
 
 ---
 
@@ -92,7 +92,7 @@ Every component and function MUST have at least the following fields:
 
 ### Architecture
 - **Primary Layer** (L0-L10 or X1-X8)
-- **Sub-Layer** (e.g., `L2-4` for Capabilities & Sandboxing)
+- **Sub-Layer** (e.g., `L2.4` for Capabilities & Sandboxing)
 - **Parent-ID** (for sub-components)
 - **Child-IDs** (for parent components)
 - **Responsibility Scope** (what the component is responsible for)
@@ -214,7 +214,41 @@ For components without a proven canonical source, the catalog MUST declare `UNRE
 
 ---
 
-## 8. Architecture Reference Model
+---
+
+## 8. Layer Details
+
+### L0 — Hardware & Compute (`ATC-LAYER-L0-HARDWARE-COMPUTE`)
+
+The foundation of the entire A-TownChain ecosystem: physical compute resources, hardware detection, hardware capabilities, and secure provision of CPU, GPU, NPU, memory, and security resources for ShivaCore, GlobusOS, A-TownChain, and Aurora AI.
+
+**Scope boundary:** Firmware, boot processes, driver management, and hardware abstraction belong to L1 as higher-level responsibilities. L0 defines the physical resources and their capabilities.
+
+**Binding principle:** L0 provides capabilities but grants NO permissions. Control of device access, DMA, memory isolation, and privileged operations is governed by the responsible kernel (L2), HAL (L1), and security (X1) contracts.
+
+**Sub-layers (9, owner specification 2026-10-15):**
+
+| ID | Sub-Layer | Scope |
+|----|-----------|-------|
+| L0.1 | CPU | x86-64, ARM64, cores, SIMD, virtualization |
+| L0.2 | GPU | Graphics, parallel compute, VRAM, acceleration |
+| L0.3 | NPU & AI Accelerators | Inference, matrix compute, AI acceleration |
+| L0.4 | Memory | RAM, VRAM, cache, NUMA, ECC |
+| L0.5 | Storage | NVMe, SSD, HDD, flash, persistent media |
+| L0.6 | Security Hardware | TPM, TEE, hardware cryptography, secure elements |
+| L0.7 | Connectivity & I/O | PCIe, USB, Ethernet, Wi-Fi, DMA, IOMMU |
+| L0.8 | Power & Thermal | Energy, temperature, power limits, sensors |
+| L0.9 | Hardware Identity & Capability Discovery | Hardware identity, device capabilities, resource inventory, capability metadata |
+
+**Function contracts (35, Sollstruktur):** All 35 proposed function contracts (ATC-L0-CPU-001 … ATC-L0-DISC-004) are defined in [ATC-L0-FUNCTION-CATALOG-001.yaml](layers/ATC-L0-FUNCTION-CATALOG-001.yaml). Every function starts as `UNRESOLVED` — these are proposed stable catalog IDs defining function contracts, NOT existing implementations. Sub-layer coverage: L0.1 (6), L0.2 (6), L0.3 (5), L0.4 (3), L0.5 (3), L0.6 (3), L0.7 (3), L0.8 (2), L0.9 (4).
+
+**Layer dependencies:** L0 capabilities required by higher layers (L1, L2, L3, L4, L5, L6, L7, L8, L10) are documented in the function catalog's `layer_dependencies` section (9 dependency contracts).
+
+**Acceptance criteria (7):** All nine sub-layers registered; stable IDs and defined contracts; traceable hardware dependencies to ShivaCore, GlobusOS, ATC-VM, and Aurora AI; vendor-specific characteristics separated from cross-architecture contracts; non-existent hardware classified as optional/unsupported/not-detected (never as present); security-critical functions with concrete trust boundary and verification requirement; no function receives `VERIFIED` without traceable evidence.
+
+---
+
+## 9. Architecture Reference Model
 
 This document is the layer architecture companion to:
 - **ATC_ARCHITECTURE_REFERENCE_MODEL.md v0.1.0** (a-townchain-os-docs, Commit 20bcb4d) — Layer comparison model targeting the total stack (a-townchain-os = L7 integration, no core implementation)
@@ -227,4 +261,5 @@ The architecture presented here is the **proposed overall plan**. It is not yet 
 
 | Version | Date | Change |
 |---------|------|--------|
-| 0.1.0 | 2026-10-15 | Initial draft: 11 main layers + 8 cross-cutting layers, 51 sub-layers, 30 components mapped, validation tool created |
+| 0.1.0 | 2026-10-15 | Initial draft: 11 main layers + 8 cross-cutting layers, 30 components mapped, validation tool created |
+| 0.2.0 | 2026-10-15 | L0 detail added per owner spec: 9 sub-layers (L0.1-L0.9), 35 function contracts (ATC-L0-*), layer dependency matrix, capability-not-permission principle; sub-layer ID format normalized to dot notation |

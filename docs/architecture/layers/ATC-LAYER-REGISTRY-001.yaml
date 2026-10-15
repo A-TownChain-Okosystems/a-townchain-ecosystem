@@ -22,7 +22,7 @@
 # IMPORTANT: Source code existence alone does NOT qualify for VERIFIED.
 
 schema_id: ATC-LAYER-REGISTRY-001
-schema_version: "0.1.0"
+schema_version: "0.2.0"
 generated: "2026-10-15"
 authority: "A-TownChain-Okosystems/a-townchain-ecosystem"
 status: DRAFT
@@ -53,36 +53,55 @@ evidence_policy:
 # ---------------------------------------------------------------------------
 layers:
   - id: L0
+    architecture_id: "ATC-LAYER-L0-HARDWARE-COMPUTE"
     name: "Hardware & Compute"
     responsibility: >
-      Physical and virtual compute resources: CPU, GPU, NPU, RAM, Storage,
-      TPM, TEE, Firmware. This layer describes the hardware boundary and
-      compute capabilities that all upper layers depend on.
+      Physical compute resources, hardware detection, hardware capabilities,
+      and secure provision of CPU, GPU, NPU, memory, and security resources
+      for ShivaCore, GlobusOS, A-TownChain, and Aurora AI. L0 describes the
+      hardware base. Firmware, boot processes, driver management, and
+      hardware abstraction belong to L1 as higher-level responsibilities.
+    principle: >
+      L0 provides capabilities but grants no permissions. Control of device
+      access, DMA, memory isolation, and privileged operations must be
+      governed by the responsible kernel, HAL, and security contracts.
     sub_layers:
-      - id: L0-1
-        name: "CPU & Compute Units"
-        description: "Central processing, parallel compute, SIMD, accelerators"
-      - id: L0-2
-        name: "GPU Compute"
-        description: "Graphics processing, parallel workloads, AI inference hardware"
-      - id: L0-3
+      - id: L0.1
+        name: "CPU"
+        description: "x86-64, ARM64, cores, SIMD, virtualization"
+      - id: L0.2
+        name: "GPU"
+        description: "Graphics, parallel compute, VRAM, acceleration"
+      - id: L0.3
         name: "NPU & AI Accelerators"
-        description: "Neural processing units, tensor cores, AI inference accelerators"
-      - id: L0-4
-        name: "Memory & Storage"
-        description: "RAM, persistent storage, memory hierarchy, I/O bandwidth"
-      - id: L0-5
-        name: "Trusted Hardware"
-        description: "TPM, TEE (Intel SGX, ARM TrustZone, AMD SEV), secure enclaves"
-      - id: L0-6
-        name: "Firmware"
-        description: "UEFI, BIOS, device firmware, firmware update mechanisms"
-    components: []
+        description: "Inference, matrix compute, AI acceleration"
+      - id: L0.4
+        name: "Memory"
+        description: "RAM, VRAM, cache, NUMA, ECC"
+      - id: L0.5
+        name: "Storage"
+        description: "NVMe, SSD, HDD, flash, persistent media"
+      - id: L0.6
+        name: "Security Hardware"
+        description: "TPM, TEE, hardware cryptography, secure elements"
+      - id: L0.7
+        name: "Connectivity & I/O"
+        description: "PCIe, USB, Ethernet, Wi-Fi, DMA, IOMMU"
+      - id: L0.8
+        name: "Power & Thermal"
+        description: "Energy, temperature, power limits, sensors"
+      - id: L0.9
+        name: "Hardware Identity & Capability Discovery"
+        description: >
+          Hardware identity, device capabilities, resource inventory, and
+          capability metadata as the foundation for all higher system layers.
+    components:
+      - COMP-COMPUTE
+    function_catalog: docs/architecture/layers/ATC-L0-FUNCTION-CATALOG-001.yaml
     ssot_note: >
       Hardware is described by its interface contracts, not by source code.
       The canonical source for hardware interface specifications is the
       driver/HAL layer (L1).
-
   - id: L1
     name: "Boot, Firmware & Hardware-Abstraction"
     responsibility: >
@@ -90,19 +109,19 @@ layers:
       and device drivers. This layer abstracts hardware specifics so the
       kernel can operate independently of specific hardware.
     sub_layers:
-      - id: L1-1
+      - id: L1.1
         name: "Boot Chain"
         description: "UEFI/BIOS handoff, secure boot verification, bootloader stages"
-      - id: L1-2
+      - id: L1.2
         name: "Secure Boot"
         description: "Signature verification, measured boot, TPM-backed boot attestation"
-      - id: L1-3
+      - id: L1.3
         name: "ACPI & Power Management"
         description: "ACPI tables, power states, thermal management"
-      - id: L1-4
+      - id: L1.4
         name: "HAL (Hardware Abstraction Layer)"
         description: "Arch-specific abstractions (x86_64, aarch64), MMU configuration, interrupt controllers"
-      - id: L1-5
+      - id: L1.5
         name: "Device Drivers"
         description: "Storage, network, display, input, audio, bus drivers"
     components: []
@@ -118,19 +137,19 @@ layers:
       isolation. This is the trusted computing base (TCB) — code that
       runs with full hardware privileges.
     sub_layers:
-      - id: L2-1
+      - id: L2.1
         name: "Memory Management"
         description: "Physical/virtual memory, paging, allocation, MMU, heap"
-      - id: L2-2
+      - id: L2.2
         name: "Scheduling"
         description: "Task/thread scheduling, priority, fairness, preemption"
-      - id: L2-3
+      - id: L2.3
         name: "IPC (Inter-Process Communication)"
         description: "Message passing, shared memory, synchronous channels, signals"
-      - id: L2-4
+      - id: L2.4
         name: "Capabilities & Sandboxing"
         description: "Capability tokens, sandbox boundaries, seccomp-like filters"
-      - id: L2-5
+      - id: L2.5
         name: "Isolation & Security Boundaries"
         description: "Ring separation, privilege levels, TEE integration, TCB minimization"
     components:
@@ -146,19 +165,19 @@ layers:
       management. This is the userspace operating system that provides
       the platform for all applications.
     sub_layers:
-      - id: L3-1
+      - id: L3.1
         name: "System Services"
         description: "Init system, service manager, daemon supervision, lifecycle"
-      - id: L3-2
+      - id: L3.2
         name: "Filesystem"
         description: "VFS, persistent storage, journaling, mount management"
-      - id: L3-3
+      - id: L3.3
         name: "Networking"
         description: "TCP/IP stack, sockets, DNS, network configuration"
-      - id: L3-4
+      - id: L3.4
         name: "Process & Device Management"
         description: "Process lifecycle, device hotplug, resource limits, cgroups"
-      - id: L3-5
+      - id: L3.5
         name: "System APIs"
         description: "POSIX-like syscalls, system call interface, ABI stability"
     components:
@@ -172,16 +191,16 @@ layers:
       Shell, compositor, window management, launcher, settings, and
       accessibility. This layer provides the user-facing desktop experience.
     sub_layers:
-      - id: L4-1
+      - id: L4.1
         name: "Shell & Launcher"
         description: "Desktop shell, application launcher, taskbar, system tray"
-      - id: L4-2
+      - id: L4.2
         name: "Compositor & Display"
         description: "Wayland/X11 compositor, rendering pipeline, display management"
-      - id: L4-3
+      - id: L4.3
         name: "Window Management"
         description: "Window placement, focus, tiling, virtual desktops"
-      - id: L4-4
+      - id: L4.4
         name: "Settings & Accessibility"
         description: "System settings, input methods, screen readers, accessibility"
     components: []
@@ -196,19 +215,19 @@ layers:
       Blockchain node, consensus, networking, transactions, ledger,
       and ATC token standards. This is the core blockchain infrastructure.
     sub_layers:
-      - id: L5-1
+      - id: L5.1
         name: "Node Runtime"
         description: "Full/light node, peer-to-peer networking, node discovery, sync"
-      - id: L5-2
+      - id: L5.2
         name: "Consensus"
         description: "PoH/PoW/PoS hybrid consensus, finality, fork choice, validator management"
-      - id: L5-3
+      - id: L5.3
         name: "Transactions & Ledger"
         description: "Transaction pool, block production, ledger state, state transitions"
-      - id: L5-4
+      - id: L5.4
         name: "ATC Token Standards"
         description: "ATC-001 (Genesis), ATC-8300 (ERC-20 style), ATC-9900 (Governance/DAO)"
-      - id: L5-5
+      - id: L5.5
         name: "Network Layer"
         description: "Gossip, RPC endpoints, peer authentication, network sharding (ATC-07)"
     components:
@@ -227,16 +246,16 @@ layers:
       storage, and contract APIs. This layer provides the sandboxed
       execution environment for smart contracts.
     sub_layers:
-      - id: L6-1
+      - id: L6.1
         name: "Bytecode & Execution"
         description: "ATC-VM instruction set, bytecode interpreter/JIT, gas metering"
-      - id: L6-2
+      - id: L6.2
         name: "Contract State & Storage"
         description: "Contract storage model, state transitions, key-value store"
-      - id: L6-3
+      - id: L6.3
         name: "Contract APIs"
         description: "Host functions, ABI, contract interface, deployment lifecycle"
-      - id: L6-4
+      - id: L6.4
         name: "Contract Registry"
         description: "Deployed contract addresses, metadata, upgrade management"
     components:
@@ -253,16 +272,16 @@ layers:
       This layer provides the programming model and developer experience
       for building on A-TownChain.
     sub_layers:
-      - id: L7-1
+      - id: L7.1
         name: "ATCLang Compiler"
         description: "Lexer, parser, type checker, IR, code generation, ATCA artifacts"
-      - id: L7-2
+      - id: L7.2
         name: "SDK & Libraries"
         description: "Client SDK, standard library, type definitions, package management"
-      - id: L7-3
+      - id: L7.3
         name: "CLI & Developer Tools"
         description: "Command-line tools, project scaffolding, deployment scripts"
-      - id: L7-4
+      - id: L7.4
         name: "IDE & Editor Support"
         description: "Language server, syntax highlighting, debugging, IDE integration"
     components:
@@ -282,16 +301,16 @@ layers:
       Control plane, agent platform, runtime, intelligence fabric, and
       AI models. This layer provides AI capabilities for the ecosystem.
     sub_layers:
-      - id: L8-1
+      - id: L8.1
         name: "Control Plane"
         description: "Agent lifecycle, swarm orchestration, resource allocation, scheduling"
-      - id: L8-2
+      - id: L8.2
         name: "Agent Platform & Runtime"
         description: "Agent execution, memory, tools, perception-action loops"
-      - id: L8-3
+      - id: L8.3
         name: "Intelligence Fabric"
         description: "Model serving, inference, fine-tuning, model registry"
-      - id: L8-4
+      - id: L8.4
         name: "Neural Communication (Synapse)"
         description: "Agent-to-agent messaging, neural protocol, discovery, coalition"
     components:
@@ -306,19 +325,19 @@ layers:
       Wallet, dApps, explorer, governance apps, and system/AI applications.
       This layer contains user-facing applications built on the platform.
     sub_layers:
-      - id: L9-1
+      - id: L9.1
         name: "Wallet & Payments"
         description: "ATC wallet, transaction signing, key management UI, payments"
-      - id: L9-2
+      - id: L9.2
         name: "dApps & Explorer"
         description: "Decentralized applications, blockchain explorer, dashboards"
-      - id: L9-3
+      - id: L9.3
         name: "Governance & DAO Applications"
         description: "Voting interfaces, proposal management, treasury dashboards"
-      - id: L9-4
+      - id: L9.4
         name: "GameFi & Entertainment"
         description: "Genesis Engine, Genesis Chronicles, marketplace, game integrations"
-      - id: L9-5
+      - id: L9.5
         name: "System Applications"
         description: "System monitors, configuration tools, AI-powered system apps"
     components:
@@ -341,16 +360,16 @@ layers:
       observability. This layer covers how the system is deployed,
       updated, and operated.
     sub_layers:
-      - id: L10-1
+      - id: L10.1
         name: "Installer & Bootstrapping"
         description: "System installer, image builder, network boot, initial configuration"
-      - id: L10-2
+      - id: L10.2
         name: "Updates & Package Management"
         description: "System updates, package manager, dependency resolution, rollback"
-      - id: L10-3
+      - id: L10.3
         name: "Configuration Management"
         description: "Declarative configuration, secrets management, environment setup"
-      - id: L10-4
+      - id: L10.4
         name: "Observability & Operations"
         description: "Logging, metrics, traces, health checks, alerting, recovery"
     components:
@@ -372,10 +391,10 @@ cross_cutting_layers:
       Identities, cryptography, key management, secure boot, TEE/TPM,
       sandboxing, threat models, security policies, and security audits.
     sub_layers:
-      - X1-1: "Cryptography & Key Management (ECDSA, secp256k1, RFC 6979)"
-      - X1-2: "Zero-Knowledge Proofs (ATC-ZKP)"
-      - X1-3: "Secure Boot & Attestation"
-      - X1-4: "Threat Models & Security Audits"
+      - X1.1: "Cryptography & Key Management (ECDSA, secp256k1, RFC 6979)"
+      - X1.2: "Zero-Knowledge Proofs (ATC-ZKP)"
+      - X1.3: "Secure Boot & Attestation"
+      - X1.4: "Threat Models & Security Audits"
     components:
       - COMP-ZKP
 
@@ -385,9 +404,9 @@ cross_cutting_layers:
       Users, services, agents, roles, capability tokens, authorization,
       delegation, and least-privilege principle.
     sub_layers:
-      - X2-1: "Identity Management (users, services, agents)"
-      - X2-2: "Capability Tokens & Delegation"
-      - X2-3: "Authorization & Access Control"
+      - X2.1: "Identity Management (users, services, agents)"
+      - X2.2: "Capability Tokens & Delegation"
+      - X2.3: "Authorization & Access Control"
     components: []
 
   - id: X3
@@ -396,9 +415,9 @@ cross_cutting_layers:
       Inter-process communication, APIs, network protocols, IPC, RPC,
       data formats, cross-chain messaging, and bridge security contracts.
     sub_layers:
-      - X3-1: "IPC & RPC Protocols"
-      - X3-2: "Cross-Chain Messaging & Bridges"
-      - X3-3: "Data Formats & Serialization"
+      - X3.1: "IPC & RPC Protocols"
+      - X3.2: "Cross-Chain Messaging & Bridges"
+      - X3.3: "Data Formats & Serialization"
     components: []
 
   - id: X4
@@ -407,9 +426,9 @@ cross_cutting_layers:
       Persistence, ledger state, configurations, data migration, backups,
       encryption, schema versioning, and data integrity.
     sub_layers:
-      - X4-1: "Persistent Storage & Ledger State"
-      - X4-2: "Configuration & Secrets"
-      - X4-3: "Data Migration & Integrity"
+      - X4.1: "Persistent Storage & Ledger State"
+      - X4.2: "Configuration & Secrets"
+      - X4.3: "Data Migration & Integrity"
     components:
       - COMP-STORAGE
 
@@ -419,9 +438,9 @@ cross_cutting_layers:
       Normative specifications, protocol versions, change processes,
       compatibility, approvals, and responsibilities.
     sub_layers:
-      - X5-1: "Normative Standards (atc-standards registry)"
-      - X5-2: "Governance Processes (SCR, AD, DEC)"
-      - X5-3: "Policy & Compliance"
+      - X5.1: "Normative Standards (atc-standards registry)"
+      - X5.2: "Governance Processes (SCR, AD, DEC)"
+      - X5.3: "Policy & Compliance"
     components:
       - COMP-STANDARDS
       - COMP-ECOSYSTEM
@@ -437,9 +456,9 @@ cross_cutting_layers:
       Unit, integration, system, and security testing, conformance checks,
       CI, artifact hashes, exact commits, and traceable verification evidence.
     sub_layers:
-      - X6-1: "Unit & Integration Testing"
-      - X6-2: "Conformance & Compliance Testing"
-      - X6-3: "CI/CD & Evidence Pipeline"
+      - X6.1: "Unit & Integration Testing"
+      - X6.2: "Conformance & Compliance Testing"
+      - X6.3: "CI/CD & Evidence Pipeline"
     components:
       - COMP-ATC-ENG
 
@@ -449,9 +468,9 @@ cross_cutting_layers:
       Logs, metrics, traces, diagnostics, health checks, recovery,
       performance, and availability evidence.
     sub_layers:
-      - X7-1: "Logging & Diagnostics"
-      - X7-2: "Metrics & Health Checks"
-      - X7-3: "Recovery & Reliability"
+      - X7.1: "Logging & Diagnostics"
+      - X7.2: "Metrics & Health Checks"
+      - X7.3: "Recovery & Reliability"
     components: []
 
   - id: X8
@@ -460,9 +479,9 @@ cross_cutting_layers:
       Reproducible builds, dependencies, SBOM, signatures, release
       artifacts, update verification, and provenance.
     sub_layers:
-      - X8-1: "Reproducible Builds & SBOM"
-      - X8-2: "Release Management & Signing"
-      - X8-3: "Dependency Management & Provenance"
+      - X8.1: "Reproducible Builds & SBOM"
+      - X8.2: "Release Management & Signing"
+      - X8.3: "Dependency Management & Provenance"
     components: []
 
 # ---------------------------------------------------------------------------
@@ -516,7 +535,7 @@ catalog_hierarchy:
   - level: 1
     name: "Sub-Layer"
     example: "GPU Compute"
-    id_format: "L{n}-{m}"
+    id_format: "L{n}.{m}"
   - level: 2
     name: "Komponente"
     example: "GPU Driver Manager"
