@@ -420,7 +420,7 @@ Risk classes: `M0` routine; `M1` operational; `M2` security-sensitive; `M3` crit
 
 All 25 maintenance function contracts are `RESIDUAL` with `UNBOUND_RESIDUAL` source bindings. The component verification gate is `BLOCKED`. No implementation or verification is claimed. A maintenance run may be called `VERIFIED` only with exact-SHA terminal Run→Job→Step, conclusion, exit code, logs and artifact hashes; green CI alone is insufficient.
 
-Catalog inventory after the additive update: **46 components / 192 function contracts / 12 cross-component interfaces**. These are inventory counts, not proof of implementation completeness or release readiness.
+Catalog inventory after the additive update: **47 components / 227 function contracts / 12 cross-component interfaces**. These are inventory counts, not proof of implementation completeness or release readiness.
 
 
 ## Ecosystem Connection Matrix — what must connect where (2026-10-15)
@@ -461,3 +461,34 @@ The machine-readable matrix is stored in the existing JSON catalog under `connec
 - Ownership remains unchanged: implementation SSOTs stay in their canonical repositories; `a-townchain-ecosystem` maintains the integration matrix, compliance mapping and evidence only.
 
 **Current matrix inventory:** 115 matrix connections; 116 declared dependency edges; 112 unique dependency pairs; 3 additional critical paths; 2 blocked; 1 excluded; 0 verified. These counts are planning state, not a completeness or release-readiness claim.
+
+
+## Shared UI Controls and Interaction Contracts (2026-10-15)
+
+The existing catalog now includes `COMP-UI-PRIMITIVES` for shared GlobusOS UI controls. It is a catalog/control contract, not a claim that a toolkit has been implemented or source-verified. Canonical UI source path and symbols remain unresolved; all 35 new function contracts are `RESIDUAL` / `UNBOUND_RESIDUAL`.
+
+### Controls covered
+
+| Group | Catalog contracts | Required integration |
+|---|---|---|
+| Settings and options | settings pages, category navigation, option panels | Delegate each setting to its owning system/service API; validate schema, scope and policy |
+| Menus and navigation | application menus, context menus, tabs, accordions | Stable action IDs, keyboard navigation, stale-state checks and execution-time authorization |
+| Input controls | dropdowns, sliders, switches, buttons, radio groups, checkboxes, text/numeric inputs and forms | Typed values, min/max/step/units, validation, pending/error states and duplicate-submit protection |
+| Physical/device controls | lever/actuator widgets, device controls | Commands are requests, not proof of observed physical state; device owner enforces interlocks, limits and authorization |
+| Layout and positioning | window/control position, docking, responsive layout, drag/drop/resize | Valid display/workspace bounds, constraints, keyboard alternatives and restoration |
+| Action feedback | dialogs/confirmation, status indicators, notifications, progress, empty/error views | Distinguish requested, pending, observed, failed and completed states; confirmation binds to exact action |
+| Accessibility and presentation | focus/keyboard/shortcuts, accessibility semantics, themes/scaling, localization | Accessible names/roles/states, keyboard operation, locale-independent IDs and policy-respecting appearance |
+| State and event lifecycle | persistence/restoration, event routing, undo/redo, apply/save/cancel/reset, permission-aware state | Versioned state, no restoration of trusted authorization, typed owner API calls and fail-closed privileged actions |
+
+### UI integration boundaries
+
+- `COMP-UI-PRIMITIVES` is a shared component owned by the GlobusOS implementation repository, subject to confirmation of the canonical source path. It is consumed by desktop shell, system settings, monitor, administration/recovery, device management, security center, ATC dashboard, Aurora control panel, virtualization control panel and developer tools.
+- UI controls emit typed action requests. **The owning service** validates inputs, permissions, policy, interlocks and state transitions. A disabled button, hidden menu item, slider position or switch state is never an authorization boundary.
+- For a switch or lever, distinguish the *requested value*, *accepted command*, and *observed effective state*. Never display success solely because the user moved the control.
+- Position, window geometry and docking belong to UI/window-management services; they must not confer access to the represented process, file, device or guest OS.
+- Persistent UI state is versioned and limited to non-sensitive preferences/layout. Secrets, capabilities, approvals and authentication state must not be restored as trusted state.
+- Each control requires keyboard/focus behavior, accessibility semantics, validation, loading/disabled/unavailable/error states, and negative tests. Security-sensitive actions additionally require owner-side authorization and audit/redaction tests.
+
+### Updated matrix inventory
+
+**125 matrix connections; 129 declared dependency edges; 125 unique dependency pairs; 3 additional critical paths; 2 BLOCKED; 1 EXCLUDED; 0 VERIFIED.** These are catalog counts only. No implementation or accessibility/security compliance is inferred.
