@@ -1,0 +1,347 @@
+# A-TownChain Architecture Master Catalog — X1–X36 and L1–L10
+
+**Catalog ID:** `ATC-ARCH-CATALOG-MASTER-X1-X36-L1-L10`  
+**Schema version:** `0.1.0-draft`  
+**Status:** `PROPOSED / NOT VERIFIED`  
+**Scope:** Cross-cutting architecture layers X1–X36 and system architecture layers L1–L10, including sublayers, components, function contracts, interfaces, dependencies, canonical implementation ownership, and evidence.
+
+> This is a catalog baseline and reconciliation index, not a claim that every component/function is already inventoried, implemented, or verified. Entries without source-backed mapping remain `UNRESOLVED`; proposed requirements remain `PROPOSED`. Do not promote statuses from documentation alone.
+
+## 1. Governing invariants
+
+1. **Catalog First, Implementation Second.** Establish stable IDs, requirements, contracts, source mappings, and gap classifications before implementation work.
+2. **Standalone First, Ecosystem Second.** Production code stays in its canonical owner repository. The ecosystem repository owns the architecture catalog, cross-repository mapping, integration governance, compliance, evidence aggregation, and drift controls only.
+3. **Evidence before Acceptance.** Every implementation or verification claim must bind to the exact source revision and reproducible evidence.
+4. **One implementation SSOT per capability.** Do not create a second VM, consensus implementation, kernel, compiler, runtime, installer, scheduler, or agent runtime in the ecosystem repository.
+5. **No inferred source mapping.** A plausible repository or path is not evidence. Missing/uncertain ownership and paths are `UNRESOLVED`.
+6. **Fail closed.** Missing mandatory evidence, unknown security/consensus semantics, stale source SHAs, failed required checks, and ambiguous ownership cannot pass acceptance.
+7. `demo-repository` is excluded from the live repository drift gate.
+8. Green CI alone is not verification. Preserve Run → Job → Step → exit code/logs → artifact hash and exact commit.
+9. A layer is not `VERIFIED` unless every applicable required sublayer and contract has a resolved disposition and sufficient evidence.
+10. Architecture/catalog completeness, implementation status, and verification status are reported separately.
+
+## 2. Architecture hierarchy
+
+The catalog uses this logical tree. It does not replace existing normative IDs; collisions must be reconciled before IDs become authoritative.
+
+- **L0 — Ecosystem architecture and governance:** system boundaries, architecture principles, portfolio and ownership.
+- **L1 — System architecture layers:** L1–L10 below.
+- **X1–X36 — Cross-cutting control layers:** apply across applicable system layers; each relationship must be explicit, not inferred.
+- **L2 — Sublayers:** independently scoped capabilities under a layer or cross-cutting layer.
+- **L3 — Components:** owned technical or governance units.
+- **L4 — Function contracts:** stable, individually testable behavioral obligations.
+- **L5 — Interfaces and dependency edges:** API, ABI, IPC, event, data, protocol and build-time relationships.
+- **L6 — Canonical implementation mapping:** repository, path, symbol/entry point, full commit SHA and blob SHA where available.
+- **L7 — Verification and evidence:** tests, workflow run/job/step, exit code, logs, artifact hashes, reviewer and decision.
+- **L8 — Lifecycle and governance:** version, compatibility, deprecation, exception, migration and approval history.
+
+A node may have multiple parent relationships where architecture requires it, but must have one canonical owner for each production implementation. Cross-cutting layers are not duplicate runtime stacks.
+
+## 3. L1–L10 system architecture registry
+
+The following registry is the scope index. The status is deliberately `PROPOSED / NOT VERIFIED` until each layer is reconciled with current source and evidence.
+
+| ID | Layer | Responsibility and boundary | Initial canonical ownership rule | Status |
+|---|---|---|---|---|
+| L1 | Boot, Firmware & Hardware Abstraction (HAL) | Firmware interfaces, boot stages, hardware discovery, CPU/platform abstraction, drivers and hardware capability profiles. Does not own OS policy above HAL. | Map to actual GlobusOS boot/HAL modules after source inspection; do not guess paths. | PROPOSED / UNRESOLVED |
+| L2 | ShivaCore Kernel / Trusted Computing Base | Capability microkernel, isolation, scheduling primitives, memory protection, secure IPC and kernel security invariants. | `globus-os/modules/atc-shivacore/kernel/` is canonical kernel SSOT. | PROPOSED / UNRESOLVED |
+| L3 | GlobusOS System Services & OS Architecture | System service lifecycle, IPC clients/servers, storage/network services, service management, OS APIs and policy integration. | `globus-os`, exact modules to be evidenced. | PROPOSED / UNRESOLVED |
+| L4 | GlobusOS Desktop, Window Manager & UI | Compositor, windows, taskbar/launcher, input, display, accessibility and desktop interaction. | `globus-os`, exact module paths to be evidenced. | PROPOSED / UNRESOLVED |
+| L5 | A-TownChain Blockchain Core | Node, protocol, transaction processing, state transition, networking, storage and consensus integration. | `a-townchain` canonical blockchain core. | PROPOSED / UNRESOLVED |
+| L6 | ATC-VM & Smart-Contract Execution | Bytecode validation, deterministic execution, stack/state semantics, gas/resource limits and contract execution interface. | `a-townchain/components/vm` canonical ATC-VM. No standalone duplicate production VM. | PROPOSED / UNRESOLVED |
+| L7 | Developer Platform & ATCLang | Language tooling, lexer/parser, semantics, compiler/artifacts, SDKs, diagnostics and developer workflows. | Verify canonical ATCLang/toolchain repository and paths before assigning implementation mapping. | PROPOSED / UNRESOLVED |
+| L8 | Aurora AI Platform | AI control plane, agent platform, model/tool routing, policy/approval, runtime and intelligence interfaces. Not kernel or consensus authority. | Verify canonical Aurora repository and module paths before assigning implementation mapping. | PROPOSED / UNRESOLVED |
+| L9 | Applications & Ecosystem Services | Wallets, clients, service applications, user-facing and ecosystem integrations. Must consume canonical protocols/APIs. | Map each application to its actual owning repository; no inferred owner. | PROPOSED / UNRESOLVED |
+| L10 | Integration, Deployment & Operations | System composition, install/distribution integration, release coordination, observability, recovery and operational readiness. | Ecosystem coordinates and aggregates evidence; installers and release mechanisms stay with canonical owner repos. | PROPOSED / UNRESOLVED |
+
+### L-layer mandatory fields
+
+Every L-layer record must contain: stable ID, title, version, status, owner, mission, in-scope/out-of-scope, sublayer IDs, requirements, component IDs, contract IDs, inbound/outbound dependencies, interface references, security boundaries, resource assumptions, canonical SSOT references, tests/acceptance criteria, evidence references, open conflicts, exclusions, lifecycle and approval decision.
+
+## 4. X1–X36 cross-cutting layer registry
+
+These layers govern capabilities across applicable L-layers. The applicability matrix must be populated during reconciliation; an empty/unknown relationship is not proof of non-applicability.
+
+| ID | Architecture layer | Required coverage |
+|---|---|---|
+| X1 | Security & Trust | Threat model, trust boundaries, secure defaults, cryptographic controls, security testing and risk disposition. |
+| X2 | Identity, Access & Capabilities | Identity lifecycle, authentication, authorization, capability issuance/delegation/revocation and least privilege. |
+| X3 | Protocol & Interoperability | Protocol schemas, versioning, negotiation, compatibility, canonical serialization and boundary validation. |
+| X4 | Data, State & Storage | State ownership, persistence, consistency, migrations, integrity, retention and recovery. |
+| X5 | Standards, Governance & Policy | Normative source, decision rights, policy versioning, exceptions, approval and conformance. |
+| X6 | Testing, Verification & Evidence | Test strategy, conformance, reproducibility, evidence provenance and acceptance gates. |
+| X7 | Observability, Reliability & Resilience | Logs/metrics/traces, health, fault handling, resilience and service-level evidence. |
+| X8 | Performance, Capacity & Resource Optimization | Performance budgets, profiling, throughput/latency, capacity and optimization evidence. |
+| X9 | Compatibility, Portability & Platform Support | Platform profiles, compatibility matrices, portability, hardware/software support and limits. |
+| X10 | Supply Chain, Build Integrity & Artifact Provenance | Source/build provenance, dependency integrity, artifact identity, reproducibility and signing. |
+| X11 | Privacy, Data Protection & Information Governance | Data classification, minimization, access, retention, deletion and privacy controls. |
+| X12 | Resource Governance, Cost Control & Economic Sustainability | Resource budgets, cost attribution, economic constraints and sustainable resource use. |
+| X13 | API Governance, Service Contracts & Developer Integration | API/ABI contracts, versioning, error semantics, developer integration and deprecation. |
+| X14 | Configuration, Secrets & Runtime Environment Governance | Configuration schema, secret handling, environment isolation, defaults and change control. |
+| X15 | Update Management, Migration & Lifecycle Governance | Upgrade, rollback/rollforward, migration safety, deprecation and lifecycle compatibility. |
+| X16 | Accessibility, Internationalization & Inclusive Interaction | Accessibility requirements, locale, input/output modalities and inclusive interaction. |
+| X17 | Documentation, Knowledge Management & Technical Information Governance | Source-linked docs, ownership, freshness, terminology and documentation quality. |
+| X18 | Ecosystem Integrity, Catalog Drift & Architecture Observability | Catalog/source drift, ownership uniqueness, missing links, duplicate detection and reports. |
+| X19 | Risk Management, Threat Analysis & Systemic Risk Governance | Risk register, threat analysis, systemic dependencies, risk owners and treatment. |
+| X20 | Incident Response, Crisis Management & Operational Recovery | Detection, triage, containment, escalation, incident evidence and post-incident actions. |
+| X21 | Business Continuity, Disaster Recovery & Mission-Critical Continuity | Recovery objectives, backups, failover, continuity exercises and recovery evidence. |
+| X22 | Compliance, Legal Requirements & Regulatory Assurance | Applicable obligations, traceability, compliance evidence and review/exception records. |
+| X23 | Product Lifecycle, Configuration Management & Portfolio Governance | Product baselines, configuration items, ownership, release scope and portfolio decisions. |
+| X24 | Human Oversight, Decision Accountability & Organizational Readiness | Human approval boundaries, accountability, operator readiness and override auditing. |
+| X25 | Organizational Interoperability, Ecosystem Collaboration & Federated Governance | Cross-team/repository ownership, federation boundaries, shared decisions and dispute handling. |
+| X26 | Ecosystem Evolution, Strategic Innovation & Future Readiness | Evolution paths, migration strategy, extensibility, deprecation and future compatibility. |
+| X27 | Ecosystem Knowledge, Semantic Integration & Architecture Intelligence | Semantic identity, ontology/metadata alignment, cross-layer relationships and knowledge quality. |
+| X28 | Simulation, Digital Twin & System Modeling | Models, assumptions, simulation validity, scenario coverage and model-to-system correlation. |
+| X29 | Digital Ethics, Responsible Innovation & Societal Impact | Ethical risk assessment, impact review, accountability and mitigation evidence. |
+| X30 | Ecosystem Economics, Incentives & Value Flow Governance | Incentive models, value flows, accounting assumptions and economic attack analysis. |
+| X31 | Ecosystem Data Governance, Information Quality & Data Lifecycle | Data ownership, quality, lineage, lifecycle, schemas and authoritative records. |
+| X32 | Ecosystem API Security, Access Mediation & Zero-Trust Integration | Service identity, policy enforcement, boundary mediation, credentials and zero-trust checks. |
+| X33 | Ecosystem Event Governance, Messaging & Distributed Workflow Coordination | Event identity/schema, ordering, delivery semantics, idempotency, retries, workflow state and audit. |
+| X34 | Ecosystem Resource Scheduling, Capacity Allocation & Workload Governance | Workload classification, admission, reservations, fairness, quotas, isolation and safe release. |
+| X35 | Ecosystem Deployment, Release Engineering & Rollout Governance | Artifact provenance, release manifest, approvals, staged rollout, health gates, recovery and installed-version evidence. |
+| X36 | Ecosystem Integration, System Composition & End-to-End Compatibility | Component composition, ownership resolution, interface compatibility, dependency closure and E2E acceptance. |
+
+### Cross-cutting layer boundaries
+
+- X1/X2/X32 cover security and access from different scopes: core trust controls, identity/capability lifecycle, and service/API boundary mediation respectively.
+- X3/X13/X36 cover protocol interoperability, API/service contracts, and composition/E2E compatibility respectively.
+- X4/X11/X31 cover state/storage, privacy protection, and data governance/quality/lifecycle respectively.
+- X6/X18 cover verification evidence and ecosystem catalog/drift observability respectively.
+- X8/X12/X34 cover optimization, cost/economic governance, and scheduling/admission/capacity decisions respectively.
+- X15/X23/X35 cover lifecycle/migration, product/configuration baselines, and release/deployment/rollout respectively.
+- X33 coordinates event/workflow semantics; it does not replace canonical message brokers, runtimes or domain state machines.
+- X36 coordinates integration contracts and evidence; it does not own duplicate implementations.
+
+## 5. Sublayer decomposition baseline
+
+Use the following reusable sublayer families where relevant. They are a coverage checklist, not a requirement to force every domain into exactly 17 sublayers. Domain-specific sublayers must be added; irrelevant families must be explicitly marked `EXCLUDED` with rationale.
+
+1. Identity & Registry
+2. Core Components
+3. Data & State
+4. Interfaces & Protocols
+5. Execution & Orchestration
+6. Security & Trust
+7. Validation & Policy
+8. Resource Management
+9. Error Handling & Recovery
+10. Observability & Audit
+11. Lifecycle & Configuration
+12. Interoperability
+13. Testing & Simulation
+14. Verification & Evidence
+15. Governance & Compliance
+16. Performance & Reliability
+17. Integration & End-to-End
+
+Each sublayer receives a stable ID and records parent layer, purpose, boundaries, requirements, components, function contracts, inputs/outputs, dependencies, security constraints, resource/error semantics, tests, evidence, exclusions and lifecycle.
+
+Suggested ID convention: `ATC-ARCH-{L|X}{nn}-{SUBLAYER-SLUG}`. Existing established IDs take precedence; run a collision check before issuing new ones. Do not renumber existing contracts merely to fit this convention.
+
+## 6. Component and function-contract model
+
+### Component record
+
+Required fields:
+
+- `component_id`, `name`, `version`, `status`, `owner`
+- `parent_layer_ids[]`, `sublayer_ids[]`
+- `responsibility`, `in_scope`, `out_of_scope`
+- `canonical_repository`, `canonical_path` (or explicit `UNRESOLVED`)
+- `interface_ids[]`, `contract_ids[]`, `dependency_ids[]`
+- `security_boundary`, `data_classification`, `resource_profile`
+- `implementation_commit_sha`, `source_blob_sha`, `source_symbol` when evidenced
+- `test_refs[]`, `evidence_refs[]`, `findings[]`, `exclusion_reason` if applicable
+
+### Function contract record
+
+Every function contract is independently addressable and testable. Required fields:
+
+- Stable `contract_id`; parent layer, sublayer and component IDs.
+- Name, purpose, accountable owner, normative/proposed status and version.
+- Behavioral specification, typed inputs/outputs, units and serialization.
+- Preconditions, postconditions, invariants, side effects and idempotency semantics.
+- Error taxonomy, failure response, boundaries, limits, timeouts, retries and cancellation.
+- Security/capability requirements and privacy constraints where applicable.
+- Interface/API/ABI/IPC/event references and compatibility policy.
+- Canonical repository, full 40-character commit SHA, exact path, symbol/entry point and blob SHA when mapped.
+- Acceptance criteria; positive, negative, boundary, fault-injection and regression tests as applicable.
+- Verification method, Run/Job/Step references, exit codes, logs and artifact hashes.
+- Implementation status, verification status, lifecycle status, open findings and approved exceptions.
+
+No field may silently disappear. If a field is inapplicable, record `NOT_APPLICABLE` plus a reason; if unknown, use `UNRESOLVED`.
+
+## 7. Canonical SSOT registry
+
+These mappings are architectural ownership rules, not proof that any specific function has already been found or verified.
+
+| Capability | Canonical owner / rule | Forbidden catalog behavior |
+|---|---|---|
+| Blockchain core | `A-TownChain-Okosystems/a-townchain` | Do not create a second blockchain node/protocol implementation in ecosystem. |
+| ATC-VM | `a-townchain/components/vm` | Do not treat a standalone `atc-vm` or ecosystem component as production SSOT. |
+| Consensus/algorithm | `a-townchain/components/algorithm` | Do not infer consensus semantics or create duplicate algorithms. Unknown consensus decisions stay BLOCKED. |
+| ShivaCore kernel | `globus-os/modules/atc-shivacore/kernel/` | `atc-shivacore` is specs/governance/support, not a second kernel implementation. |
+| GlobusOS | `A-TownChain-Okosystems/globus-os`, exact module paths to verify | Do not duplicate OS services, window manager, installer or HAL in ecosystem. |
+| ATCLang/toolchain | Canonical repo/path must be source-verified | Do not invent a second language, compiler, ATCB or runtime specification. |
+| Aurora AI | Canonical repo/path must be source-verified | Do not create duplicate agent/model runtimes in ecosystem. AI does not acquire kernel/consensus authority. |
+| Standards | `A-TownChain-Okosystems/atc-standards` | Proposed catalog contracts are not normative until registered and approved. |
+| Ecosystem catalog | `A-TownChain-Okosystems/a-townchain-ecosystem` | Own catalog, cross-repo mapping, integration/compliance/evidence and drift control only. |
+| Build/release/install | Per-component canonical owner; map exact workflow/artifact paths | Do not replace component-owned release pipeline with a parallel ecosystem implementation. |
+
+## 8. Status model
+
+Use separate fields for architecture, mapping, implementation, verification and lifecycle. A single overloaded status is insufficient.
+
+- Architecture: `PROPOSED`, `ACCEPTED`, `DEPRECATED`, `REJECTED`.
+- Mapping: `MAPPED`, `UNRESOLVED`, `EXCLUDED`.
+- Implementation: `IMPLEMENTED`, `NOT_IMPLEMENTED`, `UNKNOWN`.
+- Verification: `VERIFIED`, `NOT_VERIFIED`, `BLOCKED`, `RESIDUAL`.
+- Catalog reconciliation: `MATCHED`, `MISSING`, `DUPLICATE`, `STALE`, `UNRESOLVED`, `EXCLUDED`.
+
+Definitions:
+- `MAPPED` means a source relationship is evidenced; it does not prove behavior.
+- `IMPLEMENTED` means the implementation exists at the cited exact source revision; it does not prove conformance.
+- `VERIFIED` means specified acceptance criteria passed for the exact tested source and scope.
+- `BLOCKED` means a mandatory criterion or required evidence prevents acceptance.
+- `RESIDUAL` means a known, explicit remaining gap; it is not equivalent to pass.
+- `EXCLUDED` requires a rationale, scope and approval where governance requires one.
+- Missing or inaccessible evidence is not a pass.
+
+## 9. Evidence record
+
+Minimum evidence fields for a verification claim:
+
+```yaml
+evidence_record:
+  evidence_id: REQUIRED_STABLE_ID
+  requirement_id: REQUIRED
+  layer_id: REQUIRED
+  sublayer_id: REQUIRED
+  component_id: REQUIRED
+  contract_id: REQUIRED
+  repository: REQUIRED
+  commit_sha: REQUIRED_FULL_40_HEX
+  path: REQUIRED
+  symbol: REQUIRED_OR_NOT_APPLICABLE_WITH_REASON
+  blob_sha: REQUIRED_WHEN_AVAILABLE
+  verification:
+    workflow_run_id: REQUIRED
+    job_id_or_name: REQUIRED
+    step_id_or_name: REQUIRED
+    exit_code: REQUIRED
+    log_ref: REQUIRED
+    artifact_refs: []
+    artifact_hashes: []
+  reviewer: REQUIRED
+  reviewed_at: REQUIRED_ISO8601
+  result: PASS_OR_FAIL_OR_BLOCKED
+  rationale: REQUIRED
+  exception_ref: OPTIONAL
+```
+
+Evidence must be inspectable, reproducible and tied to the same full commit SHA as the source mapping. A result from another branch/commit, a skipped test, missing log, absent exit code, or unverified artifact is not evidence of a pass.
+
+## 10. Acceptance gates G0–G9
+
+| Gate | Required decision |
+|---|---|
+| G0 Scope | Purpose, boundaries, non-goals, owner and applicability are explicit. |
+| G1 Completeness | Requirements, sublayers, components, contracts and interfaces are inventoried or dispositioned. |
+| G2 SSOT | Each production capability has one evidenced canonical owner; no unapproved duplicates. |
+| G3 Contracts | Types, semantics, errors, invariants, versioning and compatibility are specified. |
+| G4 Implementation | Claimed implementations map to exact source locations and revisions. |
+| G5 Verification | Required positive/negative/boundary tests and evidence pass for the exact revision. |
+| G6 Security | Threat model, trust boundaries, authorization, negative tests and risks are addressed. |
+| G7 Integration | Dependency contracts and end-to-end behavior are evidenced. |
+| G8 Operations | Observability, resource limits, lifecycle, upgrade/recovery and platform constraints are covered. |
+| G9 Release | Findings are resolved or validly excepted; independent review and decision are recorded. |
+
+Hard gates include security invariants, normative MUST requirements, unresolved consensus/protocol semantics, source ownership ambiguity for production code, and missing mandatory evidence. They cannot be offset by an average score.
+
+## 11. Domain-specific acceptance profiles
+
+### Blockchain, protocol and ATC-VM
+- Normative transaction/signature/serialization/state-transition vectors; deterministic execution.
+- Consensus and finality assumptions explicitly resolved; unknown consensus stays `BLOCKED`.
+- VM bytecode format, opcode semantics, gas/resource ceilings, storage semantics and error behavior.
+- Invalid inputs, replay, fork/reorg, network partitions and migration behavior tested where applicable.
+- Cross-chain messages include source/destination chain identity, nonce/message identity, proof and finality semantics before acceptance.
+
+### GlobusOS and ShivaCore
+- Least privilege, capability boundaries, IPC validation and negative authorization tests.
+- Boot chain, firmware requirements, trust anchors and platform profile evidence.
+- Memory isolation, service/kernel boundary, HAL and driver contracts.
+- Install, upgrade, interrupted install, boot failure, recovery and data migration paths.
+- Intel/AMD/QEMU or other platform claims limited to profiles actually tested.
+
+### ATCLang and build/toolchain
+- Language feature matrix tied to parser, semantic analysis, diagnostics, code generation and artifact format.
+- Positive and negative conformance tests; deterministic outputs where required.
+- Bytecode/runtime ABI compatibility; no duplicate competing ATCB format.
+- Unknown semantics and incomplete feature coverage block a claim of full language conformance.
+
+### Aurora AI
+- Model/tool calls are policy-, capability- and approval-gated; privilege boundaries cannot be bypassed through prompt injection or tool chaining.
+- Model, dataset, tool, runtime and backend versions have provenance.
+- Sandbox isolation, output validation, cancellation, offline/local/external backend behavior and fallback are tested.
+- Wallet and other privileged actions follow explicit authorization/confirmation and audit requirements.
+- Audit does not unnecessarily expose prompts, secrets or private data.
+
+### Ecosystem governance
+- Stable IDs, no duplicate canonical owners, referential integrity and stale mapping detection.
+- Exclusions and exceptions carry rationale and approval evidence.
+- Live drift inventory uses the registered repository manifest; `demo-repository` excluded.
+- Aggregated verification status must never overstate component-level evidence.
+
+## 12. Reconciliation work queue
+
+This catalog must be completed through evidence-backed reconciliation, not by assuming the architecture tables are exhaustive.
+
+1. **Registry reconciliation:** compare all existing L1–L10 and X1–X36 records with existing catalog files and issues; preserve established IDs and identify duplicates/conflicts.
+2. **Sublayer reconciliation:** enumerate each layer's actual/proposed sublayers; mark each `MAPPED`, `MISSING`, `UNRESOLVED` or justified `EXCLUDED`.
+3. **Component census:** inspect canonical source repositories and manifests; map component IDs to exact repository/path/symbol/blob/full commit SHA.
+4. **Function census:** inventory public functions, internal runtime contracts, APIs, IPC, events, build/runtime interfaces and protocol operations; exclude tests/docs/generated/CI from runtime inventory only with explicit reasons and maintain their evidence links separately.
+5. **Contract normalization:** reconcile signatures, types, units, errors, invariants, compatibility and versioning against source and normative standards.
+6. **Dependency graph:** record directed dependency edges, edge type, interface/contract, version constraints and forbidden/cyclic edges.
+7. **Evidence linkage:** attach exact run/job/step, exit code, logs, artifacts and hashes to each claim.
+8. **Gap and duplicate triage:** produce counts and stable IDs for missing, duplicate, stale and unresolved records; do not silently drop unresolved entries.
+9. **Validator coverage:** validate schema, IDs, parent-child links, SSOT uniqueness, reference integrity, source SHA format, status transitions and evidence completeness.
+10. **Layer acceptance:** run G0–G9 per contract → component → sublayer → layer → system; record independent decision.
+11. **Change governance:** register normative rules in `atc-standards` through approved change control; this catalog references rather than duplicates normative standards.
+12. **Reporting:** publish inventory totals and residuals by status, layer, repository and risk; every count must be reproducible from machine-readable artifacts.
+
+## 13. Definition of catalog completeness
+
+The catalog is complete for a defined revision only when all the following are true:
+
+- Every L1–L10 and X1–X36 record exists with stable ID, owner, scope, boundary, status and applicability.
+- Every applicable sublayer is present or explicitly excluded with rationale.
+- Every discovered component and function/interface contract is represented or has a traceable exclusion.
+- Every required contract has typed semantics, errors, invariants, versioning and acceptance criteria.
+- Every production capability has one canonical SSOT mapping or an explicit `UNRESOLVED` record; no unresolved record is hidden by aggregate counts.
+- Every dependency edge and relevant cross-layer relationship is represented.
+- Each implementation/verification status is supported by source/evidence appropriate to that status.
+- Schema and graph validators run against the exact catalog revision and their logs/results are retained.
+- Counts reconcile across the machine-readable registry, human-readable views and generated reports.
+- Review decision names the exact catalog commit SHA and remaining accepted residuals.
+
+**Important:** a catalog can be structurally complete while many components remain `NOT_IMPLEMENTED`, `UNRESOLVED` or `NOT_VERIFIED`. These are separate dimensions.
+
+## 14. Current disposition
+
+- Layer scope index: recorded here for L1–L10 and X1–X36.
+- Full sublayer/component/function census: `NOT VERIFIED`; requires comparison with the live catalog and canonical source trees.
+- Canonical source mapping: ownership rules recorded; per-function source references require verification.
+- Contract conformance and CI evidence: `NOT VERIFIED`.
+- Normative status: this file is a proposed catalog artifact; it does not replace an approved `atc-standards` change.
+- Acceptance: `BLOCKED` until reconciliation, validators, evidence review and approval are complete.
+
+## 15. Related work
+
+- Issue #182 — consolidate the full layer, sublayer, component and function architecture tree.
+- Issue #183 — define acceptance criteria for all architecture layers and sublayers.
+- Issue #112 — full source-code comparison for component/function catalog.
+- Issues #146–#181 — X1–X36 layer-specific work items; reconcile each rather than duplicating its scope.
+- L1–L10 work items #136–#145 — reconcile against the system layer registry.
+
+This document is an organizing artifact for the above work, not evidence that the issues are completed.
