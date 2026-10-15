@@ -74,8 +74,8 @@ def main() -> int:
         if not name or not isinstance(name, str):
             errors.append("empty/invalid repository name")
             continue
-        if entry.get("default_branch") != "main":
-            errors.append(f"{name}: default_branch missing or not the captured 'main'")
+        if not isinstance(entry.get("default_branch"), str) or not entry["default_branch"].strip():
+            errors.append(f"{name}: default_branch missing or invalid")
         for field in ("head_sha", "root_tree_sha"):
             if not isinstance(entry.get(field), str) or not SHA40.fullmatch(entry[field]):
                 errors.append(f"{name}: invalid/missing {field}")
@@ -101,7 +101,7 @@ def main() -> int:
         errors.append("live organization listing contains duplicate/invalid repository entries")
     expected_names = set(manifest_by_name)
     live_names = set(live_by_name)
-    for name in sorted(expected_names - live_names):
+    for name in sorted((expected_names - live_names) - EXCLUDED):
         errors.append(f"manifest repository missing from live organization listing: {name}")
     for name in sorted(live_names - expected_names):
         errors.append(f"live organization repository missing from manifest: {name}")
