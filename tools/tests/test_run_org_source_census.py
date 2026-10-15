@@ -24,6 +24,24 @@ class OrganizationCensusTests(unittest.TestCase):
             check=True, capture_output=True, text=True,
         ).stdout.strip()
 
+    def test_policy_excluded_repository_is_documented_and_not_blocking(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manifest = {"owner": "example", "repositories": [{
+                "name": "demo-repository", "archived": False,
+                "live_drift_gate_excluded": True,
+                "exclusion_reason": "explicit policy exclusion",
+            }]}
+            report = run_census(Path(temp), manifest)
+            self.assertEqual(report["status"], "RESIDUAL")
+            self.assertEqual(report["summary"]["active_expected"], 1)
+            self.assertEqual(report["summary"]["active_scanned"], 0)
+            self.assertEqual(report["summary"]["active_excluded_policy"], 1)
+            self.assertEqual(report["summary"]["active_blocked"], 0)
+            entry = report["repositories"][0]
+            self.assertEqual(entry["status"], "EXCLUDED_LIVE_DRIFT_GATE")
+            self.assertIn("LIVE_DRIFT_GATE_EXCLUSION:explicit policy exclusion", entry["residuals"])
+            self.assertEqual(report["blocked_active_repositories"], [])
+
     def test_missing_active_checkout_blocks_organization(self):
         with tempfile.TemporaryDirectory() as temp:
             manifest = {"owner": "example", "repositories": [{"name": "missing", "archived": False}]}
