@@ -359,3 +359,41 @@ Canonical implementation ownership is unchanged: a-townchain owns blockchain/nod
 The document explicitly keeps the following unresolved gates visible: consensus/finality semantics, ATCB-versus-ATC1 bytecode format, EVM compatibility decision, independent custom-hash review, TX-V2 end-to-end vectors, cross-chain proof/finality trust model, native installer support matrix, guest-VM backend/isolation, API version/error/idempotency contracts, Aurora capability/approval tests, and bidirectional source reconciliation.
 
 These additions do not change any implementation status. The catalog remains an inventory of mixed source-mapped and residual contracts; exact-HEAD workflow evidence is still required before any function or release gate can be marked VERIFIED.
+
+
+## API Orchestrator ownership audit — 2026-10-15
+
+### Audit result
+
+The catalog now records `COMP-API-ORCHESTRATOR`, eleven residual function contracts (`FN-API-ORCH-001..011`) and proposed interface `IF-010`. This is an additive update to the existing JSON SSOT, not a second catalog.
+
+**Canonical implementation owner: UNRESOLVED.** The active repository search found no executable `APIOrchestrator` implementation in `a-townchain-os`. The located Python file is in `a-townchain-os-docs` at commit `1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c`, path `docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py`, blob `06a23d546da81b44cdcb035cadab71046c89d114`; the ATCLang artifact is at `wiki/kai-os/backend/api/orchestrator/orchestrator.atc`, blob `f68761008b8ec349ee0a4d24b5c2907fbef2ad86`. These are documentation-repository artifacts, and archived monorepo copies are reference-only. They do not establish a production runtime, owner, compiled ATCLang artifact, or successful tests.
+
+The `a-townchain-os` integration/validation role must not be conflated with ownership of a backend API runtime. Ownership remains explicitly unassigned until an active executable source, exact repository HEAD, path/symbol, and test entry point are identified.
+
+### Contract inventory
+
+- `FN-API-ORCH-001`: service registry and health
+- `FN-API-ORCH-002`: typed routing and version negotiation
+- `FN-API-ORCH-003`: capability and policy authorization
+- `FN-API-ORCH-004`: bounded queue, concurrency and backpressure
+- `FN-API-ORCH-005`: deadlines, cancellation, retry and idempotency
+- `FN-API-ORCH-006`: load balancing and circuit-breaker recovery
+- `FN-API-ORCH-007`: event delivery, correlation and replay semantics
+- `FN-API-ORCH-008`: structured errors, tracing and redacted audit
+- `FN-API-ORCH-009`: graceful shutdown, recovery and resource bounds
+- `FN-API-ORCH-010`: secure external service adapters
+- `FN-API-ORCH-011`: standalone Windows/Linux and GlobusOS runtime integration
+- `IF-010`: proposed API-Orchestrator-to-chain service-dispatch contract
+
+Every function remains `RESIDUAL` with `UNBOUND_RESIDUAL` source binding. No function is `VERIFIED`. No gateway, Aurora, wallet, kernel, chain, or VM implementation is duplicated. Normative contract work remains tracked in [atc-standards Issue #111](https://github.com/A-TownChain-Okosystems/atc-standards/issues/111).
+
+### Required follow-up
+
+1. Identify the active executable owner and record exact repository HEAD, source path, symbol and blob SHA.
+2. Bind only source-backed functions; keep unresolved records residual or blocked.
+3. Run the catalog validator and source reconciliation against the updated branch.
+4. Execute authorization, routing, deadline/idempotency, overload, breaker recovery, event replay, redaction, shutdown and Windows/Linux tests.
+5. Attach exact-SHA Run→Job→Step, terminal conclusion, exit code, logs and artifact hashes before any status promotion.
+
+Catalog totals after this additive update: **45 components / 167 function contracts / 10 cross-component interfaces**. These are inventory counts, not implementation-completeness or verification claims. Release remains `BLOCKED`.
