@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-63A34B030098",
-  "timestamp": "2026-10-15T13:53:02.051368Z",
+  "timestamp": "2026-10-15T13:57:19.630086Z",
   "category": "change",
   "title": "Commit: fix(ci): publish census and reconciliation artifacts correctly",
   "context": "Git commit 63a34b030098e566d475fe6b9fe538946df5b267 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/63a34b030098e566d475fe6b9fe538946df5b267",
-    "commit": "b4a4685fa00298d110028416a39cb28a7adc9473"
+    "commit": "99765f6dd61efddf5ce6f4f58bb227877b362f9c"
   },
   "tags": [
     "commit",
