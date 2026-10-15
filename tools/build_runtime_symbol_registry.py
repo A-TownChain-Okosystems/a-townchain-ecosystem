@@ -78,7 +78,13 @@ def catalog_bindings(catalog: dict) -> tuple[set, list, list, list]:
                 continue
             path = binding.get("source_path")
             symbol = binding.get("symbol_or_entrypoint")
-            if path and symbol:
+            # Only concrete executable source bindings participate in duplicate
+            # detection. Unbound residual placeholders and documentation/spec
+            # records are not evidence of competing implementations.
+            if (path and symbol
+                    and path not in {"UNRESOLVED", "NOT_IDENTIFIED"}
+                    and symbol not in {"UNRESOLVED", "NOT_IDENTIFIED"}
+                    and classify_path(path) == "source"):
                 bound.setdefault((repo, path, symbol), []).append(function["id"])
     duplicate_fn_ids = [fid for fid, n in Counter(
         function["id"] for component in catalog.get("components", [])
