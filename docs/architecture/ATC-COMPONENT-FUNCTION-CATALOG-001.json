@@ -1,8 +1,8 @@
 {
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
-  "catalog_date": "2026-10-12",
-  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed.",
+  "catalog_date": "2026-10-15",
+  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -2198,6 +2198,167 @@
             "source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-004",
+          "name": "Canonical transaction validation and submission",
+          "purpose": "Validate transaction encoding and policy before submission to the canonical node/chain path.",
+          "inputs": [
+            "serialized transaction",
+            "chain identifier",
+            "normative TX contract",
+            "canonical node context"
+          ],
+          "outputs": [
+            "validation result",
+            "submission identifier or structured error"
+          ],
+          "failure_modes": [
+            "invalid encoding",
+            "signature/domain mismatch",
+            "replay",
+            "unsupported transaction version"
+          ],
+          "acceptance": [
+            "TX-V2 contract governs encoding and domain separation",
+            "No legacy signing domain is accepted",
+            "Submission result is not conflated with finality"
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "conformance"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-CHAIN-005",
+          "name": "Consensus and finality decision contract",
+          "purpose": "Track the normative decision required for consensus selection, quorum, fork choice, and finality without inventing protocol semantics.",
+          "inputs": [
+            "versioned consensus decision",
+            "protocol version",
+            "conformance vectors"
+          ],
+          "outputs": [
+            "decision reference",
+            "BLOCKED/RESOLVED status",
+            "dependent function gate"
+          ],
+          "failure_modes": [
+            "missing decision",
+            "conflicting decision",
+            "unversioned protocol rule"
+          ],
+          "acceptance": [
+            "Unknown consensus/finality remains BLOCKED",
+            "No guessed quorum, fork-choice, genesis, or finality behavior is cataloged as normative",
+            "Dependent release gates fail closed"
+          ],
+          "test_classes": [
+            "governance",
+            "conformance",
+            "negative"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/atc-standards",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-standards",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
               "workflow_run_id",
               "job",
               "step",
@@ -5172,6 +5333,85 @@
             ]
           },
           "readiness": "RESIDUAL"
+        },
+        {
+          "id": "FN-VM-030",
+          "name": "Canonical bytecode artifact decode and validation",
+          "purpose": "Validate and decode the canonical ATC-VM bytecode envelope, version, instruction count, and malformed-artifact cases once the ATCB/ATC1 conflict is normatively resolved.",
+          "inputs": [
+            "bytecode artifact",
+            "normative bytecode version/magic",
+            "resource limits"
+          ],
+          "outputs": [
+            "validated bytecode representation or structured error"
+          ],
+          "failure_modes": [
+            "magic mismatch",
+            "truncated header",
+            "unsupported version",
+            "instruction-count overflow"
+          ],
+          "acceptance": [
+            "ATCB versus ATC1 remains BLOCKED until normative resolution",
+            "No JSON/Serde fallback is assumed",
+            "Malformed artifacts fail closed"
+          ],
+          "test_classes": [
+            "unit",
+            "fuzz",
+            "conformance"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
         }
       ],
       "source_inventory": {
@@ -5710,6 +5950,247 @@
               "log_or_artifact_url"
             ]
           }
+        },
+        {
+          "id": "FN-GLOBUS-004",
+          "name": "Native desktop shell and window management",
+          "purpose": "Provide the native GlobusOS desktop shell, taskbar, window lifecycle, focus/navigation, and workspace interactions through canonical OS services.",
+          "inputs": [
+            "desktop session",
+            "window/app request",
+            "input events",
+            "capability context"
+          ],
+          "outputs": [
+            "window state",
+            "focus/stacking updates",
+            "desktop event stream"
+          ],
+          "failure_modes": [
+            "invalid window request",
+            "capability denial",
+            "compositor/input service unavailable"
+          ],
+          "acceptance": [
+            "Window actions are routed through documented GlobusOS APIs",
+            "No ambient authority is granted to apps",
+            "UI state is distinct from kernel authority"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "security"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-GLOBUS-005",
+          "name": "Windows/Linux edition host lifecycle",
+          "purpose": "Manage supported host-edition application modules and lifecycle while clearly separating them from native kernel boot.",
+          "inputs": [
+            "host platform",
+            "edition config",
+            "module manifest"
+          ],
+          "outputs": [
+            "edition startup/shutdown state",
+            "module health",
+            "platform capability report"
+          ],
+          "failure_modes": [
+            "unsupported host API",
+            "module crash",
+            "missing dependency"
+          ],
+          "acceptance": [
+            "Host edition does not claim native ShivaCore boot",
+            "Module boundaries are explicit",
+            "Platform-specific behavior is isolated in adapters"
+          ],
+          "test_classes": [
+            "unit",
+            "platform-integration",
+            "failure-injection"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-GLOBUS-006",
+          "name": "OS service capability mediation",
+          "purpose": "Expose filesystem, networking, device, and system services through explicit service APIs and capability checks.",
+          "inputs": [
+            "caller identity",
+            "requested service",
+            "capability token",
+            "policy"
+          ],
+          "outputs": [
+            "service handle or denial",
+            "audit event"
+          ],
+          "failure_modes": [
+            "invalid token",
+            "unknown service",
+            "policy denial"
+          ],
+          "acceptance": [
+            "No ambient authority",
+            "Unknown authorization fails closed",
+            "Sensitive actions are auditable"
+          ],
+          "test_classes": [
+            "security",
+            "negative",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
         }
       ],
       "source_inventory": {
@@ -6025,6 +6506,169 @@
             "source_sha": "1b5ff1824bb032958b9a2ae4e53365d7af01c3af",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-AURORA-005",
+          "name": "Policy- and capability-gated tool execution",
+          "purpose": "Route agent tool calls through explicit identity, capability, policy, validation, and audit checks.",
+          "inputs": [
+            "agent intent",
+            "tool schema",
+            "caller identity",
+            "capability/policy context"
+          ],
+          "outputs": [
+            "authorized tool invocation or denial",
+            "audit record"
+          ],
+          "failure_modes": [
+            "unknown tool",
+            "invalid arguments",
+            "policy denial",
+            "missing capability"
+          ],
+          "acceptance": [
+            "Model output never grants authority",
+            "Unknown authorization fails closed",
+            "Tool outputs are treated as untrusted inputs"
+          ],
+          "test_classes": [
+            "unit",
+            "negative",
+            "security-integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/aurora-ai",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-AURORA-006",
+          "name": "Approval-gated wallet and transaction actions",
+          "purpose": "Require explicit user approval and canonical wallet signing paths for transaction construction or signing initiated through Aurora.",
+          "inputs": [
+            "proposed action",
+            "transaction summary",
+            "identity/session",
+            "policy result"
+          ],
+          "outputs": [
+            "approval request",
+            "signed transaction or denial",
+            "audit record"
+          ],
+          "failure_modes": [
+            "approval absent",
+            "stale transaction summary",
+            "policy denial",
+            "signing failure"
+          ],
+          "acceptance": [
+            "Aurora cannot sign without the canonical wallet approval path",
+            "Model output cannot bypass wallet policy",
+            "Transaction bytes are revalidated before signing"
+          ],
+          "test_classes": [
+            "security",
+            "negative",
+            "end-to-end"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/aurora-ai",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
               "workflow_run_id",
               "job",
               "step",
@@ -7046,6 +7690,165 @@
               "log_or_artifact_url"
             ]
           }
+        },
+        {
+          "id": "FN-SDK-003",
+          "name": "Cross-language canonical transaction vectors",
+          "purpose": "Provide shared valid/invalid transaction serialization, signing-preimage, identifier, and signature vectors for supported SDKs.",
+          "inputs": [
+            "normative TX contract",
+            "shared vector corpus",
+            "SDK implementation"
+          ],
+          "outputs": [
+            "per-language conformance report",
+            "mismatch details"
+          ],
+          "failure_modes": [
+            "serialization mismatch",
+            "invalid-input divergence",
+            "signature mismatch"
+          ],
+          "acceptance": [
+            "Every supported SDK passes the same vectors",
+            "TX-V2 domain and canonical encoding are enforced",
+            "Legacy signing domain remains rejected"
+          ],
+          "test_classes": [
+            "conformance",
+            "differential",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/atc-sdk",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-sdk",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-SDK-004",
+          "name": "RPC/provider selection and compatibility",
+          "purpose": "Allow clients to configure and change node/RPC providers using versioned API compatibility and provenance information.",
+          "inputs": [
+            "provider endpoints",
+            "API version requirements",
+            "operator policy"
+          ],
+          "outputs": [
+            "selected endpoint",
+            "compatibility report",
+            "provider provenance"
+          ],
+          "failure_modes": [
+            "incompatible endpoint",
+            "untrusted response",
+            "provider unavailable"
+          ],
+          "acceptance": [
+            "No mandatory central gateway is required by the SDK contract",
+            "Provider changes are explicit",
+            "Untrusted observations are not treated as canonical state"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "compatibility"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/atc-sdk",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/atc-sdk",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
         }
       ],
       "source_inventory": {
@@ -7283,6 +8086,249 @@
             "source_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-003",
+          "name": "Node lifecycle and synchronization status",
+          "purpose": "Expose node initialization, peer/sync progress, health, and controlled shutdown status to clients and operators.",
+          "inputs": [
+            "node configuration",
+            "network profile",
+            "lifecycle command"
+          ],
+          "outputs": [
+            "node health",
+            "sync progress",
+            "lifecycle event"
+          ],
+          "failure_modes": [
+            "invalid config",
+            "peer failure",
+            "sync stall",
+            "shutdown timeout"
+          ],
+          "acceptance": [
+            "Status is derived from canonical node state",
+            "No invented consensus/finality status",
+            "Lifecycle transitions are testable"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "failure-injection"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-004",
+          "name": "RPC transport and error contract",
+          "purpose": "Provide versioned client-facing RPC/transport semantics for canonical node operations where implemented.",
+          "inputs": [
+            "versioned request",
+            "client identity",
+            "rate-limit context"
+          ],
+          "outputs": [
+            "versioned response",
+            "structured error",
+            "request correlation"
+          ],
+          "failure_modes": [
+            "invalid request",
+            "rate limit",
+            "transport timeout",
+            "unsupported version"
+          ],
+          "acceptance": [
+            "Errors are stable and documented",
+            "Authentication/rate limits are explicit",
+            "Responses do not overstate canonical state"
+          ],
+          "test_classes": [
+            "schema",
+            "negative",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-NODE-005",
+          "name": "Finality and confirmation status query",
+          "purpose": "Expose block/transaction status without asserting unsupported finality rules.",
+          "inputs": [
+            "transaction/block identifier",
+            "canonical node state",
+            "normative finality contract"
+          ],
+          "outputs": [
+            "observed inclusion status",
+            "confirmation count if defined",
+            "finality status or BLOCKED"
+          ],
+          "failure_modes": [
+            "reorg",
+            "stale state",
+            "missing finality contract",
+            "unavailable node data"
+          ],
+          "acceptance": [
+            "Finality remains BLOCKED until consensus/finality rules are normative",
+            "Indexer/RPC observations are distinguished from authoritative state",
+            "Unknown results fail closed"
+          ],
+          "test_classes": [
+            "conformance",
+            "reorg",
+            "negative"
+          ],
+          "readiness": "BLOCKED",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
               "workflow_run_id",
               "job",
               "step",
@@ -11272,6 +12318,627 @@
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
       }
+    },
+    {
+      "id": "COMP-PLATFORM-DISTRIBUTION",
+      "name": "Cross-platform Distribution and Deployment",
+      "layer": "L7",
+      "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "role": "architecture/control-plane registry for native GlobusOS installation and bounded Windows/Linux host-app distribution; not a package implementation owner",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-GLOBUS",
+        "COMP-CHAIN",
+        "COMP-VM",
+        "COMP-AURORA",
+        "COMP-SDK",
+        "COMP-STANDARDS"
+      ],
+      "functions": [
+        {
+          "id": "FN-PLAT-DIST-001",
+          "name": "Cross-platform package and artifact matrix",
+          "purpose": "Define and validate the deliverable package set for native GlobusOS and bounded Windows/Linux host applications.",
+          "inputs": [
+            "target platform",
+            "release version",
+            "canonical component manifest"
+          ],
+          "outputs": [
+            "platform/package matrix",
+            "artifact manifest",
+            "unsupported-target report"
+          ],
+          "failure_modes": [
+            "missing package",
+            "unsupported target",
+            "inconsistent component version"
+          ],
+          "acceptance": [
+            "Every package maps to a canonical implementation owner",
+            "Unsupported targets are explicit",
+            "No OS-specific duplicate VM or consensus implementation is introduced"
+          ],
+          "test_classes": [
+            "schema",
+            "matrix",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-PLAT-DIST-002",
+          "name": "Native installation and boot integration",
+          "purpose": "Describe and gate the native full-disk installation path through UEFI, ShivaCore, and GlobusOS.",
+          "inputs": [
+            "hardware/firmware profile",
+            "signed boot artifacts",
+            "installation manifest"
+          ],
+          "outputs": [
+            "installation plan",
+            "boot-chain evidence",
+            "compatibility result"
+          ],
+          "failure_modes": [
+            "boot artifact mismatch",
+            "unsupported firmware",
+            "signature verification failure"
+          ],
+          "acceptance": [
+            "Native boot path is distinguished from host-application mode",
+            "Secure Boot claims require exact hardware or emulator evidence",
+            "Kernel ownership remains in the canonical GlobusOS path"
+          ],
+          "test_classes": [
+            "integration",
+            "boot",
+            "security"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-PLAT-DIST-003",
+          "name": "Windows/Linux host-process packaging",
+          "purpose": "Package user-facing node, wallet, developer tooling, and Aurora runtime as bounded host processes where supported.",
+          "inputs": [
+            "host OS",
+            "package manifest",
+            "host adapter versions"
+          ],
+          "outputs": [
+            "installable host packages",
+            "runtime dependency manifest",
+            "platform support status"
+          ],
+          "failure_modes": [
+            "missing host dependency",
+            "unsupported OS version",
+            "adapter incompatibility"
+          ],
+          "acceptance": [
+            "Host applications do not claim that ShivaCore runs natively as a host process",
+            "Host privileges are least-privilege",
+            "Canonical VM/protocol behavior is shared"
+          ],
+          "test_classes": [
+            "package",
+            "integration",
+            "compatibility"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-PLAT-DIST-004",
+          "name": "Install, upgrade, rollback, and uninstall lifecycle",
+          "purpose": "Specify safe lifecycle behavior for platform packages, persistent data, services, and configuration.",
+          "inputs": [
+            "installed version",
+            "target version",
+            "data/schema versions",
+            "operator authorization"
+          ],
+          "outputs": [
+            "lifecycle result",
+            "migration/rollback record",
+            "residual report"
+          ],
+          "failure_modes": [
+            "partial upgrade",
+            "migration failure",
+            "rollback failure",
+            "unauthorized lifecycle action"
+          ],
+          "acceptance": [
+            "Failure recovery is documented and tested",
+            "User data deletion is explicit and guarded",
+            "Lifecycle events are auditable"
+          ],
+          "test_classes": [
+            "unit",
+            "failure-injection",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-PLAT-DIST-005",
+          "name": "Signed update and provenance verification",
+          "purpose": "Verify package signatures and bind distributed artifacts to source and release evidence.",
+          "inputs": [
+            "artifact",
+            "signature",
+            "trusted key policy",
+            "source/release provenance"
+          ],
+          "outputs": [
+            "verification decision",
+            "provenance record",
+            "rejection reason"
+          ],
+          "failure_modes": [
+            "invalid signature",
+            "unknown key",
+            "provenance mismatch",
+            "missing evidence"
+          ],
+          "acceptance": [
+            "Invalid or unverifiable artifacts fail closed",
+            "Artifact provenance binds to exact source SHA",
+            "Key rotation and revocation behavior is specified"
+          ],
+          "test_classes": [
+            "cryptographic",
+            "negative",
+            "supply-chain"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-PLAT-DIST-006",
+          "name": "Cross-platform VM and protocol conformance matrix",
+          "purpose": "Require identical canonical transaction, bytecode, gas/resource, and state-transition vectors across supported platforms.",
+          "inputs": [
+            "canonical test vectors",
+            "platform build identifiers",
+            "VM/protocol version"
+          ],
+          "outputs": [
+            "per-platform conformance report",
+            "divergence details"
+          ],
+          "failure_modes": [
+            "vector mismatch",
+            "missing platform run",
+            "version mismatch"
+          ],
+          "acceptance": [
+            "Only the canonical VM implementation is used",
+            "Gas and protocol outcomes are deterministic across platforms",
+            "Missing or skipped tests do not pass"
+          ],
+          "test_classes": [
+            "conformance",
+            "differential",
+            "cross-platform"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-PLAT-DIST-007",
+          "name": "Host adapter and capability boundary",
+          "purpose": "Define the host interface between portable runtime components and OS-specific adapters with explicit capability grants.",
+          "inputs": [
+            "host API version",
+            "capability manifest",
+            "caller identity",
+            "policy decision"
+          ],
+          "outputs": [
+            "bounded host service handle",
+            "capability decision",
+            "audit event"
+          ],
+          "failure_modes": [
+            "unknown capability",
+            "policy denial",
+            "host API mismatch"
+          ],
+          "acceptance": [
+            "No ambient filesystem/network/process/device authority is granted to contracts",
+            "Unknown authorization context fails closed",
+            "OS-specific adapters cannot alter deterministic VM semantics"
+          ],
+          "test_classes": [
+            "security",
+            "negative",
+            "interface-conformance"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Catalog contract added as a missing capability candidate. No source symbol, exact source SHA, implementation, or verification is asserted; bind or explicitly exclude during bidirectional source reconciliation."
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact caller authority, input constraints, initialization state, and normative contract remain to be bound to source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions and invariants require source-level contract mapping and tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Applicable time, memory, concurrency, operation, and storage limits are not yet evidenced."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Threat boundary and capability/authorization rules require source and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "No versioned interface/ABI or compatibility policy is yet bound."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Function-level dependency graph and required contract versions remain to be reconciled."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No terminal exact-SHA run/job/step/exit-code/log evidence is attached.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "repository",
+              "exact_source_sha",
+              "source_path",
+              "symbol_or_entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+        "canonical_path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
+        "completeness_status": "RESIDUAL",
+        "status_reason": "New deployment capability contracts are proposed from the recorded dual-deployment architecture. Runtime/package symbols and exact source SHAs have not yet been reconciled."
+      },
+      "canonical_path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
+      "role_and_non_goals": {
+        "role": "integration and release-contract control plane only",
+        "non_goals": {
+          "status": "RESIDUAL",
+          "reason": "No package, kernel, VM, wallet, node, or Aurora implementation is owned by this catalog component."
+        }
+      },
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "Platform package manifests, host adapter APIs, and lifecycle contracts require normative versioned interface definitions."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "reason": "Native boot trust, host-process privilege boundaries, artifact trust, and contract sandbox boundaries require review."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Per-platform package, update, rollback, and service resource limits remain to be specified."
+      },
+      "test_and_ci_gates": {
+        "status": "RESIDUAL",
+        "reason": "Exact-head package, conformance, security, and lifecycle evidence is not yet attached."
+      },
+      "known_conflicts_and_residuals": {
+        "status": "RESIDUAL",
+        "reason": "Cross-platform source reconciliation, canonical VM conformance, and native-vs-host deployment distinctions remain open."
+      },
+      "verification_evidence": {
+        "status": "RESIDUAL",
+        "reason": "No terminal exact-SHA verification evidence is asserted."
+      }
     }
   ],
   "cross_component_interfaces": [
@@ -11327,7 +12994,7 @@
   ],
   "release_decision": {
     "status": "BLOCKED",
-    "reason": "This catalog establishes ownership and measurable function-level acceptance criteria. Component production readiness remains unverified until source-specific implementation, exact-SHA gates, interface conformance and required security/operational evidence are attached.",
+    "reason": "Catalog additions are residual capability contracts only. Bidirectional source-to-catalog reconciliation, exact source SHAs, normative interface contracts, and exact-HEAD evidence remain incomplete.",
     "forbidden_shortcuts": [
       "infer implementation from repository name",
       "infer verification from file presence",
@@ -11349,7 +13016,8 @@
     "source_verified_components": 0,
     "source_verified_functions": 0,
     "selected_source_files_examined": 10,
-    "selected_source_public_symbol_groups": 10
+    "selected_source_public_symbol_groups": 10,
+    "catalog_addition_note": "This revision adds missing capability contracts but does not claim source-census completeness. Each new record with source_binding.status UNBOUND_RESIDUAL must be source-mapped or excluded with a reproducible reason."
   },
   "repository_coverage": [
     {
