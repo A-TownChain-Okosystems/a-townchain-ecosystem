@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.1.0",
   "catalog_date": "2026-10-15",
-  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification. EVM architecture addendum (2026-10-15): added COMP-EVM-COMPAT and FN-EVM-COMPAT-001..005 as separate, BLOCKED architecture/function contracts. Added ATC-EVM-COMPATIBILITY-DECISION-001.md. No option selected; no EVM compatibility or implementation is asserted; native ATC-VM remains unchanged pending explicit approval. Guest OS virtualization addendum (2026-10-15): added COMP-GUEST-OS-VIRT and FN-GUEST-VIRT-001..005 for hosted Windows/Linux VMs, backend/profile selection, capability/resource isolation, desktop console integration, and compatibility verification. Added GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md. Native dual boot is separately scoped; backend not selected; implementation and verification are not claimed. Contract-analysis migration (2026-10-15): added machine-readable purpose, inputs/outputs, preconditions, behavior, architecture placement, consumers, reuse, failure semantics, and source evidence for each function. Unknown call graph, side effects, trust boundaries, error contract, and reuse remain explicitly UNRESOLVED; this migration is not source or functional verification. Added 10 user-facing control/UI/system-area components and 20 explicit function contracts on 2026-10-15. All new entries remain UNBOUND_RESIDUAL with no implementation claim; owner SSOTs are retained.",
+  "catalog_revision_note": "2026-10-15: Added explicit residual function contracts for cross-platform distribution, native GlobusOS/Windows/Linux boundaries, node/RPC status, SDK cross-language conformance, Aurora approval gates, transaction validation, consensus/finality decision tracking, and canonical bytecode decoding. These additions are capability contracts, not implementation or verification claims. Source reconciliation remains incomplete; unknown consensus/finality and ATCB-vs-ATC1 remain BLOCKED. Source-evidence addendum: mapped monetary policy, custom hash/PoH, bounded VM transition, Devnet chain/gossip, and wallet/TX-V2 functions to exact a-townchain HEAD a5e689671b1870699c7a1750f8a166e83590a41c and observed file blobs. These remain source-mapped, not functionally verified; hash, PoH, Devnet gossip, TX-V2 end-to-end, security and full-census gates remain residual/blocked. Exact-head metadata reconciliation: updated legacy a-townchain function bindings only after checking each referenced path at HEAD a5e689671b1870699c7a1750f8a166e83590a41c; recorded current file blob SHAs, corrected the COMP-NODE canonical source inventory to a-townchain/components/node, and retained atc-node as a migration-source candidate. This does not complete source census or functional verification. EVM architecture addendum (2026-10-15): added COMP-EVM-COMPAT and FN-EVM-COMPAT-001..005 as separate, BLOCKED architecture/function contracts. Added ATC-EVM-COMPATIBILITY-DECISION-001.md. No option selected; no EVM compatibility or implementation is asserted; native ATC-VM remains unchanged pending explicit approval. Guest OS virtualization addendum (2026-10-15): added COMP-GUEST-OS-VIRT and FN-GUEST-VIRT-001..005 for hosted Windows/Linux VMs, backend/profile selection, capability/resource isolation, desktop console integration, and compatibility verification. Added GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md. Native dual boot is separately scoped; backend not selected; implementation and verification are not claimed. Contract-analysis migration (2026-10-15): added machine-readable purpose, inputs/outputs, preconditions, behavior, architecture placement, consumers, reuse, failure semantics, and source evidence for each function. Unknown call graph, side effects, trust boundaries, error contract, and reuse remain explicitly UNRESOLVED; this migration is not source or functional verification. Added 10 user-facing control/UI/system-area components and 20 explicit function contracts on 2026-10-15. All new entries remain UNBOUND_RESIDUAL with no implementation claim; owner SSOTs are retained. 2026-10-15: Added COMP-API-ORCHESTRATOR and FN-API-ORCH-001..011 as residual contract records after ownership search. Python/ATCLang evidence is documentation-only; canonical implementation owner remains unresolved; IF-010 is proposed/residual.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -28258,6 +28258,1780 @@
           "security review"
         ]
       }
+    },
+    {
+      "id": "COMP-API-ORCHESTRATOR",
+      "name": "Cross-system API Orchestrator",
+      "layer": "L5",
+      "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+      "role": "Proposed standalone service-routing/orchestration boundary for typed API requests across canonical A-TownChain and GlobusOS services. Ownership is not assigned until an active executable source and exact repository HEAD are identified.",
+      "readiness": "RESIDUAL",
+      "criticality": "P1",
+      "depends_on": [
+        "COMP-STANDARDS",
+        "COMP-CHAIN",
+        "COMP-WALLET",
+        "COMP-AURORA",
+        "COMP-NODE"
+      ],
+      "functions": [
+        {
+          "id": "FN-API-ORCH-001",
+          "name": "Service registry and health",
+          "purpose": "Register service adapters and report bounded health/readiness without claiming that registration proves service availability.",
+          "inputs": [
+            "service identity",
+            "versioned adapter metadata",
+            "health probe request"
+          ],
+          "outputs": [
+            "registry result",
+            "health/readiness state"
+          ],
+          "failure_modes": [
+            "duplicate service ID",
+            "invalid adapter metadata",
+            "health probe timeout"
+          ],
+          "acceptance": [
+            "Registry IDs are unique and versioned",
+            "Health distinguishes registered, ready, degraded and unavailable",
+            "No privileged service is invoked by registration alone"
+          ],
+          "test_classes": [
+            "unit",
+            "schema",
+            "integration",
+            "negative",
+            "cross-platform"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Documentation-only candidate at docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py (commit 1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c, blob 06a23d546da81b44cdcb035cadab71046c89d114) and ATCLang description (blob f68761008b8ec349ee0a4d24b5c2907fbef2ad86); neither establishes a canonical executable implementation. Owner audit remains open."
+          },
+          "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, adapter lifecycle, input bounds and runtime prerequisites require canonical source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, side effects, error behavior and recovery guarantees require source-backed implementation tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Queue, concurrency, time, memory, retry and retention limits must be defined and verified in the canonical implementation."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability authorization, trust boundaries, secret handling and untrusted input validation require owner implementation and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Versioned request/event/adapter ABI and compatibility policy are not yet bound to a canonical implementation."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Direct callers, service adapters and interface versions require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Documentation presence is not runtime or test evidence; no exact-SHA terminal verification is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical implementation repository and exact 40-character commit SHA",
+              "file blob SHA and symbol/entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Register service adapters and report bounded health/readiness without claiming that registration proves service availability."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "service identity",
+                "versioned adapter metadata",
+                "health probe request"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "registry result",
+                "health/readiness state"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Canonical runtime state, caller authority and input constraints are not source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-API-ORCHESTRATOR",
+              "layer": "L5",
+              "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Existing gateway, service adapters and domain implementations must be reconciled before reuse or ownership can be asserted."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "duplicate service ID",
+                "invalid adapter metadata",
+                "health probe timeout"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+              "commit_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+              "path": "docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py",
+              "symbol": "APIOrchestrator",
+              "blob_sha": "06a23d546da81b44cdcb035cadab71046c89d114",
+              "note": "Documentation-repository candidate only; source existence does not establish production inclusion or canonical ownership. Related ATCLang artifact blob SHA: f68761008b8ec349ee0a4d24b5c2907fbef2ad86."
+            }
+          }
+        },
+        {
+          "id": "FN-API-ORCH-002",
+          "name": "Typed routing and version negotiation",
+          "purpose": "Route typed requests to an explicitly compatible service interface and reject unsupported versions.",
+          "inputs": [
+            "typed request envelope",
+            "requested interface version",
+            "eligible service set"
+          ],
+          "outputs": [
+            "selected adapter or structured routing error"
+          ],
+          "failure_modes": [
+            "no eligible service",
+            "unsupported version",
+            "ambiguous route"
+          ],
+          "acceptance": [
+            "Routing is deterministic for pinned inputs",
+            "Unsupported versions fail closed",
+            "Route selection does not bypass downstream authorization"
+          ],
+          "test_classes": [
+            "unit",
+            "contract",
+            "negative",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Documentation-only candidate at docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py (commit 1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c, blob 06a23d546da81b44cdcb035cadab71046c89d114) and ATCLang description (blob f68761008b8ec349ee0a4d24b5c2907fbef2ad86); neither establishes a canonical executable implementation. Owner audit remains open."
+          },
+          "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, adapter lifecycle, input bounds and runtime prerequisites require canonical source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, side effects, error behavior and recovery guarantees require source-backed implementation tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Queue, concurrency, time, memory, retry and retention limits must be defined and verified in the canonical implementation."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability authorization, trust boundaries, secret handling and untrusted input validation require owner implementation and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Versioned request/event/adapter ABI and compatibility policy are not yet bound to a canonical implementation."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Direct callers, service adapters and interface versions require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Documentation presence is not runtime or test evidence; no exact-SHA terminal verification is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical implementation repository and exact 40-character commit SHA",
+              "file blob SHA and symbol/entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Route typed requests to an explicitly compatible service interface and reject unsupported versions."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "typed request envelope",
+                "requested interface version",
+                "eligible service set"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "selected adapter or structured routing error"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Canonical runtime state, caller authority and input constraints are not source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-API-ORCHESTRATOR",
+              "layer": "L5",
+              "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Existing gateway, service adapters and domain implementations must be reconciled before reuse or ownership can be asserted."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "no eligible service",
+                "unsupported version",
+                "ambiguous route"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+              "commit_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+              "path": "docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py",
+              "symbol": "APIOrchestrator",
+              "blob_sha": "06a23d546da81b44cdcb035cadab71046c89d114",
+              "note": "Documentation-repository candidate only; source existence does not establish production inclusion or canonical ownership. Related ATCLang artifact blob SHA: f68761008b8ec349ee0a4d24b5c2907fbef2ad86."
+            }
+          }
+        },
+        {
+          "id": "FN-API-ORCH-003",
+          "name": "Capability and policy authorization",
+          "purpose": "Require caller identity, least-privilege capability and owner-policy authorization before dispatching a protected action.",
+          "inputs": [
+            "caller identity",
+            "capability token/reference",
+            "action and resource",
+            "policy decision context"
+          ],
+          "outputs": [
+            "allow/deny decision and audit correlation ID"
+          ],
+          "failure_modes": [
+            "missing identity",
+            "missing capability",
+            "policy unavailable",
+            "denied action"
+          ],
+          "acceptance": [
+            "Unknown policy state denies by default",
+            "Orchestrator cannot mint wallet/kernel/Aurora authority",
+            "Secrets are never copied into audit payloads"
+          ],
+          "test_classes": [
+            "unit",
+            "security",
+            "negative",
+            "integration"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Documentation-only candidate at docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py (commit 1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c, blob 06a23d546da81b44cdcb035cadab71046c89d114) and ATCLang description (blob f68761008b8ec349ee0a4d24b5c2907fbef2ad86); neither establishes a canonical executable implementation. Owner audit remains open."
+          },
+          "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, adapter lifecycle, input bounds and runtime prerequisites require canonical source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, side effects, error behavior and recovery guarantees require source-backed implementation tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Queue, concurrency, time, memory, retry and retention limits must be defined and verified in the canonical implementation."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability authorization, trust boundaries, secret handling and untrusted input validation require owner implementation and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Versioned request/event/adapter ABI and compatibility policy are not yet bound to a canonical implementation."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Direct callers, service adapters and interface versions require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Documentation presence is not runtime or test evidence; no exact-SHA terminal verification is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical implementation repository and exact 40-character commit SHA",
+              "file blob SHA and symbol/entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Require caller identity, least-privilege capability and owner-policy authorization before dispatching a protected action."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "caller identity",
+                "capability token/reference",
+                "action and resource",
+                "policy decision context"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "allow/deny decision and audit correlation ID"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Canonical runtime state, caller authority and input constraints are not source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-API-ORCHESTRATOR",
+              "layer": "L5",
+              "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Existing gateway, service adapters and domain implementations must be reconciled before reuse or ownership can be asserted."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "missing identity",
+                "missing capability",
+                "policy unavailable",
+                "denied action"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+              "commit_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+              "path": "docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py",
+              "symbol": "APIOrchestrator",
+              "blob_sha": "06a23d546da81b44cdcb035cadab71046c89d114",
+              "note": "Documentation-repository candidate only; source existence does not establish production inclusion or canonical ownership. Related ATCLang artifact blob SHA: f68761008b8ec349ee0a4d24b5c2907fbef2ad86."
+            }
+          }
+        },
+        {
+          "id": "FN-API-ORCH-004",
+          "name": "Bounded queue, concurrency and backpressure",
+          "purpose": "Bound queued work, concurrency and per-service rates; apply explicit overload behavior.",
+          "inputs": [
+            "request envelope",
+            "queue/concurrency limits",
+            "service rate policy"
+          ],
+          "outputs": [
+            "accepted/rejected result",
+            "queue and capacity metrics"
+          ],
+          "failure_modes": [
+            "queue full",
+            "rate limit exceeded",
+            "resource exhaustion"
+          ],
+          "acceptance": [
+            "All bounds are configurable and finite",
+            "Overload returns structured rejection",
+            "No unbounded queue growth"
+          ],
+          "test_classes": [
+            "unit",
+            "boundary",
+            "load",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Documentation-only candidate at docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py (commit 1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c, blob 06a23d546da81b44cdcb035cadab71046c89d114) and ATCLang description (blob f68761008b8ec349ee0a4d24b5c2907fbef2ad86); neither establishes a canonical executable implementation. Owner audit remains open."
+          },
+          "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, adapter lifecycle, input bounds and runtime prerequisites require canonical source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, side effects, error behavior and recovery guarantees require source-backed implementation tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Queue, concurrency, time, memory, retry and retention limits must be defined and verified in the canonical implementation."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability authorization, trust boundaries, secret handling and untrusted input validation require owner implementation and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Versioned request/event/adapter ABI and compatibility policy are not yet bound to a canonical implementation."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Direct callers, service adapters and interface versions require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Documentation presence is not runtime or test evidence; no exact-SHA terminal verification is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical implementation repository and exact 40-character commit SHA",
+              "file blob SHA and symbol/entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Bound queued work, concurrency and per-service rates; apply explicit overload behavior."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "request envelope",
+                "queue/concurrency limits",
+                "service rate policy"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "accepted/rejected result",
+                "queue and capacity metrics"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Canonical runtime state, caller authority and input constraints are not source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-API-ORCHESTRATOR",
+              "layer": "L5",
+              "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Existing gateway, service adapters and domain implementations must be reconciled before reuse or ownership can be asserted."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "queue full",
+                "rate limit exceeded",
+                "resource exhaustion"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+              "commit_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+              "path": "docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py",
+              "symbol": "APIOrchestrator",
+              "blob_sha": "06a23d546da81b44cdcb035cadab71046c89d114",
+              "note": "Documentation-repository candidate only; source existence does not establish production inclusion or canonical ownership. Related ATCLang artifact blob SHA: f68761008b8ec349ee0a4d24b5c2907fbef2ad86."
+            }
+          }
+        },
+        {
+          "id": "FN-API-ORCH-005",
+          "name": "Deadline, cancellation, retry and idempotency",
+          "purpose": "Propagate deadlines and cancellation; retry only policy-approved operations with explicit idempotency semantics.",
+          "inputs": [
+            "request ID/idempotency key",
+            "deadline",
+            "cancellation signal",
+            "retry policy"
+          ],
+          "outputs": [
+            "result or typed timeout/cancel/retry error"
+          ],
+          "failure_modes": [
+            "deadline exceeded",
+            "cancelled",
+            "duplicate request",
+            "retry budget exhausted"
+          ],
+          "acceptance": [
+            "Timeouts are enforced end-to-end where supported",
+            "Non-idempotent actions are not blindly retried",
+            "Retries are bounded"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "fault-injection",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Documentation-only candidate at docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py (commit 1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c, blob 06a23d546da81b44cdcb035cadab71046c89d114) and ATCLang description (blob f68761008b8ec349ee0a4d24b5c2907fbef2ad86); neither establishes a canonical executable implementation. Owner audit remains open."
+          },
+          "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, adapter lifecycle, input bounds and runtime prerequisites require canonical source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, side effects, error behavior and recovery guarantees require source-backed implementation tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Queue, concurrency, time, memory, retry and retention limits must be defined and verified in the canonical implementation."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability authorization, trust boundaries, secret handling and untrusted input validation require owner implementation and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Versioned request/event/adapter ABI and compatibility policy are not yet bound to a canonical implementation."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Direct callers, service adapters and interface versions require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Documentation presence is not runtime or test evidence; no exact-SHA terminal verification is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical implementation repository and exact 40-character commit SHA",
+              "file blob SHA and symbol/entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Propagate deadlines and cancellation; retry only policy-approved operations with explicit idempotency semantics."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "request ID/idempotency key",
+                "deadline",
+                "cancellation signal",
+                "retry policy"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "result or typed timeout/cancel/retry error"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Canonical runtime state, caller authority and input constraints are not source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-API-ORCHESTRATOR",
+              "layer": "L5",
+              "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Existing gateway, service adapters and domain implementations must be reconciled before reuse or ownership can be asserted."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "deadline exceeded",
+                "cancelled",
+                "duplicate request",
+                "retry budget exhausted"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+              "commit_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+              "path": "docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py",
+              "symbol": "APIOrchestrator",
+              "blob_sha": "06a23d546da81b44cdcb035cadab71046c89d114",
+              "note": "Documentation-repository candidate only; source existence does not establish production inclusion or canonical ownership. Related ATCLang artifact blob SHA: f68761008b8ec349ee0a4d24b5c2907fbef2ad86."
+            }
+          }
+        },
+        {
+          "id": "FN-API-ORCH-006",
+          "name": "Load balancing and circuit-breaker recovery",
+          "purpose": "Select eligible service instances and implement bounded open/half-open/closed recovery transitions.",
+          "inputs": [
+            "service health samples",
+            "routing policy",
+            "circuit-breaker configuration"
+          ],
+          "outputs": [
+            "selected instance",
+            "breaker state transition"
+          ],
+          "failure_modes": [
+            "all instances unavailable",
+            "probe failure",
+            "invalid breaker configuration"
+          ],
+          "acceptance": [
+            "Only eligible instances receive work",
+            "Half-open probes are bounded",
+            "Recovery transitions are observable and deterministic"
+          ],
+          "test_classes": [
+            "unit",
+            "state-machine",
+            "fault-injection",
+            "load"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Documentation-only candidate at docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py (commit 1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c, blob 06a23d546da81b44cdcb035cadab71046c89d114) and ATCLang description (blob f68761008b8ec349ee0a4d24b5c2907fbef2ad86); neither establishes a canonical executable implementation. Owner audit remains open."
+          },
+          "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, adapter lifecycle, input bounds and runtime prerequisites require canonical source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, side effects, error behavior and recovery guarantees require source-backed implementation tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Queue, concurrency, time, memory, retry and retention limits must be defined and verified in the canonical implementation."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability authorization, trust boundaries, secret handling and untrusted input validation require owner implementation and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Versioned request/event/adapter ABI and compatibility policy are not yet bound to a canonical implementation."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Direct callers, service adapters and interface versions require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Documentation presence is not runtime or test evidence; no exact-SHA terminal verification is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical implementation repository and exact 40-character commit SHA",
+              "file blob SHA and symbol/entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Select eligible service instances and implement bounded open/half-open/closed recovery transitions."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "service health samples",
+                "routing policy",
+                "circuit-breaker configuration"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "selected instance",
+                "breaker state transition"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Canonical runtime state, caller authority and input constraints are not source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-API-ORCHESTRATOR",
+              "layer": "L5",
+              "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Existing gateway, service adapters and domain implementations must be reconciled before reuse or ownership can be asserted."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "all instances unavailable",
+                "probe failure",
+                "invalid breaker configuration"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+              "commit_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+              "path": "docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py",
+              "symbol": "APIOrchestrator",
+              "blob_sha": "06a23d546da81b44cdcb035cadab71046c89d114",
+              "note": "Documentation-repository candidate only; source existence does not establish production inclusion or canonical ownership. Related ATCLang artifact blob SHA: f68761008b8ec349ee0a4d24b5c2907fbef2ad86."
+            }
+          }
+        },
+        {
+          "id": "FN-API-ORCH-007",
+          "name": "Event delivery, correlation and replay semantics",
+          "purpose": "Define event envelope, correlation, delivery guarantees, duplicate handling and replay protections for orchestration events.",
+          "inputs": [
+            "versioned event envelope",
+            "correlation ID",
+            "delivery metadata"
+          ],
+          "outputs": [
+            "delivery outcome",
+            "deduplication/replay result"
+          ],
+          "failure_modes": [
+            "malformed event",
+            "duplicate delivery",
+            "stale/replayed event",
+            "consumer unavailable"
+          ],
+          "acceptance": [
+            "Delivery guarantees are explicit",
+            "Duplicates/replays cannot repeat protected side effects",
+            "Event payloads are validated"
+          ],
+          "test_classes": [
+            "schema",
+            "unit",
+            "integration",
+            "security"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Documentation-only candidate at docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py (commit 1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c, blob 06a23d546da81b44cdcb035cadab71046c89d114) and ATCLang description (blob f68761008b8ec349ee0a4d24b5c2907fbef2ad86); neither establishes a canonical executable implementation. Owner audit remains open."
+          },
+          "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, adapter lifecycle, input bounds and runtime prerequisites require canonical source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, side effects, error behavior and recovery guarantees require source-backed implementation tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Queue, concurrency, time, memory, retry and retention limits must be defined and verified in the canonical implementation."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability authorization, trust boundaries, secret handling and untrusted input validation require owner implementation and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Versioned request/event/adapter ABI and compatibility policy are not yet bound to a canonical implementation."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Direct callers, service adapters and interface versions require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Documentation presence is not runtime or test evidence; no exact-SHA terminal verification is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical implementation repository and exact 40-character commit SHA",
+              "file blob SHA and symbol/entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Define event envelope, correlation, delivery guarantees, duplicate handling and replay protections for orchestration events."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "versioned event envelope",
+                "correlation ID",
+                "delivery metadata"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "delivery outcome",
+                "deduplication/replay result"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Canonical runtime state, caller authority and input constraints are not source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-API-ORCHESTRATOR",
+              "layer": "L5",
+              "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Existing gateway, service adapters and domain implementations must be reconciled before reuse or ownership can be asserted."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "malformed event",
+                "duplicate delivery",
+                "stale/replayed event",
+                "consumer unavailable"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+              "commit_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+              "path": "docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py",
+              "symbol": "APIOrchestrator",
+              "blob_sha": "06a23d546da81b44cdcb035cadab71046c89d114",
+              "note": "Documentation-repository candidate only; source existence does not establish production inclusion or canonical ownership. Related ATCLang artifact blob SHA: f68761008b8ec349ee0a4d24b5c2907fbef2ad86."
+            }
+          }
+        },
+        {
+          "id": "FN-API-ORCH-008",
+          "name": "Structured errors, tracing and redacted audit",
+          "purpose": "Normalize errors and emit trace/metric/audit records without exposing credentials or sensitive payloads.",
+          "inputs": [
+            "request context",
+            "service result/error",
+            "redaction policy"
+          ],
+          "outputs": [
+            "versioned error response",
+            "trace/metric/audit references"
+          ],
+          "failure_modes": [
+            "invalid error payload",
+            "telemetry sink unavailable",
+            "redaction failure"
+          ],
+          "acceptance": [
+            "Error codes are stable and versioned",
+            "Credentials and key material are redacted",
+            "Audit failures follow an explicit fail-closed/fail-open policy"
+          ],
+          "test_classes": [
+            "unit",
+            "contract",
+            "security",
+            "negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Documentation-only candidate at docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py (commit 1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c, blob 06a23d546da81b44cdcb035cadab71046c89d114) and ATCLang description (blob f68761008b8ec349ee0a4d24b5c2907fbef2ad86); neither establishes a canonical executable implementation. Owner audit remains open."
+          },
+          "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, adapter lifecycle, input bounds and runtime prerequisites require canonical source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, side effects, error behavior and recovery guarantees require source-backed implementation tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Queue, concurrency, time, memory, retry and retention limits must be defined and verified in the canonical implementation."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability authorization, trust boundaries, secret handling and untrusted input validation require owner implementation and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Versioned request/event/adapter ABI and compatibility policy are not yet bound to a canonical implementation."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Direct callers, service adapters and interface versions require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Documentation presence is not runtime or test evidence; no exact-SHA terminal verification is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical implementation repository and exact 40-character commit SHA",
+              "file blob SHA and symbol/entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Normalize errors and emit trace/metric/audit records without exposing credentials or sensitive payloads."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "request context",
+                "service result/error",
+                "redaction policy"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "versioned error response",
+                "trace/metric/audit references"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Canonical runtime state, caller authority and input constraints are not source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-API-ORCHESTRATOR",
+              "layer": "L5",
+              "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Existing gateway, service adapters and domain implementations must be reconciled before reuse or ownership can be asserted."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "invalid error payload",
+                "telemetry sink unavailable",
+                "redaction failure"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+              "commit_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+              "path": "docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py",
+              "symbol": "APIOrchestrator",
+              "blob_sha": "06a23d546da81b44cdcb035cadab71046c89d114",
+              "note": "Documentation-repository candidate only; source existence does not establish production inclusion or canonical ownership. Related ATCLang artifact blob SHA: f68761008b8ec349ee0a4d24b5c2907fbef2ad86."
+            }
+          }
+        },
+        {
+          "id": "FN-API-ORCH-009",
+          "name": "Graceful shutdown, recovery and resource bounds",
+          "purpose": "Stop accepting new work, drain or cancel in-flight tasks within bounded deadlines and recover consistent service state.",
+          "inputs": [
+            "shutdown signal",
+            "drain deadline",
+            "in-flight task state"
+          ],
+          "outputs": [
+            "shutdown report",
+            "drained/cancelled task outcomes"
+          ],
+          "failure_modes": [
+            "drain timeout",
+            "service crash",
+            "resource limit exceeded"
+          ],
+          "acceptance": [
+            "Shutdown has a finite deadline",
+            "Task outcomes are not silently lost",
+            "Recovery does not replay unsafe side effects"
+          ],
+          "test_classes": [
+            "unit",
+            "integration",
+            "fault-injection",
+            "recovery"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Documentation-only candidate at docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py (commit 1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c, blob 06a23d546da81b44cdcb035cadab71046c89d114) and ATCLang description (blob f68761008b8ec349ee0a4d24b5c2907fbef2ad86); neither establishes a canonical executable implementation. Owner audit remains open."
+          },
+          "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, adapter lifecycle, input bounds and runtime prerequisites require canonical source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, side effects, error behavior and recovery guarantees require source-backed implementation tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Queue, concurrency, time, memory, retry and retention limits must be defined and verified in the canonical implementation."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability authorization, trust boundaries, secret handling and untrusted input validation require owner implementation and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Versioned request/event/adapter ABI and compatibility policy are not yet bound to a canonical implementation."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Direct callers, service adapters and interface versions require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Documentation presence is not runtime or test evidence; no exact-SHA terminal verification is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical implementation repository and exact 40-character commit SHA",
+              "file blob SHA and symbol/entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Stop accepting new work, drain or cancel in-flight tasks within bounded deadlines and recover consistent service state."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "shutdown signal",
+                "drain deadline",
+                "in-flight task state"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "shutdown report",
+                "drained/cancelled task outcomes"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Canonical runtime state, caller authority and input constraints are not source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-API-ORCHESTRATOR",
+              "layer": "L5",
+              "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Existing gateway, service adapters and domain implementations must be reconciled before reuse or ownership can be asserted."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "drain timeout",
+                "service crash",
+                "resource limit exceeded"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+              "commit_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+              "path": "docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py",
+              "symbol": "APIOrchestrator",
+              "blob_sha": "06a23d546da81b44cdcb035cadab71046c89d114",
+              "note": "Documentation-repository candidate only; source existence does not establish production inclusion or canonical ownership. Related ATCLang artifact blob SHA: f68761008b8ec349ee0a4d24b5c2907fbef2ad86."
+            }
+          }
+        },
+        {
+          "id": "FN-API-ORCH-010",
+          "name": "Secure external service adapters",
+          "purpose": "Isolate external API adapters, validate transport and payloads, and keep credentials in owner-controlled secret providers.",
+          "inputs": [
+            "adapter configuration",
+            "TLS/transport policy",
+            "secret-provider reference",
+            "untrusted response"
+          ],
+          "outputs": [
+            "validated adapter result or structured error"
+          ],
+          "failure_modes": [
+            "TLS failure",
+            "credential unavailable",
+            "malformed response",
+            "provider timeout"
+          ],
+          "acceptance": [
+            "No static credentials are committed",
+            "TLS and endpoint policy are explicit",
+            "Untrusted responses are validated before dispatch"
+          ],
+          "test_classes": [
+            "security",
+            "negative",
+            "integration",
+            "secret-scanning"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Documentation-only candidate at docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py (commit 1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c, blob 06a23d546da81b44cdcb035cadab71046c89d114) and ATCLang description (blob f68761008b8ec349ee0a4d24b5c2907fbef2ad86); neither establishes a canonical executable implementation. Owner audit remains open."
+          },
+          "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, adapter lifecycle, input bounds and runtime prerequisites require canonical source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, side effects, error behavior and recovery guarantees require source-backed implementation tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Queue, concurrency, time, memory, retry and retention limits must be defined and verified in the canonical implementation."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability authorization, trust boundaries, secret handling and untrusted input validation require owner implementation and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Versioned request/event/adapter ABI and compatibility policy are not yet bound to a canonical implementation."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Direct callers, service adapters and interface versions require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Documentation presence is not runtime or test evidence; no exact-SHA terminal verification is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical implementation repository and exact 40-character commit SHA",
+              "file blob SHA and symbol/entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Isolate external API adapters, validate transport and payloads, and keep credentials in owner-controlled secret providers."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "adapter configuration",
+                "TLS/transport policy",
+                "secret-provider reference",
+                "untrusted response"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "validated adapter result or structured error"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Canonical runtime state, caller authority and input constraints are not source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-API-ORCHESTRATOR",
+              "layer": "L5",
+              "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Existing gateway, service adapters and domain implementations must be reconciled before reuse or ownership can be asserted."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "TLS failure",
+                "credential unavailable",
+                "malformed response",
+                "provider timeout"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+              "commit_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+              "path": "docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py",
+              "symbol": "APIOrchestrator",
+              "blob_sha": "06a23d546da81b44cdcb035cadab71046c89d114",
+              "note": "Documentation-repository candidate only; source existence does not establish production inclusion or canonical ownership. Related ATCLang artifact blob SHA: f68761008b8ec349ee0a4d24b5c2907fbef2ad86."
+            }
+          }
+        },
+        {
+          "id": "FN-API-ORCH-011",
+          "name": "Standalone and GlobusOS runtime integration",
+          "purpose": "Specify a portable runtime boundary for standalone Windows/Linux deployment and GlobusOS integration without granting kernel or domain authority.",
+          "inputs": [
+            "runtime profile",
+            "platform capabilities",
+            "service adapter contracts"
+          ],
+          "outputs": [
+            "runtime compatibility report",
+            "platform adapter result"
+          ],
+          "failure_modes": [
+            "unsupported platform",
+            "missing capability",
+            "ABI mismatch"
+          ],
+          "acceptance": [
+            "Host-specific behavior is isolated behind adapters",
+            "GlobusOS privileged actions require owner capability checks",
+            "Windows/Linux claims require exact-platform tests"
+          ],
+          "test_classes": [
+            "cross-platform",
+            "contract",
+            "integration",
+            "security"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+            "source_path": "UNRESOLVED",
+            "symbol_or_entrypoint": "NOT_IDENTIFIED",
+            "note": "Documentation-only candidate at docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py (commit 1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c, blob 06a23d546da81b44cdcb035cadab71046c89d114) and ATCLang description (blob f68761008b8ec349ee0a4d24b5c2907fbef2ad86); neither establishes a canonical executable implementation. Owner audit remains open."
+          },
+          "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Caller authority, adapter lifecycle, input bounds and runtime prerequisites require canonical source/API review."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "State transitions, side effects, error behavior and recovery guarantees require source-backed implementation tests."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Queue, concurrency, time, memory, retry and retention limits must be defined and verified in the canonical implementation."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Capability authorization, trust boundaries, secret handling and untrusted input validation require owner implementation and security review."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Versioned request/event/adapter ABI and compatibility policy are not yet bound to a canonical implementation."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Direct callers, service adapters and interface versions require source-backed call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Documentation presence is not runtime or test evidence; no exact-SHA terminal verification is asserted.",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "canonical implementation repository and exact 40-character commit SHA",
+              "file blob SHA and symbol/entrypoint",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          },
+          "contract_analysis": {
+            "schema_version": "1.0.0",
+            "purpose": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "summary": "Specify a portable runtime boundary for standalone Windows/Linux deployment and GlobusOS integration without granting kernel or domain authority."
+            },
+            "inputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "runtime profile",
+                "platform capabilities",
+                "service adapter contracts"
+              ]
+            },
+            "outputs": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "items": [
+                "runtime compatibility report",
+                "platform adapter result"
+              ]
+            },
+            "preconditions": {
+              "status": "RESIDUAL",
+              "reason": "Canonical runtime state, caller authority and input constraints are not source-bound."
+            },
+            "behavior": {
+              "status": "UNRESOLVED",
+              "summary": null,
+              "invariants": [],
+              "side_effects_status": "UNRESOLVED",
+              "trust_boundary_status": "UNRESOLVED"
+            },
+            "architecture_placement": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "component_id": "COMP-API-ORCHESTRATOR",
+              "layer": "L5",
+              "canonical_owner": "UNCONFIRMED (ownership audit open; no canonical executable source found)",
+              "source_path": "UNRESOLVED",
+              "symbol": "NOT_IDENTIFIED"
+            },
+            "consumers": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Direct and transitive consumers require source-backed call-graph evidence."
+            },
+            "reuse": {
+              "status": "UNRESOLVED",
+              "entries": [],
+              "rationale": "Existing gateway, service adapters and domain implementations must be reconciled before reuse or ownership can be asserted."
+            },
+            "failure_semantics": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "failure_modes": [
+                "unsupported platform",
+                "missing capability",
+                "ABI mismatch"
+              ],
+              "error_contract_status": "UNRESOLVED",
+              "recovery_status": "UNRESOLVED"
+            },
+            "source_evidence": {
+              "status": "DOCUMENTED_RESIDUAL",
+              "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+              "commit_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+              "path": "docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py",
+              "symbol": "APIOrchestrator",
+              "blob_sha": "06a23d546da81b44cdcb035cadab71046c89d114",
+              "note": "Documentation-repository candidate only; source existence does not establish production inclusion or canonical ownership. Related ATCLang artifact blob SHA: f68761008b8ec349ee0a4d24b5c2907fbef2ad86."
+            }
+          }
+        }
+      ],
+      "source_inventory": {
+        "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+        "canonical_path": "UNRESOLVED",
+        "observed_head_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+        "census_date": "2026-10-15",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/a-townchain-os-docs/commit/1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+        "evidence_note": "Documentation-only source inventory. The APIOrchestrator Python and ATCLang artifacts are present in this documentation repository; searches found no corresponding executable source in a-townchain-os. No canonical implementation owner is assigned.",
+        "source_paths_examined": [
+          "docs/wiki/kai-os/code/backend/api/orchestrator/orchestrator.py",
+          "wiki/kai-os/backend/api/orchestrator/orchestrator.atc",
+          "docs/architecture/GATEWAY.md"
+        ],
+        "exported_symbols_reconciled": false,
+        "completeness_status": "RESIDUAL",
+        "status_reason": "Only documentation and archived candidate sources were located. Active executable owner, repository HEAD, source path, symbol exports and tests remain unresolved."
+      },
+      "canonical_path": "UNRESOLVED",
+      "role_and_non_goals": {
+        "role": "Standalone API service-routing and task orchestration contract; ownership remains unresolved.",
+        "non_goals": [
+          "does not implement or own gateway authentication policy",
+          "does not own Aurora model or policy authority",
+          "does not own wallet keys or signing",
+          "does not own kernel capabilities",
+          "does not own blockchain consensus/finality or ATC-VM",
+          "no duplicate domain-service implementations in ecosystem control plane"
+        ]
+      },
+      "dependencies_with_interface_versions": [
+        {
+          "component_id": "COMP-STANDARDS",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Normative API/ABI contract is in progress under atc-standards Issue #111."
+        },
+        {
+          "component_id": "COMP-CHAIN",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Chain-facing adapter and authorization contract not source-bound."
+        },
+        {
+          "component_id": "COMP-WALLET",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Wallet actions must delegate to canonical wallet APIs and their approval/capability gates."
+        },
+        {
+          "component_id": "COMP-AURORA",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Aurora policy/tool authority remains owned by Aurora; orchestrator must not bypass it."
+        },
+        {
+          "component_id": "COMP-NODE",
+          "interface_version": "UNSPECIFIED",
+          "status": "RESIDUAL",
+          "reason": "Node/RPC adapter contract and error semantics are not source-bound."
+        }
+      ],
+      "public_interfaces": {
+        "status": "RESIDUAL",
+        "reason": "Versioned API envelope, authentication context, routing, error and cancellation contracts await normative specification and canonical source binding."
+      },
+      "security_and_trust_boundaries": {
+        "status": "RESIDUAL",
+        "requirements": [
+          "deny by default",
+          "least-privilege capability checks",
+          "owner-authorized domain actions",
+          "bounded queue and retries",
+          "secret isolation",
+          "redacted audit events",
+          "fail-closed unknown/error states"
+        ],
+        "reason": "Security requirements are proposed contracts, not evidence of enforcement."
+      },
+      "resource_and_operational_limits": {
+        "status": "RESIDUAL",
+        "reason": "Queue, concurrency, per-service rate, timeout, retry budget, memory and shutdown limits need implementation-backed values and tests."
+      },
+      "test_and_ci_gates": {
+        "status": "BLOCKED",
+        "required": [
+          "owner repository and exact HEAD identification",
+          "catalog schema validation",
+          "source binding and blob SHA reconciliation",
+          "routing/version negotiation tests",
+          "capability authorization and denial tests",
+          "timeout/cancellation/idempotency tests",
+          "queue overload and rate-limit tests",
+          "circuit-breaker open/half-open/recovery tests",
+          "event duplicate/replay tests",
+          "audit redaction and secret scanning",
+          "graceful shutdown/recovery tests",
+          "Windows and Linux execution tests",
+          "exact-SHA Run→Job→Step/exit/log/artifact evidence"
+        ]
+      },
+      "known_conflicts_and_residuals": [
+        "Python and ATCLang files are documentation artifacts, not proof of a production runtime.",
+        "Archived monorepo copies are reference-only and cannot be canonical source evidence.",
+        "a-townchain-os is documented as system integration/validation; that role does not prove ownership of the API runtime.",
+        "Gateway, Aurora, wallet, kernel and chain responsibilities must remain delegated to their existing canonical owners.",
+        "No function is VERIFIED; ownership and implementation remain unresolved."
+      ],
+      "verification_evidence": {
+        "status": "BLOCKED",
+        "reason": "No active canonical executable source, exact implementation SHA or terminal conformance evidence identified.",
+        "required_evidence": [
+          "canonical implementation repository and exact source SHA",
+          "file blob SHA and symbol/entrypoint",
+          "workflow_run_id",
+          "job",
+          "step",
+          "terminal_conclusion",
+          "exit_code",
+          "log_or_artifact_url",
+          "security review"
+        ]
+      }
     }
   ],
   "cross_component_interfaces": [
@@ -28323,6 +30097,13 @@
       "consumer": "COMP-GUEST-OS-VIRT",
       "contract": "Proposed versioned guest VM lifecycle/console API with explicit capability grants, resource quotas, display/input integration and fail-closed host/device access; not implemented",
       "status": "BLOCKED"
+    },
+    {
+      "id": "IF-010",
+      "producer": "COMP-API-ORCHESTRATOR",
+      "consumer": "COMP-CHAIN",
+      "contract": "Proposed versioned service-dispatch envelope carrying request ID, deadline/cancellation, caller capability context, typed result/error and audit correlation; must delegate chain semantics to COMP-CHAIN and never confer consensus/finality authority.",
+      "status": "RESIDUAL"
     }
   ],
   "release_decision": {
