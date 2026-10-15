@@ -144,7 +144,9 @@
       "name": "demo-repository",
       "archived": false,
       "role": "demo/reference",
-      "private": true
+      "private": true,
+      "live_drift_gate_excluded": true,
+      "exclusion_reason": "Explicitly excluded from live drift-gate checkout and census; retained as manifest reference only."
     },
     {
       "name": "atc-ide",
