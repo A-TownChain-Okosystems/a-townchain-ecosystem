@@ -119,9 +119,19 @@
         "crates/atc-core/src/lexer.rs#decimal_literal_overflow_is_rejected_without_wrapping"
       ],
       "impact": "This is a bounded lexer improvement only. The Rust lexer emits Token::Int(u64), whereas the normative registry distinguishes INT, HEX_INT, OCTAL_INT, and BIN_INT. Equivalence or intentional normalization is not yet specified/proven; these entries remain UNRESOLVED."
+    },
+    {
+      "id": "OBS-008",
+      "finding": "At the exact ATCLang source head, specs/language/registry.json contains 50 ast_nodes, including the literal entry `X`; specs/language/SPEC.md enumerates 49 AST nodes and does not include `X`. The listed AST nodes otherwise match by name.",
+      "evidence": [
+        "specs/language/registry.json#ast_nodes (blob 72237be58c4419cc2d0f8248a9be08e0c8d6bf03)",
+        "specs/language/SPEC.md#section-4 (blob 630716b531be95b782f82c963cb69ac3b585ca96)"
+      ],
+      "impact": "This is a confirmed normative registry/spec inconsistency, not proof that `X` is implemented or intended. Keep G1-AST_NODE-332 unresolved until the owner corrects the registry or documents `X` normatively and maps it to source behavior."
     }
   ],
   "required_next_actions": [
+    "Resolve the confirmed AST inventory inconsistency: registry has 50 nodes including `X`, while SPEC.md lists 49 and omits `X`; decide normative intent, revise the proper SSOT, and add consistency validation.",
     "Classify each of the 332 rows MAPPED, EXCLUDED, or UNRESOLVED only after inspecting normative definition and actual lexer/parser/AST/lowering/runtime call path; include exact file/blob/symbol/test evidence.",
     "Resolve the normative token-category question for INT versus HEX_INT/OCTAL_INT/BIN_INT and prove any proposed normalization with semantics and tests.",
     "Separate unsupported normative requirements from equivalent representations, native-only contracts, delegated behavior, and explicitly excluded scope.",
