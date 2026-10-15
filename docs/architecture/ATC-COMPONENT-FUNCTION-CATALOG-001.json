@@ -11323,8 +11323,8 @@
           "readiness": "BLOCKED",
           "source_binding": {
             "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
-            "source_path": "N/A — specification proposal tracked by atc-standards#110 and a-townchain-ecosystem#126",
-            "symbol_or_entrypoint": "No canonical executable symbol identified; implementation owner remains to be established from source ownership evidence",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "file_blob_sha": null,
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/issues/110",
@@ -11410,8 +11410,8 @@
           "readiness": "BLOCKED",
           "source_binding": {
             "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
-            "source_path": "N/A — specification proposal tracked by atc-standards#110 and a-townchain-ecosystem#126",
-            "symbol_or_entrypoint": "No canonical executable symbol identified; implementation owner remains to be established from source ownership evidence",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "file_blob_sha": null,
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/issues/110",
@@ -11497,8 +11497,8 @@
           "readiness": "BLOCKED",
           "source_binding": {
             "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
-            "source_path": "N/A — specification proposal tracked by atc-standards#110 and a-townchain-ecosystem#126",
-            "symbol_or_entrypoint": "No canonical executable symbol identified; implementation owner remains to be established from source ownership evidence",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "file_blob_sha": null,
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/issues/110",
