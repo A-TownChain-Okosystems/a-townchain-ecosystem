@@ -178,3 +178,29 @@ Update this catalog only from reviewed source/interface evidence. Every change s
 - Repository coverage: **33 total / 26 active / 7 archived**
 
 The catalog includes support/governance records for the standalone ATC-VM and ATC-Algorithm repositories, but their canonical production implementations remain in `a-townchain/components/vm` and `a-townchain/components/algorithm`. The standalone `atc-shivacore` repository is specification/support only; the canonical kernel remains under GlobusOS. Archived repositories are retained as reference records and are not silently reactivated.
+
+
+## Missing capability contracts — cross-platform deployment and function gaps (2026-10-15)
+
+This additive revision records missing capabilities identified in the dual-deployment architecture. These are **catalog contracts only**; they do not claim that the implementation exists or has passed verification.
+
+### New component
+
+- `COMP-PLATFORM-DISTRIBUTION` — cross-platform distribution and deployment control-plane contracts.
+
+### New function contracts
+
+- Deployment: `FN-PLAT-DIST-001` through `FN-PLAT-DIST-007` — package matrix, native boot/install path, Windows/Linux host-process packaging, lifecycle/rollback, signed updates/provenance, cross-platform VM/protocol conformance, and host capability boundaries.
+- GlobusOS: `FN-GLOBUS-004` through `FN-GLOBUS-006` — native desktop/window management, host-edition lifecycle, and OS service capability mediation.
+- Node: `FN-NODE-003` through `FN-NODE-005` — lifecycle/synchronization status, RPC transport/error contract, and a finality query explicitly blocked until normative finality semantics exist.
+- SDK: `FN-SDK-003` and `FN-SDK-004` — cross-language canonical transaction vectors and RPC/provider compatibility.
+- Aurora AI: `FN-AURORA-005` and `FN-AURORA-006` — policy/capability-gated tool execution and approval-gated wallet/transaction actions.
+- Blockchain core: `FN-CHAIN-004` and `FN-CHAIN-005` — canonical transaction validation/submission and explicit consensus/finality decision tracking.
+- ATC-VM: `FN-VM-030` — bytecode artifact decode/validation, **BLOCKED** until the ATCB/ATC1 conflict is resolved normatively.
+
+### Evidence and status
+
+- All new functions are `RESIDUAL` or `BLOCKED` with explicit `UNBOUND_RESIDUAL` source bindings; no implementation or exact-SHA verification is implied.
+- The ecosystem repository remains the architecture/evidence control plane. Canonical implementations remain in `a-townchain`, `globus-os`, `aurora-ai`, `atc-sdk`, and `atc-standards` as applicable.
+- Source-to-catalog reconciliation must bind each function to exact repository HEAD SHA, path, symbol/entry point, and blob SHA—or record a reproducible exclusion.
+- Unknown consensus/finality semantics and the ATCB-versus-ATC1 bytecode conflict remain blocked. Release remains `BLOCKED`.
