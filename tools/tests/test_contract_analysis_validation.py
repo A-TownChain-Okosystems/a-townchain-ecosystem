@@ -62,6 +62,13 @@ class ContractAnalysisValidationTests(unittest.TestCase):
         errors, _ = validate(self.doc)
         self.assertEqual(errors, [])
 
+    def test_preconditions_list_is_accepted_as_explicit_residual_contract_data(self):
+        self.doc["components"][0]["functions"][0]["contract_analysis"]["preconditions"] = [
+            "source-level precondition review is pending"
+        ]
+        errors, _ = validate(self.doc)
+        self.assertEqual(errors, [])
+
     def test_missing_structured_contract_is_rejected(self):
         del self.doc["components"][0]["functions"][0]["contract_analysis"]
         errors, _ = validate(self.doc)
