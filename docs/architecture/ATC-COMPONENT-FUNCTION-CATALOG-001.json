@@ -11323,12 +11323,12 @@
           "readiness": "BLOCKED",
           "source_binding": {
             "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
-            "source_path": "N/A — specification proposal tracked by atc-standards#110 and a-townchain-ecosystem#126",
-            "symbol_or_entrypoint": "No canonical executable symbol identified; implementation owner remains to be established from source ownership evidence",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "file_blob_sha": null,
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/issues/110",
-            "note": "Proposal/catalog gap only. This record is not evidence that a runtime function exists or is implemented.",
+            "note": "Specification-only proposal; no executable source binding is asserted. Tracking: atc-standards#110 and a-townchain-ecosystem#126.",
             "binding_kind": "specification_only"
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-standards",
@@ -11410,12 +11410,12 @@
           "readiness": "BLOCKED",
           "source_binding": {
             "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
-            "source_path": "N/A — specification proposal tracked by atc-standards#110 and a-townchain-ecosystem#126",
-            "symbol_or_entrypoint": "No canonical executable symbol identified; implementation owner remains to be established from source ownership evidence",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "file_blob_sha": null,
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/issues/110",
-            "note": "Proposal/catalog gap only. This record is not evidence that a runtime function exists or is implemented.",
+            "note": "Specification-only proposal; no executable source binding is asserted. Tracking: atc-standards#110 and a-townchain-ecosystem#126.",
             "binding_kind": "specification_only"
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-standards",
@@ -11497,12 +11497,12 @@
           "readiness": "BLOCKED",
           "source_binding": {
             "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
-            "source_path": "N/A — specification proposal tracked by atc-standards#110 and a-townchain-ecosystem#126",
-            "symbol_or_entrypoint": "No canonical executable symbol identified; implementation owner remains to be established from source ownership evidence",
+            "source_path": null,
+            "symbol_or_entrypoint": null,
             "exact_source_sha": null,
             "file_blob_sha": null,
             "evidence": "https://github.com/A-TownChain-Okosystems/atc-standards/issues/110",
-            "note": "Proposal/catalog gap only. This record is not evidence that a runtime function exists or is implemented.",
+            "note": "Specification-only proposal; no executable source binding is asserted. Tracking: atc-standards#110 and a-townchain-ecosystem#126.",
             "binding_kind": "specification_only"
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-standards",
