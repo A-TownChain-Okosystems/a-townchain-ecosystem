@@ -1,0 +1,58 @@
+name: WP-M0 Baseline Validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
+      - "scripts/validate_wp_m0_baseline.py"
+      - ".github/workflows/wp-m0-baseline-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-baseline:
+    name: Validate live repository refs and root trees
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact PR revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate manifest against live GitHub state (fail closed)
+        id: validate
+        env:
+          # Configure ATC_ORG_READ_TOKEN as an organization-scoped read-only
+          # secret if GITHUB_TOKEN cannot enumerate all private/org repositories.
+          GITHUB_TOKEN: ${{ secrets.ATC_ORG_READ_TOKEN || secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set +e
+          python scripts/validate_wp_m0_baseline.py > wp-m0-validation-report.json
+          rc=$?
+          cat wp-m0-validation-report.json
+          sha256sum wp-m0-validation-report.json > wp-m0-validation-report.sha256
+          cat wp-m0-validation-report.sha256
+          echo "validator_exit_code=$rc" >> "$GITHUB_OUTPUT"
+          exit "$rc"
+
+      - name: Preserve validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wp-m0-baseline-validation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            wp-m0-validation-report.json
+            wp-m0-validation-report.sha256
+          if-no-files-found: error
+          retention-days: 90
