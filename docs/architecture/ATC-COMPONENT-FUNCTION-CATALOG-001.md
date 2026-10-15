@@ -237,3 +237,34 @@ A follow-up audit checked the selected `a-townchain` source paths against exact 
 `COMP-NODE` now identifies `a-townchain/components/node` as the canonical implementation path. The separate `atc-node` repository remains recorded as a migration-source candidate for `FN-NODE-001..002`; it is not a second canonical implementation. The selected-path inventory remains `RESIDUAL`, exported-symbol reconciliation is still incomplete, and no functional verification is inferred from source presence.
 
 Wallet source inventory now records the verified repository root tree SHA; this is not a wallet subtree SHA. Full source census, test evidence, interface conformance, and security gates remain open. Release remains `BLOCKED`.
+
+## Separate architecture decision — EVM compatibility (2026-10-15)
+
+Specification: [`ATC-EVM-COMPATIBILITY-DECISION-001.md`](ATC-EVM-COMPATIBILITY-DECISION-001.md).
+
+This is a **separate, open architecture decision**, not an implicit feature of ATC-VM. Decision status is `OPEN — DECISION REQUIRED`; implementation/conformance status is not asserted.
+
+### Catalog additions
+
+- `COMP-EVM-COMPAT` — architecture decision and adapter contract registry only; it is **not** a VM implementation owner.
+- `FN-EVM-COMPAT-001` — decision/profile registry and pinned EVM fork.
+- `FN-EVM-COMPAT-002` — isolated EVM runtime/adapter boundary and explicit runtime selection.
+- `FN-EVM-COMPAT-003` — transaction, address, state, gas/fee, revert, logs and receipts mapping.
+- `FN-EVM-COMPAT-004` — exact-SHA differential conformance gate against a pinned independent reference client.
+- `FN-EVM-COMPAT-005` — explicit JSON-RPC/provider/wallet/compiler/tooling compatibility matrix.
+- `IF-008` — proposed chain-to-EVM integration boundary, currently `BLOCKED`.
+
+All five function contracts are `BLOCKED` with residual/unbound evidence. They are architecture contracts only; no source implementation, EVM compatibility, or exact-SHA conformance is claimed.
+
+### Decision options and guardrails
+
+- **Option A:** no EVM compatibility; keep native ATC-VM only.
+- **Option B:** separate, versioned EVM runtime/adapter with isolated semantics — preferred for evaluation, **not approved**.
+- **Option C:** make canonical ATC-VM EVM-compatible — requires a separate protocol migration and explicit compatibility-break analysis.
+
+No option is selected in this draft. Until a decision is approved, the canonical `a-townchain/components/vm` remains the native ATC-VM; its bytecode, opcode, gas and state semantics must not be silently reinterpreted as EVM. The native `ATCB` versus `ATC1` conflict remains an independent blocker.
+
+The specification requires a fork-pinned compatibility profile, explicit levels (L0 tooling through L3 RPC/tooling; L4 Ethereum network/protocol equivalence out of scope by default), deterministic transaction/address/state/gas mapping, fail-closed unsupported features, independent differential vectors, fuzz/property tests, cross-platform reproducibility, exact-SHA Run→Job→Step evidence, security review, and activation/rollback governance.
+
+Catalog total after this addition: **33 components / 131 function contracts**. This is an inventory count, not proof of implementation completeness or verification. Release remains `BLOCKED`; Mainnet EVM compatibility remains `NO-GO`.
+
