@@ -40,6 +40,7 @@ def reconcile(catalog: dict, census: dict) -> dict:
     function_findings = []
     component_findings = []
     total_functions = 0
+    binding_claims: dict[tuple[str, str, str], str] = {}
     for component in catalog.get("components", []):
         owner = component.get("canonical_owner")
         source_inventory = component.get("source_inventory") or {}
@@ -132,7 +133,12 @@ def reconcile(catalog: dict, census: dict) -> dict:
             elif binding.get("symbol_kind") and symbol_kind_by_repo_path_name.get((repo, path, symbol)) != binding.get("symbol_kind"):
                 item["finding"] = "SOURCE_SYMBOL_KIND_MISMATCH_OR_UNAVAILABLE"
                 item["status"] = "RESIDUAL"
+            elif (repo, path, symbol) in binding_claims and binding_claims[(repo, path, symbol)] != function.get("id"):
+                item["finding"] = "DUPLICATE_SOURCE_BINDING_REQUIRES_REVIEW"
+                item["status"] = "RESIDUAL"
+                item["duplicate_binding_owner"] = binding_claims[(repo, path, symbol)]
             else:
+                binding_claims[(repo, path, symbol)] = function.get("id")
                 item["finding"] = "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING"
                 item["source_blob_sha"] = blob_sha_by_repo_path[(repo, path)]
                 item["source_symbol_kind"] = symbol_kind_by_repo_path_name.get((repo, path, symbol))
