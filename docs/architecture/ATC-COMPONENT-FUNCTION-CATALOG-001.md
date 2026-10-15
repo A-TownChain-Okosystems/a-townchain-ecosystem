@@ -460,4 +460,4 @@ The machine-readable matrix is stored in the existing JSON catalog under `connec
 - No edge becomes `VERIFIED` merely because it exists in `depends_on`, a catalog row or a green CI summary. The live drift gate must continue to exclude `demo-repository`.
 - Ownership remains unchanged: implementation SSOTs stay in their canonical repositories; `a-townchain-ecosystem` maintains the integration matrix, compliance mapping and evidence only.
 
-**Current matrix inventory:** 115 unique connections; 2 blocked; 1 excluded; 0 verified. These counts are planning state, not a completeness or release-readiness claim.
+**Current matrix inventory:** 115 matrix connections; 116 declared dependency edges; 112 unique dependency pairs; 3 additional critical paths; 2 blocked; 1 excluded; 0 verified. These counts are planning state, not a completeness or release-readiness claim.
