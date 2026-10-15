@@ -268,3 +268,31 @@ The specification requires a fork-pinned compatibility profile, explicit levels 
 
 Catalog total after this addition: **33 components / 131 function contracts**. This is an inventory count, not proof of implementation completeness or verification. Release remains `BLOCKED`; Mainnet EVM compatibility remains `NO-GO`.
 
+## GlobusOS guest operating system virtualization (2026-10-15)
+
+Specification: [`GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md`](GLOBUSOS-GUEST-OS-VIRTUALIZATION-001.md).
+
+Goal: allow a user to install Windows or Linux as a separately managed guest OS inside GlobusOS, start it in a window/full-screen session, and switch between the guest and the GlobusOS desktop without rebooting the physical host.
+
+### Catalog additions
+
+- `COMP-GUEST-OS-VIRT` — canonical implementation ownership assigned to `A-TownChain-Okosystems/globus-os`; the ecosystem repository only records architecture, interfaces and evidence.
+- `FN-GUEST-VIRT-001` — guest VM installation and lifecycle.
+- `FN-GUEST-VIRT-002` — virtualization backend and versioned machine-profile adapter.
+- `FN-GUEST-VIRT-003` — guest resource quotas and capability isolation.
+- `FN-GUEST-VIRT-004` — guest console/input integration with the GlobusOS desktop/window manager.
+- `FN-GUEST-VIRT-005` — host/guest compatibility matrix and exact-SHA verification.
+- `IF-009` — proposed GlobusOS-to-guest-VM lifecycle/console interface, currently `BLOCKED`.
+
+All five function contracts are `BLOCKED` / `UNBOUND_RESIDUAL`. No backend is selected; QEMU is an evaluation candidate only. No Windows/Linux guest implementation or compatibility is claimed.
+
+### Important distinction: VM vs. dual boot
+
+- **Hosted VM (primary target):** GlobusOS remains running; Windows/Linux runs in an isolated virtual machine with its own virtual disk, virtual firmware/devices, quotas and guest lifecycle. Switching between host and guest does not require rebooting the physical machine.
+- **Native dual boot (future, separately approved):** a second OS is installed to a physical disk/partition and selected before boot. Only one OS runs at a time; this is not emulation and is outside the initial VM milestone.
+- **Full-system CPU emulation (fallback):** may support some cross-architecture combinations, with a significant potential performance cost. It is not interchangeable with hardware-assisted virtualization.
+
+Security defaults: guests are untrusted; host files, clipboard, physical disks, USB, GPU, bridged networking, host wallet keys, validator secrets and privileged ATC interfaces are not exposed automatically. Resource limits, capability grants, backend isolation, image validation, and explicit host/guest input handling are mandatory.
+
+Catalog totals after this addition: **34 components / 136 function records**. This is a contract inventory, not proof of implementation completeness. Release remains `BLOCKED` until a backend and support matrix are selected and exact-head installation, isolation, recovery, UI integration and security evidence passes.
+
