@@ -97,6 +97,31 @@ class RuntimeSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(quell[0]["ssot"]["finding"], "QUERLREPO_REFERENCE_NON_SSOT")
         self.assertEqual(quell[0]["ssot"]["canonical_source_path"], "sample/components/quellrepo")
 
+    def test_specification_only_placeholder_is_not_an_executable_binding(self):
+        catalog = {
+            "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
+            "components": [{
+                "id": "COMP-XCHAIN-INTEROP",
+                "name": "cross-chain interop",
+                "canonical_owner": "example/xchain",
+                "source_inventory": {"repository": "example/xchain"},
+                "functions": [{
+                    "id": "FN-XCHAIN-001",
+                    "name": "proposed message validation",
+                    "source_binding": {
+                        "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
+                        "binding_kind": "specification_only",
+                        "source_path": "N/A — specification proposal",
+                        "symbol_or_entrypoint": "No canonical executable symbol identified",
+                    },
+                }],
+            }],
+        }
+        registry = build_sample_registry(catalog=catalog)
+        self.assertEqual(registry["status"], "RESIDUAL")
+        self.assertEqual(registry["catalog_duplicate_findings"]["duplicate_source_bindings"], [])
+        self.assertEqual(registry["summary"]["bound_to_catalog_functions"], 0)
+
     def test_duplicate_catalog_binding_blocks_registry(self):
         catalog = {
             "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
