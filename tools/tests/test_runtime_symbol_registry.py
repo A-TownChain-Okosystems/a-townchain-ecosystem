@@ -97,6 +97,39 @@ class RuntimeSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(quell[0]["ssot"]["finding"], "QUERLREPO_REFERENCE_NON_SSOT")
         self.assertEqual(quell[0]["ssot"]["canonical_source_path"], "sample/components/quellrepo")
 
+    def test_specification_only_contract_does_not_create_runtime_binding(self):
+        # A specification-only function contract is catalog metadata, not an
+        # executable source binding and must not alter runtime-entry accounting.
+        catalog = json.loads(json.dumps(SAMPLE_CATALOG))
+        catalog["components"][0]["functions"].append({
+            "id": "FN-XCHAIN-001",
+            "name": "cross-chain proposal contract",
+            "readiness": "BLOCKED",
+            "source_binding": {
+                "binding_kind": "specification_only",
+                "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
+                "source_path": None,
+                "symbol_or_entrypoint": None,
+                "exact_source_sha": None,
+            },
+        })
+
+        baseline = build_sample_registry()
+        registry = build_sample_registry(catalog=catalog)
+
+        self.assertEqual(registry["status"], "RESIDUAL")
+        self.assertEqual(registry["functional_verification"], "NOT_PERFORMED")
+        self.assertEqual(registry["summary"]["bound_to_catalog_functions"],
+                         baseline["summary"]["bound_to_catalog_functions"])
+        self.assertEqual(registry["summary"]["runtime_registry_entries"],
+                         baseline["summary"]["runtime_registry_entries"])
+        self.assertEqual(
+            [(e["repository"], e["source_path"], e["kind"], e["symbol"])
+             for e in registry["entries"]],
+            [(e["repository"], e["source_path"], e["kind"], e["symbol"])
+             for e in baseline["entries"]],
+        )
+
     def test_duplicate_catalog_binding_blocks_registry(self):
         catalog = {
             "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
