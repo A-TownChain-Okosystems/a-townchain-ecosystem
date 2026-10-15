@@ -203,7 +203,16 @@ def main() -> int:
     registry = build_registry(census, catalog, manifest)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(registry, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(json.dumps({"status": registry["status"], **registry["summary"]}, sort_keys=True)[:2000])
+    print(json.dumps({
+        "status": registry["status"],
+        **registry["summary"],
+        "blocking_findings": {
+            "duplicate_function_ids": registry["catalog_duplicate_findings"]["duplicate_function_ids"],
+            "duplicate_source_bindings_count": len(registry["catalog_duplicate_findings"]["duplicate_source_bindings"]),
+            "duplicate_source_bindings_sample": registry["catalog_duplicate_findings"]["duplicate_source_bindings"][:25],
+            "registry_duplicate_ids": sorted({entry["id"] for entry in registry["entries"] if sum(1 for candidate in registry["entries"] if candidate["id"] == entry["id"]) > 1}),
+        },
+    }, sort_keys=True)[:8000])
     return 0 if registry["status"] == "RESIDUAL" else 2
 
 
