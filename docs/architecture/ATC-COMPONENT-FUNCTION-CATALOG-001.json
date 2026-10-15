@@ -3373,13 +3373,42 @@
       },
       "known_conflicts_and_residuals": {
         "status": "RESIDUAL",
-        "reason": "G1 feature reconciliation is recorded in docs/architecture/ATCLANG-G1-FEATURE-MATRIX-001.json. At exact ATCLang head 27dc3678f67dc81180768be60ffd025e2fa6c9b9, the normative spec/registry describes 63 tokens, 76 keywords, 84 types, 31 namespaces, 28 parser productions and 50 AST nodes, while the Rust parser/AST implement a deliberately smaller brace-based subset. Spec says indentation blocks and '#' comments; Rust lexer/parser use brace blocks and '//' comments. Current README/architecture say Rust is canonical and Python is historical documentation, while spec/registry still name the old Python source as authority. Full G1 equivalence is not established."
+        "reason": "G1 feature reconciliation is recorded in docs/architecture/ATCLANG-G1-FEATURE-MATRIX-001.json. At exact ATCLang head 27dc3678f67dc81180768be60ffd025e2fa6c9b9, the normative spec/registry describes 63 tokens, 76 keywords, 84 types, 31 namespaces, 28 parser productions and 50 AST nodes, while the Rust parser/AST implement a deliberately smaller brace-based subset. Spec says indentation blocks and '#' comments; Rust lexer/parser use brace blocks and '//' comments. Current README/architecture say Rust is canonical and Python is historical documentation, while spec/registry still name the old Python source as authority. Full G1 equivalence is not established. An exhaustive 332-entry registry item crosswalk has now been appended to docs/architecture/ATCLANG-G1-FEATURE-MATRIX-001.json. The crosswalk uses exact source blob SHAs but is explicitly name-level triage only; no registry item is VERIFIED."
       },
       "verification_evidence": {
         "status": "RESIDUAL",
         "source_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
         "matrix": "docs/architecture/ATCLANG-G1-FEATURE-MATRIX-001.json",
-        "reason": "Content-level reconciliation only. No feature is VERIFIED; live Python differential execution and exact-head CI evidence were not collected."
+        "reason": "Content-level reconciliation only. No feature is VERIFIED; live Python differential execution and exact-head CI evidence were not collected.",
+        "matrix_commit": "6d3cf1ab7ba7329b9d9f6f2238da5eda535462fc",
+        "matrix_blob_sha": "b35eac044f0f97d71968771567ff29306570f95b",
+        "registry_items_crosswalk": {
+          "tokens": 63,
+          "keywords": 76,
+          "types": 84,
+          "namespaces": 31,
+          "parser_productions": 28,
+          "ast_nodes": 50,
+          "total": 332,
+          "token_status_counts": {
+            "SYMBOL_MATCH_ONLY": 24,
+            "NO_DIRECT_TOKEN_SYMBOL": 39
+          },
+          "keyword_status_counts": {
+            "NO_DEDICATED_KEYWORD_TOKEN": 66,
+            "RESERVED_BY_RUST_LEXER": 10
+          },
+          "production_status_counts": {
+            "METHOD_NAME_MATCH": 11,
+            "NO_DIRECT_METHOD_NAME_MATCH": 17
+          },
+          "ast_status_counts": {
+            "NO_DIRECT_AST_VARIANT_MATCH": 50
+          },
+          "types_all_semantic_review_required": 84,
+          "namespaces_all_resolver_review_required": 31,
+          "verified": 0
+        }
       }
     },
     {
