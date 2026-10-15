@@ -141,11 +141,19 @@ def validate(doc: dict) -> tuple[list[str], dict]:
                 missing_analysis = sorted(CONTRACT_ANALYSIS_FIELDS - set(analysis))
                 if missing_analysis:
                     errors.append(f"{fid}: contract_analysis missing fields: {', '.join(missing_analysis)}")
-                for field in ("purpose", "inputs", "outputs", "preconditions", "behavior",
+                for field in ("purpose", "inputs", "outputs", "behavior",
                               "architecture_placement", "consumers", "reuse", "failure_semantics", "source_evidence"):
                     value = analysis.get(field)
                     if not isinstance(value, dict):
                         errors.append(f"{fid}: contract_analysis.{field} must be an object")
+                # Preconditions may be represented either as a status-bearing object
+                # or as an explicit list of condition strings. A list is descriptive
+                # only; it never upgrades the function's verification status.
+                preconditions = analysis.get("preconditions")
+                if not isinstance(preconditions, dict):
+                    if (not isinstance(preconditions, list) or not preconditions
+                            or any(not isinstance(item, str) or not item.strip() for item in preconditions)):
+                        errors.append(f"{fid}: contract_analysis.preconditions must be an object or a non-empty array of non-empty strings")
                 for field in ("purpose", "inputs", "outputs", "failure_semantics"):
                     value = analysis.get(field)
                     if isinstance(value, dict) and value.get("status") not in ANALYSIS_STATES:
