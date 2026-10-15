@@ -1,0 +1,296 @@
+{
+  "schema_id": "ATCLANG-G1-FEATURE-MATRIX-001",
+  "schema_version": "1.0.0",
+  "created_at": "2026-10-15",
+  "status": "RESIDUAL",
+  "release_decision": "BLOCKED",
+  "verification_claimed": false,
+  "method": "Feature-by-feature content reconciliation of the normative G1 spec/registry against the canonical Rust core, documented historical Python reference, and source-level tests at an exact source head. Source presence is not test execution.",
+  "evidence": {
+    "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+    "source_tree_sha": "41e6a63b30422ad22355c4d21070cb80c819999f",
+    "spec": {
+      "path": "specs/language/SPEC.md",
+      "blob_sha": "630716b531be95b782f82c963cb69ac3b585ca96"
+    },
+    "registry": {
+      "path": "specs/language/registry.json",
+      "blob_sha": "72237be58c4419cc2d0f8248a9be08e0c8d6bf03",
+      "counts": {
+        "tokens": 63,
+        "keywords": 76,
+        "types": 84,
+        "namespaces": 31,
+        "parser_productions": 28,
+        "ast_nodes": 50
+      }
+    },
+    "rust": {
+      "lexer": {
+        "path": "crates/atc-core/src/lexer.rs",
+        "blob_sha": "6f503a1b1c7a7145284eb5670830946fdcfdac09"
+      },
+      "parser": {
+        "path": "crates/atc-core/src/parser.rs",
+        "blob_sha": "993df7a9a6626d869ef3e22f02a006fa13466586"
+      },
+      "ast": {
+        "path": "crates/atc-core/src/ast.rs",
+        "blob_sha": "8721d367971ac93db2578303006045bac754993b"
+      }
+    },
+    "tests": {
+      "differential": {
+        "path": "crates/atc-core/tests/differential.rs",
+        "blob_sha": "5f588cb83291ea1be90ef455a15f9d6bce8bd193"
+      },
+      "end_to_end": {
+        "path": "crates/atc-core/tests/run.rs",
+        "blob_sha": "d4e758b4213ca433778d2d076915459cc563b6e9"
+      }
+    },
+    "architecture": {
+      "path": "docs/ATCLANG_1.0_ARCHITECTURE.md",
+      "blob_sha": "9256adf54f7b2ff2f07cc76fee64cbeef0c47318"
+    },
+    "reference_documentation": {
+      "path": "docs/reference/python/src-atclang.md",
+      "blob_sha": "08db8e0dc3a0046c4afa8d368be7f8f0bd2924fd"
+    },
+    "limitations": [
+      "Content-level source review only; no CI or test execution performed for this matrix.",
+      "Feature classification is about evidenced coverage at the exact source head, not a claim that every unlisted construct is absent from every subsystem.",
+      "The Python reference is represented by checked-in documentation and historical expected JSON, not a live executable differential oracle."
+    ]
+  },
+  "summary": {
+    "features": 16,
+    "gap": 10,
+    "partial": 3,
+    "unresolved": 3,
+    "implemented_full": 0,
+    "verified": 0,
+    "headline": "The canonical Rust parser is a deliberate, fail-closed subset; G1 spec/registry and provenance still describe a broader Python-reference language. Equivalence is not established."
+  },
+  "features": [
+    {
+      "id": "G1-001",
+      "area": "Source layout",
+      "spec_claim": "Indentation-based blocks using NEWLINE/INDENT/DEDENT",
+      "rust_evidence": [
+        "crates/atc-core/src/lexer.rs",
+        "crates/atc-core/src/parser.rs"
+      ],
+      "status": "GAP",
+      "finding": "Rust lexer discards spaces/tabs/newlines as trivia; parser requires brace-delimited blocks. No indentation tokenization.",
+      "tests": "Parser tests use brace-delimited source; no indentation positive/negative vectors located in the reviewed files.",
+      "action": "Either implement indentation syntax in canonical Rust lexer/parser with golden tests, or approve a versioned syntax change and update spec+registry."
+    },
+    {
+      "id": "G1-002",
+      "area": "Comments",
+      "spec_claim": "'#' to end of line (COMMENT token)",
+      "rust_evidence": [
+        "crates/atc-core/src/lexer.rs"
+      ],
+      "status": "GAP",
+      "finding": "Rust lexer recognizes '//' comments; '#' is not documented as a comment token in the Rust token enum/lexer.",
+      "tests": "No cross-reference test for '#' versus '//' found in the reviewed test file.",
+      "action": "Add positive/negative lexical vectors for both forms and resolve against normative language spec."
+    },
+    {
+      "id": "G1-003",
+      "area": "Token inventory",
+      "spec_claim": "63 token kinds including float/bytes/octal/binary, compound operators, logical/bitwise and layout tokens",
+      "rust_evidence": [
+        "crates/atc-core/src/lexer.rs"
+      ],
+      "status": "GAP",
+      "finding": "Rust Token enum exposes a much smaller token set: Int, Ident, Let/Const/Return/Fn/If/Else/While and a few operators/punctuation/string; no Float/Bytes/Indent/Dedent/compound operator inventory.",
+      "tests": "Unit tests exercise a subset of arithmetic/comparison and malformed inputs; no evidence of full 63-token coverage.",
+      "action": "Generate token-by-token positive and negative vectors from registry.json and reconcile each token with implementation."
+    },
+    {
+      "id": "G1-004",
+      "area": "Literals",
+      "spec_claim": "Decimal, hex, octal, binary, float, string, bytes, booleans and null",
+      "rust_evidence": [
+        "crates/atc-core/src/lexer.rs",
+        "crates/atc-core/src/ast.rs"
+      ],
+      "status": "GAP",
+      "finding": "Rust core AST/lexer explicitly model Int and String, but no Float, bytes, boolean or null literal variants in the reviewed source.",
+      "tests": "Current parser primary expression accepts integer, identifier and parenthesized expression; no vectors proving other literal classes.",
+      "action": "Add registry-derived literal vectors or explicitly exclude unsupported literal classes in a versioned language profile."
+    },
+    {
+      "id": "G1-005",
+      "area": "Keywords and declarations",
+      "spec_claim": "76 keywords; wallet/contract/struct/enum/impl/trait/import/etc. and blockchain/OS constructs",
+      "rust_evidence": [
+        "crates/atc-core/src/lexer.rs",
+        "crates/atc-core/src/parser.rs",
+        "crates/atc-core/src/native.rs"
+      ],
+      "status": "UNRESOLVED",
+      "finding": "Some reserved tokens appear in the lexer and a separate native contract parser exists, but the core parser top-level accepts only let/const/fn. Full keyword-to-production coverage is not established.",
+      "tests": "native.rs contains contract semantic tests; no registry-wide keyword coverage was identified.",
+      "action": "Map each keyword to core grammar, native DSL, delegated API, or unsupported status; add negative tests for accidental acceptance."
+    },
+    {
+      "id": "G1-006",
+      "area": "Types and annotations",
+      "spec_claim": "84 type identifiers including generics, collection, blockchain, OS and aliases",
+      "rust_evidence": [
+        "crates/atc-core/src/parser.rs",
+        "crates/atc-core/src/ast.rs",
+        "crates/atc-core/src/value.rs"
+      ],
+      "status": "GAP",
+      "finding": "Core parser reads a type annotation as a single identifier; AST TypeHint stores one name and serializes params as empty. This does not establish generic/nested type grammar or semantic support for the registry's 84 names.",
+      "tests": "Typed function parameters are tested; no registry-wide type matrix located.",
+      "action": "Create a type-name and type-expression matrix, separating lexically accepted names from semantically supported types."
+    },
+    {
+      "id": "G1-007",
+      "area": "Top-level grammar",
+      "spec_claim": "module declaration plus broad statement grammar",
+      "rust_evidence": [
+        "crates/atc-core/src/parser.rs"
+      ],
+      "status": "GAP",
+      "finding": "program() accepts only let, const and fn at top level and errors on other token kinds; module declarations and contract/struct/enum/class productions are not handled by this core parser.",
+      "tests": "Negative test explicitly asserts top-level return is rejected; no module declaration conformance test in parser.rs.",
+      "action": "Decide whether the core is a named profile/subset; otherwise implement missing productions and tests."
+    },
+    {
+      "id": "G1-008",
+      "area": "Statements/control flow",
+      "spec_claim": "if/elif/else, for, while, loop, break, continue, match/case, emit, require, return",
+      "rust_evidence": [
+        "crates/atc-core/src/parser.rs",
+        "crates/atc-core/src/ast.rs",
+        "crates/atc-core/src/lower.rs"
+      ],
+      "status": "GAP",
+      "finding": "Core AST has Let/Fn/Return/Expr/If/While. Parser supports if/else/else-if via nesting and while; other listed statement forms are not represented in the core AST.",
+      "tests": "Parser tests cover if/else/else-if/while. End-to-end tests cover return and fail-closed lowering; no evidence for for/match/emit/require in core parser.",
+      "action": "For each registry production assign implemented/delegated/unsupported/unresolved and add parse + lowering + runtime tests as applicable."
+    },
+    {
+      "id": "G1-009",
+      "area": "Expressions and operators",
+      "spec_claim": "Logical, bitwise, shifts, exponentiation, ranges, assignments, casts, postfix/member/index/lambda and full precedence table",
+      "rust_evidence": [
+        "crates/atc-core/src/parser.rs",
+        "crates/atc-core/src/ast.rs",
+        "crates/atc-core/src/lower.rs"
+      ],
+      "status": "GAP",
+      "finding": "Core expression grammar covers comparison, addition, multiplication, unary, call postfix and primary; AST covers int/identifier/unary/binary/call. Member/index/range/lambda/cast and many operators are not represented.",
+      "tests": "Precedence/associativity and comparison precedence tests exist; end-to-end test expects '%' to fail closed.",
+      "action": "Generate operator and expression-node coverage from the normative registry; test precedence and explicit rejection of unsupported operators."
+    },
+    {
+      "id": "G1-010",
+      "area": "AST schema",
+      "spec_claim": "50 AST node kinds in registry",
+      "rust_evidence": [
+        "crates/atc-core/src/ast.rs"
+      ],
+      "status": "GAP",
+      "finding": "Rust AST defines a small node family (Expr Int/Ident/Unary/Binary/Call; Stmt Let/Fn/Return/Expr/If/While), far fewer than the registry's documented AST node inventory.",
+      "tests": "Differential harness compares canonical JSON for a shared subset only.",
+      "action": "Version the AST profile and add per-node mappings; do not claim full AST conformance from subset differential tests."
+    },
+    {
+      "id": "G1-011",
+      "area": "Semantics/type checking",
+      "spec_claim": "Semantics registry, type checker, scope and capability rules",
+      "rust_evidence": [
+        "crates/atc-core/src/value.rs",
+        "crates/atc-core/src/lower.rs",
+        "crates/atc-core/src/native.rs",
+        "docs/reference/python/src-atclang.md"
+      ],
+      "status": "UNRESOLVED",
+      "finding": "Reviewed Rust core performs fail-closed lowering checks and value/runtime checks; the full historical Python semantic pipeline is documented, not present as a runnable Python implementation in the current tree. Complete SEM-rule mapping is not established.",
+      "tests": "End-to-end tests cover unknown identifiers/functions, arity mismatch, overflow, division by zero and call-depth failure. They do not prove all normative semantic rules.",
+      "action": "Map every SEM rule to Rust symbol, negative/positive tests and explicit owner; classify rules not in the current profile."
+    },
+    {
+      "id": "G1-012",
+      "area": "Reference implementation",
+      "spec_claim": "SPEC/registry claim Python reference at src/atclang, commit a7e1bd4",
+      "rust_evidence": [
+        "docs/ATCLANG_1.0_ARCHITECTURE.md",
+        "README.md",
+        "docs/reference/python/src-atclang.md"
+      ],
+      "status": "GAP",
+      "finding": "Current architecture and README describe Rust as canonical and Python as legacy/unverified documentation; README says Python reference has been removed from the repository and documented under docs/reference/python. The normative spec/registry still name the old Python source as the source of truth.",
+      "tests": "Differential test consumes checked-in corpus and expected JSON; it does not execute Python reference at test time.",
+      "action": "Correct normative source-of-truth metadata through versioned governance, or restore reproducible archived reference evidence; do not mark G1 passed based on stale provenance."
+    },
+    {
+      "id": "G1-013",
+      "area": "Differential conformance",
+      "spec_claim": "Rust and Python canonical AST output match",
+      "rust_evidence": [
+        "crates/atc-core/tests/differential.rs",
+        "crates/atc-core/tests/differential/corpus",
+        "crates/atc-core/tests/differential/expected"
+      ],
+      "status": "PARTIAL",
+      "finding": "A test harness compares Rust JSON against checked-in expected JSON for the shared subset; source comments say expected files were generated from Python. This is not live reference differential execution and its runtime result was not checked in this task.",
+      "tests": "Test function differential_gemeinsamer_subset; no run/job/step/exit-code evidence collected here.",
+      "action": "Run exact-head CI, capture Run→Job→Step/exit code and artifact hashes; document corpus count and exclusions."
+    },
+    {
+      "id": "G1-014",
+      "area": "Native contract DSL",
+      "spec_claim": "Blockchain-native contract/event/capability/policy syntax",
+      "rust_evidence": [
+        "crates/atc-core/src/native.rs",
+        "crates/atc-core/src/lexer.rs"
+      ],
+      "status": "UNRESOLVED",
+      "finding": "Separate native contract parser and semantic validator exist, but its grammar's relationship to normative G1 grammar and normal parse/lower/execute pipeline is not fully mapped.",
+      "tests": "native.rs contains validate_contract_semantics test surface; no cross-path conformance map observed.",
+      "action": "Define whether native DSL is a separate profile or part of core grammar; add end-to-end fixtures and exact mapping."
+    },
+    {
+      "id": "G1-015",
+      "area": "Canonical serialization",
+      "spec_claim": "Canonical AST serialization compatible with reference",
+      "rust_evidence": [
+        "crates/atc-core/src/ast.rs",
+        "crates/atc-core/tests/differential.rs"
+      ],
+      "status": "PARTIAL",
+      "finding": "Rust manually serializes its subset AST into JSON with fixed key order; differential harness compares to checked-in expected files. This proves intended subset design, not full registry AST compatibility.",
+      "tests": "Parser tests assert selected JSON fragments; differential harness exists but no run evidence in this matrix task.",
+      "action": "Add schema/golden tests for all supported node variants and ensure canonical JSON escaping and ordering are exhaustive."
+    },
+    {
+      "id": "G1-016",
+      "area": "Profiles/unsupported syntax",
+      "spec_claim": "Normative full language with fail-closed behavior",
+      "rust_evidence": [
+        "crates/atc-core/src/lower.rs",
+        "crates/atc-core/tests/run.rs"
+      ],
+      "status": "PARTIAL",
+      "finding": "Lowering documents fail-closed behavior for unsupported forms; this is a sound safety boundary but does not make the supported subset equivalent to the full language spec.",
+      "tests": "run.rs explicitly checks unsupported '%' and unknown names/functions fail.",
+      "action": "Publish a normative Rust subset profile and keep unsupported constructs explicitly rejected until implemented."
+    }
+  ],
+  "required_decisions": [
+    "Define and version the intended production language profile: full G1 grammar versus explicitly named Rust core subset.",
+    "Resolve indentation blocks versus brace blocks and '#' versus '//' comments against the normative spec.",
+    "Map every registry token, keyword, type, namespace, parser production, AST node and semantic rule to an implementation symbol and positive/negative test or documented exclusion.",
+    "Fix stale G1 source-of-truth metadata: current repo documents Rust canonical and Python historical/unverified, while the spec/registry cite Python source as authority.",
+    "Run exact-head CI and preserve Run→Job→Step→exit-code/log evidence; only then assign VERIFIED to individual contracts."
+  ]
+}
