@@ -1,0 +1,132 @@
+{
+  "schema_id": "ATC-CATALOG-GAP-TRIAGE-001",
+  "schema_version": "1.0.0",
+  "status": "BLOCKED",
+  "purpose": "Machine-readable remediation queue derived from exact-head Source Symbol Inventory run 38649311231. This is audit evidence, not a second catalog or implementation SSOT.",
+  "authority": {
+    "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+    "role": "Catalog reconciliation and evidence control plane only"
+  },
+  "provenance": {
+    "workflow_run_id": 38649311231,
+    "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38649311231",
+    "checked_head_sha": "33108e465f0716bdc6477cdb5eb3557e68a34fb5",
+    "artifact_id": 11933627036,
+    "artifact_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38649311231/artifacts/11933627036",
+    "source_census_sha": "33108e465f0716bdc6477cdb5eb3557e68a34fb5",
+    "catalog_blob_sha": "b1e34d4000575c5900266438c9512fb4e95c9889",
+    "functional_verification": "NOT_PERFORMED"
+  },
+  "observed_counts": {
+    "active_repositories_expected": 26,
+    "active_repositories_scanned": 25,
+    "active_repositories_explicitly_excluded_private": 1,
+    "archived_reference_repositories": 7,
+    "source_files_scanned": 4945,
+    "candidate_public_symbols": 35756,
+    "catalog_components": 31,
+    "catalog_function_contracts": 105,
+    "component_findings": 21,
+    "function_bindings_residual_or_blocked": 95,
+    "function_bindings_documented_exclusions": 33,
+    "candidate_symbols_unbound": 35746,
+    "runtime_registry_entries": 8278,
+    "runtime_function_candidates": 5612,
+    "catalog_bound_candidates": 65,
+    "reconciliation_status": "BLOCKED"
+  },
+  "blocking_findings": [
+    {
+      "id": "GAP-001",
+      "severity": "P0",
+      "finding": "FUNCTION_BINDINGS_STALE_OR_UNRESOLVED",
+      "count": 95,
+      "required_action": "For each catalog function, refresh its binding only from the matching exact census HEAD and verify repository, path, symbol kind, symbol name, and file blob. If no implementation exists, retain BLOCKED/RESIDUAL and document the reason; do not invent a source binding."
+    },
+    {
+      "id": "GAP-002",
+      "severity": "P0",
+      "finding": "UNBOUND_SOURCE_SYMBOL_CANDIDATES",
+      "count": 35746,
+      "required_action": "Triage candidates by repository/path/kind. Map true callable API/runtime entrypoints to an existing or genuinely new contract; explicitly exclude tests, types, values, generated code, tooling, docs, archived references, and mirrored non-SSOT content with a reproducible reason. Candidate count is not missing-function count."
+    },
+    {
+      "id": "GAP-003",
+      "severity": "P0",
+      "finding": "COMPONENT_HEAD_SHA_MISMATCH",
+      "count": 21,
+      "required_action": "Refresh component source inventory pins from the same census evidence. Preserve previous snapshots and provenance. Do not mark a binding verified solely because a path or symbol name matches."
+    },
+    {
+      "id": "GAP-004",
+      "severity": "P0",
+      "finding": "RUNTIME_REGISTRY_ACCOUNTING_DRIFT",
+      "count": 6,
+      "repositories": [
+        "A-TownChain-Okosystems/.github",
+        "A-TownChain-Okosystems/a-townchain-ecosystem",
+        "A-TownChain-Okosystems/atc-algorithm",
+        "A-TownChain-Okosystems/atc-engineering",
+        "A-TownChain-Okosystems/atclang",
+        "A-TownChain-Okosystems/genesis-chronicles"
+      ],
+      "required_action": "Regenerate the committed runtime registry from the same census and catalog inputs, then validate both the generated artifact and committed registry. Resolve every per-repository accounting difference; do not bypass R3 accounting."
+    },
+    {
+      "id": "GAP-005",
+      "severity": "P1",
+      "finding": "CATALOG_METADATA_COUNT_DRIFT",
+      "required_action": "Synchronize embedded specification metadata with the current catalog count (31 components / 105 function contracts) while preserving historical audit records. Keep the specification's functional_verification flag NOT_PERFORMED and release decision BLOCKED."
+    },
+    {
+      "id": "GAP-006",
+      "severity": "P0",
+      "finding": "INCOMPLETE_FUNCTIONAL_VERIFICATION",
+      "required_action": "After source mapping is reconciled, run contract-specific tests and exact-HEAD CI. Record Run -> Job -> Step -> exit code -> logs/artifact. Structural validation or lexical matching is not functional verification."
+    }
+  ],
+  "high_priority_known_residuals": [
+    {
+      "repository": "A-TownChain-Okosystems/a-townchain",
+      "canonical_owner": "a-townchain",
+      "required_review": [
+        "components/algorithm/src/hash.rs: atc_hash, atc_hash_hex",
+        "components/algorithm/src/poh.rs: genesis, tick, ticks",
+        "components/interop/modules/atc-bridge/src/: calculate, deposit, withdraw, submit, validate_signatures"
+      ],
+      "rule": "Confirm each symbol against the canonical L1 source and current contracts. Unknown consensus, fork-choice, quorum, and finality behavior remains BLOCKED."
+    },
+    {
+      "repository": "A-TownChain-Okosystems/globus-os",
+      "canonical_owner": "globus-os",
+      "required_review": [
+        "modules/atc-bootloader/src/entry.rs: entry_point",
+        "modules/atc-bootloader/src/mmap.rs: is_in_kernel",
+        "modules/atc-drivers/kernel/src/hw_drivers.rs: add_bar, advance_ticks"
+      ],
+      "rule": "Distinguish syscall/service/IPC/runtime entrypoints from helpers, tests, types, and values. Preserve ShivaCore kernel ownership boundaries."
+    },
+    {
+      "repository": "A-TownChain-Okosystems/aurora-ai",
+      "canonical_owner": "aurora-ai",
+      "required_review": [
+        "App",
+        "AuditView",
+        "EcosystemView"
+      ],
+      "rule": "Trace actual declarations and agent/tool policy boundaries before binding. UI symbols are not automatically standalone platform functions; model output grants no authority."
+    }
+  ],
+  "release_gates": {
+    "schema_validation": "PASS_STRUCTURAL_ONLY_IS_INSUFFICIENT",
+    "source_census": "RESIDUAL",
+    "bidirectional_reconciliation": "BLOCKED",
+    "runtime_registry_validation": "FAIL",
+    "functional_verification": "NOT_PERFORMED",
+    "release_decision": "BLOCKED",
+    "merge_allowed": false,
+    "auto_merge_allowed": false,
+    "implementation_ssot_changes_allowed_in_this_workstream": false
+  },
+  "completion_rule": "Do not declare the catalog complete until every candidate from every in-scope active source tree is mapped to a unique contract or explicitly excluded with evidence, every binding is tied to the exact repository HEAD/path/symbol/file blob, the committed registry accounting matches the census, and functional verification is independently evidenced."
+}
