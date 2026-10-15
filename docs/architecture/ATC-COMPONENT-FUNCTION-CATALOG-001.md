@@ -204,3 +204,27 @@ This additive revision records missing capabilities identified in the dual-deplo
 - The ecosystem repository remains the architecture/evidence control plane. Canonical implementations remain in `a-townchain`, `globus-os`, `aurora-ai`, `atc-sdk`, and `atc-standards` as applicable.
 - Source-to-catalog reconciliation must bind each function to exact repository HEAD SHA, path, symbol/entry point, and blob SHA—or record a reproducible exclusion.
 - Unknown consensus/finality semantics and the ATCB-versus-ATC1 bytecode conflict remain blocked. Release remains `BLOCKED`.
+
+
+## Canonical blockchain source mapping — exact HEAD addendum (2026-10-15)
+
+Repository inspected: [`a-townchain` exact HEAD `a5e689671b1870699c7a1750f8a166e83590a41c`](https://github.com/A-TownChain-Okosystems/a-townchain/commit/a5e689671b1870699c7a1750f8a166e83590a41c). The source mappings below bind exact source paths and file blob SHAs. They establish **source mapping only**, not functional verification.
+
+### Added canonical component and function contracts
+
+- New component `COMP-WALLET`: canonical wallet key and transaction signing code under `a-townchain/components/wallet`.
+- `FN-ALGO-003`: `MonetaryPolicy::{epoch,raw_subsidy,subsidy}` in `components/algorithm/src/economics.rs` (blob `f415428712ad99302ff54d6e090cb72e600570b6`).
+- `FN-ALGO-004`: `atc_hash` / `atc_hash_hex` in `components/algorithm/src/hash.rs` (blob `97d3bee54f95caf2439765383041b0e120d1ab46`); **BLOCKED for Mainnet** pending independent cryptographic analysis.
+- `FN-ALGO-005`: `PohChain::{genesis,tick,verify,ticks}` in `components/algorithm/src/poh.rs` (blob `75a62238e2a3e4083caa6e420c2de3f215e28450`); **BLOCKED** as a production consensus/finality claim.
+- `FN-VM-031`: explicit-gas, context-gated VM state-transition path in `components/vm/src/vm.rs` (blob `57a919d911ae7900f740bab739bb20fabf0d4313`).
+- `FN-CHAIN-006`: Devnet block production/chain validation in `components/node/src/chain.rs` (blob `9876cda188a353195686ded9de533770d5c5fe94`).
+- `FN-NODE-006`: pull-based gossip synchronization in `components/node/src/gossip.rs` (blob `2d7c0538c0aa5bff9c524691c285e7705554405a`); TCP MVP without TLS/auth/signatures.
+- `FN-WALLET-001`: `WalletKey::{from_seed,public_key,sign_digest,verify_digest}` in `components/wallet/src/keys.rs` (blob `0279290bcf68fd4471125deac20e208b29a67756`).
+- `FN-WALLET-002`: `Transaction::{signing_bytes,id,digest,sign,verify}` in `components/wallet/src/tx.rs` (blob `2693b7ba015456addcc8d129455b7e5a9e2f1860`).
+
+### Status and boundaries
+
+- All entries remain `RESIDUAL` or `BLOCKED`, with `SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED` source bindings.
+- The evidence manifest in the source repository records a partial, not-audited, not-conformance-verified development state. Its recorded test PASS applies only to its bound commit/run; it is not blanket evidence for every function or the current HEAD.
+- The custom ATC-HASH-001 implementation remains unaudited; PoH, Devnet block/gossip, and wallet/TX-V2 end-to-end claims remain bounded by the source comments and open gates.
+- The update does not claim complete source census, complete wallet security, consensus/finality completion, or Mainnet readiness. Release remains `BLOCKED`.
