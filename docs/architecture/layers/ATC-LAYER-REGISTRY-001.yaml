@@ -22,7 +22,7 @@
 # IMPORTANT: Source code existence alone does NOT qualify for VERIFIED.
 
 schema_id: ATC-LAYER-REGISTRY-001
-schema_version: "0.3.0"
+schema_version: "0.4.0"
 generated: "2026-10-15"
 authority: "A-TownChain-Okosystems/a-townchain-ecosystem"
 status: DRAFT
@@ -150,33 +150,48 @@ layers:
       layer, not a second implementation SSOT. Host adapters for Windows/
       Linux are catalogued separately from the native GlobusOS boot chain.
   - id: L2
+    architecture_id: "ATC-LAYER-L2-SHIVACORE-KERNEL"
     name: "ShivaCore Kernel & Trusted Computing Base"
     responsibility: >
-      Kernel memory management, scheduling, IPC, capabilities, and
-      isolation. This is the trusted computing base (TCB) — code that
-      runs with full hardware privileges.
+      Rust no_std capability microkernel with minimal TCB. Security
+      model: least privilege, no ambient authority, isolation by
+      default, explicit IPC, fail-closed. Outside the kernel:
+      A-TownChain-Node, ATC-VM, GlobusOS services, drivers, and
+      Aurora AI unless a strictly privileged kernel task requires
+      inclusion. The ecosystem repo is catalog, architecture
+      mapping, and evidence layer, not a second kernel
+      implementation.
     sub_layers:
       - id: L2.1
-        name: "Memory Management"
-        description: "Physical/virtual memory, paging, allocation, MMU, heap"
+        name: "Kernel Core"
+      - id: L2.10
+        name: "Faults & Recovery"
+      - id: L2.11
+        name: "Identity & Secure Services"
+      - id: L2.12
+        name: "Audit & Verification Hooks"
       - id: L2.2
-        name: "Scheduling"
-        description: "Task/thread scheduling, priority, fairness, preemption"
+        name: "Capability Security"
       - id: L2.3
-        name: "IPC (Inter-Process Communication)"
-        description: "Message passing, shared memory, synchronous channels, signals"
+        name: "Memory Management"
       - id: L2.4
-        name: "Capabilities & Sandboxing"
-        description: "Capability tokens, sandbox boundaries, seccomp-like filters"
+        name: "Scheduling & Execution"
       - id: L2.5
-        name: "Isolation & Security Boundaries"
-        description: "Ring separation, privilege levels, TEE integration, TCB minimization"
+        name: "IPC & Communication"
+      - id: L2.6
+        name: "Interrupts & Timers"
+      - id: L2.7
+        name: "Architecture & CPU"
+      - id: L2.8
+        name: "Device & DMA Isolation"
+      - id: L2.9
+        name: "Trusted Computing Base"
     components:
       - COMP-SHIVA
+    function_catalog: docs/architecture/layers/ATC-L2-FUNCTION-CATALOG-001.yaml
     ssot_note: >
-      Canonical: globus-os/modules/atc-shivacore/kernel/
-      Specification: atc-shivacore repo (COMP-SHIVA-SPEC).
-
+      Kernel SSOT: globus-os/modules/atc-shivacore/kernel/. Implementation
+      inventory and evidence bound per contract at exact commits.
   - id: L3
     name: "GlobusOS Operating System"
     responsibility: >

@@ -26,6 +26,7 @@ DEFAULT_MAPPING = REPO_ROOT / "docs/architecture/layers/ATC-LAYER-MAPPING-001.ya
 DEFAULT_CATALOG = REPO_ROOT / "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
 DEFAULT_L0_CATALOG = REPO_ROOT / "docs/architecture/layers/ATC-L0-FUNCTION-CATALOG-001.yaml"
 DEFAULT_L1_CATALOG = REPO_ROOT / "docs/architecture/layers/ATC-L1-FUNCTION-CATALOG-001.yaml"
+DEFAULT_L2_CATALOG = REPO_ROOT / "docs/architecture/layers/ATC-L2-FUNCTION-CATALOG-001.yaml"
 
 VALID_STATUS = {"MAPPED", "IMPLEMENTED", "VERIFIED", "RESIDUAL", "UNRESOLVED", "BLOCKED", "EXCLUDED"}
 VALID_INSTALL_MODELS = {"A", "B", "C", "D"}
@@ -341,6 +342,7 @@ def main():
     parser.add_argument("--registry", default=str(DEFAULT_REGISTRY), help="Path to layer registry YAML")
     parser.add_argument("--mapping", default=str(DEFAULT_MAPPING), help="Path to layer mapping YAML")
     parser.add_argument("--l1_catalog", default=str(DEFAULT_L1_CATALOG), help="Path to L1 function catalog YAML")
+    parser.add_argument("--l2_catalog", default=str(DEFAULT_L2_CATALOG), help="Path to L2 function catalog YAML")
     parser.add_argument("--l0_catalog", default=str(DEFAULT_L0_CATALOG), help="Path to L0 function catalog YAML")
     parser.add_argument("--catalog", default=str(DEFAULT_CATALOG), help="Path to component catalog JSON")
     parser.add_argument("--quiet", action="store_true", help="Only show summary")
@@ -410,6 +412,7 @@ def main():
     for layer_id, schema_id, cat_path in [
         ("L0", "ATC-L0-FUNCTION-CATALOG-001", args.l0_catalog),
         ("L1", "ATC-L1-FUNCTION-CATALOG-001", args.l1_catalog),
+        ("L2", "ATC-L2-FUNCTION-CATALOG-001", args.l2_catalog),
     ]:
         print(f"\n[4/4] Validating {layer_id} function catalog...")
         try:

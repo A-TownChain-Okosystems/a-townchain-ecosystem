@@ -1,7 +1,7 @@
 # ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001 — Complete Layer Architecture for the A-TownChain Ecosystem
 
 > **Document ID:** ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001
-> **Version:** 0.3.0 (DRAFT)
+> **Version:** 0.4.0 (DRAFT)
 > **Date:** 2026-10-15
 > **Authority:** A-TownChain-Okosystems/a-townchain-ecosystem
 > **Registry:** [ATC-LAYER-REGISTRY-001.yaml](layers/ATC-LAYER-REGISTRY-001.yaml)
@@ -258,6 +258,16 @@ Platform initialization, boot chain of trust, firmware/hardware detection, stand
 
 ---
 
+### L2 — ShivaCore Kernel & Trusted Computing Base (`ATC-LAYER-L2-SHIVACORE-KERNEL`)
+
+Rust `no_std` capability microkernel with minimal TCB. Security model: least privilege, no ambient authority, isolation by default, explicit IPC, fail-closed. Outside the kernel: A-TownChain-Node, ATC-VM, GlobusOS services, drivers, and Aurora AI unless a strictly privileged kernel task requires inclusion. Kernel SSOT: `globus-os/modules/atc-shivacore/kernel/`. Source: [Issue #137](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/137).
+
+**Sub-layers (12):** L2.1 Kernel Core, L2.2 Capability Security, L2.3 Memory Management, L2.4 Scheduling & Execution, L2.5 IPC & Communication, L2.6 Interrupts & Timers, L2.7 Architecture & CPU, L2.8 Device & DMA Isolation, L2.9 Trusted Computing Base, L2.10 Faults & Recovery, L2.11 Identity & Secure Services, L2.12 Audit & Verification Hooks.
+
+**Function contracts (75):** [ATC-L2-FUNCTION-CATALOG-001.yaml](layers/ATC-L2-FUNCTION-CATALOG-001.yaml). Inventory at globus-os main `3bf0001` (kernel SSOT directory): **47 IMPLEMENTED** (inline test refs + workspace suite 1298/1298, exit 0 — e.g. capability attenuation/revocation, VMM W^X and half-split invariants, page fault classification, deadline-aware scheduler, capability-checked IPC and syscall dispatch, fault isolation with capability revocation), **17 MAPPED** (source exists, test evidence unconfirmed — e.g. IDT/PIC init without test region, SavedRegs context structures, GDT selectors, trust anchor model), **11 UNRESOLVED** (no synchronization primitives, no shared-memory IPC, no DMA/IOMMU lifecycle, no TCB registry/documentation, no kernel panic contract). No contract VERIFIED: CI evidence at binding SHA pending; Intel/AMD/QEMU targets from Issue #137 remain pending.
+
+---
+
 ## 9. Architecture Reference Model
 
 This document is the layer architecture companion to:
@@ -273,4 +283,5 @@ The architecture presented here is the **proposed overall plan**. It is not yet 
 |---------|------|--------|
 | 0.1.0 | 2026-10-15 | Initial draft: 11 main layers + 8 cross-cutting layers, 30 components mapped, validation tool created |
 | 0.2.0 | 2026-10-15 | L0 detail added per owner spec: 9 sub-layers (L0.1-L0.9), 35 function contracts (ATC-L0-*), layer dependency matrix, capability-not-permission principle; sub-layer ID format normalized to dot notation |
+| 0.4.0 | 2026-10-15 | L2 detail added per Issue #137: 12 sub-layers (L2.1-L2.12), 75 function contracts (ATC-L2-*), kernel inventory at globus-os 3bf0001 (47 IMPLEMENTED, 17 MAPPED, 11 UNRESOLVED); validator covers L0+L1+L2 catalogs (31 checks) |
 | 0.3.0 | 2026-10-15 | L1 detail added per Issue #136: 9 sub-layers (L1.1-L1.9), 56 function contracts (ATC-L1-*), inventory at globus-os 3bf0001 (14 IMPLEMENTED, 16 MAPPED, 26 UNRESOLVED); validator generalized to per-layer function catalogs |
