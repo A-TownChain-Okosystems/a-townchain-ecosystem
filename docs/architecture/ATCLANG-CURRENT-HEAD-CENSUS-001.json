@@ -404,12 +404,296 @@
     },
     "verification_boundary": "No function marked VERIFIED; source mapping and JSON readback do not prove runtime correctness."
   },
-  "reconciliation_status": "PARTIAL",
-  "reconciliation_note": "COMP-LANG catalog reconciliation has been written on the PR branch: all ten existing bindings point to the current ATCLang commit with exact file blob SHAs, and four additional residual contracts are registered. Full bidirectional declaration classification, .atc/spec conformance and terminal CI evidence remain open.",
+  "reconciliation_status": "PARTIAL_SOURCE_AND_PATH_INVENTORY",
+  "reconciliation_note": "Exact-head recursive tree is not truncated (174 entries). All 24 .atc paths and 23 spec paths have been enumerated and pinned to file blob SHAs. Current classifications are based on path/format only; content-level semantic mapping is still pending.",
   "next_actions": [
-    "Classify every remaining source declaration as contract-bound, parent/helper, test-only, tooling-only, excluded with reason, or unresolved",
-    "Map all 24 .atc files and 23 spec files to grammar/compiler capabilities and tests",
-    "Retrieve current PR CI for the resulting catalog commit and preserve Run→Job→Step→terminal conclusion/exit/log evidence",
-    "Keep COMP-LANG contracts RESIDUAL until semantic, security and test evidence supports a stronger status"
-  ]
+    "Map every ATCLang production declaration and exported symbol to a contract, helper/delegation, tooling, test, explicit exclusion or unresolved bucket.",
+    "Read all 24 .atc files and map each to grammar/semantic/bytecode/CLI contracts and relevant tests; distinguish examples from differential corpus fixtures.",
+    "Read all 23 specification/registry/vector files, reconcile normative versus draft status, and map clauses to implementation symbols and conformance tests.",
+    "Collect exact PR CI Run→Job→Step→terminal conclusion/exit/log evidence before changing any readiness status."
+  ],
+  "exact_head_inventory": {
+    "atc_files": {
+      "repository": "A-TownChain-Okosystems/atclang",
+      "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+      "root_tree_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+      "truncated": false,
+      "expected_count": 24,
+      "observed_count": 24,
+      "entries": [
+        {
+          "path": "crates/atc-core/differential/corpus/arith_precedence.atc",
+          "blob_sha": "37f6b505e32574e860fcc9a27957b14917267ab3",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/calls.atc",
+          "blob_sha": "805f0e93320c459be8667702d48f0db638ee0ce3",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/compare_chain.atc",
+          "blob_sha": "b4868636d6eda9ed29e973ecb4bb71f9fc0cd213",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/const_typed.atc",
+          "blob_sha": "27f6ec99f0fc2416188db1d1801f9d13a4a34e86",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/control_else_if.atc",
+          "blob_sha": "cb94918664b2ca86cebb1c2c10383896d8b93ae2",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/control_if.atc",
+          "blob_sha": "a6c319dca115cf53f5446a88cf388280c3885301",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/control_if_else.atc",
+          "blob_sha": "2a3319702a97fa0f4bf0c57d4597c0b33520443f",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/control_while.atc",
+          "blob_sha": "e72c9ff458e55a3e88864783ad0f44294ab71aeb",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/fn_expr_stmt.atc",
+          "blob_sha": "3cd1be29f74559b014fdcbd8d608869ff1059c05",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/fn_implicit.atc",
+          "blob_sha": "5edbd6563b0ee520cb860c1c5b8ac0fee1995c16",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/fn_mixed_program.atc",
+          "blob_sha": "643d35eca377a4de0fa806c0ac8b09fa454790d4",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/fn_nested.atc",
+          "blob_sha": "59f93d39ed2a3094ddd36e1d4f3d119128fb0226",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/fn_simple.atc",
+          "blob_sha": "13be6df8a9e296cca1e06708a90759e6abacfeb8",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/let_no_semi.atc",
+          "blob_sha": "6c1718aba9cffd13fcffbb2eb34997f4c9ddf4fe",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/let_simple.atc",
+          "blob_sha": "fabb92f19da2db66a4f82c511f449256009465aa",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/mixed.atc",
+          "blob_sha": "c6ab20d3d038dc7955ae464e2312ea33f276e31d",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/parens.atc",
+          "blob_sha": "639254cdc0f5ad2ec12136cf06085ec2340a567b",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "crates/atc-core/differential/corpus/unary.atc",
+          "blob_sha": "ca98c585fcb7037cd3834236dbd24aa220fa004c",
+          "role": "DIFFERENTIAL_CORPUS_FIXTURE"
+        },
+        {
+          "path": "examples/atc8300.atc",
+          "blob_sha": "ccf3c01419a7493bbdb1cc16d235d8268a257832",
+          "role": "EXAMPLE_PROGRAM"
+        },
+        {
+          "path": "examples/atcos_main.atc",
+          "blob_sha": "53ff2bf5e9bd6bd88d36783a1c095f8a90b204e8",
+          "role": "EXAMPLE_PROGRAM"
+        },
+        {
+          "path": "examples/event_bus.atc",
+          "blob_sha": "0028ef3958848211835a1254dfcd9fba83192d16",
+          "role": "EXAMPLE_PROGRAM"
+        },
+        {
+          "path": "examples/kernel.atc",
+          "blob_sha": "90a9afe07020b883b6955f67ef646e3e5084df95",
+          "role": "EXAMPLE_PROGRAM"
+        },
+        {
+          "path": "examples/main.atc",
+          "blob_sha": "016e20341df2ece895ee57b3ad060d695e52e920",
+          "role": "EXAMPLE_PROGRAM"
+        },
+        {
+          "path": "examples/shivamon.atc",
+          "blob_sha": "4f3572316be04fdec23f98ac7291e17fb4636d55",
+          "role": "EXAMPLE_PROGRAM"
+        }
+      ],
+      "classification_status": "PATH_CLASSIFIED_ONLY",
+      "semantic_contract_mapping_status": "PENDING"
+    },
+    "specification_files": {
+      "repository": "A-TownChain-Okosystems/atclang",
+      "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+      "root_tree_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+      "truncated": false,
+      "expected_count": 23,
+      "observed_count": 23,
+      "entries": [
+        {
+          "path": "specs/VERSION.toml",
+          "blob_sha": "9675a270681d8a6f19b0455da1a68a3bff635f80",
+          "kind": "MACHINE_READABLE_CONTRACT_OR_VERSION",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/abi/DRAFT.md",
+          "blob_sha": "8666c7bb69bf2a121a01ddee3a79c01491c95ca9",
+          "kind": "DRAFT_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/abi/SPEC.md",
+          "blob_sha": "c186967641046fd1b77a222afabdb4b50d247d2f",
+          "kind": "NORMATIVE_OR_VERSIONED_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/artifact/DRAFT.md",
+          "blob_sha": "20cdb973b23505143058f4e2617209f53047ced3",
+          "kind": "DRAFT_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/bytecode/ATCB-1.md",
+          "blob_sha": "a7dbf9596567790a4fae4fe314621e5df3e4eefd",
+          "kind": "UNCLASSIFIED",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/bytecode/DRAFT.md",
+          "blob_sha": "a62e89d5e78555ac1d953b092b35f8fdcf057c5a",
+          "kind": "DRAFT_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/bytecode/SPEC.md",
+          "blob_sha": "0848bbf3c48237a61e0fc09d2e26877bccd1b40c",
+          "kind": "NORMATIVE_OR_VERSIONED_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/conformance/atcb-vm-vectors.json",
+          "blob_sha": "9913903cb048e8b548a0d7ad1c9b5878c9e0b3fc",
+          "kind": "REGISTRY_OR_VECTOR_DATA",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/execution/ATCB-1-ATC-VM-EXECUTION-CONTRACT.md",
+          "blob_sha": "b27562d35a5fc0485feeb2ef06b1886168d11bec",
+          "kind": "UNCLASSIFIED",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/gas/DRAFT.md",
+          "blob_sha": "4e59abb96814646321aa9a45412b4fb91651e597",
+          "kind": "DRAFT_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/ir/SPEC.md",
+          "blob_sha": "c4638ef2478de6bbd0f16e0b1768d65f8b29503c",
+          "kind": "NORMATIVE_OR_VERSIONED_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/language/DRAFT.md",
+          "blob_sha": "c813db23fb5fff9767641e3cf4c7221a4f76a4a5",
+          "kind": "DRAFT_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/language/SPEC.md",
+          "blob_sha": "630716b531be95b782f82c963cb69ac3b585ca96",
+          "kind": "NORMATIVE_OR_VERSIONED_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/language/registry.json",
+          "blob_sha": "72237be58c4419cc2d0f8248a9be08e0c8d6bf03",
+          "kind": "REGISTRY_OR_VECTOR_DATA",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/profiles/DRAFT.md",
+          "blob_sha": "0eaebefc8aebd436038344bd92af1626673bf046",
+          "kind": "DRAFT_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/runtime/RUNTIME-CLASSIFICATION.yaml",
+          "blob_sha": "761627d61a4b3c755e3cafad49ac87ac67ff8af4",
+          "kind": "MACHINE_READABLE_CONTRACT_OR_VERSION",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/security/DRAFT.md",
+          "blob_sha": "6237592ad5eb5033e9e272df1d41620effbf3bfd",
+          "kind": "DRAFT_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/semantics/SPEC.md",
+          "blob_sha": "975fcac79b5f2fff56c3a137b0926d83676dde61",
+          "kind": "NORMATIVE_OR_VERSIONED_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/semantics/registry.json",
+          "blob_sha": "b20fe1e30c9415e66a6ff134188c538ef5307b69",
+          "kind": "REGISTRY_OR_VECTOR_DATA",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/stdlib/SPEC.md",
+          "blob_sha": "09b9d5f3234157b3da2193161a047dbbace2c1b1",
+          "kind": "NORMATIVE_OR_VERSIONED_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/stdlib/STDLIB-CONTRACT.yaml",
+          "blob_sha": "bae7f3fb6a60d1f3228238277ef3eacab92e392b",
+          "kind": "MACHINE_READABLE_CONTRACT_OR_VERSION",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/vm/DRAFT.md",
+          "blob_sha": "4d16ea8a33b1b7919f94f49e9a88ef7546eb0441",
+          "kind": "DRAFT_SPEC",
+          "semantic_mapping": "PENDING"
+        },
+        {
+          "path": "specs/vm/SPEC.md",
+          "blob_sha": "d8aa6ec196becaf38471ce817ace2ce99903accc",
+          "kind": "NORMATIVE_OR_VERSIONED_SPEC",
+          "semantic_mapping": "PENDING"
+        }
+      ],
+      "classification_status": "PATH_AND_FORMAT_CLASSIFIED_ONLY",
+      "semantic_contract_mapping_status": "PENDING"
+    }
+  }
 }
