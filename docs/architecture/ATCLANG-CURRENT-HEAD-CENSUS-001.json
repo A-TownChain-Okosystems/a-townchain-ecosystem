@@ -407,12 +407,11 @@
   "reconciliation_status": "PARTIAL_CONTENT_LEVEL_RECONCILIATION",
   "reconciliation_note": "Exact-head recursive tree is not truncated (174 entries). All 24 .atc paths and 23 spec paths have been enumerated and pinned to file blob SHAs. Current classifications are based on path/format only; content-level semantic mapping is still pending.",
   "next_actions": [
-    "Review ATCLang PR #30, which removes the draft's conflicting ATCB v1 encoding definition; after merge, specify unresolved ABI/module metadata separately and validate against golden vectors.",
-    "Resolve the G1 language-spec versus Rust-subset scope conflict with an explicit feature-by-feature matrix; do not infer support from examples.",
-    "Resolve the big-endian frozen ATCB v1 versus little-endian draft execution-contract conflict through normative governance and a versioned boundary contract.",
-    "Finish symbol-level mapping for artifact.rs, vm.rs, native.rs, value.rs, CLI and test harnesses; record exclusions and delegation explicitly.",
-    "Map all 23 specification/registry/vector files requirement-by-requirement to exact implementation symbols and positive/negative conformance tests; preserve DRAFT/PENDING statuses.",
-    "Run the relevant CI against exact source and PR head, then record Run→Job→Step→terminal conclusion, exit code and logs/artifacts. Do not promote readiness without this evidence."
+    "Decide and version the intended G1 production language profile; resolve indentation-vs-brace syntax and '#' vs '//' comment conflict.",
+    "Map all registry tokens/keywords/types/namespaces/productions/AST nodes/semantic rules to exact Rust symbols, tests, or explicit exclusions using ATCLANG-G1-FEATURE-MATRIX-001.json.",
+    "Reconcile stale Python reference source-of-truth metadata in specs/language/SPEC.md and registry.json with current Rust-canonical architecture through normative versioning.",
+    "Review ATCLang PR #30 for the ATCB-v1 execution contract correction; keep it Draft until CI and review evidence exist.",
+    "Run exact-head CI and preserve Run→Job→Step→terminal conclusion/exit code/log evidence; do not promote residual contracts without it."
   ],
   "exact_head_inventory": {
     "atc_files": {
@@ -1352,8 +1351,8 @@
       {
         "id": "ATCLANG-RECON-001",
         "severity": "BLOCKING",
-        "finding": "G1 Python reference language registry (63 tokens, indentation-based syntax) and current Rust canonical core subset are not proven equivalent.",
-        "required_action": "Create a feature-by-feature matrix: implemented, delegated, unsupported by design, test-only, or unresolved; attach exact symbols and positive/negative tests."
+        "finding": "Feature-level reconciliation is now documented in docs/architecture/ATCLANG-G1-FEATURE-MATRIX-001.json, but confirms G1 is not equivalent/proven: 16 feature groups reviewed; 10 GAP, 3 PARTIAL, 3 UNRESOLVED, 0 full-implemented and 0 verified. The normative spec/registry (63 tokens, 76 keywords, 84 types, 31 namespaces, 28 parser productions, 50 AST nodes) describes a broader indentation-based Python-reference language; canonical Rust core is a smaller brace-based subset. README/architecture mark Python as historical/unverified documentation while normative spec/registry still cite it as source of truth.",
+        "required_action": "Decide/version the production language profile; resolve indentation-vs-braces and # vs // comments; map every token, keyword, type, namespace, grammar production, AST node and semantic rule to a Rust symbol plus positive/negative test or explicit exclusion. Resolve stale Python-reference provenance through normative governance. Run exact-head CI before any VERIFIED status."
       },
       {
         "id": "ATCLANG-RECON-002",
@@ -1395,6 +1394,34 @@
       "ci": "NO_PR_WORKFLOW_RUNS_RETURNED_FOR_COMMIT",
       "resolution_status": "CORRECTIVE_CHANGE_PROPOSED_NOT_MERGED",
       "verification_claimed": false
+    },
+    "g1_feature_matrix": {
+      "path": "docs/architecture/ATCLANG-G1-FEATURE-MATRIX-001.json",
+      "url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/blob/docs/catalog-missing-platform-functions-2026-10-15/docs/architecture/ATCLANG-G1-FEATURE-MATRIX-001.json",
+      "commit": "af2481bf399ce18f3c339d56d8db824222e6f269",
+      "status": "RESIDUAL",
+      "release_decision": "BLOCKED",
+      "summary": {
+        "feature_groups": 16,
+        "gap": 10,
+        "partial": 3,
+        "unresolved": 3,
+        "full_implemented": 0,
+        "verified": 0
+      },
+      "evidence": {
+        "source_head": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+        "registry_blob_sha": "72237be58c4419cc2d0f8248a9be08e0c8d6bf03",
+        "spec_blob_sha": "630716b531be95b782f82c963cb69ac3b585ca96",
+        "lexer_blob_sha": "6f503a1b1c7a7145284eb5670830946fdcfdac09",
+        "parser_blob_sha": "993df7a9a6626d869ef3e22f02a006fa13466586",
+        "ast_blob_sha": "8721d367971ac93db2578303006045bac754993b",
+        "differential_test_blob_sha": "5f588cb83291ea1be90ef455a15f9d6bce8bd193",
+        "end_to_end_test_blob_sha": "d4e758b4213ca433778d2d076915459cc563b6e9",
+        "architecture_blob_sha": "9256adf54f7b2ff2f07cc76fee64cbeef0c47318"
+      },
+      "verification_claimed": false,
+      "ci": "NOT_RUN_IN_THIS_MATRIX_TASK"
     }
   }
 }
