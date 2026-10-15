@@ -397,3 +397,27 @@ Every function remains `RESIDUAL` with `UNBOUND_RESIDUAL` source binding. No fun
 5. Attach exact-SHA Run→Job→Step, terminal conclusion, exit code, logs and artifact hashes before any status promotion.
 
 Catalog totals after this additive update: **45 components / 167 function contracts / 10 cross-component interfaces**. These are inventory counts, not implementation-completeness or verification claims. Release remains `BLOCKED`.
+
+
+## Maintenance System — ATC-STD-MAINT-000 (2026-10-15)
+
+Normative parent-standard work is tracked in [atc-standards Issue #112](https://github.com/A-TownChain-Okosystems/atc-standards/issues/112). The existing catalog has been extended with `COMP-MAINTENANCE-LIFECYCLE`, `FN-MAINT-000..024`, and residual interfaces `IF-011` and `IF-012`.
+
+### Lifecycle
+
+`DETECT → ASSESS → CLASSIFY → PLAN → APPROVE → IMPLEMENT → TEST → VALIDATE → DEPLOY → MONITOR → EVIDENCE → CLOSE`
+
+Risk classes: `M0` routine; `M1` operational; `M2` security-sensitive; `M3` critical/trust-boundary changes requiring independent review, explicit human approval, recovery planning and post-deployment verification.
+
+### Ownership boundary
+
+- `atc-standards` owns the normative lifecycle, risk, approval and evidence contract.
+- Each implementation repository remains the SSOT for its own runtime, package, wallet, VM, node, kernel, Aurora or OS behavior.
+- `a-townchain-ecosystem` owns integration/catalog/compliance/evidence orchestration only; it must not become a second updater or domain implementation.
+- Maintenance actions must delegate to canonical owner APIs and must not bypass owner authorization or capability checks.
+
+### Initial state and evidence rule
+
+All 25 maintenance function contracts are `RESIDUAL` with `UNBOUND_RESIDUAL` source bindings. The component verification gate is `BLOCKED`. No implementation or verification is claimed. A maintenance run may be called `VERIFIED` only with exact-SHA terminal Run→Job→Step, conclusion, exit code, logs and artifact hashes; green CI alone is insufficient.
+
+Catalog inventory after the additive update: **46 components / 192 function contracts / 12 cross-component interfaces**. These are inventory counts, not proof of implementation completeness or release readiness.
