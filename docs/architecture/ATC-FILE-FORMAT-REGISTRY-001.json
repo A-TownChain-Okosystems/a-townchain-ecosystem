@@ -1,0 +1,552 @@
+{
+  "schema_id": "ATC-FILE-FORMAT-REGISTRY-001",
+  "schema_version": "1.0.0",
+  "status": "BASELINE_RESIDUAL",
+  "release_decision": "BLOCKED",
+  "authority": {
+    "purpose": "Inventory file formats and bind each format to canonical ownership, processing capabilities, security requirements, and catalog reconciliation.",
+    "implementation_policy": "Standalone First, Ecosystem Second. This registry is control-plane metadata only; it must not host duplicate parsers, writers, runtimes, or format implementations.",
+    "normative_owner": "A-TownChain-Okosystems/atc-standards",
+    "catalog_ssot": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
+    "registry_owner": "A-TownChain-Okosystems/a-townchain-ecosystem"
+  },
+  "status_semantics": {
+    "IMPLEMENTED": "Source implementation observed; not a claim of verification.",
+    "VERIFIED": "Only with exact commit SHA and actual test evidence including run, job, step, exit code, and logs/artifacts.",
+    "RESIDUAL": "Required format behavior or source mapping remains incomplete or unverified.",
+    "BLOCKED": "A normative decision, dependency, or source binding prevents safe completion.",
+    "EXCLUDED": "Explicitly out of scope with a recorded reason."
+  },
+  "format_records": [
+    {
+      "format_id": "FMT-SOURCE-RUST-001",
+      "name": "Rust source",
+      "extensions": [
+        ".rs"
+      ],
+      "family": "source",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "A-TownChain-Okosystems/globus-os or component-specific repository",
+      "schema_version": "toolchain-pinned",
+      "capabilities": [
+        "reader",
+        "parser",
+        "compiler",
+        "formatter",
+        "linter"
+      ],
+      "security_profile": "reproducible-build; dependency-audit",
+      "status": "RESIDUAL",
+      "notes": "Owner must be selected per component; no ecosystem-wide source owner."
+    },
+    {
+      "format_id": "FMT-CONFIG-TOML-001",
+      "name": "TOML configuration",
+      "extensions": [
+        ".toml"
+      ],
+      "family": "configuration",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "owning component repository",
+      "schema_version": "per-file-versioned-contract",
+      "capabilities": [
+        "reader",
+        "parser",
+        "validator",
+        "writer"
+      ],
+      "security_profile": "strict-schema; reject-unknown-fields-where-required",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-DATA-JSON-001",
+      "name": "JSON data",
+      "extensions": [
+        ".json"
+      ],
+      "family": "data-and-catalog",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "owning component repository; ecosystem catalog only for cross-repository metadata",
+      "schema_version": "explicit-schema-id-and-version",
+      "capabilities": [
+        "reader",
+        "parser",
+        "validator",
+        "serializer",
+        "deserializer"
+      ],
+      "security_profile": "size-depth-duplicate-key-and-invalid-input-limits",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-DATA-YAML-001",
+      "name": "YAML configuration",
+      "extensions": [
+        ".yaml",
+        ".yml"
+      ],
+      "family": "configuration",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "owning component repository",
+      "schema_version": "explicit-schema-version",
+      "capabilities": [
+        "reader",
+        "parser",
+        "validator",
+        "writer"
+      ],
+      "security_profile": "safe-loader; no arbitrary object construction",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-SCHEMA-PROTO-001",
+      "name": "Protocol Buffers",
+      "extensions": [
+        ".proto"
+      ],
+      "family": "interface-schema",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "atc-standards for normative cross-repository contracts; local repository for implementation-specific APIs",
+      "schema_version": "versioned-package-and-compatibility-policy",
+      "capabilities": [
+        "parser",
+        "codegen",
+        "serializer",
+        "deserializer",
+        "compatibility-check"
+      ],
+      "security_profile": "wire-compatibility; bounded-decode",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-SCHEMA-CBOR-001",
+      "name": "CBOR",
+      "extensions": [
+        ".cbor"
+      ],
+      "family": "binary-serialization",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "atc-standards for normative profiles",
+      "schema_version": "profile-version-required",
+      "capabilities": [
+        "reader",
+        "parser",
+        "validator",
+        "serializer",
+        "deserializer"
+      ],
+      "security_profile": "canonical-encoding-where-required; bounded-decode; duplicate-map-key-policy",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-ATCB-001",
+      "name": "ATC-VM bytecode container",
+      "extensions": [
+        ".atcb"
+      ],
+      "family": "vm-bytecode",
+      "maturity": "ATC_SPEC_REQUIRED",
+      "canonical_owner": "a-townchain/components/vm; normative format definition in atc-standards",
+      "schema_version": "BLOCKED_ATCB_VS_ATC1",
+      "capabilities": [
+        "decoder",
+        "encoder",
+        "validator",
+        "disassembler",
+        "conformance-tests"
+      ],
+      "security_profile": "magic-version-length-op-count-bounds-gas-and-invalid-input-rejection",
+      "status": "BLOCKED",
+      "notes": "ATCB vs ATC1 conflict must be resolved normatively before declaring a canonical binary decoder."
+    },
+    {
+      "format_id": "FMT-ATCTX-CANDIDATE-001",
+      "name": "ATC transaction container candidate",
+      "extensions": [
+        ".atctx"
+      ],
+      "family": "blockchain-transaction",
+      "maturity": "PROPOSAL_ONLY",
+      "canonical_owner": "a-townchain transaction implementation; normative encoding in atc-standards",
+      "schema_version": "NOT_FROZEN",
+      "capabilities": [
+        "parser",
+        "serializer",
+        "deserializer",
+        "validator",
+        "signature-verifier"
+      ],
+      "security_profile": "TX-V2 domain separation; canonical field encoding; bounded lengths",
+      "status": "RESIDUAL",
+      "notes": "Extension is a proposal, not an existing normative format."
+    },
+    {
+      "format_id": "FMT-ATCBLK-CANDIDATE-001",
+      "name": "ATC block container candidate",
+      "extensions": [
+        ".atcblk"
+      ],
+      "family": "blockchain-block",
+      "maturity": "PROPOSAL_ONLY",
+      "canonical_owner": "a-townchain",
+      "schema_version": "NOT_FROZEN",
+      "capabilities": [
+        "parser",
+        "serializer",
+        "validator",
+        "hash-verifier"
+      ],
+      "security_profile": "canonical-encoding; chain-context; resource-bounds",
+      "status": "RESIDUAL",
+      "notes": "Extension is a proposal, not an existing normative format."
+    },
+    {
+      "format_id": "FMT-ATCSTATE-CANDIDATE-001",
+      "name": "ATC state snapshot candidate",
+      "extensions": [
+        ".atcstate"
+      ],
+      "family": "blockchain-state",
+      "maturity": "PROPOSAL_ONLY",
+      "canonical_owner": "a-townchain",
+      "schema_version": "NOT_FROZEN",
+      "capabilities": [
+        "reader",
+        "writer",
+        "validator",
+        "integrity-verifier",
+        "migration"
+      ],
+      "security_profile": "cryptographic-integrity; atomic-restore; schema-versioning",
+      "status": "RESIDUAL",
+      "notes": "Do not treat non-cryptographic or in-memory MVP storage as a production canonical state store."
+    },
+    {
+      "format_id": "FMT-ELF-001",
+      "name": "ELF executable/object",
+      "extensions": [
+        ".elf",
+        ".o"
+      ],
+      "family": "executable-and-object",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "globus-os toolchain / target component",
+      "schema_version": "target-ABI-and-architecture",
+      "capabilities": [
+        "linker",
+        "loader",
+        "validator",
+        "symbol-inspector"
+      ],
+      "security_profile": "signature-or-trust-chain-where-required; bounds-and-relocation-validation",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-UEFI-001",
+      "name": "UEFI executable",
+      "extensions": [
+        ".efi"
+      ],
+      "family": "boot",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "globus-os",
+      "schema_version": "UEFI-and-target-architecture",
+      "capabilities": [
+        "image-builder",
+        "signature-verifier",
+        "boot-loader"
+      ],
+      "security_profile": "secure-boot-chain; authenticated-update",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-DISK-IMAGE-001",
+      "name": "OS disk/install images",
+      "extensions": [
+        ".iso",
+        ".img",
+        ".raw"
+      ],
+      "family": "installation",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "globus-os distribution tooling",
+      "schema_version": "image-manifest-version",
+      "capabilities": [
+        "builder",
+        "reader",
+        "integrity-verifier",
+        "installer",
+        "rollback"
+      ],
+      "security_profile": "signed-manifest; hash-verification; partition-and-size-bounds",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-VM-IMAGE-001",
+      "name": "Virtual machine images",
+      "extensions": [
+        ".qcow2",
+        ".vmdk",
+        ".vhdx",
+        ".ova",
+        ".ovf"
+      ],
+      "family": "virtualization",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "globus-os distribution tooling",
+      "schema_version": "hypervisor-and-image-version",
+      "capabilities": [
+        "importer",
+        "exporter",
+        "validator",
+        "provisioner"
+      ],
+      "security_profile": "untrusted-image-isolation; integrity-check",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-WASM-001",
+      "name": "WebAssembly module",
+      "extensions": [
+        ".wasm"
+      ],
+      "family": "portable-executable",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "owning runtime; ATC-VM compatibility must not be assumed",
+      "schema_version": "WASM-feature-profile",
+      "capabilities": [
+        "decoder",
+        "validator",
+        "runtime-loader",
+        "fuel-or-resource-meter"
+      ],
+      "security_profile": "sandbox; capability-limited-host-imports; resource-limits",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-WIT-001",
+      "name": "WASM Interface Type",
+      "extensions": [
+        ".wit"
+      ],
+      "family": "interface-schema",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "owning runtime or atc-standards for shared contracts",
+      "schema_version": "wit-toolchain-pinned",
+      "capabilities": [
+        "parser",
+        "validator",
+        "binding-generator",
+        "compatibility-check"
+      ],
+      "security_profile": "explicit-capability-imports; versioned-interface",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-LLM-GGUF-001",
+      "name": "GGUF model",
+      "extensions": [
+        ".gguf"
+      ],
+      "family": "ai-model",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "Aurora AI model-adapter/runtime repository",
+      "schema_version": "format-version-and-runtime-compatibility",
+      "capabilities": [
+        "metadata-reader",
+        "model-loader",
+        "tensor-validator"
+      ],
+      "security_profile": "untrusted-model-file; size-shape-offset-and-allocation-bounds",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-LLM-SAFETENSORS-001",
+      "name": "Safetensors model weights",
+      "extensions": [
+        ".safetensors"
+      ],
+      "family": "ai-model",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "Aurora AI model-adapter/runtime repository",
+      "schema_version": "format-and-model-manifest-version",
+      "capabilities": [
+        "header-parser",
+        "tensor-validator",
+        "loader"
+      ],
+      "security_profile": "offset-overflow-and-tensor-bounds; provenance-check",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-LLM-ONNX-001",
+      "name": "ONNX model",
+      "extensions": [
+        ".onnx"
+      ],
+      "family": "ai-model",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "Aurora AI model-adapter/runtime repository",
+      "schema_version": "opset-and-runtime-version",
+      "capabilities": [
+        "parser",
+        "graph-validator",
+        "runtime-loader"
+      ],
+      "security_profile": "operator-allowlist-where-required; memory-and-execution-bounds",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-CRYPTO-PEM-001",
+      "name": "PEM encoded cryptographic material",
+      "extensions": [
+        ".pem"
+      ],
+      "family": "cryptography",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "owning crypto/key-management component; normative profiles in atc-standards",
+      "schema_version": "algorithm-and-container-type",
+      "capabilities": [
+        "parser",
+        "certificate-validator",
+        "signature-verifier"
+      ],
+      "security_profile": "private-key-never-committed; strict-key-type-and-algorithm-policy",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-EVIDENCE-SARIF-001",
+      "name": "SARIF security findings",
+      "extensions": [
+        ".sarif"
+      ],
+      "family": "verification-evidence",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "CI/security workflow; ecosystem stores references and digests",
+      "schema_version": "SARIF-version-and-tool-version",
+      "capabilities": [
+        "parser",
+        "schema-validator",
+        "evidence-linker"
+      ],
+      "security_profile": "provenance-and-artifact-digest",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-EVIDENCE-JUNIT-001",
+      "name": "JUnit XML test report",
+      "extensions": [
+        ".junit.xml",
+        ".xml"
+      ],
+      "family": "verification-evidence",
+      "maturity": "ESTABLISHED",
+      "canonical_owner": "test runner / CI workflow",
+      "schema_version": "runner-specific-report-profile",
+      "capabilities": [
+        "parser",
+        "report-validator",
+        "evidence-linker"
+      ],
+      "security_profile": "bind-report-to-exact-commit-and-run",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-PACKAGE-DEB-001",
+      "name": "Debian package",
+      "extensions": [
+        ".deb"
+      ],
+      "family": "package",
+      "maturity": "PLATFORM_SPECIFIC",
+      "canonical_owner": "GlobusOS distribution tooling if Debian-compatible host packaging is supported",
+      "schema_version": "package-and-target-version",
+      "capabilities": [
+        "builder",
+        "installer",
+        "signature-or-digest-verifier",
+        "updater",
+        "rollback"
+      ],
+      "security_profile": "trusted-repository-metadata; dependency-and-script-policy",
+      "status": "RESIDUAL"
+    },
+    {
+      "format_id": "FMT-PACKAGE-RPM-001",
+      "name": "RPM package",
+      "extensions": [
+        ".rpm"
+      ],
+      "family": "package",
+      "maturity": "PLATFORM_SPECIFIC",
+      "canonical_owner": "GlobusOS distribution tooling if RPM-compatible host packaging is supported",
+      "schema_version": "package-and-target-version",
+      "capabilities": [
+        "builder",
+        "installer",
+        "signature-or-digest-verifier",
+        "updater",
+        "rollback"
+      ],
+      "security_profile": "trusted-repository-metadata; dependency-and-script-policy",
+      "status": "RESIDUAL"
+    }
+  ],
+  "function_reconciliation": {
+    "catalog_integration_required": true,
+    "catalog_contracts_must_live_in": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
+    "required_capability_groups": [
+      "format.detect",
+      "format.parse",
+      "format.validate",
+      "format.serialize",
+      "format.deserialize",
+      "format.integrity.verify",
+      "format.signature.verify",
+      "format.migrate",
+      "format.install",
+      "format.rollback",
+      "format.conformance.test"
+    ],
+    "minimum_function_contract_fields": [
+      "stable_function_id",
+      "canonical_owner_repo",
+      "purpose",
+      "inputs",
+      "outputs",
+      "preconditions",
+      "failure_semantics",
+      "resource_limits",
+      "security_boundary",
+      "source_binding.repository",
+      "source_binding.full_commit_sha",
+      "source_binding.path",
+      "source_binding.symbol",
+      "source_binding.blob_sha",
+      "test_evidence"
+    ],
+    "status": "RESIDUAL",
+    "note": "This registry is a format inventory and gap map, not a replacement for the catalog's function contracts. Add each proven or missing function to the existing catalog using its established IDs and schema. Do not claim source mapping from a format's existence."
+  },
+  "evidence_policy": {
+    "source_binding_key": [
+      "repository",
+      "full_commit_sha",
+      "path",
+      "symbol",
+      "blob_sha"
+    ],
+    "verified_requires": [
+      "exact_commit_sha",
+      "workflow_run_id",
+      "job_id",
+      "step_name",
+      "exit_code_0",
+      "log_or_artifact_digest",
+      "scope_match"
+    ],
+    "pending_or_skipped_is_success": false,
+    "structural_validation_is_functional_verification": false,
+    "release_decision": "BLOCKED"
+  }
+}
