@@ -127,15 +127,55 @@
         "specs/language/registry.json#ast_nodes (blob 72237be58c4419cc2d0f8248a9be08e0c8d6bf03)",
         "specs/language/SPEC.md#section-4 (blob 630716b531be95b782f82c963cb69ac3b585ca96)"
       ],
-      "impact": "This is a confirmed normative registry/spec inconsistency, not proof that `X` is implemented or intended. Keep G1-AST_NODE-332 unresolved until the owner corrects the registry or documents `X` normatively and maps it to source behavior."
+      "impact": "This is a confirmed normative registry/spec inconsistency, not proof that `X` is implemented or intended. Keep G1-AST_NODE-332 unresolved until the owner corrects the registry or documents `X` normatively and maps it to source behavior.",
+      "status": "RESOLVED",
+      "resolution": {
+        "classification": "REGISTRY_GENERATOR_DEFECT",
+        "resolved_at": "2026-10-15T18:15+02:00",
+        "normative_truth": "SPEC.md section 4 (49 nodes) is normative; `X` is not an AST node.",
+        "evidence_chain": [
+          "SPEC.md section 4 heading itself fixes the count (49 nodes); SPEC task list confirms 49.",
+          "Declared source_of_truth (registry header): src/atclang Python reference at commit a7e1bd4; ast_nodes.py defines exactly 49 AST classes; no class X.",
+          "Origin of `X`: docstring example in src/atclang/frontend/parser/ast_nodes.py line 370 (\"class X implements Y { ... } - wird wie ContractDef behandelt\") was scraped as a node class by the list generation.",
+          "No implementation contains an X node: Rust crates/atc-core/src/ast.rs (Expr/Stmt enums) has no X; the Python reference has no X class.",
+          "Registry defect predates PR #31: entry introduced with the registry creation commit 21c595dc (main, 2026-10-10)."
+        ],
+        "remediation": {
+          "commit": "a8f4a13638607cc891ec8da7b142ce36aadf3ece",
+          "repo": "A-TownChain-Okosystems/atclang",
+          "change": "specs/language/registry.json ast_nodes 50 -> 49 (literal entry X removed); minimal diff, all other 49 names unchanged"
+        }
+      }
+    },
+    {
+      "id": "OBS-009",
+      "finding": "CI failures at the PR #31 head ac488bc are root-caused and (where agent-fixable) remediated on atclang main a8f4a13.",
+      "evidence": [
+        "CI-Independent ATCLang Audit (run 38765191700) failed with exit code 1 on finding F-ATCLANG-FILE-001 (P1): FILE_REGISTER.md drift, missing tools/tests/test_tooling_suite.py. Remediated in a8f4a13 (register entry added).",
+        "Code Quality (run 38765191981) failed with exit code 1 on ruff F401 (unused import pytest) and F841 (unused local env) in tools/tests/test_tooling_suite.py. Remediated in a8f4a13; ruff all checks passed locally; workflow green at a8f4a13.",
+        "Markdown Lint (run 38765193019) failed on two distinct groups, none of them PR-31 content: (a) 12x MD025 single-title false positives (frontmatter title + H1 is the ATC-STD-MD-001 REQ-MD-004 required pattern; old pinned policy 1c198f3 lacks front_matter_title), resolved by policy pin 61f1941 which sets MD025 front_matter_title; (b) the reusable workflow checks out the org policy repo into .org-github-policy and the glob **/*.md lints that checkout itself, whose stale files fail the own policy. Group (b) needs the Owner pin/glob action and cannot be fixed from the caller repo."
+      ],
+      "impact": "At head a8f4a13 Code Quality, Repository Governance, Cargo Security Audit, Evidence Binding and CodeQL are green; Markdown Lint stays red solely due to the stale org policy pin chain (Owner action). PR #31 must rebase onto main a8f4a13 to obtain the fixed audit and quality evidence at its own head.",
+      "status": "ROOT_CAUSED"
+    },
+    {
+      "id": "OBS-010",
+      "finding": "Org-wide markdownlint pin chain is structurally broken and requires an Owner action: atclang .github/workflows/markdownlint.yml references A-TownChain-Okosystems/.github/.github/workflows/reusable-markdownlint.yml@f7656d5; that workflow checks out the policy at ref 1c198f3 (pinned), and neither the reusable workflow nor the policies/ directory exists on the org repo main any more (restructure to af5d803).",
+      "evidence": [
+        "Org repo main branch head af5d803: .github/workflows contains only code-quality.yml, org-compliance-scan.yml, reusable-ruff.yml, review-conflict-free.yml; no markdownlint workflow, no policies/ directory.",
+        "Current org main AGENT_MANIFEST.md passes the org policy config cleanly (markdownlint-cli2 exit 0).",
+        "Editing .github/workflows requires the workflow scope which the agent token lacks (known blocker, GH013); pushing the workflow file is rejected."
+      ],
+      "impact": "Markdown Lint cannot go green in atclang until the Owner restores/updates the reusable markdownlint workflow in the org repo (recommended: new commit with policy config including MD025 front_matter_title, glob excluding the policy checkout, e.g. !.org-github-policy/**) and updates the atclang pin to that new SHA.",
+      "status": "OPEN_OWNER_ACTION"
     }
   ],
   "required_next_actions": [
-    "Resolve the confirmed AST inventory inconsistency: registry has 50 nodes including `X`, while SPEC.md lists 49 and omits `X`; decide normative intent, revise the proper SSOT, and add consistency validation.",
+    "RESOLVED (OBS-008): registry entry X removed on atclang main a8f4a13; registry ast_nodes now 49 and identical to SPEC.md section 4.",
     "Classify each of the 332 rows MAPPED, EXCLUDED, or UNRESOLVED only after inspecting normative definition and actual lexer/parser/AST/lowering/runtime call path; include exact file/blob/symbol/test evidence.",
     "Resolve the normative token-category question for INT versus HEX_INT/OCTAL_INT/BIN_INT and prove any proposed normalization with semantics and tests.",
     "Separate unsupported normative requirements from equivalent representations, native-only contracts, delegated behavior, and explicitly excluded scope.",
-    "Inspect and repair the failed independent governance/security audit, Markdown lint, and code-quality workflow findings; capture full step logs and numeric exit codes.",
+    "CI root-caused (OBS-009): audit and code-quality findings fixed on atclang main a8f4a13 (workflows green there); Markdown Lint blocked by the org policy pin chain (OBS-010, Owner action). After PR #31 rebases onto main, re-capture run/job/step evidence at the new exact head.",
     "Run relevant workflows again against the exact source SHA after fixes; preserve run/job/step/artifact hashes.",
     "Keep all unproven registry entries UNRESOLVED / NOT_RUN and retain RESIDUAL/BLOCKED until item-level acceptance criteria pass."
   ],
