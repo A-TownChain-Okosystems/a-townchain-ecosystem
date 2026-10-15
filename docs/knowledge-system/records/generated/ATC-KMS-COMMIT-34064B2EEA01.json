@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-34064B2EEA01",
-  "timestamp": "2026-10-14T07:42:12.340027Z",
+  "timestamp": "2026-10-15T07:30:09.646094Z",
   "category": "change",
   "title": "Commit: docs: bind catalog functions to source audit evidence",
   "context": "Git commit 34064b2eea0192d6b004839529dcec2199503a3f on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/34064b2eea0192d6b004839529dcec2199503a3f",
-    "commit": "5b103bf3bff7045a7ee4eafa447e68888ab116b4"
+    "commit": "c91c8c6fc60b1c28403c3125f728495e2efa124b"
   },
   "tags": [
     "commit",

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-CA36BF4268DE",
-  "timestamp": "2026-10-14T07:42:12.340027Z",
+  "timestamp": "2026-10-15T07:30:09.646094Z",
   "category": "change",
   "title": "Commit: fix(ci): retain blocked census evidence and report coverage summary",
   "context": "Git commit ca36bf4268dea075317181cfd0d1a7511be6edd1 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/ca36bf4268dea075317181cfd0d1a7511be6edd1",
-    "commit": "5b103bf3bff7045a7ee4eafa447e68888ab116b4"
+    "commit": "c91c8c6fc60b1c28403c3125f728495e2efa124b"
   },
   "tags": [
     "commit",

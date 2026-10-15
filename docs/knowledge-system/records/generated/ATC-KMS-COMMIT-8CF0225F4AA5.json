@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-8CF0225F4AA5",
-  "timestamp": "2026-10-14T07:42:12.340027Z",
+  "timestamp": "2026-10-15T07:30:09.646094Z",
   "category": "change",
   "title": "Commit: fix(cargo): exclude legacy VM and algorithm snapshots from root workspace",
   "context": "Git commit 8cf0225f4aa525815ab84e51d0643f1a89a62722 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/8cf0225f4aa525815ab84e51d0643f1a89a62722",
-    "commit": "5b103bf3bff7045a7ee4eafa447e68888ab116b4"
+    "commit": "c91c8c6fc60b1c28403c3125f728495e2efa124b"
   },
   "tags": [
     "commit",

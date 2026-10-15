@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-53B8D33AE8AC",
-  "timestamp": "2026-10-14T07:42:12.340027Z",
+  "timestamp": "2026-10-15T07:30:09.646094Z",
   "category": "change",
   "title": "Commit: fix(ci): support read-only token for private census repositories",
   "context": "Git commit 53b8d33ae8ac10dcfd97af035ee5030a0f632b01 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/53b8d33ae8ac10dcfd97af035ee5030a0f632b01",
-    "commit": "5b103bf3bff7045a7ee4eafa447e68888ab116b4"
+    "commit": "c91c8c6fc60b1c28403c3125f728495e2efa124b"
   },
   "tags": [
     "commit",
