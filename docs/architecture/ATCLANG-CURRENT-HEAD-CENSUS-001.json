@@ -1007,53 +1007,11 @@
     ],
     "spec_reconciliation": [
       {
-        "path": "specs/language/SPEC.md",
-        "blob_sha": "630716b531be95b782f82c963cb69ac3b585ca96",
-        "role": "G1 language contract",
-        "status": "CONFLICT_REQUIRES_SCOPE_DECISION",
-        "finding": "The spec describes the Python reference, 63-token inventory and indentation-based syntax; the Rust canonical core describes a narrower recursive-descent subset with braces and semicolons. A feature-by-feature compatibility matrix is required before treating this as one language contract."
-      },
-      {
-        "path": "specs/language/registry.json",
-        "blob_sha": "72237be58c4419cc2d0f8248a9be08e0c8d6bf03",
-        "role": "Machine-readable G1 token/keyword/type registry",
-        "status": "CONFLICT_REQUIRES_SCOPE_DECISION",
-        "finding": "Registry reflects broad Python reference language. It cannot be presumed implemented by the current Rust lexer/parser."
-      },
-      {
-        "path": "specs/semantics/SPEC.md",
-        "blob_sha": "975fcac79b5f2fff56c3a137b0926d83676dde61",
-        "role": "G2 semantic/type-checking contract",
-        "status": "PARTIAL_IMPLEMENTATION_MAPPING",
-        "finding": "Spec names Python type_checker.py; exact-head Rust core has parser/IR modules but no standalone type_checker.rs in the tree. Need per-rule mapping or explicit unsupported/excluded status."
-      },
-      {
-        "path": "specs/semantics/registry.json",
-        "blob_sha": "b20fe1e30c9415e66a6ff134188c538ef5307b69",
-        "role": "G2 machine-readable rules and builtins",
-        "status": "PARTIAL_IMPLEMENTATION_MAPPING",
-        "finding": "Registry declares types and semantic rules beyond what source path inventory alone establishes; each rule requires a matching Rust implementation symbol and negative/conformance test."
-      },
-      {
-        "path": "specs/bytecode/SPEC.md",
-        "blob_sha": "0848bbf3c48237a61e0fc09d2e26877bccd1b40c",
-        "role": "ATC-BC-001 frozen canonical ATCB v1 encoding",
-        "status": "NORMATIVE_CANDIDATE_BUT_CROSS_SPEC_CONFLICT",
-        "finding": "Frozen spec states ATCB container and all multibyte fields/operands are big-endian; bytecode.rs documents canonical big-endian encoding and verifier."
-      },
-      {
-        "path": "specs/bytecode/ATCB-1.md",
-        "blob_sha": "a7dbf9596567790a4fae4fe314621e5df3e4eefd",
-        "role": "Implementation baseline/reference to frozen carrier",
-        "status": "ALIGNED_WITH_FROZEN_BYTECODE_SPEC",
-        "finding": "Explicitly delegates normative authority to specs/bytecode/SPEC.md and documents ATCB magic/version/count."
-      },
-      {
-        "path": "specs/execution/ATCB-1-ATC-VM-EXECUTION-CONTRACT.md",
-        "blob_sha": "b27562d35a5fc0485feeb2ef06b1886168d11bec",
-        "role": "ATCLang-to-canonical-ATC-VM boundary",
-        "status": "BLOCKING_CONTRADICTION",
-        "finding": "Draft describes little-endian integer fields and a module envelope with ABI/VM/function/capability fields, while frozen ATCB v1 spec defines a flat ATCB container with big-endian fields. Must resolve in the normative owner workflow; do not silently choose one or call the cross-boundary contract verified."
+        "path": "specs/abi/DRAFT.md",
+        "blob_sha": "8666c7bb69bf2a121a01ddee3a79c01491c95ca9",
+        "role": "ABI spec extraction placeholder",
+        "status": "PLACEHOLDER_DRAFT",
+        "finding": "The file states that ABI extraction is still a draft; it must not be treated as a frozen normative contract."
       },
       {
         "path": "specs/abi/SPEC.md",
@@ -1063,11 +1021,110 @@
         "finding": "Document labels itself SPEC-DRAFT and says implementation/tests/evidence pending; map requirements to ATC-VM ABI and Rust IR before promotion."
       },
       {
+        "path": "specs/artifact/DRAFT.md",
+        "blob_sha": "20cdb973b23505143058f4e2617209f53047ced3",
+        "role": "Artifact spec extraction placeholder",
+        "status": "PLACEHOLDER_DRAFT"
+      },
+      {
+        "path": "specs/bytecode/ATCB-1.md",
+        "blob_sha": "a7dbf9596567790a4fae4fe314621e5df3e4eefd",
+        "role": "Implementation baseline/reference to frozen carrier",
+        "status": "ALIGNED_WITH_FROZEN_BYTECODE_SPEC",
+        "finding": "Explicitly delegates normative authority to specs/bytecode/SPEC.md and documents ATCB magic/version/count."
+      },
+      {
+        "path": "specs/bytecode/DRAFT.md",
+        "blob_sha": "a62e89d5e78555ac1d953b092b35f8fdcf057c5a",
+        "role": "Superseded bytecode draft",
+        "status": "EXCLUDED_AS_SUPERSEDED"
+      },
+      {
+        "path": "specs/bytecode/SPEC.md",
+        "blob_sha": "0848bbf3c48237a61e0fc09d2e26877bccd1b40c",
+        "role": "ATC-BC-001 frozen canonical ATCB v1 encoding",
+        "status": "NORMATIVE_CANDIDATE_BUT_CROSS_SPEC_CONFLICT",
+        "finding": "Frozen spec states ATCB container and all multibyte fields/operands are big-endian; bytecode.rs documents canonical big-endian encoding and verifier."
+      },
+      {
+        "path": "specs/conformance/atcb-vm-vectors.json",
+        "blob_sha": "9913903cb048e8b548a0d7ad1c9b5878c9e0b3fc",
+        "role": "ATCB/ATC-VM cross-boundary vector",
+        "status": "DRAFT_VECTOR_COVERAGE_INCOMPLETE",
+        "finding": "One vector exists and status is draft; cannot infer complete compiler-to-production-VM conformance."
+      },
+      {
+        "path": "specs/execution/ATCB-1-ATC-VM-EXECUTION-CONTRACT.md",
+        "blob_sha": "b27562d35a5fc0485feeb2ef06b1886168d11bec",
+        "role": "ATCLang-to-canonical-ATC-VM boundary",
+        "status": "BLOCKING_CONTRADICTION",
+        "finding": "Draft describes little-endian integer fields and a module envelope with ABI/VM/function/capability fields, while frozen ATCB v1 spec defines a flat ATCB container with big-endian fields. Must resolve in the normative owner workflow; do not silently choose one or call the cross-boundary contract verified."
+      },
+      {
+        "path": "specs/gas/DRAFT.md",
+        "blob_sha": "4e59abb96814646321aa9a45412b4fb91651e597",
+        "role": "Gas spec extraction placeholder",
+        "status": "PLACEHOLDER_DRAFT"
+      },
+      {
         "path": "specs/ir/SPEC.md",
         "blob_sha": "c4638ef2478de6bbd0f16e0b1768d65f8b29503c",
         "role": "Typed intermediate representation",
         "status": "DRAFT_IMPLEMENTATION_PENDING",
         "finding": "Document labels itself SPEC-DRAFT and requires canonical typed nodes/serialization; current ir.rs has a small type-separation surface, not evidence of full spec coverage."
+      },
+      {
+        "path": "specs/language/DRAFT.md",
+        "blob_sha": "c813db23fb5fff9767641e3cf4c7221a4f76a4a5",
+        "role": "Superseded G1 draft",
+        "status": "EXCLUDED_AS_SUPERSEDED"
+      },
+      {
+        "path": "specs/language/registry.json",
+        "blob_sha": "72237be58c4419cc2d0f8248a9be08e0c8d6bf03",
+        "role": "Machine-readable G1 token/keyword/type registry",
+        "status": "CONFLICT_REQUIRES_SCOPE_DECISION",
+        "finding": "Registry reflects broad Python reference language. It cannot be presumed implemented by the current Rust lexer/parser."
+      },
+      {
+        "path": "specs/language/SPEC.md",
+        "blob_sha": "630716b531be95b782f82c963cb69ac3b585ca96",
+        "role": "G1 language contract",
+        "status": "CONFLICT_REQUIRES_SCOPE_DECISION",
+        "finding": "The spec describes the Python reference, 63-token inventory and indentation-based syntax; the Rust canonical core describes a narrower recursive-descent subset with braces and semicolons. A feature-by-feature compatibility matrix is required before treating this as one language contract."
+      },
+      {
+        "path": "specs/profiles/DRAFT.md",
+        "blob_sha": "0eaebefc8aebd436038344bd92af1626673bf046",
+        "role": "Language profile spec extraction placeholder",
+        "status": "PLACEHOLDER_DRAFT"
+      },
+      {
+        "path": "specs/runtime/RUNTIME-CLASSIFICATION.yaml",
+        "blob_sha": "761627d61a4b3c755e3cafad49ac87ac67ff8af4",
+        "role": "Runtime role authority boundary",
+        "status": "ARCHITECTURE_ALIGNED_RELEASE_GATE_OPEN",
+        "finding": "Correctly distinguishes non-consensus ATCLang reference from production VM at a-townchain/components/vm; requires exact-SHA CI and fail-closed runtime selection."
+      },
+      {
+        "path": "specs/security/DRAFT.md",
+        "blob_sha": "6237592ad5eb5033e9e272df1d41620effbf3bfd",
+        "role": "Security spec extraction placeholder",
+        "status": "PLACEHOLDER_DRAFT"
+      },
+      {
+        "path": "specs/semantics/registry.json",
+        "blob_sha": "b20fe1e30c9415e66a6ff134188c538ef5307b69",
+        "role": "G2 machine-readable rules and builtins",
+        "status": "PARTIAL_IMPLEMENTATION_MAPPING",
+        "finding": "Registry declares types and semantic rules beyond what source path inventory alone establishes; each rule requires a matching Rust implementation symbol and negative/conformance test."
+      },
+      {
+        "path": "specs/semantics/SPEC.md",
+        "blob_sha": "975fcac79b5f2fff56c3a137b0926d83676dde61",
+        "role": "G2 semantic/type-checking contract",
+        "status": "PARTIAL_IMPLEMENTATION_MAPPING",
+        "finding": "Spec names Python type_checker.py; exact-head Rust core has parser/IR modules but no standalone type_checker.rs in the tree. Need per-rule mapping or explicit unsupported/excluded status."
       },
       {
         "path": "specs/stdlib/SPEC.md",
@@ -1084,13 +1141,6 @@
         "finding": "Requires golden/negative vectors, cross-runtime tests, Rust/reference differential and exact-SHA release gate."
       },
       {
-        "path": "specs/conformance/atcb-vm-vectors.json",
-        "blob_sha": "9913903cb048e8b548a0d7ad1c9b5878c9e0b3fc",
-        "role": "ATCB/ATC-VM cross-boundary vector",
-        "status": "DRAFT_VECTOR_COVERAGE_INCOMPLETE",
-        "finding": "One vector exists and status is draft; cannot infer complete compiler-to-production-VM conformance."
-      },
-      {
         "path": "specs/VERSION.toml",
         "blob_sha": "9675a270681d8a6f19b0455da1a68a3bff635f80",
         "role": "Version/status registry",
@@ -1098,53 +1148,10 @@
         "finding": "Language and bytecode gates are marked passed/frozen while ABI/artifact version entries are present without equivalent implementation evidence; reconcile status claims with the exact release gates."
       },
       {
-        "path": "specs/runtime/RUNTIME-CLASSIFICATION.yaml",
-        "blob_sha": "761627d61a4b3c755e3cafad49ac87ac67ff8af4",
-        "role": "Runtime role authority boundary",
-        "status": "ARCHITECTURE_ALIGNED_RELEASE_GATE_OPEN",
-        "finding": "Correctly distinguishes non-consensus ATCLang reference from production VM at a-townchain/components/vm; requires exact-SHA CI and fail-closed runtime selection."
-      },
-      {
-        "path": "specs/artifact/DRAFT.md",
-        "blob_sha": "20cdb973b23505143058f4e2617209f53047ced3",
-        "role": "Artifact spec extraction placeholder",
-        "status": "PLACEHOLDER_DRAFT"
-      },
-      {
-        "path": "specs/gas/DRAFT.md",
-        "blob_sha": "4e59abb96814646321aa9a45412b4fb91651e597",
-        "role": "Gas spec extraction placeholder",
-        "status": "PLACEHOLDER_DRAFT"
-      },
-      {
-        "path": "specs/profiles/DRAFT.md",
-        "blob_sha": "0eaebefc8aebd436038344bd92af1626673bf046",
-        "role": "Language profile spec extraction placeholder",
-        "status": "PLACEHOLDER_DRAFT"
-      },
-      {
-        "path": "specs/security/DRAFT.md",
-        "blob_sha": "6237592ad5eb5033e9e272df1d41620effbf3bfd",
-        "role": "Security spec extraction placeholder",
-        "status": "PLACEHOLDER_DRAFT"
-      },
-      {
         "path": "specs/vm/DRAFT.md",
         "blob_sha": "4d16ea8a33b1b7919f94f49e9a88ef7546eb0441",
         "role": "VM spec extraction placeholder",
         "status": "PLACEHOLDER_DRAFT"
-      },
-      {
-        "path": "specs/language/DRAFT.md",
-        "blob_sha": "c813db23fb5fff9767641e3cf4c7221a4f76a4a5",
-        "role": "Superseded G1 draft",
-        "status": "EXCLUDED_AS_SUPERSEDED"
-      },
-      {
-        "path": "specs/bytecode/DRAFT.md",
-        "blob_sha": "a62e89d5e78555ac1d953b092b35f8fdcf057c5a",
-        "role": "Superseded bytecode draft",
-        "status": "EXCLUDED_AS_SUPERSEDED"
       },
       {
         "path": "specs/vm/SPEC.md",
