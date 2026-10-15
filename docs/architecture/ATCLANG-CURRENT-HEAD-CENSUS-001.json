@@ -1,0 +1,389 @@
+{
+  "schema_id": "ATCLANG-CURRENT-HEAD-CENSUS-001",
+  "schema_version": "1.0.0",
+  "census_date": "2026-10-15",
+  "repository": "A-TownChain-Okosystems/atclang",
+  "branch": "main",
+  "commit_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+  "root_tree_sha": "41e6a63b30422ad22355c4d21070cb80c819999f",
+  "tree_evidence": {
+    "recursive_tree_url": "https://api.github.com/repos/A-TownChain-Okosystems/atclang/git/trees/27dc3678f67dc81180768be60ffd025e2fa6c9b9?recursive=1",
+    "tree_entries": 174,
+    "truncated": false,
+    "source_files_count_reported": 22,
+    "rust_files": 16,
+    "python_files": 3,
+    "toml_files": 3,
+    "shell_files": 0,
+    "atc_files": 24,
+    "spec_files": 23,
+    "test_path_files": 5
+  },
+  "existing_catalog": {
+    "component_id": "COMP-LANG",
+    "existing_contract_ids": [
+      "FN-LANG-001",
+      "FN-LANG-002",
+      "FN-LANG-003",
+      "FN-LANG-004",
+      "FN-LANG-005",
+      "FN-LANG-006",
+      "FN-LANG-007",
+      "FN-LANG-008",
+      "FN-LANG-009",
+      "FN-LANG-010"
+    ],
+    "previous_source_commit": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+    "previous_tree_sha": "4649b749ce4be530a2acdf1c5446df4752d73198",
+    "reconciliation_status": "RESIDUAL"
+  },
+  "current_source_bindings": [
+    {
+      "path": "crates/atc-core/src/parser.rs",
+      "blob_sha": "993df7a9a6626d869ef3e22f02a006fa13466586",
+      "symbols": [
+        "parse_program",
+        "Parser::program",
+        "Parser::simple_type",
+        "Parser::let_stmt",
+        "Parser::function",
+        "Parser::block",
+        "Parser::statement",
+        "Parser::if_stmt",
+        "Parser::while_stmt",
+        "Parser::expr",
+        "Parser::comparison",
+        "Parser::addition",
+        "Parser::multiplication",
+        "Parser::unary",
+        "Parser::postfix",
+        "Parser::primary"
+      ],
+      "existing_contract": "FN-LANG-001"
+    },
+    {
+      "path": "crates/atc-core/src/native.rs",
+      "blob_sha": "b3d42b9d2df2fceab055adf70c52cbb71dadd737",
+      "symbols": [
+        "parse_native_contract",
+        "validate_native_contract",
+        "Parser::parse",
+        "Parser::version",
+        "Parser::standard_id",
+        "Parser::state",
+        "Parser::function",
+        "Parser::collect_balanced_body",
+        "Parser::collect_until"
+      ],
+      "existing_contract": "FN-LANG-002"
+    },
+    {
+      "path": "crates/atc-core/src/lower.rs",
+      "blob_sha": "4be61143f65de3455c72b878ad4e7ff700d4bd18",
+      "symbols": [
+        "CompiledProgram::function_count",
+        "CompiledProgram::verify",
+        "FnLowerer::local_slot",
+        "FnLowerer::disp",
+        "FnLowerer::lower_stmt",
+        "FnLowerer::lower_expr",
+        "finish_function",
+        "lower_user_function",
+        "lower_program"
+      ],
+      "existing_contract": "FN-LANG-003"
+    },
+    {
+      "path": "crates/atc-core/src/bytecode.rs",
+      "blob_sha": "8c4419edbaff6ea5fad5cf486a70e990c7a8fb9f",
+      "symbols": [
+        "Instruction::encode",
+        "Bytecode::encode",
+        "Bytecode::encode_canonical",
+        "Bytecode::verify",
+        "Bytecode::verify_with_signatures",
+        "jump_target"
+      ],
+      "existing_contract": "FN-LANG-004"
+    },
+    {
+      "path": "crates/atc-core/src/artifact.rs",
+      "blob_sha": "8da375daf60ba8317a1558824f3c5fcb7f41d351",
+      "symbols": [
+        "Artifact::from_program",
+        "Artifact::canonical_payload",
+        "Artifact::compute_hash",
+        "Artifact::encode",
+        "Artifact::verify",
+        "Artifact::decode_and_verify",
+        "VerifiedArtifact::into_program",
+        "VerifiedArtifact::metadata",
+        "VerifiedArtifact::artifact_hash",
+        "Reader::take",
+        "Reader::u16",
+        "Reader::u32",
+        "Reader::string",
+        "decode_bytecode",
+        "validate_metadata",
+        "validate_artifact"
+      ],
+      "existing_contract": "FN-LANG-005"
+    },
+    {
+      "path": "crates/atc-core/src/value.rs",
+      "blob_sha": "cb720e71cbdc26f01cae36388a99d6f2c1a5d8a0",
+      "symbols": [
+        "AbiType::from_name",
+        "TypedValue::abi_type",
+        "TypedValue::is_type"
+      ],
+      "existing_contract": "FN-LANG-006"
+    },
+    {
+      "path": "crates/atc-core/src/vm.rs",
+      "blob_sha": "009bdec170527898957b9622cb29ec406f77ed81",
+      "symbols": [
+        "execute_verified",
+        "execute",
+        "new_frame",
+        "pop2"
+      ],
+      "existing_contract": "FN-LANG-007"
+    },
+    {
+      "path": "crates/atc-core/tests/differential.rs",
+      "blob_sha": "5f588cb83291ea1be90ef455a15f9d6bce8bd193",
+      "symbols": [
+        "differential_gemeinsamer_subset"
+      ],
+      "existing_contract": "FN-LANG-008",
+      "classification": "TEST_ONLY"
+    },
+    {
+      "path": "crates/atc-core/tests/stdlib_reference_conformance.rs",
+      "blob_sha": "a7ada9f5e3c8597ca647cec206201e1ef0ede68c",
+      "symbols": [
+        "encode_u128_be",
+        "decode_u128_be",
+        "U256::encode_be",
+        "U256::decode_be",
+        "canonical_bytes",
+        "sha256",
+        "checked_add",
+        "checked_sub",
+        "checked_cast_u128",
+        "require"
+      ],
+      "existing_contract": "FN-LANG-009",
+      "classification": "TEST_ONLY"
+    },
+    {
+      "path": "tools/determinism_check.py",
+      "blob_sha": "1d360ba239362a3b7cabfa99e17f2299786ae0a1",
+      "symbols": [
+        "load_allowlist",
+        "code_view_py",
+        "code_view_rust",
+        "scan_sources",
+        "run_tests",
+        "normalize_output",
+        "main"
+      ],
+      "existing_contract": "FN-LANG-010"
+    },
+    {
+      "path": "crates/atc-core/src/lexer.rs",
+      "blob_sha": "6f503a1b1c7a7145284eb5670830946fdcfdac09",
+      "symbols": [
+        "tokenize",
+        "Token",
+        "LexError"
+      ],
+      "classification": "MISSING_CONTRACT_CANDIDATE",
+      "note": "Lexer is a distinct frontend stage and must be explicitly covered by an existing contract or a new stable FN-LANG contract."
+    },
+    {
+      "path": "crates/atc-core/src/ast.rs",
+      "blob_sha": "8721d367971ac93db2578303006045bac754993b",
+      "symbols": [
+        "Expr",
+        "TypeHint",
+        "LetStmt",
+        "Param",
+        "FunctionDef",
+        "Stmt",
+        "Program",
+        "Program::to_json",
+        "esc",
+        "expr_json",
+        "type_json",
+        "let_json",
+        "param_json",
+        "fn_json",
+        "stmt_json",
+        "stmt_list_json"
+      ],
+      "classification": "MISSING_CONTRACT_CANDIDATE",
+      "note": "AST model and canonical JSON serialization are distinct observable compiler contracts; classify separately if not already covered."
+    },
+    {
+      "path": "crates/atc-core/src/ir.rs",
+      "blob_sha": "081cf8df0600cb952fc2b569122eed5a22912047",
+      "symbols": [
+        "ProtocolType::host_type",
+        "IrValue::ir_type",
+        "IrType",
+        "IrValue"
+      ],
+      "classification": "MISSING_CONTRACT_CANDIDATE",
+      "note": "ABI values and protocol metadata are intentionally separate domains; add or explicitly map a contract."
+    },
+    {
+      "path": "crates/atc-core/src/main.rs",
+      "blob_sha": "95ffe8f6c37fb7d687f77f2c778e3802cf34d760",
+      "symbols": [
+        "compile_to_bytecode",
+        "main"
+      ],
+      "classification": "MISSING_CONTRACT_CANDIDATE",
+      "note": "CLI commands, exit codes, stdout/stderr and run/check behavior need a CLI contract distinct from library entry points."
+    },
+    {
+      "path": "tools/ci_independent_audit.py",
+      "blob_sha": "a6437ee8c4067568b41c9a8b440fc0d1aede4ae5",
+      "symbols": [
+        "read",
+        "fail",
+        "files",
+        "audit_metadata",
+        "audit_workflows",
+        "audit_security_and_determinism",
+        "audit_placeholders_and_docs",
+        "audit_evidence",
+        "audit_inventory",
+        "audit_duplicates",
+        "main"
+      ],
+      "classification": "TOOLING_CONTRACT_CANDIDATE"
+    },
+    {
+      "path": "tools/tests/test_tooling_suite.py",
+      "blob_sha": "3f359d7e957c465ced40deae9754bccbc8250e2d",
+      "symbols": [
+        "load",
+        "TestDeterminismCheck",
+        "test_load_allowlist",
+        "test_code_view_py_strips_comments_and_strings",
+        "test_code_view_rust_strips_comments",
+        "test_scan_sources_finds_real_violations_only",
+        "test_run_tests_and_normalize_output",
+        "test_main_smoke_clean_and_dirty",
+        "TestCiIndependentAudit",
+        "test_read_fail_files",
+        "test_audit_functions_run_on_repo",
+        "test_main_smoke"
+      ],
+      "classification": "TEST_ONLY"
+    }
+  ],
+  "missing_contract_candidates": [
+    {
+      "suggested_id": "FN-LANG-011",
+      "name": "Lexical analysis and token diagnostics",
+      "source_path": "crates/atc-core/src/lexer.rs",
+      "symbol": "tokenize",
+      "blob_sha": "6f503a1b1c7a7145284eb5670830946fdcfdac09",
+      "readiness": "RESIDUAL"
+    },
+    {
+      "suggested_id": "FN-LANG-012",
+      "name": "AST model and canonical serialization",
+      "source_path": "crates/atc-core/src/ast.rs",
+      "symbol": "Program::to_json",
+      "blob_sha": "8721d367971ac93db2578303006045bac754993b",
+      "readiness": "RESIDUAL"
+    },
+    {
+      "suggested_id": "FN-LANG-013",
+      "name": "ABI and protocol IR domain separation",
+      "source_path": "crates/atc-core/src/ir.rs",
+      "symbol": "IrValue::ir_type",
+      "blob_sha": "081cf8df0600cb952fc2b569122eed5a22912047",
+      "readiness": "RESIDUAL"
+    },
+    {
+      "suggested_id": "FN-LANG-014",
+      "name": "Compiler CLI contract and process exit semantics",
+      "source_path": "crates/atc-core/src/main.rs",
+      "symbol": "main",
+      "blob_sha": "95ffe8f6c37fb7d687f77f2c778e3802cf34d760",
+      "readiness": "RESIDUAL"
+    },
+    {
+      "suggested_id": "FN-LANG-015",
+      "name": "Independent repository policy and evidence audit",
+      "source_path": "tools/ci_independent_audit.py",
+      "symbol": "main",
+      "blob_sha": "a6437ee8c4067568b41c9a8b440fc0d1aede4ae5",
+      "readiness": "RESIDUAL"
+    }
+  ],
+  "test_inventory": {
+    "cli": {
+      "path": "crates/atc-core/tests/cli.rs",
+      "blob_sha": "ffd1883cdd838c7331dd2d0aeaaab22ae8677bf5",
+      "symbols": [
+        "cli_compile_und_check_ueber_differential_korpus",
+        "cli_lehnt_ungueltiges_programm_und_aufrufe_ab",
+        "cli_run_fuehrt_programm_aus_und_lehnt_laufzeitfehler_ab",
+        "production_cli_boundary_is_rust_only"
+      ]
+    },
+    "end_to_end": {
+      "path": "crates/atc-core/tests/run.rs",
+      "blob_sha": "d4e758b4213ca433778d2d076915459cc563b6e9",
+      "symbols": [
+        "end_to_end_main_mit_funktionsaufruf",
+        "end_to_end_verschachtelte_calls",
+        "top_level_statements_laufen_in_entry",
+        "dynamic_division_durch_null_ist_laufzeitfehler",
+        "konstante_division_durch_null_wird_bereits_verifizierer_abgelehnt",
+        "arithmetic_overflow_ist_fehler_kein_wrap",
+        "unbegrenzte_rekursion_ist_deterministischer_fehler",
+        "lowering_ist_fail_closed"
+      ]
+    }
+  },
+  "evidence": {
+    "workflow_success": {
+      "run_id": 38493501568,
+      "url": "https://github.com/A-TownChain-Okosystems/atclang/actions/runs/38493501568",
+      "conclusion": "success",
+      "head_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+      "scope": "Code Quality: Push on main"
+    },
+    "workflow_failure": {
+      "run_id": 38505809194,
+      "url": "https://github.com/A-TownChain-Okosystems/atclang/actions/runs/38505809194",
+      "conclusion": "failure",
+      "head_sha": "27dc3678f67dc81180768be60ffd025e2fa6c9b9",
+      "scope": "Dependabot"
+    },
+    "combined_status": "pending",
+    "full_run_job_step_exit_log_evidence": "NOT_YET_RECONCILED"
+  },
+  "policy": {
+    "standalone_first_ecosystem_second": true,
+    "canonical_implementation_owner": "A-TownChain-Okosystems/atclang",
+    "atc_vm_ssot": "A-TownChain-Okosystems/a-townchain/components/vm",
+    "no_duplicate_vm": true
+  },
+  "status": "RESIDUAL",
+  "release_decision": "BLOCKED",
+  "limitations": [
+    "This is a source-census addendum, not a claim that the whole repository or every .atc example/specification is semantically reconciled.",
+    "Symbols listed under missing_contract_candidates are candidates pending comparison with all catalog contracts and source call graph; do not treat candidate IDs as already registered.",
+    "No function is marked VERIFIED. Exact-head workflow summary alone does not prove every function's behavior.",
+    "The 174-entry tree includes all repository paths; the 22-file source/build count and 5 test-path count are retained from the initial census classification and require deterministic re-run evidence."
+  ]
+}
