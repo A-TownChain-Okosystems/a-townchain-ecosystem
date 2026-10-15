@@ -421,3 +421,43 @@ Risk classes: `M0` routine; `M1` operational; `M2` security-sensitive; `M3` crit
 All 25 maintenance function contracts are `RESIDUAL` with `UNBOUND_RESIDUAL` source bindings. The component verification gate is `BLOCKED`. No implementation or verification is claimed. A maintenance run may be called `VERIFIED` only with exact-SHA terminal Run→Job→Step, conclusion, exit code, logs and artifact hashes; green CI alone is insufficient.
 
 Catalog inventory after the additive update: **46 components / 192 function contracts / 12 cross-component interfaces**. These are inventory counts, not proof of implementation completeness or release readiness.
+
+
+## Ecosystem Connection Matrix — what must connect where (2026-10-15)
+
+The machine-readable matrix is stored in the existing JSON catalog under `connection_matrix` (schema `1.0.0`). It records **115 unique provider→consumer connections** derived from catalog dependencies plus explicit critical paths. These are declared integration requirements, not proof of working interfaces.
+
+### Integration map and required order
+
+| Priority | Provider → consumer | What must be integrated | Gate before treating as available |
+|---|---|---|---|
+| P0 | `COMP-STANDARDS → component owners` | Normative schemas, versioning, encodings, error semantics, conformance vectors | Standard registry entry + owner/source bindings |
+| P0 | `COMP-SHIVA → COMP-GLOBUS` | Kernel syscall/capability/IPC ABI | ABI version, privilege tests, IPC/error tests |
+| P0 | `COMP-CHAIN ↔ COMP-ALGO` | Consensus inputs, canonical encodings and transition/error semantics | Consensus decision and exact conformance vectors; unknown finality stays BLOCKED |
+| P0 | `COMP-CHAIN ↔ COMP-VM` | Execution context, state access, deterministic results, resource/gas accounting | Bytecode/runtime compatibility vectors and deterministic replay tests |
+| P0 | `COMP-TOOLCHAIN → COMP-VM` and `COMP-LANG → COMP-TOOLCHAIN` | Compiler/build artifact to VM input, diagnostics and bytecode format | Canonical ATCB decision, versioned schema and end-to-end vectors |
+| P0 | `COMP-NODE → COMP-SDK / COMP-WALLET / COMP-ATC-DASHBOARD` | RPC, transaction submission, typed errors, receipt and status reporting | Versioned RPC schema, negative tests, exact source and CI evidence |
+| P0 | `COMP-WALLET → COMP-CHAIN` | Canonically encoded signed transactions and transaction result reconciliation | TX-V2 vectors, signature/domain/replay tests; chain remains authoritative |
+| P0 | `COMP-GLOBUS → COMP-AURORA` | Capability-scoped OS/service API, quotas, policy and audit | Deny-by-default and privilege-boundary tests |
+| P0 | `COMP-AURORA → approval-gated COMP-WALLET path` | AI-requested wallet actions with explicit user approval | No direct key/seed access; approval-state and audit-redaction tests |
+| P1 | `COMP-PLATFORM-DISTRIBUTION → native GlobusOS + Windows/Linux host targets` | Package/install/update/rollback delegation, platform support matrix | Exact host/hardware tests, signed artifacts and recovery evidence |
+| P1 | `COMP-GLOBUS / COMP-SHIVA → COMP-GUEST-OS-VIRT` | Guest lifecycle, isolation, device/display/input boundary and resource quotas | Backend decision, host/guest matrix, isolation and recovery tests; currently BLOCKED |
+| P1 | `COMP-MAINTENANCE-LIFECYCLE → canonical owners → release gate` | Drift/risk/approval, owner-delegated action, rollback and evidence collection | Per-target exact SHA, run/job/step, exit code/logs/artifact hashes; missing evidence blocks release |
+| P1 | `COMP-STANDARDS → COMP-ECOSYSTEM / COMP-ATC-ENG` | Normative registry, requirement-to-contract mapping and policy validation | Schema/registry validator output tied to exact commit |
+| P1 | `COMP-SDK → COMP-NODE / COMP-CHAIN` | Provider compatibility, transaction vectors, chain identity and typed RPC errors | Cross-version compatibility tests and reproducible vectors |
+| P2 | `COMP-IDE → COMP-TOOLCHAIN / COMP-VM` | Canonical compile/run/diagnostic delegation and source mapping | No second compiler/VM; reproducible build and integration tests |
+| P2 | `COMP-CONTRACTS → COMP-CHAIN / COMP-VM` | Contract registry, deployment references and runtime interface | Schema/version, authorization and deterministic execution tests |
+| P2 | `COMP-LAUNCHPAD / COMP-MARKET → COMP-CONTRACTS / COMP-CHAIN` | Product/domain workflows against canonical contract and chain APIs | Auth, idempotency, typed errors and end-to-end tests |
+| P2 | `COMP-STORAGE → COMP-SHIVA` | Capability-scoped storage, integrity metadata and recovery | Access-boundary, integrity and restore tests |
+| P2 | `COMP-ZKP → COMP-CHAIN` | Proof/public-input encoding and verification result contract | Normative approval and positive/negative vectors; no security property inferred |
+| P2 | `COMP-GENESIS → COMP-CHAIN / COMP-GLOBUS / COMP-TOOLCHAIN` | Genesis workflow, chain state, OS service and build artifact contracts | Versioned schemas, reproducibility and end-to-end evidence |
+
+### Matrix rules
+
+- **Provider** supplies the contract or service; **consumer** depends on it. Existing `cross_component_interfaces` remain cross-referenced; their direction is not silently rewritten.
+- `RESIDUAL` means required but not source-bound/conformance-tested; `BLOCKED` means the architecture/implementation decision must be resolved first; `EXCLUDED` means no production connection is implied.
+- Every production edge must carry canonical repository, exact full commit SHA, source path/symbol, interface version, failure semantics, security boundary, compatibility tests and terminal CI evidence.
+- No edge becomes `VERIFIED` merely because it exists in `depends_on`, a catalog row or a green CI summary. The live drift gate must continue to exclude `demo-repository`.
+- Ownership remains unchanged: implementation SSOTs stay in their canonical repositories; `a-townchain-ecosystem` maintains the integration matrix, compliance mapping and evidence only.
+
+**Current matrix inventory:** 115 unique connections; 2 blocked; 1 excluded; 0 verified. These counts are planning state, not a completeness or release-readiness claim.
