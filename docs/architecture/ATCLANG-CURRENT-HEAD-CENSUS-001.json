@@ -408,7 +408,7 @@
   "reconciliation_note": "Exact-head recursive tree is not truncated (174 entries). All 24 .atc paths and 23 spec paths have been enumerated and pinned to file blob SHAs. Current classifications are based on path/format only; content-level semantic mapping is still pending.",
   "next_actions": [
     "Decide and version the intended G1 production language profile; resolve indentation-vs-brace syntax and '#' vs '//' comment conflict.",
-    "Map all registry tokens/keywords/types/namespaces/productions/AST nodes/semantic rules to exact Rust symbols, tests, or explicit exclusions using ATCLANG-G1-FEATURE-MATRIX-001.json.",
+    "Review all 332 registry entries in ATCLANG-G1-FEATURE-MATRIX-001.json, especially NO_DIRECT_* and unresolved items, against native.rs/lower.rs/value.rs, exact grammar callers and positive/negative tests; name matching alone is not proof.",
     "Reconcile stale Python reference source-of-truth metadata in specs/language/SPEC.md and registry.json with current Rust-canonical architecture through normative versioning.",
     "Review ATCLang PR #30 for the ATCB-v1 execution contract correction; keep it Draft until CI and review evidence exist.",
     "Run exact-head CI and preserve Run→Job→Step→terminal conclusion/exit code/log evidence; do not promote residual contracts without it."
@@ -1398,7 +1398,7 @@
     "g1_feature_matrix": {
       "path": "docs/architecture/ATCLANG-G1-FEATURE-MATRIX-001.json",
       "url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/blob/docs/catalog-missing-platform-functions-2026-10-15/docs/architecture/ATCLANG-G1-FEATURE-MATRIX-001.json",
-      "commit": "af2481bf399ce18f3c339d56d8db824222e6f269",
+      "commit": "6d3cf1ab7ba7329b9d9f6f2238da5eda535462fc",
       "status": "RESIDUAL",
       "release_decision": "BLOCKED",
       "summary": {
@@ -1421,7 +1421,36 @@
         "architecture_blob_sha": "9256adf54f7b2ff2f07cc76fee64cbeef0c47318"
       },
       "verification_claimed": false,
-      "ci": "NOT_RUN_IN_THIS_MATRIX_TASK"
+      "ci": "NOT_RUN_IN_THIS_MATRIX_TASK",
+      "blob_sha": "b35eac044f0f97d71968771567ff29306570f95b",
+      "item_crosswalk": {
+        "tokens": 63,
+        "keywords": 76,
+        "types": 84,
+        "namespaces": 31,
+        "parser_productions": 28,
+        "ast_nodes": 50,
+        "total": 332,
+        "token_status_counts": {
+          "SYMBOL_MATCH_ONLY": 24,
+          "NO_DIRECT_TOKEN_SYMBOL": 39
+        },
+        "keyword_status_counts": {
+          "NO_DEDICATED_KEYWORD_TOKEN": 66,
+          "RESERVED_BY_RUST_LEXER": 10
+        },
+        "production_status_counts": {
+          "METHOD_NAME_MATCH": 11,
+          "NO_DIRECT_METHOD_NAME_MATCH": 17
+        },
+        "ast_status_counts": {
+          "NO_DIRECT_AST_VARIANT_MATCH": 50
+        },
+        "types_all_semantic_review_required": 84,
+        "namespaces_all_resolver_review_required": 31,
+        "verified": 0
+      },
+      "note": "Exhaustive 332-entry name-level crosswalk appended; automated name matches are triage only, not conformance evidence. No item VERIFIED."
     }
   }
 }
