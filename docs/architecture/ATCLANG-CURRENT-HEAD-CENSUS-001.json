@@ -407,6 +407,7 @@
   "reconciliation_status": "PARTIAL_CONTENT_LEVEL_RECONCILIATION",
   "reconciliation_note": "Exact-head recursive tree is not truncated (174 entries). All 24 .atc paths and 23 spec paths have been enumerated and pinned to file blob SHAs. Current classifications are based on path/format only; content-level semantic mapping is still pending.",
   "next_actions": [
+    "Review ATCLang PR #30, which removes the draft's conflicting ATCB v1 encoding definition; after merge, specify unresolved ABI/module metadata separately and validate against golden vectors.",
     "Resolve the G1 language-spec versus Rust-subset scope conflict with an explicit feature-by-feature matrix; do not infer support from examples.",
     "Resolve the big-endian frozen ATCB v1 versus little-endian draft execution-contract conflict through normative governance and a versioned boundary contract.",
     "Finish symbol-level mapping for artifact.rs, vm.rs, native.rs, value.rs, CLI and test harnesses; record exclusions and delegation explicitly.",
@@ -1357,8 +1358,8 @@
       {
         "id": "ATCLANG-RECON-002",
         "severity": "BLOCKING",
-        "finding": "Frozen ATCB v1 uses big-endian flat container, while draft ATCB-ATVM execution contract describes little-endian fields and a distinct module envelope.",
-        "required_action": "Resolve through normative standards change/explicit versioned boundary contract; do not edit canonical production VM or silently reinterpret frozen ATCB v1."
+        "finding": "The draft previously described little-endian fields and a distinct module envelope, contradicting frozen ATCB v1 (flat container, all multi-byte fields/operands big-endian). A corrective draft revision has been proposed in atclang PR #30; until reviewed/merged and validated, the normative cross-boundary contract remains BLOCKED.",
+        "required_action": "Review/merge https://github.com/A-TownChain-Okosystems/atclang/pull/30 only after checking exact diff and CI; then define the missing function/ABI/capability metadata in a separately versioned normative contract with golden vectors. No silent reinterpretation of frozen ATCB v1."
       },
       {
         "id": "ATCLANG-RECON-003",
@@ -1381,6 +1382,19 @@
     ],
     "overall_status": "RESIDUAL",
     "release_decision": "BLOCKED",
-    "verification_claimed": false
+    "verification_claimed": false,
+    "execution_contract_correction": {
+      "repository": "A-TownChain-Okosystems/atclang",
+      "pull_request": 30,
+      "url": "https://github.com/A-TownChain-Okosystems/atclang/pull/30",
+      "branch": "fix/atcb-v1-execution-contract-2026-10-15",
+      "commit": "d99a7fb444858e7cb2b05fb17baba8cbdccbc256",
+      "file": "specs/execution/ATCB-1-ATC-VM-EXECUTION-CONTRACT.md",
+      "blob_sha": "f911cd258bd93a8e0ccadd066d8558e37c933c2c",
+      "readback": "PASS: 10,354 bytes; frozen spec authority explicit; little-endian contradiction and old module-envelope section absent; draft status preserved",
+      "ci": "NO_PR_WORKFLOW_RUNS_RETURNED_FOR_COMMIT",
+      "resolution_status": "CORRECTIVE_CHANGE_PROPOSED_NOT_MERGED",
+      "verification_claimed": false
+    }
   }
 }
