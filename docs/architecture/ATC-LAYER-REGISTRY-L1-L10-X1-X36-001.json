@@ -1524,19 +1524,46 @@
       {
         "system_layer_id": "L0",
         "cross_cutting_layer_id": "X6",
-        "disposition": "UNRESOLVED",
-        "rationale": "Hardware & Compute × Testing, Verification & Evidence: taxonomy-level review identifies the cross-cutting question as \"test/conformance contract plus reproducible evidence tied to the exact source revision\". No pair-specific direct contract/source evidence is currently attached; therefore the relationship remains UNRESOLVED.",
-        "evidence_refs": [],
+        "disposition": "APPLICABLE",
+        "rationale": "The L0 CPU capability-discovery implementation contains source-local tests at the exact mapped revision, and the L0 contract explicitly requires test references and exact-SHA evidence. This directly establishes X6 test/evidence applicability; local test presence does not establish CI verification or overall correctness.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L0-CPU-001",
+            "function_catalog_id": "ATC-L0-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/hal/cpu.rs",
+            "symbol": "CpuInfo::detect; inline unit tests",
+            "file_blob_sha": "1719d3ae99108138c74b64c14c9c57e4d2418595",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/hal/cpu.rs",
+            "test_refs": [
+              "detects_current_cpu_without_panicking",
+              "vendor_parser_accepts_intel_and_amd",
+              "absent_feature_leaves_decode_as_unsupported",
+              "feature_bits_are_decoded_from_their_defined_leaves"
+            ],
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "verification_note": "Exact source blob matched. Inline tests establish X6 applicability, not terminal CI verification; workflow Run/Job/Step/exit-code/log and artifact-hash evidence remain required."
+          }
+        ],
         "pair_id": "L0:X6",
         "triage": {
-          "status": "TAXONOMY_REVIEWED_EVIDENCE_PENDING",
+          "status": "SOURCE_BOUND_APPLICABLE",
           "reviewed_on": "2026-10-16",
           "layer_scope": "Hardware & Compute: Physical compute resources, hardware identity/capability discovery, CPU, GPU, NPU, memory, storage, security hardware, connectivity, I/O and power/thermal capabilities. L0 provides capabilities but grants no permissions; boot, firmware and HAL responsibilities belong to L1.",
           "cross_cutting_scope": "Testing, Verification & Evidence: Test strategy, conformance, reproducibility, evidence provenance and acceptance gates.",
           "evidence_question": "Does a concrete function contract in L0 directly implement, consume, or enforce X6 (Testing, Verification & Evidence)?",
           "required_evidence": "test/conformance contract plus reproducible evidence tied to the exact source revision",
           "disposition_rule": "Keep UNRESOLVED until a specific contract and exact immutable source binding directly support APPLICABLE, or a documented scope analysis plus approval supports NOT_APPLICABLE. Missing source or tests is not proof of non-applicability.",
-          "next_action": "Inspect canonical owner and function contracts for L0; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap."
+          "next_action": "Inspect canonical owner and function contracts for L0; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap.",
+          "source_reviewed_on": "2026-10-16",
+          "source_review_note": "Exact source blob fetched and matched at immutable commit; inline tests were enumerated directly from the source file.",
+          "remaining_gaps": [
+            "No terminal CI Run/Job/Step/exit-code/log evidence or artifact hash was attached to this catalog record.",
+            "Test presence does not establish complete L0 contract coverage or functional verification."
+          ]
         }
       },
       {
@@ -8441,6 +8468,27 @@
           }
         ],
         "caveat": "Applicability is not implementation completeness or functional verification. The referenced contracts remain scoped to mapped hardware-discovery behavior."
+      },
+      "source_review_batch_002": {
+        "status": "SOURCE_BOUND_APPLICABILITY_REVIEW",
+        "reviewed_pairs": [
+          "L0:X6"
+        ],
+        "source_repository": "A-TownChain-Okosystems/globus-os",
+        "source_commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+        "blob_check": {
+          "path": "modules/atc-shivacore/kernel/src/hal/cpu.rs",
+          "expected_blob_sha": "1719d3ae99108138c74b64c14c9c57e4d2418595",
+          "observed_blob_sha": "1719d3ae99108138c74b64c14c9c57e4d2418595",
+          "result": "MATCH"
+        },
+        "inline_test_symbols": [
+          "detects_current_cpu_without_panicking",
+          "vendor_parser_accepts_intel_and_amd",
+          "absent_feature_leaves_decode_as_unsupported",
+          "feature_bits_are_decoded_from_their_defined_leaves"
+        ],
+        "result": "L0:X6 promoted to APPLICABLE because exact-revision source-local tests and contract test references directly establish testing/evidence applicability. Functional verification remains unclaimed."
       }
     }
   }
