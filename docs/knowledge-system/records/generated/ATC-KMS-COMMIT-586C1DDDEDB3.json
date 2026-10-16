@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-586C1DDDEDB3",
+  "timestamp": "2026-10-16T15:08:03.879087Z",
+  "category": "change",
+  "title": "Commit: docs(catalog): add versioned category-family-class taxonomy",
+  "context": "Git commit 586c1dddedb362bfcadb8e07d093a3c9d56dba6a on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/586c1dddedb362bfcadb8e07d093a3c9d56dba6a",
+    "commit": "f7d43335632d638e0689bc7e71a6607af6af23f6"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs(catalog): add versioned category-family-class taxonomy"
+}

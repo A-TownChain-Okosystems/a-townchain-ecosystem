@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-1019E3BDE536",
+  "timestamp": "2026-10-16T15:08:03.879087Z",
+  "category": "change",
+  "title": "Commit: feat: add privacy policy export schema",
+  "context": "Git commit 1019e3bde536b9b54c4d63899a18191aa26307f0 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/1019e3bde536b9b54c4d63899a18191aa26307f0",
+    "commit": "f7d43335632d638e0689bc7e71a6607af6af23f6"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "feat: add privacy policy export schema"
+}

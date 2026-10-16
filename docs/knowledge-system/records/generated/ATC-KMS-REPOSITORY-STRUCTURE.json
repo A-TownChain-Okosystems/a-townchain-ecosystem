@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-REPOSITORY-STRUCTURE",
-  "timestamp": "2026-10-16T07:14:56.389597Z",
+  "timestamp": "2026-10-16T15:08:03.879087Z",
   "category": "architecture",
   "title": "Repository structure: A-TownChain-Okosystems/a-townchain-ecosystem",
   "context": "Automatically indexed repository structure.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "github",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem",
-    "commit": "c83bf4e581f121f374f5d6619ceab20f97f9d1a1"
+    "commit": "f7d43335632d638e0689bc7e71a6607af6af23f6"
   },
   "tags": [
     "generated",
@@ -127,5 +127,5 @@
       "target": "ATC-KMS-COMPONENT-GLOBUS-OS-CD602E3D08"
     }
   ],
-  "content": "Top-level entries: \"components, .atc, .github, .gitignore, ARCHITECTURE.md, CHANGELOG.md, CODEOWNERS, CONTRIBUTING.md, Cargo.lock, Cargo.toml, LICENSE, MIGRATION_MANIFEST.yaml, README.md, SDK_ARCHITECTURE.md, SECURITY.md, components, control-plane, docs, integration, tools\n\nComponents: README.md, a-townchain, a-townchain-os, a-townchain-os-docs, atc-algorithm, atc-compute, atc-contracts, atc-explorer, atc-indexer, atc-interop, atc-launchpad, atc-marketplace, atc-mining, atc-node, atc-oracle, atc-sdk, atc-shivacore, atc-standards, atc-storage, atc-vm, atc-wallet, atc-zkp, atclang, aurora-ai, genesis-chronicles, genesis-engine, globus-os"
+  "content": "Top-level entries: \"components, .atc, .github, .gitignore, ARCHITECTURE.md, CHANGELOG.md, CODEOWNERS, CONTRIBUTING.md, Cargo.lock, Cargo.toml, LICENSE, MIGRATION_MANIFEST.yaml, README.md, SDK_ARCHITECTURE.md, SECURITY.md, components, control-plane, docs, integration, schemas, tests, tools\n\nComponents: README.md, a-townchain, a-townchain-os, a-townchain-os-docs, atc-algorithm, atc-compute, atc-contracts, atc-explorer, atc-indexer, atc-interop, atc-launchpad, atc-marketplace, atc-mining, atc-node, atc-oracle, atc-sdk, atc-shivacore, atc-standards, atc-storage, atc-vm, atc-wallet, atc-zkp, atclang, aurora-ai, genesis-chronicles, genesis-engine, globus-os"
 }

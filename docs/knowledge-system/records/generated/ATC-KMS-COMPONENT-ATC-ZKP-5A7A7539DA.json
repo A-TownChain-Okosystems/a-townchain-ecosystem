@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-ATC-ZKP-5A7A7539DA",
-  "timestamp": "2026-10-16T07:14:56.389597Z",
+  "timestamp": "2026-10-16T15:08:03.879087Z",
   "category": "module",
   "title": "Component: atc-zkp",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-zkp",
-    "commit": "c83bf4e581f121f374f5d6619ceab20f97f9d1a1"
+    "commit": "f7d43335632d638e0689bc7e71a6607af6af23f6"
   },
   "tags": [
     "atc-zkp",
