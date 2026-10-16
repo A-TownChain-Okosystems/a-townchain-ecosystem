@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RELEASE-001 Readiness Matrix",
+  "type": "object",
+  "required": [
+    "schema",
+    "generated_at",
+    "repositories"
+  ],
+  "properties": {
+    "schema": {
+      "const": "RELEASE-001.1"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "repositories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "repo",
+          "main_sha",
+          "implementation",
+          "unit_tests",
+          "integration_tests",
+          "exact_sha_ci",
+          "security",
+          "e2e",
+          "release_workflow",
+          "artifact",
+          "tag",
+          "reproducibility",
+          "final_status",
+          "blocker"
+        ],
+        "properties": {
+          "repo": {
+            "type": "string"
+          },
+          "main_sha": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "implementation": {
+            "type": "string"
+          },
+          "unit_tests": {
+            "type": "string"
+          },
+          "integration_tests": {
+            "type": "string"
+          },
+          "exact_sha_ci": {
+            "type": "string"
+          },
+          "security": {
+            "type": "string"
+          },
+          "e2e": {
+            "type": "string"
+          },
+          "release_workflow": {
+            "type": "string"
+          },
+          "artifact": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          },
+          "reproducibility": {
+            "type": "string"
+          },
+          "final_status": {
+            "enum": [
+              "READY",
+              "BLOCKED",
+              "NOT READY",
+              "UNASSESSED"
+            ]
+          },
+          "blocker": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
