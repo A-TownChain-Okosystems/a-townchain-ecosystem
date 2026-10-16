@@ -63,6 +63,23 @@ Issue #71's former L0 definition grouped hardware, HAL, OS, P2P/transport, node 
 
 The old Issue #71 labels L1–L7 are also a separate legacy taxonomy and must not be joined by ID to the new L0–L9 IDs. Their responsibilities are crosswalked by meaning, not by numeric label. This is a taxonomy reconciliation decision, not an implementation or verification claim.
 
+### Former L10 responsibility allocation
+
+The former **L10 — Integration, Deployment & Operations** is retired as a system-layer ID in the adopted L0–L9 taxonomy. Its responsibilities are decomposed by function and trust boundary; they are not transferred wholesale to L9.
+
+| Former L10 responsibility | Adopted owner / cross-cutting layer | Mapping rule |
+|---|---|---|
+| Installer, image building, native/host installation | Canonical installer/OS/application owner; X35 | Installer implementation must be assigned to an evidenced owning repository. No installer implementation is inferred from COMP-LAUNCHPAD. |
+| Updates, package management, release manifest, staged rollout and rollback | X35 — Deployment & Release Engineering | Artifact provenance, approvals, rollout health gates and installed-version evidence are required. |
+| Configuration and secrets | X14 — Configuration, Secrets & Runtime Environment Governance | Configuration schemas and secret handling remain in the canonical runtime/installer owner. |
+| Observability, health, diagnostics | X7 — Observability, Reliability & Resilience | Telemetry and health evidence must be bound to concrete contracts and source revisions. |
+| Incident handling and operational recovery | X20 — Incident Response; X21 — Continuity & Disaster Recovery | Incident and recovery contracts remain separate from release/composition status. |
+| Lifecycle and migration | X15 — Update Management, Migration & Lifecycle Governance | Compatibility and rollback/rollforward are explicit lifecycle contracts. |
+| Cross-component dependency closure, interface compatibility, end-to-end acceptance | X36 — Ecosystem Integration, System Composition & End-to-End Compatibility | Use the integration contract and exact dependency/version evidence; no duplicate runtime. |
+| Protocol/schema compatibility across boundaries | X3 — Protocol & Interoperability | Must have concrete interface or protocol contract evidence. |
+
+COMP-OS-INTEGRATION remains an L9 integration-facing service with X3/X35/X36 projections, but its current FN-OSINT-002 source binding supports X36 applicability only. It does not by itself prove deployment/release implementation under X35. The current catalog has no source-backed installer component/function contract; that gap remains UNRESOLVED and must be filled by catalog-first reconciliation, not by relabeling Launchpad.
+
 ## 4. L0–L9 system architecture registry
 
 | ID | Layer | Responsibility and boundary | Canonical ownership rule | Status |
