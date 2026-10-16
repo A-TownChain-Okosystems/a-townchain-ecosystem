@@ -78,7 +78,7 @@ The old Issue #71 labels L1–L7 are also a separate legacy taxonomy and must no
 | L8 | Aurora AI Platform | AI control plane, agent platform, policy/approval, runtime and model/tool routing. Not kernel or consensus authority. | `aurora-ai` canonical AI platform; exact module mappings require evidence. | PROPOSED / UNRESOLVED |
 | L9 | Applications & Ecosystem Services | Wallets, clients, domain services, launchpad/marketplace, system applications and user-facing integrations. | Each application/service stays in its actual owning repository. | PROPOSED / UNRESOLVED |
 
-**Former former L10 responsibilities:** L10 is not a system-layer ID in this baseline. Deployment/release/rollout governance is represented by **X35**; integration, system composition and end-to-end compatibility by **X36**. These are cross-cutting contracts, not replacement implementation repositories. The former L10 × X3 matrix disposition is not transferred automatically; it remains unresolved unless separately supported by evidence.
+**Former L10 responsibilities:** L10 is not a system-layer ID in this baseline. Deployment/release/rollout governance is represented by **X35**; integration, system composition and end-to-end compatibility by **X36**. These are cross-cutting contracts, not replacement implementation repositories. The former L10 × X3 matrix disposition is not transferred automatically; it remains unresolved unless separately supported by evidence.
 
 ### L-layer mandatory fields
 
@@ -379,7 +379,7 @@ This document is an organizing artifact for the above work, not evidence that th
 
 ## 17. Implementation roadmap — milestones, checkpoints, sprints and TODOs
 
-**Roadmap ID:** `ATC-ROADMAP-CATALOG-X1-X36-L1-L10`  
+**Roadmap ID:** `ATC-ROADMAP-CATALOG-X1-X36-L0-L9`  
 **Roadmap status:** `PROPOSED / NOT VERIFIED`  
 **Planning cadence:** two-week sprints are a planning assumption, not a delivery commitment. Re-estimate after the baseline census.  
 **Execution rule:** catalog/governance work may be performed in this repository; production implementation TODOs must be dispatched to the canonical owner repository. No production implementation is to be copied into the ecosystem repository.
@@ -411,7 +411,7 @@ Sprint numbers are sequencing labels. Sprint length is provisionally two weeks; 
 | S2 — Sublayer and applicability matrix | M2; enumerate sublayers and cross-cutting applicability per L-layer. | No blank status is interpreted as N/A; every absence has a reason or remains unresolved. |
 | S3 — Source census wave A | M3; prioritize L1–L4 and their applicable X-layer contracts. | Pinned repository snapshots, component/function inventories and reproducible totals published. |
 | S4 — Source census wave B | M3; prioritize L5–L7, including blockchain, ATC-VM and ATCLang. | Canonical mappings and explicit unresolved protocol/language/VM semantics recorded; no consensus assumptions invented. |
-| S5 — Source census wave C | M3; prioritize L8–L10, Aurora AI, applications, install/release/operations. | Model/tool/approval boundaries and install/release ownership are mapped or explicitly unresolved. |
+| S5 — Source census wave C | M3; prioritize L8–L9, Aurora AI and applications; track install/release/operations through X35/X36. | Model/tool/approval boundaries and install/release ownership are mapped or explicitly unresolved. |
 | S6 — Contract normalization | M4; normalize high-risk contracts first, then remaining API/ABI/IPC/event/state contracts. | Contract schema passes; testable acceptance criteria and negative/error cases exist. |
 | S7 — Dependency graph | M5; add dependency edges, interface versions, security boundaries and compatibility links. | Graph validator identifies no untriaged dangling edge, duplicate owner or prohibited cycle. |
 | S8 — Validator implementation | M6; implement schema, ID, referential integrity, SSOT uniqueness, stale SHA and evidence completeness checks. | Pinned run includes exact logs, exit codes and artifacts; missing mandatory data fails closed. |
@@ -507,7 +507,7 @@ Counts must never conflate `UNRESOLVED`, `EXCLUDED`, `NOT_IMPLEMENTED` and `VERI
 
 ## 18. Catalog Wiki — chapter index and navigation
 
-**Wiki ID:** `ATC-ARCH-CATALOG-WIKI-X1-X36-L1-L10`  
+**Wiki ID:** `ATC-ARCH-CATALOG-WIKI-X1-X36-L0-L9`  
 **Status:** `PROPOSED / NOT VERIFIED`  
 **Canonical source:** this master catalog and the chapter files linked below. The Wiki is a navigation/documentation view, not a second implementation SSOT or a normative standards registry.
 
@@ -563,7 +563,7 @@ The files are stored as version-controlled Markdown chapters in the catalog repo
 4. **Wave D — developer toolchain:** ATCLang and build/artifact pipeline, only after its source inventory and language semantics are reconciled (L7).
 5. **Wave E — AI platform:** Aurora control plane, policy/capability mediation, sandboxed runtime, model adapters and approval/audit paths; AI must not acquire kernel, consensus or wallet authority implicitly (L8).
 6. **Wave F — user-facing integration:** desktop/window manager, applications and ecosystem services against accepted OS/service contracts (L4 and L9).
-7. **Wave G — release composition:** installer and platform profiles, upgrade/rollback, supply-chain provenance, observability, disaster recovery and full-system compatibility (L10 and X1–X36).
+7. **Wave G — release composition:** installer and platform profiles, upgrade/rollback, supply-chain provenance, observability, disaster recovery and full-system compatibility (X35/X36 and X1–X36).
 
 Wave order is a default dependency sequence, not a claim that every feature in a layer is blocked on every prior feature. Independent work may proceed in parallel only after its contract, owner, interfaces and acceptance criteria are stable. Security, identity, evidence and resource governance remain cross-cutting gates throughout.
 
