@@ -19,9 +19,9 @@
   },
   "source_baseline": {
     "document_path": "docs/architecture/ATC-ARCH-CATALOG-MASTER-X1-X36-L1-L10.md",
-    "document_blob_sha": "c8838099fc3c29a8dabc29336231d26ee98c5e3c",
+    "document_blob_sha": "007b528549681d998410048b9b5dfbb25eadc3f0",
     "source_branch": "catalog/x1-x36-l1-l10-master-architecture",
-    "source_commit_sha": "4ed785927220f82bf174e9092f47d34b0538e0c5"
+    "source_commit_sha": "a10f51f5bb3fb492162e77e1cf431f3ed096aa93"
   },
   "status_contract": {
     "allowed_dispositions": [
@@ -4133,9 +4133,23 @@
       {
         "system_layer_id": "L9",
         "cross_cutting_layer_id": "X34",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "FN-COMPUTE-001 explicitly schedules declared compute jobs under resource and capability limits. The exact source binding for Scheduler::enqueue directly supports resource scheduling/capacity allocation applicability (X34). This is source-mapping evidence only, not functional verification.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-COMPUTE",
+            "function_id": "FN-COMPUTE-001",
+            "repository": "A-TownChain-Okosystems/atc-compute",
+            "commit_sha": "d0831dfb72590537d8b0ca4d435a3649e71cdb61",
+            "path": "src/scheduler.rs",
+            "symbol": "enqueue",
+            "file_blob_sha": "2c023471e97e6599846f5a4f8d2a350863caa3eb",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/atc-compute/blob/d0831dfb72590537d8b0ca4d435a3649e71cdb61/src/scheduler.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports L9 × X34 applicability only. Source mapping is not functional verification; scheduler bounds, fairness, quota enforcement and runtime tests remain residual."
+          }
+        ]
       },
       {
         "system_layer_id": "L9",
@@ -4249,20 +4263,21 @@
     "layer_mapping_baseline": {
       "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
       "path": "docs/architecture/layers/ATC-LAYER-MAPPING-001.yaml",
-      "commit_sha": "cc5679efb0491e3ac63e9ff54f6547681d9fd7ce",
-      "blob_sha": "7da5254c55ab8595c2b275d4e6695cb2b4a561f6"
+      "blob_sha": "4111727c40f46eb912abe35fcc08e3f883fdafd4",
+      "branch": "catalog/x1-x36-l1-l10-master-architecture",
+      "status": "MAPPED_NOT_FUNCTIONALLY_VERIFIED"
     },
     "reconciliation_commit_parent": "14918f8f820fc8ba25204e8d52381158eb2b776e",
     "reconciliation_date": "2026-10-16",
     "method": "Set APPLICABLE only when a concrete catalogued function and exact source binding directly support the relationship. Issue titles or component-level labels alone are not implementation verification. Unsupported relationships remain UNRESOLVED.",
-    "applied_relationship_count": 15,
-    "remaining_unresolved_count": 345,
+    "applied_relationship_count": 16,
+    "remaining_unresolved_count": 344,
     "not_applicable_count": 0,
     "mapping_notes": [
       {
         "id": "LAYER-ID-CROSS-CATALOG-CONFLICT-001",
-        "status": "RESOLVED_MAPPING_SYNCED",
-        "finding": "The legacy component catalog layer values have now been synchronized with the adopted L0-L9 + X1-X36 mapping SSOT for all 31 components. Examples corrected include COMP-SHIVA→L2, COMP-CHAIN/COMP-ALGO→L5, COMP-VM→L6, COMP-AURORA→L8, COMP-LANG→L7, COMP-COMPUTE→L9, COMP-LAUNCHPAD→L9 and COMP-OS-INTEGRATION→L9. Cross-cutting assignments are stored separately and restricted to X1-X36.",
+        "status": "RESOLVED_IN_ADOPTED_BASELINE",
+        "finding": "The component catalog's primary layer projections have been synchronized to ATC-LAYER-MAPPING-001.yaml for the adopted L0-L9 + X1-X36 model. Current reviewed examples: COMP-SHIVA=L2, COMP-CHAIN/COMP-ALGO=L5, COMP-VM=L6, COMP-AURORA=L8, COMP-LANG=L7. Historical old_layer fields are retained for migration provenance and must not be used as current joins.",
         "evidence": {
           "catalog_repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
           "catalog_path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
@@ -4273,7 +4288,7 @@
           "master_blob_sha": "50e12f3f14f8714e8e428c2fdd251cd114d4bff8",
           "branch": "catalog/x1-x36-l1-l10-master-architecture"
         },
-        "disposition": "Component-to-layer taxonomy conflict is resolved in the mapping and compatibility projection. Preserve legacy assignments in old_layer for migration traceability. Do not infer functional verification or additional matrix applicability from the layer mapping alone.",
+        "disposition": "Use ATC-LAYER-MAPPING-001.yaml as mapping SSOT; catalog components[].layer is a compatibility projection only. Remaining gaps are per-component evidence/ownership, not the listed old-layer mismatches.",
         "impact": "All 31 catalog components now have one valid primary mapping in L0-L9 or X1-X36, with cross-cutting references separated. Readiness states are unchanged. Three additional L×X relationships are APPLICABLE from exact function/source bindings; those bindings remain SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED."
       },
       {
@@ -4289,6 +4304,19 @@
         },
         "disposition": "Adopt L0 Hardware & Compute as the canonical L0 definition for this architecture baseline. Preserve Issue #71 unchanged as history and link the crosswalk from a comment. Do not map legacy Issue #71 L1-L7 labels by numeric equality. Former L10 is not a system-layer ID; do not transfer its matrix rows automatically.",
         "impact": "The canonical matrix is 360 unique L0-L9 × X1-X36 pairs. L0 relationships remain UNRESOLVED pending component/function evidence. Former L10 × X3 was not transferred to L0. Layer taxonomy decisions do not imply functional verification."
+      },
+      {
+        "id": "FORMER-L10-RESPONSIBILITY-DECOMPOSITION-001",
+        "status": "MAPPED_WITH_RESIDUALS",
+        "finding": "Former L10 is removed from the system-layer ID set. Deployment/release/rollout/installer concerns map to X35; system composition, dependency closure and E2E compatibility map to X36; configuration/secrets to X14; observability to X7; incident response/recovery to X20/X21; lifecycle/migration to X15.",
+        "evidence": {
+          "master_catalog_path": "docs/architecture/ATC-ARCH-CATALOG-MASTER-X1-X36-L1-L10.md",
+          "master_catalog_blob_sha": "007b528549681d998410048b9b5dfbb25eadc3f0",
+          "mapping_path": "docs/architecture/layers/ATC-LAYER-MAPPING-001.yaml",
+          "mapping_blob_sha": "4111727c40f46eb912abe35fcc08e3f883fdafd4"
+        },
+        "disposition": "COMP-OS-INTEGRATION remains L9 with X3/X35/X36 projections, but current FN-OSINT-002 source binding only supports X36 applicability. No source-backed installer/release function has been identified; X35 implementation ownership remains UNRESOLVED.",
+        "impact": "No L10 matrix rows remain. Do not transfer any former L10 relationship to a different L/X pair without direct evidence."
       }
     ],
     "previous_matrix_counts": {
@@ -4303,6 +4331,14 @@
       "path": "docs/architecture/ATC-ARCH-CATALOG-MASTER-X1-X36-L1-L10.md",
       "commit_sha": "cad15450091a42c1500ccae847d4d036a1ac8340",
       "blob_sha": "1c7cceb6deda0646283d96588cf9e9e4155f9d92"
+    },
+    "latest_matrix_review": {
+      "date": "2026-10-16",
+      "reviewed_pairs": [
+        "L9:X34"
+      ],
+      "decision": "Added APPLICABLE only for L9 × X34 using FN-COMPUTE-001 -> atc-compute/src/scheduler.rs::enqueue at exact commit d0831dfb72590537d8b0ca4d435a3649e71cdb61 and blob 2c023471e97e6599846f5a4f8d2a350863caa3eb. Other unsupported candidate pairs remain UNRESOLVED.",
+      "structural_validation": "360 rows / 360 unique L0-L9 × X1-X36 pairs; no L10 references."
     }
   }
 }
