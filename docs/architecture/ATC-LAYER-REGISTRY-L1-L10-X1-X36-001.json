@@ -4426,6 +4426,62 @@
         "Continue pair-by-pair evidence review; keep unsupported dispositions UNRESOLVED."
       ],
       "validation": "Matrix remains 360 unique L0-L9 × X1-X36 pairs, 16 APPLICABLE, 0 NOT_APPLICABLE, 344 UNRESOLVED, no matrix L10 IDs. This validation does not imply every unresolved pair has been individually source-audited."
+    },
+    "legacy_architecture_reconciliation_2026_10_16": {
+      "status": "DOCUMENTS_RECONCILED_PARTIAL_EVIDENCE_REVIEW_OPEN",
+      "commits": [
+        {
+          "path": "docs/architecture/layers/ATC-L0-FUNCTION-CATALOG-001.yaml",
+          "commit_sha": "2a0cef28aca2edc1e58dfe0e6055299f13cefa43",
+          "blob_sha": "dae35196581603b0229e1d396e08008b43a5faeb",
+          "change": "Removed target_layer L10. Kept former L10 concerns as an explicit responsibility crosswalk to X9/X35/X36; no individual X relationship asserted."
+        },
+        {
+          "path": "docs/architecture/ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001.md",
+          "commit_sha": "648690528f7d2c331a2c266d00ef1a3756c26be9",
+          "blob_sha": "8bbee5e75a6551d8a36dd4e2fe65486d376c52c7",
+          "change": "Updated overview to L0-L9 and X1-X36, populated all 36 cross-cutting layer names/purposes from this registry, removed active L10 row, and marked old L0-L10/X1-X8 sublayer registry as historical input."
+        }
+      ],
+      "l0_dependency_resolution": {
+        "removed_legacy_target_layer": "L10",
+        "retained_system_layer_dependencies": [
+          "L1",
+          "L2",
+          "L3",
+          "L4",
+          "L5",
+          "L6",
+          "L7",
+          "L8"
+        ],
+        "former_l10_responsibilities": [
+          "X9",
+          "X35",
+          "X36"
+        ],
+        "note": "These are responsibility-level candidate mappings only. No L0×X pair was promoted based on this edit; each relationship still requires direct contract evidence."
+      },
+      "issue_71": {
+        "disposition": "HISTORICAL_CONFLICT_RETAINED",
+        "note": "Issue #71's historical L0 'System & Network' wording is not overwritten or treated as a normative closure by this documentation change."
+      },
+      "x35_x36": {
+        "X35": "Deployment/release/rollout governance; canonical installer implementation owner and source-backed function contracts remain unresolved.",
+        "X36": "System composition/dependency closure/end-to-end compatibility; implementation contracts and direct tests remain to be reconciled.",
+        "rule": "Requirements and responsibility descriptions are not implementation or verification evidence."
+      },
+      "acceptance": {
+        "matrix_pairs": 360,
+        "unique_pairs": 360,
+        "applicable": 16,
+        "not_applicable": 0,
+        "unresolved": 344,
+        "invalid_layer_ids": 0,
+        "matrix_L10_rows": 0,
+        "status": "STRUCTURAL_VALIDATION_ONLY",
+        "caveat": "This does not claim all 344 unresolved relationships were individually audited. No relationship was promoted to VERIFIED."
+      }
     }
   }
 }
