@@ -1395,7 +1395,7 @@
     }
   ],
   "applicability_matrix": {
-    "status": "STRUCTURALLY_COMPLETE_BUT_UNRESOLVED",
+    "status": "PARTIALLY_RECONCILED",
     "rows": [
       {
         "system_layer_id": "L1",
@@ -1652,23 +1652,65 @@
       {
         "system_layer_id": "L2",
         "cross_cutting_layer_id": "X1",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "Kernel capability authorization enforces explicit authority for process/object/resource access and default-deny behavior; direct security-and-trust applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "FN-SHIVA-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
+            "path": "modules/atc-shivacore/kernel/src/capability.rs",
+            "symbol": "check",
+            "file_blob_sha": "dd5d4f7a0330f91badf1a956a210f4f745104e66",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/c7337ef4fcff447ad0ee31c54e8adfee7f895bf6/modules/atc-shivacore/kernel/src/capability.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L2",
         "cross_cutting_layer_id": "X2",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "Kernel capability authorization checks subject capabilities and requested operations; direct identity/access/capability applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "FN-SHIVA-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
+            "path": "modules/atc-shivacore/kernel/src/capability.rs",
+            "symbol": "check",
+            "file_blob_sha": "dd5d4f7a0330f91badf1a956a210f4f745104e66",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/c7337ef4fcff447ad0ee31c54e8adfee7f895bf6/modules/atc-shivacore/kernel/src/capability.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L2",
         "cross_cutting_layer_id": "X3",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "Kernel IPC/process-isolation contract provides bounded message exchange across sender/receiver handles; direct IPC interface-boundary applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "FN-SHIVA-002",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
+            "path": "modules/atc-shivacore/kernel/src/ipc.rs",
+            "symbol": "create_channel",
+            "file_blob_sha": "d95aebd8e48c47346ca282c79bef35d19bdbc6b8",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/c7337ef4fcff447ad0ee31c54e8adfee7f895bf6/modules/atc-shivacore/kernel/src/ipc.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L2",
@@ -1946,9 +1988,23 @@
       {
         "system_layer_id": "L3",
         "cross_cutting_layer_id": "X7",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "GlobusOS service-lifecycle contract covers supervision, crash recovery and health/diagnostic events; direct reliability/resilience applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-GLOBUS",
+            "function_id": "FN-GLOBUS-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
+            "path": "modules/atc-shivacore/kernel/src/process.rs",
+            "symbol": "spawn",
+            "file_blob_sha": "960c80753ca3a7c9ff54887ca00501e150127554",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/c7337ef4fcff447ad0ee31c54e8adfee7f895bf6/modules/atc-shivacore/kernel/src/process.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L3",
@@ -2408,9 +2464,23 @@
       {
         "system_layer_id": "L5",
         "cross_cutting_layer_id": "X1",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "Blockchain transaction validation covers signature policy, domain separation and replay constraints; direct protocol-security applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-CHAIN",
+            "function_id": "FN-CHAIN-001",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "commit_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "path": "components/node/src/validator.rs",
+            "symbol": "verify",
+            "file_blob_sha": "ee5d3817e2c67c4ef82a595a47711588cf967c64",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/node/src/validator.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L5",
@@ -2422,9 +2492,23 @@
       {
         "system_layer_id": "L5",
         "cross_cutting_layer_id": "X3",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "Blockchain transaction validation covers transaction encoding and protocol validation; direct protocol/serialization-boundary applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-CHAIN",
+            "function_id": "FN-CHAIN-001",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "commit_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "path": "components/node/src/validator.rs",
+            "symbol": "verify",
+            "file_blob_sha": "ee5d3817e2c67c4ef82a595a47711588cf967c64",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/node/src/validator.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L5",
@@ -2660,9 +2744,36 @@
       {
         "system_layer_id": "L6",
         "cross_cutting_layer_id": "X1",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "Canonical ATC-VM verifier and gas-bounded interpreter reject invalid/oversized programs and bound execution; direct execution-security applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-VM",
+            "function_id": "FN-VM-008",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "commit_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "path": "components/vm/src/vm.rs",
+            "symbol": "verify",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          },
+          {
+            "component_id": "COMP-VM",
+            "function_id": "FN-VM-009",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "commit_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "path": "components/vm/src/vm.rs",
+            "symbol": "run_with_gas",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L6",
@@ -2674,9 +2785,23 @@
       {
         "system_layer_id": "L6",
         "cross_cutting_layer_id": "X3",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "Canonical ATC-VM context validator checks chain ID, network, genesis ID, protocol version and VM version; direct protocol/version-boundary applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-VM",
+            "function_id": "FN-VM-011",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "commit_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "path": "components/vm/src/context.rs",
+            "symbol": "validate",
+            "file_blob_sha": "ef0a0cee2ff6a73adc19870a75fc1ed5e00ac7bc",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/context.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L6",
@@ -2709,9 +2834,36 @@
       {
         "system_layer_id": "L6",
         "cross_cutting_layer_id": "X8",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "Canonical ATC-VM state-transition and interpreter contracts enforce explicit gas budgets and bounded execution; direct resource-budget applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-VM",
+            "function_id": "FN-VM-002",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "commit_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "path": "components/vm/src/vm.rs",
+            "symbol": "execute_state_transition_with_gas",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          },
+          {
+            "component_id": "COMP-VM",
+            "function_id": "FN-VM-009",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "commit_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "path": "components/vm/src/vm.rs",
+            "symbol": "run_with_gas",
+            "file_blob_sha": "57a919d911ae7900f740bab739bb20fabf0d4313",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/vm.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L6",
@@ -2947,9 +3099,36 @@
       {
         "system_layer_id": "L7",
         "cross_cutting_layer_id": "X6",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "ATCLang contracts cover differential corpus conformance and a fail-closed determinism gate; direct testing/verification applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-LANG",
+            "function_id": "FN-LANG-008",
+            "repository": "A-TownChain-Okosystems/atclang",
+            "commit_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "path": "crates/atc-core/tests/differential.rs",
+            "symbol": "differential_gemeinsamer_subset",
+            "file_blob_sha": "5f588cb83291ea1be90ef455a15f9d6bce8bd193",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/tests/differential.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          },
+          {
+            "component_id": "COMP-LANG",
+            "function_id": "FN-LANG-010",
+            "repository": "A-TownChain-Okosystems/atclang",
+            "commit_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "path": "tools/determinism_check.py",
+            "symbol": "main",
+            "file_blob_sha": "1d360ba239362a3b7cabfa99e17f2299786ae0a1",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/tools/determinism_check.py",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L7",
@@ -3164,16 +3343,44 @@
       {
         "system_layer_id": "L8",
         "cross_cutting_layer_id": "X1",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "Aurora tool invocation requires policy evaluation, capability checks and approval before crossing a service boundary; direct security/trust applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-AURORA",
+            "function_id": "FN-AURORA-002",
+            "repository": "A-TownChain-Okosystems/aurora-ai",
+            "commit_sha": "1b5ff1824bb032958b9a2ae4e53365d7af01c3af",
+            "path": "modules/atc-aurora-agents/src/agent_pool.rs",
+            "symbol": "execute",
+            "file_blob_sha": "34f672015b0945e6f4a511cc66b788f3930ba404",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/aurora-ai/blob/1b5ff1824bb032958b9a2ae4e53365d7af01c3af/modules/atc-aurora-agents/src/agent_pool.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L8",
         "cross_cutting_layer_id": "X2",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "Aurora tool invocation explicitly requires capability checks before tool execution; direct access/capability applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-AURORA",
+            "function_id": "FN-AURORA-002",
+            "repository": "A-TownChain-Okosystems/aurora-ai",
+            "commit_sha": "1b5ff1824bb032958b9a2ae4e53365d7af01c3af",
+            "path": "modules/atc-aurora-agents/src/agent_pool.rs",
+            "symbol": "execute",
+            "file_blob_sha": "34f672015b0945e6f4a511cc66b788f3930ba404",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/aurora-ai/blob/1b5ff1824bb032958b9a2ae4e53365d7af01c3af/modules/atc-aurora-agents/src/agent_pool.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L8",
@@ -3682,9 +3889,23 @@
       {
         "system_layer_id": "L10",
         "cross_cutting_layer_id": "X3",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "OS integration validation runs cross-component builds/tests against declared versions and contracts; direct system-composition/compatibility applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-OS-INTEGRATION",
+            "function_id": "FN-OSINT-002",
+            "repository": "A-TownChain-Okosystems/a-townchain-os",
+            "commit_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
+            "path": "kai-os/integration/src/lib.rs",
+            "symbol": "boot",
+            "file_blob_sha": "7a83f5308509f051c882b03f4902962bcbf3b19b",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/a-townchain-os/blob/3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8/kai-os/integration/src/lib.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L10",
@@ -3990,25 +4211,24 @@
     "Run JSON/schema/duplicate-ID/cross-reference validation on the exact proposed commit and attach terminal evidence."
   ],
   "reconciliation_metadata": {
-    "last_reconciliation_scope": "Issues #136–#181 inventory; catalog baseline at 6e35bed50b6666ff6027f654af8761a7708e4bfe; source bindings preserved at their exact component SHAs.",
-    "last_reconciliation_method": "APPLICABLE only where an existing component/function contract and exact source binding directly support the layer relationship. Issue titles alone are not evidence. Unreviewed relationships remain UNRESOLVED.",
-    "last_reconciliation_date": "2026-10-16",
-    "applied_relationship_count": 0,
-    "remaining_relationships_unresolved": 0,
-    "function_level_evidence_missing": [
-      "L2-X1:matrix-row-missing",
-      "L2-X2:matrix-row-missing",
-      "L2-X3:matrix-row-missing",
-      "L3-X7:matrix-row-missing",
-      "L5-X1:matrix-row-missing",
-      "L5-X3:matrix-row-missing",
-      "L6-X1:matrix-row-missing",
-      "L6-X3:matrix-row-missing",
-      "L6-X8:matrix-row-missing",
-      "L7-X6:matrix-row-missing",
-      "L8-X1:matrix-row-missing",
-      "L8-X2:matrix-row-missing",
-      "L10-X3:matrix-row-missing"
-    ]
+    "scope": "Issues #136–#181 inventoried; existing catalog contracts and layer mapping reviewed.",
+    "catalog_baseline": {
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
+      "commit_sha": "6e35bed50b6666ff6027f654af8761a7708e4bfe",
+      "blob_sha": "d386e4f1a5294f34751df758091312b64224261f"
+    },
+    "layer_mapping_baseline": {
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "path": "docs/architecture/layers/ATC-LAYER-MAPPING-001.yaml",
+      "commit_sha": "6e35bed50b6666ff6027f654af8761a7708e4bfe"
+    },
+    "reconciliation_commit_parent": "14918f8f820fc8ba25204e8d52381158eb2b776e",
+    "reconciliation_date": "2026-10-16",
+    "method": "Set APPLICABLE only when a concrete catalogued function and exact source binding directly support the relationship. Issue titles or component-level labels alone are not implementation verification. Unsupported relationships remain UNRESOLVED.",
+    "applied_relationship_count": 13,
+    "remaining_unresolved_count": 347,
+    "not_applicable_count": 0,
+    "mapping_notes": []
   }
 }
