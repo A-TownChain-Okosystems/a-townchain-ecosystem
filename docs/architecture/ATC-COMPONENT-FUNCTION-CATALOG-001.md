@@ -183,3 +183,14 @@ The catalog includes support/governance records for the standalone ATC-VM and AT
 ## Cross-chain interoperability proposal (2026-10-15)
 
 The machine-readable catalog adds `COMP-XCHAIN-INTEROP` with `FN-XCHAIN-001` through `FN-XCHAIN-003` for message-contract validation, chain capability/proof-policy resolution, and replay-safe lifecycle/reconciliation. These are **specification-only, `BLOCKED`** entries linked to [atc-standards issue #110](https://github.com/A-TownChain-Okosystems/atc-standards/issues/110) and [ecosystem issue #126](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/126). No canonical executable symbol or exact source SHA has been identified, so this catalog change does not claim implementation, source completeness, bridge security, or asset-transfer readiness. Unknown consensus/finality remains `BLOCKED`; no mint/unlock/release is authorized.
+
+
+## Category, family and class taxonomy (2026-10-16)
+
+The versioned classification vocabulary is defined in [ATC-CATALOG-TAXONOMY-001.json](ATC-CATALOG-TAXONOMY-001.json).
+
+- `category_id` classifies the top-level domain.
+- `family_id` classifies responsibility within that domain.
+- `class_id` classifies the technical artifact or contract type.
+- Existing component/function/interface IDs and the L1–L10/X1–X36 architecture-layer mappings remain separate and unchanged.
+- The taxonomy register is a vocabulary definition, not proof that existing catalog entries have been reconciled to source. Catalog bindings, validator coverage and exact-SHA verification remain open; release stays `BLOCKED`.
