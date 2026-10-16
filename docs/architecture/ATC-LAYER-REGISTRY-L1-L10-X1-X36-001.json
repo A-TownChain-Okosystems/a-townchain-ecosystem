@@ -4334,7 +4334,7 @@
     },
     "latest_matrix_review": {
       "date": "2026-10-16",
-      "review_scope": "Evidence-first review of candidate pairs surfaced by the current component/function mapping; not a claim that every unresolved pair has been individually source-audited.",
+      "review_scope": "Evidence-first review of candidate pairs surfaced by component/function mappings and a targeted legacy-layer crosswalk. This is not a claim that all unresolved pairs have been individually source-audited.",
       "reviewed_pairs": [
         {
           "pair": "L9:X34",
@@ -4369,11 +4369,63 @@
         {
           "pair": "L0:X1-X36",
           "disposition": "UNRESOLVED",
-          "basis": "No source-backed hardware capability function contract was supplied in the component catalog for L0; hardware is not inferred from downstream kernel/boot code."
+          "basis": "Separate ATC-L0-FUNCTION-CATALOG-001.yaml exists (blob 42e33c4d08b62597178b6a7fe868f7ef1ddfbeea) and contains hardware function contracts with exact GlobusOS source SHA/path/blob mappings, but it is a proposed/draft function catalog and does not establish the individual L0×X1-X36 cross-cutting relationships. Keep all 36 L0 pairs UNRESOLVED until each relationship is explicitly tied to the relevant X-layer contract and direct implementation evidence."
         }
       ],
       "decision": "Added only the directly supported L9 × X34 relationship. All reviewed candidates lacking a direct contract/source binding remain UNRESOLVED.",
       "structural_validation": "360 rows; 360 unique L0-L9 × X1-X36 pairs; 16 APPLICABLE; 0 NOT_APPLICABLE; 344 UNRESOLVED; no L10 references."
+    },
+    "targeted_reconciliation_2026_10_16": {
+      "status": "PARTIAL_RECONCILIATION_FINDINGS_RECORDED",
+      "scope": [
+        "L0 legacy crosswalk",
+        "Issue #71 conflict",
+        "former L10 references",
+        "X35/X36 owner boundary"
+      ],
+      "inspected_artifacts": [
+        {
+          "path": "docs/architecture/ATC-ARCH-CATALOG-MASTER-X1-X36-L1-L10.md",
+          "blob_sha": "007b528549681d998410048b9b5dfbb25eadc3f0",
+          "finding": "Current master catalog uses L0-L9 + X1-X36 and tracks the L0 conflict explicitly."
+        },
+        {
+          "path": "docs/architecture/layers/ATC-LAYER-MAPPING-001.yaml",
+          "blob_sha": "4111727c40f46eb912abe35fcc08e3f883fdafd4",
+          "finding": "31 component mappings exist; previous structural comparison matched component primary-layer and cross-cutting projections."
+        },
+        {
+          "path": "docs/architecture/layers/ATC-L0-FUNCTION-CATALOG-001.yaml",
+          "blob_sha": "42e33c4d08b62597178b6a7fe868f7ef1ddfbeea",
+          "finding": "Draft L0 function catalog has hardware contracts and exact source bindings; its dependency list still contains legacy target_layer L10. This is a residual requiring crosswalk, not a valid matrix ID."
+        },
+        {
+          "path": "docs/architecture/ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001.md",
+          "blob_sha": "0c9c4e2d811125131011c1bec68aae744f620b0a",
+          "finding": "Legacy architecture overview still defines L0-L10, labels L10 Integration/Deployment/Ops, and describes only X1-X8; it conflicts with adopted L0-L9 + X1-X36 scope and must be reconciled separately."
+        }
+      ],
+      "issue_71_crosswalk": {
+        "url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/71",
+        "historical_l0": "System & Network",
+        "adopted_l0": "Hardware & Compute",
+        "disposition": "HISTORICAL_CONFLICT_DOCUMENTED_NOT_NORMATIVELY_CLOSED",
+        "rule": "Do not transfer legacy layer numbers by numeric equality; crosswalk by responsibility and trust boundary."
+      },
+      "former_l10": {
+        "disposition": "NO_MATRIX_ROWS_TRANSFERRED",
+        "unresolved_legacy_reference": "ATC-L0-FUNCTION-CATALOG-001.yaml layer_dependencies target_layer L10",
+        "X35": "Installer/release/deployment/rollout owner and direct source-backed function contracts remain unresolved.",
+        "X36": "System composition/dependency closure/E2E compatibility remain distinct from X35 deployment and release contracts."
+      },
+      "next_actions": [
+        "Reconcile or supersede ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001.md without silently overwriting Issue #71 history.",
+        "Replace the L10 dependency in ATC-L0-FUNCTION-CATALOG-001.yaml with an explicitly approved responsibility crosswalk; do not guess a single numeric replacement.",
+        "Reconcile X35 planned contracts against canonical GlobusOS/installer/release source inventory; current ecosystem docs are requirements, not implementation evidence.",
+        "Reconcile X36 implementation contracts against canonical integration sources and direct tests.",
+        "Continue pair-by-pair evidence review; keep unsupported dispositions UNRESOLVED."
+      ],
+      "validation": "Matrix remains 360 unique L0-L9 × X1-X36 pairs, 16 APPLICABLE, 0 NOT_APPLICABLE, 344 UNRESOLVED, no matrix L10 IDs. This validation does not imply every unresolved pair has been individually source-audited."
     }
   }
 }
