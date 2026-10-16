@@ -1,9 +1,9 @@
-# A-TownChain Architecture Master Catalog — L0–L10 and X1–X36
+# A-TownChain Architecture Master Catalog — L0–L9 and X1–X36
 
-**Catalog ID:** `ATC-ARCH-CATALOG-MASTER-X1-X36-L1-L10`  
+**Catalog ID:** `ATC-ARCH-CATALOG-MASTER-X1-X36-L0-L9`  
 **Schema version:** `0.1.0-draft`  
 **Status:** `PROPOSED / NOT VERIFIED`  
-**Scope:** L0–L10 system/architecture layers and cross-cutting layers X1–X36, including sublayers, components, function contracts, interfaces, dependencies, canonical implementation ownership, and evidence. L0 naming is explicitly conflict-tracked until reconciled against existing architecture records; no competing definition is silently overwritten.
+**Scope:** L0–L9 system architecture layers and cross-cutting layers X1–X36, including sublayers, components, function contracts, interfaces, dependencies, canonical implementation ownership, and evidence. L0 naming is explicitly conflict-tracked until reconciled against existing architecture records; no competing definition is silently overwritten.
 
 > This is a catalog baseline and reconciliation index, not a claim that every component/function is already inventoried, implemented, or verified. Entries without source-backed mapping remain `UNRESOLVED`; proposed requirements remain `PROPOSED`. Do not promote statuses from documentation alone.
 
@@ -22,68 +22,63 @@
 
 ## 2. Architecture hierarchy
 
-The catalog uses this logical tree. It does not replace existing normative IDs; collisions must be reconciled before IDs become authoritative.
+The normative system architecture is **L0–L9** (ten system layers). The orthogonal cross-cutting architecture is **X1–X36** (36 cross-cutting layers). The applicability matrix contains exactly 360 possible relationships. A cross-cutting assignment does not create a duplicate runtime or replace a domain repository's implementation SSOT.
 
-- **L0 — Ecosystem architecture and governance:** system boundaries, architecture principles, portfolio and ownership.
-- **L1 — System architecture layers:** L1–L10 below.
-- **X1–X36 — Cross-cutting control layers:** apply across applicable system layers; each relationship must be explicit, not inferred.
-- **L2 — Sublayers:** independently scoped capabilities under a layer or cross-cutting layer.
-- **L3 — Components:** owned technical or governance units.
-- **L4 — Function contracts:** stable, individually testable behavioral obligations.
-- **L5 — Interfaces and dependency edges:** API, ABI, IPC, event, data, protocol and build-time relationships.
-- **L6 — Canonical implementation mapping:** repository, path, symbol/entry point, full commit SHA and blob SHA where available.
-- **L7 — Verification and evidence:** tests, workflow run/job/step, exit code, logs, artifact hashes, reviewer and decision.
-- **L8 — Lifecycle and governance:** version, compatibility, deprecation, exception, migration and approval history.
+The catalog also has record levels (sublayers, components, function contracts, interfaces, source mappings, evidence and lifecycle metadata). Those are **record types**, not extra system-layer IDs. Do not interpret a catalog record level as L0, L1, etc.
 
-A node may have multiple parent relationships where architecture requires it, but must have one canonical owner for each production implementation. Cross-cutting layers are not duplicate runtime stacks.
+Governing rules:
+- Catalog First, Implementation Second.
+- Standalone First, Ecosystem Second.
+- One canonical implementation SSOT per capability.
+- A component has one primary mapping in `ATC-LAYER-MAPPING-001.yaml` and may have additional X1–X36 mappings.
+- Source mapping is not functional verification; statuses remain fail-closed without exact-SHA evidence.
+- `demo-repository` remains excluded from the live repository drift gate.
 
-## 3. L0–L10 scope and L0 conflict register
+## 3. L0–L9 scope and legacy L0 conflict reconciliation
 
-The catalog scope explicitly includes **L0 through L10 and X1 through X36**. The master registry must account for every ID in that scope, while distinguishing a logical catalog hierarchy from a product/system architecture layer.
+**Adopted architecture baseline:** L0–L9 + X1–X36.
 
-### L0 — existing definitions require reconciliation
+### L0 decision
 
-**Status:** `CONFLICT / UNRESOLVED / NOT VERIFIED`
+**Authoritative definition for this baseline: L0 — Hardware & Compute.**
 
-Existing project records use L0 in materially different ways:
+L0 covers physical compute capabilities and inventory: CPU, GPU, NPU/AI accelerators, memory, storage media, security hardware (TPM/TEE), connectivity/I/O, power/thermal capabilities and hardware identity/capability discovery. L0 provides capabilities but grants no permissions. Boot/firmware/HAL are L1; kernel/TCB is L2; GlobusOS system services are L3; desktop/UI is L4; blockchain core is L5; ATC-VM is L6; developer platform is L7; Aurora AI is L8; applications and ecosystem services are L9.
 
-- Issue #71 defines **L0 — System & Network**, including hardware, HAL, OS, P2P, transport, node runtime and the ShivaCore/GlobusOS boundary.
-- This master catalog's hierarchy section previously used **L0 — Ecosystem Architecture** as a *logical catalog/meta-model level*, not as a system implementation layer.
-- The L0 hardware/compute catalog work also uses L0 for hardware and compute capabilities.
+### Issue #71 crosswalk — historical “L0 System & Network”
 
-These definitions cannot be treated as interchangeable. Until reconciliation is approved, retain each as a source-backed candidate definition, do not assign implementation status from the name alone, and do not silently renumber existing IDs.
+Issue #71's former L0 definition grouped hardware, HAL, OS, P2P/transport, node runtime and ShivaCore/GlobusOS boundaries into one broad layer. That composite is **not retained as a single L0 ID**, because it crosses multiple trust boundaries. Preserve Issue #71 as historical provenance and map its responsibilities as follows:
 
-| Registry ID | Candidate definition | Scope/boundary | Disposition |
-|---|---|---|---|
-| L0 | System & Network | Hardware, HAL, OS, P2P, transport, node runtime and OS/kernel boundaries; exact component ownership requires source census. | UNRESOLVED — reconcile with L0 hardware/compute records |
-| L0-META (non-normative catalog concept) | Ecosystem architecture and governance | Catalog hierarchy, principles, portfolio and ownership. This is a documentation/meta-model concept, not an approved competing system-layer ID. | Keep distinct from normative layer IDs; no production implementation implied |
+| Issue #71 legacy concern | Adopted L0–L9 destination | Disposition |
+|---|---|---|
+| Physical hardware and compute resources | L0 | Hardware & Compute |
+| Boot, firmware, HAL, device discovery | L1 | Boot/Firmware/HAL |
+| ShivaCore kernel and TCB | L2 | Kernel/security boundary |
+| GlobusOS services, OS APIs, networking/filesystem | L3 | System services and OS architecture |
+| Desktop/window manager/UI | L4 | Desktop presentation |
+| P2P transport, node runtime, blockchain networking/protocol | L5 | Blockchain Core, where blockchain-owned |
+| Deterministic execution / ATC-VM | L6 | VM execution boundary |
+| AI/agent/model capabilities | L8 | Aurora AI; no consensus authority |
+| Applications and user experience | L9 | Applications and ecosystem services |
+| Legacy cross-layer control plane | X1–X36 | Split into explicit cross-cutting concerns; no single catch-all X |
 
-**Required exit condition:** a reviewed reconciliation record identifies the authoritative L0 definition, maps or retires conflicting labels without losing history, checks all downstream references and obtains any required normative approval. Until then, L0 acceptance remains blocked.
+The old Issue #71 labels L1–L7 are also a separate legacy taxonomy and must not be joined by ID to the new L0–L9 IDs. Their responsibilities are crosswalked by meaning, not by numeric label. This is a taxonomy reconciliation decision, not an implementation or verification claim.
 
-### Registry coverage invariant
+## 4. L0–L9 system architecture registry
 
-- Required system-layer scope: L0–L10 (11 IDs).
-- Required cross-cutting scope: X1–X36 (36 IDs).
-- Each ID must have a record or an explicit `UNRESOLVED`, `EXCLUDED` (with rationale/approval), or `CONFLICT` disposition. Missing rows are not evidence of non-applicability.
-- The L0 conflict does not authorize inventing, duplicating, or renumbering components. Production SSOTs remain in their canonical repositories.
-- The L0–L10 × X1–X36 applicability matrix must explicitly mark each relationship `APPLICABLE`, `NOT_APPLICABLE` (with rationale), or `UNRESOLVED`.
-
-## 4. L1–L10 system architecture registry
-
-The following registry is the scope index. The status is deliberately `PROPOSED / NOT VERIFIED` until each layer is reconciled with current source and evidence.
-
-| ID | Layer | Responsibility and boundary | Initial canonical ownership rule | Status |
+| ID | Layer | Responsibility and boundary | Canonical ownership rule | Status |
 |---|---|---|---|---|
-| L1 | Boot, Firmware & Hardware Abstraction (HAL) | Firmware interfaces, boot stages, hardware discovery, CPU/platform abstraction, drivers and hardware capability profiles. Does not own OS policy above HAL. | Map to actual GlobusOS boot/HAL modules after source inspection; do not guess paths. | PROPOSED / UNRESOLVED |
-| L2 | ShivaCore Kernel / Trusted Computing Base | Capability microkernel, isolation, scheduling primitives, memory protection, secure IPC and kernel security invariants. | `globus-os/modules/atc-shivacore/kernel/` is canonical kernel SSOT. | PROPOSED / UNRESOLVED |
-| L3 | GlobusOS System Services & OS Architecture | System service lifecycle, IPC clients/servers, storage/network services, service management, OS APIs and policy integration. | `globus-os`, exact modules to be evidenced. | PROPOSED / UNRESOLVED |
-| L4 | GlobusOS Desktop, Window Manager & UI | Compositor, windows, taskbar/launcher, input, display, accessibility and desktop interaction. | `globus-os`, exact module paths to be evidenced. | PROPOSED / UNRESOLVED |
-| L5 | A-TownChain Blockchain Core | Node, protocol, transaction processing, state transition, networking, storage and consensus integration. | `a-townchain` canonical blockchain core. | PROPOSED / UNRESOLVED |
-| L6 | ATC-VM & Smart-Contract Execution | Bytecode validation, deterministic execution, stack/state semantics, gas/resource limits and contract execution interface. | `a-townchain/components/vm` canonical ATC-VM. No standalone duplicate production VM. | PROPOSED / UNRESOLVED |
-| L7 | Developer Platform & ATCLang | Language tooling, lexer/parser, semantics, compiler/artifacts, SDKs, diagnostics and developer workflows. | Verify canonical ATCLang/toolchain repository and paths before assigning implementation mapping. | PROPOSED / UNRESOLVED |
-| L8 | Aurora AI Platform | AI control plane, agent platform, model/tool routing, policy/approval, runtime and intelligence interfaces. Not kernel or consensus authority. | Verify canonical Aurora repository and module paths before assigning implementation mapping. | PROPOSED / UNRESOLVED |
-| L9 | Applications & Ecosystem Services | Wallets, clients, service applications, user-facing and ecosystem integrations. Must consume canonical protocols/APIs. | Map each application to its actual owning repository; no inferred owner. | PROPOSED / UNRESOLVED |
-| L10 | Integration, Deployment & Operations | System composition, install/distribution integration, release coordination, observability, recovery and operational readiness. | Ecosystem coordinates and aggregates evidence; installers and release mechanisms stay with canonical owner repos. | PROPOSED / UNRESOLVED |
+| L0 | Hardware & Compute | Physical hardware resources, capability discovery and CPU/GPU/NPU/memory/storage/security/I/O/power capabilities. Grants no permissions. | Hardware contracts are specified at the HAL boundary; actual device implementation must be source-evidenced. | PROPOSED / UNRESOLVED |
+| L1 | Boot, Firmware & Hardware Abstraction (HAL) | Boot chain, firmware interfaces, platform discovery, drivers/HAL and secure kernel handoff. | GlobusOS boot/HAL modules; exact paths must be evidenced. | PROPOSED / UNRESOLVED |
+| L2 | ShivaCore Kernel / Trusted Computing Base | Capability microkernel, isolation, scheduling primitives, memory protection, secure IPC and kernel invariants. | `globus-os/modules/atc-shivacore/kernel/` is canonical kernel SSOT. | PROPOSED / UNRESOLVED |
+| L3 | GlobusOS System Services & OS Architecture | Service lifecycle, filesystem/network services, process/device management and OS APIs. | `globus-os`; exact modules require evidence. | PROPOSED / UNRESOLVED |
+| L4 | GlobusOS Desktop, Window Manager & UI | Compositor, window manager, launcher/taskbar, input, display and accessibility. | `globus-os`; exact module paths require evidence. | PROPOSED / UNRESOLVED |
+| L5 | A-TownChain Blockchain Core | Node runtime, transactions, consensus integration, protocol networking and authoritative blockchain state transitions. | `a-townchain` canonical blockchain core; algorithm remains in its canonical component. | PROPOSED / UNRESOLVED |
+| L6 | ATC-VM & Smart-Contract Execution | Bytecode validation, deterministic execution, gas/resource bounds, contract state and execution interfaces. | `a-townchain/components/vm` canonical ATC-VM; no duplicate production VM. | PROPOSED / UNRESOLVED |
+| L7 | Developer Platform & ATCLang | Compiler/language semantics, artifacts, SDK/toolchain, diagnostics and developer workflows. | Map to canonical ATCLang/toolchain repositories; no inferred paths. | PROPOSED / UNRESOLVED |
+| L8 | Aurora AI Platform | AI control plane, agent platform, policy/approval, runtime and model/tool routing. Not kernel or consensus authority. | `aurora-ai` canonical AI platform; exact module mappings require evidence. | PROPOSED / UNRESOLVED |
+| L9 | Applications & Ecosystem Services | Wallets, clients, domain services, launchpad/marketplace, system applications and user-facing integrations. | Each application/service stays in its actual owning repository. | PROPOSED / UNRESOLVED |
+
+**Former former L10 responsibilities:** L10 is not a system-layer ID in this baseline. Deployment/release/rollout governance is represented by **X35**; integration, system composition and end-to-end compatibility by **X36**. These are cross-cutting contracts, not replacement implementation repositories. The former L10 × X3 matrix disposition is not transferred automatically; it remains unresolved unless separately supported by evidence.
 
 ### L-layer mandatory fields
 
@@ -328,7 +323,7 @@ Hard gates include security invariants, normative MUST requirements, unresolved 
 
 This catalog must be completed through evidence-backed reconciliation, not by assuming the architecture tables are exhaustive.
 
-1. **Registry reconciliation:** compare all existing L1–L10 and X1–X36 records with existing catalog files and issues; preserve established IDs and identify duplicates/conflicts.
+1. **Registry reconciliation:** compare all existing L0–L9 and X1–X36 records with existing catalog files and issues; preserve established IDs and identify duplicates/conflicts.
 2. **Sublayer reconciliation:** enumerate each layer's actual/proposed sublayers; mark each `MAPPED`, `MISSING`, `UNRESOLVED` or justified `EXCLUDED`.
 3. **Component census:** inspect canonical source repositories and manifests; map component IDs to exact repository/path/symbol/blob/full commit SHA.
 4. **Function census:** inventory public functions, internal runtime contracts, APIs, IPC, events, build/runtime interfaces and protocol operations; exclude tests/docs/generated/CI from runtime inventory only with explicit reasons and maintain their evidence links separately.
@@ -341,11 +336,15 @@ This catalog must be completed through evidence-backed reconciliation, not by as
 11. **Change governance:** register normative rules in `atc-standards` through approved change control; this catalog references rather than duplicates normative standards.
 12. **Reporting:** publish inventory totals and residuals by status, layer, repository and risk; every count must be reproducible from machine-readable artifacts.
 
+
+- [ ] Close former L10 migration: X35 owns deployment/release/rollout governance; X36 owns integration/system composition/end-to-end compatibility. Do not create an L10 alias.
+- [ ] Reconcile Issue #71 composite “L0 System & Network” through the approved semantic crosswalk; preserve historical provenance and do not reuse legacy numeric IDs.
+
 ## 14. Definition of catalog completeness
 
 The catalog is complete for a defined revision only when all the following are true:
 
-- Every L1–L10 and X1–X36 record exists with stable ID, owner, scope, boundary, status and applicability.
+- Every L0–L9 and X1–X36 record exists with stable ID, owner, scope, boundary, status and applicability.
 - Every applicable sublayer is present or explicitly excluded with rationale.
 - Every discovered component and function/interface contract is represented or has a traceable exclusion.
 - Every required contract has typed semantics, errors, invariants, versioning and acceptance criteria.
@@ -360,7 +359,7 @@ The catalog is complete for a defined revision only when all the following are t
 
 ## 15. Current disposition
 
-- Layer scope index: recorded here for L1–L10 and X1–X36.
+- Layer scope index: recorded here for L0–L9 and X1–X36.
 - Full sublayer/component/function census: `NOT VERIFIED`; requires comparison with the live catalog and canonical source trees.
 - Canonical source mapping: ownership rules recorded; per-function source references require verification.
 - Contract conformance and CI evidence: `NOT VERIFIED`.
@@ -373,7 +372,7 @@ The catalog is complete for a defined revision only when all the following are t
 - Issue #183 — define acceptance criteria for all architecture layers and sublayers.
 - Issue #112 — full source-code comparison for component/function catalog.
 - Issues #146–#181 — X1–X36 layer-specific work items; reconcile each rather than duplicating its scope.
-- L1–L10 work items #136–#145 — reconcile against the system layer registry.
+- L0–L9 work items #136–#145 — reconcile against the system layer registry.
 
 This document is an organizing artifact for the above work, not evidence that the issues are completed.
 
@@ -390,7 +389,7 @@ This document is an organizing artifact for the above work, not evidence that th
 | Milestone | Target outcome | Exit checkpoint | Blocking conditions |
 |---|---|---|---|
 | M0 — Baseline and scope lock | Establish exact catalog baseline, source revisions, owners, existing IDs and scope. | **CP0:** baseline commit and inventory inputs are recorded; no silent ID replacement. | Missing repository manifest, unpinned source revisions or scope conflicts. |
-| M1 — Registry reconciliation | Reconcile existing L1–L10 and X1–X36 records, Issues #136–#183, and existing catalog artifacts. | **CP1:** every layer has a disposition; duplicate/conflicting IDs have explicit decisions. | Unresolved ID collisions or overwritten prior work. |
+| M1 — Registry reconciliation | Reconcile existing L0–L9 and X1–X36 records, Issues #136–#183, and existing catalog artifacts. | **CP1:** every layer has a disposition; duplicate/conflicting IDs have explicit decisions. | Unresolved ID collisions or overwritten prior work. |
 | M2 — Sublayer completeness | Enumerate domain-specific sublayers and layer applicability. | **CP2:** every layer/sublayer is mapped, missing, unresolved or excluded with rationale. | Unexplained empty applicability or generic template presented as exhaustive inventory. |
 | M3 — Component and function census | Inventory components, public/internal functions, APIs, ABIs, IPC, events and protocol contracts from canonical source trees. | **CP3:** reproducible counts and source-backed mappings exist for each inspected revision. | Unpinned source tree, unexplained exclusions, hidden unresolved items or duplicate SSOT. |
 | M4 — Contract normalization | Define behavior, types, errors, invariants, limits, versioning and acceptance tests. | **CP4:** each in-scope contract has a complete contract record or explicit blocked/unresolved disposition. | Ambiguous normative semantics, especially security, consensus, serialization or VM behavior. |
@@ -408,7 +407,7 @@ Sprint numbers are sequencing labels. Sprint length is provisionally two weeks; 
 | Sprint | Focus | Definition of done |
 |---|---|---|
 | S0 — Setup and baseline | M0; pin catalog branch/commit, source manifests, current registry exports, ID policy and owner map. | Reproducible baseline manifest exists; all inputs have source/revision metadata; exclusions are recorded. |
-| S1 — Layer and issue reconciliation | M1; compare L1–L10 and X1–X36 with current issues/catalog files. | Reconciliation table includes existing ID, canonical record, conflict, disposition, owner and evidence. |
+| S1 — Layer and issue reconciliation | M1; compare L0–L9 and X1–X36 with current issues/catalog files. | Reconciliation table includes existing ID, canonical record, conflict, disposition, owner and evidence. |
 | S2 — Sublayer and applicability matrix | M2; enumerate sublayers and cross-cutting applicability per L-layer. | No blank status is interpreted as N/A; every absence has a reason or remains unresolved. |
 | S3 — Source census wave A | M3; prioritize L1–L4 and their applicable X-layer contracts. | Pinned repository snapshots, component/function inventories and reproducible totals published. |
 | S4 — Source census wave B | M3; prioritize L5–L7, including blockchain, ATC-VM and ATCLang. | Canonical mappings and explicit unresolved protocol/language/VM semantics recorded; no consensus assumptions invented. |
@@ -467,7 +466,7 @@ These are proposed backlog entries, not assertions that the work has started or 
 |---|---|---|---|---|
 | TODO-CAT-001 | P0 | Pin catalog baseline, repository manifest and source SHAs; exclude `demo-repository` from live drift gate. | M0 | Manifest and exact revisions retained; exclusion test proves demo repo is not a live gate input. |
 | TODO-CAT-002 | P1 | Reconcile existing layer records, issue references and stable-ID collisions without deleting established IDs. | TODO-CAT-001 | Machine-readable reconciliation report and reviewer decision. |
-| TODO-CAT-003 | P1 | Produce complete L1–L10 × X1–X36 applicability matrix with rationale and owners. | TODO-CAT-002 | Every relationship has applicable/not-applicable/unresolved disposition and provenance. |
+| TODO-CAT-003 | P1 | Produce complete L0–L9 × X1–X36 applicability matrix with rationale and owners. | TODO-CAT-002 | Every relationship has applicable/not-applicable/unresolved disposition and provenance. |
 | TODO-CAT-004 | P1 | Enumerate domain-specific sublayers for every layer; distinguish template families from actual exhaustive inventory. | TODO-CAT-003 | Sublayer registry with stable IDs, parent links, boundaries and dispositions. |
 | TODO-CAT-005 | P1 | Run source census for each canonical repository and record component/function/API/ABI/IPC/event inventories. | TODO-CAT-001, TODO-CAT-004 | Reproducible per-repository reports tied to full commit SHAs and paths. |
 | TODO-CAT-006 | P0 | Triage unknown security, consensus, transaction, serialization, VM and ATCLang semantic decisions. | TODO-CAT-005 | Decision records or explicit `BLOCKED` contracts; no semantics inferred from names/docs alone. |
@@ -517,7 +516,7 @@ Counts must never conflate `UNRESOLVED`, `EXCLUDED`, `NOT_IMPLEMENTED` and `VERI
 | Chapter | Subject | Intended reader / use |
 |---|---|---|
 | [00 — Home and navigation](wiki/ATC-ARCH-WIKI-00-Home.md) | Purpose, principles, status, navigation and contribution rules | All contributors and reviewers |
-| [01 — Architecture layers](wiki/ATC-ARCH-WIKI-01-Layers.md) | L1–L10 system layers and X1–X36 cross-cutting layers | Architecture owners |
+| [01 — Architecture layers](wiki/ATC-ARCH-WIKI-01-Layers.md) | L0–L9 system layers and X1–X36 cross-cutting layers | Architecture owners |
 | [02 — Sublayers, components and contracts](wiki/ATC-ARCH-WIKI-02-Contracts.md) | Hierarchy, metadata, stable IDs, function-contract schema and exclusions | Catalog/source-census contributors |
 | [03 — SSOT and ownership](wiki/ATC-ARCH-WIKI-03-SSOT.md) | Canonical repositories, ownership boundaries and duplicate prevention | Implementers and maintainers |
 | [04 — Roadmap and delivery](wiki/ATC-ARCH-WIKI-04-Roadmap.md) | Milestones M0–M8, checkpoints CP0–CP8, sprints S0–S10 and TODO-CAT-001–014 | Workstream leads |
@@ -546,7 +545,7 @@ The files are stored as version-controlled Markdown chapters in the catalog repo
 | Order | Stage | Required work | Exit condition / checkpoint |
 |---:|---|---|---|
 | 0 | Freeze baseline | Pin catalog branch/commit, repository manifest, active/archived scope and exclusion rules; exclude `demo-repository` from live drift | CP0: baseline reproducible; source revisions recorded |
-| 1 | Reconcile architecture registry | Reconcile L1–L10 and X1–X36 IDs, existing issues, duplicates, names, boundaries and ownership | CP1: every registry record has an explicit disposition |
+| 1 | Reconcile architecture registry | Reconcile L0–L9 and X1–X36 IDs, existing issues, duplicates, names, boundaries and ownership | CP1: every registry record has an explicit disposition |
 | 2 | Build applicability and sublayer map | Construct L-layer × X-layer applicability matrix; enumerate sublayers; document N/A rationales and unresolved cells | CP2: no blank cells masquerade as non-applicability |
 | 3 | Run canonical source census | Inventory components, symbols, interfaces, functions, tests and generated/runtime distinctions from canonical repositories | CP3: every candidate mapped, excluded with rationale, or unresolved |
 | 4 | Resolve SSOT and risk blockers | Confirm canonical owner/path and flag ambiguous protocol, consensus, security, VM, language and AI-runtime semantics | CP4: no guessed production ownership; hard blockers visible |
