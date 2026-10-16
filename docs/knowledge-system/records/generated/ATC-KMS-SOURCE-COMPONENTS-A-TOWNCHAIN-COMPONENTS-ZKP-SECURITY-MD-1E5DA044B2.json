@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-COMPONENTS-ZKP-SECURITY-MD-1E5DA044B2",
-  "timestamp": "2026-10-16T15:11:48.531836Z",
+  "timestamp": "2026-10-16T18:56:59.264768Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain/components/zkp/SECURITY.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain/components/zkp/SECURITY.md",
-    "commit": "89ef25e54c9a9783b79bcb8e2cefd3ab271b1b95"
+    "commit": "c1d3db32431476635a0af2cf80a328575388bd33"
   },
   "tags": [
     "generated",
