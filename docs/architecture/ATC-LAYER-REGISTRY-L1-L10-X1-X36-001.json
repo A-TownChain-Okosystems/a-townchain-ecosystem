@@ -1394,24 +1394,59 @@
     }
   ],
   "applicability_matrix": {
-    "status": "PARTIALLY_RECONCILED_TAXONOMY_TRIAGED",
+    "status": "PARTIALLY_RECONCILED_SOURCE_REVIEW_IN_PROGRESS",
     "rows": [
       {
         "system_layer_id": "L0",
         "cross_cutting_layer_id": "X1",
-        "disposition": "UNRESOLVED",
-        "rationale": "Hardware & Compute × Security & Trust: taxonomy-level review identifies the cross-cutting question as \"threat model, trust boundary, security control, or security test directly owned by a function contract\". No pair-specific direct contract/source evidence is currently attached; therefore the relationship remains UNRESOLVED.",
-        "evidence_refs": [],
+        "disposition": "APPLICABLE",
+        "rationale": "L0 hardware inventory includes a trusted-source boot inventory and CPU feature discovery (including NX) at an exact source binding. This establishes that security-relevant hardware trust/capability discovery crosses L0/X1; it does not establish enforcement, which remains owned by L1/L2 and security contracts.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L0-DISC-001",
+            "function_catalog_id": "ATC-L0-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/main.rs",
+            "symbol": "boot path: CpuInfo::detect + MemoryMap + ACPI table validation",
+            "file_blob_sha": "15123f08bfee471e17eb6eb5f4be00ca2e926be3",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/main.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Source mapping supports trusted-source hardware inventory/ACPI validation only; boot trust enforcement and security properties remain residual."
+          },
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L0-CPU-002",
+            "function_catalog_id": "ATC-L0-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/hal/cpu.rs",
+            "symbol": "CpuInfo::detect, features_from_leaves",
+            "file_blob_sha": "1719d3ae99108138c74b64c14c9c57e4d2418595",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/hal/cpu.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Source mapping supports CPU capability discovery only; the presence of NX or other features does not prove kernel enforcement or full security verification."
+          }
+        ],
         "pair_id": "L0:X1",
         "triage": {
-          "status": "TAXONOMY_REVIEWED_EVIDENCE_PENDING",
+          "status": "SOURCE_BOUND_APPLICABLE",
           "reviewed_on": "2026-10-16",
           "layer_scope": "Hardware & Compute: Physical compute resources, hardware identity/capability discovery, CPU, GPU, NPU, memory, storage, security hardware, connectivity, I/O and power/thermal capabilities. L0 provides capabilities but grants no permissions; boot, firmware and HAL responsibilities belong to L1.",
           "cross_cutting_scope": "Security & Trust: Threat model, trust boundaries, secure defaults, cryptographic controls, security testing and risk disposition.",
           "evidence_question": "Does a concrete function contract in L0 directly implement, consume, or enforce X1 (Security & Trust)?",
           "required_evidence": "threat model, trust boundary, security control, or security test directly owned by a function contract",
           "disposition_rule": "Keep UNRESOLVED until a specific contract and exact immutable source binding directly support APPLICABLE, or a documented scope analysis plus approval supports NOT_APPLICABLE. Missing source or tests is not proof of non-applicability.",
-          "next_action": "Inspect canonical owner and function contracts for L0; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap."
+          "next_action": "Inspect canonical owner and function contracts for L0; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap.",
+          "source_reviewed_on": "2026-10-16",
+          "source_review_note": "Exact source file blob SHAs were fetched from the recorded immutable commit and matched the catalog binding. This establishes applicability only, not functional verification.",
+          "remaining_gaps": [
+            "Source mapping supports trusted-source hardware inventory/ACPI validation only; boot trust enforcement and security properties remain residual.",
+            "Source mapping supports CPU capability discovery only; the presence of NX or other features does not prove kernel enforcement or full security verification."
+          ]
         }
       },
       {
@@ -1525,37 +1560,122 @@
       {
         "system_layer_id": "L0",
         "cross_cutting_layer_id": "X8",
-        "disposition": "UNRESOLVED",
-        "rationale": "Hardware & Compute × Performance, Capacity & Resource Optimization: taxonomy-level review identifies the cross-cutting question as \"measured performance budget, profiling, latency/throughput, or capacity constraint\". No pair-specific direct contract/source evidence is currently attached; therefore the relationship remains UNRESOLVED.",
-        "evidence_refs": [],
+        "disposition": "APPLICABLE",
+        "rationale": "The L0 power/thermal contract is mapped to PowerManager and thermal-zone code at an exact source revision. Reporting supported power/performance characteristics and thermal sensor state directly supports performance/capacity constraints at the hardware boundary; profiling, budgets, policy and optimization remain unverified.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L0-PWR-001",
+            "function_catalog_id": "ATC-L0-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/power.rs",
+            "symbol": "PowerManager; ACPI power/performance characteristics",
+            "file_blob_sha": "717daef9bf8ad527902c7603f19eb084fbd16224",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/power.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports hardware power/performance capability applicability; no performance benchmark or capacity policy is established by this source binding."
+          },
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L0-THM-001",
+            "function_catalog_id": "ATC-L0-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/power.rs",
+            "symbol": "ThermalZone; PowerManager::check_thermal; thermal_zone_count",
+            "file_blob_sha": "717daef9bf8ad527902c7603f19eb084fbd16224",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/power.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports thermal capability/sensor applicability; thermal safety behavior and end-to-end resource governance remain residual."
+          }
+        ],
         "pair_id": "L0:X8",
         "triage": {
-          "status": "TAXONOMY_REVIEWED_EVIDENCE_PENDING",
+          "status": "SOURCE_BOUND_APPLICABLE",
           "reviewed_on": "2026-10-16",
           "layer_scope": "Hardware & Compute: Physical compute resources, hardware identity/capability discovery, CPU, GPU, NPU, memory, storage, security hardware, connectivity, I/O and power/thermal capabilities. L0 provides capabilities but grants no permissions; boot, firmware and HAL responsibilities belong to L1.",
           "cross_cutting_scope": "Performance, Capacity & Resource Optimization: Performance budgets, profiling, throughput/latency, capacity and optimization evidence.",
           "evidence_question": "Does a concrete function contract in L0 directly implement, consume, or enforce X8 (Performance, Capacity & Resource Optimization)?",
           "required_evidence": "measured performance budget, profiling, latency/throughput, or capacity constraint",
           "disposition_rule": "Keep UNRESOLVED until a specific contract and exact immutable source binding directly support APPLICABLE, or a documented scope analysis plus approval supports NOT_APPLICABLE. Missing source or tests is not proof of non-applicability.",
-          "next_action": "Inspect canonical owner and function contracts for L0; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap."
+          "next_action": "Inspect canonical owner and function contracts for L0; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap.",
+          "source_reviewed_on": "2026-10-16",
+          "source_review_note": "Exact source file blob SHAs were fetched from the recorded immutable commit and matched the catalog binding. This establishes applicability only, not functional verification.",
+          "remaining_gaps": [
+            "Supports hardware power/performance capability applicability; no performance benchmark or capacity policy is established by this source binding.",
+            "Supports thermal capability/sensor applicability; thermal safety behavior and end-to-end resource governance remain residual."
+          ]
         }
       },
       {
         "system_layer_id": "L0",
         "cross_cutting_layer_id": "X9",
-        "disposition": "UNRESOLVED",
-        "rationale": "Hardware & Compute × Compatibility, Portability & Platform Support: taxonomy-level review identifies the cross-cutting question as \"explicit platform profile, supported hardware/software matrix, portability behavior, or documented limit\". No pair-specific direct contract/source evidence is currently attached; therefore the relationship remains UNRESOLVED.",
-        "evidence_refs": [],
+        "disposition": "APPLICABLE",
+        "rationale": "L0 contracts and exact source bindings identify supported CPU vendor/features and PCI device inventory. This directly supports hardware/platform support and compatibility discovery under X9, limited to the mapped x86-64/PCI paths; it does not establish a complete platform matrix or portability verification.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L0-CPU-001",
+            "function_catalog_id": "ATC-L0-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/hal/cpu.rs",
+            "symbol": "CpuInfo::detect, CpuInfo::vendor_name",
+            "file_blob_sha": "1719d3ae99108138c74b64c14c9c57e4d2418595",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/hal/cpu.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports CPU vendor/platform discovery; current source is x86-64-specific and does not establish ARM64 support."
+          },
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L0-CPU-002",
+            "function_catalog_id": "ATC-L0-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/hal/cpu.rs",
+            "symbol": "CpuInfo::detect, features_from_leaves",
+            "file_blob_sha": "1719d3ae99108138c74b64c14c9c57e4d2418595",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/hal/cpu.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports ISA/feature discovery; platform coverage and compatibility matrix remain incomplete."
+          },
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L0-IO-001",
+            "function_catalog_id": "ATC-L0-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+            "symbol": "PciBus::scan, PciDevice",
+            "file_blob_sha": "532a700712765fd34ca6e7700b0be74b2987594b",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-drivers/kernel/src/hw_drivers.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports PCI hardware inventory applicability only; driver compatibility and full device coverage remain residual."
+          }
+        ],
         "pair_id": "L0:X9",
         "triage": {
-          "status": "TAXONOMY_REVIEWED_EVIDENCE_PENDING",
+          "status": "SOURCE_BOUND_APPLICABLE",
           "reviewed_on": "2026-10-16",
           "layer_scope": "Hardware & Compute: Physical compute resources, hardware identity/capability discovery, CPU, GPU, NPU, memory, storage, security hardware, connectivity, I/O and power/thermal capabilities. L0 provides capabilities but grants no permissions; boot, firmware and HAL responsibilities belong to L1.",
           "cross_cutting_scope": "Compatibility, Portability & Platform Support: Platform profiles, compatibility matrices, portability, hardware/software support and limits.",
           "evidence_question": "Does a concrete function contract in L0 directly implement, consume, or enforce X9 (Compatibility, Portability & Platform Support)?",
           "required_evidence": "explicit platform profile, supported hardware/software matrix, portability behavior, or documented limit",
           "disposition_rule": "Keep UNRESOLVED until a specific contract and exact immutable source binding directly support APPLICABLE, or a documented scope analysis plus approval supports NOT_APPLICABLE. Missing source or tests is not proof of non-applicability.",
-          "next_action": "Inspect canonical owner and function contracts for L0; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap."
+          "next_action": "Inspect canonical owner and function contracts for L0; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap.",
+          "source_reviewed_on": "2026-10-16",
+          "source_review_note": "Exact source file blob SHAs were fetched from the recorded immutable commit and matched the catalog binding. This establishes applicability only, not functional verification.",
+          "remaining_gaps": [
+            "Supports CPU vendor/platform discovery; current source is x86-64-specific and does not establish ARM64 support.",
+            "Supports ISA/feature discovery; platform coverage and compatibility matrix remain incomplete.",
+            "Supports PCI hardware inventory applicability only; driver compatibility and full device coverage remain residual."
+          ]
         }
       },
       {
@@ -8277,7 +8397,51 @@
         "NOT_APPLICABLE": 0
       },
       "required_next_step": "Resolve each pair from function-level contracts and exact immutable source bindings; only then update disposition. Evidence must include repository, full commit SHA, path, symbol, blob SHA, and test/evidence reference where applicable.",
-      "caveat": "This is a taxonomy-level triage of all open pairs, not a source-level audit or functional verification. No relationship is promoted to APPLICABLE, NOT_APPLICABLE, or VERIFIED by this change."
+      "caveat": "This is a taxonomy-level triage of all open pairs, not a source-level audit or functional verification. No relationship is promoted to APPLICABLE, NOT_APPLICABLE, or VERIFIED by this change.",
+      "source_review_batch_001": {
+        "status": "SOURCE_BOUND_APPLICABILITY_REVIEW",
+        "reviewed_pairs": [
+          "L0:X1",
+          "L0:X8",
+          "L0:X9"
+        ],
+        "result": "3 pairs promoted from UNRESOLVED to APPLICABLE on direct function/source-binding evidence; no pair promoted to NOT_APPLICABLE or VERIFIED.",
+        "source_repository": "A-TownChain-Okosystems/globus-os",
+        "source_commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+        "blob_checks": [
+          {
+            "path": "modules/atc-shivacore/kernel/src/hal/cpu.rs",
+            "expected_blob_sha": "1719d3ae99108138c74b64c14c9c57e4d2418595",
+            "observed_blob_sha": "1719d3ae99108138c74b64c14c9c57e4d2418595",
+            "result": "MATCH"
+          },
+          {
+            "path": "modules/atc-bootloader/src/mmap.rs",
+            "expected_blob_sha": "0340c1a069abcfb4da7e433925231b2aceff8ae2",
+            "observed_blob_sha": "0340c1a069abcfb4da7e433925231b2aceff8ae2",
+            "result": "MATCH"
+          },
+          {
+            "path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+            "expected_blob_sha": "532a700712765fd34ca6e7700b0be74b2987594b",
+            "observed_blob_sha": "532a700712765fd34ca6e7700b0be74b2987594b",
+            "result": "MATCH"
+          },
+          {
+            "path": "modules/atc-shivacore/kernel/src/power.rs",
+            "expected_blob_sha": "717daef9bf8ad527902c7603f19eb084fbd16224",
+            "observed_blob_sha": "717daef9bf8ad527902c7603f19eb084fbd16224",
+            "result": "MATCH"
+          },
+          {
+            "path": "modules/atc-shivacore/kernel/src/main.rs",
+            "expected_blob_sha": "15123f08bfee471e17eb6eb5f4be00ca2e926be3",
+            "observed_blob_sha": "15123f08bfee471e17eb6eb5f4be00ca2e926be3",
+            "result": "MATCH"
+          }
+        ],
+        "caveat": "Applicability is not implementation completeness or functional verification. The referenced contracts remain scoped to mapped hardware-discovery behavior."
+      }
     }
   }
 }
