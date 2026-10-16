@@ -4334,11 +4334,46 @@
     },
     "latest_matrix_review": {
       "date": "2026-10-16",
+      "review_scope": "Evidence-first review of candidate pairs surfaced by the current component/function mapping; not a claim that every unresolved pair has been individually source-audited.",
       "reviewed_pairs": [
-        "L9:X34"
+        {
+          "pair": "L9:X34",
+          "disposition": "APPLICABLE",
+          "basis": "FN-COMPUTE-001 Scheduler::enqueue; exact source commit and blob recorded in matrix evidence_refs."
+        },
+        {
+          "pair": "L3:X3",
+          "disposition": "UNRESOLVED",
+          "basis": "Current GlobusOS source bindings are process spawn and boot-stage entrypoints; no directly bound protocol/IPC contract in this component record."
+        },
+        {
+          "pair": "L3:X4",
+          "disposition": "UNRESOLVED",
+          "basis": "Current GlobusOS source bindings do not directly establish persistence/storage ownership or data integrity behavior."
+        },
+        {
+          "pair": "L7:X8",
+          "disposition": "UNRESOLVED",
+          "basis": "ATC Toolchain compile/package contract has no identified implementation source; the available smoke test is not build provenance/release evidence."
+        },
+        {
+          "pair": "L9:X8",
+          "disposition": "UNRESOLVED",
+          "basis": "ATC Compute scheduling source does not itself establish supply-chain integrity or reproducible build provenance."
+        },
+        {
+          "pair": "L9:X35",
+          "disposition": "UNRESOLVED",
+          "basis": "FN-OSINT-002 maps cross-component validation to X36; it does not prove installer, release manifest, rollout, or rollback behavior under X35."
+        },
+        {
+          "pair": "L0:X1-X36",
+          "disposition": "UNRESOLVED",
+          "basis": "No source-backed hardware capability function contract was supplied in the component catalog for L0; hardware is not inferred from downstream kernel/boot code."
+        }
       ],
-      "decision": "Added APPLICABLE only for L9 × X34 using FN-COMPUTE-001 -> atc-compute/src/scheduler.rs::enqueue at exact commit d0831dfb72590537d8b0ca4d435a3649e71cdb61 and blob 2c023471e97e6599846f5a4f8d2a350863caa3eb. Other unsupported candidate pairs remain UNRESOLVED.",
-      "structural_validation": "360 rows / 360 unique L0-L9 × X1-X36 pairs; no L10 references."
+      "decision": "Added only the directly supported L9 × X34 relationship. All reviewed candidates lacking a direct contract/source binding remain UNRESOLVED.",
+      "structural_validation": "360 rows; 360 unique L0-L9 × X1-X36 pairs; 16 APPLICABLE; 0 NOT_APPLICABLE; 344 UNRESOLVED; no L10 references."
     }
   }
 }
