@@ -1,10 +1,27 @@
 use std::{
     io::{Read, Write},
-    net::TcpStream,
-    process::{Command, Stdio},
+    net::{TcpListener, TcpStream},
+    process::{Child, Command, Stdio},
     thread,
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
+
+fn free_addr() -> String {
+    TcpListener::bind("127.0.0.1:0")
+        .expect("allocate ephemeral test port")
+        .local_addr()
+        .expect("read ephemeral test port")
+        .to_string()
+}
+
+struct ChildGuard(Child);
+
+impl Drop for ChildGuard {
+    fn drop(&mut self) {
+        let _ = self.0.kill();
+        let _ = self.0.wait();
+    }
+}
 
 fn rpc(addr: &str, method: &str) -> serde_json::Value {
     let mut stream = TcpStream::connect(addr).expect("rpc connect");
@@ -33,8 +50,11 @@ fn rpc_block(addr: &str, height: u64) -> serde_json::Value {
     serde_json::from_str(out.trim()).unwrap()
 }
 
-fn wait_status(addr: &str, min_height: u64) -> serde_json::Value {
+fn wait_status(addr: &str, min_height: u64, child: &mut Child) -> serde_json::Value {
     for _ in 0..80 {
+        if let Some(status) = child.try_wait().expect("poll node process") {
+            panic!("node process exited before reaching height {min_height} at {addr}: {status}");
+        }
         if let Ok(mut stream) = TcpStream::connect(addr) {
             let body = r#"{"jsonrpc":"2.0","method":"status","id":1}"#;
             let _ = stream.write_all(body.as_bytes());
@@ -71,10 +91,10 @@ fn persistent_two_node_consensus_path() {
     std::fs::create_dir_all(&a_dir).unwrap();
     std::fs::create_dir_all(&b_dir).unwrap();
 
-    let a_rpc = "127.0.0.1:40171";
-    let a_p2p = "127.0.0.1:40172";
-    let b_rpc = "127.0.0.1:40173";
-    let b_p2p = "127.0.0.1:40174";
+    let a_rpc = free_addr();
+    let a_p2p = free_addr();
+    let b_rpc = free_addr();
+    let b_p2p = free_addr();
     let validators = format!(
         "atc-node-a:1:{}{},atc-node-b:1:{}{}",
         "01".repeat(32),
@@ -83,10 +103,10 @@ fn persistent_two_node_consensus_path() {
         ""
     );
 
-    let mut a = Command::new(env!("CARGO_BIN_EXE_atc-node"))
+    let mut a = ChildGuard(Command::new(env!("CARGO_BIN_EXE_atc-node"))
         .env("ATC_NODE_ID", "atc-node-a")
-        .env("ATC_RPC_ADDR", a_rpc)
-        .env("ATC_P2P_ADDR", a_p2p)
+        .env("ATC_RPC_ADDR", &a_rpc)
+        .env("ATC_P2P_ADDR", &a_p2p)
         .env("ATC_DATA_DIR", &a_dir)
         .env("ATC_VALIDATORS", &validators)
         .env("ATC_PEERS", "")
@@ -95,24 +115,24 @@ fn persistent_two_node_consensus_path() {
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())
         .spawn()
-        .unwrap();
+        .unwrap());
 
-    let mut b = Command::new(env!("CARGO_BIN_EXE_atc-node"))
+    let mut b = ChildGuard(Command::new(env!("CARGO_BIN_EXE_atc-node"))
         .env("ATC_NODE_ID", "atc-node-b")
-        .env("ATC_RPC_ADDR", b_rpc)
-        .env("ATC_P2P_ADDR", b_p2p)
+        .env("ATC_RPC_ADDR", &b_rpc)
+        .env("ATC_P2P_ADDR", &b_p2p)
         .env("ATC_DATA_DIR", &b_dir)
         .env("ATC_VALIDATORS", &validators)
-        .env("ATC_PEERS", a_p2p)
+        .env("ATC_PEERS", &a_p2p)
         .env("ATC_BLOCK_INTERVAL_SECS", "1")
         .stdin(Stdio::null())
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())
         .spawn()
-        .unwrap();
+        .unwrap());
 
-    let a_status = wait_status(a_rpc, 2);
-    let b_status = wait_status(b_rpc, 2);
+    let a_status = wait_status(&a_rpc, 2, &mut a.0);
+    let b_status = wait_status(&b_rpc, 2, &mut b.0);
 
     assert_eq!(
         a_status["result"]["height"].as_u64(),
@@ -134,22 +154,22 @@ fn persistent_two_node_consensus_path() {
     );
 
     let persisted_height = a_status["result"]["height"].as_u64().unwrap();
-    let persisted_block = rpc_block(a_rpc, persisted_height);
+    let persisted_block = rpc_block(&a_rpc, persisted_height);
     let persisted_block_id = persisted_block["result"]["block_id"]
         .as_str()
         .expect("persisted block id")
         .to_string();
 
-    let _ = rpc(a_rpc, "ping");
-    let _ = a.kill();
-    let _ = b.kill();
-    let _ = a.wait();
-    let _ = b.wait();
+    let _ = rpc(&a_rpc, "ping");
+    let _ = a.0.kill();
+    let _ = b.0.kill();
+    let _ = a.0.wait();
+    let _ = b.0.wait();
 
-    let mut recovered_a = Command::new(env!("CARGO_BIN_EXE_atc-node"))
+    let mut recovered_a = ChildGuard(Command::new(env!("CARGO_BIN_EXE_atc-node"))
         .env("ATC_NODE_ID", "atc-node-a")
-        .env("ATC_RPC_ADDR", a_rpc)
-        .env("ATC_P2P_ADDR", a_p2p)
+        .env("ATC_RPC_ADDR", &a_rpc)
+        .env("ATC_P2P_ADDR", &a_p2p)
         .env("ATC_DATA_DIR", &a_dir)
         .env("ATC_VALIDATORS", &validators)
         .env("ATC_PEERS", "")
@@ -158,9 +178,9 @@ fn persistent_two_node_consensus_path() {
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())
         .spawn()
-        .unwrap();
+        .unwrap());
 
-    let recovered_status = wait_status(a_rpc, persisted_height);
+    let recovered_status = wait_status(&a_rpc, persisted_height, &mut recovered_a.0);
     // wait_status wartet auf >= persisted_height; der Knoten laeuft mit
     // 1s-Blockintervall weiter, daher duerfen beide Hoehen hoeher sein —
     // gesichert wird nur: kein Verlust persistierter bzw. finalisierter Höhe.
@@ -179,39 +199,39 @@ fn persistent_two_node_consensus_path() {
         finalized_after >= finalized_before,
         "restart lost finalized height: {finalized_after} < {finalized_before}"
     );
-    let recovered_block = rpc_block(a_rpc, persisted_height);
+    let recovered_block = rpc_block(&a_rpc, persisted_height);
     assert_eq!(
         recovered_block["result"]["block_id"].as_str(),
         Some(persisted_block_id.as_str()),
         "restart changed the persisted block"
     );
 
-    let mut recovered_b = Command::new(env!("CARGO_BIN_EXE_atc-node"))
+    let mut recovered_b = ChildGuard(Command::new(env!("CARGO_BIN_EXE_atc-node"))
         .env("ATC_NODE_ID", "atc-node-b")
-        .env("ATC_RPC_ADDR", b_rpc)
-        .env("ATC_P2P_ADDR", b_p2p)
+        .env("ATC_RPC_ADDR", &b_rpc)
+        .env("ATC_P2P_ADDR", &b_p2p)
         .env("ATC_DATA_DIR", &b_dir)
         .env("ATC_VALIDATORS", &validators)
-        .env("ATC_PEERS", a_p2p)
+        .env("ATC_PEERS", &a_p2p)
         .env("ATC_BLOCK_INTERVAL_SECS", "1")
         .stdin(Stdio::null())
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())
         .spawn()
-        .unwrap();
+        .unwrap());
 
     let next_height = persisted_height + 1;
-    let recovered_a_next = wait_status(a_rpc, next_height);
-    let recovered_b_next = wait_status(b_rpc, next_height);
+    let recovered_a_next = wait_status(&a_rpc, next_height, &mut recovered_a.0);
+    let recovered_b_next = wait_status(&b_rpc, next_height, &mut recovered_b.0);
     assert_eq!(
         recovered_a_next["result"]["height"].as_u64(),
         recovered_b_next["result"]["height"].as_u64(),
         "restarted nodes diverged after recovery"
     );
 
-    let _ = recovered_a.kill();
-    let _ = recovered_b.kill();
-    let _ = recovered_a.wait();
-    let _ = recovered_b.wait();
+    let _ = recovered_a.0.kill();
+    let _ = recovered_b.0.kill();
+    let _ = recovered_a.0.wait();
+    let _ = recovered_b.0.wait();
     std::fs::remove_dir_all(root).unwrap();
 }

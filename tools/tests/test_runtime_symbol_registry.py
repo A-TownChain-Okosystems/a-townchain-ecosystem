@@ -189,6 +189,15 @@ class RuntimeSymbolRegistryValidatorTests(unittest.TestCase):
         errors, _ = validate(registry, SAMPLE_CENSUS, SAMPLE_MANIFEST)
         self.assertTrue(any("classification total" in e for e in errors))
 
+    def test_missing_runtime_entry_fails_independent_accounting(self):
+        registry = build_sample_registry()
+        registry["entries"] = [
+            entry for entry in registry["entries"]
+            if not (entry["repository"] == "example/sample" and entry["symbol"] == "Config")
+        ]
+        errors, _ = validate(registry, SAMPLE_CENSUS, SAMPLE_MANIFEST)
+        self.assertTrue(any("runtime entry count" in error for error in errors))
+
     def test_missing_ssot_finding_fails(self):
         registry = build_sample_registry()
         for entry in registry["entries"]:

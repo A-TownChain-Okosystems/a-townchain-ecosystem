@@ -11,6 +11,8 @@ on:
       - "tools/tests/test_runtime_symbol_registry.py"
       - "tools/build_runtime_symbol_registry.py"
       - "tools/validate_runtime_symbol_registry.py"
+      - "tools/reconcile_runtime_registry_candidates.py"
+      - "tools/tests/test_reconcile_runtime_registry_candidates.py"
       - "docs/audit/ATC-RUNTIME-SYMBOL-REGISTRY-001.json"
       - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
       - ".github/workflows/source-symbol-inventory.yml"
@@ -55,10 +57,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile scanner, orchestrator and tests
-        run: python -m py_compile tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/build_runtime_symbol_registry.py tools/validate_runtime_symbol_registry.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_runtime_symbol_registry.py
+        run: python -m py_compile tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/build_runtime_symbol_registry.py tools/validate_runtime_symbol_registry.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_runtime_symbol_registry.py tools/reconcile_runtime_registry_candidates.py tools/tests/test_reconcile_runtime_registry_candidates.py
       - name: Run scanner and organization census tests
         run: |
-          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_runtime_symbol_registry -v
+          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_runtime_symbol_registry tools.tests.test_reconcile_runtime_registry_candidates -v
       - name: Clone all active repositories at observed clean HEADs
         env:
           GH_OWNER: A-TownChain-Okosystems
@@ -78,7 +80,12 @@ jobs:
           from pathlib import Path
           manifest = json.loads(Path("docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json").read_text(encoding="utf-8"))
           for repo in sorted(manifest["repositories"], key=lambda item: item["name"].lower()):
-              if not repo.get("archived", False) and repo["name"] != "a-townchain-ecosystem":
+              if (
+                  not repo.get("archived", False)
+                  and repo["name"] != "a-townchain-ecosystem"
+                  and not repo.get("private", False)
+                  and not repo.get("live_drift_gate_excluded", False)
+              ):
                   print(repo["name"])
           PY
           clone_failures=0
@@ -173,6 +180,19 @@ jobs:
               --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
               --build-manifest docs/build/ATC-BUILD-MANIFEST-001.json
           fi
+      - name: Reconcile each census candidate against canonical registry
+        if: always()
+        run: |
+          set -euo pipefail
+          if test -f artifacts/ATC-ORG-SOURCE-CENSUS-001.json; then
+            python tools/reconcile_runtime_registry_candidates.py \
+              --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
+              --catalog docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json \
+              --canonical-registry docs/audit/ATC-RUNTIME-SYMBOL-REGISTRY-001.json \
+              --output artifacts/ATC-RUNTIME-REGISTRY-CANDIDATE-RECONCILIATION-001.json
+          else
+            echo "::warning::Candidate-level registry reconciliation skipped because the census artifact is unavailable."
+          fi
       - name: Upload exact-SHA census artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -182,6 +202,7 @@ jobs:
             artifacts/ATC-ORG-SOURCE-CENSUS-001.json
             artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json
             artifacts/ATC-RUNTIME-SYMBOL-REGISTRY-REBUILT.json
+            artifacts/ATC-RUNTIME-REGISTRY-CANDIDATE-RECONCILIATION-001.json
           if-no-files-found: warn
       - name: Validate organization repository manifest
         run: |
@@ -196,5 +217,10 @@ jobs:
           assert len(set(names)) == len(names), "duplicate repository names"
           assert sum(bool(item.get("archived")) for item in repos) == 7, "expected 7 archived repositories"
           assert sum(not bool(item.get("archived")) for item in repos) == 26, "expected 26 active repositories"
-          print(f"manifest OK: {len(names)} repositories; 26 active; 7 archived")
+          demo = next((item for item in repos if item["name"] == "demo-repository"), None)
+          assert demo is not None, "demo-repository must remain in the inventory"
+          assert demo.get("private") is True, "demo-repository must remain explicitly private"
+          assert demo.get("live_drift_gate_excluded") is True, "demo-repository must be explicitly excluded from the live drift gate"
+          assert demo.get("live_drift_gate_exclusion_reason"), "demo-repository exclusion requires a reason"
+          print(f"manifest OK: {len(names)} repositories; 26 active; 7 archived; demo-repository retained but excluded from live drift gate")
           PY
