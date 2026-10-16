@@ -105,8 +105,8 @@ fn persistent_two_node_consensus_path() {
 
     let mut a = ChildGuard(Command::new(env!("CARGO_BIN_EXE_atc-node"))
         .env("ATC_NODE_ID", "atc-node-a")
-        .env("ATC_RPC_ADDR", a_rpc)
-        .env("ATC_P2P_ADDR", a_p2p)
+        .env("ATC_RPC_ADDR", &a_rpc)
+        .env("ATC_P2P_ADDR", &a_p2p)
         .env("ATC_DATA_DIR", &a_dir)
         .env("ATC_VALIDATORS", &validators)
         .env("ATC_PEERS", "")
@@ -119,11 +119,11 @@ fn persistent_two_node_consensus_path() {
 
     let mut b = ChildGuard(Command::new(env!("CARGO_BIN_EXE_atc-node"))
         .env("ATC_NODE_ID", "atc-node-b")
-        .env("ATC_RPC_ADDR", b_rpc)
-        .env("ATC_P2P_ADDR", b_p2p)
+        .env("ATC_RPC_ADDR", &b_rpc)
+        .env("ATC_P2P_ADDR", &b_p2p)
         .env("ATC_DATA_DIR", &b_dir)
         .env("ATC_VALIDATORS", &validators)
-        .env("ATC_PEERS", a_p2p)
+        .env("ATC_PEERS", &a_p2p)
         .env("ATC_BLOCK_INTERVAL_SECS", "1")
         .stdin(Stdio::null())
         .stdout(Stdio::inherit())
@@ -154,13 +154,13 @@ fn persistent_two_node_consensus_path() {
     );
 
     let persisted_height = a_status["result"]["height"].as_u64().unwrap();
-    let persisted_block = rpc_block(a_rpc, persisted_height);
+    let persisted_block = rpc_block(&a_rpc, persisted_height);
     let persisted_block_id = persisted_block["result"]["block_id"]
         .as_str()
         .expect("persisted block id")
         .to_string();
 
-    let _ = rpc(a_rpc, "ping");
+    let _ = rpc(&a_rpc, "ping");
     let _ = a.0.kill();
     let _ = b.0.kill();
     let _ = a.0.wait();
@@ -199,7 +199,7 @@ fn persistent_two_node_consensus_path() {
         finalized_after >= finalized_before,
         "restart lost finalized height: {finalized_after} < {finalized_before}"
     );
-    let recovered_block = rpc_block(a_rpc, persisted_height);
+    let recovered_block = rpc_block(&a_rpc, persisted_height);
     assert_eq!(
         recovered_block["result"]["block_id"].as_str(),
         Some(persisted_block_id.as_str()),
