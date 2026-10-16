@@ -13,12 +13,12 @@ schema_id: ATC-LAYER-MAPPING-001
 schema_version: "0.1.0"
 generated: "2026-10-15"
 status: DRAFT
-registry_reference: docs/architecture/layers/ATC-LAYER-REGISTRY-001.yaml
+registry_reference: docs/architecture/ATC-LAYER-REGISTRY-L1-L10-X1-X36-001.json
 catalog_reference: docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json
 
 # Legend:
-#   primary_layer:  Exactly one main layer (L0-L10) or cross-cutting layer (X1-X8)
-#   cross_cutting:  Additional cross-cutting layers this component touches
+#   primary_layer:  Exactly one main layer (L0-L9) or cross-cutting layer (X1-X8)
+#   cross_cutting:  Additional cross-cutting layers X1-X36 this component touches
 #   install_models: Supported installation models (A=native, B=Windows, C=Linux, D=dev/test)
 #   old_layer:      Previous flat layer assignment in the catalog (for migration traceability)
 
@@ -79,11 +79,11 @@ component_mappings:
 
   - component_id: COMP-COMPUTE
     name: "ATC Compute"
-    primary_layer: L0
-    cross_cutting_layers: [L8]
+    primary_layer: L9
+    cross_cutting_layers: [X8, X34]
     install_models: [A, D]
     old_layer: L5
-    mapping_reason: "Hardware compute (L0), with AI accelerator sub-components in L8"
+    mapping_reason: "ATC Compute provides bounded job scheduling and result attestation; it is an ecosystem compute service (L9), not physical hardware (L0). Resource scheduling/performance concerns are cross-cutting X34/X8."
     readiness: RESIDUAL
 
   - component_id: COMP-CONTRACTS
@@ -169,11 +169,11 @@ component_mappings:
 
   - component_id: COMP-LAUNCHPAD
     name: "ATC Launchpad"
-    primary_layer: L10
+    primary_layer: L9
     cross_cutting_layers: []
     install_models: [A, B, C, D]
     old_layer: L5
-    mapping_reason: "Installer & deployment (L10 sub-layer 10-1)"
+    mapping_reason: "ATC Launchpad is a user-facing launchpad/domain application. Software deployment and rollout governance belongs to X35; this component is not the system installer."
     readiness: RESIDUAL
 
   - component_id: COMP-MARKET
@@ -205,11 +205,11 @@ component_mappings:
 
   - component_id: COMP-OS-INTEGRATION
     name: "A-TownChain OS Integration"
-    primary_layer: L10
-    cross_cutting_layers: [X3]
+    primary_layer: L9
+    cross_cutting_layers: [X3, X35, X36]
     install_models: [A, D]
     old_layer: L7
-    mapping_reason: "OS integration matrix & traceability (L10)"
+    mapping_reason: "A-TownChain OS integration/validation service (L9), with protocol compatibility (X3), release/deployment evidence (X35) and end-to-end composition/compatibility (X36). These cross-cutting assignments do not assert implementation verification."
     readiness: RESIDUAL
 
   - component_id: COMP-SDK
@@ -284,6 +284,15 @@ component_mappings:
     mapping_reason: "Normative VM specification"
     readiness: RESIDUAL
 
+  - component_id: COMP-XCHAIN-INTEROP
+    name: "Cross-Chain Interoperability Contract (proposal)"
+    primary_layer: X3
+    cross_cutting_layers: [X36]
+    install_models: [D]
+    old_layer: L6
+    mapping_reason: "Specification-only cross-chain message/proof contract; protocol interoperability is X3 and system-composition compatibility is X36. Canonical executable owner remains unresolved; no implementation is implied."
+    readiness: BLOCKED
+
   - component_id: COMP-ZKP
     name: "ATC Zero-Knowledge Proof Layer"
     primary_layer: X1
@@ -294,17 +303,6 @@ component_mappings:
     readiness: BLOCKED
 
 # Coverage summary:
-#   L0: 1 component(s)
-#   L10: 2 component(s)
-#   L2: 1 component(s)
-#   L3: 1 component(s)
-#   L5: 3 component(s)
-#   L6: 2 component(s)
-#   L7: 4 component(s)
-#   L8: 1 component(s)
-#   L9: 5 component(s)
-#   X1: 1 component(s)
-#   X4: 1 component(s)
-#   X5: 7 component(s)
-#   X6: 1 component(s)
-# Total: 30 components mapped to 13 layers
+#   Primary system layers: L0-L9 only; no L10 primary assignment remains.
+#   Cross-cutting assignments: X1-X36 only; no system-layer IDs appear in cross_cutting_layers.
+#   Total: 31 catalog components mapped; mapping/readiness statuses remain non-verified.
