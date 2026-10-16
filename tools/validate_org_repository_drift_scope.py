@@ -87,8 +87,9 @@ def resolve(manifest: dict, policy: dict) -> tuple[list[str], dict]:
             reason_code = "DEFAULT_ACTIVE_POLICY"
         else:
             decision, reason, reason_code = "BLOCK", "Archive state is unknown or invalid", "INVALID_ARCHIVE_STATE"
-        if private is None:
-            decision, reason, reason_code = "BLOCK", "Private flag is invalid", "INVALID_PRIVATE_FLAG"
+        # Missing privacy metadata is unknown, not implicitly public or invalid.
+        # It must not alter scope: archived/active policy determines the default,
+        # while an explicit override may assert expected_private when known.
         if decision not in ALLOWED_DECISIONS:
             errors.append(f"{name}: resolved decision {decision!r} is invalid")
             decision = "BLOCK"
