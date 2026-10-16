@@ -118,9 +118,12 @@ class DriftValidatorTests(unittest.TestCase):
         self.assertEqual(report["validation"], "BLOCKED")
 
     def test_demo_fixture_is_excluded_without_live_query(self):
-        def unexpected(url, token=None):
-            raise AssertionError("excluded fixture must not be queried")
-        report = compare(MANIFEST, POLICY, INTEGRATION, fetch=unexpected)
+        payloads = live_payloads()
+        def fetch(url, token=None):
+            if "/demo-repository" in url:
+                raise AssertionError("excluded fixture must not be queried")
+            return payloads[url]
+        report = compare(MANIFEST, POLICY, INTEGRATION, fetch=fetch)
         demo = next(e for e in report["entries"] if e["repository"].endswith("/demo-repository"))
         self.assertEqual(demo["status"], "EXCLUDED")
         self.assertEqual(demo["reason_code"], "TEMPLATE_FIXTURE_NOT_PRODUCTION")
