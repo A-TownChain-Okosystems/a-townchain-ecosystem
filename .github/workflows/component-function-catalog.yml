@@ -9,6 +9,7 @@ on:
       - "tools/validate_component_function_spec.py"
       - "tools/validate_catalog_taxonomy.py"
       - "tools/tests/test_validate_catalog_taxonomy.py"
+      - "ARCHITECTURE.md"
       - ".github/workflows/component-function-catalog.yml"
   push:
     branches: [main]
