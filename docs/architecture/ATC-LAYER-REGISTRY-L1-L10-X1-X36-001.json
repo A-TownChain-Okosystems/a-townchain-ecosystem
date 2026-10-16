@@ -1,0 +1,3992 @@
+{
+  "schema_id": "ATC-LAYER-REGISTRY-L1-L10-X1-X36-001",
+  "schema_version": "1.0.0",
+  "status": "PROPOSED_UNRESOLVED_NOT_VERIFIED",
+  "title": "A-TownChain / KAI-OS System and Cross-Cutting Layer Registry",
+  "catalog_scope": {
+    "system_layers": 10,
+    "cross_cutting_layers": 36,
+    "applicability_pairs": 360,
+    "included_ids": [
+      "L1-L10",
+      "X1-X36"
+    ],
+    "l0_note": "L0 is intentionally excluded from this registry because the master catalog records an unresolved conflict between System & Network and hardware/compute definitions. Resolve via a separate approved reconciliation; do not silently assign L0 here."
+  },
+  "authority": {
+    "catalog_repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+    "architecture_control_plane": "a-townchain-ecosystem",
+    "rule": "Catalog is a control-plane artifact; it does not replace canonical implementation repositories or establish implementation/verification status."
+  },
+  "source_baseline": {
+    "document_path": "docs/architecture/ATC-ARCH-CATALOG-MASTER-X1-X36-L1-L10.md",
+    "document_blob_sha": "c8838099fc3c29a8dabc29336231d26ee98c5e3c",
+    "source_branch": "catalog/x1-x36-l1-l10-master-architecture",
+    "source_commit_sha": "4ed785927220f82bf174e9092f47d34b0538e0c5"
+  },
+  "status_contract": {
+    "allowed_dispositions": [
+      "PROPOSED_UNRESOLVED",
+      "MAPPED",
+      "RESIDUAL",
+      "BLOCKED",
+      "EXCLUDED",
+      "VERIFIED"
+    ],
+    "verification_rule": "VERIFIED requires exact full implementation commit SHA plus terminal workflow run/job/step/exit code and log or artifact hashes. Source mapping or green CI alone is insufficient.",
+    "exclusion_rule": "EXCLUDED requires a reason and approval/evidence reference; never infer exclusion from a missing record."
+  },
+  "system_layers": [
+    {
+      "registry_id": "ATC-LAYER-L1",
+      "layer_id": "L1",
+      "layer_type": "SYSTEM_LAYER",
+      "name": "Boot, Firmware & Hardware Abstraction (HAL)",
+      "purpose": "Firmware interfaces, boot stages, hardware discovery, CPU/platform abstraction, drivers and hardware capability profiles. Does not own OS policy above HAL.",
+      "canonical_ownership_rule": "Map to actual GlobusOS boot/HAL modules after source inspection; do not guess paths.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "sublayer_ids",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "resource_assumptions",
+        "canonical_ssot",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Definition is an architecture scope contract. It does not assert implementation completeness or functional verification."
+    },
+    {
+      "registry_id": "ATC-LAYER-L2",
+      "layer_id": "L2",
+      "layer_type": "SYSTEM_LAYER",
+      "name": "ShivaCore Kernel / Trusted Computing Base",
+      "purpose": "Capability microkernel, isolation, scheduling primitives, memory protection, secure IPC and kernel security invariants.",
+      "canonical_ownership_rule": "`globus-os/modules/atc-shivacore/kernel/` is canonical kernel SSOT.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "sublayer_ids",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "resource_assumptions",
+        "canonical_ssot",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Definition is an architecture scope contract. It does not assert implementation completeness or functional verification."
+    },
+    {
+      "registry_id": "ATC-LAYER-L3",
+      "layer_id": "L3",
+      "layer_type": "SYSTEM_LAYER",
+      "name": "GlobusOS System Services & OS Architecture",
+      "purpose": "System service lifecycle, IPC clients/servers, storage/network services, service management, OS APIs and policy integration.",
+      "canonical_ownership_rule": "`globus-os`, exact modules to be evidenced.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "sublayer_ids",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "resource_assumptions",
+        "canonical_ssot",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Definition is an architecture scope contract. It does not assert implementation completeness or functional verification."
+    },
+    {
+      "registry_id": "ATC-LAYER-L4",
+      "layer_id": "L4",
+      "layer_type": "SYSTEM_LAYER",
+      "name": "GlobusOS Desktop, Window Manager & UI",
+      "purpose": "Compositor, windows, taskbar/launcher, input, display, accessibility and desktop interaction.",
+      "canonical_ownership_rule": "`globus-os`, exact module paths to be evidenced.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "sublayer_ids",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "resource_assumptions",
+        "canonical_ssot",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Definition is an architecture scope contract. It does not assert implementation completeness or functional verification."
+    },
+    {
+      "registry_id": "ATC-LAYER-L5",
+      "layer_id": "L5",
+      "layer_type": "SYSTEM_LAYER",
+      "name": "A-TownChain Blockchain Core",
+      "purpose": "Node, protocol, transaction processing, state transition, networking, storage and consensus integration.",
+      "canonical_ownership_rule": "`a-townchain` canonical blockchain core.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "sublayer_ids",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "resource_assumptions",
+        "canonical_ssot",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Definition is an architecture scope contract. It does not assert implementation completeness or functional verification."
+    },
+    {
+      "registry_id": "ATC-LAYER-L6",
+      "layer_id": "L6",
+      "layer_type": "SYSTEM_LAYER",
+      "name": "ATC-VM & Smart-Contract Execution",
+      "purpose": "Bytecode validation, deterministic execution, stack/state semantics, gas/resource limits and contract execution interface.",
+      "canonical_ownership_rule": "`a-townchain/components/vm` canonical ATC-VM. No standalone duplicate production VM.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "sublayer_ids",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "resource_assumptions",
+        "canonical_ssot",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Definition is an architecture scope contract. It does not assert implementation completeness or functional verification."
+    },
+    {
+      "registry_id": "ATC-LAYER-L7",
+      "layer_id": "L7",
+      "layer_type": "SYSTEM_LAYER",
+      "name": "Developer Platform & ATCLang",
+      "purpose": "Language tooling, lexer/parser, semantics, compiler/artifacts, SDKs, diagnostics and developer workflows.",
+      "canonical_ownership_rule": "Verify canonical ATCLang/toolchain repository and paths before assigning implementation mapping.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "sublayer_ids",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "resource_assumptions",
+        "canonical_ssot",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Definition is an architecture scope contract. It does not assert implementation completeness or functional verification."
+    },
+    {
+      "registry_id": "ATC-LAYER-L8",
+      "layer_id": "L8",
+      "layer_type": "SYSTEM_LAYER",
+      "name": "Aurora AI Platform",
+      "purpose": "AI control plane, agent platform, model/tool routing, policy/approval, runtime and intelligence interfaces. Not kernel or consensus authority.",
+      "canonical_ownership_rule": "Verify canonical Aurora repository and module paths before assigning implementation mapping.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "sublayer_ids",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "resource_assumptions",
+        "canonical_ssot",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Definition is an architecture scope contract. It does not assert implementation completeness or functional verification."
+    },
+    {
+      "registry_id": "ATC-LAYER-L9",
+      "layer_id": "L9",
+      "layer_type": "SYSTEM_LAYER",
+      "name": "Applications & Ecosystem Services",
+      "purpose": "Wallets, clients, service applications, user-facing and ecosystem integrations. Must consume canonical protocols/APIs.",
+      "canonical_ownership_rule": "Map each application to its actual owning repository; no inferred owner.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "sublayer_ids",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "resource_assumptions",
+        "canonical_ssot",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Definition is an architecture scope contract. It does not assert implementation completeness or functional verification."
+    },
+    {
+      "registry_id": "ATC-LAYER-L10",
+      "layer_id": "L10",
+      "layer_type": "SYSTEM_LAYER",
+      "name": "Integration, Deployment & Operations",
+      "purpose": "System composition, install/distribution integration, release coordination, observability, recovery and operational readiness.",
+      "canonical_ownership_rule": "Ecosystem coordinates and aggregates evidence; installers and release mechanisms stay with canonical owner repos.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "sublayer_ids",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "resource_assumptions",
+        "canonical_ssot",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Definition is an architecture scope contract. It does not assert implementation completeness or functional verification."
+    }
+  ],
+  "cross_cutting_layers": [
+    {
+      "registry_id": "ATC-CROSSCUT-X1",
+      "layer_id": "X1",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Security & Trust",
+      "purpose": "Threat model, trust boundaries, secure defaults, cryptographic controls, security testing and risk disposition.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X2",
+      "layer_id": "X2",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Identity, Access & Capabilities",
+      "purpose": "Identity lifecycle, authentication, authorization, capability issuance/delegation/revocation and least privilege.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X3",
+      "layer_id": "X3",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Protocol & Interoperability",
+      "purpose": "Protocol schemas, versioning, negotiation, compatibility, canonical serialization and boundary validation.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X4",
+      "layer_id": "X4",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Data, State & Storage",
+      "purpose": "State ownership, persistence, consistency, migrations, integrity, retention and recovery.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X5",
+      "layer_id": "X5",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Standards, Governance & Policy",
+      "purpose": "Normative source, decision rights, policy versioning, exceptions, approval and conformance.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X6",
+      "layer_id": "X6",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Testing, Verification & Evidence",
+      "purpose": "Test strategy, conformance, reproducibility, evidence provenance and acceptance gates.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X7",
+      "layer_id": "X7",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Observability, Reliability & Resilience",
+      "purpose": "Logs/metrics/traces, health, fault handling, resilience and service-level evidence.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X8",
+      "layer_id": "X8",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Performance, Capacity & Resource Optimization",
+      "purpose": "Performance budgets, profiling, throughput/latency, capacity and optimization evidence.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X9",
+      "layer_id": "X9",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Compatibility, Portability & Platform Support",
+      "purpose": "Platform profiles, compatibility matrices, portability, hardware/software support and limits.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X10",
+      "layer_id": "X10",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Supply Chain, Build Integrity & Artifact Provenance",
+      "purpose": "Source/build provenance, dependency integrity, artifact identity, reproducibility and signing.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X11",
+      "layer_id": "X11",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Privacy, Data Protection & Information Governance",
+      "purpose": "Data classification, minimization, access, retention, deletion and privacy controls.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X12",
+      "layer_id": "X12",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Resource Governance, Cost Control & Economic Sustainability",
+      "purpose": "Resource budgets, cost attribution, economic constraints and sustainable resource use.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X13",
+      "layer_id": "X13",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "API Governance, Service Contracts & Developer Integration",
+      "purpose": "API/ABI contracts, versioning, error semantics, developer integration and deprecation.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X14",
+      "layer_id": "X14",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Configuration, Secrets & Runtime Environment Governance",
+      "purpose": "Configuration schema, secret handling, environment isolation, defaults and change control.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X15",
+      "layer_id": "X15",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Update Management, Migration & Lifecycle Governance",
+      "purpose": "Upgrade, rollback/rollforward, migration safety, deprecation and lifecycle compatibility.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X16",
+      "layer_id": "X16",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Accessibility, Internationalization & Inclusive Interaction",
+      "purpose": "Accessibility requirements, locale, input/output modalities and inclusive interaction.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X17",
+      "layer_id": "X17",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Documentation, Knowledge Management & Technical Information Governance",
+      "purpose": "Source-linked docs, ownership, freshness, terminology and documentation quality.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X18",
+      "layer_id": "X18",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Ecosystem Integrity, Catalog Drift & Architecture Observability",
+      "purpose": "Catalog/source drift, ownership uniqueness, missing links, duplicate detection and reports.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X19",
+      "layer_id": "X19",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Risk Management, Threat Analysis & Systemic Risk Governance",
+      "purpose": "Risk register, threat analysis, systemic dependencies, risk owners and treatment.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X20",
+      "layer_id": "X20",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Incident Response, Crisis Management & Operational Recovery",
+      "purpose": "Detection, triage, containment, escalation, incident evidence and post-incident actions.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X21",
+      "layer_id": "X21",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Business Continuity, Disaster Recovery & Mission-Critical Continuity",
+      "purpose": "Recovery objectives, backups, failover, continuity exercises and recovery evidence.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X22",
+      "layer_id": "X22",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Compliance, Legal Requirements & Regulatory Assurance",
+      "purpose": "Applicable obligations, traceability, compliance evidence and review/exception records.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X23",
+      "layer_id": "X23",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Product Lifecycle, Configuration Management & Portfolio Governance",
+      "purpose": "Product baselines, configuration items, ownership, release scope and portfolio decisions.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X24",
+      "layer_id": "X24",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Human Oversight, Decision Accountability & Organizational Readiness",
+      "purpose": "Human approval boundaries, accountability, operator readiness and override auditing.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X25",
+      "layer_id": "X25",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Organizational Interoperability, Ecosystem Collaboration & Federated Governance",
+      "purpose": "Cross-team/repository ownership, federation boundaries, shared decisions and dispute handling.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X26",
+      "layer_id": "X26",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Ecosystem Evolution, Strategic Innovation & Future Readiness",
+      "purpose": "Evolution paths, migration strategy, extensibility, deprecation and future compatibility.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X27",
+      "layer_id": "X27",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Ecosystem Knowledge, Semantic Integration & Architecture Intelligence",
+      "purpose": "Semantic identity, ontology/metadata alignment, cross-layer relationships and knowledge quality.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X28",
+      "layer_id": "X28",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Simulation, Digital Twin & System Modeling",
+      "purpose": "Models, assumptions, simulation validity, scenario coverage and model-to-system correlation.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X29",
+      "layer_id": "X29",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Digital Ethics, Responsible Innovation & Societal Impact",
+      "purpose": "Ethical risk assessment, impact review, accountability and mitigation evidence.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X30",
+      "layer_id": "X30",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Ecosystem Economics, Incentives & Value Flow Governance",
+      "purpose": "Incentive models, value flows, accounting assumptions and economic attack analysis.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X31",
+      "layer_id": "X31",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Ecosystem Data Governance, Information Quality & Data Lifecycle",
+      "purpose": "Data ownership, quality, lineage, lifecycle, schemas and authoritative records.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X32",
+      "layer_id": "X32",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Ecosystem API Security, Access Mediation & Zero-Trust Integration",
+      "purpose": "Service identity, policy enforcement, boundary mediation, credentials and zero-trust checks.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X33",
+      "layer_id": "X33",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Ecosystem Event Governance, Messaging & Distributed Workflow Coordination",
+      "purpose": "Event identity/schema, ordering, delivery semantics, idempotency, retries, workflow state and audit.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X34",
+      "layer_id": "X34",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Ecosystem Resource Scheduling, Capacity Allocation & Workload Governance",
+      "purpose": "Workload classification, admission, reservations, fairness, quotas, isolation and safe release.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X35",
+      "layer_id": "X35",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Ecosystem Deployment, Release Engineering & Rollout Governance",
+      "purpose": "Artifact provenance, release manifest, approvals, staged rollout, health gates, recovery and installed-version evidence.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    },
+    {
+      "registry_id": "ATC-CROSSCUT-X36",
+      "layer_id": "X36",
+      "layer_type": "CROSS_CUTTING_LAYER",
+      "name": "Ecosystem Integration, System Composition & End-to-End Compatibility",
+      "purpose": "Component composition, ownership resolution, interface compatibility, dependency closure and E2E acceptance.",
+      "canonical_ownership_rule": "Catalog taxonomy and cross-repository reconciliation are coordinated by a-townchain-ecosystem; implementation controls remain in their canonical domain repositories.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "applicable_system_layers",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Cross-cutting policy/contract scope; not a separate production implementation or a replacement for a domain SSOT."
+    }
+  ],
+  "applicability_matrix": {
+    "status": "STRUCTURALLY_COMPLETE_BUT_UNRESOLVED",
+    "rows": [
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X1",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X2",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X3",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X4",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X5",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X6",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X7",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X8",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X9",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X10",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X11",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X12",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X13",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X14",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X15",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X16",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X17",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X18",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X19",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X20",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X21",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X22",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X23",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X24",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X25",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X26",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X27",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X28",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X29",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X30",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X31",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X32",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X33",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X34",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X35",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L1",
+        "cross_cutting_layer_id": "X36",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X1",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X2",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X3",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X4",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X5",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X6",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X7",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X8",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X9",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X10",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X11",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X12",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X13",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X14",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X15",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X16",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X17",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X18",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X19",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X20",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X21",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X22",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X23",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X24",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X25",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X26",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X27",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X28",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X29",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X30",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X31",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X32",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X33",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X34",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X35",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L2",
+        "cross_cutting_layer_id": "X36",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X1",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X2",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X3",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X4",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X5",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X6",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X7",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X8",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X9",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X10",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X11",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X12",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X13",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X14",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X15",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X16",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X17",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X18",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X19",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X20",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X21",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X22",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X23",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X24",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X25",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X26",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X27",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X28",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X29",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X30",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X31",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X32",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X33",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X34",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X35",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L3",
+        "cross_cutting_layer_id": "X36",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X1",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X2",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X3",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X4",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X5",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X6",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X7",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X8",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X9",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X10",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X11",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X12",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X13",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X14",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X15",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X16",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X17",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X18",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X19",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X20",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X21",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X22",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X23",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X24",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X25",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X26",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X27",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X28",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X29",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X30",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X31",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X32",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X33",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X34",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X35",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L4",
+        "cross_cutting_layer_id": "X36",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X1",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X2",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X3",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X4",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X5",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X6",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X7",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X8",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X9",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X10",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X11",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X12",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X13",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X14",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X15",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X16",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X17",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X18",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X19",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X20",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X21",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X22",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X23",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X24",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X25",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X26",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X27",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X28",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X29",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X30",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X31",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X32",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X33",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X34",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X35",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L5",
+        "cross_cutting_layer_id": "X36",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X1",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X2",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X3",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X4",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X5",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X6",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X7",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X8",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X9",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X10",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X11",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X12",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X13",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X14",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X15",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X16",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X17",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X18",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X19",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X20",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X21",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X22",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X23",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X24",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X25",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X26",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X27",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X28",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X29",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X30",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X31",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X32",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X33",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X34",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X35",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L6",
+        "cross_cutting_layer_id": "X36",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X1",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X2",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X3",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X4",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X5",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X6",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X7",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X8",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X9",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X10",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X11",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X12",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X13",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X14",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X15",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X16",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X17",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X18",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X19",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X20",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X21",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X22",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X23",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X24",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X25",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X26",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X27",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X28",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X29",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X30",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X31",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X32",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X33",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X34",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X35",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L7",
+        "cross_cutting_layer_id": "X36",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X1",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X2",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X3",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X4",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X5",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X6",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X7",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X8",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X9",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X10",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X11",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X12",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X13",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X14",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X15",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X16",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X17",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X18",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X19",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X20",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X21",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X22",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X23",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X24",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X25",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X26",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X27",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X28",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X29",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X30",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X31",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X32",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X33",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X34",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X35",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L8",
+        "cross_cutting_layer_id": "X36",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X1",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X2",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X3",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X4",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X5",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X6",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X7",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X8",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X9",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X10",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X11",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X12",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X13",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X14",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X15",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X16",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X17",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X18",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X19",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X20",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X21",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X22",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X23",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X24",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X25",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X26",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X27",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X28",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X29",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X30",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X31",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X32",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X33",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X34",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X35",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L9",
+        "cross_cutting_layer_id": "X36",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X1",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X2",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X3",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X4",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X5",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X6",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X7",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X8",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X9",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X10",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X11",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X12",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X13",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X14",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X15",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X16",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X17",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X18",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X19",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X20",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X21",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X22",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X23",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X24",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X25",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X26",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X27",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X28",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X29",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X30",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X31",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X32",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X33",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X34",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X35",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L10",
+        "cross_cutting_layer_id": "X36",
+        "disposition": "UNRESOLVED",
+        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      }
+    ]
+  },
+  "cross_layer_distinctions": [
+    {
+      "layers": [
+        "X1",
+        "X2",
+        "X32"
+      ],
+      "distinction": "Security/trust controls vs identity/capability lifecycle vs API/service boundary mediation."
+    },
+    {
+      "layers": [
+        "X3",
+        "X13",
+        "X36"
+      ],
+      "distinction": "Protocol interoperability vs API/service contract governance vs system composition and end-to-end compatibility."
+    },
+    {
+      "layers": [
+        "X4",
+        "X11",
+        "X31"
+      ],
+      "distinction": "State/storage integrity vs privacy/data protection vs data quality/lineage/lifecycle governance."
+    },
+    {
+      "layers": [
+        "X6",
+        "X18"
+      ],
+      "distinction": "Functional verification/evidence vs catalog/source drift and architecture observability."
+    },
+    {
+      "layers": [
+        "X8",
+        "X12",
+        "X34"
+      ],
+      "distinction": "Performance optimization vs economic/resource cost governance vs workload admission/scheduling/capacity allocation."
+    },
+    {
+      "layers": [
+        "X15",
+        "X23",
+        "X35"
+      ],
+      "distinction": "Upgrade/migration lifecycle vs product/configuration baseline governance vs deployment/release/rollout control."
+    },
+    {
+      "layers": [
+        "X33",
+        "X36"
+      ],
+      "distinction": "Event/workflow semantics vs composition/interface compatibility; neither creates duplicate domain runtimes."
+    }
+  ],
+  "acceptance_gates": [
+    "All 10 system-layer IDs and all 36 cross-cutting IDs are present exactly once.",
+    "Each record has stable ID, name, purpose, scope, ownership rule, status, and explicit non-assertion of implementation readiness.",
+    "Every one of the 360 L1-L10 × X1-X36 relationships has APPLICABLE, NOT_APPLICABLE with rationale, or UNRESOLVED; initial unknowns remain UNRESOLVED.",
+    "Component/function contracts and source bindings are linked bidirectionally without duplicate canonical implementations.",
+    "L0 conflict remains explicit and is not resolved by assumption.",
+    "Completeness and verification are reported separately; no VERIFIED promotion without exact-SHA evidence."
+  ],
+  "next_reconciliation_steps": [
+    "Reconcile these stable layer IDs against Issues #136-#181 and existing layer-specific records; preserve existing IDs and record conflicts.",
+    "Populate the applicability matrix from component/function contracts and source evidence; keep unsupported relationships UNRESOLVED.",
+    "Link each layer to canonical components, functions, interfaces, tests and repository manifest entries.",
+    "Run JSON/schema/duplicate-ID/cross-reference validation on the exact proposed commit and attach terminal evidence."
+  ]
+}
