@@ -4205,8 +4205,9 @@
     "Completeness and verification are reported separately; no VERIFIED promotion without exact-SHA evidence."
   ],
   "next_reconciliation_steps": [
-    "Reconcile these stable layer IDs against Issues #136-#181 and existing layer-specific records; preserve existing IDs and record conflicts.",
-    "Populate the applicability matrix from component/function contracts and source evidence; keep unsupported relationships UNRESOLVED.",
+    "Resolve the component-catalog-to-layer-registry ID conflicts recorded in reconciliation_metadata.mapping_notes before using component.layer as a matrix join key.",
+    "Reconcile stable layer IDs against Issues #136–#181 and existing layer-specific records; preserve existing IDs and record conflicts.",
+    "Populate the applicability matrix only from component/function contracts and exact source evidence; keep unsupported relationships UNRESOLVED.",
     "Link each layer to canonical components, functions, interfaces, tests and repository manifest entries.",
     "Run JSON/schema/duplicate-ID/cross-reference validation on the exact proposed commit and attach terminal evidence."
   ],
@@ -4229,6 +4230,22 @@
     "applied_relationship_count": 13,
     "remaining_unresolved_count": 347,
     "not_applicable_count": 0,
-    "mapping_notes": []
+    "mapping_notes": [
+      {
+        "id": "LAYER-ID-CROSS-CATALOG-CONFLICT-001",
+        "status": "BLOCKED_UNRESOLVED",
+        "finding": "The component catalog's `layer` assignments conflict with the L1-L10 registry's layer semantics. Examples: COMP-SHIVA is tagged L1 although the registry defines L2 as ShivaCore Kernel; COMP-CHAIN, COMP-ALGO and COMP-VM are tagged L3 although the registry defines L3 as GlobusOS System Services, while the registry defines L5 as Blockchain Core and L6 as ATC-VM; COMP-AURORA is tagged L2 although the registry defines L8 as Aurora AI; COMP-LANG is tagged L0 while L0 is explicitly conflict-tracked and ATCLang's layer mapping is unresolved.",
+        "evidence": {
+          "catalog_repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "catalog_path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
+          "catalog_blob_sha": "d386e4f1a5294f34751df758091312b64224261f",
+          "registry_path": "docs/architecture/ATC-LAYER-REGISTRY-L1-L10-X1-X36-001.json",
+          "registry_blob_sha": "ceb952815d8ed69ad341d941caad838c8f8f6f1c",
+          "registry_branch": "catalog/x1-x36-l1-l10-master-architecture"
+        },
+        "disposition": "Do not infer additional L×X applicability from conflicting component.layer values. Reconcile component-to-layer assignments against approved architecture ownership and exact canonical source records before changing the matrix.",
+        "impact": "The existing 13 APPLICABLE pairs remain as previously recorded; no new pair was added or removed. This is a catalog taxonomy/ownership conflict, not functional verification."
+      }
+    ]
   }
 }
