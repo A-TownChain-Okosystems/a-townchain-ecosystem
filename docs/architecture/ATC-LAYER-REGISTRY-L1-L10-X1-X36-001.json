@@ -3988,5 +3988,27 @@
     "Populate the applicability matrix from component/function contracts and source evidence; keep unsupported relationships UNRESOLVED.",
     "Link each layer to canonical components, functions, interfaces, tests and repository manifest entries.",
     "Run JSON/schema/duplicate-ID/cross-reference validation on the exact proposed commit and attach terminal evidence."
-  ]
+  ],
+  "reconciliation_metadata": {
+    "last_reconciliation_scope": "Issues #136–#181 inventory; catalog baseline at 6e35bed50b6666ff6027f654af8761a7708e4bfe; source bindings preserved at their exact component SHAs.",
+    "last_reconciliation_method": "APPLICABLE only where an existing component/function contract and exact source binding directly support the layer relationship. Issue titles alone are not evidence. Unreviewed relationships remain UNRESOLVED.",
+    "last_reconciliation_date": "2026-10-16",
+    "applied_relationship_count": 0,
+    "remaining_relationships_unresolved": 0,
+    "function_level_evidence_missing": [
+      "L2-X1:matrix-row-missing",
+      "L2-X2:matrix-row-missing",
+      "L2-X3:matrix-row-missing",
+      "L3-X7:matrix-row-missing",
+      "L5-X1:matrix-row-missing",
+      "L5-X3:matrix-row-missing",
+      "L6-X1:matrix-row-missing",
+      "L6-X3:matrix-row-missing",
+      "L6-X8:matrix-row-missing",
+      "L7-X6:matrix-row-missing",
+      "L8-X1:matrix-row-missing",
+      "L8-X2:matrix-row-missing",
+      "L10-X3:matrix-row-missing"
+    ]
+  }
 }
