@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-60C048145088",
-  "timestamp": "2026-10-16T18:56:59.264768Z",
+  "timestamp": "2026-10-16T18:58:08.155943Z",
   "category": "change",
   "title": "Commit: Merge pull request #120 from A-TownChain-Okosystems/governance/arr-lifecycle-registry-001",
   "context": "Git commit 60c04814508892166128aa0c2af32d734cb86bd7 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/60c04814508892166128aa0c2af32d734cb86bd7",
-    "commit": "c1d3db32431476635a0af2cf80a328575388bd33"
+    "commit": "cd3e553fe15a593ca02ceaf13d97718d45b86f78"
   },
   "tags": [
     "commit",

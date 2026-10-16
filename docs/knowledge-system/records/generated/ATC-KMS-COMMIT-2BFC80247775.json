@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-2BFC80247775",
-  "timestamp": "2026-10-16T18:56:59.264768Z",
+  "timestamp": "2026-10-16T18:58:08.155943Z",
   "category": "change",
   "title": "Commit: audit: complete canonical ATC-VM API function contracts",
   "context": "Git commit 2bfc80247775c3c72d6f980a72d22bc9eb2cef85 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/2bfc80247775c3c72d6f980a72d22bc9eb2cef85",
-    "commit": "c1d3db32431476635a0af2cf80a328575388bd33"
+    "commit": "cd3e553fe15a593ca02ceaf13d97718d45b86f78"
   },
   "tags": [
     "commit",

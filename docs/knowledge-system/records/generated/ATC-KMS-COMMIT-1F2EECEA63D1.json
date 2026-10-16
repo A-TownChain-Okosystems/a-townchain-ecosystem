@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-1F2EECEA63D1",
+  "timestamp": "2026-10-16T18:58:08.155943Z",
+  "category": "change",
+  "title": "Commit: docs(architecture): define ecosystem repository structure",
+  "context": "Git commit 1f2eecea63d1146c23c84c47244888bc17943417 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/1f2eecea63d1146c23c84c47244888bc17943417",
+    "commit": "cd3e553fe15a593ca02ceaf13d97718d45b86f78"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs(architecture): define ecosystem repository structure"
+}
