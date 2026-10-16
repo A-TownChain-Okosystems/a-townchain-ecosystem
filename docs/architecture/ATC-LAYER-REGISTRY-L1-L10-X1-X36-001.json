@@ -2,16 +2,15 @@
   "schema_id": "ATC-LAYER-REGISTRY-L1-L10-X1-X36-001",
   "schema_version": "1.0.0",
   "status": "PROPOSED_UNRESOLVED_NOT_VERIFIED",
-  "title": "A-TownChain / KAI-OS System and Cross-Cutting Layer Registry",
+  "title": "A-TownChain / KAI-OS L0-L9 System and X1-X36 Cross-Cutting Layer Registry",
   "catalog_scope": {
     "system_layers": 10,
     "cross_cutting_layers": 36,
     "applicability_pairs": 360,
     "included_ids": [
-      "L1-L10",
+      "L0-L9",
       "X1-X36"
-    ],
-    "l0_note": "L0 is intentionally excluded from this registry because the master catalog records an unresolved conflict between System & Network and hardware/compute definitions. Resolve via a separate approved reconciliation; do not silently assign L0 here."
+    ]
   },
   "authority": {
     "catalog_repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -37,6 +36,37 @@
     "exclusion_rule": "EXCLUDED requires a reason and approval/evidence reference; never infer exclusion from a missing record."
   },
   "system_layers": [
+    {
+      "registry_id": "ATC-LAYER-L0",
+      "layer_id": "L0",
+      "layer_type": "SYSTEM_LAYER",
+      "name": "Hardware & Compute",
+      "purpose": "Physical compute resources, hardware identity/capability discovery, CPU, GPU, NPU, memory, storage, security hardware, connectivity, I/O and power/thermal capabilities. L0 provides capabilities but grants no permissions; boot, firmware and HAL responsibilities belong to L1.",
+      "canonical_ownership_rule": "Hardware capability contracts are specified at the architecture/HAL boundary; map concrete device/HAL implementation only after source inspection. No ambient authority is implied.",
+      "status": "PROPOSED_UNRESOLVED",
+      "implementation_status": "NOT_INFERRED",
+      "required_record_fields": [
+        "owner",
+        "scope_in",
+        "scope_out",
+        "sublayer_ids",
+        "component_ids",
+        "function_contract_ids",
+        "dependencies",
+        "interfaces",
+        "security_boundaries",
+        "resource_assumptions",
+        "canonical_ssot",
+        "acceptance_criteria",
+        "test_refs",
+        "evidence_refs",
+        "conflicts",
+        "exclusions",
+        "lifecycle",
+        "approval"
+      ],
+      "notes": "Selected as the L0 system-layer definition for this architecture baseline. Historical Issue #71 'System & Network' naming remains a recorded conflict requiring downstream reference reconciliation; this decision does not claim functional verification."
+    },
     {
       "registry_id": "ATC-LAYER-L1",
       "layer_id": "L1",
@@ -292,37 +322,6 @@
       "name": "Applications & Ecosystem Services",
       "purpose": "Wallets, clients, service applications, user-facing and ecosystem integrations. Must consume canonical protocols/APIs.",
       "canonical_ownership_rule": "Map each application to its actual owning repository; no inferred owner.",
-      "status": "PROPOSED_UNRESOLVED",
-      "implementation_status": "NOT_INFERRED",
-      "required_record_fields": [
-        "owner",
-        "scope_in",
-        "scope_out",
-        "sublayer_ids",
-        "component_ids",
-        "function_contract_ids",
-        "dependencies",
-        "interfaces",
-        "security_boundaries",
-        "resource_assumptions",
-        "canonical_ssot",
-        "acceptance_criteria",
-        "test_refs",
-        "evidence_refs",
-        "conflicts",
-        "exclusions",
-        "lifecycle",
-        "approval"
-      ],
-      "notes": "Definition is an architecture scope contract. It does not assert implementation completeness or functional verification."
-    },
-    {
-      "registry_id": "ATC-LAYER-L10",
-      "layer_id": "L10",
-      "layer_type": "SYSTEM_LAYER",
-      "name": "Integration, Deployment & Operations",
-      "purpose": "System composition, install/distribution integration, release coordination, observability, recovery and operational readiness.",
-      "canonical_ownership_rule": "Ecosystem coordinates and aggregates evidence; installers and release mechanisms stay with canonical owner repos.",
       "status": "PROPOSED_UNRESOLVED",
       "implementation_status": "NOT_INFERRED",
       "required_record_fields": [
@@ -1397,6 +1396,258 @@
   "applicability_matrix": {
     "status": "PARTIALLY_RECONCILED",
     "rows": [
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X1",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X2",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X3",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X4",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X5",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X6",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X7",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X8",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X9",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X10",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X11",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X12",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X13",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X14",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X15",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X16",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X17",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X18",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X19",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X20",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X21",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X22",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X23",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X24",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X25",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X26",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X27",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X28",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X29",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X30",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X31",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X32",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X33",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X34",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X35",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
+      {
+        "system_layer_id": "L0",
+        "cross_cutting_layer_id": "X36",
+        "disposition": "UNRESOLVED",
+        "rationale": "New L0-Hardware & Compute relationship under the adopted L0-L9 architecture; requires component/function contracts and exact source evidence. Missing evidence is not evidence of NOT_APPLICABLE.",
+        "evidence_refs": []
+      },
       {
         "system_layer_id": "L1",
         "cross_cutting_layer_id": "X1",
@@ -3871,272 +4122,6 @@
         "disposition": "UNRESOLVED",
         "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
         "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X1",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X2",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X3",
-        "disposition": "APPLICABLE",
-        "rationale": "OS integration validation runs cross-component builds/tests against declared versions and contracts; direct system-composition/compatibility applicability.",
-        "evidence_refs": [
-          {
-            "component_id": "COMP-OS-INTEGRATION",
-            "function_id": "FN-OSINT-002",
-            "repository": "A-TownChain-Okosystems/a-townchain-os",
-            "commit_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
-            "path": "kai-os/integration/src/lib.rs",
-            "symbol": "boot",
-            "file_blob_sha": "7a83f5308509f051c882b03f4902962bcbf3b19b",
-            "evidence_url": "https://github.com/A-TownChain-Okosystems/a-townchain-os/blob/3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8/kai-os/integration/src/lib.rs",
-            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
-            "evidence_kind": "catalogued_source_binding",
-            "verification_note": "Supports applicability only; not functional verification."
-          }
-        ]
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X4",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X5",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X6",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X7",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X8",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X9",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X10",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X11",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X12",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X13",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X14",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X15",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X16",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X17",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X18",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X19",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X20",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X21",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X22",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X23",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X24",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X25",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X26",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X27",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X28",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X29",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X30",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X31",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X32",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X33",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X34",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X35",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
-      },
-      {
-        "system_layer_id": "L10",
-        "cross_cutting_layer_id": "X36",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
       }
     ]
   },
@@ -4199,20 +4184,21 @@
   "acceptance_gates": [
     "All 10 system-layer IDs and all 36 cross-cutting IDs are present exactly once.",
     "Each record has stable ID, name, purpose, scope, ownership rule, status, and explicit non-assertion of implementation readiness.",
-    "Every one of the 360 L1-L10 × X1-X36 relationships has APPLICABLE, NOT_APPLICABLE with rationale, or UNRESOLVED; initial unknowns remain UNRESOLVED.",
+    "Every one of the 360 L0-L9 × X1-X36 relationships has APPLICABLE, NOT_APPLICABLE with rationale, or UNRESOLVED; initial unknowns remain UNRESOLVED.",
     "Component/function contracts and source bindings are linked bidirectionally without duplicate canonical implementations.",
-    "L0 conflict remains explicit and is not resolved by assumption.",
+    "L0 is defined as Hardware & Compute in this adopted baseline; the historical Issue #71 'System & Network' conflict remains explicitly tracked and must be reconciled downstream.",
     "Completeness and verification are reported separately; no VERIFIED promotion without exact-SHA evidence."
   ],
   "next_reconciliation_steps": [
-    "Resolve the component-catalog-to-layer-registry ID conflicts recorded in reconciliation_metadata.mapping_notes before using component.layer as a matrix join key.",
-    "Reconcile stable layer IDs against Issues #136–#181 and existing layer-specific records; preserve existing IDs and record conflicts.",
-    "Populate the applicability matrix only from component/function contracts and exact source evidence; keep unsupported relationships UNRESOLVED.",
-    "Link each layer to canonical components, functions, interfaces, tests and repository manifest entries.",
-    "Run JSON/schema/duplicate-ID/cross-reference validation on the exact proposed commit and attach terminal evidence."
+    "Reconcile the adopted L0 Hardware & Compute definition against Issue #71's historical 'System & Network' label and update downstream references without losing provenance.",
+    "Migrate former L10 Integration, Deployment & Operations responsibilities into the appropriate L9 application ownership and X35 deployment/release plus X36 integration/system-composition cross-cutting contracts; do not invent new L-layer IDs.",
+    "Reconcile component-to-layer assignments against the adopted L0-L9 semantics before using legacy component.layer fields as matrix join keys.",
+    "Reconcile stable layer IDs against Issues #136–#181 and existing layer-specific records; preserve source evidence and record conflicts.",
+    "Populate applicability only from concrete component/function contracts and exact source evidence; unsupported relationships remain UNRESOLVED.",
+    "Link each layer to canonical components, functions, interfaces, tests and repository manifest entries; validate JSON/schema/duplicate IDs and all 360 matrix pairs."
   ],
   "reconciliation_metadata": {
-    "scope": "Issues #136–#181 inventoried; existing catalog contracts and layer mapping reviewed.",
+    "scope": "Issues #136–#181 inventoried; registry baseline migrated to the explicitly selected L0-L9 + X1-X36 architecture. Historical L0 naming and former L10 responsibilities remain reconciliation items.",
     "catalog_baseline": {
       "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
       "path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
@@ -4227,8 +4213,8 @@
     "reconciliation_commit_parent": "14918f8f820fc8ba25204e8d52381158eb2b776e",
     "reconciliation_date": "2026-10-16",
     "method": "Set APPLICABLE only when a concrete catalogued function and exact source binding directly support the relationship. Issue titles or component-level labels alone are not implementation verification. Unsupported relationships remain UNRESOLVED.",
-    "applied_relationship_count": 13,
-    "remaining_unresolved_count": 347,
+    "applied_relationship_count": 12,
+    "remaining_unresolved_count": 348,
     "not_applicable_count": 0,
     "mapping_notes": [
       {
@@ -4245,7 +4231,28 @@
         },
         "disposition": "Do not infer additional L×X applicability from conflicting component.layer values. Reconcile component-to-layer assignments against approved architecture ownership and exact canonical source records before changing the matrix.",
         "impact": "The existing 13 APPLICABLE pairs remain as previously recorded; no new pair was added or removed. This is a catalog taxonomy/ownership conflict, not functional verification."
+      },
+      {
+        "id": "ARCH-SCOPE-DECISION-L0-L9-X1-X36-001",
+        "status": "ADOPTED_BASELINE_RECONCILIATION_PENDING",
+        "finding": "The architecture scope is now L0-L9 system layers plus X1-X36 cross-cutting layers. L0 is defined as Hardware & Compute using the existing ATC-LAYER-REGISTRY-001.yaml definition. Former L10 Integration, Deployment & Operations is no longer a system-layer ID; its responsibilities must be allocated through L9 ownership and X35/X36 cross-cutting contracts.",
+        "evidence": {
+          "decision_source": "User direction in conversation dated 2026-10-16",
+          "prior_registry_path": "docs/architecture/ATC-LAYER-REGISTRY-L1-L10-X1-X36-001.json",
+          "prior_registry_blob_sha": "3df335294b4c21303416a08081d00b44cf4bbba2",
+          "source_definition_path": "docs/architecture/layers/ATC-LAYER-REGISTRY-001.yaml",
+          "source_definition_blob_sha": "045a45098f51408b6fb99e75639afc997d733eb0"
+        },
+        "disposition": "Preserve all existing IDs and source history; do not silently map old L10 matrix claims to L0. Reconcile component mappings, the master markdown, and matrix evidence next.",
+        "impact": "Matrix remains 360 unique pairs (L0-L9 × X1-X36). Former L10 rows are removed; L0 rows are introduced as UNRESOLVED. Existing L1-L9 evidence-backed dispositions are preserved."
       }
-    ]
+    ],
+    "previous_matrix_counts": {
+      "system_scope": "L1-L10",
+      "applicable": 13,
+      "unresolved": 347,
+      "not_applicable": 0,
+      "note": "Historical counts before scope migration; one former L10 × X3 APPLICABLE relationship is not automatically transferred to L0."
+    }
   }
 }
