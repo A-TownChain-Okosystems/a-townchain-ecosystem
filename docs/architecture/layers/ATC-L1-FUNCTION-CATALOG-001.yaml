@@ -203,7 +203,7 @@ functions:
     path: modules/atc-bootloader/src/boot.rs
     symbol: BootSequence::next_stage, current_stage
     commit_sha: 3bf000143ec9bfad79d0bacc36b99b8111178b95
-    blob_sha: 7147afd7964dbc5c31a5272e4075faa35f09808
+    blob_sha: 7147afd7964dbc5c31a5272e4075faa35f098089
     note: Implementation mapped at exact SHA; CI evidence at SHA pending.
   verification:
     test_references:
@@ -264,7 +264,7 @@ functions:
     path: modules/atc-bootloader/src/boot.rs
     symbol: BootSequence::next_stage -> Result<u8, String>
     commit_sha: 3bf000143ec9bfad79d0bacc36b99b8111178b95
-    blob_sha: 7147afd7964dbc5c31a5272e4075faa35f09808
+    blob_sha: 7147afd7964dbc5c31a5272e4075faa35f098089
     note: Source exists; test evidence for this contract not confirmed.
   verification:
     test_references: []
@@ -2587,7 +2587,7 @@ functions:
     path: modules/atc-bootloader/src/boot.rs
     symbol: BootSequence (stage model)
     commit_sha: 3bf000143ec9bfad79d0bacc36b99b8111178b95
-    blob_sha: 7147afd7964dbc5c31a5272e4075faa35f09808
+    blob_sha: 7147afd7964dbc5c31a5272e4075faa35f098089
     note: Source exists; test evidence for this contract not confirmed.
   verification:
     test_references: []
@@ -3138,7 +3138,7 @@ functions:
     path: modules/atc-bootloader/src/boot.rs
     symbol: BootSequence, BootInfo, entry_point (testable handoff model)
     commit_sha: 3bf000143ec9bfad79d0bacc36b99b8111178b95
-    blob_sha: 7147afd7964dbc5c31a5272e4075faa35f09808
+    blob_sha: 7147afd7964dbc5c31a5272e4075faa35f098089
     note: Source exists; test evidence for this contract not confirmed.
   verification:
     test_references: []

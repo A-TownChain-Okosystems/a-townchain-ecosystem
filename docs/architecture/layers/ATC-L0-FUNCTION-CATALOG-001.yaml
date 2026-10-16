@@ -39,8 +39,11 @@ layer_dependencies:
   required_l0_capabilities: Zielarchitektur, unterstuetzte Instruktionen und Build-Zielmerkmale
 - target_layer: L8
   required_l0_capabilities: GPU, NPU, RAM, VRAM, Modellbeschleunigung und Leistungsmerkmale
-- target_layer: L10
-  required_l0_capabilities: Hardwarekompatibilitaet, Mindestanforderungen und Installationsfaehigkeit
+# Former L10 responsibilities are NOT a system-layer dependency. Cross-cutting ownership must be mapped by contract:
+# - X9: platform/hardware compatibility and support limits
+# - X35: installer, release, deployment and rollout contracts
+# - X36: composition, dependency closure and end-to-end compatibility
+# This draft L0 catalog does not assert those X-layer relationships; they remain UNRESOLVED until evidenced.
 # Principle: L0 provides capabilities, grants no permissions. Device access
 # control, DMA, memory isolation, and privileged operations are governed by
 # L2 kernel, L1 HAL, and X1 security contracts.
