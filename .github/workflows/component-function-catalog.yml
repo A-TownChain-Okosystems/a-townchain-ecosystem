@@ -4,13 +4,21 @@ on:
   pull_request:
     paths:
       - "docs/architecture/ATC-COMPONENT-FUNCTION-SPEC-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-CATALOG-TAXONOMY-001.json"
       - "tools/validate_component_function_spec.py"
+      - "tools/validate_catalog_taxonomy.py"
+      - "tools/tests/test_validate_catalog_taxonomy.py"
       - ".github/workflows/component-function-catalog.yml"
   push:
     branches: [main]
     paths:
       - "docs/architecture/ATC-COMPONENT-FUNCTION-SPEC-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-CATALOG-TAXONOMY-001.json"
       - "tools/validate_component_function_spec.py"
+      - "tools/validate_catalog_taxonomy.py"
+      - "tools/tests/test_validate_catalog_taxonomy.py"
       - ".github/workflows/component-function-catalog.yml"
 
 permissions:
@@ -18,17 +26,48 @@ permissions:
 
 jobs:
   validate-catalog:
-    name: Validate Soll-Ist catalog structure
+    name: Validate catalog and taxonomy on exact revision
     runs-on: ubuntu-latest
+    env:
+      EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
-      - name: Checkout
+      - name: Checkout exact PR head (or pushed commit)
         uses: actions/checkout@v4
-      - name: Validate JSON schema invariants and evidence gates
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Assert checked-out revision equals expected SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual_sha="$(git rev-parse HEAD)"
+          printf 'expected_sha=%s\nactual_sha=%s\n' "$EXPECTED_SHA" "$actual_sha"
+          if [[ "$actual_sha" != "$EXPECTED_SHA" ]]; then
+            echo "::error::Checkout SHA does not match the expected PR head/push SHA."
+            exit 1
+          fi
+          mkdir -p artifacts
+          printf 'expected_sha=%s\nactual_sha=%s\n' "$EXPECTED_SHA" "$actual_sha" > artifacts/exact-head-evidence.txt
+      - name: Validate taxonomy and existing catalog bindings
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/validate_catalog_taxonomy.py 2>&1 | tee artifacts/taxonomy-validator.log
+      - name: Run taxonomy regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest tools.tests.test_validate_catalog_taxonomy -v 2>&1 | tee artifacts/taxonomy-regression-tests.log
+      - name: Validate existing component-function specification
         run: python3 tools/validate_component_function_spec.py --output artifacts/component-function-catalog-report.json
-      - name: Upload machine-readable report
+      - name: Upload exact-head and taxonomy evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: component-function-catalog-report
-          path: artifacts/component-function-catalog-report.json
+          name: catalog-taxonomy-exact-head-evidence
+          path: |
+            artifacts/exact-head-evidence.txt
+            artifacts/taxonomy-validator.log
+            artifacts/taxonomy-regression-tests.log
+            artifacts/component-function-catalog-report.json
           if-no-files-found: warn
