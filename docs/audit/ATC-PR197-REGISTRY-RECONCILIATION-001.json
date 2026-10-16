@@ -1,0 +1,151 @@
+{
+  "schema_id": "ATC-PR197-REGISTRY-RECONCILIATION-001",
+  "schema_version": "1.0.0",
+  "status": "BLOCKED / NOT VERIFIED",
+  "generated_from": {
+    "pull_request": 197,
+    "head_sha": "a75be1c8b862ce2e80df10b84098135a2910050a",
+    "workflow_run_id": 38925692726,
+    "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38925692726",
+    "artifact_id": 12055644588,
+    "artifact_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38925692726/artifacts/12055644588",
+    "artifact_zip_sha256": "1a73cbb08e5bf5424d15252672ec5581d9285178b1022d05ec7f602eb6134273",
+    "canonical_registry_path": "docs/audit/ATC-RUNTIME-SYMBOL-REGISTRY-001.json",
+    "canonical_registry_blob_sha": "031546f6c618a041ca8fa55500b357330b53a313",
+    "manifest_path": "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json",
+    "manifest_blob_sha": "5400a61343e33a4d1816f305a7d22a34fecf2a6c"
+  },
+  "reconciliation": {
+    "aggregate_delta": 71,
+    "candidate_level_reconciliation_complete": false,
+    "policy": {
+      "MAPPED": "Use only when the exact census candidate is bound to a stable registry/catalog record with source SHA, path, symbol and file hash evidence.",
+      "EXCLUDED": "Use only when the exact candidate has an explicit policy category and reproducible reason.",
+      "UNRESOLVED": "Use when exact candidate-to-classification evidence is absent."
+    },
+    "repositories": [
+      {
+        "repository": "A-TownChain-Okosystems/.github",
+        "source_head_sha": "8106d7c060effd45050d29ba80bb0416866f1b01",
+        "canonical_classifications": 40,
+        "census_candidates": 59,
+        "delta": 19,
+        "status": "UNRESOLVED",
+        "candidate_rows": []
+      },
+      {
+        "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+        "source_head_sha": "a75be1c8b862ce2e80df10b84098135a2910050a",
+        "canonical_classifications": 17846,
+        "census_candidates": 17860,
+        "delta": 14,
+        "status": "UNRESOLVED",
+        "candidate_rows": []
+      },
+      {
+        "repository": "A-TownChain-Okosystems/atc-algorithm",
+        "source_head_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
+        "canonical_classifications": 16,
+        "census_candidates": 17,
+        "delta": 1,
+        "status": "UNRESOLVED",
+        "candidate_rows": []
+      },
+      {
+        "repository": "A-TownChain-Okosystems/atc-engineering",
+        "source_head_sha": "b2ad23ee45a53de40ccfc1f1a1b4d37ca936d0e4",
+        "canonical_classifications": 230,
+        "census_candidates": 237,
+        "delta": 7,
+        "status": "UNRESOLVED",
+        "candidate_rows": []
+      },
+      {
+        "repository": "A-TownChain-Okosystems/atclang",
+        "source_head_sha": "7022d426d72a32b20905dc096ee49941d4e33989",
+        "canonical_classifications": 94,
+        "census_candidates": 106,
+        "delta": 12,
+        "status": "UNRESOLVED",
+        "candidate_rows": []
+      },
+      {
+        "repository": "A-TownChain-Okosystems/genesis-chronicles",
+        "source_head_sha": "9710bd9b314ca4bce836589f5fc8649619fc5604",
+        "canonical_classifications": 110,
+        "census_candidates": 128,
+        "delta": 18,
+        "status": "UNRESOLVED",
+        "candidate_rows": []
+      }
+    ],
+    "required_candidate_row_fields": [
+      "repository",
+      "repository_head_sha",
+      "source_path",
+      "symbol",
+      "file_sha256",
+      "current_classification",
+      "expected_classification",
+      "status",
+      "policy_or_reason",
+      "evidence_ref"
+    ],
+    "note": "This file deliberately records only the six verified aggregate deltas. It does not fabricate 71 symbol identities. Populate candidate_rows only from exact census-to-registry reconciliation evidence."
+  },
+  "validator_results": {
+    "rebuilt_registry": {
+      "status": "PASS",
+      "entries": 8278,
+      "gates": {
+        "R1_schema": "PASS",
+        "R2_id_rules": "PASS",
+        "R3_accounting": "PASS",
+        "R4_ssot": "PASS",
+        "R5_duplicates": "PASS"
+      }
+    },
+    "canonical_registry": {
+      "status": "FAIL",
+      "errors": 6,
+      "exit_code": 1
+    }
+  },
+  "e2e_results": {
+    "workflow_run_id": 38925693406,
+    "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38925693406",
+    "jobs": [
+      {
+        "name": "tx-block-reward-state-finality-e2e",
+        "job_id": 117056531563,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "persistent-atc-node-multi-process-e2e",
+        "job_id": 117056531884,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "wallet-node-process-e2e",
+        "job_id": 117056531999,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "multi-process-network-e2e",
+        "job_id": 117056531625,
+        "status": "in_progress",
+        "conclusion": null
+      }
+    ],
+    "overall": "INCOMPLETE"
+  },
+  "acceptance": {
+    "every_delta_individually_explained": false,
+    "validators_weakened": false,
+    "merge_authorized": false,
+    "pr_must_remain_draft_and_blocked": true
+  }
+}
