@@ -118,8 +118,18 @@ def compare(manifest: dict, policy: dict, integration: dict, fetch=github_json, 
             entry["observed_default_branch"] = observed_branch
             if not isinstance(observed_branch, str) or not observed_branch:
                 raise ValueError("repository response has no default_branch")
-            if repo_data.get("archived") is not isinstance(scope.get("archived"), bool):
-                pass
+            if repo_data.get("archived") is not scope.get("archived"):
+                entry["status"] = "BLOCKED"
+                entry["reason_code"] = "REPOSITORY_METADATA_MISMATCH"
+                entry["error"] = "Live archived flag does not match manifest scope metadata"
+                entries.append(entry)
+                continue
+            if isinstance(scope.get("private"), bool) and repo_data.get("private") is not scope.get("private"):
+                entry["status"] = "BLOCKED"
+                entry["reason_code"] = "REPOSITORY_METADATA_MISMATCH"
+                entry["error"] = "Live private flag does not match explicit manifest metadata"
+                entries.append(entry)
+                continue
             commit_data = fetch(f"{API_ROOT}/repos/{full_name}/commits/{urllib.parse.quote(observed_branch, safe='')}", token)
             observed_head = commit_data.get("sha")
             observed_tree = (commit_data.get("commit") or {}).get("tree", {}).get("sha")
