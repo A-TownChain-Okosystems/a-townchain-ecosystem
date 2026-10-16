@@ -62,11 +62,11 @@ def resolve(manifest: dict, policy: dict) -> tuple[list[str], dict]:
             continue
         names.append(name)
         archived = repo.get("archived")
-        private = repo.get("private", False)
+        private = repo.get("private")
         if not isinstance(archived, bool):
             errors.append(f"{name}: archived must be boolean")
             archived = None
-        if not isinstance(private, bool):
+        if "private" in repo and not isinstance(private, bool):
             errors.append(f"{name}: private must be boolean when present")
             private = None
         override = override_by_name.get(name)
@@ -108,6 +108,10 @@ def resolve(manifest: dict, policy: dict) -> tuple[list[str], dict]:
     for name in override_by_name:
         if name not in manifest_names:
             errors.append(f"scope override references unknown repository {name}")
+    if defaults.get("active_repository") != "INCLUDE":
+        errors.append("active repositories must be included unless an explicit override applies")
+    if defaults.get("archived_repository") != "EXCLUDE":
+        errors.append("archived repositories must be excluded by the declared default policy")
     if defaults.get("unknown_repository") != "BLOCK" or defaults.get("unknown_scope_action") != "BLOCK":
         errors.append("unknown repositories and unknown scope must fail closed with BLOCK")
     if defaults.get("private_repository") != "NO_OVERRIDE":
