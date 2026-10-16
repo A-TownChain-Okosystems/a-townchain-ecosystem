@@ -1,0 +1,21 @@
+{
+  "id": "ATC-KMS-SOURCE-DOCS-KNOWLEDGE-SYSTEM-RECORDS-GENERATED-ATC-KMS-SOURCE-DOCS--7D5BD350CF",
+  "timestamp": "2026-10-16T07:14:56.389597Z",
+  "category": "evidence",
+  "title": "Indexed source: docs/knowledge-system/records/generated/ATC-KMS-SOURCE-DOCS-ARCHITECTURE-ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001-MD-786B7FEAB8.json",
+  "context": "Repository architecture, release, security, migration, or build source.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "file",
+    "ref": "docs/knowledge-system/records/generated/ATC-KMS-SOURCE-DOCS-ARCHITECTURE-ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001-MD-786B7FEAB8.json",
+    "commit": "c83bf4e581f121f374f5d6619ceab20f97f9d1a1"
+  },
+  "tags": [
+    "generated",
+    "source"
+  ],
+  "links": [],
+  "content": "Source file present at docs/knowledge-system/records/generated/ATC-KMS-SOURCE-DOCS-ARCHITECTURE-ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001-MD-786B7FEAB8.json."
+}

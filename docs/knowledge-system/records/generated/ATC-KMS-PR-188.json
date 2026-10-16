@@ -1,0 +1,31 @@
+{
+  "id": "ATC-KMS-PR-188",
+  "timestamp": "2026-10-16T07:14:56.389597Z",
+  "category": "change",
+  "title": "PR #188: fix(registry): enforce R3 runtime entry accounting",
+  "context": "Pull request 188 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "archived",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/188",
+    "commit": "c83bf4e581f121f374f5d6619ceab20f97f9d1a1"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-189"
+    },
+    {
+      "relation": "references",
+      "target": "ATC-KMS-PR-189"
+    }
+  ],
+  "content": "State: closed\nMerged: False\nDraft: True\n\nSuperseded by PR #189. PR #189 is based directly on the original base commit and contains only the isolated R3 validator correction plus regression test. No merge or verification is implied."
+}

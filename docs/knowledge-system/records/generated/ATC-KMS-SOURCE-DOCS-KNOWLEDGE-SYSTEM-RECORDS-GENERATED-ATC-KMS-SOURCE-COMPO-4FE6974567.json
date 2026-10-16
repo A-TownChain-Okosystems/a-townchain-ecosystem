@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-DOCS-KNOWLEDGE-SYSTEM-RECORDS-GENERATED-ATC-KMS-SOURCE-COMPO-4FE6974567",
-  "timestamp": "2026-10-15T21:11:39.159665Z",
+  "timestamp": "2026-10-16T07:14:56.389597Z",
   "category": "evidence",
   "title": "Indexed source: docs/knowledge-system/records/generated/ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-MODULES-ATC-GOVERNANCE-ARCHITECTURE-M-778EC1D0F6.json",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "docs/knowledge-system/records/generated/ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-MODULES-ATC-GOVERNANCE-ARCHITECTURE-M-778EC1D0F6.json",
-    "commit": "1927a9dc1a01cafabc71b54538308a41abbc8c9d"
+    "commit": "c83bf4e581f121f374f5d6619ceab20f97f9d1a1"
   },
   "tags": [
     "generated",

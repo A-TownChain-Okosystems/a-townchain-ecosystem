@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-ATC-COMPUTE-CARGO-TOML-CD1570B4BD",
-  "timestamp": "2026-10-15T21:11:39.159665Z",
+  "timestamp": "2026-10-16T07:14:56.389597Z",
   "category": "evidence",
   "title": "Indexed source: components/atc-compute/Cargo.toml",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-compute/Cargo.toml",
-    "commit": "1927a9dc1a01cafabc71b54538308a41abbc8c9d"
+    "commit": "c83bf4e581f121f374f5d6619ceab20f97f9d1a1"
   },
   "tags": [
     "generated",
