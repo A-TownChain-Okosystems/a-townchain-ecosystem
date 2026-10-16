@@ -1,8 +1,8 @@
 {
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
-  "catalog_date": "2026-10-15",
-  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed. 2026-10-15: Added proposed COMP-XCHAIN-INTEROP and FN-XCHAIN-001..003 as BLOCKED specification-only catalog entries linked to atc-standards#110 and ecosystem#126. No executable source binding or implementation/verification claim; canonical runtime owner remains unresolved.",
+  "catalog_date": "2026-10-16",
+  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed. 2026-10-15: Added proposed COMP-XCHAIN-INTEROP and FN-XCHAIN-001..003 as BLOCKED specification-only catalog entries linked to atc-standards#110 and ecosystem#126. No executable source binding or implementation/verification claim; canonical runtime owner remains unresolved. 2026-10-16: Reconciled proposed FN-GLOBUS-003, FN-AURORA-004 and FN-ECO-003 onto the current main baseline after PR #130 diverged. All three remain RESIDUAL/UNBOUND_RESIDUAL; no implementation or verification claim is made. Structural specification_contract counters reconciled to 104 function contracts and 31 components; functional verification remains false and release decision remains BLOCKED.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -5710,6 +5710,92 @@
               "log_or_artifact_url"
             ]
           }
+        },
+        {
+          "id": "FN-GLOBUS-003",
+          "name": "OS service boundary and platform integration",
+          "purpose": "Define the user-space service boundary connecting ShivaCore, hardware abstraction, networking, storage, desktop applications and authorized AI/blockchain services without expanding kernel TCB authority.",
+          "inputs": [
+            "versioned service manifest",
+            "capability grants",
+            "service/interface version",
+            "health and recovery policy"
+          ],
+          "outputs": [
+            "service-boundary contract",
+            "dependency and privilege map",
+            "integration acceptance report"
+          ],
+          "failure_modes": [
+            "ambient authority",
+            "version mismatch",
+            "unauthorized IPC",
+            "service crash or resource exhaustion"
+          ],
+          "acceptance": [
+            "ShivaCore remains the canonical kernel TCB",
+            "AI and blockchain integrations remain outside kernel authority unless a reviewed capability interface explicitly permits a narrowly scoped operation",
+            "Every service has a canonical owner, versioned interface and failure/recovery contract",
+            "No implementation readiness is inferred from this catalog entry"
+          ],
+          "test_classes": [
+            "architecture",
+            "interface-contract",
+            "integration",
+            "fault-injection",
+            "security"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "source_path": "UNMAPPED",
+            "symbol_or_entrypoint": "PROPOSED_CONTRACT_ONLY",
+            "exact_source_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
+            "file_blob_sha": null,
+            "evidence": null,
+            "note": "Architecture contract added from the Globus OS + Neural AI + A-TownChain structure plan. No implementation/source binding is asserted; source-tree reconciliation is required before implementation claims.",
+            "binding_kind": "exempt_no_source_binding"
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Proposed contract only; no exact-SHA implementation or test evidence has been established.",
+            "source_sha": "c7337ef4fcff447ad0ee31c54e8adfee7f895bf6",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "source_path_and_symbol",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
         }
       ],
       "source_inventory": {
@@ -6025,6 +6111,97 @@
             "source_sha": "1b5ff1824bb032958b9a2ae4e53365d7af01c3af",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-AURORA-004",
+          "name": "Policy-gated Neural AI orchestration",
+          "purpose": "Orchestrate intent parsing, planning, agent routing, local or remote inference and tool proposals while preventing model output from directly granting authority or executing privileged blockchain/OS actions.",
+          "inputs": [
+            "user intent",
+            "context and model output",
+            "policy version",
+            "capability inventory",
+            "approval decision"
+          ],
+          "outputs": [
+            "inspectable action proposal",
+            "policy decision record",
+            "audit event",
+            "bounded tool invocation request"
+          ],
+          "failure_modes": [
+            "prompt injection",
+            "ambiguous intent",
+            "policy denial",
+            "missing capability",
+            "model/provider failure",
+            "approval absent"
+          ],
+          "acceptance": [
+            "Required flow is Intent/Proposal → Policy → Capability Check → Approval → Tool/Service Boundary → Authoritative Runtime",
+            "Model output never independently authorizes kernel, wallet, transaction, consensus or privileged service operations",
+            "Wallet and transaction actions require explicit approval and auditable scope",
+            "Secrets and seed phrases are excluded from prompts, logs and general model memory"
+          ],
+          "test_classes": [
+            "unit",
+            "policy",
+            "adversarial",
+            "authorization",
+            "integration",
+            "audit"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "source_path": "UNMAPPED",
+            "symbol_or_entrypoint": "PROPOSED_CONTRACT_ONLY",
+            "exact_source_sha": "1b5ff1824bb032958b9a2ae4e53365d7af01c3af",
+            "file_blob_sha": null,
+            "evidence": null,
+            "note": "Architecture contract added from the Globus OS + Neural AI + A-TownChain structure plan. No implementation/source binding is asserted; source-tree reconciliation is required before implementation claims.",
+            "binding_kind": "exempt_no_source_binding"
+          },
+          "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Proposed contract only; no exact-SHA implementation or test evidence has been established.",
+            "source_sha": "1b5ff1824bb032958b9a2ae4e53365d7af01c3af",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "source_path_and_symbol",
               "workflow_run_id",
               "job",
               "step",
@@ -6788,6 +6965,96 @@
             "source_sha": "a4264a2a03ff092e5e90cb5f971e769bb5704eec",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-ECO-003",
+          "name": "Cross-layer architecture and catalog reconciliation",
+          "purpose": "Maintain the L0-L7 plus cross-layer control-plane model and reconcile each proposed OS, Neural AI, blockchain and application capability to one canonical owner, a versioned contract and source-backed catalog entry or a documented exclusion.",
+          "inputs": [
+            "active repository census",
+            "canonical ownership map",
+            "component/function catalog",
+            "interface contracts",
+            "exact repository HEAD SHAs"
+          ],
+          "outputs": [
+            "cross-layer dependency graph",
+            "missing/duplicate/obsolete entry report",
+            "explicit residual and blocked list"
+          ],
+          "failure_modes": [
+            "duplicate SSOT",
+            "missing source binding",
+            "stale SHA",
+            "unknown consensus rule",
+            "incompatible interface",
+            "incomplete CI evidence"
+          ],
+          "acceptance": [
+            "GlobusOS/ShivaCore, Aurora AI, ATC-VM and consensus have distinct authority boundaries",
+            "a-townchain-ecosystem remains a control plane and does not become a competing implementation SSOT",
+            "Every observed function is cataloged or excluded with a reason",
+            "Unknown consensus/economic rules remain BLOCKED",
+            "Source reconciliation is bidirectional and structural validation alone is not called verification"
+          ],
+          "test_classes": [
+            "schema",
+            "source-census",
+            "bidirectional-reconciliation",
+            "dependency-graph",
+            "governance"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "source_path": "UNMAPPED",
+            "symbol_or_entrypoint": "PROPOSED_CONTRACT_ONLY",
+            "exact_source_sha": "19811460ead5eadc2ae01142c20edecf9493eb43",
+            "file_blob_sha": null,
+            "evidence": null,
+            "note": "Architecture contract added from the Globus OS + Neural AI + A-TownChain structure plan. No implementation/source binding is asserted; source-tree reconciliation is required before implementation claims.",
+            "binding_kind": "exempt_no_source_binding"
+          },
+          "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "Contract is proposed; exact source/API semantics, bounds, compatibility and tests must be reconciled against the canonical implementation repository."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "Proposed contract only; no exact-SHA implementation or test evidence has been established.",
+            "source_sha": "19811460ead5eadc2ae01142c20edecf9493eb43",
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "source_path_and_symbol",
               "workflow_run_id",
               "job",
               "step",
@@ -12098,8 +12365,8 @@
     "specification_id": "ATC-COMPONENT-FUNCTION-SPECIFICATION-001",
     "specification_version": "1.0.0",
     "applied": true,
-    "function_contracts_checked": 71,
-    "component_contracts_checked": 30,
+    "function_contracts_checked": 104,
+    "component_contracts_checked": 31,
     "missing_required_field_values_are_explicit_residuals": true,
     "functional_verification_performed": false,
     "release_decision": "BLOCKED",
