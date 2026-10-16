@@ -143,7 +143,7 @@ These layers govern capabilities across applicable L-layers. The applicability m
 - X33 coordinates event/workflow semantics; it does not replace canonical message brokers, runtimes or domain state machines.
 - X36 coordinates integration contracts and evidence; it does not own duplicate implementations.
 
-## 5. Sublayer decomposition baseline
+## 6. Sublayer decomposition baseline
 
 Use the following reusable sublayer families where relevant. They are a coverage checklist, not a requirement to force every domain into exactly 17 sublayers. Domain-specific sublayers must be added; irrelevant families must be explicitly marked `EXCLUDED` with rationale.
 
@@ -169,7 +169,7 @@ Each sublayer receives a stable ID and records parent layer, purpose, boundaries
 
 Suggested ID convention: `ATC-ARCH-{L|X}{nn}-{SUBLAYER-SLUG}`. Existing established IDs take precedence; run a collision check before issuing new ones. Do not renumber existing contracts merely to fit this convention.
 
-## 6. Component and function-contract model
+## 7. Component and function-contract model
 
 ### Component record
 
@@ -202,7 +202,7 @@ Every function contract is independently addressable and testable. Required fiel
 
 No field may silently disappear. If a field is inapplicable, record `NOT_APPLICABLE` plus a reason; if unknown, use `UNRESOLVED`.
 
-## 7. Canonical SSOT registry
+## 8. Canonical SSOT registry
 
 These mappings are architectural ownership rules, not proof that any specific function has already been found or verified.
 
@@ -219,7 +219,7 @@ These mappings are architectural ownership rules, not proof that any specific fu
 | Ecosystem catalog | `A-TownChain-Okosystems/a-townchain-ecosystem` | Own catalog, cross-repo mapping, integration/compliance/evidence and drift control only. |
 | Build/release/install | Per-component canonical owner; map exact workflow/artifact paths | Do not replace component-owned release pipeline with a parallel ecosystem implementation. |
 
-## 8. Status model
+## 9. Status model
 
 Use separate fields for architecture, mapping, implementation, verification and lifecycle. A single overloaded status is insufficient.
 
@@ -238,7 +238,7 @@ Definitions:
 - `EXCLUDED` requires a rationale, scope and approval where governance requires one.
 - Missing or inaccessible evidence is not a pass.
 
-## 9. Evidence record
+## 10. Evidence record
 
 Minimum evidence fields for a verification claim:
 
@@ -272,7 +272,7 @@ evidence_record:
 
 Evidence must be inspectable, reproducible and tied to the same full commit SHA as the source mapping. A result from another branch/commit, a skipped test, missing log, absent exit code, or unverified artifact is not evidence of a pass.
 
-## 10. Acceptance gates G0–G9
+## 11. Acceptance gates G0–G9
 
 | Gate | Required decision |
 |---|---|
@@ -289,7 +289,7 @@ Evidence must be inspectable, reproducible and tied to the same full commit SHA 
 
 Hard gates include security invariants, normative MUST requirements, unresolved consensus/protocol semantics, source ownership ambiguity for production code, and missing mandatory evidence. They cannot be offset by an average score.
 
-## 11. Domain-specific acceptance profiles
+## 12. Domain-specific acceptance profiles
 
 ### Blockchain, protocol and ATC-VM
 - Normative transaction/signature/serialization/state-transition vectors; deterministic execution.
@@ -324,7 +324,7 @@ Hard gates include security invariants, normative MUST requirements, unresolved 
 - Live drift inventory uses the registered repository manifest; `demo-repository` excluded.
 - Aggregated verification status must never overstate component-level evidence.
 
-## 12. Reconciliation work queue
+## 13. Reconciliation work queue
 
 This catalog must be completed through evidence-backed reconciliation, not by assuming the architecture tables are exhaustive.
 
@@ -341,7 +341,7 @@ This catalog must be completed through evidence-backed reconciliation, not by as
 11. **Change governance:** register normative rules in `atc-standards` through approved change control; this catalog references rather than duplicates normative standards.
 12. **Reporting:** publish inventory totals and residuals by status, layer, repository and risk; every count must be reproducible from machine-readable artifacts.
 
-## 13. Definition of catalog completeness
+## 14. Definition of catalog completeness
 
 The catalog is complete for a defined revision only when all the following are true:
 
@@ -358,7 +358,7 @@ The catalog is complete for a defined revision only when all the following are t
 
 **Important:** a catalog can be structurally complete while many components remain `NOT_IMPLEMENTED`, `UNRESOLVED` or `NOT_VERIFIED`. These are separate dimensions.
 
-## 14. Current disposition
+## 15. Current disposition
 
 - Layer scope index: recorded here for L1–L10 and X1–X36.
 - Full sublayer/component/function census: `NOT VERIFIED`; requires comparison with the live catalog and canonical source trees.
@@ -367,7 +367,7 @@ The catalog is complete for a defined revision only when all the following are t
 - Normative status: this file is a proposed catalog artifact; it does not replace an approved `atc-standards` change.
 - Acceptance: `BLOCKED` until reconciliation, validators, evidence review and approval are complete.
 
-## 15. Related work
+## 16. Related work
 
 - Issue #182 — consolidate the full layer, sublayer, component and function architecture tree.
 - Issue #183 — define acceptance criteria for all architecture layers and sublayers.
@@ -378,7 +378,7 @@ The catalog is complete for a defined revision only when all the following are t
 This document is an organizing artifact for the above work, not evidence that the issues are completed.
 
 
-## 16. Implementation roadmap — milestones, checkpoints, sprints and TODOs
+## 17. Implementation roadmap — milestones, checkpoints, sprints and TODOs
 
 **Roadmap ID:** `ATC-ROADMAP-CATALOG-X1-X36-L1-L10`  
 **Roadmap status:** `PROPOSED / NOT VERIFIED`  
@@ -506,7 +506,7 @@ Counts must never conflate `UNRESOLVED`, `EXCLUDED`, `NOT_IMPLEMENTED` and `VERI
 - The current disposition remains `PROPOSED / NOT VERIFIED`; all milestones are open until checkpoint evidence is reviewed.
 
 
-## 17. Catalog Wiki — chapter index and navigation
+## 18. Catalog Wiki — chapter index and navigation
 
 **Wiki ID:** `ATC-ARCH-CATALOG-WIKI-X1-X36-L1-L10`  
 **Status:** `PROPOSED / NOT VERIFIED`  
@@ -537,7 +537,7 @@ Counts must never conflate `UNRESOLVED`, `EXCLUDED`, `NOT_IMPLEMENTED` and `VERI
 The files are stored as version-controlled Markdown chapters in the catalog repository so changes can be reviewed with the same pull-request and commit evidence. They are a **Wiki-style chapter set**, not proof that GitHub's separate repository Wiki feature has been published or enabled.
 
 
-## 18. Implementation order — dependency-driven execution sequence
+## 19. Implementation order — dependency-driven execution sequence
 
 **Status:** `PROPOSED / NOT VERIFIED`. This sequence defines prerequisite order, not calendar commitments or proof that any task has completed. The roadmap is dependency-driven: do not start broad production implementation while scope, ownership or acceptance criteria remain ambiguous.
 
