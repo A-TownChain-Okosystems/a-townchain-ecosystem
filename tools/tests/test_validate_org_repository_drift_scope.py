@@ -47,6 +47,23 @@ class DriftScopeTests(unittest.TestCase):
         item = next(item for item in report["entries"] if item["name"] == repo["name"])
         self.assertEqual(item["decision"], "INCLUDE")
 
+    def test_missing_private_metadata_is_not_assumed_public(self):
+        manifest = copy.deepcopy(MANIFEST)
+        repo = next(item for item in manifest["repositories"] if item["name"] == "a-townchain")
+        repo.pop("private", None)
+        errors, report = resolve(manifest, POLICY)
+        self.assertEqual(errors, [])
+        item = next(item for item in report["entries"] if item["name"] == repo["name"])
+        self.assertEqual(item["decision"], "INCLUDE")
+        self.assertIsNone(item["private"])
+
+    def test_unsafe_default_policy_fails_closed(self):
+        policy = copy.deepcopy(POLICY)
+        policy["default_policy"]["active_repository"] = "EXCLUDE"
+        errors, report = resolve(MANIFEST, policy)
+        self.assertTrue(any("active repositories must be included" in error for error in errors))
+        self.assertEqual(report["validation"], "FAIL")
+
     def test_unknown_override_repository_fails_closed(self):
         policy = copy.deepcopy(POLICY)
         policy["explicit_overrides"].append({
