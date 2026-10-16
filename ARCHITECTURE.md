@@ -11,79 +11,159 @@
 
 ## Canonical Layer Model
 
+A-TownChain uses one canonical deterministic L1 responsibility model. The layers define architectural ownership and trust boundaries; they are not a mandatory single-process execution order. **X** is a cross-layer control plane and is not an additional execution layer.
+
 ```text
-L0 — System & Network
-     Hardware / HAL / GlobusOS / ShivaCore / networking / transport / node runtime
+L0 — Hardware / Secure Platform
+     CPU / RAM / Storage / TPM / TEE / Secure Boot
 
-L1 — Data & Storage
-     Canonical persistence / state storage / history / read models / indexing
+L1 — Node & Runtime Foundation
+     OS / ShivaCore / Runtime / IPC / Capability Security
 
-L2 — Blockchain Core & Consensus
-     Transactions / authorization entry / mempool / blocks / consensus / finality / economics
+L2 — Blockchain Core
+     Block Model / Transaction Model / State Model / Ledger /
+     Mempool / Consensus / Finality / Chain Validation
 
-L3 — Deterministic Execution / ATC-VM
-     ATCLang / ATC-IR / ABI / bytecode / verifier / ATC-VM / deterministic state transition
+L3 — ATC-VM
+     Program Model / Typed Values / Execution /
+     Gas & Resource Accounting / Storage / Deterministic VM Validation
 
-L4 — Scaling & Execution Domains
-     Rollups / validity domains / specialized execution / future scaling and settlement domains
+L4 — Protocol Services
+     P2P / Networking / Synchronization / Peer Discovery /
+     RPC / API / State & Block Propagation
 
-L5 — Protocol & Economic Domains
-     Identity / assets / oracle / compute / interoperability / marketplace / launchpad / protocol contracts
+L5 — Economic & Security Services
+     Accounts / Signatures / Staking / Rewards / Slashing /
+     Treasury / Supply Rules
 
-L6 — AI & Intelligence
-     Aurora / agents / RAG / memory / Quest AI / Dialogue AI / World / Character / domain intelligence
+L6 — Smart-Contract / Application Environment
+     ATCLang / Contract ABI / Contract Standards / Application Protocols
 
-L7 — Applications & User Experience
-     Genesis Engine / games / worlds / franchises / wallet UX / explorer / user-facing applications
+L7 — External Applications
+     Wallet / SDK / Explorer / DApps / Developer Tooling
 
 X — Cross-Layer Control Plane
-     Identity / capability / authorization / policy / governance / cryptography /
-     audit & evidence / observability / interoperability / versioning & compatibility
+     Identity / Capability / Policy / Governance / Cryptography /
+     Audit / Evidence / Observability / Interoperability / Versioning
 ```
 
 ### Layer Semantics
 
-| Layer | Authority | Determinism | State authority |
+| Layer | Primary responsibility | Authority | Determinism / state boundary |
 |---|---|---|---|
-| L0 | System / kernel / network boundary | deterministic where specified | No canonical chain state |
-| L1 | Data / persistence | deterministic persistence rules | Persistence of state committed by L2/L3; no protocol authority |
-| L2 | Blockchain protocol | deterministic | Chain authority / consensus |
-| L3 | ATC-VM execution | deterministic | Computes deterministic state transitions under L2 protocol authority |
-| L4 | Execution/scaling domain | domain-contract dependent | Only explicitly authorized domain state |
-| L5 | Protocol/economic domain | contract/policy defined | Authorized protocol state |
-| L6 | AI / intelligence | not a consensus authority | No direct canonical chain authority |
-| L7 | Application / UX | runtime/user dependent | No direct canonical chain authority |
-| X | Governance / security / control | policy/contract defined | Controls authorization and access |
+| L0 | Hardware and secure-platform primitives | Platform boundary | Trusted execution substrate; no canonical chain authority |
+| L1 | Node/runtime foundation, ShivaCore, IPC and capability enforcement | Runtime authority within host | Deterministic where protocol-critical; no canonical chain state |
+| L2 | Blockchain Core: blocks, transactions, state, ledger, mempool, consensus, finality, chain validation | Canonical blockchain authority | Deterministic protocol state machine |
+| L3 | ATC-VM program execution and resource accounting | Execution authority delegated by L2 | Deterministic execution only; no independent finality |
+| L4 | P2P/networking, synchronization, discovery, RPC and propagation | Transport/service authority | Transports claims; does not make them canonical |
+| L5 | Accounts, signatures, staking, rewards, slashing, treasury and supply rules | Economic/security domain authority under L2 | Protocol-defined deterministic rules and canonical economic state |
+| L6 | ATCLang, ABI, contract standards and application protocols | Contract/application authority within declared interfaces | Contract semantics are deterministic when consensus-critical |
+| L7 | Wallet, SDK, explorer, DApps and developer tooling | User/application boundary | No direct canonical blockchain authority |
+| X | Identity, capability, policy, governance, crypto, audit/evidence, observability, interop and versioning | Cross-layer control authority | Cross-cutting; never implicit authority |
 
-**Layer ordering is conceptual.** L1 being numbered below L2 does not mean storage executes before consensus. The runtime data path is defined separately below.
+**Important:** layer numbering is an architectural responsibility model, not a runtime call graph. L1 being numbered below L2 does not mean storage/runtime executes before consensus.
+
+### Architectural Separation Invariants
+
+1. **L2 Blockchain Core ≠ L3 ATC-VM.** L2 owns blockchain state-machine and finality semantics; L3 performs deterministic program execution.
+2. **L4 P2P transports claims; L2 validates protocol claims.** Network reachability or successful propagation never grants authority.
+3. **L5 owns economic/security services; L2 owns blockchain consensus/finality.** Economic rules must not silently become a second consensus layer.
+4. **L6 contracts are not the blockchain core.** ATCLang/ABI/application protocols invoke deterministic execution through declared interfaces.
+5. **L7 is non-authoritative.** Wallets, SDKs, explorers and DApps cannot bypass L2/L3/L5 validation boundaries.
+6. **X does not become an execution layer.** Control-plane policy can constrain actions but does not itself mutate canonical state.
 
 ## Canonical Deterministic Trust Boundary
 
-The authoritative blockchain path separates candidate execution from protocol finality:
+The L1 trust boundary distinguishes integrity, authenticity, validity, consensus, finality and immutability. A hash establishes an integrity relationship; it does not by itself establish protocol acceptance or finality.
+
+### Canonical transaction-to-finality path
 
 ```text
 Transaction
-    ↓
-Signature / Authorization
-    ↓
-Mempool
-    ↓
-Block Proposal / Validation
-    ↓
-ATC-VM — deterministic candidate state transition
-    ↓
-Consensus / Validator Voting
-    ↓
-Finality / Commit
-    ↓
+    │
+    ▼
+Canonical Encoding
+    │
+    ▼
+Signature / Authorization Validation
+    │
+    ▼
+Transaction Validation
+    │
+    ├── chain_id / nonce
+    ├── canonical numeric types
+    ├── amount / fee rules
+    ├── account/state constraints
+    └── protocol rules
+    │
+    ▼
+L2 Mempool Admission
+    │
+    ▼
+L4 P2P Propagation / Synchronization
+    │
+    ▼
+L2 Block Construction / Block Validation
+    │
+    ▼
+Consensus
+    │
+    ▼
+L3 ATC-VM Deterministic Execution
+    │
+    ▼
+L2 State Transition / State Commitment
+    │
+    ▼
+L2 Ledger Commit
+    │
+    ▼
+Finality
+    │
+    ▼
 Canonical State
-    ↓
-Durable Storage / Read Models
+    │
+    ▼
+L1 Durable Persistence / Read Models
 ```
 
-This diagram defines authority and commit semantics, not a single-process implementation. Execution may occur before finality as a candidate transition; only finalized protocol state becomes canonical.
+### Integrity ≠ Consensus ≠ Finality ≠ Immutability
 
-### Boundary Invariants
+| Property | Meaning |
+|---|---|
+| **Integrity** | Data can be detected as changed through hashes/commitments. |
+| **Authenticity** | A signature/identity proof establishes the cryptographic origin or authorization relationship required by the protocol. |
+| **Validity** | The transaction/block/state transition satisfies the canonical protocol rules. |
+| **Consensus** | The protocol determines which valid proposed history/state is accepted by participating validators/nodes. |
+| **State transition** | The deterministic function transforms an accepted input state into the resulting state. |
+| **Finality** | The protocol reaches its defined finality condition for the accepted block/state. |
+| **Immutability** | Finalized history is not replaced by an ordinary alternative transition; exceptional changes require an explicitly authorized protocol/governance mechanism. |
+
+For a deterministic L1, the core execution contract is `F(State, Block) = State'`. For identical canonical inputs and protocol/configuration versions, conforming implementations MUST produce the same resulting state commitment.
+
+### P2P Protocol Contract
+
+```text
+Peer Identity
+    ↓
+Authentication
+    ↓
+Peer Discovery / Connection Management
+    ↓
+Message Validation
+    ↓
+Rate Limiting / Resource Controls
+    ↓
+Transaction / Block Propagation
+    ↓
+Synchronization / State Transfer
+    ↓
+Failure Detection / Recovery
+```
+
+P2P is a protocol-service domain, not undifferentiated infrastructure. Messages received through L4 remain untrusted inputs until the responsible L2/L3/L5 validation boundary accepts them.
+
+### Boundary invariants
 
 ```text
 Aurora
@@ -91,110 +171,134 @@ Aurora
   ≠ ATC-VM
   ≠ canonical blockchain state
 
-Genesis
+Genesis Engine
   ≠ Blockchain Core
 
 GlobusOS / ShivaCore
   ≠ ATC-VM
 
-Indexer
-  ≠ Source of Truth
-
-Explorer
-  ≠ Source of Truth
+Indexer / Explorer
+  ≠ canonical Source of Truth
 
 AI Memory
   ≠ canonical blockchain state
 ```
 
-AI/model inference can produce proposals, commands or requests. Authoritative state changes require the responsible deterministic runtime and applicable authorization/policy checks.
+AI/model inference may produce proposals, commands or requests. Authoritative state changes require the responsible deterministic runtime plus applicable identity, capability, policy and protocol validation.
 
 ## Cross-Layer Control Plane
 
-X is a cross-cutting control-plane model for identity, capability, authorization, policy, governance, security and evidence. It does not replace L0–L7, does not become a runtime execution layer, and does not independently execute blockchain state transitions. Normative standards remain owned by `atc-standards`; runtime enforcement remains with the responsible domain.
+X is a cross-cutting control plane, not an execution layer and not an alternative owner of canonical state.
 
 ```text
-                 CROSS-LAYER CONTROL PLANE — X
- ┌──────────────────────────────────────────────────────────────┐
- │ Identity                                                     │
- │ Capability / Authorization                                   │
- │ Policy                                                      │
- │ Governance                                                   │
- │ Cryptography                                                 │
- │ Audit / Evidence                                             │
- │ Observability                                                │
- │ Interoperability                                             │
- │ Versioning / Compatibility                                   │
- └───────────────────────────┬──────────────────────────────────┘
-                             │
-             ┌───────────────┼───────────────┐
-             ▼               ▼               ▼
-            L0              L1              L2 ... L7
+                    X — CONTROL PLANE
+┌─────────────────────────────────────────────────────────────┐
+│ Identity │ Capability │ Policy │ Governance │ Cryptography  │
+│ Audit │ Evidence │ Observability │ Interoperability        │
+│ Versioning / Compatibility │ Authority / Trust Boundaries  │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+             ┌─────────────────┼─────────────────┐
+             ▼                 ▼                 ▼
+            L0                L2 ... L3          L4 ... L7
 ```
+
+X defines cross-layer contracts for identity, capability, policy, governance, cryptography, audit/evidence, observability, interoperability and versioning. Runtime enforcement remains with the responsible layer/domain.
+
+The **Global Authority Matrix** MUST define, for every privileged action:
+
+```text
+Component / Principal
+        ↓
+Authority
+        ↓
+Allowed Action
+        ↓
+Required Capability
+        ↓
+Applicable Policy
+        ↓
+Validation / Enforcement Boundary
+        ↓
+Audit / Evidence
+```
+
+No component gains authority merely because it can reach another component, publish a message, or invoke an API.
 
 ## Primary Repository / Subsystem Mapping
 
-A repository may span more than one architectural layer; the table identifies its primary responsibility and does not override repository-level SSOT.
+A repository may span more than one architectural layer; the table identifies primary responsibility and does not override repository-level SSOT.
 
 | Layer | Primary repositories / subsystems |
 |---|---|
-| L0 | `atc-shivacore`, `globus-os`, `atc-node` network/runtime boundary |
-| L1 | `atc-storage`, `atc-indexer` read models, `atc-explorer` presentation/read model |
-| L2 | `a-townchain`, `atc-node`, `atc-algorithm`, `atc-mining`, `atc-wallet` transaction interface |
-| L3 | `atc-vm`, `atclang`, `atc-contracts` |
-| L4 | `atc-zkp`, future scaling/execution-domain components |
-| L5 | `atc-interop`, `atc-oracle`, `atc-compute`, `atc-marketplace`, `atc-launchpad`, protocol/asset/identity domains |
-| L6 | `aurora-ai`, Quest AI, Dialogue AI and other domain-intelligence capabilities |
-| L7 | `genesis-engine`, `genesis-chronicles`, `genesis-franchise-factory`, `atc-wallet` UX, `atc-explorer` UX, `atc-ide` |
-| X | `atc-standards`, security/cryptography/identity/policy/audit capabilities across the ecosystem |
+| L0 | Hardware/Secure Platform interfaces; secure-boot/TPM/TEE integrations |
+| L1 | `atc-shivacore`, `globus-os`, node/runtime and IPC/capability subsystems |
+| L2 | `a-townchain`, blockchain-core components, `atc-node` consensus/chain boundary |
+| L3 | `a-townchain/components/vm`, VM execution and verifier components |
+| L4 | `atc-node` P2P/network boundary, synchronization, RPC/API and propagation services |
+| L5 | Account/signature, staking, rewards, slashing, treasury and supply-rule components |
+| L6 | `atclang`, contract ABI/standards, `atc-contracts`, application protocols |
+| L7 | `atc-wallet` UX, `atc-sdk`, `atc-explorer` UX, DApps and developer tooling |
+| X | `atc-standards`, identity/capability/policy/governance/crypto/audit/evidence/observability/interoperability/versioning capabilities |
 
-This mapping is architectural only. It does not assert implementation, test, CI or E2E status. Cross-layer repositories remain governed by their own canonical source-of-truth contracts.
+This mapping is architectural only. It does not assert implementation, test, CI or E2E status. Canonical repository paths remain governed by their repository-level SSOT contracts.
 
 ## Canonical Runtime / Data-Flow Separation
 
-The layer model and runtime flow must not be conflated.
+The responsibility-layer model MUST NOT be conflated with runtime ordering.
 
 ```text
-L2 Blockchain Core
-    │
-    ├── Transaction / Mempool
-    └── Block Proposal / Validation
-             │
-             ▼
-L3 Deterministic Execution
-    │
-    └── ATC-VM / candidate State Transition
-             │
-             ▼
-L2 Consensus / Validator Voting
-             │
-             ▼
-L2 Finality / Commit
-             │
-             ▼
-L1 Canonical State Persistence
-    │
-    ├── Durable Storage
-    └── Read Models / Indexing
+L7 External Application
+        │
+        ▼
+L6 Contract / Application Environment
+        │
+        ▼
+L5 Economic & Security Services
+        │
+        ▼
+L2 Transaction Validation / Mempool
+        │
+        ▼
+L4 P2P Propagation / Synchronization
+        │
+        ▼
+L2 Block Validation / Consensus
+        │
+        ▼
+L3 ATC-VM Deterministic Execution
+        │
+        ▼
+L2 State Transition / Ledger / Finality
+        │
+        ▼
+L1 Runtime Persistence / State Storage
+        │
+        ▼
+L0 Secure Platform
 ```
 
-The VM result is a candidate until accepted by the applicable consensus/finality rules. L1 persists committed state; it does not determine protocol finality.
+The actual implementation may pipeline, parallelize or reorder internal operations where protocol semantics permit. The canonical dependency and authority relationships MUST remain invariant.
 
-Application and intelligence paths connect through defined interfaces rather than becoming part of the consensus/VM execution boundary:
+### Determinism Contract
 
 ```text
-L6 Aurora / AI
-      │
-      ├── Proposal / Command / Request
-      ▼
-X Authorization / Policy / Capability
-      │
-      ▼
-L7 Genesis / Application Runtime
-      │
-      ├── deterministic local state changes
-      └── authorized L5/L2/L3 integration when required
+same canonical input
+        ↓
+same encoding
+        ↓
+same validation
+        ↓
+same ordering
+        ↓
+same execution
+        ↓
+same state transition
+        ↓
+same state commitment
 ```
+
+Determinism is therefore not an ATC-VM-only property. It spans canonical transaction encoding, validation, ordering, consensus inputs, state-transition semantics, VM execution, resource accounting, storage semantics and commitment calculation.
 
 ## Canonical Ownership Rules
 
@@ -1804,37 +1908,37 @@ responsibility cross-cutting   state/authority
 
 ## 2. Canonical Layer Contract
 
-### L0 — Foundation / Host / Network
+The canonical L0–L7 + X model is the single responsibility/trust-boundary model for the ecosystem.
 
-Owns host assumptions, transport, platform capabilities and hardware-facing interfaces. L0 MUST NOT define application semantics.
+### L0 — Hardware / Secure Platform
+Owns CPU, RAM, storage, TPM, TEE, secure boot and hardware security primitives. L0 provides the trusted substrate and does not own blockchain state.
 
-### L1 — Data / Persistence
+### L1 — Node & Runtime Foundation
+Owns OS/runtime integration, ShivaCore, IPC and capability security. L1 provides the execution/node foundation but does not define blockchain consensus or finality.
 
-Owns durable storage, committed-state persistence, snapshots, journals, recovery, historical reads and derived read models. L1 MUST NOT decide blockchain finality.
+### L2 — Blockchain Core
+Owns block, transaction and state models, ledger, mempool, consensus, finality and chain validation. L2 is the canonical blockchain authority.
 
-### L2 — Blockchain / Protocol / Consensus
+### L3 — ATC-VM
+Owns program model, typed values, deterministic execution, gas/resource accounting, VM storage and VM validation. L3 executes under L2 protocol authority and does not independently finalize state.
 
-Owns transactions, authorization, mempool admission, block proposal, validation, peer protocol, validator participation, consensus and finality. L2 owns blockchain finality authority.
+### L4 — Protocol Services
+Owns P2P/networking, synchronization, peer discovery, RPC/API and block/state propagation. L4 transports and synchronizes claims; it does not make claims canonical.
 
-### L3 — Deterministic Execution / ATC-VM
+### L5 — Economic & Security Services
+Owns accounts, signatures, staking, rewards, slashing, treasury and supply rules. Economic/security state must have explicit ownership and numeric/unit contracts.
 
-Owns bytecode verification, deterministic execution, resource accounting, contract state-transition calculation, host interfaces, limits and execution receipts. L3 produces candidate transitions and MUST NOT independently finalize blockchain state.
+### L6 — Smart-Contract / Application Environment
+Owns ATCLang, contract ABI, contract standards and application protocols. Consensus-critical contract behavior MUST execute through deterministic L3 interfaces and L2 authority.
 
-### L4 — Scaling / Execution Domains
+### L7 — External Applications
+Owns wallet, SDK, explorer, DApps and developer tooling. L7 MUST NOT bypass lower-layer validation, authorization or finality boundaries.
 
-Owns execution domains, partitioned/parallel execution where defined, domain-local ordering and settlement interfaces. Every L4 domain MUST define its relationship to L2 canonical state.
+### X — Cross-Layer Control Plane
+Owns cross-layer identity, capability, policy, governance, cryptography, audit/evidence, observability, interoperability and versioning contracts. X constrains and records authority; it is not a second execution layer.
 
-### L5 — Protocol / Economic Domains
-
-Owns monetary policy implementation, rewards, staking, slashing, treasury and protocol economic services. Economic state MUST define its authoritative owner, units and numeric types.
-
-### L6 — Intelligence / AI
-
-Owns models, inference, planning, retrieval, agents, multimodal processing and domain intelligence. L6 output is non-authoritative by default.
-
-### L7 — Applications / Experience
-
-Owns wallets, explorers, Genesis applications, editor UX, developer tooling and presentation. L7 MUST NOT bypass lower-layer authority boundaries.
+### L2/L3 and P2P separation
+`L2 Blockchain Core` and `L3 ATC-VM` are distinct trust boundaries. P2P is a protocol-service responsibility of L4. Network delivery never substitutes for L2 validation or consensus.
 
 ## 3. Cross-Layer X Plane
 
