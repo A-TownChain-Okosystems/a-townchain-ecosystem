@@ -60,6 +60,27 @@ class TaxonomyValidatorTests(unittest.TestCase):
         errors = validate_taxonomy(taxonomy, catalog)
         self.assertTrue(any("unknown taxonomy id" in error for error in errors))
 
+    def test_catalog_primary_layers_match_master_architecture(self):
+        errors = validate_taxonomy(self.taxonomy, copy.deepcopy(self.catalog))
+        self.assertEqual([], errors)
+
+    def test_primary_layer_drift_fails_closed(self):
+        catalog = copy.deepcopy(self.catalog)
+        next(c for c in catalog['components'] if c['id'] == 'COMP-VM')['layer'] = 'L2'
+        errors = validate_taxonomy(self.taxonomy, catalog)
+        self.assertTrue(any('COMP-VM: primary layer' in error for error in errors))
+
+    def test_source_binding_counters_must_match_records(self):
+        catalog = copy.deepcopy(self.catalog)
+        catalog['scope']['function_source_bindings'] -= 1
+        errors = validate_taxonomy(self.taxonomy, catalog)
+        self.assertTrue(any('scope.function_source_bindings is stale' in error for error in errors))
+
+    def test_demo_fixture_must_be_excluded_from_production_readiness(self):
+        catalog = copy.deepcopy(self.catalog)
+        next(c for c in catalog['components'] if c['id'] == 'COMP-DEMO').pop('catalog_scope', None)
+        errors = validate_taxonomy(self.taxonomy, catalog)
+        self.assertTrue(any('COMP-DEMO must be explicitly excluded' in error for error in errors))
 
 if __name__ == "__main__":
     unittest.main()
