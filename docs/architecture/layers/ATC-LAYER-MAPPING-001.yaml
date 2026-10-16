@@ -6,18 +6,18 @@
 #
 # Maps every component from the component-function catalog
 # (ATC-COMPONENT-FUNCTION-CATALOG-001.json) to the canonical
-# layer architecture defined in ATC-LAYER-REGISTRY-001.yaml.
+# layer architecture defined in ATC-LAYER-REGISTRY-L1-L10-X1-X36-001.json (adopted scope: L0-L9 + X1-X36).
 # This mapping REPLACES the flat 'layer' field in the catalog.
 
 schema_id: ATC-LAYER-MAPPING-001
 schema_version: "0.1.0"
-generated: "2026-10-15"
+generated: "2026-10-16"
 status: DRAFT
 registry_reference: docs/architecture/ATC-LAYER-REGISTRY-L1-L10-X1-X36-001.json
 catalog_reference: docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json
 
 # Legend:
-#   primary_layer:  Exactly one main layer (L0-L9) or cross-cutting layer (X1-X8)
+#   primary_layer:  Exactly one main layer (L0-L9) or cross-cutting layer (X1-X36)
 #   cross_cutting:  Additional cross-cutting layers X1-X36 this component touches
 #   install_models: Supported installation models (A=native, B=Windows, C=Linux, D=dev/test)
 #   old_layer:      Previous flat layer assignment in the catalog (for migration traceability)
