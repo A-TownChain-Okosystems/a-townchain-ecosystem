@@ -2194,19 +2194,63 @@
       {
         "system_layer_id": "L1",
         "cross_cutting_layer_id": "X1",
-        "disposition": "UNRESOLVED",
-        "rationale": "Boot, Firmware & Hardware Abstraction (HAL) × Security & Trust: taxonomy-level review identifies the cross-cutting question as \"threat model, trust boundary, security control, or security test directly owned by a function contract\". No pair-specific direct contract/source evidence is currently attached; therefore the relationship remains UNRESOLVED.",
-        "evidence_refs": [],
+        "disposition": "APPLICABLE",
+        "rationale": "L1 secure-boot/trust-boundary contracts include trust-anchor and load-policy decisions, including a mapped rejection path for untrusted artifacts. This directly makes security/trust applicable to L1; the mapped signature model is not proof of cryptographic verification or measured boot.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L1-SEC-001",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/module_security.rs",
+            "symbol": "TrustAnchor; ModuleSignature::new; SigAlgorithm",
+            "file_blob_sha": "e28c293d836749c5bd9141b17c84f8cabb517db5",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/module_security.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-shivacore/kernel/src/module_security.rs::test_anchor_new",
+              "modules/atc-shivacore/kernel/src/module_security.rs::test_anchor_with_expiry",
+              "modules/atc-shivacore/kernel/src/module_security.rs::test_signature_new"
+            ],
+            "verification_note": "Trust-anchor/signature metadata source mapping only; cryptographic verification and key custody remain residual."
+          },
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L1-SEC-004",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/module_security.rs",
+            "symbol": "TrustLevel::can_load; LoadPolicy",
+            "file_blob_sha": "e28c293d836749c5bd9141b17c84f8cabb517db5",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/module_security.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-shivacore/kernel/src/module_security.rs::test_trust_level_can_load",
+              "modules/atc-shivacore/kernel/src/module_security.rs::test_trust_level_is_trusted"
+            ],
+            "verification_note": "Policy-model source and tests support untrusted-artifact rejection applicability; end-to-end secure boot remains unverified."
+          }
+        ],
         "pair_id": "L1:X1",
         "triage": {
-          "status": "TAXONOMY_REVIEWED_EVIDENCE_PENDING",
+          "status": "SOURCE_BOUND_APPLICABLE",
           "reviewed_on": "2026-10-16",
           "layer_scope": "Boot, Firmware & Hardware Abstraction (HAL): Firmware interfaces, boot stages, hardware discovery, CPU/platform abstraction, drivers and hardware capability profiles. Does not own OS policy above HAL.",
           "cross_cutting_scope": "Security & Trust: Threat model, trust boundaries, secure defaults, cryptographic controls, security testing and risk disposition.",
           "evidence_question": "Does a concrete function contract in L1 directly implement, consume, or enforce X1 (Security & Trust)?",
           "required_evidence": "threat model, trust boundary, security control, or security test directly owned by a function contract",
           "disposition_rule": "Keep UNRESOLVED until a specific contract and exact immutable source binding directly support APPLICABLE, or a documented scope analysis plus approval supports NOT_APPLICABLE. Missing source or tests is not proof of non-applicability.",
-          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap."
+          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap.",
+          "source_reviewed_on": "2026-10-16",
+          "source_review_note": "Exact source blob matched at immutable GlobusOS commit 3bf000143ec9bfad79d0bacc36b99b8111178b95. This establishes applicability only.",
+          "remaining_gaps": [
+            "Trust-anchor/signature metadata source mapping only; cryptographic verification and key custody remain residual.",
+            "Policy-model source and tests support untrusted-artifact rejection applicability; end-to-end secure boot remains unverified."
+          ]
         }
       },
       {
@@ -2230,19 +2274,60 @@
       {
         "system_layer_id": "L1",
         "cross_cutting_layer_id": "X3",
-        "disposition": "UNRESOLVED",
-        "rationale": "Boot, Firmware & Hardware Abstraction (HAL) × Protocol & Interoperability: taxonomy-level review identifies the cross-cutting question as \"versioned protocol/schema, serialization, negotiation, compatibility, or boundary-validation contract\". No pair-specific direct contract/source evidence is currently attached; therefore the relationship remains UNRESOLVED.",
-        "evidence_refs": [],
+        "disposition": "APPLICABLE",
+        "rationale": "The L1 boot-to-kernel handoff exposes a concrete BootInfo and MemoryMap data boundary. That makes interface/schema validation and compatibility relevant to L1; no versioned wire/ABI contract is claimed and remains a gap.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-GLOBUS",
+            "function_id": "ATC-L1-HO-003",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-bootloader/src/info.rs",
+            "symbol": "BootInfo { memory_map_addr, cmdline, initrd_addr }",
+            "file_blob_sha": "c08753a9428337ca61de4c5282cafb2712a009ae",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-bootloader/src/info.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-bootloader/src/info.rs::test_bootinfo"
+            ],
+            "verification_note": "BootInfo structure directly establishes a handoff data contract; schema versioning and consumer compatibility remain residual."
+          },
+          {
+            "component_id": "COMP-GLOBUS",
+            "function_id": "ATC-L1-HO-002",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-bootloader/src/mmap.rs",
+            "symbol": "MemoryMap; MemoryMap::is_in_kernel; BootInfo.memory_map_addr",
+            "file_blob_sha": "0340c1a069abcfb4da7e433925231b2aceff8ae2",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-bootloader/src/mmap.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-bootloader/src/mmap.rs::test_mmap"
+            ],
+            "verification_note": "Memory-map handoff is a boundary contract; comprehensive validation and ABI compatibility remain residual."
+          }
+        ],
         "pair_id": "L1:X3",
         "triage": {
-          "status": "TAXONOMY_REVIEWED_EVIDENCE_PENDING",
+          "status": "SOURCE_BOUND_APPLICABLE",
           "reviewed_on": "2026-10-16",
           "layer_scope": "Boot, Firmware & Hardware Abstraction (HAL): Firmware interfaces, boot stages, hardware discovery, CPU/platform abstraction, drivers and hardware capability profiles. Does not own OS policy above HAL.",
           "cross_cutting_scope": "Protocol & Interoperability: Protocol schemas, versioning, negotiation, compatibility, canonical serialization and boundary validation.",
           "evidence_question": "Does a concrete function contract in L1 directly implement, consume, or enforce X3 (Protocol & Interoperability)?",
           "required_evidence": "versioned protocol/schema, serialization, negotiation, compatibility, or boundary-validation contract",
           "disposition_rule": "Keep UNRESOLVED until a specific contract and exact immutable source binding directly support APPLICABLE, or a documented scope analysis plus approval supports NOT_APPLICABLE. Missing source or tests is not proof of non-applicability.",
-          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap."
+          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap.",
+          "source_reviewed_on": "2026-10-16",
+          "source_review_note": "Exact source blob matched at immutable GlobusOS commit 3bf000143ec9bfad79d0bacc36b99b8111178b95. This establishes applicability only.",
+          "remaining_gaps": [
+            "BootInfo structure directly establishes a handoff data contract; schema versioning and consumer compatibility remain residual.",
+            "Memory-map handoff is a boundary contract; comprehensive validation and ABI compatibility remain residual."
+          ]
         }
       },
       {
@@ -2284,37 +2369,140 @@
       {
         "system_layer_id": "L1",
         "cross_cutting_layer_id": "X6",
-        "disposition": "UNRESOLVED",
-        "rationale": "Boot, Firmware & Hardware Abstraction (HAL) × Testing, Verification & Evidence: taxonomy-level review identifies the cross-cutting question as \"test/conformance contract plus reproducible evidence tied to the exact source revision\". No pair-specific direct contract/source evidence is currently attached; therefore the relationship remains UNRESOLVED.",
-        "evidence_refs": [],
+        "disposition": "APPLICABLE",
+        "rationale": "The L1 function catalog binds concrete boot, trust-policy, ACPI, MMIO, PCI and kernel-handoff functions to inline tests at the exact GlobusOS revision. This directly establishes testing/evidence applicability; the workspace result is not CI verification.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L1-PLAT-001",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/power.rs",
+            "symbol": "Rsdp::is_valid; ACPI signature checks",
+            "file_blob_sha": "717daef9bf8ad527902c7603f19eb084fbd16224",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/power.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-shivacore/kernel/src/power.rs::test_rsdp_new",
+              "modules/atc-shivacore/kernel/src/power.rs::test_rsdp_v1",
+              "modules/atc-shivacore/kernel/src/power.rs::test_rsdp_invalid_sig"
+            ],
+            "verification_note": "Exact-source inline tests support test applicability; terminal CI Run/Job/Step evidence remains required."
+          },
+          {
+            "component_id": "COMP-GLOBUS",
+            "function_id": "ATC-L1-HAL-003",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+            "symbol": "MmioRegion",
+            "file_blob_sha": "532a700712765fd34ca6e7700b0be74b2987594b",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-drivers/kernel/src/hw_drivers.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-drivers/kernel/src/hw_drivers.rs::test_mmio_new",
+              "modules/atc-drivers/kernel/src/hw_drivers.rs::test_mmio_read_write"
+            ],
+            "verification_note": "Controlled MMIO interface has exact-source unit tests; complete negative/security coverage remains residual."
+          },
+          {
+            "component_id": "COMP-GLOBUS",
+            "function_id": "ATC-L1-HO-001",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-bootloader/src/entry.rs",
+            "symbol": "entry_point",
+            "file_blob_sha": "f24121cdec6a92e1af22f795842b5f2cb7d953de",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-bootloader/src/entry.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-bootloader/src/entry.rs::test_entry"
+            ],
+            "verification_note": "Exact source and test surface establish test applicability only."
+          }
+        ],
         "pair_id": "L1:X6",
         "triage": {
-          "status": "TAXONOMY_REVIEWED_EVIDENCE_PENDING",
+          "status": "SOURCE_BOUND_APPLICABLE",
           "reviewed_on": "2026-10-16",
           "layer_scope": "Boot, Firmware & Hardware Abstraction (HAL): Firmware interfaces, boot stages, hardware discovery, CPU/platform abstraction, drivers and hardware capability profiles. Does not own OS policy above HAL.",
           "cross_cutting_scope": "Testing, Verification & Evidence: Test strategy, conformance, reproducibility, evidence provenance and acceptance gates.",
           "evidence_question": "Does a concrete function contract in L1 directly implement, consume, or enforce X6 (Testing, Verification & Evidence)?",
           "required_evidence": "test/conformance contract plus reproducible evidence tied to the exact source revision",
           "disposition_rule": "Keep UNRESOLVED until a specific contract and exact immutable source binding directly support APPLICABLE, or a documented scope analysis plus approval supports NOT_APPLICABLE. Missing source or tests is not proof of non-applicability.",
-          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap."
+          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap.",
+          "source_reviewed_on": "2026-10-16",
+          "source_review_note": "Exact source blob matched at immutable GlobusOS commit 3bf000143ec9bfad79d0bacc36b99b8111178b95. This establishes applicability only.",
+          "remaining_gaps": [
+            "Exact-source inline tests support test applicability; terminal CI Run/Job/Step evidence remains required.",
+            "Controlled MMIO interface has exact-source unit tests; complete negative/security coverage remains residual.",
+            "Exact source and test surface establish test applicability only."
+          ]
         }
       },
       {
         "system_layer_id": "L1",
         "cross_cutting_layer_id": "X7",
-        "disposition": "UNRESOLVED",
-        "rationale": "Boot, Firmware & Hardware Abstraction (HAL) × Observability, Reliability & Resilience: taxonomy-level review identifies the cross-cutting question as \"health/diagnostic signal, fault handling, supervision, resilience, or service-level evidence\". No pair-specific direct contract/source evidence is currently attached; therefore the relationship remains UNRESOLVED.",
-        "evidence_refs": [],
+        "disposition": "APPLICABLE",
+        "rationale": "The L1 diagnostics contract maps crash reporting, driver isolation, event history and recovery flags to DriverFaultManager. These are direct reliability/diagnostics responsibilities; service-level metrics and end-to-end recovery evidence remain residual.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L1-DIAG-002",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/diagnostics.rs",
+            "symbol": "DriverFaultManager::report_crash; DriverState; CrashEvent.code",
+            "file_blob_sha": "6f48959a2877f59411612edc1000daf7f6532eee",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/diagnostics.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-shivacore/kernel/src/diagnostics.rs::driver_fault_is_reported_and_isolated"
+            ],
+            "verification_note": "Source mapping supports crash diagnostics applicability; telemetry completeness and fault coverage remain residual."
+          },
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L1-DIAG-004",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/diagnostics.rs",
+            "symbol": "DriverFaultManager::isolate; CrashEvent.recovered",
+            "file_blob_sha": "6f48959a2877f59411612edc1000daf7f6532eee",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/diagnostics.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-shivacore/kernel/src/diagnostics.rs::driver_fault_is_reported_and_isolated"
+            ],
+            "verification_note": "Source mapping supports isolation/recovery diagnostics applicability; recovery effectiveness remains unverified."
+          }
+        ],
         "pair_id": "L1:X7",
         "triage": {
-          "status": "TAXONOMY_REVIEWED_EVIDENCE_PENDING",
+          "status": "SOURCE_BOUND_APPLICABLE",
           "reviewed_on": "2026-10-16",
           "layer_scope": "Boot, Firmware & Hardware Abstraction (HAL): Firmware interfaces, boot stages, hardware discovery, CPU/platform abstraction, drivers and hardware capability profiles. Does not own OS policy above HAL.",
           "cross_cutting_scope": "Observability, Reliability & Resilience: Logs/metrics/traces, health, fault handling, resilience and service-level evidence.",
           "evidence_question": "Does a concrete function contract in L1 directly implement, consume, or enforce X7 (Observability, Reliability & Resilience)?",
           "required_evidence": "health/diagnostic signal, fault handling, supervision, resilience, or service-level evidence",
           "disposition_rule": "Keep UNRESOLVED until a specific contract and exact immutable source binding directly support APPLICABLE, or a documented scope analysis plus approval supports NOT_APPLICABLE. Missing source or tests is not proof of non-applicability.",
-          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap."
+          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap.",
+          "source_reviewed_on": "2026-10-16",
+          "source_review_note": "Exact source blob matched at immutable GlobusOS commit 3bf000143ec9bfad79d0bacc36b99b8111178b95. This establishes applicability only.",
+          "remaining_gaps": [
+            "Source mapping supports crash diagnostics applicability; telemetry completeness and fault coverage remain residual.",
+            "Source mapping supports isolation/recovery diagnostics applicability; recovery effectiveness remains unverified."
+          ]
         }
       },
       {
@@ -2338,19 +2526,82 @@
       {
         "system_layer_id": "L1",
         "cross_cutting_layer_id": "X9",
-        "disposition": "UNRESOLVED",
-        "rationale": "Boot, Firmware & Hardware Abstraction (HAL) × Compatibility, Portability & Platform Support: taxonomy-level review identifies the cross-cutting question as \"explicit platform profile, supported hardware/software matrix, portability behavior, or documented limit\". No pair-specific direct contract/source evidence is currently attached; therefore the relationship remains UNRESOLVED.",
-        "evidence_refs": [],
+        "disposition": "APPLICABLE",
+        "rationale": "L1 contracts map CPU feature discovery, ACPI platform discovery and PCI device/resource descriptions to exact source files. This directly supports platform compatibility/discovery applicability, but the complete supported-platform matrix and portability tests remain incomplete.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L1-HAL-002",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/hal/cpu.rs",
+            "symbol": "CpuInfo::detect; features_from_leaves",
+            "file_blob_sha": "1719d3ae99108138c74b64c14c9c57e4d2418595",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/hal/cpu.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-shivacore/kernel/src/hal/cpu.rs::detects_current_cpu_without_panicking",
+              "modules/atc-shivacore/kernel/src/hal/cpu.rs::absent_feature_leaves_decode_as_unsupported"
+            ],
+            "verification_note": "CPU feature discovery supports platform profile applicability; source is x86-64-specific."
+          },
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L1-PLAT-001",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/power.rs",
+            "symbol": "Rsdp::is_valid; ACPI table discovery",
+            "file_blob_sha": "717daef9bf8ad527902c7603f19eb084fbd16224",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/power.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-shivacore/kernel/src/power.rs::test_rsdp_new",
+              "modules/atc-shivacore/kernel/src/power.rs::test_rsdp_invalid_sig"
+            ],
+            "verification_note": "ACPI platform discovery is mapped; platform coverage remains residual."
+          },
+          {
+            "component_id": "COMP-GLOBUS",
+            "function_id": "ATC-L1-DEV-001",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+            "symbol": "PciBus::new; register; scan",
+            "file_blob_sha": "532a700712765fd34ca6e7700b0be74b2987594b",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-drivers/kernel/src/hw_drivers.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-drivers/kernel/src/hw_drivers.rs::test_pci_bus_new",
+              "modules/atc-drivers/kernel/src/hw_drivers.rs::test_pci_bus_register",
+              "modules/atc-drivers/kernel/src/hw_drivers.rs::test_pci_bus_scan"
+            ],
+            "verification_note": "PCI discovery supports hardware compatibility inventory; driver compatibility matrix remains residual."
+          }
+        ],
         "pair_id": "L1:X9",
         "triage": {
-          "status": "TAXONOMY_REVIEWED_EVIDENCE_PENDING",
+          "status": "SOURCE_BOUND_APPLICABLE",
           "reviewed_on": "2026-10-16",
           "layer_scope": "Boot, Firmware & Hardware Abstraction (HAL): Firmware interfaces, boot stages, hardware discovery, CPU/platform abstraction, drivers and hardware capability profiles. Does not own OS policy above HAL.",
           "cross_cutting_scope": "Compatibility, Portability & Platform Support: Platform profiles, compatibility matrices, portability, hardware/software support and limits.",
           "evidence_question": "Does a concrete function contract in L1 directly implement, consume, or enforce X9 (Compatibility, Portability & Platform Support)?",
           "required_evidence": "explicit platform profile, supported hardware/software matrix, portability behavior, or documented limit",
           "disposition_rule": "Keep UNRESOLVED until a specific contract and exact immutable source binding directly support APPLICABLE, or a documented scope analysis plus approval supports NOT_APPLICABLE. Missing source or tests is not proof of non-applicability.",
-          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap."
+          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap.",
+          "source_reviewed_on": "2026-10-16",
+          "source_review_note": "Exact source blob matched at immutable GlobusOS commit 3bf000143ec9bfad79d0bacc36b99b8111178b95. This establishes applicability only.",
+          "remaining_gaps": [
+            "CPU feature discovery supports platform profile applicability; source is x86-64-specific.",
+            "ACPI platform discovery is mapped; platform coverage remains residual.",
+            "PCI discovery supports hardware compatibility inventory; driver compatibility matrix remains residual."
+          ]
         }
       },
       {
@@ -2410,19 +2661,43 @@
       {
         "system_layer_id": "L1",
         "cross_cutting_layer_id": "X13",
-        "disposition": "UNRESOLVED",
-        "rationale": "Boot, Firmware & Hardware Abstraction (HAL) × API Governance, Service Contracts & Developer Integration: taxonomy-level review identifies the cross-cutting question as \"public API/ABI contract, versioning, error semantics, developer integration, or deprecation behavior\". No pair-specific direct contract/source evidence is currently attached; therefore the relationship remains UNRESOLVED.",
-        "evidence_refs": [],
+        "disposition": "APPLICABLE",
+        "rationale": "L1 exposes controlled MMIO and standardized HAL/device interfaces. This makes API/service-contract governance applicable at the hardware boundary, but this binding does not prove interface versioning, complete error semantics, or deprecation guarantees.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-GLOBUS",
+            "function_id": "ATC-L1-HAL-003",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-drivers/kernel/src/hw_drivers.rs",
+            "symbol": "MmioRegion",
+            "file_blob_sha": "532a700712765fd34ca6e7700b0be74b2987594b",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-drivers/kernel/src/hw_drivers.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-drivers/kernel/src/hw_drivers.rs::test_mmio_new",
+              "modules/atc-drivers/kernel/src/hw_drivers.rs::test_mmio_read_write"
+            ],
+            "verification_note": "Controlled MMIO access is an interface boundary; versioned API/ABI guarantees remain unresolved."
+          }
+        ],
         "pair_id": "L1:X13",
         "triage": {
-          "status": "TAXONOMY_REVIEWED_EVIDENCE_PENDING",
+          "status": "SOURCE_BOUND_APPLICABLE",
           "reviewed_on": "2026-10-16",
           "layer_scope": "Boot, Firmware & Hardware Abstraction (HAL): Firmware interfaces, boot stages, hardware discovery, CPU/platform abstraction, drivers and hardware capability profiles. Does not own OS policy above HAL.",
           "cross_cutting_scope": "API Governance, Service Contracts & Developer Integration: API/ABI contracts, versioning, error semantics, developer integration and deprecation.",
           "evidence_question": "Does a concrete function contract in L1 directly implement, consume, or enforce X13 (API Governance, Service Contracts & Developer Integration)?",
           "required_evidence": "public API/ABI contract, versioning, error semantics, developer integration, or deprecation behavior",
           "disposition_rule": "Keep UNRESOLVED until a specific contract and exact immutable source binding directly support APPLICABLE, or a documented scope analysis plus approval supports NOT_APPLICABLE. Missing source or tests is not proof of non-applicability.",
-          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap."
+          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap.",
+          "source_reviewed_on": "2026-10-16",
+          "source_review_note": "Exact source blob matched at immutable GlobusOS commit 3bf000143ec9bfad79d0bacc36b99b8111178b95. This establishes applicability only.",
+          "remaining_gaps": [
+            "Controlled MMIO access is an interface boundary; versioned API/ABI guarantees remain unresolved."
+          ]
         }
       },
       {
@@ -2536,19 +2811,60 @@
       {
         "system_layer_id": "L1",
         "cross_cutting_layer_id": "X20",
-        "disposition": "UNRESOLVED",
-        "rationale": "Boot, Firmware & Hardware Abstraction (HAL) × Incident Response, Crisis Management & Operational Recovery: taxonomy-level review identifies the cross-cutting question as \"incident detection/triage/containment/escalation, incident evidence, or post-incident action\". No pair-specific direct contract/source evidence is currently attached; therefore the relationship remains UNRESOLVED.",
-        "evidence_refs": [],
+        "disposition": "APPLICABLE",
+        "rationale": "L1 platform diagnostics map crash reporting and driver isolation/recovery state to DriverFaultManager. This directly supports incident detection/containment applicability; an operational incident workflow, escalation and post-incident process are not implemented by this source binding.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L1-DIAG-002",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/diagnostics.rs",
+            "symbol": "DriverFaultManager::report_crash; CrashEvent.code",
+            "file_blob_sha": "6f48959a2877f59411612edc1000daf7f6532eee",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/diagnostics.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-shivacore/kernel/src/diagnostics.rs::driver_fault_is_reported_and_isolated"
+            ],
+            "verification_note": "Crash detection/reporting supports incident handling applicability only; escalation and post-incident workflows remain residual."
+          },
+          {
+            "component_id": "COMP-SHIVA",
+            "function_id": "ATC-L1-DIAG-004",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-shivacore/kernel/src/diagnostics.rs",
+            "symbol": "DriverFaultManager::isolate; CrashEvent.recovered",
+            "file_blob_sha": "6f48959a2877f59411612edc1000daf7f6532eee",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-shivacore/kernel/src/diagnostics.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-shivacore/kernel/src/diagnostics.rs::driver_fault_is_reported_and_isolated"
+            ],
+            "verification_note": "Isolation/recovery state supports containment applicability; full incident response is not verified."
+          }
+        ],
         "pair_id": "L1:X20",
         "triage": {
-          "status": "TAXONOMY_REVIEWED_EVIDENCE_PENDING",
+          "status": "SOURCE_BOUND_APPLICABLE",
           "reviewed_on": "2026-10-16",
           "layer_scope": "Boot, Firmware & Hardware Abstraction (HAL): Firmware interfaces, boot stages, hardware discovery, CPU/platform abstraction, drivers and hardware capability profiles. Does not own OS policy above HAL.",
           "cross_cutting_scope": "Incident Response, Crisis Management & Operational Recovery: Detection, triage, containment, escalation, incident evidence and post-incident actions.",
           "evidence_question": "Does a concrete function contract in L1 directly implement, consume, or enforce X20 (Incident Response, Crisis Management & Operational Recovery)?",
           "required_evidence": "incident detection/triage/containment/escalation, incident evidence, or post-incident action",
           "disposition_rule": "Keep UNRESOLVED until a specific contract and exact immutable source binding directly support APPLICABLE, or a documented scope analysis plus approval supports NOT_APPLICABLE. Missing source or tests is not proof of non-applicability.",
-          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap."
+          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap.",
+          "source_reviewed_on": "2026-10-16",
+          "source_review_note": "Exact source blob matched at immutable GlobusOS commit 3bf000143ec9bfad79d0bacc36b99b8111178b95. This establishes applicability only.",
+          "remaining_gaps": [
+            "Crash detection/reporting supports incident handling applicability only; escalation and post-incident workflows remain residual.",
+            "Isolation/recovery state supports containment applicability; full incident response is not verified."
+          ]
         }
       },
       {
@@ -2824,19 +3140,60 @@
       {
         "system_layer_id": "L1",
         "cross_cutting_layer_id": "X36",
-        "disposition": "UNRESOLVED",
-        "rationale": "Boot, Firmware & Hardware Abstraction (HAL) × Ecosystem Integration, System Composition & End-to-End Compatibility: taxonomy-level review identifies the cross-cutting question as \"composition, dependency closure, interface compatibility, or end-to-end acceptance test\". No pair-specific direct contract/source evidence is currently attached; therefore the relationship remains UNRESOLVED.",
-        "evidence_refs": [],
+        "disposition": "APPLICABLE",
+        "rationale": "L1 kernel-entry and memory-map handoff functions are the concrete composition boundary between bootloader/platform initialization and the ShivaCore kernel. This directly establishes system-composition applicability; end-to-end boot compatibility remains unverified.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-GLOBUS",
+            "function_id": "ATC-L1-HO-001",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-bootloader/src/entry.rs",
+            "symbol": "entry_point",
+            "file_blob_sha": "f24121cdec6a92e1af22f795842b5f2cb7d953de",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-bootloader/src/entry.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-bootloader/src/entry.rs::test_entry"
+            ],
+            "verification_note": "Kernel-entry source mapping supports composition-boundary applicability; end-to-end boot evidence remains residual."
+          },
+          {
+            "component_id": "COMP-GLOBUS",
+            "function_id": "ATC-L1-HO-002",
+            "function_catalog_id": "ATC-L1-FUNCTION-CATALOG-001",
+            "repository": "A-TownChain-Okosystems/globus-os",
+            "commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+            "path": "modules/atc-bootloader/src/mmap.rs",
+            "symbol": "MemoryMap; MemoryMap::is_in_kernel",
+            "file_blob_sha": "0340c1a069abcfb4da7e433925231b2aceff8ae2",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/globus-os/blob/3bf000143ec9bfad79d0bacc36b99b8111178b95/modules/atc-bootloader/src/mmap.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "source_and_test_surface",
+            "test_refs": [
+              "modules/atc-bootloader/src/mmap.rs::test_mmap"
+            ],
+            "verification_note": "Memory-map handoff source mapping supports composition applicability; complete kernel integration compatibility remains residual."
+          }
+        ],
         "pair_id": "L1:X36",
         "triage": {
-          "status": "TAXONOMY_REVIEWED_EVIDENCE_PENDING",
+          "status": "SOURCE_BOUND_APPLICABLE",
           "reviewed_on": "2026-10-16",
           "layer_scope": "Boot, Firmware & Hardware Abstraction (HAL): Firmware interfaces, boot stages, hardware discovery, CPU/platform abstraction, drivers and hardware capability profiles. Does not own OS policy above HAL.",
           "cross_cutting_scope": "Ecosystem Integration, System Composition & End-to-End Compatibility: Component composition, ownership resolution, interface compatibility, dependency closure and E2E acceptance.",
           "evidence_question": "Does a concrete function contract in L1 directly implement, consume, or enforce X36 (Ecosystem Integration, System Composition & End-to-End Compatibility)?",
           "required_evidence": "composition, dependency closure, interface compatibility, or end-to-end acceptance test",
           "disposition_rule": "Keep UNRESOLVED until a specific contract and exact immutable source binding directly support APPLICABLE, or a documented scope analysis plus approval supports NOT_APPLICABLE. Missing source or tests is not proof of non-applicability.",
-          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap."
+          "next_action": "Inspect canonical owner and function contracts for L1; bind a matching symbol/path/blob SHA at an exact full commit and cite relevant tests or record the specific gap.",
+          "source_reviewed_on": "2026-10-16",
+          "source_review_note": "Exact source blob matched at immutable GlobusOS commit 3bf000143ec9bfad79d0bacc36b99b8111178b95. This establishes applicability only.",
+          "remaining_gaps": [
+            "Kernel-entry source mapping supports composition-boundary applicability; end-to-end boot evidence remains residual.",
+            "Memory-map handoff source mapping supports composition applicability; complete kernel integration compatibility remains residual."
+          ]
         }
       },
       {
@@ -8489,6 +8846,39 @@
           "feature_bits_are_decoded_from_their_defined_leaves"
         ],
         "result": "L0:X6 promoted to APPLICABLE because exact-revision source-local tests and contract test references directly establish testing/evidence applicability. Functional verification remains unclaimed."
+      },
+      "source_review_batch_003": {
+        "status": "SOURCE_BOUND_APPLICABILITY_REVIEW",
+        "reviewed_pairs": [
+          "L1:X1",
+          "L1:X3",
+          "L1:X6",
+          "L1:X7",
+          "L1:X9",
+          "L1:X13",
+          "L1:X20",
+          "L1:X36"
+        ],
+        "source_repository": "A-TownChain-Okosystems/globus-os",
+        "source_commit_sha": "3bf000143ec9bfad79d0bacc36b99b8111178b95",
+        "validated_blob_shas": {
+          "modules/atc-shivacore/kernel/src/module_security.rs": "e28c293d836749c5bd9141b17c84f8cabb517db5",
+          "modules/atc-drivers/kernel/src/hw_drivers.rs": "532a700712765fd34ca6e7700b0be74b2987594b",
+          "modules/atc-shivacore/kernel/src/diagnostics.rs": "6f48959a2877f59411612edc1000daf7f6532eee",
+          "modules/atc-bootloader/src/entry.rs": "f24121cdec6a92e1af22f795842b5f2cb7d953de",
+          "modules/atc-bootloader/src/mmap.rs": "0340c1a069abcfb4da7e433925231b2aceff8ae2",
+          "modules/atc-bootloader/src/info.rs": "c08753a9428337ca61de4c5282cafb2712a009ae",
+          "modules/atc-shivacore/kernel/src/power.rs": "717daef9bf8ad527902c7603f19eb084fbd16224",
+          "modules/atc-shivacore/kernel/src/hal/cpu.rs": "1719d3ae99108138c74b64c14c9c57e4d2418595"
+        },
+        "finding": "The L1 boot.rs binding contained a 39-character blob SHA in four catalog entries. Corrected all four occurrences in ATC-L1-FUNCTION-CATALOG-001.yaml to the exact 40-character blob SHA returned by GitHub for modules/atc-bootloader/src/boot.rs at the same commit.",
+        "corrected_binding": {
+          "path": "modules/atc-bootloader/src/boot.rs",
+          "old_blob_sha": "7147afd7964dbc5c31a5272e4075faa35f09808",
+          "new_blob_sha": "7147afd7964dbc5c31a5272e4075faa35f098089",
+          "replacement_count": 4
+        },
+        "result": "Eight L1 × X relationships now have direct source-bound applicability records. Functional verification remains unclaimed."
       }
     }
   }
