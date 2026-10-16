@@ -2,7 +2,7 @@
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
   "catalog_date": "2026-10-16",
-  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed. 2026-10-15: Added proposed COMP-XCHAIN-INTEROP and FN-XCHAIN-001..003 as BLOCKED specification-only catalog entries linked to atc-standards#110 and ecosystem#126. No executable source binding or implementation/verification claim; canonical runtime owner remains unresolved. 2026-10-16: Reconciled proposed FN-GLOBUS-003, FN-AURORA-004 and FN-ECO-003 onto the current main baseline after PR #130 diverged. All three remain RESIDUAL/UNBOUND_RESIDUAL; no implementation or verification claim is made. Structural specification_contract counters reconciled to 104 function contracts and 31 components; functional verification remains false and release decision remains BLOCKED.",
+  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed. 2026-10-15: Added proposed COMP-XCHAIN-INTEROP and FN-XCHAIN-001..003 as BLOCKED specification-only catalog entries linked to atc-standards#110 and ecosystem#126. No executable source binding or implementation/verification claim; canonical runtime owner remains unresolved. 2026-10-16: Reconciled proposed FN-GLOBUS-003, FN-AURORA-004 and FN-ECO-003 onto the current main baseline after PR #130 diverged. All three remain RESIDUAL/UNBOUND_RESIDUAL; no implementation or verification claim is made. Structural specification_contract counters reconciled to 104 function contracts and 31 components; functional verification remains false and release decision remains BLOCKED.\n2026-10-16: Reconciled primary and multi-layer mappings to ARCHITECTURE.md (L0-L7 + X), made source-binding counts derivable from 104 function records, and explicitly excluded demo-repository from production-readiness interpretation. These changes improve catalog consistency only; they do not assert source completeness or functional verification.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -96,7 +96,7 @@
     {
       "id": "COMP-ATC-ENG",
       "name": "atc-engineering",
-      "layer": "L7",
+      "layer": "X",
       "canonical_owner": "A-TownChain-Okosystems/atc-engineering",
       "role": "fleet governance, CI policy and engineering assurance",
       "readiness": "RESIDUAL",
@@ -333,12 +333,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "X"
+      ]
     },
     {
       "id": "COMP-STANDARDS",
       "name": "ATC Standards",
-      "layer": "L7",
+      "layer": "X",
       "canonical_owner": "A-TownChain-Okosystems/atc-standards",
       "role": "normative standards, schemas and conformance requirements",
       "readiness": "RESIDUAL",
@@ -564,12 +567,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "X"
+      ]
     },
     {
       "id": "COMP-LANG",
       "name": "ATCLang",
-      "layer": "L0",
+      "layer": "L3",
       "canonical_owner": "A-TownChain-Okosystems/atclang",
       "role": "language syntax, parsing, native contract frontmatter, canonical bytecode lowering and verification, artifact envelope, ABI/IR typing, deterministic reference execution and conformance tooling",
       "readiness": "RESIDUAL",
@@ -1431,12 +1437,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L3"
+      ]
     },
     {
       "id": "COMP-SHIVA",
       "name": "ShivaCore Kernel",
-      "layer": "L1",
+      "layer": "L0",
       "canonical_owner": "A-TownChain-Okosystems/globus-os/modules/atc-shivacore/kernel/",
       "role": "no_std capability microkernel and trusted computing base",
       "readiness": "BLOCKED",
@@ -1948,12 +1957,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L0"
+      ]
     },
     {
       "id": "COMP-CHAIN",
       "name": "A-TownChain Blockchain Core",
-      "layer": "L3",
+      "layer": "L2",
       "canonical_owner": "A-TownChain-Okosystems/a-townchain",
       "role": "canonical L1 chain, transaction, block and state implementation",
       "readiness": "RESIDUAL",
@@ -2278,12 +2290,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L2"
+      ]
     },
     {
       "id": "COMP-ALGO",
       "name": "ATC-Algorithm",
-      "layer": "L3",
+      "layer": "L2",
       "canonical_owner": "A-TownChain-Okosystems/a-townchain/components/algorithm",
       "role": "canonical consensus and deterministic selection implementation",
       "readiness": "BLOCKED",
@@ -2642,7 +2657,10 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L2"
+      ]
     },
     {
       "id": "COMP-VM",
@@ -5539,12 +5557,15 @@
           "exit_code",
           "log_or_artifact_url"
         ]
-      }
+      },
+      "architectural_layers": [
+        "L3"
+      ]
     },
     {
       "id": "COMP-GLOBUS",
       "name": "GlobusOS",
-      "layer": "L4",
+      "layer": "L0",
       "canonical_owner": "A-TownChain-Okosystems/globus-os",
       "role": "userspace services, hardware integration and OS platform above ShivaCore",
       "readiness": "BLOCKED",
@@ -5868,12 +5889,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L0"
+      ]
     },
     {
       "id": "COMP-AURORA",
       "name": "Aurora AI",
-      "layer": "L2",
+      "layer": "L6",
       "canonical_owner": "A-TownChain-Okosystems/aurora-ai",
       "role": "AI runtime, assistant, agent and swarm coordination outside kernel TCB and consensus",
       "readiness": "RESIDUAL",
@@ -6290,12 +6314,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L6"
+      ]
     },
     {
       "id": "COMP-TOOLCHAIN",
       "name": "ATC Toolchain",
-      "layer": "L5",
+      "layer": "L7",
       "canonical_owner": "A-TownChain-Okosystems/atc-toolchain",
       "role": "compiler/build/test/package and developer tooling",
       "readiness": "RESIDUAL",
@@ -6543,12 +6570,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L7"
+      ]
     },
     {
       "id": "COMP-GENESIS",
       "name": "Genesis Engine",
-      "layer": "L5",
+      "layer": "L7",
       "canonical_owner": "A-TownChain-Okosystems/genesis-engine",
       "role": "genesis and application/runtime orchestration",
       "readiness": "RESIDUAL",
@@ -6800,12 +6830,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L7"
+      ]
     },
     {
       "id": "COMP-ECOSYSTEM",
       "name": "a-townchain-ecosystem",
-      "layer": "L7",
+      "layer": "X",
       "canonical_owner": "A-TownChain-Okosystems/a-townchain-ecosystem",
       "role": "system-of-systems integration, architecture, compliance and evidence control plane only",
       "readiness": "RESIDUAL",
@@ -7143,12 +7176,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "X"
+      ]
     },
     {
       "id": "COMP-SDK",
       "name": "ATC SDK / CLI / Package Tooling",
-      "layer": "L5",
+      "layer": "L7",
       "canonical_owner": "A-TownChain-Okosystems/atc-sdk",
       "role": "Rust and TypeScript protocol clients, typed RPC, CLI and package tooling",
       "readiness": "RESIDUAL",
@@ -7385,12 +7421,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L7"
+      ]
     },
     {
       "id": "COMP-NODE",
       "name": "ATC Node Runtime",
-      "layer": "L5",
+      "layer": "L0",
       "canonical_owner": "A-TownChain-Okosystems/atc-node",
       "role": "Full-node executable, P2P, RPC, storage integration, configuration and lifecycle",
       "readiness": "RESIDUAL",
@@ -7642,12 +7681,16 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L0",
+        "L2"
+      ]
     },
     {
       "id": "COMP-CONTRACTS",
       "name": "ATC Contracts and Registry",
-      "layer": "L5",
+      "layer": "L3",
       "canonical_owner": "A-TownChain-Okosystems/atc-contracts",
       "role": "Contract catalogue, registry references and license/conformance gate definitions",
       "readiness": "RESIDUAL",
@@ -7887,12 +7930,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L3"
+      ]
     },
     {
       "id": "COMP-ZKP",
       "name": "ATC Zero-Knowledge Proof Layer",
-      "layer": "L5",
+      "layer": "L4",
       "canonical_owner": "A-TownChain-Okosystems/atc-zkp",
       "role": "Proof verification, off-chain proving, circuit registry and cryptographic primitives",
       "readiness": "BLOCKED",
@@ -8130,12 +8176,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L4"
+      ]
     },
     {
       "id": "COMP-STORAGE",
       "name": "ATC Storage",
-      "layer": "L5",
+      "layer": "L1",
       "canonical_owner": "A-TownChain-Okosystems/atc-storage",
       "role": "Content-addressed storage, chunking, replication, encryption and storage APIs",
       "readiness": "RESIDUAL",
@@ -8377,7 +8426,10 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L1"
+      ]
     },
     {
       "id": "COMP-COMPUTE",
@@ -8619,7 +8671,10 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L5"
+      ]
     },
     {
       "id": "COMP-LAUNCHPAD",
@@ -8863,7 +8918,10 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L5"
+      ]
     },
     {
       "id": "COMP-MARKET",
@@ -9106,12 +9164,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L5"
+      ]
     },
     {
       "id": "COMP-IDE",
       "name": "ATC IDE",
-      "layer": "L6",
+      "layer": "L7",
       "canonical_owner": "A-TownChain-Okosystems/atc-ide",
       "role": "Developer IDE panels for VM simulation, standards compliance, repository docs and scaffolding",
       "readiness": "BLOCKED",
@@ -9361,12 +9422,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L7"
+      ]
     },
     {
       "id": "COMP-CHRONICLES",
       "name": "Genesis Chronicles",
-      "layer": "L6",
+      "layer": "L7",
       "canonical_owner": "A-TownChain-Okosystems/genesis-chronicles",
       "role": "Reference game with gameplay, battle, breeding and NFT integration",
       "readiness": "RESIDUAL",
@@ -9602,12 +9666,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L7"
+      ]
     },
     {
       "id": "COMP-GFF",
       "name": "Genesis Franchise Factory",
-      "layer": "L6",
+      "layer": "L7",
       "canonical_owner": "A-TownChain-Okosystems/genesis-franchise-factory",
       "role": "Franchise registry, staged content pipeline, DAO model and lifecycle tooling",
       "readiness": "RESIDUAL",
@@ -9844,12 +9911,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L7"
+      ]
     },
     {
       "id": "COMP-OS-INTEGRATION",
       "name": "A-TownChain OS Integration",
-      "layer": "L7",
+      "layer": "L0",
       "canonical_owner": "A-TownChain-Okosystems/a-townchain-os",
       "role": "Workspace/module integration, sync tooling, system tests and orchestration",
       "readiness": "RESIDUAL",
@@ -10087,12 +10157,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L0"
+      ]
     },
     {
       "id": "COMP-SHIVA-SPEC",
       "name": "ShivaCore Specification Support",
-      "layer": "L7",
+      "layer": "X",
       "canonical_owner": "A-TownChain-Okosystems/atc-shivacore",
       "role": "Kernel specifications, governance and support only; canonical kernel code remains in GlobusOS",
       "readiness": "RESIDUAL",
@@ -10330,12 +10403,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "X"
+      ]
     },
     {
       "id": "COMP-VM-SPEC",
       "name": "ATC-VM Specification Support",
-      "layer": "L7",
+      "layer": "X",
       "canonical_owner": "A-TownChain-Okosystems/atc-vm",
       "role": "VM format/specification and conformance support only; canonical VM remains in a-townchain/components/vm",
       "readiness": "RESIDUAL",
@@ -10573,12 +10649,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "X"
+      ]
     },
     {
       "id": "COMP-ALGO-SPEC",
       "name": "ATC-Algorithm Specification Support",
-      "layer": "L7",
+      "layer": "X",
       "canonical_owner": "A-TownChain-Okosystems/atc-algorithm",
       "role": "Consensus/algorithm specification and support only; canonical implementation remains in a-townchain/components/algorithm",
       "readiness": "RESIDUAL",
@@ -10816,12 +10895,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "X"
+      ]
     },
     {
       "id": "COMP-DOCS",
       "name": "Architecture Documentation Hub",
-      "layer": "L7",
+      "layer": "X",
       "canonical_owner": "A-TownChain-Okosystems/a-townchain-os-docs",
       "role": "Architecture/wiki-style documentation, decision register and roadmap navigation",
       "readiness": "RESIDUAL",
@@ -11058,12 +11140,15 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "X"
+      ]
     },
     {
       "id": "COMP-ORG-GOV",
       "name": "Organization GitHub Governance",
-      "layer": "L7",
+      "layer": "X",
       "canonical_owner": "A-TownChain-Okosystems/.github",
       "role": "Organization-wide agent policy, repository scope and reusable governance",
       "readiness": "RESIDUAL",
@@ -11307,7 +11392,10 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "X"
+      ]
     },
     {
       "id": "COMP-DEMO",
@@ -11538,12 +11626,17 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "No component-level verification record proving all applicable gates pass at exact source SHA."
-      }
+      },
+      "architectural_layers": [
+        "L7"
+      ],
+      "catalog_scope": "EXCLUDED_FROM_PRODUCTION_READINESS",
+      "scope_exclusion_reason": "Template/integration fixture only; inventory visibility does not make this repository a production subsystem or include it in the live drift gate."
     },
     {
       "id": "COMP-XCHAIN-INTEROP",
       "name": "Cross-Chain Interoperability Contract (proposal)",
-      "layer": "L6",
+      "layer": "L5",
       "canonical_owner": "A-TownChain-Okosystems/atc-standards",
       "role": "Normative cross-chain message and capability contract proposal; no bridge runtime or asset-transfer implementation",
       "readiness": "BLOCKED",
@@ -11883,7 +11976,10 @@
       "verification_evidence": {
         "status": "RESIDUAL",
         "reason": "Catalog proposal only; no exact-SHA implementation or CI verification evidence."
-      }
+      },
+      "architectural_layers": [
+        "L5"
+      ]
     }
   ],
   "cross_component_interfaces": [
@@ -11957,11 +12053,22 @@
     "rule": "Repository and component census entries are not proof of function completeness. Every component records its observed source repository/head and every catalog function records source_binding status; only source paths, exported symbols/entrypoints and exact-SHA evidence can advance these fields. Unknown functions must be added; unrepresented files/functions require a reasoned exclusion.",
     "function_inventory_status": "SOURCE_RECONCILIATION_PENDING",
     "component_source_bindings": 31,
-    "function_source_bindings": 63,
+    "function_source_bindings": 104,
     "source_verified_components": 0,
     "source_verified_functions": 0,
     "selected_source_files_examined": 10,
-    "selected_source_public_symbol_groups": 10
+    "selected_source_public_symbol_groups": 10,
+    "function_source_paths": 99,
+    "function_exact_source_shas": 96,
+    "source_binding_status_counts": {
+      "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED": 78,
+      "PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS": 15,
+      "UNBOUND_RESIDUAL": 3,
+      "SOURCE_SURFACE_NOT_IDENTIFIED": 1,
+      "BLOCKED_ARCHIVED_REFERENCE_ONLY": 2,
+      "NO_SOURCE_SYMBOLS_IN_CENSUS": 2,
+      "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING": 3
+    }
   },
   "repository_coverage": [
     {
@@ -12374,5 +12481,12 @@
     "last_component_update_source_sha": "0419b444dec4749cec7b146950d1304f5a406c25",
     "component_function_contract_count": 29,
     "component_function_catalog_status": "RESIDUAL_SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED"
+  },
+  "architecture_binding": {
+    "source_path": "ARCHITECTURE.md",
+    "source_commit_sha": "ea3a93cdb6f66eb33caf8fd7715e184fd524b27e",
+    "model": "L0-L7 plus X",
+    "rule": "layer is the primary responsibility domain; architectural_layers records all applicable responsibility domains; X is a cross-layer control plane and not an execution layer. Repository layout and production readiness are independent dimensions.",
+    "status": "MAPPED_NOT_INDEPENDENTLY_VERIFIED"
   }
 }
