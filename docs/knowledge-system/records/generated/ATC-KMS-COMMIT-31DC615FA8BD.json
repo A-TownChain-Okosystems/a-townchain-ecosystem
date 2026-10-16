@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-31DC615FA8BD",
-  "timestamp": "2026-10-16T15:08:03.879087Z",
+  "timestamp": "2026-10-16T15:11:48.531836Z",
   "category": "change",
   "title": "Commit: Merge pull request #123 from A-TownChain-Okosystems/audit/org-duplicate-code-cleanup-2026-10-13",
   "context": "Git commit 31dc615fa8bdcd3f2a75a90c74a405ebc764f472 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/31dc615fa8bdcd3f2a75a90c74a405ebc764f472",
-    "commit": "f7d43335632d638e0689bc7e71a6607af6af23f6"
+    "commit": "89ef25e54c9a9783b79bcb8e2cefd3ab271b1b95"
   },
   "tags": [
     "commit",

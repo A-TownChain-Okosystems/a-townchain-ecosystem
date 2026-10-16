@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-DOCS-KNOWLEDGE-SYSTEM-RECORDS-GENERATED-ATC-KMS-SOURCE-COMPO-DAF78AF311",
-  "timestamp": "2026-10-16T15:08:03.879087Z",
+  "timestamp": "2026-10-16T15:11:48.531836Z",
   "category": "evidence",
   "title": "Indexed source: docs/knowledge-system/records/generated/ATC-KMS-SOURCE-COMPONENTS-GENESIS-ENGINE-DOCS-ARCHITECTURE-MD-280A1329EC.json",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "docs/knowledge-system/records/generated/ATC-KMS-SOURCE-COMPONENTS-GENESIS-ENGINE-DOCS-ARCHITECTURE-MD-280A1329EC.json",
-    "commit": "f7d43335632d638e0689bc7e71a6607af6af23f6"
+    "commit": "89ef25e54c9a9783b79bcb8e2cefd3ab271b1b95"
   },
   "tags": [
     "generated",

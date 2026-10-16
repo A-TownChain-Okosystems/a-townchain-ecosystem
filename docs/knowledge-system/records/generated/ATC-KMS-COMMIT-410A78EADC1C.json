@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-410A78EADC1C",
-  "timestamp": "2026-10-16T15:08:03.879087Z",
+  "timestamp": "2026-10-16T15:11:48.531836Z",
   "category": "change",
   "title": "Commit: ci(audit): test catalog reconciliation and publish evidence artifacts",
   "context": "Git commit 410a78eadc1c2624b1f14e1ecbcd6c101c03dddd on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/410a78eadc1c2624b1f14e1ecbcd6c101c03dddd",
-    "commit": "f7d43335632d638e0689bc7e71a6607af6af23f6"
+    "commit": "89ef25e54c9a9783b79bcb8e2cefd3ab271b1b95"
   },
   "tags": [
     "commit",
