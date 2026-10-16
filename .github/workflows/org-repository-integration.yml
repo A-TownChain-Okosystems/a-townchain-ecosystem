@@ -4,6 +4,10 @@ on:
   pull_request:
     paths:
       - "docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json"
+      - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
+      - "docs/audit/ATC-ORG-REPOSITORY-DRIFT-SCOPE-001.json"
+      - "tools/validate_org_repository_drift_scope.py"
+      - "tools/tests/test_validate_org_repository_drift_scope.py"
       - "tools/validate_org_repository_integration.py"
       - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
       - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md"
@@ -36,6 +40,10 @@ jobs:
           persist-credentials: false
       - name: Validate JSON and fail-closed status/evidence rules
         run: python3 tools/validate_org_repository_integration.py --input docs/integration/ATC-ORG-REPOSITORY-INTEGRATION-001.json --report org-repository-integration-report.json
+      - name: Validate versioned live-drift scope and fail-closed exclusions
+        run: python3 tools/validate_org_repository_drift_scope.py --manifest docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json --policy docs/audit/ATC-ORG-REPOSITORY-DRIFT-SCOPE-001.json --report org-repository-drift-scope-report.json
+      - name: Run drift-scope regression tests
+        run: python3 -m unittest tools.tests.test_validate_org_repository_drift_scope -v
       - name: Validate component/function catalog structure and evidence rules
         run: |
           python3 -m json.tool docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json > /dev/null
