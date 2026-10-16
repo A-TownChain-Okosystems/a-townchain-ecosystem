@@ -2764,9 +2764,23 @@
       {
         "system_layer_id": "L5",
         "cross_cutting_layer_id": "X4",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "Canonical amount/state encoding specifies fixed-width big-endian protocol representations and explicit invalid-encoding/overflow behavior; direct data/state representation applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-CHAIN",
+            "function_id": "FN-CHAIN-002",
+            "repository": "A-TownChain-Okosystems/a-townchain",
+            "commit_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
+            "path": "components/sdk/src/lib.rs",
+            "symbol": "validate_amount",
+            "file_blob_sha": "998154660957916ad2d6d4e8b9390d62dd59ac0c",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/sdk/src/lib.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; source mapping is not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L5",
@@ -3329,9 +3343,23 @@
       {
         "system_layer_id": "L7",
         "cross_cutting_layer_id": "X3",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "ATCLang's ABI value/protocol type boundary explicitly separates contract ABI values from protocol/host metadata and prevents type-domain confusion; direct protocol/interface boundary applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-LANG",
+            "function_id": "FN-LANG-006",
+            "repository": "A-TownChain-Okosystems/atclang",
+            "commit_sha": "21c595dc389b0c62e1531a8c5fbbcd2c68794efb",
+            "path": "crates/atc-core/src/value.rs",
+            "symbol": "AbiType",
+            "file_blob_sha": "cb720e71cbdc26f01cae36388a99d6f2c1a5d8a0",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/atclang/blob/21c595dc389b0c62e1531a8c5fbbcd2c68794efb/crates/atc-core/src/value.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; source mapping is not functional verification."
+          }
+        ]
       },
       {
         "system_layer_id": "L7",
@@ -4119,9 +4147,23 @@
       {
         "system_layer_id": "L9",
         "cross_cutting_layer_id": "X36",
-        "disposition": "UNRESOLVED",
-        "rationale": "Must be reconciled against component/function contracts and exact source revisions. Missing evidence is not evidence of NOT_APPLICABLE.",
-        "evidence_refs": []
+        "disposition": "APPLICABLE",
+        "rationale": "The OS-integration contract validates cross-component builds/tests against declared versions and contracts and reports incompatible APIs/missing components; direct system-composition and end-to-end compatibility applicability.",
+        "evidence_refs": [
+          {
+            "component_id": "COMP-OS-INTEGRATION",
+            "function_id": "FN-OSINT-002",
+            "repository": "A-TownChain-Okosystems/a-townchain-os",
+            "commit_sha": "3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8",
+            "path": "kai-os/integration/src/lib.rs",
+            "symbol": "boot",
+            "file_blob_sha": "7a83f5308509f051c882b03f4902962bcbf3b19b",
+            "evidence_url": "https://github.com/A-TownChain-Okosystems/a-townchain-os/blob/3f85a6e61b3cbf0a0b55590c90e2cd06bd328ed8/kai-os/integration/src/lib.rs",
+            "source_mapping_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
+            "evidence_kind": "catalogued_source_binding",
+            "verification_note": "Supports applicability only; source mapping is not functional verification."
+          }
+        ]
       }
     ]
   },
@@ -4186,56 +4228,58 @@
     "Each record has stable ID, name, purpose, scope, ownership rule, status, and explicit non-assertion of implementation readiness.",
     "Every one of the 360 L0-L9 × X1-X36 relationships has APPLICABLE, NOT_APPLICABLE with rationale, or UNRESOLVED; initial unknowns remain UNRESOLVED.",
     "Component/function contracts and source bindings are linked bidirectionally without duplicate canonical implementations.",
-    "L0 is defined as Hardware & Compute in this adopted baseline; the historical Issue #71 'System & Network' conflict remains explicitly tracked and must be reconciled downstream.",
+    "L0 is Hardware & Compute in this baseline; Issue #71's composite 'System & Network' definition is crosswalked by responsibility and retained as historical provenance.",
     "Completeness and verification are reported separately; no VERIFIED promotion without exact-SHA evidence."
   ],
   "next_reconciliation_steps": [
-    "Reconcile the adopted L0 Hardware & Compute definition against Issue #71's historical 'System & Network' label and update downstream references without losing provenance.",
-    "Migrate former L10 Integration, Deployment & Operations responsibilities into the appropriate L9 application ownership and X35 deployment/release plus X36 integration/system-composition cross-cutting contracts; do not invent new L-layer IDs.",
-    "Reconcile component-to-layer assignments against the adopted L0-L9 semantics before using legacy component.layer fields as matrix join keys.",
-    "Reconcile stable layer IDs against Issues #136–#181 and existing layer-specific records; preserve source evidence and record conflicts.",
-    "Populate applicability only from concrete component/function contracts and exact source evidence; unsupported relationships remain UNRESOLVED.",
-    "Link each layer to canonical components, functions, interfaces, tests and repository manifest entries; validate JSON/schema/duplicate IDs and all 360 matrix pairs."
+    "Continue reconciliation of the 360 L0-L9 × X1-X36 pairs using concrete function contracts and exact source bindings; unsupported pairs remain UNRESOLVED.",
+    "Reconcile layer IDs against Issues #136–#181 and layer-specific records without numeric-ID inference across legacy taxonomies.",
+    "Add evidence for X35 deployment/release/rollout relationships only when a concrete function contract and exact source binding support them.",
+    "Link each layer to canonical components, function contracts, interfaces, tests and repository manifest entries.",
+    "Run JSON/schema/duplicate-ID/cross-reference validation on the exact proposed commit and attach terminal evidence."
   ],
   "reconciliation_metadata": {
     "scope": "Issues #136–#181 inventoried; registry baseline migrated to the explicitly selected L0-L9 + X1-X36 architecture. Historical L0 naming and former L10 responsibilities remain reconciliation items.",
     "catalog_baseline": {
       "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
       "path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
-      "commit_sha": "6e35bed50b6666ff6027f654af8761a7708e4bfe",
-      "blob_sha": "d386e4f1a5294f34751df758091312b64224261f"
+      "commit_sha": "4a30c1317b879faec35dd3be57b7dafe37c29357",
+      "blob_sha": "b010bfbed28421c52bc8bdb40c9929aeb04b129d"
     },
     "layer_mapping_baseline": {
       "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
       "path": "docs/architecture/layers/ATC-LAYER-MAPPING-001.yaml",
-      "commit_sha": "6e35bed50b6666ff6027f654af8761a7708e4bfe"
+      "commit_sha": "cc5679efb0491e3ac63e9ff54f6547681d9fd7ce",
+      "blob_sha": "7da5254c55ab8595c2b275d4e6695cb2b4a561f6"
     },
     "reconciliation_commit_parent": "14918f8f820fc8ba25204e8d52381158eb2b776e",
     "reconciliation_date": "2026-10-16",
     "method": "Set APPLICABLE only when a concrete catalogued function and exact source binding directly support the relationship. Issue titles or component-level labels alone are not implementation verification. Unsupported relationships remain UNRESOLVED.",
-    "applied_relationship_count": 12,
-    "remaining_unresolved_count": 348,
+    "applied_relationship_count": 15,
+    "remaining_unresolved_count": 345,
     "not_applicable_count": 0,
     "mapping_notes": [
       {
         "id": "LAYER-ID-CROSS-CATALOG-CONFLICT-001",
-        "status": "BLOCKED_UNRESOLVED",
-        "finding": "The component catalog's `layer` assignments conflict with the L1-L10 registry's layer semantics. Examples: COMP-SHIVA is tagged L1 although the registry defines L2 as ShivaCore Kernel; COMP-CHAIN, COMP-ALGO and COMP-VM are tagged L3 although the registry defines L3 as GlobusOS System Services, while the registry defines L5 as Blockchain Core and L6 as ATC-VM; COMP-AURORA is tagged L2 although the registry defines L8 as Aurora AI; COMP-LANG is tagged L0 while L0 is explicitly conflict-tracked and ATCLang's layer mapping is unresolved.",
+        "status": "RESOLVED_MAPPING_SYNCED",
+        "finding": "The legacy component catalog layer values have now been synchronized with the adopted L0-L9 + X1-X36 mapping SSOT for all 31 components. Examples corrected include COMP-SHIVA→L2, COMP-CHAIN/COMP-ALGO→L5, COMP-VM→L6, COMP-AURORA→L8, COMP-LANG→L7, COMP-COMPUTE→L9, COMP-LAUNCHPAD→L9 and COMP-OS-INTEGRATION→L9. Cross-cutting assignments are stored separately and restricted to X1-X36.",
         "evidence": {
           "catalog_repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
           "catalog_path": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
-          "catalog_blob_sha": "d386e4f1a5294f34751df758091312b64224261f",
-          "registry_path": "docs/architecture/ATC-LAYER-REGISTRY-L1-L10-X1-X36-001.json",
-          "registry_blob_sha": "ceb952815d8ed69ad341d941caad838c8f8f6f1c",
-          "registry_branch": "catalog/x1-x36-l1-l10-master-architecture"
+          "catalog_blob_sha": "b010bfbed28421c52bc8bdb40c9929aeb04b129d",
+          "mapping_path": "docs/architecture/layers/ATC-LAYER-MAPPING-001.yaml",
+          "mapping_blob_sha": "7da5254c55ab8595c2b275d4e6695cb2b4a561f6",
+          "master_architecture_path": "docs/architecture/ATC-ARCH-CATALOG-MASTER-X1-X36-L1-L10.md",
+          "master_blob_sha": "50e12f3f14f8714e8e428c2fdd251cd114d4bff8",
+          "branch": "catalog/x1-x36-l1-l10-master-architecture"
         },
-        "disposition": "Do not infer additional L×X applicability from conflicting component.layer values. Reconcile component-to-layer assignments against approved architecture ownership and exact canonical source records before changing the matrix.",
-        "impact": "The existing 13 APPLICABLE pairs remain as previously recorded; no new pair was added or removed. This is a catalog taxonomy/ownership conflict, not functional verification."
+        "disposition": "Component-to-layer taxonomy conflict is resolved in the mapping and compatibility projection. Preserve legacy assignments in old_layer for migration traceability. Do not infer functional verification or additional matrix applicability from the layer mapping alone.",
+        "impact": "All 31 catalog components now have one valid primary mapping in L0-L9 or X1-X36, with cross-cutting references separated. Readiness states are unchanged. Three additional L×X relationships are APPLICABLE from exact function/source bindings; those bindings remain SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED."
       },
       {
         "id": "ARCH-SCOPE-DECISION-L0-L9-X1-X36-001",
-        "status": "ADOPTED_BASELINE_RECONCILIATION_PENDING",
-        "finding": "The architecture scope is now L0-L9 system layers plus X1-X36 cross-cutting layers. L0 is defined as Hardware & Compute using the existing ATC-LAYER-REGISTRY-001.yaml definition. Former L10 Integration, Deployment & Operations is no longer a system-layer ID; its responsibilities must be allocated through L9 ownership and X35/X36 cross-cutting contracts.",
+        "status": "ADOPTED_BASELINE_CROSSWALK_DOCUMENTED",
+        "finding": "The adopted architecture scope is L0-L9 system layers plus X1-X36 cross-cutting layers. L0 is Hardware & Compute. Issue #71's historical L0 System & Network was a composite scope crossing hardware, HAL, OS, P2P/transport and node runtime; it is retained as historical provenance and semantically decomposed across L0-L5, rather than reusing its old numeric ID. Former L10 deployment/release responsibilities are represented by X35; integration/system-composition/end-to-end compatibility by X36.",
         "evidence": {
           "decision_source": "User direction in conversation dated 2026-10-16",
           "prior_registry_path": "docs/architecture/ATC-LAYER-REGISTRY-L1-L10-X1-X36-001.json",
@@ -4243,8 +4287,8 @@
           "source_definition_path": "docs/architecture/layers/ATC-LAYER-REGISTRY-001.yaml",
           "source_definition_blob_sha": "045a45098f51408b6fb99e75639afc997d733eb0"
         },
-        "disposition": "Preserve all existing IDs and source history; do not silently map old L10 matrix claims to L0. Reconcile component mappings, the master markdown, and matrix evidence next.",
-        "impact": "Matrix remains 360 unique pairs (L0-L9 × X1-X36). Former L10 rows are removed; L0 rows are introduced as UNRESOLVED. Existing L1-L9 evidence-backed dispositions are preserved."
+        "disposition": "Adopt L0 Hardware & Compute as the canonical L0 definition for this architecture baseline. Preserve Issue #71 unchanged as history and link the crosswalk from a comment. Do not map legacy Issue #71 L1-L7 labels by numeric equality. Former L10 is not a system-layer ID; do not transfer its matrix rows automatically.",
+        "impact": "The canonical matrix is 360 unique L0-L9 × X1-X36 pairs. L0 relationships remain UNRESOLVED pending component/function evidence. Former L10 × X3 was not transferred to L0. Layer taxonomy decisions do not imply functional verification."
       }
     ],
     "previous_matrix_counts": {
@@ -4252,7 +4296,13 @@
       "applicable": 13,
       "unresolved": 347,
       "not_applicable": 0,
-      "note": "Historical counts before scope migration; one former L10 × X3 APPLICABLE relationship is not automatically transferred to L0."
+      "note": "Historical counts before L0-L9 scope migration; one former L10 × X3 APPLICABLE relationship was not automatically transferred."
+    },
+    "master_architecture_baseline": {
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "path": "docs/architecture/ATC-ARCH-CATALOG-MASTER-X1-X36-L1-L10.md",
+      "commit_sha": "33d4fae791840f2b54594500f4974e9b73390375",
+      "blob_sha": "50e12f3f14f8714e8e428c2fdd251cd114d4bff8"
     }
   }
 }
