@@ -9,10 +9,12 @@ on:
       - "tools/validate_component_function_spec.py"
       - "tools/validate_catalog_taxonomy.py"
       - "tools/tests/test_validate_catalog_taxonomy.py"
+      - "ARCHITECTURE.md"
       - ".github/workflows/component-function-catalog.yml"
   push:
     branches: [main]
     paths:
+      - "ARCHITECTURE.md"
       - "docs/architecture/ATC-COMPONENT-FUNCTION-SPEC-001.json"
       - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
       - "docs/architecture/ATC-CATALOG-TAXONOMY-001.json"

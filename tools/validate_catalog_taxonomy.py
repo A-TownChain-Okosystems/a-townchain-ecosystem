@@ -21,6 +21,7 @@ IMPLEMENTATION_STATES = {"IMPLEMENTED", "RESIDUAL", "BLOCKED"}
 VERIFICATION_STATES = {"NOT_VERIFIED", "VERIFIED"}
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
+EXPECTED_PRIMARY_LAYERS = {"COMP-ATC-ENG":"X","COMP-STANDARDS":"X","COMP-LANG":"L3","COMP-SHIVA":"L0","COMP-CHAIN":"L2","COMP-ALGO":"L2","COMP-VM":"L3","COMP-GLOBUS":"L0","COMP-AURORA":"L6","COMP-TOOLCHAIN":"L7","COMP-GENESIS":"L7","COMP-ECOSYSTEM":"X","COMP-SDK":"L7","COMP-NODE":"L0","COMP-CONTRACTS":"L3","COMP-ZKP":"L4","COMP-STORAGE":"L1","COMP-COMPUTE":"L5","COMP-LAUNCHPAD":"L5","COMP-MARKET":"L5","COMP-IDE":"L7","COMP-CHRONICLES":"L7","COMP-GFF":"L7","COMP-OS-INTEGRATION":"L0","COMP-SHIVA-SPEC":"X","COMP-VM-SPEC":"X","COMP-ALGO-SPEC":"X","COMP-DOCS":"X","COMP-ORG-GOV":"X","COMP-DEMO":"L7","COMP-XCHAIN-INTEROP":"L5"}
 
 
 def _unique_ids(items: Any, label: str, errors: list[str]) -> set[str]:
@@ -83,6 +84,8 @@ def validate_taxonomy(taxonomy: Any, catalog: Any | None = None) -> list[str]:
         else:
             if catalog.get("schema_id") != CATALOG_SCHEMA_ID:
                 errors.append(f"catalog schema_id must be {CATALOG_SCHEMA_ID}")
+            _validate_architecture_layers(catalog, errors)
+            _validate_source_binding_accounting(catalog, errors)
             _validate_catalog_records(catalog, category_ids, family_ids, class_ids, errors)
 
     return errors
@@ -135,6 +138,46 @@ def _validate_catalog_records(
                 walk(child, f"{path}[{index}]")
     walk(catalog, "catalog")
 
+
+def _validate_architecture_layers(catalog: dict[str, Any], errors: list[str]) -> None:
+    binding = catalog.get('architecture_binding')
+    if not isinstance(binding, dict) or binding.get('source_path') != 'ARCHITECTURE.md' or binding.get('model') != 'L0-L7 plus X':
+        errors.append('catalog architecture_binding must point to ARCHITECTURE.md and declare L0-L7 plus X')
+    elif not SHA40.fullmatch(str(binding.get('source_commit_sha', ''))):
+        errors.append('catalog architecture_binding.source_commit_sha must be a full 40-character lowercase SHA')
+    allowed = {'L0', 'L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'X'}
+    for component in catalog.get('components', []):
+        if not isinstance(component, dict):
+            continue
+        cid = component.get('id')
+        expected = EXPECTED_PRIMARY_LAYERS.get(cid)
+        if expected is None or component.get('layer') != expected:
+            errors.append(f'{cid}: primary layer conflicts with ARCHITECTURE.md; expected {expected!r}')
+        layers = component.get('architectural_layers')
+        if not isinstance(layers, list) or not layers or any(x not in allowed for x in layers) or component.get('layer') not in layers or len(layers) != len(set(layers)):
+            errors.append(f'{cid}: architectural_layers must be unique valid L0-L7/X values and include the primary layer')
+        if cid == 'COMP-NODE' and set(layers or []) != {'L0', 'L2'}:
+            errors.append('COMP-NODE must preserve both L0 runtime and L2 blockchain responsibilities')
+        if cid == 'COMP-DEMO' and (component.get('catalog_scope') != 'EXCLUDED_FROM_PRODUCTION_READINESS' or not component.get('scope_exclusion_reason')):
+            errors.append('COMP-DEMO must be explicitly excluded from production-readiness interpretation')
+
+def _validate_source_binding_accounting(catalog: dict[str, Any], errors: list[str]) -> None:
+    functions = [fn for c in catalog.get('components', []) if isinstance(c, dict) for fn in c.get('functions', []) if isinstance(fn, dict)]
+    scope = catalog.get('scope', {})
+    derived = {
+        'function_source_bindings': sum(isinstance(fn.get('source_binding'), dict) for fn in functions),
+        'function_source_paths': sum(bool((fn.get('source_binding') or {}).get('source_path')) for fn in functions),
+        'function_exact_source_shas': sum(bool(SHA40.fullmatch(str((fn.get('source_binding') or {}).get('exact_source_sha', '')))) for fn in functions),
+    }
+    for field, count in derived.items():
+        if scope.get(field) != count:
+            errors.append(f'scope.{field} is stale: declared {scope.get(field)!r}, derived {count}')
+    counts = {}
+    for fn in functions:
+        status = (fn.get('source_binding') or {}).get('status', 'NO_SOURCE_BINDING')
+        counts[status] = counts.get(status, 0) + 1
+    if scope.get('source_binding_status_counts') != counts:
+        errors.append('scope.source_binding_status_counts does not match function source_binding statuses')
 
 def _load(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as handle:

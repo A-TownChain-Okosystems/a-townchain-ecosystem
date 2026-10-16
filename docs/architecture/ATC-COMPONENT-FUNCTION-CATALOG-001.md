@@ -32,6 +32,28 @@ This catalog is the architecture/control-plane inventory. It does not replace co
 | Genesis Engine | [genesis-engine](https://github.com/A-TownChain-Okosystems/genesis-engine) | Genesis configuration and runtime/bootstrap orchestration |
 | Ecosystem control plane | [a-townchain-ecosystem](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem) | Architecture, integration, compliance and evidence only |
 
+## Canonical architecture layer mapping (2026-10-16)
+
+The machine-readable catalog binds its layer assignments to `ARCHITECTURE.md` at commit `ea3a93cdb6f66eb33caf8fd7715e184fd524b27e`. `layer` is the primary responsibility domain; `architectural_layers` records multi-layer participation. `X` is the cross-layer control plane, not an execution layer.
+
+| Domain | Primary responsibilities |
+|---|---|
+| L0 | System, kernel, host and network runtime; ShivaCore, GlobusOS boundary and ATC Node runtime boundary |
+| L1 | Data and persistence; ATC Storage |
+| L2 | Blockchain core, transactions, consensus and algorithm; A-TownChain and ATC-Algorithm |
+| L3 | Deterministic execution and language/contract frontend; ATC-VM, ATCLang and ATC Contracts |
+| L4 | Scaling and execution-domain components; ATC ZKP |
+| L5 | Protocol/economic domains; compute, marketplace, launchpad and cross-chain interoperability |
+| L6 | AI and intelligence; Aurora AI |
+| L7 | Applications, UX and developer tooling; Genesis Engine, IDE, SDK and toolchain |
+| X | Cross-layer standards, governance, documentation and ecosystem control plane |
+
+`COMP-NODE` explicitly spans L0 and L2. `COMP-DEMO` remains visible as a template/integration fixture but is excluded from production-readiness interpretation and the live drift gate. Repository census presence is not production status.
+
+## Source-binding accounting
+
+Source-binding counts are derived from function records rather than manually maintained. The current baseline has 104 function contracts: 104 binding objects, 99 source paths, and 96 exact 40-character source SHAs. Binding status does not imply functional verification; 0 function contracts are marked functionally verified.
+
 ## Production gates
 
 1. **Ownership:** exactly one canonical implementation per capability.
@@ -80,7 +102,7 @@ The inventory also records `assembler.rs`, `main.rs` and `tests/exec_chain_e2e.r
 
 ## ATC-VM assembler and runner reconciliation (2026-10-12)
 
-The `COMP-VM` catalog now maps **29 function contracts** from the canonical VM source surface at `a-townchain` HEAD `a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9` (refreshed after the VM runner resource-bounds fixes merged via PR #71). The organization-wide catalog now lists **98 functions across 30 components**.
+The `COMP-VM` catalog now maps **29 function contracts** from the canonical VM source surface at `a-townchain` HEAD `a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9` (refreshed after the VM runner resource-bounds fixes merged via PR #71). The organization-wide catalog now lists **104 functions across 31 components** (current baseline snapshot: 2026-10-16).
 
 Additional contracts cover:
 
