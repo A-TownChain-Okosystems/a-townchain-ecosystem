@@ -1,9 +1,9 @@
-# A-TownChain Architecture Master Catalog — X1–X36 and L1–L10
+# A-TownChain Architecture Master Catalog — L0–L10 and X1–X36
 
 **Catalog ID:** `ATC-ARCH-CATALOG-MASTER-X1-X36-L1-L10`  
 **Schema version:** `0.1.0-draft`  
 **Status:** `PROPOSED / NOT VERIFIED`  
-**Scope:** Cross-cutting architecture layers X1–X36 and system architecture layers L1–L10, including sublayers, components, function contracts, interfaces, dependencies, canonical implementation ownership, and evidence.
+**Scope:** L0–L10 system/architecture layers and cross-cutting layers X1–X36, including sublayers, components, function contracts, interfaces, dependencies, canonical implementation ownership, and evidence. L0 naming is explicitly conflict-tracked until reconciled against existing architecture records; no competing definition is silently overwritten.
 
 > This is a catalog baseline and reconciliation index, not a claim that every component/function is already inventoried, implemented, or verified. Entries without source-backed mapping remain `UNRESOLVED`; proposed requirements remain `PROPOSED`. Do not promote statuses from documentation alone.
 
@@ -37,7 +37,38 @@ The catalog uses this logical tree. It does not replace existing normative IDs; 
 
 A node may have multiple parent relationships where architecture requires it, but must have one canonical owner for each production implementation. Cross-cutting layers are not duplicate runtime stacks.
 
-## 3. L1–L10 system architecture registry
+## 3. L0–L10 scope and L0 conflict register
+
+The catalog scope explicitly includes **L0 through L10 and X1 through X36**. The master registry must account for every ID in that scope, while distinguishing a logical catalog hierarchy from a product/system architecture layer.
+
+### L0 — existing definitions require reconciliation
+
+**Status:** `CONFLICT / UNRESOLVED / NOT VERIFIED`
+
+Existing project records use L0 in materially different ways:
+
+- Issue #71 defines **L0 — System & Network**, including hardware, HAL, OS, P2P, transport, node runtime and the ShivaCore/GlobusOS boundary.
+- This master catalog's hierarchy section previously used **L0 — Ecosystem Architecture** as a *logical catalog/meta-model level*, not as a system implementation layer.
+- The L0 hardware/compute catalog work also uses L0 for hardware and compute capabilities.
+
+These definitions cannot be treated as interchangeable. Until reconciliation is approved, retain each as a source-backed candidate definition, do not assign implementation status from the name alone, and do not silently renumber existing IDs.
+
+| Registry ID | Candidate definition | Scope/boundary | Disposition |
+|---|---|---|---|
+| L0 | System & Network | Hardware, HAL, OS, P2P, transport, node runtime and OS/kernel boundaries; exact component ownership requires source census. | UNRESOLVED — reconcile with L0 hardware/compute records |
+| L0-META (non-normative catalog concept) | Ecosystem architecture and governance | Catalog hierarchy, principles, portfolio and ownership. This is a documentation/meta-model concept, not an approved competing system-layer ID. | Keep distinct from normative layer IDs; no production implementation implied |
+
+**Required exit condition:** a reviewed reconciliation record identifies the authoritative L0 definition, maps or retires conflicting labels without losing history, checks all downstream references and obtains any required normative approval. Until then, L0 acceptance remains blocked.
+
+### Registry coverage invariant
+
+- Required system-layer scope: L0–L10 (11 IDs).
+- Required cross-cutting scope: X1–X36 (36 IDs).
+- Each ID must have a record or an explicit `UNRESOLVED`, `EXCLUDED` (with rationale/approval), or `CONFLICT` disposition. Missing rows are not evidence of non-applicability.
+- The L0 conflict does not authorize inventing, duplicating, or renumbering components. Production SSOTs remain in their canonical repositories.
+- The L0–L10 × X1–X36 applicability matrix must explicitly mark each relationship `APPLICABLE`, `NOT_APPLICABLE` (with rationale), or `UNRESOLVED`.
+
+## 4. L1–L10 system architecture registry
 
 The following registry is the scope index. The status is deliberately `PROPOSED / NOT VERIFIED` until each layer is reconciled with current source and evidence.
 
@@ -58,7 +89,7 @@ The following registry is the scope index. The status is deliberately `PROPOSED 
 
 Every L-layer record must contain: stable ID, title, version, status, owner, mission, in-scope/out-of-scope, sublayer IDs, requirements, component IDs, contract IDs, inbound/outbound dependencies, interface references, security boundaries, resource assumptions, canonical SSOT references, tests/acceptance criteria, evidence references, open conflicts, exclusions, lifecycle and approval decision.
 
-## 4. X1–X36 cross-cutting layer registry
+## 5. X1–X36 cross-cutting layer registry
 
 These layers govern capabilities across applicable L-layers. The applicability matrix must be populated during reconciliation; an empty/unknown relationship is not proof of non-applicability.
 
