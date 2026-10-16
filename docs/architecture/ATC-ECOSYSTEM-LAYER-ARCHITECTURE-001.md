@@ -1,8 +1,8 @@
 # ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001 — Complete Layer Architecture for the A-TownChain Ecosystem
 
 > **Document ID:** ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001
-> **Version:** 0.4.0 (DRAFT)
-> **Date:** 2026-10-15
+> **Version:** 0.5.0 (DRAFT — reconciled to adopted L0–L9 + X1–X36 baseline)
+> **Date:** 2026-10-16
 > **Authority:** A-TownChain-Okosystems/a-townchain-ecosystem
 > **Registry:** [ATC-LAYER-REGISTRY-001.yaml](layers/ATC-LAYER-REGISTRY-001.yaml)
 > **Mapping:** [ATC-LAYER-MAPPING-001.yaml](layers/ATC-LAYER-MAPPING-001.yaml)
@@ -24,7 +24,7 @@ The goal is a complete architecture from hardware layer through kernel, operatin
 
 ## 1. Complete Layer Overview
 
-### Main Layers (L0-L10)
+### System Layers (L0-L9; adopted architecture baseline)
 
 | ID | Layer | Responsibility | Components |
 |----|-------|----------------|------------|
@@ -38,23 +38,51 @@ The goal is a complete architecture from hardware layer through kernel, operatin
 | L7 | Developer Platform & ATCLang | Compiler, Lexer, Parser, Semantics, SDK, CLI, Toolchain | COMP-LANG, COMP-TOOLCHAIN, COMP-SDK, COMP-IDE |
 | L8 | Aurora AI Platform | Control Plane, Agent Platform, Runtime, Intelligence Fabric, Models | COMP-AURORA |
 | L9 | Applications & Ecosystem | Wallet, dApps, Explorer, Governance, System & AI Apps | COMP-GENESIS, COMP-CHRONICLES, COMP-GFF, COMP-MARKET, COMP-DEMO |
-| L10 | Integration, Deployment & Ops | Installer, Updates, Packages, Config, Observability | COMP-LAUNCHPAD, COMP-OS-INTEGRATION |
 
-### Cross-Cutting Layers (X1-X8)
+### Cross-Cutting Layers (X1-X36)
 
-| ID | Layer | Responsibility | Components |
-|----|-------|----------------|------------|
-| X1 | Security & Trust | Identities, Crypto, Keys, Secure Boot, TEE/TPM, Sandboxing, Threat Models, Audits | COMP-ZKP |
-| X2 | Identity, Access & Capability | Users, Services, Agents, Roles, Capability Tokens, AuthZ, Delegation | (none yet) |
-| X3 | Protocol & Interoperability | IPC, APIs, Network Protocols, RPC, Data Formats, Cross-Chain | (none primary) |
-| X4 | Data, State & Storage | Persistence, Ledger State, Config, Migration, Backups, Encryption | COMP-STORAGE |
-| X5 | Standards, Governance & Policy | Normative specs, protocol versions, change processes, approvals | COMP-STANDARDS, COMP-ECOSYSTEM, COMP-ORG-GOV, COMP-SHIVA-SPEC, COMP-VM-SPEC, COMP-ALGO-SPEC, COMP-DOCS |
-| X6 | Testing, Verification & Evidence | Unit/Integration/System/Security tests, Conformance, CI, Evidence | COMP-ATC-ENG |
-| X7 | Observability & Reliability | Logs, Metrics, Traces, Health Checks, Recovery, Performance | (none yet) |
-| X8 | Build, Release & Supply Chain | Reproducible builds, Dependencies, SBOM, Signatures, Provenance | (none yet) |
+| ID | Layer | Responsibility |
+|----|-------|----------------|
+| X1 | Security & Trust | Threat model, trust boundaries, secure defaults, cryptographic controls, security testing and risk disposition. |
+| X2 | Identity, Access & Capabilities | Identity lifecycle, authentication, authorization, capability issuance/delegation/revocation and least privilege. |
+| X3 | Protocol & Interoperability | Protocol schemas, versioning, negotiation, compatibility, canonical serialization and boundary validation. |
+| X4 | Data, State & Storage | State ownership, persistence, consistency, migrations, integrity, retention and recovery. |
+| X5 | Standards, Governance & Policy | Normative source, decision rights, policy versioning, exceptions, approval and conformance. |
+| X6 | Testing, Verification & Evidence | Test strategy, conformance, reproducibility, evidence provenance and acceptance gates. |
+| X7 | Observability, Reliability & Resilience | Logs/metrics/traces, health, fault handling, resilience and service-level evidence. |
+| X8 | Performance, Capacity & Resource Optimization | Performance budgets, profiling, throughput/latency, capacity and optimization evidence. |
+| X9 | Compatibility, Portability & Platform Support | Platform profiles, compatibility matrices, portability, hardware/software support and limits. |
+| X10 | Supply Chain, Build Integrity & Artifact Provenance | Source/build provenance, dependency integrity, artifact identity, reproducibility and signing. |
+| X11 | Privacy, Data Protection & Information Governance | Data classification, minimization, access, retention, deletion and privacy controls. |
+| X12 | Resource Governance, Cost Control & Economic Sustainability | Resource budgets, cost attribution, economic constraints and sustainable resource use. |
+| X13 | API Governance, Service Contracts & Developer Integration | API/ABI contracts, versioning, error semantics, developer integration and deprecation. |
+| X14 | Configuration, Secrets & Runtime Environment Governance | Configuration schema, secret handling, environment isolation, defaults and change control. |
+| X15 | Update Management, Migration & Lifecycle Governance | Upgrade, rollback/rollforward, migration safety, deprecation and lifecycle compatibility. |
+| X16 | Accessibility, Internationalization & Inclusive Interaction | Accessibility requirements, locale, input/output modalities and inclusive interaction. |
+| X17 | Documentation, Knowledge Management & Technical Information Governance | Source-linked docs, ownership, freshness, terminology and documentation quality. |
+| X18 | Ecosystem Integrity, Catalog Drift & Architecture Observability | Catalog/source drift, ownership uniqueness, missing links, duplicate detection and reports. |
+| X19 | Risk Management, Threat Analysis & Systemic Risk Governance | Risk register, threat analysis, systemic dependencies, risk owners and treatment. |
+| X20 | Incident Response, Crisis Management & Operational Recovery | Detection, triage, containment, escalation, incident evidence and post-incident actions. |
+| X21 | Business Continuity, Disaster Recovery & Mission-Critical Continuity | Recovery objectives, backups, failover, continuity exercises and recovery evidence. |
+| X22 | Compliance, Legal Requirements & Regulatory Assurance | Applicable obligations, traceability, compliance evidence and review/exception records. |
+| X23 | Product Lifecycle, Configuration Management & Portfolio Governance | Product baselines, configuration items, ownership, release scope and portfolio decisions. |
+| X24 | Human Oversight, Decision Accountability & Organizational Readiness | Human approval boundaries, accountability, operator readiness and override auditing. |
+| X25 | Organizational Interoperability, Ecosystem Collaboration & Federated Governance | Cross-team/repository ownership, federation boundaries, shared decisions and dispute handling. |
+| X26 | Ecosystem Evolution, Strategic Innovation & Future Readiness | Evolution paths, migration strategy, extensibility, deprecation and future compatibility. |
+| X27 | Ecosystem Knowledge, Semantic Integration & Architecture Intelligence | Semantic identity, ontology/metadata alignment, cross-layer relationships and knowledge quality. |
+| X28 | Simulation, Digital Twin & System Modeling | Models, assumptions, simulation validity, scenario coverage and model-to-system correlation. |
+| X29 | Digital Ethics, Responsible Innovation & Societal Impact | Ethical risk assessment, impact review, accountability and mitigation evidence. |
+| X30 | Ecosystem Economics, Incentives & Value Flow Governance | Incentive models, value flows, accounting assumptions and economic attack analysis. |
+| X31 | Ecosystem Data Governance, Information Quality & Data Lifecycle | Data ownership, quality, lineage, lifecycle, schemas and authoritative records. |
+| X32 | Ecosystem API Security, Access Mediation & Zero-Trust Integration | Service identity, policy enforcement, boundary mediation, credentials and zero-trust checks. |
+| X33 | Ecosystem Event Governance, Messaging & Distributed Workflow Coordination | Event identity/schema, ordering, delivery semantics, idempotency, retries, workflow state and audit. |
+| X34 | Ecosystem Resource Scheduling, Capacity Allocation & Workload Governance | Workload classification, admission, reservations, fairness, quotas, isolation and safe release. |
+| X35 | Ecosystem Deployment, Release Engineering & Rollout Governance | Artifact provenance, release manifest, approvals, staged rollout, health gates, recovery and installed-version evidence. |
+| X36 | Ecosystem Integration, System Composition & End-to-End Compatibility | Component composition, ownership resolution, interface compatibility, dependency closure and E2E acceptance. |
 
-The numbering is a **proposed logical architecture model**, not a claim that all layers are already implemented or verified. Cross-cutting layers (X1-X8) MUST be maintained independently of the main numbering because they affect components from multiple architecture layers.
+The adopted system architecture has exactly ten system layers (L0–L9) and 36 cross-cutting layers (X1–X36). Former L10 responsibilities are distributed by responsibility, not by numeric substitution: X9 covers platform compatibility; X35 covers installer/release/deployment/rollout governance; X36 covers composition, dependency closure and end-to-end compatibility; X14 covers configuration/secrets; X7 covers observability/reliability; X20/X21 cover incident response and recovery; X15 covers lifecycle/migration; X3 covers protocol/schema interoperability. This mapping is a responsibility crosswalk, not proof that the corresponding implementation contracts exist.
 
+The layer IDs and names in this section are sourced from [ATC-LAYER-REGISTRY-L1-L10-X1-X36-001.json](ATC-LAYER-REGISTRY-L1-L10-X1-X36-001.json). The registry remains proposed/unresolved and does not itself establish implementation or verification status.
 ---
 
 ## 2. Sub-Layers and Function Hierarchy
@@ -74,7 +102,7 @@ Each main layer has a deeper structure. The following hierarchy applies to the c
 
 **Important:** These levels are catalog hierarchy and evidence chain, NOT seven additional operating system layers.
 
-The full sub-layer decomposition for each layer is defined in [ATC-LAYER-REGISTRY-001.yaml](layers/ATC-LAYER-REGISTRY-001.yaml) (79 sub-layer entries across L0-L10 and X1-X8; L0 per owner spec: 9 sub-layers L0.1-L0.9).
+The legacy sub-layer registry at [ATC-LAYER-REGISTRY-001.yaml](layers/ATC-LAYER-REGISTRY-001.yaml) contains an earlier L0-L10/X1-X8 decomposition. It is historical input, not the authoritative definition of the adopted L0-L9/X1-X36 matrix; sub-layer reconciliation remains open.
 
 ---
 
@@ -91,7 +119,7 @@ Every component and function MUST have at least the following fields:
 - **Status** (one of the binding status values below)
 
 ### Architecture
-- **Primary Layer** (L0-L10 or X1-X8)
+- **Primary Layer** (L0-L9 or X1-X36)
 - **Sub-Layer** (e.g., `L2.4` for Capabilities & Sandboxing)
 - **Parent-ID** (for sub-components)
 - **Child-IDs** (for parent components)
@@ -168,7 +196,7 @@ The catalog MUST represent the same components across different deployment forms
 
 | Model | Name | Description | Applies to |
 |-------|------|-------------|------------|
-| A | Native System | Hardware → Boot → ShivaCore → GlobusOS → Desktop → A-TownChain → Aurora AI | All layers (L0-L10) |
+| A | Native System | Hardware → Boot → ShivaCore → GlobusOS → Desktop → A-TownChain → Aurora AI | All system layers (L0-L9) |
 | B | Windows Application | Native Windows integration, host-OS abstraction, process isolation, compatible runtime | L5+ only |
 | C | Linux Application | Linux host adapters, process/FS integration, supported runtime | L5+ only |
 | D | Development & Test | Cross-compilation, emulators, VMs, local nodes, test networks, CI | All layers |
@@ -198,7 +226,7 @@ For components without a proven canonical source, the catalog MUST declare `UNRE
 
 ## 7. Implementation Sequence
 
-1. ✅ **Layer Registry created** — All main layers (L0-L10), cross-cutting layers (X1-X8), sub-layers (51), parent-child relationships, and unique IDs defined. See [ATC-LAYER-REGISTRY-001.yaml](layers/ATC-LAYER-REGISTRY-001.yaml).
+1. **Legacy layer registry exists** — The earlier L0-L10/X1-X8 decomposition is retained as historical input; the adopted matrix is L0-L9/X1-X36 and is tracked in [ATC-LAYER-REGISTRY-L1-L10-X1-X36-001.json](ATC-LAYER-REGISTRY-L1-L10-X1-X36-001.json).
 
 2. ✅ **Existing catalog mapped** — All 30 existing components assigned to layers without duplicating entries. See [ATC-LAYER-MAPPING-001.yaml](layers/ATC-LAYER-MAPPING-001.yaml).
 
@@ -242,7 +270,7 @@ The foundation of the entire A-TownChain ecosystem: physical compute resources, 
 
 **Function contracts (35, Sollstruktur):** All 35 proposed function contracts (ATC-L0-CPU-001 … ATC-L0-DISC-004) are defined in [ATC-L0-FUNCTION-CATALOG-001.yaml](layers/ATC-L0-FUNCTION-CATALOG-001.yaml). Every function starts as `UNRESOLVED` — these are proposed stable catalog IDs defining function contracts, NOT existing implementations. Sub-layer coverage: L0.1 (6), L0.2 (6), L0.3 (5), L0.4 (3), L0.5 (3), L0.6 (3), L0.7 (3), L0.8 (2), L0.9 (4).
 
-**Layer dependencies:** L0 capabilities required by higher layers (L1, L2, L3, L4, L5, L6, L7, L8, L10) are documented in the function catalog's `layer_dependencies` section (9 dependency contracts).
+**Layer dependencies:** L0 capability dependencies to system layers L1-L8 are documented in the function catalog's `layer_dependencies` section (8 draft dependency contracts). Former L10-related concerns are not system-layer dependencies and are split across X9, X35 and X36; the exact X-layer relationships remain unresolved pending evidence.
 
 **Acceptance criteria (7):** All nine sub-layers registered; stable IDs and defined contracts; traceable hardware dependencies to ShivaCore, GlobusOS, ATC-VM, and Aurora AI; vendor-specific characteristics separated from cross-architecture contracts; non-existent hardware classified as optional/unsupported/not-detected (never as present); security-critical functions with concrete trust boundary and verification requirement; no function receives `VERIFIED` without traceable evidence.
 
