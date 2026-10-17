@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-19811460EAD5",
-  "timestamp": "2026-10-16T18:58:08.155943Z",
+  "timestamp": "2026-10-17T07:00:07.057991Z",
   "category": "change",
   "title": "Commit: fix(governance): enforce honest coverage and full build SHAs",
   "context": "Git commit 19811460ead5eadc2ae01142c20edecf9493eb43 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/19811460ead5eadc2ae01142c20edecf9493eb43",
-    "commit": "cd3e553fe15a593ca02ceaf13d97718d45b86f78"
+    "commit": "12f9f427f5f5fa1d68fe278a026df1f04c67085b"
   },
   "tags": [
     "commit",

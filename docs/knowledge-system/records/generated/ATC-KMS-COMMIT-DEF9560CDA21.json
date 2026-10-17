@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-DEF9560CDA21",
-  "timestamp": "2026-10-16T18:58:08.155943Z",
+  "timestamp": "2026-10-17T07:00:07.057991Z",
   "category": "change",
   "title": "Commit: audit(catalog): refresh a-townchain baseline to a70b16f2d, normalize VM symbols, document private-symbol residuals",
   "context": "Git commit def9560cda219d1dce9d8790b79876b7fd5259e7 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/def9560cda219d1dce9d8790b79876b7fd5259e7",
-    "commit": "cd3e553fe15a593ca02ceaf13d97718d45b86f78"
+    "commit": "12f9f427f5f5fa1d68fe278a026df1f04c67085b"
   },
   "tags": [
     "commit",

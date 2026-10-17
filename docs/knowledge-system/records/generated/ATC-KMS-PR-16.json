@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-16",
-  "timestamp": "2026-10-16T18:58:08.155943Z",
+  "timestamp": "2026-10-17T07:00:07.057991Z",
   "category": "change",
   "title": "PR #16: feat: implement ATC 30-year halving emission",
   "context": "Pull request 16 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/16",
-    "commit": "cd3e553fe15a593ca02ceaf13d97718d45b86f78"
+    "commit": "12f9f427f5f5fa1d68fe278a026df1f04c67085b"
   },
   "tags": [
     "generated",

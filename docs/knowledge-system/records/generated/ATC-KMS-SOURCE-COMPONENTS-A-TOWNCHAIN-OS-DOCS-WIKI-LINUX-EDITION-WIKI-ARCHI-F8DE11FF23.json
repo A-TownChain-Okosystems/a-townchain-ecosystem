@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-WIKI-LINUX-EDITION-WIKI-ARCHI-F8DE11FF23",
-  "timestamp": "2026-10-16T18:58:08.155943Z",
+  "timestamp": "2026-10-17T07:00:07.057991Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/wiki/linux-edition-wiki/ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/wiki/linux-edition-wiki/ARCHITECTURE.md",
-    "commit": "cd3e553fe15a593ca02ceaf13d97718d45b86f78"
+    "commit": "12f9f427f5f5fa1d68fe278a026df1f04c67085b"
   },
   "tags": [
     "generated",
