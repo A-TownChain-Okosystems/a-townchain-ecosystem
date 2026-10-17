@@ -1,0 +1,38 @@
+name: Delivery Registry Validation
+
+on:
+  pull_request:
+    paths:
+      - "control-plane/DELIVERY_REGISTRY.json"
+      - "control-plane/DELIVERY_REGISTRY.schema.json"
+      - "tools/validate_delivery_registry.py"
+      - ".github/workflows/delivery-registry-validation.yml"
+  push:
+    branches: [main]
+    paths:
+      - "control-plane/DELIVERY_REGISTRY.json"
+      - "control-plane/DELIVERY_REGISTRY.schema.json"
+      - "tools/validate_delivery_registry.py"
+      - ".github/workflows/delivery-registry-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-delivery-registry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact tested commit
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install validator dependency
+        run: python -m pip install "jsonschema>=4.23,<5"
+      - name: Validate schema and semantic invariants (fail closed)
+        run: python tools/validate_delivery_registry.py
+      - name: Verify invalid examples are rejected
+        run: python tools/validate_delivery_registry.py --self-test
