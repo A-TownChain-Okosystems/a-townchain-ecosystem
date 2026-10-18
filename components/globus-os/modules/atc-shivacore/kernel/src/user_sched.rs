@@ -333,6 +333,12 @@ pub struct SchedulerQuantumSnapshot {
     process_quanta: Vec<(Pid, Quantum)>,
 }
 
+impl SchedulerQuantumSnapshot {
+    pub fn config_ticks(&self) -> u32 {
+        self.config_ticks
+    }
+}
+
 /// Preemptive round-robin scheduler for user processes
 pub struct UserScheduler {
     entries: Vec<SchedEntry>,
