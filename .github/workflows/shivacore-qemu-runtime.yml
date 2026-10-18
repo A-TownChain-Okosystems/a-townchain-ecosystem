@@ -44,8 +44,8 @@ jobs:
         run: cargo test --lib
 
       - name: Build bare-metal kernel
-        working-directory: components/globus-os/modules/atc-shivacore
-        run: cargo build --manifest-path kernel/Cargo.toml --release --features x86-boot --target x86_64-unknown-none --bin shivacore
+        working-directory: components/globus-os/modules/atc-shivacore/kernel
+        run: cargo build --release --features x86-boot --target x86_64-unknown-none --bin shivacore
 
       - name: Build BIOS boot image
         working-directory: components/globus-os/modules/atc-shivacore
