@@ -140,6 +140,16 @@ pub fn execute_trial<A: OptimizationAdapter>(
 /// stable workload/window. The default kernel optimizer does not construct or
 /// enable a probe by itself.
 pub trait SchedulerLatencyProbe {
+    /// Return true only when this probe is backed by a calibrated monotonic
+    /// runtime clock and measures real scheduler wake/ready-to-running events
+    /// over a defined workload/window. Simulated clocks, synthetic samples,
+    /// uncalibrated TSC cycles, and placeholder implementations must return
+    /// false. The default is deliberately fail-closed.
+    fn has_trustworthy_runtime_measurement(&self) -> bool {
+        false
+    }
+
+    /// Return latency in nanoseconds only when the contract above is met.
     fn measure_scheduler_latency_ns(&mut self) -> Result<u64, ()>;
 }
 
@@ -176,7 +186,12 @@ impl<P: SchedulerLatencyProbe> OptimizationAdapter for UserSchedulerOptimization
     }
 
     fn measure(&mut self, metric: MetricKind) -> Result<u64, ()> {
-        if metric != MetricKind::SchedulerLatencyNs {
+        if metric != MetricKind::SchedulerLatencyNs
+            || !self.latency_probe.has_trustworthy_runtime_measurement()
+        {
+            // Never let an uncalibrated, simulated, or synthetic probe feed
+            // the optimizer, even when the policy is later configured out of
+            // dry-run mode.
             return Err(());
         }
         self.latency_probe.measure_scheduler_latency_ns()
@@ -317,6 +332,12 @@ mod tests {
     }
 
     impl SchedulerLatencyProbe for SequenceLatencyProbe {
+        // This fake is used only to test adapter/trial mechanics; it is not
+        // evidence of real performance and is never wired into kernel runtime.
+        fn has_trustworthy_runtime_measurement(&self) -> bool {
+            true
+        }
+
         fn measure_scheduler_latency_ns(&mut self) -> Result<u64, ()> {
             let value = *self.values.get(self.next).ok_or(())?;
             self.next += 1;
