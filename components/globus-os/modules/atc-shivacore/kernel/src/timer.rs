@@ -48,13 +48,23 @@ pub mod hardware_clock {
     #[inline]
     unsafe fn port_read(port: u16) -> u8 {
         let value: u8;
-        asm!("in al, dx", in("dx") port, out("al") value, options(nomem, nostack, preserves_flags));
+        asm!(
+            "in al, dx",
+            in("dx") port,
+            out("al") value,
+            options(nomem, nostack, preserves_flags)
+        );
         value
     }
 
     #[inline]
     unsafe fn port_write(port: u16, value: u8) {
-        asm!("out dx, al", in("dx") port, in("al") value, options(nomem, nostack, preserves_flags));
+        asm!(
+            "out dx, al",
+            in("dx") port,
+            in("al") value,
+            options(nomem, nostack, preserves_flags)
+        );
     }
 
     #[inline]
@@ -62,7 +72,13 @@ pub mod hardware_clock {
         let low: u32;
         let high: u32;
         unsafe {
-            asm!("lfence", "rdtsc", out("eax") low, out("edx") high, options(nomem, nostack));
+            asm!(
+                "lfence",
+                "rdtsc",
+                out("eax") low,
+                out("edx") high,
+                options(nomem, nostack)
+            );
         }
         (u64::from(high) << 32) | u64::from(low)
     }
@@ -78,7 +94,9 @@ pub mod hardware_clock {
         if max_ext < 0x8000_0007 {
             return Err(());
         }
-        let invariant = unsafe { core::arch::x86_64::__cpuid(0x8000_0007).edx & (1 << 8) != 0 };
+        let invariant = unsafe {
+            core::arch::x86_64::__cpuid(0x8000_0007).edx & (1 << 8) != 0
+        };
         if !invariant {
             return Err(());
         }
@@ -94,7 +112,9 @@ pub mod hardware_clock {
             }
 
             let start = read_tsc();
-            unsafe { port_write(0x61, (saved_port61 & !0x02) | 0x01); }
+            unsafe {
+                port_write(0x61, (saved_port61 & !0x02) | 0x01);
+            }
 
             let mut saw_low = false;
             for _ in 0..MAX_POLL {
@@ -126,7 +146,9 @@ pub mod hardware_clock {
             }
             Err(())
         })();
-        unsafe { port_write(0x61, saved_port61); }
+        unsafe {
+            port_write(0x61, saved_port61);
+        }
         result
     }
 
