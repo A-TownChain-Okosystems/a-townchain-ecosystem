@@ -285,6 +285,17 @@ extern "C" fn timer_trap_rust(frame: &mut UserTrapFrame) {
             next.iret.rip,
             next.regs.rax
         );
+        if let Some(entry) = scheduler.get_entry(next_pid) {
+            if let Some(latency_ns) = entry.last_ready_to_running_ns {
+                serial_println!(
+                    "ShivaCore: SCHED-LATENCY PID={} ready_to_running_ns={} samples={} mean_ns={:?}",
+                    next_pid.0,
+                    latency_ns,
+                    scheduler.ready_to_running_samples(),
+                    scheduler.mean_ready_to_running_ns()
+                );
+            }
+        }
         frame.restore(next);
     }
 
