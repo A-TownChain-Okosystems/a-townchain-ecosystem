@@ -141,6 +141,42 @@ pub struct Quantum {
     pub ticks_total: u32,
 }
 
+/// Safe scheduler quantum limits, expressed in timer ticks (not nanoseconds).
+pub const MIN_SCHEDULER_QUANTUM_TICKS: u32 = 2;
+pub const DEFAULT_SCHEDULER_QUANTUM_TICKS: u32 = 10;
+pub const MAX_SCHEDULER_QUANTUM_TICKS: u32 = 50;
+
+/// Validated scheduler-wide quantum configuration.
+///
+/// New processes inherit this value. Updating it also resets existing process
+/// quanta so the scheduler has one coherent policy after the change.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct SchedulerQuantumConfig {
+    ticks: u32,
+}
+
+impl SchedulerQuantumConfig {
+    pub const fn default() -> Self {
+        Self { ticks: DEFAULT_SCHEDULER_QUANTUM_TICKS }
+    }
+
+    pub const fn ticks(self) -> u32 {
+        self.ticks
+    }
+
+    pub fn new(ticks: u32) -> Result<Self, SchedulerQuantumConfigError> {
+        if ticks < MIN_SCHEDULER_QUANTUM_TICKS || ticks > MAX_SCHEDULER_QUANTUM_TICKS {
+            return Err(SchedulerQuantumConfigError::OutOfBounds);
+        }
+        Ok(Self { ticks })
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum SchedulerQuantumConfigError {
+    OutOfBounds,
+}
+
 impl Quantum {
     pub fn new(ticks: u32) -> Self {
         Self {
@@ -150,7 +186,7 @@ impl Quantum {
     }
 
     pub fn default_quantum() -> Self {
-        Self::new(10)
+        Self::new(DEFAULT_SCHEDULER_QUANTUM_TICKS)
     }
 
     /// Decrement the quantum. Returns true if quantum expired.
@@ -296,6 +332,7 @@ pub struct UserScheduler {
     context_switches: u64,
     preemptions: u64,
     voluntary_yields: u64,
+    quantum_config: SchedulerQuantumConfig,
 }
 
 impl Default for UserScheduler {
@@ -313,12 +350,34 @@ impl UserScheduler {
             context_switches: 0,
             preemptions: 0,
             voluntary_yields: 0,
+            quantum_config: SchedulerQuantumConfig::default(),
         }
     }
 
     /// Add a user process to the scheduler
     pub fn add_process(&mut self, pid: Pid, ctx: &UserContext, priority: u8) {
-        self.entries.push(SchedEntry::new(pid, ctx, priority));
+        let mut entry = SchedEntry::new(pid, ctx, priority);
+        entry.quantum = Quantum::new(self.quantum_config.ticks());
+        self.entries.push(entry);
+    }
+
+    /// Current scheduler-wide quantum in timer ticks.
+    pub fn quantum_ticks(&self) -> u32 {
+        self.quantum_config.ticks()
+    }
+
+    /// Update the scheduler-wide quantum using validated timer-tick units.
+    /// Existing and future processes receive the same configured quantum.
+    pub fn set_quantum_ticks(
+        &mut self,
+        ticks: u32,
+    ) -> Result<(), SchedulerQuantumConfigError> {
+        let config = SchedulerQuantumConfig::new(ticks)?;
+        self.quantum_config = config;
+        for entry in &mut self.entries {
+            entry.quantum = Quantum::new(config.ticks());
+        }
+        Ok(())
     }
 
     /// Remove a process from the scheduler
@@ -761,6 +820,19 @@ impl UserProcessSystem {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn scheduler_quantum_config_rejects_out_of_bounds_values() {
+        assert_eq!(
+            SchedulerQuantumConfig::new(MIN_SCHEDULER_QUANTUM_TICKS - 1),
+            Err(SchedulerQuantumConfigError::OutOfBounds)
+        );
+        assert_eq!(
+            SchedulerQuantumConfig::new(MAX_SCHEDULER_QUANTUM_TICKS + 1),
+            Err(SchedulerQuantumConfigError::OutOfBounds)
+        );
+        assert_eq!(SchedulerQuantumConfig::new(10).unwrap().ticks(), 10);
+    }
     use crate::userspace::{UserAddressSpace, UserBinary};
 
     fn make_context(pid: u32) -> UserContext {
