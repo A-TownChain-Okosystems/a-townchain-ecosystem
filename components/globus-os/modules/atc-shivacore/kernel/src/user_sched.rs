@@ -274,6 +274,11 @@ pub struct SchedEntry {
     pub total_cpu_ticks: u64,
     pub context_switches: u64,
     pub wake_tick: Option<u64>, // When to wake (for Sleep)
+    /// Monotonic timestamp when this entry most recently became Ready.
+    pub ready_since_ns: Option<u64>,
+    /// Most recent measured ready-to-running latency.
+    pub last_ready_to_running_ns: Option<u64>,
+    pub ready_to_running_samples: u64,
 }
 
 impl SchedEntry {
@@ -287,6 +292,9 @@ impl SchedEntry {
             total_cpu_ticks: 0,
             context_switches: 0,
             wake_tick: None,
+            ready_since_ns: None,
+            last_ready_to_running_ns: None,
+            ready_to_running_samples: 0,
         }
     }
 
@@ -348,6 +356,8 @@ pub struct UserScheduler {
     preemptions: u64,
     voluntary_yields: u64,
     quantum_config: SchedulerQuantumConfig,
+    ready_to_running_total_ns: u128,
+    ready_to_running_samples: u64,
 }
 
 impl Default for UserScheduler {
@@ -366,14 +376,31 @@ impl UserScheduler {
             preemptions: 0,
             voluntary_yields: 0,
             quantum_config: SchedulerQuantumConfig::default(),
+            ready_to_running_total_ns: 0,
+            ready_to_running_samples: 0,
         }
     }
 
     /// Add a user process to the scheduler
     pub fn add_process(&mut self, pid: Pid, ctx: &UserContext, priority: u8) {
+        self.add_process_at(pid, ctx, priority, None);
+    }
+
+    /// Register a process with a monotonic ready timestamp from the runtime clock.
+    pub fn add_process_at(&mut self, pid: Pid, ctx: &UserContext, priority: u8, now_ns: Option<u64>) {
         let mut entry = SchedEntry::new(pid, ctx, priority);
         entry.quantum = Quantum::new(self.quantum_config.ticks());
+        entry.ready_since_ns = now_ns;
         self.entries.push(entry);
+    }
+
+    /// Aggregate latency sample count collected only from timestamped scheduler transitions.
+    pub fn ready_to_running_samples(&self) -> u64 { self.ready_to_running_samples }
+
+    /// Mean ready-to-running latency in ns; None means no trustworthy samples yet.
+    pub fn mean_ready_to_running_ns(&self) -> Option<u64> {
+        if self.ready_to_running_samples == 0 { None }
+        else { Some((self.ready_to_running_total_ns / u128::from(self.ready_to_running_samples)) as u64) }
     }
 
     /// Current scheduler-wide quantum in timer ticks.
@@ -506,11 +533,22 @@ impl UserScheduler {
             if let Some(entry) = self.get_entry_mut(old_pid) {
                 if entry.state == SchedState::Running {
                     entry.state = SchedState::Ready;
+                    entry.ready_since_ns = now_ns;
                 }
             }
         }
 
         let next_pid = self.entries[next_idx].pid;
+        if let (Some(now), Some(ready)) = (now_ns, self.entries[next_idx].ready_since_ns) {
+            if now >= ready {
+                let latency = now - ready;
+                self.entries[next_idx].last_ready_to_running_ns = Some(latency);
+                self.entries[next_idx].ready_to_running_samples = self.entries[next_idx].ready_to_running_samples.saturating_add(1);
+                self.ready_to_running_total_ns = self.ready_to_running_total_ns.saturating_add(u128::from(latency));
+                self.ready_to_running_samples = self.ready_to_running_samples.saturating_add(1);
+            }
+        }
+        self.entries[next_idx].ready_since_ns = None;
         self.entries[next_idx].state = SchedState::Running;
         self.entries[next_idx].reset_quantum();
         self.current = Some(next_pid);
@@ -521,6 +559,11 @@ impl UserScheduler {
 
     /// Schedule directly from a CPU trap frame without reconstructing a synthetic UserContext.
     pub fn schedule_saved(&mut self, current_ctx: SavedContext) -> Option<(Pid, SavedContext)> {
+        self.schedule_saved_at(current_ctx, None)
+    }
+
+    /// Runtime variant: record Ready and Running transitions against one monotonic timestamp.
+    pub fn schedule_saved_at(&mut self, current_ctx: SavedContext, now_ns: Option<u64>) -> Option<(Pid, SavedContext)> {
         self.context_switches += 1;
 
         if let Some(pid) = self.current {
@@ -548,12 +591,18 @@ impl UserScheduler {
 
     /// Timer tick driven by the real CPU-saved interrupt frame.
     pub fn timer_tick_saved(&mut self, current_ctx: SavedContext) -> Option<(Pid, SavedContext)> {
+        self.timer_tick_saved_at(current_ctx, None)
+    }
+
+    /// Hardware-runtime path. `now_ns` must come from a calibrated monotonic source.
+    pub fn timer_tick_saved_at(&mut self, current_ctx: SavedContext, now_ns: Option<u64>) -> Option<(Pid, SavedContext)> {
         self.timer_ticks += 1;
 
         for entry in &mut self.entries {
             if let SchedState::Blocked(BlockReason::Sleep(wake)) = entry.state {
                 if self.timer_ticks >= wake {
                     entry.state = SchedState::Ready;
+                    entry.ready_since_ns = now_ns;
                     entry.wake_tick = None;
                 }
             }
@@ -564,12 +613,12 @@ impl UserScheduler {
                 let expired = entry.tick_quantum();
                 if expired {
                     self.preemptions += 1;
-                    return self.schedule_saved(current_ctx);
+                    return self.schedule_saved_at(current_ctx, now_ns);
                 }
                 entry.save_saved_context(current_ctx);
             }
         } else {
-            return self.schedule_saved(current_ctx);
+            return self.schedule_saved_at(current_ctx, now_ns);
         }
 
         None
