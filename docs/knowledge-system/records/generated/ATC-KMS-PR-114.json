@@ -1,16 +1,16 @@
 {
   "id": "ATC-KMS-PR-114",
-  "timestamp": "2026-10-17T07:00:07.057991Z",
+  "timestamp": "2026-10-18T07:15:49.127934Z",
   "category": "change",
   "title": "PR #114: docs: bind component/function catalog to source audit evidence",
   "context": "Pull request 114 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
-  "status": "active",
+  "status": "archived",
   "version": "v1.0.0",
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/114",
-    "commit": "12f9f427f5f5fa1d68fe278a026df1f04c67085b"
+    "commit": "61635e988dcdb7afda1ef0bc48534d65149a1898"
   },
   "tags": [
     "generated",
@@ -18,5 +18,5 @@
     "pull-request"
   ],
   "links": [],
-  "content": "State: open\nMerged: False\nDraft: True\n\n## Zweck\n\nErweitert den maschinenlesbaren Komponenten- und Funktionskatalog um explizite Source-Audit-Bindungen.\n\n## Änderungen\n- Alle 30 Komponenten erhalten kanonisches Repository, Pfad, im Census beobachtete HEAD-/Tree-SHA und einen expliziten Residualstatus.\n- Alle 63 Funktionsverträge erhalten `source_binding` mit Quellpfad, Symbol/Entry-Point, exaktem SHA und Beleg zunächst leer sowie Status `NOT_SOURCE_VERIFIED`.\n- Scope-Metadaten erklären ausdrücklich, dass der Census keine Quellcodevollständigkeit beweist.\n- Es werden keine Implementierungen, Repository-Lifecycles oder CI-Gates geändert.\n\n## Grenzen / Abnahme\nDies ist ein Audit-Tracking-Schritt, kein abgeschlossener Source-to-Catalog-Abgleich. `source_verified_components=0` und `source_verified_functions=0` bleiben absichtlich gesetzt, bis tatsächliche Quellbäume, öffentliche Symbole und Schnittstellen auf exakten SHAs geprüft sind. Unbekannte Funktionen müssen anschließend ergänzt werden; keine automatische Merge-Freigabe."
+  "content": "State: closed\nMerged: False\nDraft: True\n\n## Zweck\n\nErweitert den maschinenlesbaren Komponenten- und Funktionskatalog um explizite Source-Audit-Bindungen.\n\n## Änderungen\n- Alle 30 Komponenten erhalten kanonisches Repository, Pfad, im Census beobachtete HEAD-/Tree-SHA und einen expliziten Residualstatus.\n- Alle 63 Funktionsverträge erhalten `source_binding` mit Quellpfad, Symbol/Entry-Point, exaktem SHA und Beleg zunächst leer sowie Status `NOT_SOURCE_VERIFIED`.\n- Scope-Metadaten erklären ausdrücklich, dass der Census keine Quellcodevollständigkeit beweist.\n- Es werden keine Implementierungen, Repository-Lifecycles oder CI-Gates geändert.\n\n## Grenzen / Abnahme\nDies ist ein Audit-Tracking-Schritt, kein abgeschlossener Source-to-Catalog-Abgleich. `source_verified_components=0` und `source_verified_functions=0` bleiben absichtlich gesetzt, bis tatsächliche Quellbäume, öffentliche Symbole und Schnittstellen auf exakten SHAs geprüft sind. Unbekannte Funktionen müssen anschließend ergänzt werden; keine automatische Merge-Freigabe."
 }
