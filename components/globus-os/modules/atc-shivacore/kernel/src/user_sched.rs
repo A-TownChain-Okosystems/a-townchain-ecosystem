@@ -387,7 +387,13 @@ impl UserScheduler {
     }
 
     /// Register a process with a monotonic ready timestamp from the runtime clock.
-    pub fn add_process_at(&mut self, pid: Pid, ctx: &UserContext, priority: u8, now_ns: Option<u64>) {
+    pub fn add_process_at(
+        &mut self,
+        pid: Pid,
+        ctx: &UserContext,
+        priority: u8,
+        now_ns: Option<u64>,
+    ) {
         let mut entry = SchedEntry::new(pid, ctx, priority);
         entry.quantum = Quantum::new(self.quantum_config.ticks());
         entry.ready_since_ns = now_ns;
@@ -395,12 +401,20 @@ impl UserScheduler {
     }
 
     /// Aggregate latency sample count collected only from timestamped scheduler transitions.
-    pub fn ready_to_running_samples(&self) -> u64 { self.ready_to_running_samples }
+    pub fn ready_to_running_samples(&self) -> u64 {
+        self.ready_to_running_samples
+    }
 
     /// Mean ready-to-running latency in ns; None means no trustworthy samples yet.
     pub fn mean_ready_to_running_ns(&self) -> Option<u64> {
-        if self.ready_to_running_samples == 0 { None }
-        else { Some((self.ready_to_running_total_ns / u128::from(self.ready_to_running_samples)) as u64) }
+        if self.ready_to_running_samples == 0 {
+            None
+        } else {
+            Some(
+                (self.ready_to_running_total_ns / u128::from(self.ready_to_running_samples))
+                    as u64,
+            )
+        }
     }
 
     /// Current scheduler-wide quantum in timer ticks.
@@ -519,7 +533,11 @@ impl UserScheduler {
     }
 
     /// Schedule path with a monotonic timestamp supplied by the hardware clock.
-    pub fn schedule_at(&mut self, current_ctx: Option<&UserContext>, now_ns: Option<u64>) -> Option<(Pid, SavedContext)> {
+    pub fn schedule_at(
+        &mut self,
+        current_ctx: Option<&UserContext>,
+        now_ns: Option<u64>,
+    ) -> Option<(Pid, SavedContext)> {
         self.context_switches += 1;
 
         if let Some(pid) = self.current {
@@ -548,12 +566,17 @@ impl UserScheduler {
 
         if self.current != Some(next_pid) {
             if let (Some(now), Some(ready)) = (now_ns, self.entries[next_idx].ready_since_ns) {
-            if now >= ready {
-                let latency = now - ready;
-                self.entries[next_idx].last_ready_to_running_ns = Some(latency);
-                self.entries[next_idx].ready_to_running_samples = self.entries[next_idx].ready_to_running_samples.saturating_add(1);
-                self.ready_to_running_total_ns = self.ready_to_running_total_ns.saturating_add(u128::from(latency));
-                self.ready_to_running_samples = self.ready_to_running_samples.saturating_add(1);
+                if now >= ready {
+                    let latency = now - ready;
+                    self.entries[next_idx].last_ready_to_running_ns = Some(latency);
+                    self.entries[next_idx].ready_to_running_samples = self.entries[next_idx]
+                        .ready_to_running_samples
+                        .saturating_add(1);
+                    self.ready_to_running_total_ns = self
+                        .ready_to_running_total_ns
+                        .saturating_add(u128::from(latency));
+                    self.ready_to_running_samples =
+                        self.ready_to_running_samples.saturating_add(1);
                 }
             }
         }
@@ -572,7 +595,11 @@ impl UserScheduler {
     }
 
     /// Runtime variant: record Ready and Running transitions against one monotonic timestamp.
-    pub fn schedule_saved_at(&mut self, current_ctx: SavedContext, now_ns: Option<u64>) -> Option<(Pid, SavedContext)> {
+    pub fn schedule_saved_at(
+        &mut self,
+        current_ctx: SavedContext,
+        now_ns: Option<u64>,
+    ) -> Option<(Pid, SavedContext)> {
         self.context_switches += 1;
 
         if let Some(pid) = self.current {
@@ -619,7 +646,11 @@ impl UserScheduler {
     }
 
     /// Hardware-runtime path. `now_ns` must come from a calibrated monotonic source.
-    pub fn timer_tick_saved_at(&mut self, current_ctx: SavedContext, now_ns: Option<u64>) -> Option<(Pid, SavedContext)> {
+    pub fn timer_tick_saved_at(
+        &mut self,
+        current_ctx: SavedContext,
+        now_ns: Option<u64>,
+    ) -> Option<(Pid, SavedContext)> {
         self.timer_ticks += 1;
 
         for entry in &mut self.entries {
