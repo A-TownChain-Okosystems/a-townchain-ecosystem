@@ -351,6 +351,7 @@ mod tests {
         unsupported.parameter = TunableParameter::IoBatchSize;
         assert_eq!(runtime.read_parameter(unsupported), Err(()));
         assert_eq!(runtime.measure(MetricKind::QueueDepth), Err(()));
+        drop(runtime);
         assert_eq!(scheduler.quantum_ticks(), 10);
     }
 
