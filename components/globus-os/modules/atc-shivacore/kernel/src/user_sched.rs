@@ -740,10 +740,19 @@ impl UserScheduler {
         self.schedule(None)
     }
 
-    /// Unblock a process
+    /// Unblock a process without trusted runtime timing (compatibility path).
     pub fn unblock(&mut self, pid: Pid) {
+        self.unblock_at(pid, None);
+    }
+
+    /// Unblock a process and timestamp its Ready transition when a calibrated
+    /// monotonic timestamp is available.
+    pub fn unblock_at(&mut self, pid: Pid, now_ns: Option<u64>) {
         if let Some(entry) = self.get_entry_mut(pid) {
-            entry.state = SchedState::Ready;
+            if matches!(entry.state, SchedState::Blocked(_)) {
+                entry.state = SchedState::Ready;
+                entry.ready_since_ns = now_ns;
+            }
         }
     }
 
@@ -824,9 +833,15 @@ impl UserScheduler {
 
     /// Continue a stopped process (SIGCONT)
     pub fn continue_process(&mut self, pid: Pid) {
+        self.continue_process_at(pid, None);
+    }
+
+    /// Resume a stopped process and timestamp its Ready transition.
+    pub fn continue_process_at(&mut self, pid: Pid, now_ns: Option<u64>) {
         if let Some(entry) = self.get_entry_mut(pid) {
             if matches!(entry.state, SchedState::Blocked(BlockReason::Stopped)) {
                 entry.state = SchedState::Ready;
+                entry.ready_since_ns = now_ns;
             }
         }
     }
