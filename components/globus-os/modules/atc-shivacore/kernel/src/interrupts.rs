@@ -32,7 +32,7 @@ pub fn init_user_scheduler(first: &UserContext, second: &UserContext) {
     scheduler.add_process_at(first.pid, first, 0, ready_time_first);
     let ready_time_second = shivacore::timer::hardware_clock::now_ns();
     scheduler.add_process_at(second.pid, second, 0, ready_time_second);
-    let _ = scheduler.schedule(None);
+    let _ = scheduler.schedule_at(None, shivacore::timer::hardware_clock::now_ns());
     *USER_SCHEDULER.lock() = Some(scheduler);
     serial_println!(
         "ShivaCore: SCHED-001 scheduler armed: PID={} + PID={}",
