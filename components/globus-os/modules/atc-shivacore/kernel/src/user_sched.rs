@@ -1595,4 +1595,25 @@ mod tests {
         }
         assert!(sys.scheduler.timer_ticks() >= 20);
     }
+
+    #[test]
+    fn runtime_dispatch_records_ready_to_running_latency() {
+        let mut sched = UserScheduler::new();
+        let ctx1 = make_context(1000);
+        let ctx2 = make_context(1001);
+        sched.add_process_at(Pid(1000), &ctx1, 0, Some(100));
+        sched.add_process_at(Pid(1001), &ctx2, 0, Some(200));
+
+        // First dispatch uses the calibrated-clock timestamp path.
+        assert_eq!(sched.schedule_at(None, Some(150)).unwrap().0, Pid(1000));
+        assert_eq!(sched.get_entry(Pid(1000)).unwrap().last_ready_to_running_ns, Some(50));
+
+        // Model the actual timer-IRQ scheduling entry: PID 1000 is preempted,
+        // PID 1001 transitions Ready -> Running at the captured timestamp.
+        let saved = SavedContext::from_user_context(&ctx1);
+        assert_eq!(sched.schedule_saved_at(saved, Some(1_000)).unwrap().0, Pid(1001));
+        assert_eq!(sched.get_entry(Pid(1001)).unwrap().last_ready_to_running_ns, Some(800));
+        assert_eq!(sched.ready_to_running_samples(), 2);
+        assert_eq!(sched.mean_ready_to_running_ns(), Some(425));
+    }
 }
