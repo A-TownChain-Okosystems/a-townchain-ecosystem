@@ -216,6 +216,27 @@ impl<P: SchedulerLatencyProbe> OptimizationAdapter for UserSchedulerOptimization
     }
 }
 
+
+/// Convert a raw monotonic-counter interval to nanoseconds using an explicitly
+/// calibrated counter frequency. This validates arithmetic only: callers must
+/// still establish that the counter is hardware-backed, monotonic, calibrated,
+/// and sampled at real scheduler ready/running events before declaring a probe
+/// trustworthy.
+pub fn checked_counter_delta_ns(start: u64, end: u64, frequency_hz: u64) -> Result<u64, ()> {
+    if frequency_hz == 0 || end <= start {
+        return Err(());
+    }
+
+    let delta = u128::from(end - start);
+    let scaled = delta.checked_mul(1_000_000_000).ok_or(())?;
+    let ns = scaled / u128::from(frequency_hz);
+    if ns == 0 || ns > u128::from(u64::MAX) {
+        return Err(());
+    }
+
+    u64::try_from(ns).map_err(|_| ())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -282,6 +303,24 @@ mod tests {
             dry_run: false,
             ..OptimizationPolicy::default()
         })
+    }
+
+    #[test]
+    fn counter_interval_requires_calibration_and_forward_progress() {
+        assert_eq!(checked_counter_delta_ns(10, 20, 0), Err(()));
+        assert_eq!(checked_counter_delta_ns(20, 10, 1_000_000_000), Err(()));
+        assert_eq!(checked_counter_delta_ns(10, 10, 1_000_000_000), Err(()));
+    }
+
+    #[test]
+    fn counter_interval_converts_using_calibrated_frequency() {
+        assert_eq!(checked_counter_delta_ns(100, 200, 1_000_000_000), Ok(100));
+        assert_eq!(checked_counter_delta_ns(100, 200, 2_000_000_000), Ok(50));
+    }
+
+    #[test]
+    fn counter_interval_rejects_unrepresentable_nanoseconds() {
+        assert_eq!(checked_counter_delta_ns(0, u64::MAX, 1), Err(()));
     }
 
     #[test]
