@@ -189,7 +189,7 @@ mod tests {
     #[test]
     fn defaults_to_dry_run_and_never_counts_a_change() {
         let mut optimizer = PerformanceOptimizer::new(OptimizationPolicy::default());
-        assert_eq!(optimizer.assess(proposal(1_000_000), 1_000, 800), Ok(TrialResult::DryRunOnly));
+        assert_eq!(optimizer.assess(proposal(20), 1_000, 800), Ok(TrialResult::DryRunOnly));
         assert_eq!(optimizer.accepted_changes(), 0);
     }
 
@@ -202,9 +202,9 @@ mod tests {
     #[test]
     fn accepts_only_measurable_improvement() {
         let mut optimizer = PerformanceOptimizer::new(OptimizationPolicy { dry_run: false, ..OptimizationPolicy::default() });
-        assert_eq!(optimizer.assess(proposal(1_000_000), 1_000, 900), Ok(TrialResult::Accepted));
+        assert_eq!(optimizer.assess(proposal(20), 1_000, 900), Ok(TrialResult::Accepted));
         assert_eq!(optimizer.accepted_changes(), 1);
-        assert_eq!(optimizer.assess(proposal(1_000_000), 1_000, 999), Ok(TrialResult::RejectedInsufficientImprovement));
+        assert_eq!(optimizer.assess(proposal(20), 1_000, 999), Ok(TrialResult::RejectedInsufficientImprovement));
     }
 
     #[test]
@@ -214,9 +214,9 @@ mod tests {
             max_changes_per_boot: 1,
             ..OptimizationPolicy::default()
         });
-        assert_eq!(optimizer.assess(proposal(1_000_000), 1_000, 1_200), Ok(TrialResult::RejectedRegression));
-        assert_eq!(optimizer.assess(proposal(1_000_000), 1_000, 900), Ok(TrialResult::Accepted));
-        assert_eq!(optimizer.assess(proposal(1_000_000), 1_000, 800), Ok(TrialResult::ChangeLimitReached));
+        assert_eq!(optimizer.assess(proposal(20), 1_000, 1_200), Ok(TrialResult::RejectedRegression));
+        assert_eq!(optimizer.assess(proposal(20), 1_000, 900), Ok(TrialResult::Accepted));
+        assert_eq!(optimizer.assess(proposal(20), 1_000, 800), Ok(TrialResult::ChangeLimitReached));
     }
 
     #[test]
