@@ -28,8 +28,10 @@ static USER_SCHEDULER: Mutex<Option<UserScheduler>> = Mutex::new(None);
 
 pub fn init_user_scheduler(first: &UserContext, second: &UserContext) {
     let mut scheduler = UserScheduler::new();
-    scheduler.add_process(first.pid, first, 0);
-    scheduler.add_process(second.pid, second, 0);
+    let ready_time_first = shivacore::timer::hardware_clock::now_ns();
+    scheduler.add_process_at(first.pid, first, 0, ready_time_first);
+    let ready_time_second = shivacore::timer::hardware_clock::now_ns();
+    scheduler.add_process_at(second.pid, second, 0, ready_time_second);
     let _ = scheduler.schedule(None);
     *USER_SCHEDULER.lock() = Some(scheduler);
     serial_println!(
@@ -237,6 +239,9 @@ shivacore_timer_trampoline:
 
 #[no_mangle]
 extern "C" fn timer_trap_rust(frame: &mut UserTrapFrame) {
+    // Capture a real monotonic timestamp at the timer IRQ boundary. None means
+    // calibration was unavailable; scheduler latency metrics then remain empty.
+    let monotonic_now_ns = shivacore::timer::hardware_clock::now_ns();
     let mut guard = USER_SCHEDULER.lock();
     let Some(scheduler) = guard.as_mut() else {
         unsafe {
@@ -273,7 +278,7 @@ extern "C" fn timer_trap_rust(frame: &mut UserTrapFrame) {
         );
     }
 
-    if let Some((next_pid, next)) = scheduler.timer_tick_saved(current) {
+    if let Some((next_pid, next)) = scheduler.timer_tick_saved_at(current, monotonic_now_ns) {
         serial_println!(
             "ShivaCore: scheduler preemption -> context switch to PID={} RIP={:#x} RAX={:#x}",
             next_pid.0,
