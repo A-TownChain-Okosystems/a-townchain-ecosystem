@@ -77,7 +77,7 @@ impl OptimizationProposal {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct OptimizationPolicy {
-    /// Required improvement to consider a trial useful (permille = 0.1%).
+    /// Required improvement to consider a trial useful (10 permille = 1%).
     pub min_improvement_permille: u16,
     /// Maximum accepted regression in the target metric (permille).
     pub max_regression_permille: u16,
