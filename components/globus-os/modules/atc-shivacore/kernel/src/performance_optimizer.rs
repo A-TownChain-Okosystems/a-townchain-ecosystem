@@ -21,7 +21,7 @@ pub enum Goal {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TunableParameter {
-    SchedulerQuantumNs,
+    SchedulerQuantumTicks,
     BackgroundWorkBudgetPermille,
     CacheCapacityPages,
     IoBatchSize,
@@ -38,7 +38,7 @@ impl TunableParameter {
     /// but must never widen these without an explicit reviewed change.
     pub const fn bounds(self) -> ParameterBounds {
         match self {
-            Self::SchedulerQuantumNs => ParameterBounds { min: 100_000, max: 50_000_000 },
+            Self::SchedulerQuantumTicks => ParameterBounds { min: 2, max: 50 },
             Self::BackgroundWorkBudgetPermille => ParameterBounds { min: 10, max: 500 },
             Self::CacheCapacityPages => ParameterBounds { min: 0, max: 65_536 },
             Self::IoBatchSize => ParameterBounds { min: 1, max: 1_024 },
@@ -179,7 +179,7 @@ mod tests {
 
     fn proposal(value: u32) -> OptimizationProposal {
         OptimizationProposal {
-            parameter: TunableParameter::SchedulerQuantumNs,
+            parameter: TunableParameter::SchedulerQuantumTicks,
             candidate_value: value,
             target_metric: MetricKind::SchedulerLatencyNs,
             goal: Goal::LowerIsBetter,
