@@ -175,6 +175,7 @@ impl SchedulerQuantumConfig {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SchedulerQuantumConfigError {
     OutOfBounds,
+    StateMismatch,
 }
 
 impl Quantum {
@@ -408,12 +409,12 @@ impl UserScheduler {
                 !snapshot.process_quanta.iter().any(|(pid, _)| *pid == entry.pid)
             })
         {
-            return Err(SchedulerQuantumConfigError::OutOfBounds);
+            return Err(SchedulerQuantumConfigError::StateMismatch);
         }
         self.quantum_config = config;
         for entry in &mut self.entries {
             let Some((_, quantum)) = snapshot.process_quanta.iter().find(|(pid, _)| *pid == entry.pid) else {
-                return Err(SchedulerQuantumConfigError::OutOfBounds);
+                return Err(SchedulerQuantumConfigError::StateMismatch);
             };
             entry.quantum = *quantum;
         }
