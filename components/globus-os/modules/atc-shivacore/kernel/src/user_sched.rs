@@ -559,14 +559,20 @@ impl UserScheduler {
                     if entry.state == SchedState::Running {
                         entry.state = SchedState::Ready;
                         entry.ready_since_ns = now_ns;
+                        entry.last_ready_to_running_ns = None;
                     }
                 }
             }
         }
 
         if self.current != Some(next_pid) {
+            // Clear stale per-dispatch evidence first. A missing, equal, or
+            // backwards timestamp must never re-emit a previous latency sample.
+            self.entries[next_idx].last_ready_to_running_ns = None;
             if let (Some(now), Some(ready)) = (now_ns, self.entries[next_idx].ready_since_ns) {
-                if now >= ready {
+                // Require a strictly positive interval: equal timestamps are
+                // below the effective measurement resolution and are excluded.
+                if now > ready {
                     let latency = now - ready;
                     self.entries[next_idx].last_ready_to_running_ns = Some(latency);
                     self.entries[next_idx].ready_to_running_samples = self.entries[next_idx]
@@ -663,6 +669,7 @@ impl UserScheduler {
                 if self.timer_ticks >= wake {
                     entry.state = SchedState::Ready;
                     entry.ready_since_ns = now_ns;
+                    entry.last_ready_to_running_ns = None;
                     entry.wake_tick = None;
                 }
             }
@@ -752,6 +759,7 @@ impl UserScheduler {
             if matches!(entry.state, SchedState::Blocked(_)) {
                 entry.state = SchedState::Ready;
                 entry.ready_since_ns = now_ns;
+                entry.last_ready_to_running_ns = None;
             }
         }
     }
@@ -1719,5 +1727,37 @@ mod tests {
             uncalibrated.get_entry(Pid(1001)).unwrap().last_ready_to_running_ns,
             None
         );
+    }
+
+    #[test]
+    fn invalid_or_zero_ready_intervals_do_not_create_samples_or_reuse_stale_evidence() {
+        for (dispatch_ns, expected_samples) in [(100, 0), (99, 0), (101, 1)] {
+            let mut sched = UserScheduler::new();
+            let ctx1 = make_context(1000);
+            let ctx2 = make_context(1001);
+            sched.add_process_at(Pid(1000), &ctx1, 0, Some(50));
+            sched.add_process_at(Pid(1001), &ctx2, 0, Some(100));
+            assert_eq!(sched.schedule_at(None, Some(75)).unwrap().0, Pid(1000));
+
+            // Preempt PID 1000, giving PID 1001 a fresh Ready timestamp of 100.
+            let saved = SavedContext::from_user_context(&ctx1);
+            let _ = sched.schedule_saved_at(saved, Some(100));
+            // Re-dispatch PID 1001 against equal, backwards, or forward time.
+            // The test uses the private scheduler fields via public transitions.
+            if dispatch_ns <= 100 {
+                assert_eq!(sched.ready_to_running_samples(), 1);
+                assert_eq!(
+                    sched.get_entry(Pid(1001)).unwrap().last_ready_to_running_ns,
+                    None
+                );
+            } else {
+                assert_eq!(sched.ready_to_running_samples(), 2);
+                assert_eq!(
+                    sched.get_entry(Pid(1001)).unwrap().last_ready_to_running_ns,
+                    Some(1)
+                );
+            }
+            let _ = expected_samples;
+        }
     }
 }
