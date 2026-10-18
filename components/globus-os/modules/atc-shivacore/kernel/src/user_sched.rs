@@ -1687,4 +1687,37 @@ mod tests {
         assert_eq!(sched.ready_to_running_samples(), 2);
         assert_eq!(sched.mean_ready_to_running_ns(), Some(425));
     }
+
+    #[test]
+    fn unblock_transition_is_timestamped_and_uncalibrated_paths_fail_closed() {
+        let mut sched = UserScheduler::new();
+        let ctx = make_context(1000);
+        sched.add_process(Pid(1000), &ctx, 0);
+        sched.get_entry_mut(Pid(1000)).unwrap().state =
+            SchedState::Blocked(BlockReason::IoWait);
+
+        sched.unblock_at(Pid(1000), Some(500));
+        assert_eq!(
+            sched.get_entry(Pid(1000)).unwrap().ready_since_ns,
+            Some(500)
+        );
+        assert_eq!(sched.schedule_at(None, Some(600)).unwrap().0, Pid(1000));
+        assert_eq!(
+            sched.get_entry(Pid(1000)).unwrap().last_ready_to_running_ns,
+            Some(100)
+        );
+
+        let mut uncalibrated = UserScheduler::new();
+        let ctx2 = make_context(1001);
+        uncalibrated.add_process(Pid(1001), &ctx2, 0);
+        uncalibrated.get_entry_mut(Pid(1001)).unwrap().state =
+            SchedState::Blocked(BlockReason::IoWait);
+        uncalibrated.unblock_at(Pid(1001), None);
+        assert_eq!(uncalibrated.schedule_at(None, Some(900)).unwrap().0, Pid(1001));
+        assert_eq!(uncalibrated.ready_to_running_samples(), 0);
+        assert_eq!(
+            uncalibrated.get_entry(Pid(1001)).unwrap().last_ready_to_running_ns,
+            None
+        );
+    }
 }
