@@ -1731,33 +1731,45 @@ mod tests {
 
     #[test]
     fn invalid_or_zero_ready_intervals_do_not_create_samples_or_reuse_stale_evidence() {
-        for (dispatch_ns, expected_samples) in [(100, 0), (99, 0), (101, 1)] {
+        for dispatch_ns in [100, 99, 101] {
             let mut sched = UserScheduler::new();
             let ctx1 = make_context(1000);
             let ctx2 = make_context(1001);
             sched.add_process_at(Pid(1000), &ctx1, 0, Some(50));
             sched.add_process_at(Pid(1001), &ctx2, 0, Some(100));
-            assert_eq!(sched.schedule_at(None, Some(75)).unwrap().0, Pid(1000));
 
-            // Preempt PID 1000, giving PID 1001 a fresh Ready timestamp of 100.
-            let saved = SavedContext::from_user_context(&ctx1);
-            let _ = sched.schedule_saved_at(saved, Some(100));
-            // Re-dispatch PID 1001 against equal, backwards, or forward time.
-            // The test uses the private scheduler fields via public transitions.
-            if dispatch_ns <= 100 {
-                assert_eq!(sched.ready_to_running_samples(), 1);
-                assert_eq!(
-                    sched.get_entry(Pid(1001)).unwrap().last_ready_to_running_ns,
-                    None
-                );
-            } else {
+            // PID 1000 has one valid sample: 75 - 50 = 25 ns.
+            assert_eq!(sched.schedule_at(None, Some(75)).unwrap().0, Pid(1000));
+            assert_eq!(sched.ready_to_running_samples(), 1);
+
+            // PID 1001 has a zero-length interval (100 - 100), which is excluded.
+            let saved1 = SavedContext::from_user_context(&ctx1);
+            assert_eq!(sched.schedule_saved_at(saved1, Some(100)).unwrap().0, Pid(1001));
+            assert_eq!(sched.ready_to_running_samples(), 1);
+            assert_eq!(
+                sched.get_entry(Pid(1001)).unwrap().last_ready_to_running_ns,
+                None
+            );
+
+            // PID 1000 became Ready at 100. Equal/backwards timestamps are
+            // rejected; a strictly later timestamp contributes one sample.
+            let saved2 = SavedContext::from_user_context(&ctx2);
+            assert_eq!(
+                sched.schedule_saved_at(saved2, Some(dispatch_ns)).unwrap().0,
+                Pid(1000)
+            );
+            if dispatch_ns > 100 {
                 assert_eq!(sched.ready_to_running_samples(), 2);
                 assert_eq!(
-                    sched.get_entry(Pid(1001)).unwrap().last_ready_to_running_ns,
-                    Some(1)
+                    sched.get_entry(Pid(1000)).unwrap().last_ready_to_running_ns,
+                    Some(dispatch_ns - 100)
+                );
+            } else {
+                assert_eq!(sched.ready_to_running_samples(), 1);
+                assert_eq!(
+                    sched.get_entry(Pid(1000)).unwrap().last_ready_to_running_ns,
+                    None
                 );
             }
-            let _ = expected_samples;
         }
-    }
-}
+    }}
