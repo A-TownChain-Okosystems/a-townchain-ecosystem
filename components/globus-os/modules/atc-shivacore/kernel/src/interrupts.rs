@@ -239,9 +239,6 @@ shivacore_timer_trampoline:
 
 #[no_mangle]
 extern "C" fn timer_trap_rust(frame: &mut UserTrapFrame) {
-    // Capture a real monotonic timestamp at the timer IRQ boundary. None means
-    // calibration was unavailable; scheduler latency metrics then remain empty.
-    let monotonic_now_ns = shivacore::timer::hardware_clock::now_ns();
     let mut guard = USER_SCHEDULER.lock();
     let Some(scheduler) = guard.as_mut() else {
         unsafe {
@@ -278,6 +275,9 @@ extern "C" fn timer_trap_rust(frame: &mut UserTrapFrame) {
         );
     }
 
+    // Sample immediately before the scheduler state transition, after diagnostic I/O.
+    // None means calibration was unavailable; latency metrics remain fail-closed.
+    let monotonic_now_ns = shivacore::timer::hardware_clock::now_ns();
     if let Some((next_pid, next)) = scheduler.timer_tick_saved_at(current, monotonic_now_ns) {
         serial_println!(
             "ShivaCore: scheduler preemption -> context switch to PID={} RIP={:#x} RAX={:#x}",
