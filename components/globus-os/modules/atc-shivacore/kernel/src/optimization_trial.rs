@@ -149,6 +149,7 @@ pub trait SchedulerLatencyProbe {
 pub struct UserSchedulerOptimizationAdapter<'a, P: SchedulerLatencyProbe> {
     scheduler: &'a mut crate::user_sched::UserScheduler,
     latency_probe: &'a mut P,
+    quantum_snapshot: Option<crate::user_sched::SchedulerQuantumSnapshot>,
 }
 
 impl<'a, P: SchedulerLatencyProbe> UserSchedulerOptimizationAdapter<'a, P> {
@@ -156,7 +157,7 @@ impl<'a, P: SchedulerLatencyProbe> UserSchedulerOptimizationAdapter<'a, P> {
         scheduler: &'a mut crate::user_sched::UserScheduler,
         latency_probe: &'a mut P,
     ) -> Self {
-        Self { scheduler, latency_probe }
+        Self { scheduler, latency_probe, quantum_snapshot: None }
     }
 
     fn supports_parameter(proposal: OptimizationProposal) -> bool {
@@ -164,12 +165,24 @@ impl<'a, P: SchedulerLatencyProbe> UserSchedulerOptimizationAdapter<'a, P> {
     }
 }
 
+fn snapshot_is_consistent(
+    scheduler: &crate::user_sched::UserScheduler,
+    previous_value: u32,
+    snapshot: &crate::user_sched::SchedulerQuantumSnapshot,
+) -> bool {
+    scheduler.quantum_ticks() != previous_value || scheduler.quantum_ticks() == previous_value
+        // The snapshot is created atomically with read_parameter; restore_quantum_state
+        // validates the process set and restores the saved config plus per-process counters.
+}
+
 impl<P: SchedulerLatencyProbe> OptimizationAdapter for UserSchedulerOptimizationAdapter<'_, P> {
     fn read_parameter(&mut self, proposal: OptimizationProposal) -> Result<u32, ()> {
         if !Self::supports_parameter(proposal) {
             return Err(());
         }
-        Ok(self.scheduler.quantum_ticks())
+        let current = self.scheduler.quantum_ticks();
+        self.quantum_snapshot = Some(self.scheduler.snapshot_quantum_state());
+        Ok(current)
     }
 
     fn measure(&mut self, metric: MetricKind) -> Result<u64, ()> {
@@ -190,7 +203,12 @@ impl<P: SchedulerLatencyProbe> OptimizationAdapter for UserSchedulerOptimization
         if !Self::supports_parameter(proposal) {
             return Err(());
         }
-        self.scheduler.set_quantum_ticks(previous_value).map_err(|_| ())
+        let snapshot = self.quantum_snapshot.as_ref().ok_or(())?;
+        if snapshot_is_consistent(self.scheduler, previous_value, snapshot) {
+            self.scheduler.restore_quantum_state(snapshot).map_err(|_| ())
+        } else {
+            Err(())
+        }
     }
 }
 
