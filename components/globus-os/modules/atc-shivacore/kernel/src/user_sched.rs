@@ -583,23 +583,27 @@ impl UserScheduler {
 
         let next_idx = self.pick_next()?;
 
-        if let Some(old_pid) = self.current {
-            if let Some(entry) = self.get_entry_mut(old_pid) {
-                if entry.state == SchedState::Running {
-                    entry.state = SchedState::Ready;
-                    entry.ready_since_ns = now_ns;
+        let next_pid = self.entries[next_idx].pid;
+        if self.current != Some(next_pid) {
+            if let Some(old_pid) = self.current {
+                if let Some(entry) = self.get_entry_mut(old_pid) {
+                    if entry.state == SchedState::Running {
+                        entry.state = SchedState::Ready;
+                        entry.ready_since_ns = now_ns;
+                    }
                 }
             }
         }
 
-        let next_pid = self.entries[next_idx].pid;
-        if let (Some(now), Some(ready)) = (now_ns, self.entries[next_idx].ready_since_ns) {
+        if self.current != Some(next_pid) {
+            if let (Some(now), Some(ready)) = (now_ns, self.entries[next_idx].ready_since_ns) {
             if now >= ready {
                 let latency = now - ready;
                 self.entries[next_idx].last_ready_to_running_ns = Some(latency);
                 self.entries[next_idx].ready_to_running_samples = self.entries[next_idx].ready_to_running_samples.saturating_add(1);
                 self.ready_to_running_total_ns = self.ready_to_running_total_ns.saturating_add(u128::from(latency));
                 self.ready_to_running_samples = self.ready_to_running_samples.saturating_add(1);
+                }
             }
         }
         self.entries[next_idx].ready_since_ns = None;
