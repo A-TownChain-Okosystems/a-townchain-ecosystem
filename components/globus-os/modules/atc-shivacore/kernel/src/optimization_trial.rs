@@ -329,13 +329,14 @@ mod tests {
     struct SequenceLatencyProbe {
         values: [u64; 2],
         next: usize,
+        trusted: bool,
     }
 
     impl SchedulerLatencyProbe for SequenceLatencyProbe {
         // This fake is used only to test adapter/trial mechanics; it is not
         // evidence of real performance and is never wired into kernel runtime.
         fn has_trustworthy_runtime_measurement(&self) -> bool {
-            true
+            self.trusted
         }
 
         fn measure_scheduler_latency_ns(&mut self) -> Result<u64, ()> {
@@ -346,9 +347,24 @@ mod tests {
     }
 
     #[test]
+    fn concrete_scheduler_adapter_rejects_untrusted_measurement_source() {
+        let mut scheduler = crate::user_sched::UserScheduler::new();
+        let mut probe = SequenceLatencyProbe {
+            values: [1_000, 800],
+            next: 0,
+            trusted: false,
+        };
+        let mut runtime = UserSchedulerOptimizationAdapter::new(&mut scheduler, &mut probe);
+        assert_eq!(runtime.measure(MetricKind::SchedulerLatencyNs), Err(()));
+        drop(runtime);
+        assert_eq!(scheduler.quantum_ticks(), 10);
+        assert_eq!(probe.next, 0, "untrusted probe must not be sampled");
+    }
+
+    #[test]
     fn concrete_scheduler_adapter_applies_and_restores_quantum() {
         let mut scheduler = crate::user_sched::UserScheduler::new();
-        let mut probe = SequenceLatencyProbe { values: [1_000, 800], next: 0 };
+        let mut probe = SequenceLatencyProbe { values: [1_000, 800], next: 0, trusted: true };
         {
             let mut runtime = UserSchedulerOptimizationAdapter::new(&mut scheduler, &mut probe);
             let mut optimizer = active_optimizer();
@@ -359,7 +375,7 @@ mod tests {
         assert_eq!(scheduler.quantum_ticks(), 20);
 
         let mut scheduler = crate::user_sched::UserScheduler::new();
-        let mut probe = SequenceLatencyProbe { values: [1_000, 1_200], next: 0 };
+        let mut probe = SequenceLatencyProbe { values: [1_000, 1_200], next: 0, trusted: true };
         {
             let mut runtime = UserSchedulerOptimizationAdapter::new(&mut scheduler, &mut probe);
             let mut optimizer = active_optimizer();
