@@ -23,6 +23,7 @@ pub mod hal;
 pub mod ipc;
 pub mod kernel_init;
 pub mod memory_manager;
+pub mod optimization_trial;
 pub mod performance_optimizer;
 pub mod process;
 pub mod scheduler;
