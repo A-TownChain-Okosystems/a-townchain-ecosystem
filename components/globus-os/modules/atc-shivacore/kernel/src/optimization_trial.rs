@@ -304,6 +304,56 @@ mod tests {
         assert_eq!(report.after, None);
     }
 
+    struct SequenceLatencyProbe {
+        values: [u64; 2],
+        next: usize,
+    }
+
+    impl SchedulerLatencyProbe for SequenceLatencyProbe {
+        fn measure_scheduler_latency_ns(&mut self) -> Result<u64, ()> {
+            let value = *self.values.get(self.next).ok_or(())?;
+            self.next += 1;
+            Ok(value)
+        }
+    }
+
+    #[test]
+    fn concrete_scheduler_adapter_applies_and_restores_quantum() {
+        let mut scheduler = crate::user_sched::UserScheduler::new();
+        let mut probe = SequenceLatencyProbe { values: [1_000, 800], next: 0 };
+        {
+            let mut runtime = UserSchedulerOptimizationAdapter::new(&mut scheduler, &mut probe);
+            let mut optimizer = active_optimizer();
+            let report = execute_trial(&mut optimizer, &mut runtime, proposal()).unwrap();
+            assert_eq!(report.result, TrialResult::Accepted);
+            assert!(!report.rolled_back);
+        }
+        assert_eq!(scheduler.quantum_ticks(), 20);
+
+        let mut scheduler = crate::user_sched::UserScheduler::new();
+        let mut probe = SequenceLatencyProbe { values: [1_000, 1_200], next: 0 };
+        {
+            let mut runtime = UserSchedulerOptimizationAdapter::new(&mut scheduler, &mut probe);
+            let mut optimizer = active_optimizer();
+            let report = execute_trial(&mut optimizer, &mut runtime, proposal()).unwrap();
+            assert_eq!(report.result, TrialResult::RejectedRegression);
+            assert!(report.rolled_back);
+        }
+        assert_eq!(scheduler.quantum_ticks(), 10);
+    }
+
+    #[test]
+    fn concrete_scheduler_adapter_rejects_unsupported_parameters_and_metrics() {
+        let mut scheduler = crate::user_sched::UserScheduler::new();
+        let mut probe = SequenceLatencyProbe { values: [1_000, 800], next: 0 };
+        let mut runtime = UserSchedulerOptimizationAdapter::new(&mut scheduler, &mut probe);
+        let mut unsupported = proposal();
+        unsupported.parameter = TunableParameter::IoBatchSize;
+        assert_eq!(runtime.read_parameter(unsupported), Err(()));
+        assert_eq!(runtime.measure(MetricKind::QueueDepth), Err(()));
+        assert_eq!(scheduler.quantum_ticks(), 10);
+    }
+
     #[test]
     fn reports_rollback_failure_explicitly() {
         let mut optimizer = active_optimizer();
