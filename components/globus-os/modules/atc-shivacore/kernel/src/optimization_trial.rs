@@ -133,6 +133,67 @@ pub fn execute_trial<A: OptimizationAdapter>(
     }
 }
 
+
+/// Measurement boundary for a runtime-integrated scheduler latency probe.
+///
+/// Implementations must use a monotonic clock and return measurements from a
+/// stable workload/window. The default kernel optimizer does not construct or
+/// enable a probe by itself.
+pub trait SchedulerLatencyProbe {
+    fn measure_scheduler_latency_ns(&mut self) -> Result<u64, ()>;
+}
+
+/// Concrete adapter for the scheduler quantum parameter. It deliberately
+/// refuses every other tunable parameter and metric until those have their own
+/// separately reviewed runtime adapters.
+pub struct UserSchedulerOptimizationAdapter<'a, P: SchedulerLatencyProbe> {
+    scheduler: &'a mut crate::user_sched::UserScheduler,
+    latency_probe: &'a mut P,
+}
+
+impl<'a, P: SchedulerLatencyProbe> UserSchedulerOptimizationAdapter<'a, P> {
+    pub fn new(
+        scheduler: &'a mut crate::user_sched::UserScheduler,
+        latency_probe: &'a mut P,
+    ) -> Self {
+        Self { scheduler, latency_probe }
+    }
+
+    fn supports_parameter(proposal: OptimizationProposal) -> bool {
+        proposal.parameter == crate::performance_optimizer::TunableParameter::SchedulerQuantumTicks
+    }
+}
+
+impl<P: SchedulerLatencyProbe> OptimizationAdapter for UserSchedulerOptimizationAdapter<'_, P> {
+    fn read_parameter(&mut self, proposal: OptimizationProposal) -> Result<u32, ()> {
+        if !Self::supports_parameter(proposal) {
+            return Err(());
+        }
+        Ok(self.scheduler.quantum_ticks())
+    }
+
+    fn measure(&mut self, metric: MetricKind) -> Result<u64, ()> {
+        if metric != MetricKind::SchedulerLatencyNs {
+            return Err(());
+        }
+        self.latency_probe.measure_scheduler_latency_ns()
+    }
+
+    fn apply(&mut self, proposal: OptimizationProposal, value: u32) -> Result<(), ()> {
+        if !Self::supports_parameter(proposal) || value != proposal.candidate_value {
+            return Err(());
+        }
+        self.scheduler.set_quantum_ticks(value).map_err(|_| ())
+    }
+
+    fn restore(&mut self, proposal: OptimizationProposal, previous_value: u32) -> Result<(), ()> {
+        if !Self::supports_parameter(proposal) {
+            return Err(());
+        }
+        self.scheduler.set_quantum_ticks(previous_value).map_err(|_| ())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
