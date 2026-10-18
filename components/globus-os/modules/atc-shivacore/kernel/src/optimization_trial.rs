@@ -176,8 +176,8 @@ mod tests {
 
     fn proposal() -> OptimizationProposal {
         OptimizationProposal {
-            parameter: TunableParameter::SchedulerQuantumNs,
-            candidate_value: 2_000_000,
+            parameter: TunableParameter::SchedulerQuantumTicks,
+            candidate_value: 20,
             target_metric: MetricKind::SchedulerLatencyNs,
             goal: Goal::LowerIsBetter,
         }
@@ -185,7 +185,7 @@ mod tests {
 
     fn adapter(after: u64) -> FakeAdapter {
         FakeAdapter {
-            current: 1_000_000,
+            current: 10,
             before: 1_000,
             after,
             fail_after_measurement: false,
@@ -208,7 +208,7 @@ mod tests {
         let report = execute_trial(&mut optimizer, &mut system, proposal()).unwrap();
         assert_eq!(report.result, TrialResult::Accepted);
         assert!(!report.rolled_back);
-        assert_eq!(system.current, 2_000_000);
+        assert_eq!(system.current, 20);
     }
 
     #[test]
@@ -218,7 +218,7 @@ mod tests {
         let report = execute_trial(&mut optimizer, &mut system, proposal()).unwrap();
         assert_eq!(report.result, TrialResult::RejectedRegression);
         assert!(report.rolled_back);
-        assert_eq!(system.current, 1_000_000);
+        assert_eq!(system.current, 10);
     }
 
     #[test]
@@ -230,7 +230,7 @@ mod tests {
             execute_trial(&mut optimizer, &mut system, proposal()),
             Err(TrialError::CandidateMeasurementFailed)
         );
-        assert_eq!(system.current, 1_000_000);
+        assert_eq!(system.current, 10);
     }
 
     #[test]
@@ -239,7 +239,7 @@ mod tests {
         let mut system = adapter(800);
         let report = execute_trial(&mut optimizer, &mut system, proposal()).unwrap();
         assert_eq!(report.result, TrialResult::DryRunOnly);
-        assert_eq!(system.current, 1_000_000);
+        assert_eq!(system.current, 10);
         assert_eq!(report.after, None);
     }
 
