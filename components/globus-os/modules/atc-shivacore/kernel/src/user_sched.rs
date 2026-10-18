@@ -324,6 +324,14 @@ impl SchedEntry {
 // User Process Scheduler
 // ═══════════════════════════════════════════════════════════════════════════════
 
+/// Snapshot of the scheduler quantum configuration and per-process remaining counters.
+/// Used to restore the exact quantum state after a rejected optimization trial.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct SchedulerQuantumSnapshot {
+    config_ticks: u32,
+    process_quanta: Vec<(Pid, Quantum)>,
+}
+
 /// Preemptive round-robin scheduler for user processes
 pub struct UserScheduler {
     entries: Vec<SchedEntry>,
@@ -376,6 +384,38 @@ impl UserScheduler {
         self.quantum_config = config;
         for entry in &mut self.entries {
             entry.quantum = Quantum::new(config.ticks());
+        }
+        Ok(())
+    }
+
+    /// Capture the exact current quantum counters for transactional rollback.
+    pub fn snapshot_quantum_state(&self) -> SchedulerQuantumSnapshot {
+        SchedulerQuantumSnapshot {
+            config_ticks: self.quantum_config.ticks(),
+            process_quanta: self.entries.iter().map(|entry| (entry.pid, entry.quantum)).collect(),
+        }
+    }
+
+    /// Restore a snapshot only if the scheduler still contains exactly the same
+    /// process IDs. This prevents a partial rollback against a changed process set.
+    pub fn restore_quantum_state(
+        &mut self,
+        snapshot: &SchedulerQuantumSnapshot,
+    ) -> Result<(), SchedulerQuantumConfigError> {
+        let config = SchedulerQuantumConfig::new(snapshot.config_ticks)?;
+        if self.entries.len() != snapshot.process_quanta.len()
+            || self.entries.iter().any(|entry| {
+                !snapshot.process_quanta.iter().any(|(pid, _)| *pid == entry.pid)
+            })
+        {
+            return Err(SchedulerQuantumConfigError::OutOfBounds);
+        }
+        self.quantum_config = config;
+        for entry in &mut self.entries {
+            let Some((_, quantum)) = snapshot.process_quanta.iter().find(|(pid, _)| *pid == entry.pid) else {
+                return Err(SchedulerQuantumConfigError::OutOfBounds);
+            };
+            entry.quantum = *quantum;
         }
         Ok(())
     }
