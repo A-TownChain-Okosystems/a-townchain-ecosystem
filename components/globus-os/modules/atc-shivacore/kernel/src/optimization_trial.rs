@@ -346,6 +346,25 @@ mod tests {
         }
     }
 
+    struct DefaultUntrustedLatencyProbe;
+
+    impl SchedulerLatencyProbe for DefaultUntrustedLatencyProbe {
+        fn measure_scheduler_latency_ns(&mut self) -> Result<u64, ()> {
+            Ok(1_000)
+        }
+        // Intentionally uses the trait's default trust decision (false).
+    }
+
+    #[test]
+    fn scheduler_latency_probe_defaults_to_untrusted() {
+        let mut scheduler = crate::user_sched::UserScheduler::new();
+        let mut probe = DefaultUntrustedLatencyProbe;
+        let mut runtime = UserSchedulerOptimizationAdapter::new(&mut scheduler, &mut probe);
+        assert_eq!(runtime.measure(MetricKind::SchedulerLatencyNs), Err(()));
+        drop(runtime);
+        assert_eq!(scheduler.quantum_ticks(), 10);
+    }
+
     #[test]
     fn concrete_scheduler_adapter_rejects_untrusted_measurement_source() {
         let mut scheduler = crate::user_sched::UserScheduler::new();
