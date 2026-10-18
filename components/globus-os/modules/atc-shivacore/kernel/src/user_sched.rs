@@ -624,12 +624,17 @@ impl UserScheduler {
 
         if self.current != Some(next_pid) {
             if let (Some(now), Some(ready)) = (now_ns, self.entries[next_idx].ready_since_ns) {
-            if now >= ready {
-                let latency = now - ready;
-                self.entries[next_idx].last_ready_to_running_ns = Some(latency);
-                self.entries[next_idx].ready_to_running_samples = self.entries[next_idx].ready_to_running_samples.saturating_add(1);
-                self.ready_to_running_total_ns = self.ready_to_running_total_ns.saturating_add(u128::from(latency));
-                self.ready_to_running_samples = self.ready_to_running_samples.saturating_add(1);
+                if now >= ready {
+                    let latency = now - ready;
+                    self.entries[next_idx].last_ready_to_running_ns = Some(latency);
+                    self.entries[next_idx].ready_to_running_samples = self.entries[next_idx]
+                        .ready_to_running_samples
+                        .saturating_add(1);
+                    self.ready_to_running_total_ns = self
+                        .ready_to_running_total_ns
+                        .saturating_add(u128::from(latency));
+                    self.ready_to_running_samples =
+                        self.ready_to_running_samples.saturating_add(1);
                 }
             }
         }
@@ -1644,14 +1649,26 @@ mod tests {
         sched.add_process_at(Pid(1001), &ctx2, 0, Some(200));
 
         // First dispatch uses the calibrated-clock timestamp path.
-        assert_eq!(sched.schedule_at(None, Some(150)).unwrap().0, Pid(1000));
-        assert_eq!(sched.get_entry(Pid(1000)).unwrap().last_ready_to_running_ns, Some(50));
+        assert_eq!(
+            sched.schedule_at(None, Some(150)).unwrap().0,
+            Pid(1000)
+        );
+        assert_eq!(
+            sched.get_entry(Pid(1000)).unwrap().last_ready_to_running_ns,
+            Some(50)
+        );
 
         // Model the actual timer-IRQ scheduling entry: PID 1000 is preempted,
         // PID 1001 transitions Ready -> Running at the captured timestamp.
         let saved = SavedContext::from_user_context(&ctx1);
-        assert_eq!(sched.schedule_saved_at(saved, Some(1_000)).unwrap().0, Pid(1001));
-        assert_eq!(sched.get_entry(Pid(1001)).unwrap().last_ready_to_running_ns, Some(800));
+        assert_eq!(
+            sched.schedule_saved_at(saved, Some(1_000)).unwrap().0,
+            Pid(1001)
+        );
+        assert_eq!(
+            sched.get_entry(Pid(1001)).unwrap().last_ready_to_running_ns,
+            Some(800)
+        );
         assert_eq!(sched.ready_to_running_samples(), 2);
         assert_eq!(sched.mean_ready_to_running_ns(), Some(425));
     }
