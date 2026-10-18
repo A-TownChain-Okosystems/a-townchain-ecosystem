@@ -30,6 +30,125 @@ pub trait TimerSource: Send + Sync {
     }
 }
 
+/// x86-64 hardware TSC clock, calibrated against the legacy PIT channel 2.
+/// Calibration is explicit and fails closed: until it succeeds, now_ns() is None.
+/// The caller must check CPUID's invariant-TSC bit before using this clock.
+#[cfg(target_arch = "x86_64")]
+pub mod hardware_clock {
+    use core::arch::asm;
+    use core::sync::atomic::{AtomicU64, Ordering};
+
+    const PIT_HZ: u64 = 1_193_182;
+    const PIT_COUNT: u16 = 11_932; // approximately 10 ms
+    const MAX_POLL: u64 = 50_000_000;
+
+    static TSC_HZ: AtomicU64 = AtomicU64::new(0);
+    static LAST_NS: AtomicU64 = AtomicU64::new(0);
+
+    #[inline]
+    unsafe fn port_read(port: u16) -> u8 {
+        let value: u8;
+        asm!("in al, dx", in("dx") port, out("al") value, options(nomem, nostack, preserves_flags));
+        value
+    }
+
+    #[inline]
+    unsafe fn port_write(port: u16, value: u8) {
+        asm!("out dx, al", in("dx") port, in("al") value, options(nomem, nostack, preserves_flags));
+    }
+
+    #[inline]
+    fn read_tsc() -> u64 {
+        let low: u32;
+        let high: u32;
+        unsafe {
+            asm!("lfence", "rdtsc", out("eax") low, out("edx") high, options(nomem, nostack));
+        }
+        (u64::from(high) << 32) | u64::from(low)
+    }
+
+    /// Calibrate TSC frequency using PIT channel 2. Must run in ring 0.
+    /// PIT speaker/gate state is restored on every exit path.
+    pub fn calibrate() -> Result<u64, ()> {
+        if TSC_HZ.load(Ordering::Acquire) != 0 {
+            return Ok(TSC_HZ.load(Ordering::Relaxed));
+        }
+
+        let max_ext = unsafe { core::arch::x86_64::__cpuid(0x8000_0000).eax };
+        if max_ext < 0x8000_0007 {
+            return Err(());
+        }
+        let invariant = unsafe { core::arch::x86_64::__cpuid(0x8000_0007).edx & (1 << 8) != 0 };
+        if !invariant {
+            return Err(());
+        }
+
+        let saved_port61 = unsafe { port_read(0x61) };
+        let result = (|| {
+            // Disable gate and speaker, program channel 2 one-shot, then start it.
+            unsafe {
+                port_write(0x61, saved_port61 & !0x03);
+                port_write(0x43, 0xB0); // channel 2, low/high, mode 0, binary
+                port_write(0x42, (PIT_COUNT & 0xff) as u8);
+                port_write(0x42, (PIT_COUNT >> 8) as u8);
+            }
+
+            let start = read_tsc();
+            unsafe { port_write(0x61, (saved_port61 & !0x02) | 0x01); }
+
+            let mut saw_low = false;
+            for _ in 0..MAX_POLL {
+                let out_high = unsafe { port_read(0x61) } & 0x20 != 0;
+                if !out_high {
+                    saw_low = true;
+                    break;
+                }
+                core::hint::spin_loop();
+            }
+            if !saw_low {
+                return Err(());
+            }
+
+            for _ in 0..MAX_POLL {
+                if unsafe { port_read(0x61) } & 0x20 != 0 {
+                    let end = read_tsc();
+                    let delta = end.checked_sub(start).ok_or(())?;
+                    let hz = (u128::from(delta) * u128::from(PIT_HZ))
+                        / u128::from(PIT_COUNT);
+                    if hz == 0 || hz > u128::from(u64::MAX) {
+                        return Err(());
+                    }
+                    let hz = hz as u64;
+                    TSC_HZ.store(hz, Ordering::Release);
+                    return Ok(hz);
+                }
+                core::hint::spin_loop();
+            }
+            Err(())
+        })();
+        unsafe { port_write(0x61, saved_port61); }
+        result
+    }
+
+    pub fn frequency_hz() -> Option<u64> {
+        match TSC_HZ.load(Ordering::Acquire) {
+            0 => None,
+            hz => Some(hz),
+        }
+    }
+
+    /// Monotonic nanoseconds since the TSC epoch, only after successful calibration.
+    pub fn now_ns() -> Option<u64> {
+        let hz = frequency_hz()?;
+        let ns = (u128::from(read_tsc()) * 1_000_000_000u128) / u128::from(hz);
+        if ns > u128::from(u64::MAX) {
+            return None;
+        }
+        let ns = ns as u64;
+        Some(LAST_NS.fetch_max(ns, Ordering::AcqRel).max(ns))
+    }
+}
+
 // ─── Simulierte Zeitquelle (für Tests und Software-Validierung) ─────────────
 
 pub struct SimulatedTimerSource {
