@@ -165,16 +165,6 @@ impl<'a, P: SchedulerLatencyProbe> UserSchedulerOptimizationAdapter<'a, P> {
     }
 }
 
-fn snapshot_is_consistent(
-    scheduler: &crate::user_sched::UserScheduler,
-    previous_value: u32,
-    snapshot: &crate::user_sched::SchedulerQuantumSnapshot,
-) -> bool {
-    scheduler.quantum_ticks() != previous_value || scheduler.quantum_ticks() == previous_value
-        // The snapshot is created atomically with read_parameter; restore_quantum_state
-        // validates the process set and restores the saved config plus per-process counters.
-}
-
 impl<P: SchedulerLatencyProbe> OptimizationAdapter for UserSchedulerOptimizationAdapter<'_, P> {
     fn read_parameter(&mut self, proposal: OptimizationProposal) -> Result<u32, ()> {
         if !Self::supports_parameter(proposal) {
@@ -204,11 +194,10 @@ impl<P: SchedulerLatencyProbe> OptimizationAdapter for UserSchedulerOptimization
             return Err(());
         }
         let snapshot = self.quantum_snapshot.as_ref().ok_or(())?;
-        if snapshot_is_consistent(self.scheduler, previous_value, snapshot) {
-            self.scheduler.restore_quantum_state(snapshot).map_err(|_| ())
-        } else {
-            Err(())
+        if snapshot.config_ticks() != previous_value {
+            return Err(());
         }
+        self.scheduler.restore_quantum_state(snapshot).map_err(|_| ())
     }
 }
 
