@@ -83,6 +83,20 @@ pub mod hardware_clock {
         (u64::from(high) << 32) | u64::from(low)
     }
 
+    /// Convert a measured TSC interval spanning one PIT channel-2 period into Hz.
+    /// Reject implausible rates so broken emulation/port reads cannot enable metrics.
+    fn calibrated_frequency(delta_tsc: u64) -> Result<u64, ()> {
+        if delta_tsc == 0 {
+            return Err(());
+        }
+        let hz = (u128::from(delta_tsc) * u128::from(PIT_HZ))
+            / u128::from(PIT_COUNT);
+        if hz < 1_000_000 || hz > 10_000_000_000 || hz > u128::from(u64::MAX) {
+            return Err(());
+        }
+        Ok(hz as u64)
+    }
+
     /// Calibrate TSC frequency using PIT channel 2. Must run in ring 0.
     /// PIT speaker/gate state is restored on every exit path.
     pub fn calibrate() -> Result<u64, ()> {
@@ -111,7 +125,6 @@ pub mod hardware_clock {
                 port_write(0x42, (PIT_COUNT >> 8) as u8);
             }
 
-            let start = read_tsc();
             unsafe {
                 port_write(0x61, (saved_port61 & !0x02) | 0x01);
             }
@@ -129,16 +142,14 @@ pub mod hardware_clock {
                 return Err(());
             }
 
+            // Start the TSC interval only after observing the PIT's low output,
+            // so port-write/gate-start latency is not included in the measured period.
+            let start = read_tsc();
             for _ in 0..MAX_POLL {
                 if unsafe { port_read(0x61) } & 0x20 != 0 {
                     let end = read_tsc();
                     let delta = end.checked_sub(start).ok_or(())?;
-                    let hz = (u128::from(delta) * u128::from(PIT_HZ))
-                        / u128::from(PIT_COUNT);
-                    if hz == 0 || hz > u128::from(u64::MAX) {
-                        return Err(());
-                    }
-                    let hz = hz as u64;
+                    let hz = calibrated_frequency(delta)?;
                     TSC_HZ.store(hz, Ordering::Release);
                     return Ok(hz);
                 }
@@ -156,6 +167,29 @@ pub mod hardware_clock {
         match TSC_HZ.load(Ordering::Acquire) {
             0 => None,
             hz => Some(hz),
+        }
+    }
+
+    #[cfg(test)]
+    mod tests {
+        use super::{calibrated_frequency, PIT_COUNT, PIT_HZ};
+
+        #[test]
+        fn calibration_rejects_zero_and_implausible_tsc_rates() {
+            assert!(calibrated_frequency(0).is_err());
+            // About 10 ms at 500 kHz is below the accepted hardware range.
+            assert!(calibrated_frequency(5_000).is_err());
+            // About 10 ms at 20 GHz is above the accepted hardware range.
+            assert!(calibrated_frequency(200_000_000).is_err());
+        }
+
+        #[test]
+        fn calibration_converts_a_plausible_tsc_period() {
+            let expected_hz = 2_500_000_000u64;
+            let tsc_delta = (u128::from(expected_hz) * u128::from(PIT_COUNT)
+                / u128::from(PIT_HZ)) as u64;
+            let measured = calibrated_frequency(tsc_delta).unwrap();
+            assert!(measured.abs_diff(expected_hz) < 100_000);
         }
     }
 
