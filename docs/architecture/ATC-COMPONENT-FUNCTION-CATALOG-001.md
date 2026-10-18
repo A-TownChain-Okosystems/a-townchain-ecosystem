@@ -52,7 +52,7 @@ The machine-readable catalog binds its layer assignments to `ARCHITECTURE.md` at
 
 ## Source-binding accounting
 
-Source-binding counts are derived from function records rather than manually maintained. The current baseline has 104 function contracts: 104 binding objects, 99 source paths, and 96 exact 40-character source SHAs. Binding status does not imply functional verification; 0 function contracts are marked functionally verified.
+Source-binding counts are derived from function records rather than manually maintained. The current baseline has 105 function contracts. Source-binding counts are derived from the JSON function records; binding objects, source paths and exact source SHAs are not equivalent to functional verification. The newly added GlobusOS hardware-inventory contract remains source-unbound, and 0 function contracts are marked functionally verified. Binding status does not imply functional verification; 0 function contracts are marked functionally verified.
 
 ## Production gates
 
@@ -216,3 +216,12 @@ The versioned classification vocabulary is defined in [ATC-CATALOG-TAXONOMY-001.
 - `class_id` classifies the technical artifact or contract type.
 - Existing component/function/interface IDs and the L1–L10/X1–X36 architecture-layer mappings remain separate and unchanged.
 - The taxonomy register is a vocabulary definition, not proof that existing catalog entries have been reconciled to source. Catalog bindings, validator coverage and exact-SHA verification remain open; release stays `BLOCKED`.
+
+
+## GlobusOS catalog delta — 2026-10-18
+
+- Added `FN-GLOBUS-004` — **Normalized hardware inventory contract** — as `RESIDUAL` / `UNBOUND_RESIDUAL`, based on the scope described by [GlobusOS PR #92](https://github.com/A-TownChain-Okosystems/globus-os/pull/92). The contract covers normalized CPU/PCI/ACPI/USB/firmware locators, deterministic uniqueness checks and the distinct `Discovered`, `Supported`, `Ready` and `Failed` states.
+- The inventory record explicitly does **not** claim physical probing, MMIO, interrupt routing, BAR programming or DMA. Those remain in the authorized HAL/device-service boundary.
+- `FN-GLOBUS-001` now records the proposed service-supervisor source candidate from [GlobusOS PR #96](https://github.com/A-TownChain-Okosystems/globus-os/pull/96), head `f7e118d9c5381f094ef70bc20ba59783d2372ade`. This is candidate evidence only, not the canonical mainline binding or a verification result.
+- Remaining PR #96 architecture gates include production x86_64 user-copy through the caller's actual page tables, real syscall/interrupt entry wiring, per-process CR3/page-table isolation and complete PT_LOAD/BSS mapping, plus a production `globus-init` executable using the real kernel syscall transport.
+- Catalog total: **31 components / 105 function contracts**. Functional verification remains **0**; source census/reconciliation is not declared complete; release remains `BLOCKED`. PR CI, builds, tests, and physical hardware support are not inferred from catalog presence.
