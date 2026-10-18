@@ -70,8 +70,13 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
     // Calibrate the invariant TSC against PIT channel 2 before scheduling.
     // Failure is non-fatal for boot, but scheduler latency instrumentation stays disabled.
     match shivacore::timer::hardware_clock::calibrate() {
-        Ok(hz) => serial_println!("ShivaCore: monotonic TSC calibrated against PIT: {} Hz", hz),
-        Err(()) => serial_println!("ShivaCore: WARN hardware clock calibration unavailable; latency metrics fail closed"),
+        Ok(hz) => serial_println!(
+            "ShivaCore: monotonic TSC calibrated against PIT: {} Hz",
+            hz
+        ),
+        Err(()) => serial_println!(
+            "ShivaCore: WARN hardware clock calibration unavailable; latency metrics fail closed"
+        ),
     }
 
     interrupts::init_pics();
