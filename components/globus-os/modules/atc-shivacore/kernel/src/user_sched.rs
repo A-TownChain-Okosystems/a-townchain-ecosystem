@@ -1117,6 +1117,39 @@ mod tests {
         assert_eq!(entry.quantum.remaining(), 3);
     }
 
+    #[test]
+    fn test_quantum_snapshot_restores_exact_per_process_counters() {
+        let mut sched = UserScheduler::new();
+        let ctx1 = make_context(1000);
+        let ctx2 = make_context(1001);
+        sched.add_process(Pid(1000), &ctx1, 0);
+        sched.add_process(Pid(1001), &ctx2, 0);
+        sched.get_entry_mut(Pid(1000)).unwrap().quantum = Quantum { ticks_remaining: 3, ticks_total: 10 };
+        sched.get_entry_mut(Pid(1001)).unwrap().quantum = Quantum { ticks_remaining: 7, ticks_total: 10 };
+        let snapshot = sched.snapshot_quantum_state();
+
+        sched.set_quantum_ticks(20).unwrap();
+        assert_eq!(sched.get_entry(Pid(1000)).unwrap().quantum, Quantum::new(20));
+        sched.restore_quantum_state(&snapshot).unwrap();
+
+        assert_eq!(sched.quantum_ticks(), 10);
+        assert_eq!(sched.get_entry(Pid(1000)).unwrap().quantum, Quantum { ticks_remaining: 3, ticks_total: 10 });
+        assert_eq!(sched.get_entry(Pid(1001)).unwrap().quantum, Quantum { ticks_remaining: 7, ticks_total: 10 });
+    }
+
+    #[test]
+    fn test_quantum_snapshot_rejects_changed_process_set() {
+        let mut sched = UserScheduler::new();
+        let ctx1 = make_context(1000);
+        sched.add_process(Pid(1000), &ctx1, 0);
+        let snapshot = sched.snapshot_quantum_state();
+        sched.remove_process(Pid(1000));
+        let ctx2 = make_context(1001);
+        sched.add_process(Pid(1001), &ctx2, 0);
+
+        assert_eq!(sched.restore_quantum_state(&snapshot), Err(SchedulerQuantumConfigError::StateMismatch));
+    }
+
     // --- UserScheduler tests ---
 
     #[test]
