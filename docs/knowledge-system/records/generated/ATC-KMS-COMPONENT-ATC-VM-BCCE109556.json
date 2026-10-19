@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-ATC-VM-BCCE109556",
-  "timestamp": "2026-10-18T07:15:49.127934Z",
+  "timestamp": "2026-10-19T07:51:48.288647Z",
   "category": "module",
   "title": "Component: atc-vm",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-vm",
-    "commit": "61635e988dcdb7afda1ef0bc48534d65149a1898"
+    "commit": "c675d7d9e22f14bb10965383224201d16bfa1cc0"
   },
   "tags": [
     "atc-vm",

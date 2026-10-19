@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-GLOBUS-OS-SYSTEM-DIAGNOSTICS-CARGO-TOML-D4C4962D5E",
-  "timestamp": "2026-10-18T07:15:49.127934Z",
+  "timestamp": "2026-10-19T07:51:48.288647Z",
   "category": "evidence",
   "title": "Indexed source: components/globus-os/system/diagnostics/Cargo.toml",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/globus-os/system/diagnostics/Cargo.toml",
-    "commit": "61635e988dcdb7afda1ef0bc48534d65149a1898"
+    "commit": "c675d7d9e22f14bb10965383224201d16bfa1cc0"
   },
   "tags": [
     "generated",

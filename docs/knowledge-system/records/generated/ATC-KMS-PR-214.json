@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-214",
+  "timestamp": "2026-10-19T07:51:48.288647Z",
+  "category": "change",
+  "title": "PR #214: Add competitive monitoring report and registry baseline (2026-10-19)",
+  "context": "Pull request 214 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/214",
+    "commit": "c675d7d9e22f14bb10965383224201d16bfa1cc0"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\n## Summary\n- Archive the supplied 2026-10-19 A-TownChain/ShivaCore competitive radar report.\n- Add a structured JSON registry baseline for four product lines.\n- Explicitly mark unverified product, availability, release-note and pricing fields; this is not an independent source verification or a full market census.\n\n## Files\n- `competitive-monitoring/reports/2026-10-19.md`\n- `competitive-monitoring/registry/2026-10-19.json`\n\n## Review notes\n- All four records are `BASELINE`; no change versus a missing prior snapshot is asserted.\n- Daily automation and persistent comparison logic are not implemented by this PR."
+}
