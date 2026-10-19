@@ -185,7 +185,7 @@ jobs:
         run: |
           set -euo pipefail
           if test -f artifacts/ATC-ORG-SOURCE-CENSUS-001.json; then
-            python tools/reconcile_runtime_registry_candidates.py \
+            python -m tools.reconcile_runtime_registry_candidates \
               --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
               --catalog docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json \
               --canonical-registry docs/audit/ATC-RUNTIME-SYMBOL-REGISTRY-001.json \
