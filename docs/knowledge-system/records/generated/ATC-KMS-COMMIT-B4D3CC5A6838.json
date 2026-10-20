@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-B4D3CC5A6838",
-  "timestamp": "2026-10-19T07:51:48.288647Z",
+  "timestamp": "2026-10-20T07:39:01.001622Z",
   "category": "change",
   "title": "Commit: docs(catalog): link taxonomy register from canonical catalog",
   "context": "Git commit b4d3cc5a68388f1ce0116d3fb83780af7019c0c6 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/b4d3cc5a68388f1ce0116d3fb83780af7019c0c6",
-    "commit": "c675d7d9e22f14bb10965383224201d16bfa1cc0"
+    "commit": "d1078474ad000f48e868c6c51e175e49fb250a01"
   },
   "tags": [
     "commit",

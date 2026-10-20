@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-WIKI-BACKEND-WIKI-ARCHITECTUR-CB8879D263",
-  "timestamp": "2026-10-19T07:51:48.288647Z",
+  "timestamp": "2026-10-20T07:39:01.001622Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/wiki/backend-wiki/ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/wiki/backend-wiki/ARCHITECTURE.md",
-    "commit": "c675d7d9e22f14bb10965383224201d16bfa1cc0"
+    "commit": "d1078474ad000f48e868c6c51e175e49fb250a01"
   },
   "tags": [
     "generated",
