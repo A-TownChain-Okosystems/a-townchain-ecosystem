@@ -117,6 +117,37 @@ class RuntimeSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(registry["status"], "BLOCKED")
         self.assertEqual(len(registry["catalog_duplicate_findings"]["duplicate_source_bindings"]), 1)
 
+    def test_specification_only_placeholders_are_not_executable_bindings(self):
+        catalog = {
+            "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
+            "components": [{
+                "id": "COMP-XCHAIN-INTEROP",
+                "name": "cross-chain proposal",
+                "canonical_owner": "example/standards",
+                "source_inventory": {"repository": "example/standards"},
+                "functions": [
+                    {"id": "FN-XCHAIN-001", "name": "message validation",
+                     "source_binding": {
+                         "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
+                         "binding_kind": "specification_only",
+                         "source_path": "N/A — tracked by issue #110",
+                         "symbol_or_entrypoint": "No canonical executable symbol identified",
+                     }},
+                    {"id": "FN-XCHAIN-002", "name": "capability resolution",
+                     "source_binding": {
+                         "status": "SPECIFICATION_ONLY_NO_IMPLEMENTATION_BINDING",
+                         "binding_kind": "specification_only",
+                         "source_path": "N/A — tracked by issue #110",
+                         "symbol_or_entrypoint": "No canonical executable symbol identified",
+                     }},
+                ],
+            }],
+        }
+        registry = build_sample_registry(catalog=catalog)
+        self.assertEqual(registry["status"], "RESIDUAL")
+        self.assertEqual(registry["catalog_duplicate_findings"]["duplicate_function_ids"], [])
+        self.assertEqual(registry["catalog_duplicate_findings"]["duplicate_source_bindings"], [])
+
     def test_delegated_binding_is_documented_not_duplicate(self):
         catalog = {
             "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
