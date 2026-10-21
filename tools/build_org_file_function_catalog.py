@@ -54,7 +54,7 @@ def documented_purpose(path: str, raw: bytes, role: str, fallback: str) -> tuple
         return fallback, "path_extension_heuristic", "LOW"
     lines = text.splitlines()
     if path.lower().endswith((".md", ".rst", ".adoc")):
-        heading = next((re.sub(r"^#+\\s*", "", line).strip() for line in lines if line.startswith("#") and line.strip("# ").strip()), None)
+        heading = next((re.sub(r"^#+\s*", "", line).strip() for line in lines if line.startswith("#") and line.strip("# ").strip()), None)
         paragraph = []
         started = False
         for line in lines:
@@ -77,7 +77,7 @@ def documented_purpose(path: str, raw: bytes, role: str, fallback: str) -> tuple
         if not s:
             continue
         if s.startswith(("#!", "//", "///", "//!")):
-            value = re.sub(r"^(?:#!|///?|//!)+\\s*", "", s).strip()
+            value = re.sub(r"^(?:#!|///?|//!)+\s*", "", s).strip()
             if value and not value.startswith("["):
                 return value[:360], "leading_source_comment", "MEDIUM"
         if s.startswith('"""') or s.startswith("'''"):
@@ -85,7 +85,7 @@ def documented_purpose(path: str, raw: bytes, role: str, fallback: str) -> tuple
             if len(value) > 8:
                 return value[:360], "leading_docstring", "HIGH"
         if s.startswith(("/*", "*")):
-            value = re.sub(r"^/\\*+|^\\*+|\\*/$", "", s).strip()
+            value = re.sub(r"^/\*+|^\*+|\*/$", "", s).strip()
             if len(value) > 12:
                 return value[:360], "leading_source_comment", "MEDIUM"
         if not s.startswith(("#", "//", "///", "//!")):
@@ -129,7 +129,7 @@ def build_catalog(workspace: Path, manifest: dict, census: dict) -> dict:
                 blocked_repos.append(repo_name)
                 repos_out.append(entry)
                 continue
-            paths = [p for p in git(root, "ls-files", "-z").split("\\0") if p]
+            paths = [p for p in git(root, "ls-files", "-z").split("\0") if p]
             symbol_files = {}
             report = (census_by_repo.get(repo_name) or {}).get("report") or {}
             for scanned in report.get("files", []):
@@ -208,7 +208,7 @@ def main() -> int:
         parser.error("manifest requires owner and repositories array")
     result = build_catalog(args.workspace.resolve(), manifest, census)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\\n", encoding="utf-8")
+    args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"status": result["status"], **result["summary"], "output": str(args.output)}, sort_keys=True))
     return 0 if result["status"] == "RESIDUAL" else 2
 
