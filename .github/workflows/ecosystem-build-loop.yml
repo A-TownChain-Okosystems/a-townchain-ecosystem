@@ -34,7 +34,113 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  catalog-audit:
+    name: Catalog and dependency audit
+    runs-on: ubuntu-latest
+    outputs:
+      audit_status: ${{ steps.audit.outputs.audit_status }}
+    steps:
+      - name: Checkout controller at exact event SHA
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Audit catalog IDs, function coverage, graph and manifest
+        id: audit
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          catalog = json.loads(Path("docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json").read_text())
+          graph = json.loads(Path("docs/architecture/ATC-DEPENDENCY-GRAPH-001.json").read_text())
+          manifest = json.loads(Path("docs/build/ATC-BUILD-MANIFEST-001.json").read_text())
+          errors = []
+          components = catalog.get("components")
+          nodes = graph.get("nodes")
+          repos = manifest.get("repos")
+          if not isinstance(components, list): errors.append("catalog.components must be a list")
+          if not isinstance(nodes, list): errors.append("dependency graph nodes must be a list")
+          if not isinstance(repos, list): errors.append("build manifest repos must be a list")
+          components = components if isinstance(components, list) else []
+          nodes = nodes if isinstance(nodes, list) else []
+          repos = repos if isinstance(repos, list) else []
+
+          def duplicates(values):
+              seen, dup = set(), set()
+              for value in values:
+                  if value in seen: dup.add(value)
+                  seen.add(value)
+              return sorted(str(x) for x in dup)
+
+          component_ids = [x.get("id") for x in components if isinstance(x, dict)]
+          node_ids = [x.get("id") for x in nodes if isinstance(x, dict)]
+          repo_names = [x.get("repo") for x in repos if isinstance(x, dict)]
+          if d := duplicates(component_ids): errors.append("duplicate component IDs: " + ", ".join(d))
+          if d := duplicates(node_ids): errors.append("duplicate dependency node IDs: " + ", ".join(d))
+          if d := duplicates(repo_names): errors.append("duplicate manifest repo names: " + ", ".join(d))
+
+          function_ids, missing_function_ids, function_count = [], 0, 0
+          for component in components:
+              if not isinstance(component, dict): continue
+              functions = component.get("functions", [])
+              if not isinstance(functions, list):
+                  errors.append(f"functions is not a list for component {component.get('id')}")
+                  continue
+              for fn in functions:
+                  if not isinstance(fn, dict):
+                      errors.append(f"non-object function in component {component.get('id')}")
+                      continue
+                  function_count += 1
+                  if not fn.get("id"): missing_function_ids += 1
+                  else: function_ids.append(fn["id"])
+          if missing_function_ids: errors.append(f"{missing_function_ids} function records lack IDs")
+          if d := duplicates(function_ids): errors.append("duplicate function IDs: " + ", ".join(d))
+
+          order = graph.get("topological_order", [])
+          if not isinstance(order, list): errors.append("topological_order must be a list")
+          elif d := duplicates(order): errors.append("duplicate entries in topological_order: " + ", ".join(d))
+
+          report = {
+              "schema_id": "ATC-ECOSYSTEM-LOOP-AUDIT-001",
+              "schema_version": "1.0.0",
+              "controller_sha": "${{ github.sha }}",
+              "catalog_status": catalog.get("status", "UNKNOWN"),
+              "dependency_graph_status": graph.get("status", "UNKNOWN"),
+              "manifest_status": manifest.get("status", "UNKNOWN"),
+              "component_count": len(components),
+              "function_count": function_count,
+              "dependency_node_count": len(nodes),
+              "manifest_repo_count": len(repos),
+              "status": "BLOCKED" if errors else "AUDIT_STRUCTURALLY_CLEAN",
+              "errors": errors,
+              "limits": [
+                  "Structural audit only; does not prove implementation correctness.",
+                  "Does not assert source-binding completeness, functional verification or release readiness.",
+                  "No catalog-supplied commands are executed."
+              ]
+          }
+          Path("catalog-audit-report.json").write_text(json.dumps(report, indent=2) + "\n")
+          print(json.dumps(report, indent=2))
+          if errors: raise SystemExit(1)
+          PY
+          echo "audit_status=PASS" >> "$GITHUB_OUTPUT"
+      - name: Upload catalog audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-catalog-audit-${{ github.run_id }}
+          path: catalog-audit-report.json
+          if-no-files-found: warn
+          retention-days: 180
+
   plan:
+    needs: catalog-audit
+    if: needs.catalog-audit.outputs.audit_status == 'PASS'
     runs-on: ubuntu-latest
     outputs:
       status: ${{ steps.plan.outputs.status }}
@@ -158,4 +264,47 @@ jobs:
           name: ecosystem-build-evidence-${{ needs.plan.outputs.repo }}-${{ github.run_id }}
           path: evidence/
           if-no-files-found: warn
+          retention-days: 180
+
+  failure-diagnostics:
+    if: failure()
+    needs: [catalog-audit, plan, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Record failed loop context
+        env:
+          EVENT_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          PLAN_STATUS: ${{ needs.plan.outputs.status }}
+          TARGET_REPO: ${{ needs.plan.outputs.repo }}
+        run: |
+          set -euo pipefail
+          mkdir -p failure-evidence
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          data = {
+              "schema_id": "ATC-ECOSYSTEM-LOOP-FAILURE-001",
+              "controller_sha": os.environ["EVENT_SHA"],
+              "run_id": os.environ["RUN_ID"],
+              "run_attempt": os.environ["RUN_ATTEMPT"],
+              "event": os.environ["EVENT_NAME"],
+              "ref": os.environ["REF_NAME"],
+              "plan_status": os.environ.get("PLAN_STATUS") or "BLOCKED_OR_SKIPPED",
+              "target_repo": os.environ.get("TARGET_REPO") or None,
+              "status": "RESIDUAL",
+              "note": "Failure context only; inspect the failed job steps and logs before assigning root cause."
+          }
+          Path("failure-evidence/loop-failure.json").write_text(json.dumps(data, indent=2) + "\n")
+          print(json.dumps(data, indent=2))
+          PY
+      - name: Upload failure diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-loop-failure-${{ github.run_id }}
+          path: failure-evidence/
+          if-no-files-found: error
           retention-days: 180
