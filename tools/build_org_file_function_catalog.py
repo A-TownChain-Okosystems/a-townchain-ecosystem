@@ -178,7 +178,7 @@ def build_catalog(workspace: Path, manifest: dict, census: dict) -> dict:
                     "status": "DISCOVERY_ONLY",
                     "canonical_implementation_claim": "NOT_ASSERTED",
                 })
-            entry["tracked_file_count"] = len(paths)
+            entry["tracked_file_count"] = len(index_entries)
             entry["status"] = "RESIDUAL" if not entry["residuals"] else "BLOCKED"
             if entry["status"] == "BLOCKED":
                 blocked_repos.append(repo_name)
