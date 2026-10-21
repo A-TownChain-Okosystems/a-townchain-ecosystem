@@ -6204,3 +6204,670 @@ Scope
 → Operational Evidence
 
 ARCH-009 is an architecture-level completeness and optimization gate; implementation status remains independently verified.
+
+
+# ARCH-010–ARCH-030 — System Architecture Contract Expansion
+
+ARCH-010 through ARCH-030 define explicit system contracts for domain authority, interfaces, state machines, identity, cryptography, resources, data, messaging, workflows, evidence, configuration, migration, security, assurance, economics, Genesis, Aurora, developer tooling, supply chain and repository reconciliation.
+
+These sections are architecture contracts. They do NOT imply that the corresponding implementation, tests, CI, integration, E2E, release or operational evidence already exists. Implementation status MUST be established in the owning repository and verified using the evidence model defined by ARCH-001–009.
+
+## ARCH-010 — Canonical Domain & Authority Architecture
+
+Every authoritative domain MUST be registered with:
+
+- Domain ID;
+- owner;
+- canonical state;
+- authority;
+- write boundary;
+- read boundary;
+- command interface;
+- event interface;
+- persistence boundary;
+- recovery boundary;
+- migration boundary;
+- evidence requirements.
+
+The ecosystem MUST maintain:
+
+- Domain Registry;
+- Authority Graph;
+- State Ownership Registry;
+- Command Registry;
+- Event Registry;
+- Projection Registry;
+- Cross-Domain Write Registry;
+- Authority Delegation Registry;
+- Ownership Transfer Contract;
+- State Transition Registry;
+- Canonical State Classification.
+
+The registry MUST answer:
+
+> Who owns this state? Who may mutate it? Through which interface? Under which authority? How is the mutation committed? How is it recovered? What evidence proves it?
+
+A read model, cache, index, event stream, AI memory or integration projection MUST NOT become authoritative merely through availability or reachability.
+
+## ARCH-011 — Canonical Interface & Contract Architecture
+
+The ecosystem MUST distinguish and register:
+
+- API;
+- ABI;
+- RPC;
+- IPC;
+- event;
+- command;
+- schema;
+- wire protocol;
+- file format;
+- storage schema;
+- transaction format;
+- configuration schema.
+
+Every contract MUST declare:
+
+- Contract ID;
+- version;
+- owner;
+- producer;
+- consumer;
+- schema;
+- encoding;
+- authentication;
+- authorization;
+- capability requirements;
+- compatibility;
+- timeout;
+- retry semantics;
+- idempotency;
+- ordering;
+- error semantics;
+- deprecation;
+- migration;
+- evidence requirements.
+
+Schema Registry, API Registry and Event Registry are distinct authorities even when they reference one another.
+
+## ARCH-012 — State Machine Architecture
+
+Critical stateful components MUST define explicit state machines.
+
+A state-machine contract MUST declare:
+
+- state;
+- allowed transitions;
+- preconditions;
+- authority;
+- validation;
+- commit semantics;
+- emitted event;
+- persistence;
+- recovery;
+- invalid-transition behavior.
+
+The model applies to, at minimum:
+
+- transactions;
+- blocks;
+- validators;
+- nodes;
+- contracts;
+- accounts;
+- stake;
+- governance proposals;
+- upgrades;
+- deployments;
+- OS services;
+- Aurora agents;
+- tool executions;
+- Genesis entities;
+- multiplayer sessions;
+- marketplace orders;
+- launchpad projects.
+
+Implicit state transitions MUST NOT bypass the declared authority and validation boundary.
+
+## ARCH-013 — Identity & Trust Architecture
+
+Identity MUST be modeled independently from authentication, authorization, capability and trust.
+
+The identity hierarchy MAY include:
+
+Root Identity → Organization → Device/Node → Service/Workload → User/Wallet → Agent/Tool.
+
+The system MUST provide explicit contracts for:
+
+- Identity Registry;
+- Credential Registry;
+- Key Registry;
+- Trust Root Registry;
+- Identity Binding;
+- Identity Federation;
+- Delegation;
+- Capability Attenuation;
+- Revocation;
+- Recovery;
+- Key Rotation;
+- Trust Termination;
+- Identity Audit.
+
+Delegation MUST NOT grant broader authority than the delegating principal possesses.
+
+Revocation and trust termination MUST propagate according to the declared security boundary and failure semantics.
+
+## ARCH-014 — Cryptographic Agility Architecture
+
+Cryptographic primitives MUST be registered by purpose rather than treated as interchangeable implementation details.
+
+The Crypto Registry MUST support, as applicable:
+
+- hash algorithms;
+- signature algorithms;
+- key types;
+- KDFs;
+- MACs;
+- encryption algorithms;
+- ZKP primitives;
+- post-quantum algorithms.
+
+Each registered algorithm MUST define:
+
+- Algorithm ID;
+- security classification;
+- purpose;
+- key format;
+- signature/ciphertext format;
+- domain separation;
+- version;
+- rotation;
+- deprecation;
+- migration;
+- test vectors.
+
+Cryptographic domain separation MUST remain explicit. Algorithm replacement MUST preserve the relevant protocol, identity and security contracts or provide a governed migration.
+
+## ARCH-015 — Resource & Scheduling Architecture
+
+Resource control MUST follow:
+
+Physical Resource → Host → OS → Service → Workload → Job → Operation.
+
+Governed resources include:
+
+- CPU;
+- memory;
+- storage;
+- network;
+- GPU/NPU;
+- VM gas;
+- AI inference;
+- tool execution;
+- disk I/O;
+- power;
+- thermal budget.
+
+Schedulers and admission systems MUST define:
+
+- priority;
+- quota;
+- reservation;
+- admission;
+- preemption;
+- backpressure;
+- fairness;
+- starvation prevention;
+- accounting;
+- reclamation;
+- isolation.
+
+Consensus-critical execution, OS services, AI inference, indexing and application workloads MUST NOT share uncontrolled resource pools.
+
+Resource exhaustion MUST have explicit failure and recovery semantics.
+
+## ARCH-016 — Data Architecture
+
+Data MUST be classified according to authority and lifecycle.
+
+At minimum:
+
+- canonical;
+- derived;
+- cached;
+- indexed;
+- ephemeral;
+- historical;
+- confidential;
+- sensitive;
+- public.
+
+The architecture MUST define:
+
+- Data Registry;
+- Schema Registry;
+- Data Lineage;
+- Data Provenance;
+- Data Quality;
+- Data Validation;
+- Data Retention;
+- Data Deletion;
+- Data Migration;
+- Data Residency;
+- Data Replication;
+- Data Archival;
+- Data Integrity;
+- Data Reconciliation.
+
+Canonical data MUST have an authoritative owner. Derived data MUST remain rebuildable from its declared source where the domain contract requires it.
+
+## ARCH-017 — Event & Messaging Architecture
+
+Authoritative event production MUST follow:
+
+Command → Validation → State Transition → Commit → Canonical Event → Event Transport → Consumers → Projection/Action.
+
+Messaging infrastructure MAY contain:
+
+- event bus;
+- queues;
+- topics;
+- subscriptions;
+- dead-letter queues;
+- retry;
+- ordering;
+- deduplication;
+- idempotency;
+- replay;
+- offset management;
+- consumer state;
+- retention;
+- backpressure.
+
+Event transport MUST NOT become state authority merely because consumers rely on it.
+
+Canonical events MUST represent accepted state transitions, not unvalidated requests.
+
+## ARCH-018 — Workflow & Distributed Transaction Architecture
+
+Cross-domain workflows MUST declare:
+
+- command;
+- steps;
+- checkpoints;
+- retry;
+- timeout;
+- compensation;
+- cancellation;
+- resume;
+- failure handling;
+- audit.
+
+Supported mechanisms MAY include:
+
+- Saga;
+- durable workflow execution;
+- correlation ID;
+- idempotency key;
+- fencing token;
+- compensation contract;
+- human approval step.
+
+Compensation MUST NOT be represented as rollback of an already finalized canonical state. Cross-domain workflows MUST respect each domain's independent commit authority.
+
+## ARCH-019 — Observability & Evidence Architecture
+
+Operational control MUST follow:
+
+Telemetry → Detection → Classification → Decision → Action → Verification → Evidence.
+
+The observability architecture MUST distinguish:
+
+- metrics;
+- logs;
+- traces;
+- profiles;
+- health/readiness;
+- SLO;
+- SLA;
+- error budget;
+- audit logs;
+- security evidence;
+- CI evidence;
+- deployment evidence;
+- runtime evidence;
+- evidence provenance;
+- evidence retention.
+
+Evidence records SHOULD bind:
+
+- Evidence ID;
+- requirement;
+- repository;
+- commit SHA;
+- artifact;
+- environment;
+- platform;
+- test/gate;
+- run ID;
+- timestamp;
+- tool version;
+- raw result;
+- evaluator.
+
+Historical evidence MUST NOT be silently presented as current evidence.
+
+## ARCH-020 — Configuration & Parameter Architecture
+
+Configurable parameters MUST be classified at minimum as:
+
+- protocol;
+- consensus;
+- economic;
+- VM;
+- network;
+- OS;
+- security;
+- AI;
+- Genesis;
+- application.
+
+Every governed parameter MUST declare:
+
+- ID;
+- owner;
+- type;
+- unit;
+- default;
+- minimum/maximum where applicable;
+- scope;
+- version;
+- activation height/time;
+- approval;
+- migration;
+- rollback;
+- audit requirements.
+
+Runtime configuration MUST NOT silently override protocol or monetary semantics.
+
+## ARCH-021 — Upgrade & Migration Architecture
+
+Upgrades MUST follow:
+
+Upgrade → Compatibility Analysis → Migration Plan → Preflight → Activation → Verification → Monitoring → Rollback/Recovery.
+
+Migration classes MUST be distinguished for:
+
+- protocol;
+- state;
+- database;
+- schema;
+- network;
+- API;
+- ABI;
+- contract;
+- OS;
+- AI model;
+- AI memory;
+- Genesis saves;
+- game content.
+
+Each migration MUST identify its source version, target version, activation boundary, compatibility behavior, recovery boundary and evidence.
+
+## ARCH-022 — Security Boundary Architecture
+
+Security boundaries MUST be explicitly registered across:
+
+Hardware → Boot → ShivaCore → GlobusOS → Service → Identity → Capability → Network → Application → AI → External System.
+
+Each boundary MUST define, as applicable:
+
+- trust level;
+- identity;
+- authentication;
+- authorization;
+- capability;
+- input validation;
+- output validation;
+- encryption;
+- isolation;
+- audit;
+- failure mode;
+- recovery.
+
+Reachability MUST NOT grant authority.
+
+## ARCH-023 — Threat & Attack Surface Architecture
+
+Security analysis MUST map:
+
+Asset → Trust Boundary → Threat → Attack Vector → Control → Test → Evidence.
+
+Threat coverage MUST include, as applicable:
+
+- consensus;
+- P2P;
+- wallet;
+- VM;
+- smart contracts;
+- oracle;
+- bridge;
+- storage;
+- OS;
+- kernel;
+- desktop;
+- Aurora;
+- agents;
+- tools;
+- Genesis multiplayer;
+- marketplace;
+- supply chain;
+- CI/CD;
+- hardware.
+
+Critical controls MUST map to executable tests or other explicit verification evidence.
+
+## ARCH-024 — Verification & Assurance Architecture
+
+Critical system behavior MUST progress from:
+
+Specification → Invariant → Reference Model → Implementation → Unit → Property → Fuzz → Differential → Integration → Exact-SHA CI → E2E → Fault Injection → Recovery → Operational Evidence.
+
+Verification techniques MAY include:
+
+- formal verification;
+- model checking;
+- differential testing;
+- conformance testing;
+- protocol vectors;
+- golden vectors;
+- deterministic replay;
+- chaos testing;
+- long-run testing.
+
+Passing a lower verification layer MUST NOT be represented as proof of a higher layer.
+
+## ARCH-025 — Economic Security Architecture
+
+Economic security MUST explicitly cover:
+
+Monetary Policy → Issuance → Fees → Staking → Slashing → Validator Economics → Treasury → Governance.
+
+The economic assurance model MUST consider:
+
+- economic attack models;
+- fee manipulation;
+- validator concentration;
+- stake concentration;
+- reward consistency;
+- supply invariant;
+- inflation invariant;
+- rounding behavior;
+- overflow/underflow;
+- economic parameter activation;
+- emergency economic controls.
+
+The canonical A-TownChain economic representation remains 18 decimal places with economic values represented as u128 and protocol counters such as height, nonce, timestamp and epoch represented as u64, subject to implementation and exact-SHA verification.
+
+The monetary invariants MUST be tested against the canonical maximum supply, halving schedule and reward calculation rather than inferred from documentation.
+
+## ARCH-026 — Genesis/Game Authority Architecture
+
+Genesis authoritative execution MUST follow:
+
+Player Input → Command → Validation → Authoritative Simulation → Game Rules → Quest/Dialogue/AI Proposal → State Transition → Invariant Check → Commit → Replication → Presentation.
+
+Genesis MUST explicitly define:
+
+- entity authority;
+- world authority;
+- shard authority;
+- save authority;
+- multiplayer authority;
+- anti-cheat boundary;
+- mod sandbox;
+- mod capability;
+- content provenance;
+- asset versioning;
+- save migration;
+- replay;
+- deterministic simulation.
+
+Aurora, Quest AI and Dialogue AI MAY propose or generate behavior, but authoritative Genesis runtime state MUST remain under the Genesis domain's validation and commit authority.
+
+## ARCH-027 — Aurora Agent Architecture
+
+Aurora agent execution MUST follow:
+
+Model → Context → Reasoning → Intent → Plan → Capability → Policy → Approval → Tool → Sandbox → Execution → Result Validation → Target Domain Commit → Audit.
+
+Aurora architecture MUST provide explicit contracts for:
+
+- Agent Registry;
+- Model Registry;
+- Prompt/Policy Registry;
+- Tool Registry;
+- Capability Registry;
+- Agent Session;
+- Agent Memory;
+- Agent Budget;
+- Agent Delegation;
+- Agent Sandbox;
+- Agent Evaluation;
+- Agent Rollback;
+- Agent Kill/Disable;
+- Model Provenance;
+- Model/Data/Code Compatibility.
+
+Model output is non-authoritative by default. A target domain MUST validate and accept an action before it becomes canonical state.
+
+## ARCH-028 — Developer Platform Architecture
+
+The canonical contract-development path is:
+
+ATCLang → Compiler → ATC-IR → ABI → Bytecode → Verifier → ATC-VM.
+
+The developer platform SHOULD provide versioned tooling for:
+
+- SDK;
+- CLI;
+- wallet tooling;
+- RPC clients;
+- local node;
+- testnet tooling;
+- contract debugger;
+- VM debugger;
+- state inspector;
+- replay debugger;
+- network simulator;
+- Genesis simulator;
+- AI evaluation harness;
+- OS development environment;
+- deployment tooling.
+
+Developer tooling MUST consume the same versioned contracts and schemas as production components rather than silently maintaining incompatible representations.
+
+## ARCH-029 — Supply Chain & Build Architecture
+
+Build and release MUST follow:
+
+Source → Dependency Resolution → Dependency Verification → Hermetic Build → SBOM → Provenance → Artifact Signing → Artifact Verification → Release → Deployment.
+
+The architecture MUST support, as applicable:
+
+- reproducible builds;
+- isolated builders;
+- dependency pinning;
+- lockfiles;
+- SBOM;
+- provenance attestations;
+- artifact registry;
+- signing;
+- verification;
+- compromised dependency response;
+- build-environment attestation.
+
+Artifact integrity MUST NOT be treated as proof of functional correctness.
+
+## ARCH-030 — System Reconciliation Architecture
+
+Architecture claims MUST be reconciled against repository reality:
+
+Architecture → Domain Registry → Repository Registry → Source → Interface Registry → Dependency Graph → Test Matrix → CI Run → Exact SHA → Integration → E2E → Release → Deployment → Runtime.
+
+The reconciliation system MUST classify at least:
+
+- ARCHITECTURE_DRIFT;
+- IMPLEMENTATION_DRIFT;
+- AUTHORITY_DRIFT;
+- STATE_OWNERSHIP_DRIFT;
+- INTERFACE_DRIFT;
+- SCHEMA_DRIFT;
+- DEPENDENCY_DRIFT;
+- TEST_DRIFT;
+- CI_DRIFT;
+- EVIDENCE_DRIFT;
+- DEPLOYMENT_DRIFT;
+- SECURITY_DRIFT;
+- VERSION_DRIFT.
+
+A repository/file/PR/commit MUST NOT be marked IMPLEMENTED merely because a corresponding path or documentation exists.
+
+Implementation status MUST be established through the owning repository's source and tests. CI status MUST be established against the exact source SHA. Integration and E2E status MUST have their own evidence.
+
+## ARCH-010–030 Cross-Contract Invariants
+
+1. Every authoritative state has exactly one canonical owner.
+2. Every authoritative write crosses an explicit command/authorization boundary.
+3. Identity, authentication, authorization, capability and trust remain distinct concepts.
+4. Event transport never becomes authority by implication.
+5. Read models, indexes, caches and AI memories remain non-authoritative unless explicitly designated by a domain contract.
+6. Configuration cannot silently rewrite protocol semantics.
+7. Compensation cannot erase finalized canonical state.
+8. Resource exhaustion has explicit failure behavior.
+9. Cryptographic algorithms have explicit purpose and domain separation.
+10. Every migration has a defined activation and recovery boundary.
+11. Every critical security boundary has a declared threat model and verification path.
+12. Exact-SHA CI evidence is distinct from historical CI evidence.
+13. Architecture documentation is distinct from implementation evidence.
+14. Artifact integrity is distinct from functional correctness.
+15. AI output is non-authoritative until the target domain validates and commits it.
+16. Genesis presentation/client prediction cannot become authoritative game state.
+17. Cross-domain dependencies cannot gain authority merely through reachability.
+18. Reconciliation must identify stale, duplicate, orphaned and contradictory implementations.
+19. Standalone component correctness precedes ecosystem integration.
+20. Cross-repository contracts MUST remain versioned, attributable and evidence-linked.
+
+## ARCH-010–030 Implementation Status Contract
+
+ARCH-010–030 are initially classified as:
+
+**SPECIFIED — architecture contract only.**
+
+No section above is evidence that a component is IMPLEMENTED, TESTED, CI_VERIFIED, INTEGRATED, E2E_VERIFIED, RELEASED, DEPLOYED or OPERATIONAL.
+
+Implementation work MUST proceed through the owning repository SSOTs and the established evidence ladder:
+
+**SPECIFIED → IMPLEMENTED → TESTED → CI_VERIFIED → INTEGRATED → E2E_VERIFIED → RELEASED → DEPLOYED → OPERATIONAL.**
+
+The ecosystem repository aggregates architecture and evidence; it MUST NOT become the implementation SSOT for component internals.
