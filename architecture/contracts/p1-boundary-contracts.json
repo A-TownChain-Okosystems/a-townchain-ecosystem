@@ -1,0 +1,14 @@
+{
+  "schema":"ATC-ARCH-P1-CONTRACTS-1.0",
+  "architecture_source":"ARCHITECTURE.md",
+  "status":"ACTIVE",
+  "contracts":[
+    {
+      "id":"ARCH-P1-001",
+      "name":"event_bus",
+      "authority":["L0","X","L6","L7"],
+      "deny_by_default":true,
+      "canonical_owner":"globus_os_event_bus"
+    }
+  ]
+}

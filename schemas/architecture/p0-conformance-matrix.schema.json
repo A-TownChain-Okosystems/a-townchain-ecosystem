@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://a-townchain.org/schemas/architecture/p0-conformance-matrix.schema.json",
+  "title": "ATC P0 Architecture Conformance Matrix",
+  "type": "object",
+  "required": [
+    "schema",
+    "source_contracts",
+    "status",
+    "evidence_status",
+    "entries"
+  ],
+  "properties": {
+    "schema": {
+      "const": "ATC-ARCH-P0-CONFORMANCE-1.0"
+    },
+    "source_contracts": {
+      "const": "architecture/contracts/p0-boundary-contracts.json"
+    },
+    "status": {
+      "const": "ACTIVE"
+    },
+    "evidence_status": {
+      "enum": [
+        "UNANALYZED",
+        "ANALYZED",
+        "FIXED",
+        "RERUNNING",
+        "VERIFIED",
+        "RESIDUAL"
+      ]
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "object",
+        "required": [
+          "contract_id",
+          "implementation_ssot",
+          "implementation_surface",
+          "test_requirements",
+          "ci_evidence_required",
+          "integration_evidence_required",
+          "e2e_evidence_required",
+          "status",
+          "status",
+          "implementation_paths",
+          "exact_source_sha",
+          "evidence_note"
+        ],
+        "properties": {
+          "contract_id": {
+            "pattern": "^ARCH-P0-00[1-7]$"
+          },
+          "implementation_ssot": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "implementation_surface": {
+            "type": "string",
+            "minLength": 1
+          },
+          "test_requirements": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "ci_evidence_required": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "integration_evidence_required": {
+            "type": "boolean"
+          },
+          "e2e_evidence_required": {
+            "type": "boolean"
+          },
+          "status": {
+            "enum": [
+              "UNANALYZED",
+              "ANALYZED",
+              "FIXED",
+              "RERUNNING",
+              "VERIFIED",
+              "RESIDUAL"
+            ]
+          },
+          "implementation_paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "exact_source_sha": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^(null|[0-9a-f]{40})$"
+          },
+          "evidence_note": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}
