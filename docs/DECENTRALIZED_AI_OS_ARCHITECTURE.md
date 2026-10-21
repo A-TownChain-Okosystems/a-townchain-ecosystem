@@ -243,3 +243,100 @@ Für jedes Kriterium sind mindestens folgende Felder zu erfassen:
 Dieses Dokument definiert Systemarchitektur und vorgeschlagene Abnahmekriterien. Es ersetzt keine normativen Protokoll-/ABI-Spezifikation in `atc-standards`, keine Implementierung in einem Komponenten-SSOT und keine CI-, Sicherheits- oder E2E-Evidence.
 
 Konflikte mit der kanonischen L0–L7+X-Architektur werden in `ARCHITECTURE.md` und dem zugehörigen Master-Architecture-Issue konsolidiert; es darf kein konkurrierendes Layer-Modell entstehen.
+
+
+## 11. Architekturabgleich: KI × Betriebssystem × Blockchain (Audit-Snapshot 2026-10-21)
+
+Dieser Abschnitt ergänzt die bestehende Systemarchitektur; er führt weder ein neues Layer-Modell noch eine zweite Implementierungs- oder Registry-SSOT ein. Er gleicht das Konzept „KI- und Blockchain-integriertes KAI-OS“ gegen die vorhandene Architektur, offene Issues und auffindbare Exact-SHA-/Actions-Evidenz ab.
+
+### 11.1 Kanonische Architektur und Eigentümer
+
+| Fähigkeit / Grenze | Kanonischer Owner / Vertrag | Architekturentscheidung |
+|---|---|---|
+| KAI-OS Gesamtarchitektur | atc-standards/standards/architecture/ATC-ARCH-001.md; Systemintegration in a-townchain-ecosystem/ARCHITECTURE.md | KAI-OS ist der Architekturbegriff, kein separates OS oder Repository; GlobusOS ist das Betriebssystem. |
+| Kernel, TCB, Prozess-/Speicherisolation, IPC | globus-os/modules/atc-shivacore/kernel/ | Nur minimale privilegierte Sicherheitsdurchsetzung im Kernel; KI-, Chain- und Smart-Contract-Logik bleiben außerhalb der TCB. |
+| HAL, Gerätedienste, Treiber, Systemlebenszyklus | globus-os | CPU/GPU/NPU/TPU-Zugriff nur über versionierte HAL-/Treiber-/Service-Verträge. Verfügbarkeit von Hardware, Treibern, DMA-Schutz, Secure Boot, TPM oder TEE muss je Plattform nachgewiesen werden; keine pauschale Hardwaregarantie. |
+| KI-Agenten, Modelle, Inferenz, Memory und Tool-Planung | aurora-ai | Aurora schlägt vor und orchestriert; Modelloutput verleiht keine Autorität. Die kanonische Runtime-/Tool-Executor-Entscheidung ist durch Aurora Issue #51 noch offen. |
+| Policy/Capability/Approval für KI-Aktionen | bestehende Aurora-Policy-/Capability-Verträge plus unabhängige GlobusOS/ShivaCore-Enforcement-Grenze | Keine zweite Policy Engine. Jeder Seiteneffekt muss unmittelbar vor Ausführung durch den kanonischen Autorisierungspfad laufen; fehlende/mehrdeutige Autorisierung verweigert standardmäßig. |
+| Blockchain, Transaktionen und Konsens | a-townchain und zuständige kanonische Unterkomponenten | Aurora und GlobusOS werden keine Konsensautorität. Konsens-/Finalitäts- und Protokollentscheidungen bleiben nur bei versioniertem Vertrag und passender Evidenz freigabefähig. |
+| Smart-Contract-Ausführung | a-townchain/components/vm | Deterministische VM bleibt eigenständige SSOT; keine zweite VM in Ecosystem, Aurora oder GlobusOS. |
+| Wallet und Signatur-/Transferoperationen | kanonisches atc-wallet | Agenten dürfen Transaktionen vorschlagen; Schlüsselzugriff, Signatur und Zahlung benötigen Wallet-Policy, Capability und erforderliche explizite Freigabe. |
+| Normative Verträge | atc-standards | Dieses Dokument ist Systemarchitektur, kein Ersatz für normativ versionierte Standards, ABIs, Schemas oder Protokollentscheidungen. |
+| Katalog, Integrationsprüfung und Evidence-Aggregation | a-townchain-ecosystem | Keine Produktionsimplementierungen und keine Übernahme fremder SSOTs. a-townchain-os bleibt Orchestrierung/Integration, kein Ersatz für Core-Repositories. |
+
+Referenzierte vorhandene Arbeit: Ecosystem Issue #71 (Master Architecture), Issue #190 (Frontend–Middleware–Backend-Verträge), PR #103 (diese Architekturdatei), PR #203 (Aurora Ecosystem Technical Spec) und PR #218 (Zielzustandskatalog). Diese Arbeitspakete werden konsolidiert statt als parallele Architektur- oder Funktionskataloge dupliziert. Die Registry-/Layer-Migration aus PR #218 ist nicht automatisch durch diese Ergänzung freigegeben.
+
+### 11.2 Ergänzende Synergien: nur als spezifizierte Zielverträge
+
+#### A. Hardwarebeschleunigte lokale KI
+
+- Modell-/Backend-Auswahl muss anhand tatsächlich erkannter Gerätefähigkeiten, Treiber-Versionen, Speicherbudget und Sicherheitsdomäne erfolgen.
+- CPU-Fallback darf die Korrektheit erhalten, aber nicht stillschweigend Sicherheits- oder Determinismusgarantien ändern.
+- Modellformat, Operator-/Kernel-Support, Quantisierung, numerische Toleranzen, Speicherisolation und Ressourcengrenzen brauchen versionierte Verträge und reproduzierbare Tests.
+- GPU/NPU/TPU, TPM/TEE und Secure-Boot-Integration: **NOT VERIFIED** als vollständiger, systemintegrierter Pfad. Ein HAL-Dokument oder ein vorhandener Treiber allein beweist keine sichere Ende-zu-Ende-Integration.
+
+#### B. Verifizierbares / Zero-Knowledge Machine Learning
+
+- Die vorhandene ATC-ZKP-/Proof-Verifikationsarbeit ist nicht gleichbedeutend mit einem verifizierten ML-Proof-System.
+- Vor einer Implementierung müssen Beweisziel und Vertrauensmodell festgelegt werden: Inferenzkorrektheit, Daten-/Modellcommitment, Training/Federation oder nur Attestation. Prover, Verifier, Circuit/Constraint-Set, öffentliche/private Inputs, Soundness-Annahmen, Versionierung und Ressourcen-/DoS-Grenzen sind getrennt zu spezifizieren.
+- Ein ZKP-Nachweis beweist nur die Aussagen des konkret spezifizierten Circuits/Statements; er beweist weder die Qualität des Modells noch die Richtigkeit nicht erfasster Vorverarbeitung.
+- Status für integriertes ZK-ML über Aurora → kanonische ATC-ZKP-/Chain-Verträge: **UNRESOLVED / NOT VERIFIED**. Kein Nachweis gefunden, der diesen gesamten Pfad an einem exakten Commit mit positiven und negativen Tests belegt.
+
+#### C. Föderiertes Lernen / dezentrales Modelltraining
+
+- Rohdaten bleiben standardmäßig lokal; Teilnahme, Gradienten-/Update-Freigabe, Aggregation, Teilnehmeridentität, Modellversion und Abbruch/Widerruf brauchen explizite Verträge.
+- Datenschutz (einschließlich möglicher Differential Privacy), Poisoning-/Sybil-Abwehr, Update-Validierung, Reproduzierbarkeit und Leckage-Risiko sind eigenständige Abnahmekriterien.
+- On-chain-Verankerung ist optional und beschränkt sich auf explizit vereinbarte Commitments, Teilnehmer-/Rundenmetadaten oder Abrechnung; private Trainingsdaten und rohe Gradienten werden nicht automatisch on-chain publiziert.
+- Föderiertes Lernen als vollständiger sicherer, integrierter und CI-verifizierter Dienst: **NOT VERIFIED**. Historische/archivierte Architekturtexte oder Katalogeinträge zählen nicht als Implementierungs- oder CI-Nachweis.
+
+#### D. Autonome Micropayments / agentische Zahlungen
+
+- Ein Agent erstellt zunächst einen typisierten Zahlungsauftrag mit Empfänger, Asset, Betrag, Zweck, Ablauf, Nonce und Budget.
+- Danach: Policy → Capability → erforderliche menschliche Freigabe → kanonische Wallet-Signatur → Transaktionsvalidierung → autoritative Chain-Ausführung/Finalität → korrelierte Evidence.
+- Budget-/Rate-Limits, Allowlist, Ablauf, Replay-Schutz, Gebührenobergrenze, Rücknahme-/Fehlersemantik und Kill-Switch sind zwingend. Modelloutput darf niemals unmittelbar Schlüsselmaterial verwenden oder eine Zahlung selbst autorisieren.
+- Vollständige autonome Zahlung mit realem Wallet-/Chain-Pfad und negativen Autorisierungstests: **BLOCKED / NOT VERIFIED**, bis die kanonischen Wallet- und Agent-Gateway-Verträge sowie Exact-SHA-Integrationstests nachgewiesen sind.
+
+### 11.3 Implementierungs- und CI-Evidenzmatrix
+
+**Auditregel:** Die folgenden Einträge sind gezielte, zum Prüfzeitpunkt auffindbare Evidenzanker, kein vollständiges Repository-Census. Ein vorhandener Quellpfad, ein offener PR oder ein erfolgreicher Teil-Workflow beweist nicht, dass die gesamte Architektur implementiert ist. Fehlende oder nicht abgeschlossene Nachweise bleiben nicht freigabefähig.
+
+| Prüffeld | Exact-SHA / Referenz | Beobachtete Evidence | Status für die hier beschriebene Gesamtfähigkeit |
+|---|---|---|---|
+| Systemarchitektur / Ecosystem-PR #103 | PR-Head 35ca8d96cb9dc6881c8d2a09b4bba7c546125d41; zugehöriger Merge-Ref 3a53502ea68f970f5fdd28cc2f82a1196e9fcd4d | Actions Run [#37852262191](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/37852262191): Python-, Rust-Manifest- und Repository-Integrity-Jobs bestanden; javascript-projects fehlgeschlagen. Step „Validate every package.json project“ meldet Dependency-Auflösung für components/a-townchain/components/explorer: TypeScript 7.0.2 kollidiert mit ts-jest@29.4.14 (Peer-Bereich >=4.3 <7); zusätzliche npm-CLI-/Installationsprobleme wurden für SDK-Pakete protokolliert. | **BLOCKED** für Release-/Gesamtintegration; dieser Run ist außerdem historisch und prüfte den Merge-Ref, nicht nur den isolierten PR-Head. |
+| ShivaCore Kernel / PR #98 | 4efd7be7460816e229bdb88efd6e83fcea0febbf | [Kernel-Boot-Run #39222390403](https://github.com/A-TownChain-Okosystems/globus-os/actions/runs/39222390403): Rust CI, GlobusOS System CI, ATC Test Suite, Governance, SDK Build/Test und Security Audit meldeten Erfolg. BIOS-Smoke-Test für Intel Skylake war beim Audit noch in_progress; UEFI-Smoke-Test und SHA-gebundenes Bootmanifest standen noch aus. AMD EPYC Job war cancelled. PR #98 bleibt Draft und beschreibt ausdrücklich nur fail-closed Kernel-Stopp, keine sichere Ring-3-Prozesswiederherstellung. | **NOT VERIFIED** für vollständige Boot-/Isolation-/AI-Systemintegration; Teil-CI erfolgreich, Boot-Evidence unvollständig. |
+| Ring-3 Fault-Recovery / PR #99 | 9c129b295415dc592736c1f57c50644e33065408 | PR #99 ist Draft; für genau diesen SHA wurden in der abgefragten PR-Workflow-Runs-Antwort keine Runs geliefert. Der PR-Text sagt Build, Tests, QEMU und negative Cross-Process-Isolationstests seien noch nicht verifiziert. | **BLOCKED / NOT VERIFIED**. |
+| Aurora autorisierter Tool-Executor / PR #48, Issue #52 | 0ed3520dcc7838373916fa76cb7180c166f0d508; Basis-Audit von Issue #52: 032519b5bac505b25651214ec717f448264c8948 | PR #48 ist Draft. Er enthält einen lokalen authorize_action()-Gate und beschriebene Regressionstests, sagt aber, dass diese Tests in dieser Änderung nicht lokal ausgeführt wurden und der exakte Head CI benötigt. Issue #52 hält fest, dass AgentPool::execute() direkt dispatcht und ein vollständiger Gateway-Pfad nachzuweisen ist. Für den PR-Head wurden in der abgefragten Workflow-Runs-Antwort keine Runs geliefert. | **BLOCKED / NOT VERIFIED** für „jeder Side-Effect ist autorisiert“. |
+| Aurora Memory / PR #45, Issue #44 | 70adba7ec7c0a9b35cdac9cf5fdd14e35b546262 | Draft; PR beschreibt persistentes Long-Term-Memory-MVP, aber Payloads sind nicht at-rest verschlüsselt, Multi-Process-Locking und authentifizierte Integrität fehlen, abgeleitete Index-/Embedding-/Cache-Löschung und OS-Capability-Enforcement sind offen. Exact-Head Build/Test/Security/Governance-Evidence war im PR-Text ausstehend; keine Runs wurden für den Head in der abgefragten Antwort geliefert. | **RESIDUAL / NOT VERIFIED**; nicht als sichere vollständige Memory-Schicht ausgeben. |
+| Blockchain / ZKP-Basis | a-townchain Architektur-/ZKP-Dateireferenz bei Commit-Snapshot a5e689671b1870699c7a1750f8a166e83590a41c | Quell- und Architekturdateien für ZKP/Verifier sind auffindbar. Der abgefragte Commit-Status lieferte keine Statuschecks. Das beweist weder erfolgreiches CI noch ein ML-spezifisches Circuit-/Prover-/Verifier-System. Zusätzlich hält Ecosystem-Katalogarbeit offene Protokoll-/Konsens- und VM-Entscheidungen fest. | ZKP-Primitiven: **IMPLEMENTATION STATUS NOT ASSESSED HERE**; integriertes ZK-ML und Gesamt-Chain-Pfad: **UNRESOLVED / NOT VERIFIED**. |
+| Normativer Architekturstandard | atc-standards ATC-ARCH-001.md, Commit-Snapshot 68448117334b49729f423f1648f9a960f4411220 | Standard ATC-ARCH-001 und Registry-Eintrag sind als APPROVED auffindbar; die abgefragte Commit-Status-API lieferte keine Statuschecks. Normative Freigabe des Architekturbegriffs ist kein Nachweis technischer Implementierung oder CI/E2E-Konformität. | Standardstatus: **APPROVED**; Implementierungs-/E2E-Konformität: **NOT VERIFIED**. |
+| Föderiertes Lernen, ZK-ML, Hardware-TPM/TEE-Bindung, agentische Micropayments | Kein zusammenhängender exakter Source-SHA + Run/Job/Step/Exit/Artefakt-Nachweis im geprüften Ausschnitt gefunden | Architekturbeschreibungen und benachbarte Komponenten sind kein vollständiger End-to-End-Nachweis. | **BLOCKED / UNRESOLVED / NOT VERIFIED**, jeweils bis zum geforderten Nachweis. |
+
+**Wichtig zur Aktualität:** Die oben angegebenen SHAs sind konkrete Auditanker aus den abgefragten PRs/Dateien; sie dürfen nicht stillschweigend als aktueller Default-Branch-HEAD jedes Repositories ausgegeben werden. Vor Freigabe muss die Matrix auf den dann aktuellen kanonischen HEADs erneut erhoben werden. Die API-Antwort „keine Statuschecks/keine Workflow-Runs“ ist kein Beweis, dass nie CI existierte; sie bedeutet nur, dass mit der hier abgefragten Evidenz kein positiver Exact-SHA-Nachweis vorliegt.
+
+### 11.4 Verbindliche E2E-Abnahmekette
+
+Für jede integrierte Funktion ist die folgende Kette einzeln und negativ zu testen:
+
+**Intent → Agent Identity → Policy Decision → Capability Check → Approval (if required) → Versioned Tool/IPC Contract → Isolated Service → Canonical Wallet/ATC-VM/OS Owner → Result/Finality → Audit Evidence**
+
+Mindest-Negativfälle:
+- unbekannte, widerrufene oder abgelaufene Identität/Capability;
+- fehlende, mehrdeutige oder abgelehnte Policy-/Approval-Entscheidung;
+- Replay, falsche Nonce, abgelaufener Auftrag und geänderte Parameter nach Freigabe;
+- Cross-Process-/Cross-Tenant-Zugriff auf Memory, Schlüssel oder Geräte;
+- ungültige Transaktion, fehlerhafte VM-Ausführung, fehlende Finalität oder Netzwerkpartition;
+- nicht unterstützter GPU/NPU/TPU-Backendpfad, Ressourcenerschöpfung, Modell-/Treiber-Mismatch;
+- ungültiger oder nicht zum Statement passender ZK-Beweis, manipuliertes Modell-/Update-Artefakt;
+- Federated-Learning-Teilnehmer mit Poisoning-/Sybil-Signalen oder widerrufener Identität;
+- fehlende Evidence, SHA-Mismatch, fehlender Exit-Code, fehlgeschlagener oder übersprungener CI-Step.
+
+Für jeden Test sind Requirement-ID, Owner-Repository, vollständiger Quell-SHA, Pfad/Symbol/Blob-SHA, Testname, Actions Run → Job → Step → Exit-Code, Logs und Artefakt-Hashes zu erfassen. Ein grüner Teilworkflow, ein Dokument oder ein Mapping allein erfüllt diese Kette nicht.
+
+### 11.5 Offene Entscheidungen und Freigabesperren
+
+1. **Aurora Runtime/Executor SSOT:** Issue [aurora-ai #51](https://github.com/A-TownChain-Okosystems/aurora-ai/issues/51) zuerst entscheiden; keinen dritten Executor und keine parallele Policy-/Agent-/Memory-/Model-Registry einführen.
+2. **Vollständiger Autorisierungspfad:** [aurora-ai #52](https://github.com/A-TownChain-Okosystems/aurora-ai/issues/52) schließen und negative Tests nachweisen; PR #48 allein belegt keine Vollabdeckung.
+3. **Kernel-Isolation:** [globus-os PR #98](https://github.com/A-TownChain-Okosystems/globus-os/pull/98) exakt abschließen; [PR #99](https://github.com/A-TownChain-Okosystems/globus-os/pull/99) erst nach Build-, Boot-, Ring-3-Recovery- und Cross-Process-Negativtests als vollständig bewerten.
+4. **Normative Contracts:** neue API-/ABI-/Schema-Anforderungen in atc-standards versionieren und freigeben; nicht allein durch Ecosystem-Dokumentation normativ machen.
+5. **Zielmodell/Registry:** PR #218 und die bereits offene L0–L7+X-Masterarchitektur koordinieren. Diese Ergänzung genehmigt weder eine Migration von L0–L10/X1–X8 auf L0–L9/X0–X36 noch eine Umdeutung vorhandener Layer.
+6. **Gesamtfreigabe:** erst nach erneuter Exact-HEAD-Erhebung, erfolgreicher Doku-/Schema-Prüfung, geklärtem Ecosystem Release-Readiness-Fehler und vollständiger E2E-Evidence. Bis dahin: **ARCHITECTURE PROPOSAL / INTEGRATION NOT VERIFIED / RELEASE BLOCKED**.
