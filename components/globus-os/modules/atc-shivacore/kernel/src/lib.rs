@@ -14,6 +14,7 @@ extern crate std;
 pub mod allocator;
 pub mod atcfs;
 pub mod ats1000;
+pub mod boot_metrics;
 pub mod capability;
 pub mod cross_subsystem;
 pub mod diagnostics;
