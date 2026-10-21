@@ -50,10 +50,12 @@ jobs:
           python-version: "3.12"
       - name: Audit catalog IDs, function coverage, graph and manifest
         id: audit
+        env:
+          CONTROLLER_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
           python - <<'PY'
-          import json
+          import json, os
           from pathlib import Path
 
           catalog = json.loads(Path("docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json").read_text())
@@ -108,7 +110,7 @@ jobs:
           report = {
               "schema_id": "ATC-ECOSYSTEM-LOOP-AUDIT-001",
               "schema_version": "1.0.0",
-              "controller_sha": "${{ github.sha }}",
+              "controller_sha": os.environ["CONTROLLER_SHA"],
               "catalog_status": catalog.get("status", "UNKNOWN"),
               "dependency_graph_status": graph.get("status", "UNKNOWN"),
               "manifest_status": manifest.get("status", "UNKNOWN"),
