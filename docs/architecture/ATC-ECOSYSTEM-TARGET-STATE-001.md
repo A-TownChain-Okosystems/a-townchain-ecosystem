@@ -35,9 +35,11 @@ Ein grüner CI-Run, ein vorhandenes Dokument, ein geschlossener Issue oder ein g
 
 Importierte Subtrees sind Integrations-Snapshots. Sie dürfen die Quell-SSOT nicht ersetzen. Keine zweite VM, kein zweiter Konsens-/Wallet-Kern und keine zweite Kernelimplementierung im Ecosystem-Control-Plane.
 
-## 3. Layer-Modell: nachgewiesener Registerstand und Zielkonflikt
+## 3. Layer-Modell: bestehender Registerstand und dokumentiertes Zielmodell
 
-**Kein stillschweigender Architekturwechsel.** Der derzeitige Layer-Architekturentwurf und das Registry-SSOT auf `main` deklarieren **L0–L10 und X1–X8**. Die ursprüngliche Fassung dieses Soll-Katalogs schlug dagegen **L0–L9 und X1–X36** vor. Diese Modelle sind nicht gleichwertig und dürfen nicht vermischt oder als bereits autorisiert dargestellt werden.
+**Zielmodell für die weitere Architekturplanung:** `L0–L9 + X0–X36`. Dieses Zielmodell ist im organisationsweiten `AGENT_MANIFEST.md` von `A-TownChain-Okosystems/.github` dokumentiert (Commit `2d97437a263ba080bf2e2ca171cdfe13b8ff15f0`, Abschnitt 9). `X0` ist ausdrücklich Teil des Cross-Layer-Namensraums. Die frühere Katalogfassung `L0–L9 + X1–X36` ist damit als Zielvorschlag überholt.
+
+**Der Ist-/Registry-Stand bleibt davon getrennt:** Der derzeitige Layer-Architekturentwurf und das Registry-SSOT auf `main` deklarieren **L0–L10 und X1–X8**. Die Manifest-Dokumentation dokumentiert das Zielmodell für die Planung, ersetzt aber keine normative Architektur-/Standards-Freigabe und migriert Registry, Mapping oder Validatoren nicht automatisch. Es darf weder eine bereits erfolgte Registry-Migration noch eine normative Freigabe behauptet werden.
 
 Nachweisbarer Registerstand bei der Prüfung:
 - Architekturdatei: [ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001.md](ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001.md), Blob-SHA `0c9c4e2d811125131011c1bec68aae744f620b0a`.
@@ -49,22 +51,23 @@ Nachweisbarer Registerstand bei der Prüfung:
 
 | ID-Bereich | Dokumentierter Stand | Status in diesem PR |
 |---|---|---|
-| L0–L10 | 11 Hauptschichten, darunter L10 Integration/Deployment/Ops | Bestehender Draft; Zielkonflikt offen |
+| L0–L10 | 11 Hauptschichten, darunter L10 Integration/Deployment/Ops | Bestehender Draft; Abgleich mit Zielmodell und Migration ausstehend |
 | X1–X8 | 8 Cross-Cutting-Layer | Bestehender Draft; Zielkonflikt offen |
-| X9–X36 | Im abgerufenen Registry-Ausschnitt nicht als kanonische Cross-Cutting-IDs belegt | Nicht als registriert oder freigegeben behaupten |
+| X0 | Im bestehenden Register nicht als kanonische Cross-Cutting-ID belegt | Im dokumentierten Zielmodell enthalten; Registry-Migration ausstehend |
+| X9–X36 | Im bestehenden Register nicht als kanonische Cross-Cutting-IDs belegt | Im dokumentierten Zielmodell enthalten; nicht als bereits registriert oder freigegeben behaupten |
 | X35 | In den Projektanforderungen für Installer/Release/Deployment vorgesehen | Zuordnung und Autorität gegen Register/Standards zu klären |
 | X36 | In den Projektanforderungen für Systemkomposition und E2E-Abschluss vorgesehen | Zuordnung und Autorität gegen Register/Standards zu klären |
 | L10 | Im bestehenden Registry-SSOT enthalten | Entfernen/Umnummerieren nur nach autorisierter Architekturentscheidung |
 
-### Erforderliche Architekturentscheidung
+### Erforderliche Freigabe und koordinierte Migration
 
-Der zuständige Architektur-/Standards-Owner muss dokumentiert entscheiden, ob:
-1. L10 als eigenständige Hauptschicht bestehen bleibt oder seine Verantwortlichkeiten in ein genehmigtes Cross-Cutting-Modell überführt werden;
-2. der Cross-Cutting-Namensraum bei X1–X8 bleibt oder auf X1–X36 erweitert wird;
-3. X35 und X36 verbindliche IDs erhalten und wie bestehende X1–X8-Definitionen sowie Katalog-Referenzen darauf abgebildet werden;
-4. betroffene Registry-, Mapping-, Katalog-, Validator- und Standards-Dateien gemeinsam migriert werden.
+Das Zielmodell für die Planung ist `L0–L9 + X0–X36`; die normative Freigabe und die Migration sind jedoch separate, noch offene Schritte. Vor Änderungen am Registry-SSOT muss der zuständige Architektur-/Standards-Owner mindestens dokumentieren:
+1. die Verantwortlichkeiten von L0–L9 und X0–X36 sowie die Behandlung der bisherigen L10-Verantwortlichkeiten;
+2. stabile Definitionen und Eigentümer für X0–X36 einschließlich der bestehenden X1–X8-Definitionen;
+3. die Referenzabbildung für Komponenten, Funktionen, Sub-Layer und bestehende Katalogeinträge;
+4. die koordinierte Änderung von Architekturvertrag, Registry, Mapping, Katalogen, Validatoren und gegebenenfalls `atc-standards`.
 
-Bis zu dieser Entscheidung lautet der Status für die kanonische Modellwahl **BLOCKED / ARCHITECTURE DECISION REQUIRED**. Dieser PR nimmt die Entscheidung nicht vorweg und darf nicht als Freigabe von L0–L9/X1–X36 gelesen werden.
+Bis die Freigabe und Migration nachgewiesen sind, lautet der Status **TARGET MODEL RECORDED / REGISTRY MIGRATION PENDING**. Das Zielmodell darf für die weitere Architekturplanung verwendet werden, aber weder als bereits normativ genehmigt noch als in Registry/Validatoren umgesetzt dargestellt werden.
 
 ## 4. Pflichtschema für jede Soll-Anforderung
 
@@ -154,7 +157,7 @@ Der Soll-Zustand darf erst als katalogseitig vollständig bezeichnet werden, wen
 
 ## 10. Aktueller Dokumentstatus
 
-**DRAFT / NOT VERIFIED / ARCHITECTURE DECISION REQUIRED.** Dieses Dokument strukturiert den Soll-Zustand und die erforderliche Beweiskette. Es belegt weder die Vollständigkeit des aktuellen Katalogs noch die Implementierung oder Verifikation des Ökosystems. Die Entscheidung L0–L10 versus L0–L9, der Namensraum X1–X8 versus X1–X36, Katalogintegration, Validatoren, tatsächliche Repository-Abdeckung und alle zugehörigen CI-Nachweise müssen separat geprüft und freigegeben werden.
+**DRAFT / NOT VERIFIED / TARGET MODEL RECORDED / REGISTRY MIGRATION PENDING.** Dieses Dokument strukturiert den Soll-Zustand und die erforderliche Beweiskette. Das Zielmodell `L0–L9 + X0–X36` ist im Agent Manifest dokumentiert, aber die normative Freigabe, Behandlung der bisherigen L10-Verantwortlichkeiten, Registry-/Mapping-/Katalog-/Validator-Migration, tatsächliche Repository-Abdeckung und zugehörige CI-Nachweise bleiben separat zu prüfen und freizugeben.
 
 ### Referenzen
 
