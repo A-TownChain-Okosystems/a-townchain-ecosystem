@@ -35,69 +35,36 @@ Ein grüner CI-Run, ein vorhandenes Dokument, ein geschlossener Issue oder ein g
 
 Importierte Subtrees sind Integrations-Snapshots. Sie dürfen die Quell-SSOT nicht ersetzen. Keine zweite VM, kein zweiter Konsens-/Wallet-Kern und keine zweite Kernelimplementierung im Ecosystem-Control-Plane.
 
-## 3. Zielmodell der Architektur
+## 3. Layer-Modell: nachgewiesener Registerstand und Zielkonflikt
 
-Das Zielmodell soll die Hauptschichten **L0–L9** und die quer wirkenden Kontroll- und Qualitätsbereiche **X1–X36** abdecken. Die Nummerierung und Namen müssen vor normativer Freigabe gegen das Layer-Register und atc-standards reconciled werden. Bis diese Entscheidung freigegeben und die vorhandenen Register konsistent aktualisiert sind, ist die Modellkonformität BLOCKED; dieses Dokument ändert Normen nicht stillschweigend.
+**Kein stillschweigender Architekturwechsel.** Der derzeitige Layer-Architekturentwurf und das Registry-SSOT auf `main` deklarieren **L0–L10 und X1–X8**. Die ursprüngliche Fassung dieses Soll-Katalogs schlug dagegen **L0–L9 und X1–X36** vor. Diese Modelle sind nicht gleichwertig und dürfen nicht vermischt oder als bereits autorisiert dargestellt werden.
 
-### Hauptschichten – Zielabdeckung
+Nachweisbarer Registerstand bei der Prüfung:
+- Architekturdatei: [ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001.md](ATC-ECOSYSTEM-LAYER-ARCHITECTURE-001.md), Blob-SHA `0c9c4e2d811125131011c1bec68aae744f620b0a`.
+- Layer-Registry: [ATC-LAYER-REGISTRY-001.yaml](layers/ATC-LAYER-REGISTRY-001.yaml), Blob-SHA `045a45098f51408b6fb99e75639afc997d733eb0`.
+- Component mapping: [ATC-LAYER-MAPPING-001.yaml](layers/ATC-LAYER-MAPPING-001.yaml), Blob-SHA `3f58d6a9b0e3ed794e75bd84b2f08d6028363693`.
+- Alle drei Quellen kennzeichnen sich als Draft bzw. owner review pending; sie sind ein nachgewiesener Repository-Stand, aber keine hiermit behauptete normative Freigabe.
 
-| Layer | Soll-Verantwortung | Mindestnachweis |
+### Vorläufige Bestandsaufnahme – bestehendes Register
+
+| ID-Bereich | Dokumentierter Stand | Status in diesem PR |
 |---|---|---|
-| L0 | Hardware und Compute: CPU/GPU/NPU, RAM, Storage, TPM/TEE, I/O | Hardware-Inventar, Capability-Erkennung, Abwesenheits-/Fehlerfälle |
-| L1 | Boot, Firmware, Secure Boot, Plattforminitialisierung, HAL | Bootkette, Firmware-Validierung, Übergabevertrag, Hardwareprofile |
-| L2 | ShivaCore-Microkernel und TCB | Prozess-/Speicherisolation, Capabilities, IPC, Fault Handling, Negativtests |
-| L3 | GlobusOS-Dienste und OS-Integration | Dienstverträge, Prozess-/Datei-/Netzwerk-/Gerätepfade, Recovery |
-| L4 | Desktop, Window Management, UI und Accessibility | UI-Funktionskatalog, Tastatur-/Accessibility-Tests, Fehlerzustände |
-| L5 | A-TownChain L1: Node, Netzwerk, Transaktionen, Konsens und Ledger | deterministische Zustandsübergänge, Multi-Node, Validierung, Finalität, Recovery |
-| L6 | ATC-VM, Smart Contracts und Ausführungszustand | Bytecode-/ABI-Verträge, Gas-/Ressourcenlimits, deterministische Tests |
-| L7 | ATCLang, Compiler, SDK und Developer Toolchain | Parser-/Compiler-Konformität, reproduzierbare Builds, Runtime-Integration |
-| L8 | Aurora AI: Control Plane, Agenten, Policies, Tools und Model Backends | Autorisierung, Capability-Prüfung, Approval-Gates, Audit und Sandbox-Tests |
-| L9 | Anwendungen und Nutzerprodukte: Wallet, Explorer, Marketplace, Genesis/Apps | End-to-End-Nutzerpfade, Berechtigungen, Fehlerbehandlung, Release-Nachweise |
+| L0–L10 | 11 Hauptschichten, darunter L10 Integration/Deployment/Ops | Bestehender Draft; Zielkonflikt offen |
+| X1–X8 | 8 Cross-Cutting-Layer | Bestehender Draft; Zielkonflikt offen |
+| X9–X36 | Im abgerufenen Registry-Ausschnitt nicht als kanonische Cross-Cutting-IDs belegt | Nicht als registriert oder freigegeben behaupten |
+| X35 | In den Projektanforderungen für Installer/Release/Deployment vorgesehen | Zuordnung und Autorität gegen Register/Standards zu klären |
+| X36 | In den Projektanforderungen für Systemkomposition und E2E-Abschluss vorgesehen | Zuordnung und Autorität gegen Register/Standards zu klären |
+| L10 | Im bestehenden Registry-SSOT enthalten | Entfernen/Umnummerieren nur nach autorisierter Architekturentscheidung |
 
-### Querschnittsbereiche X1–X36
+### Erforderliche Architekturentscheidung
 
-Die folgende Liste ist ein **Abdeckungsraster**, kein Implementierungsstatus. Bestehende normative Namen und IDs müssen im Register abgeglichen werden; keine IDs oder Verträge gelten allein durch ihre Nennung als angelegt.
+Der zuständige Architektur-/Standards-Owner muss dokumentiert entscheiden, ob:
+1. L10 als eigenständige Hauptschicht bestehen bleibt oder seine Verantwortlichkeiten in ein genehmigtes Cross-Cutting-Modell überführt werden;
+2. der Cross-Cutting-Namensraum bei X1–X8 bleibt oder auf X1–X36 erweitert wird;
+3. X35 und X36 verbindliche IDs erhalten und wie bestehende X1–X8-Definitionen sowie Katalog-Referenzen darauf abgebildet werden;
+4. betroffene Registry-, Mapping-, Katalog-, Validator- und Standards-Dateien gemeinsam migriert werden.
 
-| Bereich | Soll-Abdeckung |
-|---|---|
-| X1 | Sicherheit, Trust Boundaries und Threat Modeling |
-| X2 | Identität, Zugriff und Capability Authorization |
-| X3 | Protokolle, APIs und Interoperabilität |
-| X4 | Daten, State, Persistenz, Backup und Migration |
-| X5 | Standards, Governance und Policy |
-| X6 | Tests, Verifikation und Evidence |
-| X7 | Observability, Zuverlässigkeit und Recovery |
-| X8 | Build, Release und Software Supply Chain |
-| X9 | Konfiguration, Secrets und Environment Separation |
-| X10 | Provenance, Signaturen und Artefaktintegrität |
-| X11 | Datenschutz, Datenminimierung und Löschung |
-| X12 | Performance, Skalierung und Ressourcenbudgets |
-| X13 | Determinismus und Reproduzierbarkeit |
-| X14 | Netzwerkbetrieb, Discovery und Ausfallverhalten |
-| X15 | Kryptografie, Schlüsselverwaltung und Rotation |
-| X16 | Kompatibilität, Versionierung und Migration |
-| X17 | Dokumentation, Wissensverwaltung und Rückverfolgbarkeit |
-| X18 | Ökosystemintegrität, Inventar und Driftkontrolle |
-| X19 | Observability der Cross-Repo- und Systempfade |
-| X20 | Fehlerdomänen, Resilienz und Degradation |
-| X21 | Multi-Tenant-/Multi-User-Isolation |
-| X22 | AI-Agent-Governance, Toolzugriff und menschliche Freigaben |
-| X23 | UI-, Accessibility- und Nutzerflussabdeckung |
-| X24 | API-/ABI-Kompatibilität und Contract Testing |
-| X25 | Daten- und Ereignisflüsse, Messaging und Workflow |
-| X26 | Performance-Benchmarks und Regression Gates |
-| X27 | Security Assurance, Audits und negative Tests |
-| X28 | Installation, Provisionierung und Upgrade-Kompatibilität |
-| X29 | Betriebs-, Wartungs- und Incident-Prozesse |
-| X30 | Lizenz-, Drittanbieter- und Abhängigkeitskonformität |
-| X31 | Plattform-/Hardware-Kompatibilität und Testmatrix |
-| X32 | Backup, Restore, Crash Recovery und Disaster Recovery |
-| X33 | Release-Kriterien, Freigabe und Rollback |
-| X34 | Systemkonfiguration, Composition und profilabhängige Features |
-| X35 | Installer, Release, Deployment und Update-Kette |
-| X36 | Systemkomposition und geschlossene End-to-End-Verifikation |
-
-**Konfliktregel:** Wenn bestehende Dokumente ein anderes Layer-Modell oder andere ID-Zuordnungen führen, ist der Konflikt als Befund mit betroffenen Dateien, SHA, Normreferenz und vorgeschlagener Entscheidung zu erfassen. Bis zur autorisierten Auflösung darf kein automatischer Umnummerierungs- oder Löschlauf erfolgen.
+Bis zu dieser Entscheidung lautet der Status für die kanonische Modellwahl **BLOCKED / ARCHITECTURE DECISION REQUIRED**. Dieser PR nimmt die Entscheidung nicht vorweg und darf nicht als Freigabe von L0–L9/X1–X36 gelesen werden.
 
 ## 4. Pflichtschema für jede Soll-Anforderung
 
@@ -187,7 +154,7 @@ Der Soll-Zustand darf erst als katalogseitig vollständig bezeichnet werden, wen
 
 ## 10. Aktueller Dokumentstatus
 
-**DRAFT / NOT VERIFIED.** Dieses Dokument strukturiert den vollständigen Soll-Zustand und die erforderliche Beweiskette. Es belegt weder die Vollständigkeit des aktuellen Katalogs noch die Implementierung oder Verifikation des Ökosystems. Die Layer-ID-Zuordnung, Katalogintegration, Validatoren, tatsächliche Repository-Abdeckung und alle zugehörigen CI-Nachweise müssen separat geprüft und freigegeben werden.
+**DRAFT / NOT VERIFIED / ARCHITECTURE DECISION REQUIRED.** Dieses Dokument strukturiert den Soll-Zustand und die erforderliche Beweiskette. Es belegt weder die Vollständigkeit des aktuellen Katalogs noch die Implementierung oder Verifikation des Ökosystems. Die Entscheidung L0–L10 versus L0–L9, der Namensraum X1–X8 versus X1–X36, Katalogintegration, Validatoren, tatsächliche Repository-Abdeckung und alle zugehörigen CI-Nachweise müssen separat geprüft und freigegeben werden.
 
 ### Referenzen
 
