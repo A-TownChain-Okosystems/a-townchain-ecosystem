@@ -63,7 +63,7 @@ jobs:
       - name: Run scanner and organization census tests
         run: |
           python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_build_org_file_function_catalog tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_runtime_symbol_registry -v
-      - name: Clone all active repositories at observed clean HEADs
+      - name: Clone all public repositories, including archived references, at clean HEADs
         env:
           GH_OWNER: A-TownChain-Okosystems
           ATC_CENSUS_TOKEN: ${{ secrets.ATC_CENSUS_TOKEN }}
