@@ -1,8 +1,8 @@
 {
   "id": "ATC-KMS-PR-214",
-  "timestamp": "2026-10-20T07:39:01.001622Z",
+  "timestamp": "2026-10-21T07:43:07.740363Z",
   "category": "change",
-  "title": "PR #214: Add competitive monitoring report and registry baseline (2026-10-19)",
+  "title": "PR #214: Add competitive monitoring baseline and 2026-10-21 snapshot",
   "context": "Pull request 214 in A-TownChain-Okosystems/a-townchain-ecosystem.",
   "priority": "P2",
   "status": "active",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/214",
-    "commit": "d1078474ad000f48e868c6c51e175e49fb250a01"
+    "commit": "3054232178e48b42c224b9fb10745e7655de11e8"
   },
   "tags": [
     "generated",
@@ -18,5 +18,5 @@
     "pull-request"
   ],
   "links": [],
-  "content": "State: open\nMerged: False\nDraft: True\n\n## Summary\n- Archive the supplied 2026-10-19 A-TownChain/ShivaCore competitive radar report.\n- Add a structured JSON registry baseline for four product lines.\n- Explicitly mark unverified product, availability, release-note and pricing fields; this is not an independent source verification or a full market census.\n\n## Files\n- `competitive-monitoring/reports/2026-10-19.md`\n- `competitive-monitoring/registry/2026-10-19.json`\n\n## Review notes\n- All four records are `BASELINE`; no change versus a missing prior snapshot is asserted.\n- Daily automation and persistent comparison logic are not implemented by this PR."
+  "content": "State: open\nMerged: False\nDraft: True\n\nAdds the 2026-10-21 evidence-based report and registry snapshot v0.2.2 (14 provider/product lines, 14 ADD/UPDATE deltas) alongside the 2026-10-19 baseline. The v0.2.2 registry supersedes the same-day v0.2.1 file and corrects baseline classifications/delta semantics. Bubble's official 2026-10-20 price transition is recorded as STATUS_CHANGED; Linux mainline 7.3 remains separate from stable 6.18.y. Missing/conflicting evidence is UNVERIFIED. This is a targeted review, not a full market census. The PR remains Draft and unmerged; daily automation/comparison logic is not implemented."
 }

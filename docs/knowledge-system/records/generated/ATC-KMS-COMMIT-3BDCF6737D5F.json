@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-3BDCF6737D5F",
-  "timestamp": "2026-10-20T07:39:01.001622Z",
+  "timestamp": "2026-10-21T07:43:07.740363Z",
   "category": "change",
   "title": "Commit: fix(ssot): point Cargo consumer to canonical algorithm and VM",
   "context": "Git commit 3bdcf6737d5f5274c216a3ebc2d5a5f7f3311bca on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/3bdcf6737d5f5274c216a3ebc2d5a5f7f3311bca",
-    "commit": "d1078474ad000f48e868c6c51e175e49fb250a01"
+    "commit": "3054232178e48b42c224b9fb10745e7655de11e8"
   },
   "tags": [
     "commit",
