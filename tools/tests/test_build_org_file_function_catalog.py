@@ -45,6 +45,12 @@ class FileFunctionCatalogTests(unittest.TestCase):
             self.assertEqual(files["config.json"]["status"], "DISCOVERY_ONLY")
             self.assertEqual(result["functional_verification"], "NOT_PERFORMED")
 
+    def test_private_exclusion_blocks_global_completeness(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = build_catalog(Path(tmp), {"owner": "example", "repositories": [{"name": "private-demo", "private": True}]}, {"repositories": []})
+            self.assertEqual(result["status"], "BLOCKED")
+            self.assertEqual(result["excluded_private_repositories"], ["example/private-demo"])
+
     def test_missing_public_checkout_blocks_catalog(self):
         with tempfile.TemporaryDirectory() as tmp:
             result = build_catalog(Path(tmp), {"owner": "example", "repositories": [{"name": "missing"}]}, {"repositories": []})
