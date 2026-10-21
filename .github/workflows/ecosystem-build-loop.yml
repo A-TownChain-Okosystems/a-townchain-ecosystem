@@ -9,7 +9,7 @@ on:
         type: boolean
         default: false
   schedule:
-    - cron: "23 2 * * *"
+    - cron: "0 * * * *"
   pull_request:
     paths:
       - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
