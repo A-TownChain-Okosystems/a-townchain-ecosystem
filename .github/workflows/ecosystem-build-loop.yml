@@ -1,0 +1,156 @@
+name: Ecosystem Catalog Build Loop
+
+on:
+  workflow_dispatch:
+    inputs:
+      validate_only:
+        description: Validate catalog/manifest and do not build a target
+        required: false
+        type: boolean
+        default: false
+  schedule:
+    - cron: "23 2 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-DEPENDENCY-GRAPH-001.json"
+      - "docs/build/ATC-BUILD-MANIFEST-001.json"
+      - "tools/ecosystem_build_loop.py"
+      - ".github/workflows/ecosystem-build-loop.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ecosystem-build-loop
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.plan.outputs.status }}
+      repo: ${{ steps.plan.outputs.repo }}
+      profile: ${{ steps.plan.outputs.profile }}
+    steps:
+      - name: Checkout controller at exact event SHA
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate schemas and select one target
+        id: plan
+        env:
+          VALIDATE_ONLY: ${{ inputs.validate_only || 'false' }}
+        run: |
+          set -euo pipefail
+          if [ "$VALIDATE_ONLY" = "true" ]; then
+            python tools/ecosystem_build_loop.py --validate-only > build-loop-plan.json
+          else
+            python tools/ecosystem_build_loop.py > build-loop-plan.json
+          fi
+          cat build-loop-plan.json
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          p = json.loads(Path("build-loop-plan.json").read_text(encoding="utf-8"))
+          print("status=" + str(p.get("status", "BLOCKED")))
+          print("repo=" + str(p.get("selected_repo") or ""))
+          print("profile=" + str(p.get("profile") or ""))
+          PY
+      - name: Upload build-loop plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-build-loop-plan-${{ github.run_id }}
+          path: build-loop-plan.json
+          if-no-files-found: error
+          retention-days: 90
+
+  build:
+    needs: plan
+    if: needs.plan.outputs.status == 'READY' && needs.plan.outputs.repo != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout canonical implementation repository
+        uses: actions/checkout@v4
+        with:
+          repository: A-TownChain-Okosystems/${{ needs.plan.outputs.repo }}
+          ref: main
+          path: source
+          persist-credentials: false
+      - name: Record exact source revision
+        id: source
+        working-directory: source
+        run: |
+          set -euo pipefail
+          sha="$(git rev-parse HEAD)"
+          test "${#sha}" -eq 40
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          mkdir -p ../evidence
+          printf 'repository=%s\nsource_sha=%s\nworkflow_sha=%s\nrun_id=%s\nrun_attempt=%s\n' \
+            "${{ needs.plan.outputs.repo }}" "$sha" "${{ github.sha }}" \
+            "${{ github.run_id }}" "${{ github.run_attempt }}" > ../evidence/source.txt
+      - name: Set up Rust
+        if: needs.plan.outputs.profile == 'cargo-workspace'
+        uses: dtolnay/rust-toolchain@stable
+      - name: Set up Python
+        if: needs.plan.outputs.profile == 'python-pytest'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Node
+        if: needs.plan.outputs.profile == 'npm-build'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: source/package-lock.json
+      - name: Build and test canonical target
+        working-directory: source
+        env:
+          PROFILE: ${{ needs.plan.outputs.profile }}
+        run: |
+          set -uo pipefail
+          rc=0
+          case "$PROFILE" in
+            cargo-workspace)
+              cargo build --workspace 2>&1 | tee ../evidence/build.log || rc=$?
+              if [ "$rc" -eq 0 ]; then
+                cargo test --workspace 2>&1 | tee ../evidence/test.log || rc=$?
+              fi
+              ;;
+            python-pytest)
+              python -m compileall -q . 2>&1 | tee ../evidence/build.log || rc=$?
+              if [ "$rc" -eq 0 ]; then
+                python -m pytest -q 2>&1 | tee ../evidence/test.log || rc=$?
+              fi
+              ;;
+            npm-build)
+              npm ci 2>&1 | tee ../evidence/install.log || rc=$?
+              if [ "$rc" -eq 0 ]; then
+                npm run build 2>&1 | tee ../evidence/build.log || rc=$?
+              fi
+              if [ "$rc" -eq 0 ]; then
+                npm test 2>&1 | tee ../evidence/test.log || rc=$?
+              fi
+              ;;
+            *)
+              echo "Unsupported build profile: $PROFILE" | tee ../evidence/build.log
+              rc=2
+              ;;
+          esac
+          printf 'exit_code=%s\n' "$rc" > ../evidence/result.txt
+          if [ "$rc" -ne 0 ]; then exit "$rc"; fi
+      - name: Upload exact-SHA build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-build-evidence-${{ needs.plan.outputs.repo }}-${{ github.run_id }}
+          path: evidence/
+          if-no-files-found: warn
+          retention-days: 180
