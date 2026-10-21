@@ -59,10 +59,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile scanner, orchestrator and tests
-        run: python -m py_compile tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/build_runtime_symbol_registry.py tools/validate_runtime_symbol_registry.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_runtime_symbol_registry.py
+        run: python -m py_compile tools/scan_public_symbols.py tools/build_org_file_function_catalog.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/build_runtime_symbol_registry.py tools/validate_runtime_symbol_registry.py tools/tests/test_scan_public_symbols.py tools/tests/test_build_org_file_function_catalog.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_runtime_symbol_registry.py
       - name: Run scanner and organization census tests
         run: |
-          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_runtime_symbol_registry -v
+          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_build_org_file_function_catalog tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_runtime_symbol_registry -v
       - name: Clone all active repositories at observed clean HEADs
         env:
           GH_OWNER: A-TownChain-Okosystems
@@ -154,10 +154,10 @@ jobs:
           set -euo pipefail
           if test -f artifacts/ATC-ORG-SOURCE-CENSUS-001.json; then
             catalog_exit=0
-            python tools/build_org_file_function_catalog.py \\
-              --workspace "$RUNNER_TEMP/atc-org-checkouts" \\
-              --manifest docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json \\
-              --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \\
+            python tools/build_org_file_function_catalog.py \
+              --workspace "$RUNNER_TEMP/atc-org-checkouts" \
+              --manifest docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json \
+              --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
               --output artifacts/ATC-ORG-FILE-FUNCTION-CATALOG-001.json || catalog_exit=$?
             python - <<'PY'
           import json
