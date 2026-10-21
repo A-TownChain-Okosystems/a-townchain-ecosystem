@@ -66,6 +66,19 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
     gdt::init();
     interrupts::init_idt();
     x86_64::instructions::interrupts::int3();
+
+    // Calibrate the invariant TSC against PIT channel 2 before scheduling.
+    // Failure is non-fatal for boot, but scheduler latency instrumentation stays disabled.
+    match shivacore::timer::hardware_clock::calibrate() {
+        Ok(hz) => serial_println!(
+            "ShivaCore: monotonic TSC calibrated against PIT: {} Hz",
+            hz
+        ),
+        Err(()) => serial_println!(
+            "ShivaCore: WARN hardware clock calibration unavailable; latency metrics fail closed"
+        ),
+    }
+
     interrupts::init_pics();
     serial_println!("ShivaCore: GDT/IDT/PIC OK (K-Sprint 1).");
 

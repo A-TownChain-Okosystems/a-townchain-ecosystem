@@ -141,6 +141,43 @@ pub struct Quantum {
     pub ticks_total: u32,
 }
 
+/// Safe scheduler quantum limits, expressed in timer ticks (not nanoseconds).
+pub const MIN_SCHEDULER_QUANTUM_TICKS: u32 = 2;
+pub const DEFAULT_SCHEDULER_QUANTUM_TICKS: u32 = 10;
+pub const MAX_SCHEDULER_QUANTUM_TICKS: u32 = 50;
+
+/// Validated scheduler-wide quantum configuration.
+///
+/// New processes inherit this value. Updating it also resets existing process
+/// quanta so the scheduler has one coherent policy after the change.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct SchedulerQuantumConfig {
+    ticks: u32,
+}
+
+impl SchedulerQuantumConfig {
+    pub const fn default() -> Self {
+        Self { ticks: DEFAULT_SCHEDULER_QUANTUM_TICKS }
+    }
+
+    pub const fn ticks(self) -> u32 {
+        self.ticks
+    }
+
+    pub fn new(ticks: u32) -> Result<Self, SchedulerQuantumConfigError> {
+        if ticks < MIN_SCHEDULER_QUANTUM_TICKS || ticks > MAX_SCHEDULER_QUANTUM_TICKS {
+            return Err(SchedulerQuantumConfigError::OutOfBounds);
+        }
+        Ok(Self { ticks })
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum SchedulerQuantumConfigError {
+    OutOfBounds,
+    StateMismatch,
+}
+
 impl Quantum {
     pub fn new(ticks: u32) -> Self {
         Self {
@@ -150,7 +187,7 @@ impl Quantum {
     }
 
     pub fn default_quantum() -> Self {
-        Self::new(10)
+        Self::new(DEFAULT_SCHEDULER_QUANTUM_TICKS)
     }
 
     /// Decrement the quantum. Returns true if quantum expired.
@@ -237,6 +274,11 @@ pub struct SchedEntry {
     pub total_cpu_ticks: u64,
     pub context_switches: u64,
     pub wake_tick: Option<u64>, // When to wake (for Sleep)
+    /// Monotonic timestamp when this entry most recently became Ready.
+    pub ready_since_ns: Option<u64>,
+    /// Most recent measured ready-to-running latency.
+    pub last_ready_to_running_ns: Option<u64>,
+    pub ready_to_running_samples: u64,
 }
 
 impl SchedEntry {
@@ -250,6 +292,9 @@ impl SchedEntry {
             total_cpu_ticks: 0,
             context_switches: 0,
             wake_tick: None,
+            ready_since_ns: None,
+            last_ready_to_running_ns: None,
+            ready_to_running_samples: 0,
         }
     }
 
@@ -288,6 +333,20 @@ impl SchedEntry {
 // User Process Scheduler
 // ═══════════════════════════════════════════════════════════════════════════════
 
+/// Snapshot of the scheduler quantum configuration and per-process remaining counters.
+/// Used to restore the exact quantum state after a rejected optimization trial.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct SchedulerQuantumSnapshot {
+    config_ticks: u32,
+    process_quanta: Vec<(Pid, Quantum)>,
+}
+
+impl SchedulerQuantumSnapshot {
+    pub fn config_ticks(&self) -> u32 {
+        self.config_ticks
+    }
+}
+
 /// Preemptive round-robin scheduler for user processes
 pub struct UserScheduler {
     entries: Vec<SchedEntry>,
@@ -296,6 +355,9 @@ pub struct UserScheduler {
     context_switches: u64,
     preemptions: u64,
     voluntary_yields: u64,
+    quantum_config: SchedulerQuantumConfig,
+    ready_to_running_total_ns: u128,
+    ready_to_running_samples: u64,
 }
 
 impl Default for UserScheduler {
@@ -313,12 +375,97 @@ impl UserScheduler {
             context_switches: 0,
             preemptions: 0,
             voluntary_yields: 0,
+            quantum_config: SchedulerQuantumConfig::default(),
+            ready_to_running_total_ns: 0,
+            ready_to_running_samples: 0,
         }
     }
 
     /// Add a user process to the scheduler
     pub fn add_process(&mut self, pid: Pid, ctx: &UserContext, priority: u8) {
-        self.entries.push(SchedEntry::new(pid, ctx, priority));
+        self.add_process_at(pid, ctx, priority, None);
+    }
+
+    /// Register a process with a monotonic ready timestamp from the runtime clock.
+    pub fn add_process_at(
+        &mut self,
+        pid: Pid,
+        ctx: &UserContext,
+        priority: u8,
+        now_ns: Option<u64>,
+    ) {
+        let mut entry = SchedEntry::new(pid, ctx, priority);
+        entry.quantum = Quantum::new(self.quantum_config.ticks());
+        entry.ready_since_ns = now_ns;
+        self.entries.push(entry);
+    }
+
+    /// Aggregate latency sample count collected only from timestamped scheduler transitions.
+    pub fn ready_to_running_samples(&self) -> u64 {
+        self.ready_to_running_samples
+    }
+
+    /// Mean ready-to-running latency in ns; None means no trustworthy samples yet.
+    pub fn mean_ready_to_running_ns(&self) -> Option<u64> {
+        if self.ready_to_running_samples == 0 {
+            None
+        } else {
+            Some(
+                (self.ready_to_running_total_ns / u128::from(self.ready_to_running_samples))
+                    as u64,
+            )
+        }
+    }
+
+    /// Current scheduler-wide quantum in timer ticks.
+    pub fn quantum_ticks(&self) -> u32 {
+        self.quantum_config.ticks()
+    }
+
+    /// Update the scheduler-wide quantum using validated timer-tick units.
+    /// Existing and future processes receive the same configured quantum.
+    pub fn set_quantum_ticks(
+        &mut self,
+        ticks: u32,
+    ) -> Result<(), SchedulerQuantumConfigError> {
+        let config = SchedulerQuantumConfig::new(ticks)?;
+        self.quantum_config = config;
+        for entry in &mut self.entries {
+            entry.quantum = Quantum::new(config.ticks());
+        }
+        Ok(())
+    }
+
+    /// Capture the exact current quantum counters for transactional rollback.
+    pub fn snapshot_quantum_state(&self) -> SchedulerQuantumSnapshot {
+        SchedulerQuantumSnapshot {
+            config_ticks: self.quantum_config.ticks(),
+            process_quanta: self.entries.iter().map(|entry| (entry.pid, entry.quantum)).collect(),
+        }
+    }
+
+    /// Restore a snapshot only if the scheduler still contains exactly the same
+    /// process IDs. This prevents a partial rollback against a changed process set.
+    pub fn restore_quantum_state(
+        &mut self,
+        snapshot: &SchedulerQuantumSnapshot,
+    ) -> Result<(), SchedulerQuantumConfigError> {
+        let config = SchedulerQuantumConfig::new(snapshot.config_ticks)?;
+        if self.entries.len() != snapshot.process_quanta.len()
+            || self.entries.iter().any(|entry| {
+                !snapshot.process_quanta.iter().any(|(pid, _)| *pid == entry.pid)
+            })
+        {
+            return Err(SchedulerQuantumConfigError::StateMismatch);
+        }
+        self.quantum_config = config;
+        for entry in &mut self.entries {
+            let Some((_, quantum)) = snapshot.process_quanta.iter().find(|(pid, _)| *pid == entry.pid) else {
+                return Err(SchedulerQuantumConfigError::StateMismatch);
+            };
+            entry.quantum = *quantum;
+        }
+        Ok(())
     }
 
     /// Remove a process from the scheduler
@@ -382,6 +529,15 @@ impl UserScheduler {
     /// Schedule: pick next process and perform context switch.
     /// Returns the PID to run and the saved context to restore.
     pub fn schedule(&mut self, current_ctx: Option<&UserContext>) -> Option<(Pid, SavedContext)> {
+        self.schedule_at(current_ctx, None)
+    }
+
+    /// Schedule path with a monotonic timestamp supplied by the hardware clock.
+    pub fn schedule_at(
+        &mut self,
+        current_ctx: Option<&UserContext>,
+        now_ns: Option<u64>,
+    ) -> Option<(Pid, SavedContext)> {
         self.context_switches += 1;
 
         if let Some(pid) = self.current {
@@ -395,16 +551,42 @@ impl UserScheduler {
         // Pick next process
         let next_idx = self.pick_next()?;
 
-        // Update states
-        if let Some(old_pid) = self.current {
-            if let Some(entry) = self.get_entry_mut(old_pid) {
-                if entry.state == SchedState::Running {
-                    entry.state = SchedState::Ready;
+        // Timestamp the real Ready/Running state transition when clock calibration succeeded.
+        let next_pid = self.entries[next_idx].pid;
+        if self.current != Some(next_pid) {
+            if let Some(old_pid) = self.current {
+                if let Some(entry) = self.get_entry_mut(old_pid) {
+                    if entry.state == SchedState::Running {
+                        entry.state = SchedState::Ready;
+                        entry.ready_since_ns = now_ns;
+                        entry.last_ready_to_running_ns = None;
+                    }
                 }
             }
         }
 
-        let next_pid = self.entries[next_idx].pid;
+        if self.current != Some(next_pid) {
+            // Clear stale per-dispatch evidence first. A missing, equal, or
+            // backwards timestamp must never re-emit a previous latency sample.
+            self.entries[next_idx].last_ready_to_running_ns = None;
+            if let (Some(now), Some(ready)) = (now_ns, self.entries[next_idx].ready_since_ns) {
+                // Require a strictly positive interval: equal timestamps are
+                // below the effective measurement resolution and are excluded.
+                if now > ready {
+                    let latency = now - ready;
+                    self.entries[next_idx].last_ready_to_running_ns = Some(latency);
+                    self.entries[next_idx].ready_to_running_samples = self.entries[next_idx]
+                        .ready_to_running_samples
+                        .saturating_add(1);
+                    self.ready_to_running_total_ns = self
+                        .ready_to_running_total_ns
+                        .saturating_add(u128::from(latency));
+                    self.ready_to_running_samples =
+                        self.ready_to_running_samples.saturating_add(1);
+                }
+            }
+        }
+        self.entries[next_idx].ready_since_ns = None;
         self.entries[next_idx].state = SchedState::Running;
         self.entries[next_idx].reset_quantum();
         self.current = Some(next_pid);
@@ -415,6 +597,15 @@ impl UserScheduler {
 
     /// Schedule directly from a CPU trap frame without reconstructing a synthetic UserContext.
     pub fn schedule_saved(&mut self, current_ctx: SavedContext) -> Option<(Pid, SavedContext)> {
+        self.schedule_saved_at(current_ctx, None)
+    }
+
+    /// Runtime variant: record Ready and Running transitions against one monotonic timestamp.
+    pub fn schedule_saved_at(
+        &mut self,
+        current_ctx: SavedContext,
+        now_ns: Option<u64>,
+    ) -> Option<(Pid, SavedContext)> {
         self.context_switches += 1;
 
         if let Some(pid) = self.current {
@@ -425,15 +616,35 @@ impl UserScheduler {
 
         let next_idx = self.pick_next()?;
 
-        if let Some(old_pid) = self.current {
-            if let Some(entry) = self.get_entry_mut(old_pid) {
-                if entry.state == SchedState::Running {
-                    entry.state = SchedState::Ready;
+        let next_pid = self.entries[next_idx].pid;
+        if self.current != Some(next_pid) {
+            if let Some(old_pid) = self.current {
+                if let Some(entry) = self.get_entry_mut(old_pid) {
+                    if entry.state == SchedState::Running {
+                        entry.state = SchedState::Ready;
+                        entry.ready_since_ns = now_ns;
+                    }
                 }
             }
         }
 
-        let next_pid = self.entries[next_idx].pid;
+        if self.current != Some(next_pid) {
+            if let (Some(now), Some(ready)) = (now_ns, self.entries[next_idx].ready_since_ns) {
+                if now >= ready {
+                    let latency = now - ready;
+                    self.entries[next_idx].last_ready_to_running_ns = Some(latency);
+                    self.entries[next_idx].ready_to_running_samples = self.entries[next_idx]
+                        .ready_to_running_samples
+                        .saturating_add(1);
+                    self.ready_to_running_total_ns = self
+                        .ready_to_running_total_ns
+                        .saturating_add(u128::from(latency));
+                    self.ready_to_running_samples =
+                        self.ready_to_running_samples.saturating_add(1);
+                }
+            }
+        }
+        self.entries[next_idx].ready_since_ns = None;
         self.entries[next_idx].state = SchedState::Running;
         self.entries[next_idx].reset_quantum();
         self.current = Some(next_pid);
@@ -442,12 +653,23 @@ impl UserScheduler {
 
     /// Timer tick driven by the real CPU-saved interrupt frame.
     pub fn timer_tick_saved(&mut self, current_ctx: SavedContext) -> Option<(Pid, SavedContext)> {
+        self.timer_tick_saved_at(current_ctx, None)
+    }
+
+    /// Hardware-runtime path. `now_ns` must come from a calibrated monotonic source.
+    pub fn timer_tick_saved_at(
+        &mut self,
+        current_ctx: SavedContext,
+        now_ns: Option<u64>,
+    ) -> Option<(Pid, SavedContext)> {
         self.timer_ticks += 1;
 
         for entry in &mut self.entries {
             if let SchedState::Blocked(BlockReason::Sleep(wake)) = entry.state {
                 if self.timer_ticks >= wake {
                     entry.state = SchedState::Ready;
+                    entry.ready_since_ns = now_ns;
+                    entry.last_ready_to_running_ns = None;
                     entry.wake_tick = None;
                 }
             }
@@ -458,12 +680,12 @@ impl UserScheduler {
                 let expired = entry.tick_quantum();
                 if expired {
                     self.preemptions += 1;
-                    return self.schedule_saved(current_ctx);
+                    return self.schedule_saved_at(current_ctx, now_ns);
                 }
                 entry.save_saved_context(current_ctx);
             }
         } else {
-            return self.schedule_saved(current_ctx);
+            return self.schedule_saved_at(current_ctx, now_ns);
         }
 
         None
@@ -525,10 +747,20 @@ impl UserScheduler {
         self.schedule(None)
     }
 
-    /// Unblock a process
+    /// Unblock a process without trusted runtime timing (compatibility path).
     pub fn unblock(&mut self, pid: Pid) {
+        self.unblock_at(pid, None);
+    }
+
+    /// Unblock a process and timestamp its Ready transition when a calibrated
+    /// monotonic timestamp is available.
+    pub fn unblock_at(&mut self, pid: Pid, now_ns: Option<u64>) {
         if let Some(entry) = self.get_entry_mut(pid) {
-            entry.state = SchedState::Ready;
+            if matches!(entry.state, SchedState::Blocked(_)) {
+                entry.state = SchedState::Ready;
+                entry.ready_since_ns = now_ns;
+                entry.last_ready_to_running_ns = None;
+            }
         }
     }
 
@@ -609,9 +841,15 @@ impl UserScheduler {
 
     /// Continue a stopped process (SIGCONT)
     pub fn continue_process(&mut self, pid: Pid) {
+        self.continue_process_at(pid, None);
+    }
+
+    /// Resume a stopped process and timestamp its Ready transition.
+    pub fn continue_process_at(&mut self, pid: Pid, now_ns: Option<u64>) {
         if let Some(entry) = self.get_entry_mut(pid) {
             if matches!(entry.state, SchedState::Blocked(BlockReason::Stopped)) {
                 entry.state = SchedState::Ready;
+                entry.ready_since_ns = now_ns;
             }
         }
     }
@@ -761,6 +999,19 @@ impl UserProcessSystem {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn scheduler_quantum_config_rejects_out_of_bounds_values() {
+        assert_eq!(
+            SchedulerQuantumConfig::new(MIN_SCHEDULER_QUANTUM_TICKS - 1),
+            Err(SchedulerQuantumConfigError::OutOfBounds)
+        );
+        assert_eq!(
+            SchedulerQuantumConfig::new(MAX_SCHEDULER_QUANTUM_TICKS + 1),
+            Err(SchedulerQuantumConfigError::OutOfBounds)
+        );
+        assert_eq!(SchedulerQuantumConfig::new(10).unwrap().ticks(), 10);
+    }
     use crate::userspace::{UserAddressSpace, UserBinary};
 
     fn make_context(pid: u32) -> UserContext {
@@ -996,6 +1247,39 @@ mod tests {
         entry.tick_quantum();
         entry.reset_quantum();
         assert_eq!(entry.quantum.remaining(), 3);
+    }
+
+    #[test]
+    fn test_quantum_snapshot_restores_exact_per_process_counters() {
+        let mut sched = UserScheduler::new();
+        let ctx1 = make_context(1000);
+        let ctx2 = make_context(1001);
+        sched.add_process(Pid(1000), &ctx1, 0);
+        sched.add_process(Pid(1001), &ctx2, 0);
+        sched.get_entry_mut(Pid(1000)).unwrap().quantum = Quantum { ticks_remaining: 3, ticks_total: 10 };
+        sched.get_entry_mut(Pid(1001)).unwrap().quantum = Quantum { ticks_remaining: 7, ticks_total: 10 };
+        let snapshot = sched.snapshot_quantum_state();
+
+        sched.set_quantum_ticks(20).unwrap();
+        assert_eq!(sched.get_entry(Pid(1000)).unwrap().quantum, Quantum::new(20));
+        sched.restore_quantum_state(&snapshot).unwrap();
+
+        assert_eq!(sched.quantum_ticks(), 10);
+        assert_eq!(sched.get_entry(Pid(1000)).unwrap().quantum, Quantum { ticks_remaining: 3, ticks_total: 10 });
+        assert_eq!(sched.get_entry(Pid(1001)).unwrap().quantum, Quantum { ticks_remaining: 7, ticks_total: 10 });
+    }
+
+    #[test]
+    fn test_quantum_snapshot_rejects_changed_process_set() {
+        let mut sched = UserScheduler::new();
+        let ctx1 = make_context(1000);
+        sched.add_process(Pid(1000), &ctx1, 0);
+        let snapshot = sched.snapshot_quantum_state();
+        sched.remove_process(Pid(1000));
+        let ctx2 = make_context(1001);
+        sched.add_process(Pid(1001), &ctx2, 0);
+
+        assert_eq!(sched.restore_quantum_state(&snapshot), Err(SchedulerQuantumConfigError::StateMismatch));
     }
 
     // --- UserScheduler tests ---
@@ -1377,5 +1661,116 @@ mod tests {
             sys.timer_tick();
         }
         assert!(sys.scheduler.timer_ticks() >= 20);
+    }
+
+    #[test]
+    fn runtime_dispatch_records_ready_to_running_latency() {
+        let mut sched = UserScheduler::new();
+        let ctx1 = make_context(1000);
+        let ctx2 = make_context(1001);
+        sched.add_process_at(Pid(1000), &ctx1, 0, Some(100));
+        sched.add_process_at(Pid(1001), &ctx2, 0, Some(200));
+
+        // First dispatch uses the calibrated-clock timestamp path.
+        assert_eq!(
+            sched.schedule_at(None, Some(150)).unwrap().0,
+            Pid(1000)
+        );
+        assert_eq!(
+            sched.get_entry(Pid(1000)).unwrap().last_ready_to_running_ns,
+            Some(50)
+        );
+
+        // Model the actual timer-IRQ scheduling entry: PID 1000 is preempted,
+        // PID 1001 transitions Ready -> Running at the captured timestamp.
+        let saved = SavedContext::from_user_context(&ctx1);
+        assert_eq!(
+            sched.schedule_saved_at(saved, Some(1_000)).unwrap().0,
+            Pid(1001)
+        );
+        assert_eq!(
+            sched.get_entry(Pid(1001)).unwrap().last_ready_to_running_ns,
+            Some(800)
+        );
+        assert_eq!(sched.ready_to_running_samples(), 2);
+        assert_eq!(sched.mean_ready_to_running_ns(), Some(425));
+    }
+
+    #[test]
+    fn unblock_transition_is_timestamped_and_uncalibrated_paths_fail_closed() {
+        let mut sched = UserScheduler::new();
+        let ctx = make_context(1000);
+        sched.add_process(Pid(1000), &ctx, 0);
+        sched.get_entry_mut(Pid(1000)).unwrap().state =
+            SchedState::Blocked(BlockReason::IoWait);
+
+        sched.unblock_at(Pid(1000), Some(500));
+        assert_eq!(
+            sched.get_entry(Pid(1000)).unwrap().ready_since_ns,
+            Some(500)
+        );
+        assert_eq!(sched.schedule_at(None, Some(600)).unwrap().0, Pid(1000));
+        assert_eq!(
+            sched.get_entry(Pid(1000)).unwrap().last_ready_to_running_ns,
+            Some(100)
+        );
+
+        let mut uncalibrated = UserScheduler::new();
+        let ctx2 = make_context(1001);
+        uncalibrated.add_process(Pid(1001), &ctx2, 0);
+        uncalibrated.get_entry_mut(Pid(1001)).unwrap().state =
+            SchedState::Blocked(BlockReason::IoWait);
+        uncalibrated.unblock_at(Pid(1001), None);
+        assert_eq!(uncalibrated.schedule_at(None, Some(900)).unwrap().0, Pid(1001));
+        assert_eq!(uncalibrated.ready_to_running_samples(), 0);
+        assert_eq!(
+            uncalibrated.get_entry(Pid(1001)).unwrap().last_ready_to_running_ns,
+            None
+        );
+    }
+
+    #[test]
+    fn invalid_or_zero_ready_intervals_do_not_create_samples_or_reuse_stale_evidence() {
+        for dispatch_ns in [100, 99, 101] {
+            let mut sched = UserScheduler::new();
+            let ctx1 = make_context(1000);
+            let ctx2 = make_context(1001);
+            sched.add_process_at(Pid(1000), &ctx1, 0, Some(50));
+            sched.add_process_at(Pid(1001), &ctx2, 0, Some(100));
+
+            // PID 1000 has one valid sample: 75 - 50 = 25 ns.
+            assert_eq!(sched.schedule_at(None, Some(75)).unwrap().0, Pid(1000));
+            assert_eq!(sched.ready_to_running_samples(), 1);
+
+            // PID 1001 has a zero-length interval (100 - 100), which is excluded.
+            let saved1 = SavedContext::from_user_context(&ctx1);
+            assert_eq!(sched.schedule_saved_at(saved1, Some(100)).unwrap().0, Pid(1001));
+            assert_eq!(sched.ready_to_running_samples(), 1);
+            assert_eq!(
+                sched.get_entry(Pid(1001)).unwrap().last_ready_to_running_ns,
+                None
+            );
+
+            // PID 1000 became Ready at 100. Equal/backwards timestamps are
+            // rejected; a strictly later timestamp contributes one sample.
+            let saved2 = SavedContext::from_user_context(&ctx2);
+            assert_eq!(
+                sched.schedule_saved_at(saved2, Some(dispatch_ns)).unwrap().0,
+                Pid(1000)
+            );
+            if dispatch_ns > 100 {
+                assert_eq!(sched.ready_to_running_samples(), 2);
+                assert_eq!(
+                    sched.get_entry(Pid(1000)).unwrap().last_ready_to_running_ns,
+                    Some(dispatch_ns - 100)
+                );
+            } else {
+                assert_eq!(sched.ready_to_running_samples(), 1);
+                assert_eq!(
+                    sched.get_entry(Pid(1000)).unwrap().last_ready_to_running_ns,
+                    None
+                );
+            }
+        }
     }
 }

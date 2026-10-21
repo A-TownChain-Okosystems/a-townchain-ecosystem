@@ -1,0 +1,84 @@
+name: ShivaCore QEMU Hardware Clock and Scheduler Gate
+
+on:
+  pull_request:
+    paths:
+      - "components/globus-os/modules/atc-shivacore/kernel/**"
+      - "components/globus-os/modules/atc-shivacore/boot/**"
+      - ".github/workflows/shivacore-qemu-runtime.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shivacore-qemu-runtime-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qemu-clock-scheduler:
+    name: Rust tests, format, build and QEMU serial acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact PR revision
+        uses: actions/checkout@v4
+
+      - name: Install nightly Rust and bare-metal target
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          targets: x86_64-unknown-none
+          components: rustfmt
+
+      - name: Install QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes qemu-system-x86
+
+      - name: Rust formatting
+        working-directory: components/globus-os/modules/atc-shivacore/kernel
+        run: cargo fmt --all -- --check
+
+      - name: Kernel library unit tests
+        working-directory: components/globus-os/modules/atc-shivacore/kernel
+        run: cargo test --lib
+
+      - name: Build bare-metal kernel
+        working-directory: components/globus-os/modules/atc-shivacore/kernel
+        run: cargo build --release --features x86-boot --target x86_64-unknown-none --bin shivacore
+
+      - name: Build BIOS boot image
+        working-directory: components/globus-os/modules/atc-shivacore
+        run: cargo run --manifest-path boot/Cargo.toml --release -- kernel/target/x86_64-unknown-none/release/shivacore images
+
+      - name: Boot QEMU and assert hardware clock plus scheduler latency evidence
+        working-directory: components/globus-os/modules/atc-shivacore
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f serial.log
+          set +e
+          timeout 35s qemu-system-x86_64 \
+            -machine pc -accel tcg -cpu max -m 512M \
+            -drive format=raw,file=images/shivacore-bios.img \
+            -serial file:serial.log -display none -no-reboot -no-shutdown
+          qemu_status=$?
+          set -e
+          if [ "$qemu_status" -ne 124 ]; then
+            echo "QEMU exited unexpectedly (status=$qemu_status)"
+            cat serial.log || true
+            exit 1
+          fi
+          cat serial.log
+          grep -Eq 'ShivaCore: monotonic TSC calibrated against PIT: [1-9][0-9]* Hz' serial.log
+          grep -Eq 'ShivaCore: SCHED-LATENCY PID=[0-9]+ ready_to_running_ns=[1-9][0-9]* samples=[1-9][0-9]* mean_ns=Some\([0-9]+\)' serial.log
+          ! grep -Eq 'KERNEL PANIC|EXCEPTION: DOUBLE FAULT|SCHED-001 register corruption' serial.log
+
+      - name: Upload serial boot evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shivacore-qemu-serial-evidence
+          path: components/globus-os/modules/atc-shivacore/serial.log
+          if-no-files-found: warn
+          retention-days: 14

@@ -28,9 +28,11 @@ static USER_SCHEDULER: Mutex<Option<UserScheduler>> = Mutex::new(None);
 
 pub fn init_user_scheduler(first: &UserContext, second: &UserContext) {
     let mut scheduler = UserScheduler::new();
-    scheduler.add_process(first.pid, first, 0);
-    scheduler.add_process(second.pid, second, 0);
-    let _ = scheduler.schedule(None);
+    let ready_time_first = shivacore::timer::hardware_clock::now_ns();
+    scheduler.add_process_at(first.pid, first, 0, ready_time_first);
+    let ready_time_second = shivacore::timer::hardware_clock::now_ns();
+    scheduler.add_process_at(second.pid, second, 0, ready_time_second);
+    let _ = scheduler.schedule_at(None, shivacore::timer::hardware_clock::now_ns());
     *USER_SCHEDULER.lock() = Some(scheduler);
     serial_println!(
         "ShivaCore: SCHED-001 scheduler armed: PID={} + PID={}",
@@ -273,13 +275,27 @@ extern "C" fn timer_trap_rust(frame: &mut UserTrapFrame) {
         );
     }
 
-    if let Some((next_pid, next)) = scheduler.timer_tick_saved(current) {
+    // Sample immediately before the scheduler state transition, after diagnostic I/O.
+    // None means calibration was unavailable; latency metrics remain fail-closed.
+    let monotonic_now_ns = shivacore::timer::hardware_clock::now_ns();
+    if let Some((next_pid, next)) = scheduler.timer_tick_saved_at(current, monotonic_now_ns) {
         serial_println!(
             "ShivaCore: scheduler preemption -> context switch to PID={} RIP={:#x} RAX={:#x}",
             next_pid.0,
             next.iret.rip,
             next.regs.rax
         );
+        if let Some(entry) = scheduler.get_entry(next_pid) {
+            if let Some(latency_ns) = entry.last_ready_to_running_ns {
+                serial_println!(
+                    "ShivaCore: SCHED-LATENCY PID={} ready_to_running_ns={} samples={} mean_ns={:?}",
+                    next_pid.0,
+                    latency_ns,
+                    scheduler.ready_to_running_samples(),
+                    scheduler.mean_ready_to_running_ns()
+                );
+            }
+        }
         frame.restore(next);
     }
 
