@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
@@ -129,20 +130,32 @@ def build_catalog(workspace: Path, manifest: dict, census: dict) -> dict:
                 blocked_repos.append(repo_name)
                 repos_out.append(entry)
                 continue
-            paths = [p for p in git(root, "ls-files", "-z").split("\0") if p]
+            index_entries = []
+            for record in git(root, "ls-files", "--stage", "-z").split("\0"):
+                if not record:
+                    continue
+                metadata, rel = record.split("\t", 1)
+                mode, blob_sha, _stage = metadata.split(" ", 2)
+                index_entries.append((rel, mode, blob_sha))
             symbol_files = {}
             report = (census_by_repo.get(repo_name) or {}).get("report") or {}
             for scanned in report.get("files", []):
                 symbol_files[scanned.get("path", "")] = scanned.get("candidate_public_symbols", [])
-            for rel in sorted(paths):
+            for rel, mode, blob_sha in sorted(index_entries):
                 file_path = root / rel
                 try:
-                    raw = file_path.read_bytes()
-                    blob_sha = git(root, "rev-parse", f"HEAD:{rel}")
-                except (OSError, subprocess.CalledProcessError):
-                    entry["residuals"].append(f"FILE_READ_OR_BLOB_LOOKUP_FAILED:{rel}")
+                    if mode == "160000":
+                        raw = b""
+                    elif mode == "120000" and file_path.is_symlink():
+                        raw = os.readlink(file_path).encode("utf-8", errors="surrogateescape")
+                    else:
+                        raw = file_path.read_bytes()
+                except OSError:
+                    entry["residuals"].append(f"FILE_READ_FAILED:{rel}")
                     continue
                 role, fallback = classify(rel)
+                if mode == "160000":
+                    role, fallback = "git_submodule_reference", "Git submodule pointer; referenced repository content is inventoried separately if present in the manifest."
                 purpose, basis, confidence = documented_purpose(rel, raw, role, fallback)
                 symbols = symbol_files.get(rel, [])
                 function_summary = (
@@ -152,6 +165,7 @@ def build_catalog(workspace: Path, manifest: dict, census: dict) -> dict:
                 entry["files"].append({
                     "path": rel,
                     "git_blob_sha": blob_sha,
+                    "git_mode": mode,
                     "file_sha256": hashlib.sha256(raw).hexdigest(),
                     "size_bytes": len(raw),
                     "file_role": role,
