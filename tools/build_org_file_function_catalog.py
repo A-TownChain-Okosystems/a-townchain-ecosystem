@@ -192,7 +192,7 @@ def build_catalog(workspace: Path, manifest: dict, census: dict) -> dict:
         "schema_version": "1.0.0",
         "owner": manifest["owner"],
         "catalog_source_commit": git(workspace / "a-townchain-ecosystem", "rev-parse", "HEAD") if (workspace / "a-townchain-ecosystem" / ".git").exists() else None,
-        "status": "BLOCKED" if blocked_repos else "RESIDUAL",
+        "status": "BLOCKED" if blocked_repos or excluded_private else "RESIDUAL",
         "functional_verification": "NOT_PERFORMED",
         "summary": {"repositories_expected": len(manifest["repositories"]), "repositories_scanned": sum(r["status"] == "RESIDUAL" for r in repos_out),
                     "repositories_blocked": len(set(blocked_repos)), "repositories_excluded_private": len(excluded_private),
