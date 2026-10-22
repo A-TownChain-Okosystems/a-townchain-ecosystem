@@ -12,7 +12,7 @@
   "applied_overlay": {
     "path": "competitive-monitoring/registry/2026-10-22-v0.2.3.json",
     "version": "0.2.3",
-    "blob_sha": "89513ff30bf4f77c98bd9ee1df13135d2615fcb5"
+    "blob_sha": "309343b12e573ed05f1ce336f8c2ff588d320e21"
   },
   "scope": {
     "status": "TARGETED_OFFICIAL_SOURCE_REVIEW",
