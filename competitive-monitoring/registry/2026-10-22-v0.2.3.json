@@ -129,6 +129,19 @@
           }
         }
       }
+    },
+    {
+      "type": "UPDATE",
+      "id": "LEDGER-ATOM-001",
+      "reason": "Make the price effective-date uncertainty explicit for the price-metadata validation rule.",
+      "changes": {
+        "unverified": [
+          "final specifications",
+          "explicit currency",
+          "delivery window",
+          "price effective date"
+        ]
+      }
     }
   ],
   "notes": [
