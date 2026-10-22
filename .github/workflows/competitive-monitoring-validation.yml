@@ -31,8 +31,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Unit tests, including negative cases
+        id: unit_tests
         run: python -m unittest discover -s competitive-monitoring/tests -v
       - name: Validate expanded registry and overlay operations
+        id: registry_validation
         run: |
           python competitive-monitoring/tools/validate_registry.py \
             --registry competitive-monitoring/registry/2026-10-22-expanded-v0.2.3.json \
@@ -50,7 +52,9 @@ jobs:
               "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
               "commit_sha": os.environ.get("GITHUB_SHA"),
               "event_name": os.environ.get("GITHUB_EVENT_NAME"),
-              "note": "See preceding test and validator steps for authoritative pass/fail status."
+              "unit_tests_outcome": "${{ steps.unit_tests.outcome }}",
+              "registry_validation_outcome": "${{ steps.registry_validation.outcome }}",
+              "overall_status": "PASS" if "${{ steps.unit_tests.outcome }}" == "success" and "${{ steps.registry_validation.outcome }}" == "success" else "FAIL"
           }
           pathlib.Path("competitive-monitoring/evidence/validation-run.json").write_text(
               json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n",
@@ -58,3 +62,10 @@ jobs:
           )
           PY
           cat competitive-monitoring/evidence/validation-run.json
+      - name: Upload machine-readable validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: competitive-monitoring-validation-evidence
+          path: competitive-monitoring/evidence/validation-run.json
+          if-no-files-found: error
