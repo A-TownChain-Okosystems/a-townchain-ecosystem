@@ -65,6 +65,22 @@
   "limitations": [
     "No standards-compliant JSON Schema validator was run; schema syntax was parsed and required-field constraints were checked manually.",
     "No CI workflow was run by this validation.",
-    "No semantic file-analysis or call-graph completeness is implied."
-  ]
+    "No semantic file-analysis or call-graph completeness is implied.",
+    "Negative regression tests were added to catalog/tests/test_validate_catalog.py and wired into the Actions workflow; execution remains pending a completed CI run."
+  ],
+  "negative_regression_tests": {
+    "status": "ADDED_EXECUTION_PENDING",
+    "path": "catalog/tests/test_validate_catalog.py",
+    "cases": [
+      "valid fixture passes",
+      "invalid repository commit SHA fails",
+      "duplicate repository identifier fails",
+      "truncated tree fails",
+      "demo live-drift exclusion regression fails",
+      "coverage total mismatch fails",
+      "missing required file-record field fails",
+      "malformed JSONL fails"
+    ],
+    "execution_evidence": null
+  }
 }
