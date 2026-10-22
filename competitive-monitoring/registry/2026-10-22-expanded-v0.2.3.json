@@ -224,7 +224,8 @@
       "unverified": [
         "final specifications",
         "explicit currency",
-        "delivery window"
+        "delivery window",
+        "price effective date"
       ],
       "previous": {
         "date": "2026-10-19",
