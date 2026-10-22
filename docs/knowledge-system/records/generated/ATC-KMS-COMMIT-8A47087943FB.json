@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-8A47087943FB",
-  "timestamp": "2026-10-21T07:43:07.740363Z",
+  "timestamp": "2026-10-22T07:38:43.918026Z",
   "category": "change",
   "title": "Commit: fix(cargo): isolate canonical nested workspaces",
   "context": "Git commit 8a47087943fbd3efac8a528c54b429c5b1938ea4 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/8a47087943fbd3efac8a528c54b429c5b1938ea4",
-    "commit": "3054232178e48b42c224b9fb10745e7655de11e8"
+    "commit": "6a80054c98cf4bd97fd452364c3750e18b74f12f"
   },
   "tags": [
     "commit",

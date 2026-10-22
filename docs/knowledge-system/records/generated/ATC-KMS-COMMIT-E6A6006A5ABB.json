@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-E6A6006A5ABB",
-  "timestamp": "2026-10-21T07:43:07.740363Z",
+  "timestamp": "2026-10-22T07:38:43.918026Z",
   "category": "change",
   "title": "Commit: fix(catalog): reconcile layer mappings and source counts",
   "context": "Git commit e6a6006a5abb9ad0bf4b605850cee8be638a3069 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/e6a6006a5abb9ad0bf4b605850cee8be638a3069",
-    "commit": "3054232178e48b42c224b9fb10745e7655de11e8"
+    "commit": "6a80054c98cf4bd97fd452364c3750e18b74f12f"
   },
   "tags": [
     "commit",
