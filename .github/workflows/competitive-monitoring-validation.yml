@@ -1,0 +1,87 @@
+name: Competitive Monitoring Registry Validation
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 7 * * *"
+  push:
+    paths:
+      - "competitive-monitoring/registry/**"
+      - "competitive-monitoring/tools/**"
+      - "competitive-monitoring/tests/**"
+      - ".github/workflows/competitive-monitoring-validation.yml"
+  pull_request:
+    paths:
+      - "competitive-monitoring/registry/**"
+      - "competitive-monitoring/tools/**"
+      - "competitive-monitoring/tests/**"
+      - ".github/workflows/competitive-monitoring-validation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests, including negative cases
+        id: unit_tests
+        run: python -m unittest discover -s competitive-monitoring/tests -v
+      - name: Resolve overlay twice and compare deterministic output
+        id: reproducibility
+        run: |
+          python competitive-monitoring/tools/resolve_registry.py \
+            --base competitive-monitoring/registry/2026-10-21-v0.2.2.json \
+            --overlay competitive-monitoring/registry/2026-10-22-v0.2.3.json \
+            --template competitive-monitoring/registry/2026-10-22-expanded-v0.2.3.json \
+            --output "$RUNNER_TEMP/resolved-a.json"
+          python competitive-monitoring/tools/resolve_registry.py \
+            --base competitive-monitoring/registry/2026-10-21-v0.2.2.json \
+            --overlay competitive-monitoring/registry/2026-10-22-v0.2.3.json \
+            --template competitive-monitoring/registry/2026-10-22-expanded-v0.2.3.json \
+            --output "$RUNNER_TEMP/resolved-b.json"
+          cmp "$RUNNER_TEMP/resolved-a.json" "$RUNNER_TEMP/resolved-b.json"
+      - name: Validate expanded registry and overlay operations
+        id: registry_validation
+        run: |
+          python competitive-monitoring/tools/validate_registry.py \
+            --registry competitive-monitoring/registry/2026-10-22-expanded-v0.2.3.json \
+            --base competitive-monitoring/registry/2026-10-21-v0.2.2.json \
+            --overlay competitive-monitoring/registry/2026-10-22-v0.2.3.json
+      - name: Emit machine-readable validation evidence
+        if: always()
+        run: |
+          mkdir -p competitive-monitoring/evidence
+          python - <<'PY'
+          import json, os, pathlib
+          payload = {
+              "workflow": os.environ.get("GITHUB_WORKFLOW"),
+              "run_id": os.environ.get("GITHUB_RUN_ID"),
+              "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+              "commit_sha": "${{ github.event.pull_request.head.sha || github.sha }}",
+              "workflow_checkout_sha": os.environ.get("GITHUB_SHA"),
+              "event_name": os.environ.get("GITHUB_EVENT_NAME"),
+              "unit_tests_outcome": "${{ steps.unit_tests.outcome }}",
+              "reproducibility_outcome": "${{ steps.reproducibility.outcome }}",
+              "registry_validation_outcome": "${{ steps.registry_validation.outcome }}",
+              "overall_status": "PASS" if "${{ steps.unit_tests.outcome }}" == "success" and "${{ steps.reproducibility.outcome }}" == "success" and "${{ steps.registry_validation.outcome }}" == "success" else "FAIL"
+          }
+          pathlib.Path("competitive-monitoring/evidence/validation-run.json").write_text(
+              json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n",
+              encoding="utf-8"
+          )
+          PY
+          cat competitive-monitoring/evidence/validation-run.json
+      - name: Upload machine-readable validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: competitive-monitoring-validation-evidence
+          path: competitive-monitoring/evidence/validation-run.json
+          if-no-files-found: error
