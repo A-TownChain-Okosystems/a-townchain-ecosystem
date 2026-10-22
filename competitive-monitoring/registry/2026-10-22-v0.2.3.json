@@ -1,1 +1,30 @@
-{"registry_id":"ATC-COMP-REG-2026-10-22","registry_version":"0.2.3","checked_at":"2026-10-22T08:55:48+02:00","mode":"DELTA_OVERLAY","extends":"competitive-monitoring/registry/2026-10-21-v0.2.2.json","full_market_census":false,"deltas":[{"type":"ADD","id":"BT-AGENT-GOVERNANCE-001","reason":"Official product moved from private beta to general availability on 2026-10-21."},{"type":"UPDATE","id":"LINUX-KERNEL-001","reason":"Stable branch 7.2.12 released on 2026-10-21."},{"type":"UPDATE","id":"SNOW-EMPLOYEEWORKS-001","reason":"Official JIT integration with BeyondTrust Entitle announced 2026-10-20."}]}
+{
+  "registry_id": "ATC-COMP-REG-2026-10-22",
+  "registry_version": "0.2.3",
+  "checked_at": "2026-10-22T08:55:48+02:00",
+  "mode": "DELTA_OVERLAY",
+  "extends": "competitive-monitoring/registry/2026-10-21-v0.2.2.json",
+  "full_market_census": false,
+  "deltas": [
+    {
+      "type": "ADD",
+      "id": "BT-AI-AGENT-SECURITY-001",
+      "reason": "Official product moved from private beta to general availability on 2026-10-21."
+    },
+    {
+      "type": "UPDATE",
+      "id": "LINUX-KERNEL-001",
+      "reason": "Stable branch 7.2.12 released on 2026-10-21."
+    },
+    {
+      "type": "UPDATE",
+      "id": "SNOW-EMPLOYEEWORKS-001",
+      "reason": "Official JIT integration with BeyondTrust Entitle announced 2026-10-20; this does not imply an EmployeeWorks availability change."
+    }
+  ],
+  "notes": [
+    "ID aligned with the report's stable provider ID.",
+    "This is a delta overlay, not a fully expanded registry.",
+    "Claims and URLs are recorded from the report; this commit does not independently re-verify the external vendor evidence."
+  ]
+}
