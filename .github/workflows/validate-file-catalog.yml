@@ -1,0 +1,30 @@
+name: Validate ecosystem file catalog
+
+on:
+  pull_request:
+    paths:
+      - "catalog/**"
+      - ".github/workflows/validate-file-catalog.yml"
+  push:
+    branches: [main]
+    paths:
+      - "catalog/**"
+      - ".github/workflows/validate-file-catalog.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install JSON Schema validator
+        run: python -m pip install --disable-pip-version-check jsonschema
+      - name: Validate repository manifest and file records
+        run: python catalog/scripts/validate_catalog.py
