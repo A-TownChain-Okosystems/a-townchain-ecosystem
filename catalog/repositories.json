@@ -2,453 +2,471 @@
   "schema_version": "1.0.0",
   "generated_at": "2026-10-22",
   "organization": "A-TownChain-Okosystems",
-  "scope": "organization repository inventory; file-level functional analysis not yet complete",
+  "scope": "organization repository snapshot; file-level functional analysis remains partial",
+  "repository_count": 33,
+  "repository_snapshots_recorded": 33,
   "repositories": [
     {
       "repository": "A-TownChain-Okosystems/a-townchain-os",
       "default_branch": "main",
-      "archived": false,
       "head_commit_sha": "a929fe77c65e3a6da4a2c5805f3e290291d47aaa",
+      "tree_sha": "b9ab44e7d283ce9b9ba2906b2e5d1853391782ef",
       "tracked_file_count": 127,
-      "last_pushed_at": "2026-10-15T16:56:42Z",
-      "inventory_status": "REPOSITORY_SNAPSHOT_RECORDED",
+      "tree_truncated": false,
+      "archived": false,
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain-os/git/trees/b9ab44e7d283ce9b9ba2906b2e5d1853391782ef?recursive=1",
       "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atclang",
       "default_branch": "main",
-      "archived": false,
       "head_commit_sha": "b5acc59c8d4ac2a35c52f662229cec1e5c96d44a",
+      "tree_sha": "3150102e4511e3ee81d5c32c4d53a9ed39a75086",
       "tracked_file_count": 139,
-      "last_pushed_at": "2026-10-18T20:34:21Z",
-      "inventory_status": "REPOSITORY_SNAPSHOT_RECORDED",
+      "tree_truncated": false,
+      "archived": false,
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atclang/git/trees/3150102e4511e3ee81d5c32c4d53a9ed39a75086?recursive=1",
       "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
       "default_branch": "main",
-      "archived": false,
       "head_commit_sha": "1c4bfd2c9cd1c43deb0b88d3a4bfde94fc9d106c",
+      "tree_sha": "b4b1595a40eba29ce9059f8c332999fc4874d7d1",
       "tracked_file_count": 5070,
-      "last_pushed_at": "2026-10-19T12:03:26Z",
-      "inventory_status": "REPOSITORY_SNAPSHOT_RECORDED",
+      "tree_truncated": false,
+      "archived": false,
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain-os-docs/git/trees/b4b1595a40eba29ce9059f8c332999fc4874d7d1?recursive=1",
       "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-shivacore",
       "default_branch": "main",
-      "archived": false,
       "head_commit_sha": "dbc14142466c9bcd01abcdd9d36ff09ae5d04d5f",
+      "tree_sha": "8c17a34300bb451eed9e10c554f6d7a5f3a9df8a",
       "tracked_file_count": 104,
-      "last_pushed_at": "2026-10-19T07:56:33Z",
-      "inventory_status": "REPOSITORY_SNAPSHOT_RECORDED",
+      "tree_truncated": false,
+      "archived": false,
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-shivacore/git/trees/8c17a34300bb451eed9e10c554f6d7a5f3a9df8a?recursive=1",
       "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/a-townchain",
       "default_branch": "main",
-      "archived": false,
       "head_commit_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+      "tree_sha": "a6bd467b900560cc2c6fca88ce633afb8401c864",
       "tracked_file_count": 1152,
-      "last_pushed_at": "2026-10-19T15:09:31Z",
-      "inventory_status": "REPOSITORY_SNAPSHOT_RECORDED",
+      "tree_truncated": false,
+      "archived": false,
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain/git/trees/a6bd467b900560cc2c6fca88ce633afb8401c864?recursive=1",
       "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/globus-os",
       "default_branch": "main",
-      "archived": false,
       "head_commit_sha": "0c95684086f4dcbb29937c4ada2616d65687a0b0",
+      "tree_sha": "1ae41a5653c62d1657cd4e4a6dbdc1379a89db61",
       "tracked_file_count": 469,
-      "last_pushed_at": "2026-10-21T14:53:10Z",
-      "inventory_status": "REPOSITORY_SNAPSHOT_RECORDED",
+      "tree_truncated": false,
+      "archived": false,
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/globus-os/git/trees/1ae41a5653c62d1657cd4e4a6dbdc1379a89db61?recursive=1",
       "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/aurora-ai",
       "default_branch": "main",
-      "archived": false,
       "head_commit_sha": "a1f4d34d5241ba2e420c17e1b693f62dce2575f3",
+      "tree_sha": "7d682c58d010cabcd1a93864ed955118205afc29",
       "tracked_file_count": 472,
-      "last_pushed_at": "2026-10-20T16:40:32Z",
-      "inventory_status": "REPOSITORY_SNAPSHOT_RECORDED",
+      "tree_truncated": false,
+      "archived": false,
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/aurora-ai/git/trees/7d682c58d010cabcd1a93864ed955118205afc29?recursive=1",
       "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/genesis-engine",
       "default_branch": "main",
-      "archived": false,
       "head_commit_sha": "a004a13f4b42397d300963a7ab7b17e67d969de1",
+      "tree_sha": "98e69e2047b7eef4a4b6c8c932f91a81e0129c0a",
       "tracked_file_count": 208,
-      "last_pushed_at": "2026-10-21T18:48:30Z",
-      "inventory_status": "REPOSITORY_SNAPSHOT_RECORDED",
-      "file_analysis_status": "NOT_STARTED",
+      "tree_truncated": false,
+      "archived": false,
+      "inventory_status": "TREE_VERIFIED",
+      "file_analysis_status": "PARTIAL",
       "exclusion_from_live_drift_gate": false,
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/genesis-engine/git/trees/98e69e2047b7eef4a4b6c8c932f91a81e0129c0a?recursive=1",
       "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-sdk",
       "default_branch": "main",
+      "head_commit_sha": "34eef345907935cdaf279e0546f230c03c86bb0c",
+      "tree_sha": "e8e5979cc795aa587ef182e831ecc4765bfee120",
+      "tracked_file_count": 109,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-sdk/git/trees/e8e5979cc795aa587ef182e831ecc4765bfee120?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-node",
       "default_branch": "main",
+      "head_commit_sha": "a817db43a089d172dd4688f366286c60dbf71a0e",
+      "tree_sha": "3bb0a666e8e7a4de08aaa31cb82189fdd35cf8d4",
+      "tracked_file_count": 44,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-node/git/trees/3bb0a666e8e7a4de08aaa31cb82189fdd35cf8d4?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-contracts",
       "default_branch": "main",
+      "head_commit_sha": "16aba87d0f635cae6f212beaebd411482090f8dd",
+      "tree_sha": "ed280a892c8aebb12a27c7a30712d4ba4d9037ad",
+      "tracked_file_count": 124,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-contracts/git/trees/ed280a892c8aebb12a27c7a30712d4ba4d9037ad?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-wallet",
       "default_branch": "main",
+      "head_commit_sha": "812a31d292364304c72cae8be6f448c130d7428e",
+      "tree_sha": "2f624447b95a9ad723bf2e1369bf8e541bc427b5",
+      "tracked_file_count": 99,
+      "tree_truncated": false,
       "archived": true,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-wallet/git/trees/2f624447b95a9ad723bf2e1369bf8e541bc427b5?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-explorer",
       "default_branch": "main",
+      "head_commit_sha": "c4da05304f214bb68bd942e7705c96c35d9a18ae",
+      "tree_sha": "9aa7f3c6f2f90c33c0a92646a5ff5ce9964347ff",
+      "tracked_file_count": 70,
+      "tree_truncated": false,
       "archived": true,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-explorer/git/trees/9aa7f3c6f2f90c33c0a92646a5ff5ce9964347ff?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-indexer",
       "default_branch": "main",
+      "head_commit_sha": "7f3da49f30464471c8c1597ed59f6223050e79e4",
+      "tree_sha": "382a3bb7e4d0ab12338344a01890fe5a38b1655d",
+      "tracked_file_count": 59,
+      "tree_truncated": false,
       "archived": true,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-indexer/git/trees/382a3bb7e4d0ab12338344a01890fe5a38b1655d?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-mining",
       "default_branch": "main",
+      "head_commit_sha": "227f2d700307191f59596c5a78ccfd3a4b657aa9",
+      "tree_sha": "84535a74f93d5cd674b7d54195dacf741f1e9033",
+      "tracked_file_count": 48,
+      "tree_truncated": false,
       "archived": true,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-mining/git/trees/84535a74f93d5cd674b7d54195dacf741f1e9033?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-interop",
       "default_branch": "main",
+      "head_commit_sha": "5905fca02274704a00bdf708948180bc211a46d3",
+      "tree_sha": "1d0dbc1c6ce05ad26b0808ba4e663758a9fa5b51",
+      "tracked_file_count": 69,
+      "tree_truncated": false,
       "archived": true,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-interop/git/trees/1d0dbc1c6ce05ad26b0808ba4e663758a9fa5b51?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/genesis-chronicles",
       "default_branch": "main",
+      "head_commit_sha": "9710bd9b314ca4bce836589f5fc8649619fc5604",
+      "tree_sha": "19fdb0a75dda524b635829c95c95ff1324816f55",
+      "tracked_file_count": 92,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/genesis-chronicles/git/trees/19fdb0a75dda524b635829c95c95ff1324816f55?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-oracle",
       "default_branch": "main",
+      "head_commit_sha": "8087d34ddb8c2d40a60178e8f3b4c52ea67d52a8",
+      "tree_sha": "2fce137a779ca392551c1e9d2ee44027ea17ae8a",
+      "tracked_file_count": 44,
+      "tree_truncated": false,
       "archived": true,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-oracle/git/trees/2fce137a779ca392551c1e9d2ee44027ea17ae8a?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-storage",
       "default_branch": "main",
+      "head_commit_sha": "230746c1dc5e4c1355c2707368de50d6c1008660",
+      "tree_sha": "307d3d2a179de1ed5d82618dfbe78f072ba6d4c0",
+      "tracked_file_count": 49,
+      "tree_truncated": false,
       "archived": true,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-storage/git/trees/307d3d2a179de1ed5d82618dfbe78f072ba6d4c0?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-launchpad",
       "default_branch": "main",
+      "head_commit_sha": "bd1a48c69983247a8428f90a77edd061ba79316b",
+      "tree_sha": "b67a4f6a50ab578a8e82ac82748aecaf5bba003c",
+      "tracked_file_count": 46,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-launchpad/git/trees/b67a4f6a50ab578a8e82ac82748aecaf5bba003c?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-marketplace",
       "default_branch": "main",
+      "head_commit_sha": "5c3bab7da8a80d58af725b7dea2478ece2456f39",
+      "tree_sha": "c86fcc7f48d478a460419cbb075c7dea05a1fabb",
+      "tracked_file_count": 94,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-marketplace/git/trees/c86fcc7f48d478a460419cbb075c7dea05a1fabb?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-compute",
       "default_branch": "main",
+      "head_commit_sha": "89d833edf338085d6141b0c703ebf92a0db83a5e",
+      "tree_sha": "e140d5a5bc884bd56d037296397c0de879adea94",
+      "tracked_file_count": 46,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-compute/git/trees/e140d5a5bc884bd56d037296397c0de879adea94?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-standards",
       "default_branch": "main",
+      "head_commit_sha": "68448117334b49729f423f1648f9a960f4411220",
+      "tree_sha": "2290c98eba5cd7f527cc7ad11762f56f953d5bb5",
+      "tracked_file_count": 2158,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-standards/git/trees/2290c98eba5cd7f527cc7ad11762f56f953d5bb5?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-vm",
       "default_branch": "main",
+      "head_commit_sha": "21132a49355eb5fd6ea4b8a7b4e4deb5d9be60f0",
+      "tree_sha": "d60af19553baf4ff88a3098c81a683d77ba7096e",
+      "tracked_file_count": 49,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-vm/git/trees/d60af19553baf4ff88a3098c81a683d77ba7096e?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-algorithm",
       "default_branch": "main",
+      "head_commit_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
+      "tree_sha": "bce31cbd81b9c4a9dfc65b0b77fcd29727ea4c13",
+      "tracked_file_count": 56,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-algorithm/git/trees/bce31cbd81b9c4a9dfc65b0b77fcd29727ea4c13?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-zkp",
       "default_branch": "main",
+      "head_commit_sha": "df9e694772ffc955129739805fc1692753dbea84",
+      "tree_sha": "08290da2d511c7e2ec1f54a9b25c993315173ac9",
+      "tracked_file_count": 61,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-zkp/git/trees/08290da2d511c7e2ec1f54a9b25c993315173ac9?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/.github",
       "default_branch": "main",
+      "head_commit_sha": "8106d7c060effd45050d29ba80bb0416866f1b01",
+      "tree_sha": "2e468fc0c302926e50a7756df816bb8d7e86edc6",
+      "tracked_file_count": 158,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/.github/git/trees/2e468fc0c302926e50a7756df816bb8d7e86edc6?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/demo-repository",
       "default_branch": "main",
+      "head_commit_sha": "6fca8f6356751e7e820e85ebf1984584392189b8",
+      "tree_sha": "b35b4576f1732acc665283893c8214989df0829a",
+      "tracked_file_count": 22,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": true,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/demo-repository/git/trees/b35b4576f1732acc665283893c8214989df0829a?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-ide",
       "default_branch": "main",
+      "head_commit_sha": "40a07acbbb2f240f0d409e97bd0262b8c63688b4",
+      "tree_sha": "93d4d6353588e04d1ca81ae35a580e5b50fbae63",
+      "tracked_file_count": 84,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-ide/git/trees/93d4d6353588e04d1ca81ae35a580e5b50fbae63?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/genesis-franchise-factory",
       "default_branch": "main",
+      "head_commit_sha": "673fa560322b1449e8f23cc38bf839de1b246361",
+      "tree_sha": "cbc461e067f5d46d0d5b7a378b80867673f92dd3",
+      "tracked_file_count": 56,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/genesis-franchise-factory/git/trees/cbc461e067f5d46d0d5b7a378b80867673f92dd3?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-engineering",
       "default_branch": "main",
+      "head_commit_sha": "17b594acc550ded64614b8c30404406642565d7c",
+      "tree_sha": "2f67c0eded01b58cfd4868bc5b28bc14f3a39e08",
+      "tracked_file_count": 149,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-engineering/git/trees/2f67c0eded01b58cfd4868bc5b28bc14f3a39e08?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
       "default_branch": "main",
+      "head_commit_sha": "c9699e468d2291b7d1b18cc4e9db41acba99b80c",
+      "tree_sha": "61e6623a1d0fa084ccc3f5916bf3d417f8a68987",
+      "tracked_file_count": 12270,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/a-townchain-ecosystem/git/trees/61e6623a1d0fa084ccc3f5916bf3d417f8a68987?recursive=1",
+      "notes": []
     },
     {
       "repository": "A-TownChain-Okosystems/atc-toolchain",
       "default_branch": "main",
+      "head_commit_sha": "aaed3daad2f6823349bb8c89bbeb996a7911317e",
+      "tree_sha": "c3c16423e35f882308e0fa4af44cc9ef65c871de",
+      "tracked_file_count": 11,
+      "tree_truncated": false,
       "archived": false,
-      "head_commit_sha": null,
-      "tracked_file_count": null,
-      "last_pushed_at": null,
-      "inventory_status": "PENDING_SNAPSHOT",
+      "inventory_status": "TREE_VERIFIED",
       "file_analysis_status": "NOT_STARTED",
       "exclusion_from_live_drift_gate": false,
-      "notes": [
-        "Exact head, tree and file count not yet verified"
-      ]
+      "snapshot_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-toolchain/git/trees/c3c16423e35f882308e0fa4af44cc9ef65c871de?recursive=1",
+      "notes": []
     }
   ]
 }
