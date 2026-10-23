@@ -18,7 +18,9 @@ The consumer requires the `atc.build-evidence/v1` manifest to contain the reposi
 
 ## Invocation
 
-After downloading the evidence artifact from the specific Actions run and extracting `evidence-manifest.json`:
+Automated consumer: `.github/workflows/consume-engineering-evidence.yml`. Run it manually with the source Actions run ID and an independently inspected full SHA. It accepts only a successful `push` run for `main`, checks the GitHub artifact ZIP digest and its internal `SHA256SUMS`, verifies the binary/report digests against the manifest, then invokes the census-bound validator.
+
+For local or offline validation after downloading the evidence artifact:
 
 ```bash
 python catalog/scripts/validate_engineering_handoff.py \
@@ -27,7 +29,7 @@ python catalog/scripts/validate_engineering_handoff.py \
   --expected-sha <full-40-character-commit-sha>
 ```
 
-The `--expected-sha` value must come from an independently inspected PR/push head, not from the manifest being validated. The census snapshot must also be refreshed to that exact source SHA before the handoff can pass.
+The `--expected-sha` value must come from an independently inspected main-branch head, not from the manifest being validated. The census snapshot must also be refreshed to that exact source SHA before the handoff can pass. The workflow requires `ATC_FLEET_READ_TOKEN` with read access to `atc-engineering`; missing access fails closed.
 
 ## Fail-closed conditions
 
