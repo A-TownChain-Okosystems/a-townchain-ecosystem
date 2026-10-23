@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-BCCD7AB7B03B",
+  "timestamp": "2026-10-23T16:10:40.714937Z",
+  "category": "change",
+  "title": "Commit: governance: define delivery registry JSON Schema",
+  "context": "Git commit bccd7ab7b03b39aa61adf2393a904d2316435db4 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/bccd7ab7b03b39aa61adf2393a904d2316435db4",
+    "commit": "b18e16918b57ebe4ee02b87df1b713e65381aadf"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "governance: define delivery registry JSON Schema"
+}

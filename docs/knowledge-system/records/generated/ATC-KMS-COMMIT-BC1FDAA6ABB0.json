@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-BC1FDAA6ABB0",
+  "timestamp": "2026-10-23T16:10:40.714937Z",
+  "category": "change",
+  "title": "Commit: docs(catalog): document ecosystem inventory contract and workflow",
+  "context": "Git commit bc1fdaa6abb09f0985e663bd2024b5d0da9df6e3 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/bc1fdaa6abb09f0985e663bd2024b5d0da9df6e3",
+    "commit": "b18e16918b57ebe4ee02b87df1b713e65381aadf"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs(catalog): document ecosystem inventory contract and workflow"
+}

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-F7594795DCC4",
-  "timestamp": "2026-10-23T07:36:08.883498Z",
+  "timestamp": "2026-10-23T16:10:40.714937Z",
   "category": "change",
   "title": "Commit: docs(governance): seed ARR registry with lifecycle proposal",
   "context": "Git commit f7594795dcc4cb57e25d67dbcf2ad8e2bf204e6f on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/f7594795dcc4cb57e25d67dbcf2ad8e2bf204e6f",
-    "commit": "c9699e468d2291b7d1b18cc4e9db41acba99b80c"
+    "commit": "b18e16918b57ebe4ee02b87df1b713e65381aadf"
   },
   "tags": [
     "commit",

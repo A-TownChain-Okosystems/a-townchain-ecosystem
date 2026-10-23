@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-B76FD89FC505",
+  "timestamp": "2026-10-23T16:10:40.714937Z",
+  "category": "change",
+  "title": "Commit: Merge pull request #202 from A-TownChain-Okosystems/audit/reconcile-delivery-registry-2026-10-11",
+  "context": "Git commit b76fd89fc5057e54158a2a46d26a73336c0e59cb on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/b76fd89fc5057e54158a2a46d26a73336c0e59cb",
+    "commit": "b18e16918b57ebe4ee02b87df1b713e65381aadf"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "Merge pull request #202 from A-TownChain-Okosystems/audit/reconcile-delivery-registry-2026-10-11\n\naudit: reconcile delivery registry against current repository census"
+}

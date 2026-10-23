@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMPONENT-ATC-COMPUTE-EE882A5384",
-  "timestamp": "2026-10-23T07:36:08.883498Z",
+  "timestamp": "2026-10-23T16:10:40.714937Z",
   "category": "module",
   "title": "Component: atc-compute",
   "context": "Component subtree indexed from A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atc-compute",
-    "commit": "c9699e468d2291b7d1b18cc4e9db41acba99b80c"
+    "commit": "b18e16918b57ebe4ee02b87df1b713e65381aadf"
   },
   "tags": [
     "atc-compute",

@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-F303EE5747B4",
+  "timestamp": "2026-10-23T16:10:40.714937Z",
+  "category": "change",
+  "title": "Commit: docs(rollup): add ATC-L2 Phase 0 evidence matrix",
+  "context": "Git commit f303ee5747b4d62340fd8e7d7b3eae1359d8f398 on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/f303ee5747b4d62340fd8e7d7b3eae1359d8f398",
+    "commit": "b18e16918b57ebe4ee02b87df1b713e65381aadf"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs(rollup): add ATC-L2 Phase 0 evidence matrix"
+}

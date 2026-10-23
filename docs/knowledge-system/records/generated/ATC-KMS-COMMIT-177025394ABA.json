@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-COMMIT-177025394ABA",
+  "timestamp": "2026-10-23T16:10:40.714937Z",
+  "category": "change",
+  "title": "Commit: docs(catalog): add evidence-bound dependency graph seed",
+  "context": "Git commit 177025394abaefe373ed996935c4add0c403a59d on A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "commit",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/177025394abaefe373ed996935c4add0c403a59d",
+    "commit": "b18e16918b57ebe4ee02b87df1b713e65381aadf"
+  },
+  "tags": [
+    "commit",
+    "generated",
+    "git"
+  ],
+  "links": [],
+  "content": "docs(catalog): add evidence-bound dependency graph seed"
+}

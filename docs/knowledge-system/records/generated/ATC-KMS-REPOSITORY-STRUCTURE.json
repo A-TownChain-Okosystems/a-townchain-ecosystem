@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-REPOSITORY-STRUCTURE",
-  "timestamp": "2026-10-23T07:36:08.883498Z",
+  "timestamp": "2026-10-23T16:10:40.714937Z",
   "category": "architecture",
   "title": "Repository structure: A-TownChain-Okosystems/a-townchain-ecosystem",
   "context": "Automatically indexed repository structure.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "github",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem",
-    "commit": "c9699e468d2291b7d1b18cc4e9db41acba99b80c"
+    "commit": "b18e16918b57ebe4ee02b87df1b713e65381aadf"
   },
   "tags": [
     "generated",
@@ -127,5 +127,5 @@
       "target": "ATC-KMS-COMPONENT-GLOBUS-OS-CD602E3D08"
     }
   ],
-  "content": "Top-level entries: \"components, .atc, .github, .gitignore, ARCHITECTURE.md, CHANGELOG.md, CODEOWNERS, CONTRIBUTING.md, Cargo.lock, Cargo.toml, LICENSE, MIGRATION_MANIFEST.yaml, README.md, SDK_ARCHITECTURE.md, SECURITY.md, components, control-plane, docs, integration, schemas, tests, tools\n\nComponents: README.md, a-townchain, a-townchain-os, a-townchain-os-docs, atc-algorithm, atc-compute, atc-contracts, atc-explorer, atc-indexer, atc-interop, atc-launchpad, atc-marketplace, atc-mining, atc-node, atc-oracle, atc-sdk, atc-shivacore, atc-standards, atc-storage, atc-vm, atc-wallet, atc-zkp, atclang, aurora-ai, genesis-chronicles, genesis-engine, globus-os"
+  "content": "Top-level entries: \"components, .atc, .github, .gitignore, ARCHITECTURE.md, CHANGELOG.md, CODEOWNERS, CONTRIBUTING.md, Cargo.lock, Cargo.toml, LICENSE, MIGRATION_MANIFEST.yaml, README.md, SDK_ARCHITECTURE.md, SECURITY.md, catalog, competitive-monitoring, components, control-plane, docs, integration, schemas, tests, tools\n\nComponents: README.md, a-townchain, a-townchain-os, a-townchain-os-docs, atc-algorithm, atc-compute, atc-contracts, atc-explorer, atc-indexer, atc-interop, atc-launchpad, atc-marketplace, atc-mining, atc-node, atc-oracle, atc-sdk, atc-shivacore, atc-standards, atc-storage, atc-vm, atc-wallet, atc-zkp, atclang, aurora-ai, genesis-chronicles, genesis-engine, globus-os"
 }

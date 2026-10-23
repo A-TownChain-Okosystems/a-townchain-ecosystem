@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-196",
-  "timestamp": "2026-10-23T07:36:08.883498Z",
+  "timestamp": "2026-10-23T16:10:40.714937Z",
   "category": "change",
   "title": "PR #196: fix(catalog): reconcile Globus and Aurora contracts with current main",
   "context": "Pull request 196 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/196",
-    "commit": "c9699e468d2291b7d1b18cc4e9db41acba99b80c"
+    "commit": "b18e16918b57ebe4ee02b87df1b713e65381aadf"
   },
   "tags": [
     "generated",
