@@ -12,6 +12,8 @@ on:
     paths:
       - "catalog/**"
       - ".github/workflows/canonical-org-census.yml"
+      - ".github/workflows/consume-engineering-evidence.yml"
+      - "docs/architecture/ATC-ENGINEERING-EVIDENCE-HANDOFF-001.md"
 
 permissions:
   contents: read
