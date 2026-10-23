@@ -254,6 +254,8 @@ jobs:
           print(json.dumps(report, indent=2))
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
               output.write(f"status={status}\n")
+          if status == "BLOCKED":
+              raise SystemExit(1)
           PY
       - name: Upload test entry point evidence
         if: always()
