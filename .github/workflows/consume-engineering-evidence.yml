@@ -52,7 +52,7 @@ jobs:
           test "$(jq -r '.status' <<<"$run_json")" = "completed"
           test "$(jq -r '.conclusion' <<<"$run_json")" = "success"
           test "$(jq -r '.head_sha' <<<"$run_json")" = "$EXPECTED_SHA"
-          test "$(jq -r '.path' <<<"$run_json")" = ".github/workflows/engineering-ci.yml"
+          test "$(jq -r '.workflow_id' <<<"$run_json")" = "360469524"
 
           artifacts_json="$(gh api "repos/A-TownChain-Okosystems/atc-engineering/actions/runs/$RUN_ID/artifacts")"
           artifact="$(jq -ce '[.artifacts[] | select(.name == "atc-engineering-gate-evidence" and .expired == false)] | if length == 1 then .[0] else error("expected exactly one unexpired engineering evidence artifact") end' <<<"$artifacts_json")"
