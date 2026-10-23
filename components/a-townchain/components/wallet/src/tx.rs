@@ -154,6 +154,10 @@ mod tests {
         assert_eq!(tx.sign(&key).unwrap(), tx.sign(&key).unwrap());
     }
 
+    fn hex_lower(bytes: &[u8]) -> String {
+        bytes.iter().map(|byte| format!("{byte:02x}")).collect()
+    }
+
     #[test]
     fn atc_tx_v2_u128_001_matches_shared_typescript_vector() {
         // Shared with atc-sdk/typescript/vectors/ATC-TX-V2-U128-001.json.
@@ -179,12 +183,12 @@ mod tests {
         let preimage_hex: String = preimage.iter().map(|byte| format!("{byte:02x}")).collect();
         assert_eq!(preimage_hex, expected_preimage);
         assert_eq!(
-            hex::encode(Sha256::digest(&preimage)),
+            hex_lower(&Sha256::digest(&preimage).to_vec()),
             "2eb492404c03fadf9b7045768cfb5ec1e2a311ffd17d35ff7c92d97421104af8"
         );
         let signature = tx.sign(&key).unwrap();
         assert_eq!(
-            hex::encode(signature),
+            hex_lower(&signature),
             "845c864653f56193006c7a2044731000beff4003913e20e836c8053fbdf6f3693319abee3ee5b5214c880b8386b07c1e711beef13b3589d476099810c8acb1a0"
         );
         assert!(tx.verify(&key.public_key(), &signature).is_ok());
