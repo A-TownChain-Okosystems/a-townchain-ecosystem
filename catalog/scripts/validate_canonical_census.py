@@ -12,7 +12,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 CATALOG = ROOT / "catalog"
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
 ELEVATED = {"IMPLEMENTED", "TESTED", "CI_VERIFIED", "E2E_VERIFIED", "VERIFIED"}
