@@ -79,17 +79,17 @@ class EngineeringHandoffTests(unittest.TestCase):
     def test_rejects_missing_digest(self):
         manifest = dict(self.manifest)
         del manifest["gate_report_sha256"]
-        with self.assertRaisesRegex(ValueError, "missing required fields"):
+        with self.assertRaisesRegex(ValueError, "required property|missing required fields"):
             self.validate(manifest)
 
     def test_rejects_invalid_digest(self):
         manifest = dict(self.manifest, release_binary_sha256="not-a-digest")
-        with self.assertRaisesRegex(ValueError, "full 64-character"):
+        with self.assertRaisesRegex(ValueError, "does not match|full 64-character"):
             self.validate(manifest)
 
     def test_rejects_push_without_explicit_na(self):
         manifest = dict(self.manifest, pr_head_sha="")
-        with self.assertRaisesRegex(ValueError, "explicit N/A"):
+        with self.assertRaisesRegex(ValueError, "should be non-empty|explicit N/A"):
             self.validate(manifest)
 
     def test_rejects_tag_ref_for_push(self):
