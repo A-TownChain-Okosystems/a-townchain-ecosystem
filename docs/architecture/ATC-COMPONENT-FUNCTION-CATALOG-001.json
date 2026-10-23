@@ -3819,7 +3819,8 @@
             "symbol_or_entrypoint": "assemble",
             "exact_source_sha": "a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9",
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
-            "note": "Assembler implements only let/return, u64 literals/parameters, + - * / and parentheses. Current body scan is brace-naive and function selection uses the first 'fn ' token; grammar robustness remains residual."
+            "note": "Assembler implements only let/return, u64 literals/parameters, + - * / and parentheses. Current body scan is brace-naive and function selection uses the first 'fn ' token; grammar robustness remains residual.",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4"
           },
           "inputs": [
             "contract: &Path",
@@ -3945,7 +3946,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
             "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4"
           },
           "inputs": [
             "tokens: Vec<String>",
@@ -4026,7 +4028,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
             "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4"
           },
           "inputs": [
             "&self"
@@ -4106,7 +4109,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
             "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4"
           },
           "inputs": [
             "&mut self"
@@ -4187,7 +4191,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
             "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4"
           },
           "inputs": [
             "&mut self"
@@ -4276,7 +4281,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
             "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4"
           },
           "inputs": [
             "&mut self"
@@ -4358,7 +4364,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
             "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4"
           },
           "inputs": [
             "&mut self"
@@ -4450,7 +4457,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
             "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4"
           },
           "inputs": [
             "source: &str"
@@ -4527,7 +4535,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
             "note": "Current implementation finds the first 'fn ', next ')' and first '{' and '}' by substring search; nested-brace grammar remains a known correctness risk.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4"
           },
           "inputs": [
             "source: &str"
@@ -4604,7 +4613,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
             "note": "Do not treat this helper as standards-compliant JSON decoding.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4"
           },
           "inputs": [
             "json: &str",
@@ -4683,7 +4693,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/assembler.rs",
             "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "816f3ebb3ae62e4e6e054c0c992a9fd60dd3b7c4"
           },
           "inputs": [
             "ops: &[String]",
@@ -4774,7 +4785,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
             "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "ae010fc16ac310e8a98316f63c89e7d9b96cbca8"
           },
           "inputs": [
             "flag: &str",
@@ -4853,7 +4865,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
             "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "ae010fc16ac310e8a98316f63c89e7d9b96cbca8"
           },
           "inputs": [
             "args: Vec<String>"
@@ -4939,7 +4952,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
             "note": "The current runner resizes storage to idx+1 for --set-slot; untrusted large indices may trigger excessive allocation. Bound and reject before resize.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "ae010fc16ac310e8a98316f63c89e7d9b96cbca8"
           },
           "inputs": [
             "args: &Args",
@@ -5034,7 +5048,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
             "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "ae010fc16ac310e8a98316f63c89e7d9b96cbca8"
           },
           "inputs": [
             "process arguments"
@@ -5131,7 +5146,8 @@
             "evidence": "https://github.com/A-TownChain-Okosystems/a-townchain/blob/a70b16f2d23c6e47ea1cd8691fed8a6d86f0efc9/components/vm/src/main.rs",
             "note": "Mapped from source at exact repository HEAD; no functional verification is asserted.",
             "notes": "Symbol exists in source at the exact SHA but is not a public API candidate: the public-symbol census inventories only public/exported symbols, so this binding is a documented residual (PRIVATE_SYMBOL_NOT_IN_PUBLIC_CENSUS), not a silent omission.",
-            "binding_kind": "non_public_internal_helper"
+            "binding_kind": "non_public_internal_helper",
+            "file_blob_sha": "ae010fc16ac310e8a98316f63c89e7d9b96cbca8"
           },
           "inputs": [
             "none"
