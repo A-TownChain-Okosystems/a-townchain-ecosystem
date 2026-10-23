@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-224",
+  "timestamp": "2026-10-23T07:36:08.883498Z",
+  "category": "change",
+  "title": "PR #224: [DRAFT] Consolidate canonical SHA-bound organization census gate",
+  "context": "Pull request 224 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/224",
+    "commit": "c9699e468d2291b7d1b18cc4e9db41acba99b80c"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\n## Summary\n\nIntroduces a canonical, fail-closed provenance gate on top of the existing repository snapshot and file-record catalog. This is a consolidation step, not a new implementation registry.\n\n## Changes\n\n- Adds `catalog/scripts/validate_canonical_census.py` to validate repository identity, exact HEAD/tree SHA shape, untruncated trees, archived-repository classification, explicit `demo-repository` drift-gate exclusion, duplicate file keys, file-record provenance, and status-evidence ceilings.\n- Requires file-level records to bind to the exact repository HEAD recorded in the canonical manifest. Stale bindings block instead of being silently accepted.\n- Prevents `TESTED`, `CI_VERIFIED`, `E2E_VERIFIED`, and `VERIFIED` from being inferred from source presence alone; higher statuses require corresponding test/run/commit evidence.\n- Adds a dedicated CI workflow that runs the existing catalog schema/structure validator first, then the canonical provenance gate, then regression tests.\n- Adds regression checks for fail-closed invariants.\n\n## Governance\n\n- No component implementation SSOT, normative standard, or protocol registry is changed.\n- The gate reports structural/provenance validity only; it does not claim functional verification.\n- This PR is Draft. Exact-head Actions evidence and the resulting gate outcome must be reviewed before any merge decision.\n- If existing file records are stale against the repository manifest, the correct result is BLOCKED until the snapshots or records are reconciled at exact SHAs."
+}

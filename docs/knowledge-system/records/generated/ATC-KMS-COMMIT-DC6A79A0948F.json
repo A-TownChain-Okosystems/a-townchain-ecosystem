@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-DC6A79A0948F",
-  "timestamp": "2026-10-22T07:38:43.918026Z",
+  "timestamp": "2026-10-23T07:36:08.883498Z",
   "category": "change",
   "title": "Commit: Merge pull request #109 from A-TownChain-Okosystems/governance/atc-pr-registry-001-2026-10-11",
   "context": "Git commit dc6a79a0948f88c0c687ddb404315f8b51b2f85a on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/dc6a79a0948f88c0c687ddb404315f8b51b2f85a",
-    "commit": "6a80054c98cf4bd97fd452364c3750e18b74f12f"
+    "commit": "c9699e468d2291b7d1b18cc4e9db41acba99b80c"
   },
   "tags": [
     "commit",

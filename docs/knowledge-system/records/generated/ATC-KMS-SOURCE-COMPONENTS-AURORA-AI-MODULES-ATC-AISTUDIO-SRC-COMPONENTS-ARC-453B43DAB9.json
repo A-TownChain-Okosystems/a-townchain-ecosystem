@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-AURORA-AI-MODULES-ATC-AISTUDIO-SRC-COMPONENTS-ARC-453B43DAB9",
-  "timestamp": "2026-10-22T07:38:43.918026Z",
+  "timestamp": "2026-10-23T07:36:08.883498Z",
   "category": "evidence",
   "title": "Indexed source: components/aurora-ai/modules/atc-aistudio/src/components/ArchitectureView.tsx",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/aurora-ai/modules/atc-aistudio/src/components/ArchitectureView.tsx",
-    "commit": "6a80054c98cf4bd97fd452364c3750e18b74f12f"
+    "commit": "c9699e468d2291b7d1b18cc4e9db41acba99b80c"
   },
   "tags": [
     "generated",
