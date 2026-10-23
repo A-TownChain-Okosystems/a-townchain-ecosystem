@@ -60,7 +60,7 @@ def validate_manifest(manifest: dict, census_path: Path, expected_sha: str | Non
     for field in ("run_id", "run_attempt"):
         if isinstance(manifest[field], bool) or not isinstance(manifest[field], int) or manifest[field] < 1:
             fail(f"{field} must be a positive integer")
-    for field in ("event_name", "event_ref", "pr_head_sha", "release_binary_path", "workflow_ref", "gate_report_path"):
+    for field in ("event_name", "event_ref", "release_binary_path", "workflow_ref", "gate_report_path"):
         if not isinstance(manifest[field], str) or not manifest[field]:
             fail(f"{field} must be a non-empty string")
     if manifest["event_name"] == "push":
