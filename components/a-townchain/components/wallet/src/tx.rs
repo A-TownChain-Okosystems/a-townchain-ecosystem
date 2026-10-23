@@ -154,6 +154,46 @@ mod tests {
         assert_eq!(tx.sign(&key).unwrap(), tx.sign(&key).unwrap());
     }
 
+    fn hex_lower(bytes: &[u8]) -> String {
+        bytes.iter().map(|byte| format!("{byte:02x}")).collect()
+    }
+
+    #[test]
+    fn atc_tx_v2_u128_001_matches_shared_typescript_vector() {
+        // Shared with atc-sdk/typescript/vectors/ATC-TX-V2-U128-001.json.
+        // gas_price is u64 (8-byte BE); amount remains u128 (16-byte BE).
+        let key = WalletKey::from_seed([7u8; 32]).unwrap();
+        let tx = tx();
+        let expected_preimage = concat!(
+            "4154432d54582d444f4d41494e2d5632",
+            "00000000000a0c23",
+            "00",
+            "0000000a4154432d73656e646572",
+            "01",
+            "0000000d4154432d726563697069656e74",
+            "00000000000000000000000000000064",
+            "0000000000000001",
+            "00000000000003e8",
+            "0000000000000007",
+            "000000006553f100",
+            "0000000568656c6c6f",
+            "0909090909090909090909090909090909090909090909090909090909090909"
+        );
+        let preimage = tx.signing_bytes().unwrap();
+        let preimage_hex: String = preimage.iter().map(|byte| format!("{byte:02x}")).collect();
+        assert_eq!(preimage_hex, expected_preimage);
+        assert_eq!(
+            hex_lower(&Sha256::digest(&preimage).to_vec()),
+            "2eb492404c03fadf9b7045768cfb5ec1e2a311ffd17d35ff7c92d97421104af8"
+        );
+        let signature = tx.sign(&key).unwrap();
+        assert_eq!(
+            hex_lower(&signature),
+            "845c864653f56193006c7a2044731000beff4003913e20e836c8053fbdf6f3693319abee3ee5b5214c880b8386b07c1e711beef13b3589d476099810c8acb1a0"
+        );
+        assert!(tx.verify(&key.public_key(), &signature).is_ok());
+    }
+
     #[test]
     fn amount_is_fixed_width_u128_big_endian() {
         let mut tx = tx();
