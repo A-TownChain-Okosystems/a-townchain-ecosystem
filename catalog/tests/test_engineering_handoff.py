@@ -4,6 +4,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from jsonschema import Draft202012Validator
+
 MODULE_PATH = Path(__file__).resolve().parents[1] / "scripts" / "validate_engineering_handoff.py"
 SPEC = importlib.util.spec_from_file_location("validate_engineering_handoff", MODULE_PATH)
 validator = importlib.util.module_from_spec(SPEC)
@@ -46,6 +48,11 @@ class EngineeringHandoffTests(unittest.TestCase):
 
     def validate(self, manifest=None, expected_sha=None):
         return validator.validate_manifest(manifest or self.manifest, self.census, expected_sha)
+
+    def test_manifest_matches_shared_json_schema(self):
+        schema_path = Path(__file__).resolve().parents[1] / "schema" / "atc-build-evidence-handoff.schema.json"
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        Draft202012Validator(schema).validate(self.manifest)
 
     def test_accepts_exact_census_binding(self):
         result = self.validate()
