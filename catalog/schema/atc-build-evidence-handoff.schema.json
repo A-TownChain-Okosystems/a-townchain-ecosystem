@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://a-townchain-ecosystem.local/schemas/atc.build-evidence.v1.json",
+  "title": "ATC Engineering Build Evidence Handoff",
+  "description": "Schema for a build-evidence manifest exported by atc-engineering and consumed by the ecosystem control plane. This schema validates structure; it does not by itself prove artifact integrity or functional correctness.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "repository",
+    "source_sha",
+    "checked_out_sha",
+    "event_name",
+    "event_ref",
+    "pr_head_sha",
+    "release_binary_path",
+    "release_binary_sha256",
+    "workflow_ref",
+    "run_id",
+    "run_attempt",
+    "gate_report_path",
+    "gate_report_sha256",
+    "gate_report_schema"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "atc.build-evidence/v1"
+    },
+    "repository": {
+      "type": "string",
+      "minLength": 3
+    },
+    "source_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "checked_out_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "event_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "event_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pr_head_sha": {
+      "type": "string",
+      "minLength": 1
+    },
+    "release_binary_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "release_binary_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "workflow_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "run_attempt": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "gate_report_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "gate_report_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "gate_report_schema": {
+      "const": "atc.gate-report/v1"
+    }
+  }
+}
