@@ -8,6 +8,8 @@ import re
 import sys
 from pathlib import Path
 
+from jsonschema import Draft202012Validator
+
 ROOT = Path(__file__).resolve().parents[2]
 CATALOG = ROOT / "catalog"
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
@@ -31,6 +33,14 @@ def read_json(path: Path):
 def validate_manifest(manifest: dict, census_path: Path, expected_sha: str | None = None) -> dict:
     if not isinstance(manifest, dict):
         fail("evidence manifest must be a JSON object")
+    schema = read_json(CATALOG / "schema" / "atc-build-evidence-handoff.schema.json")
+    schema_errors = sorted(
+        Draft202012Validator(schema).iter_errors(manifest),
+        key=lambda error: list(error.path),
+    )
+    if schema_errors:
+        first = schema_errors[0]
+        fail(f"evidence manifest violates shared schema at {list(first.path)}: {first.message}")
     required = {
         "schema_version", "repository", "source_sha", "checked_out_sha",
         "event_name", "event_ref", "pr_head_sha", "release_binary_path",
