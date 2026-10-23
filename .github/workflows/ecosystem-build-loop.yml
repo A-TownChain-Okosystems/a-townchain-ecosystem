@@ -192,6 +192,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       status: ${{ steps.check.outputs.status }}
+      source_sha: ${{ steps.check.outputs.source_sha }}
     steps:
       - name: Checkout canonical implementation repository
         uses: actions/checkout@v4
@@ -205,9 +206,13 @@ jobs:
         env:
           PROFILE: ${{ needs.plan.outputs.profile }}
           TARGET_REPO: ${{ needs.plan.outputs.repo }}
-          SOURCE_SHA: ${{ github.sha }}
+          CONTROLLER_EVENT_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
+          canonical_source_sha="$(git -C source rev-parse HEAD)"
+          test "${#canonical_source_sha}" -eq 40
+          echo "source_sha=$canonical_source_sha" >> "$GITHUB_OUTPUT"
+          export CANONICAL_SOURCE_SHA="$canonical_source_sha"
           python - <<'PY'
           import json, os
           from pathlib import Path
@@ -240,7 +245,8 @@ jobs:
               "schema_id": "ATC-TEST-ENTRYPOINT-PREFLIGHT-001",
               "target_repo": target,
               "profile": profile,
-              "controller_event_sha": os.environ["SOURCE_SHA"],
+              "controller_event_sha": os.environ["CONTROLLER_EVENT_SHA"],
+              "canonical_source_sha": os.environ["CANONICAL_SOURCE_SHA"],
               "status": status,
               "reason": reason,
           }
@@ -268,7 +274,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: A-TownChain-Okosystems/${{ needs.plan.outputs.repo }}
-          ref: main
+          ref: ${{ needs.test-entrypoint-preflight.outputs.source_sha }}
           path: source
           persist-credentials: false
       - name: Record exact source revision
