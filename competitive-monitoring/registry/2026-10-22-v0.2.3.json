@@ -1,0 +1,152 @@
+{
+  "registry_id": "ATC-COMP-REG-2026-10-22",
+  "registry_version": "0.2.3",
+  "checked_at": "2026-10-22T08:55:48+02:00",
+  "mode": "DELTA_OVERLAY",
+  "extends": "competitive-monitoring/registry/2026-10-21-v0.2.2.json",
+  "full_market_census": false,
+  "deltas": [
+    {
+      "type": "ADD",
+      "id": "BT-AI-AGENT-SECURITY-001",
+      "reason": "Official product moved from private beta to general availability on 2026-10-21.",
+      "entry": {
+        "id": "BT-AI-AGENT-SECURITY-001",
+        "name": "BeyondTrust",
+        "areas": [
+          "Aurora AI",
+          "Agents",
+          "Security architecture"
+        ],
+        "products": [
+          "AI Agent Security",
+          "Pathfinder Platform"
+        ],
+        "why": "Agent discovery, identity attribution, MCP context and pre-execution policy controls for enterprise agent activity.",
+        "urls": {
+          "product": "https://www.beyondtrust.com/products/ai-agent-security",
+          "release_notes": null,
+          "pricing": null,
+          "news": "https://www.beyondtrust.com/press/ai-agent-security-general-availability"
+        },
+        "checked": "2026-10-22",
+        "source_status": "PARTIAL_OFFICIAL_VERIFIED",
+        "unverified": [
+          "pricing and licensing",
+          "Linux support",
+          "supported agent/tool matrix",
+          "release notes/API details"
+        ],
+        "previous": {
+          "date": "2026-10-21",
+          "status": "PRIVATE_BETA"
+        },
+        "snapshot": {
+          "date": "2026-10-22",
+          "status": "STATUS_CHANGED",
+          "release_date": "2026-10-21",
+          "availability": "General Availability on BeyondTrust Pathfinder for Windows and macOS, according to vendor announcement",
+          "features": [
+            "agent discovery",
+            "human/agent activity attribution",
+            "MCP context",
+            "pre-execution policy checks",
+            "JIT or human approval for elevated privileges"
+          ],
+          "prices": null,
+          "telemetry_note": "Vendor-reported 1.28M requested shell commands from about 132K prompts over four weeks; 85% of observed coding-agent users had at least one MCP server. These are vendor telemetry observations, not independently verified measurements."
+        },
+        "limitations": [
+          "GA and platform scope checked against official vendor announcement; pricing, Linux support and integrations not independently tested."
+        ]
+      }
+    },
+    {
+      "type": "UPDATE",
+      "id": "LINUX-KERNEL-001",
+      "reason": "Stable branch 7.2.12 released on 2026-10-21.",
+      "changes": {
+        "checked": "2026-10-22",
+        "unverified": [
+          "full 7.3 change-by-change analysis",
+          "security triage against target hardware",
+          "advisory mapping and target-hardware impact"
+        ],
+        "snapshot": {
+          "date": "2026-10-22",
+          "status": "CHANGED",
+          "mainline": {
+            "version": "7.3",
+            "release_date": "2026-10-19"
+          },
+          "stable": {
+            "branch": "7.2.y",
+            "version": "7.2.12",
+            "release_date": "2026-10-21"
+          },
+          "prices": null
+        },
+        "limitations": [
+          "Mainline 7.3 and stable 6.18.y are separate branches.",
+          "The 7.2.y stable branch is separate from mainline 7.3 and stable 6.18.y; the reported +43% MANA result applies only to one Azure VM forwarding benchmark."
+        ]
+      }
+    },
+    {
+      "type": "UPDATE",
+      "id": "SNOW-EMPLOYEEWORKS-001",
+      "reason": "Official JIT integration with BeyondTrust Entitle announced 2026-10-20; this does not imply an EmployeeWorks availability change.",
+      "changes": {
+        "checked": "2026-10-22",
+        "unverified": [
+          "release notes",
+          "pricing",
+          "regional terms",
+          "integration deployment and license terms"
+        ],
+        "snapshot": {
+          "date": "2026-10-22",
+          "status": "UNCHANGED",
+          "release_date": "2026-10-15",
+          "availability": "EmployeeWorks/ToolSmith/Conversations API controlled availability; AI Passport, Shadow AI Detection and AI Cost Management expected Q4 2026",
+          "prices": null,
+          "features": [
+            "Productivity Assistants",
+            "Productivity Routines",
+            "ToolSmith",
+            "Conversations API"
+          ],
+          "integration_update": {
+            "provider": "BeyondTrust Entitle",
+            "announced": "2026-10-20",
+            "availability": "Reported available by BeyondTrust; deployment and licensing not independently tested",
+            "capabilities": [
+              "JIT access requests",
+              "ServiceNow approval workflows",
+              "audit context"
+            ],
+            "source": "https://www.beyondtrust.com/press/beyondtrust-entitle-servicenow-integration"
+          }
+        }
+      }
+    },
+    {
+      "type": "UPDATE",
+      "id": "LEDGER-ATOM-001",
+      "reason": "Make the price effective-date uncertainty explicit for the price-metadata validation rule.",
+      "changes": {
+        "unverified": [
+          "final specifications",
+          "explicit currency",
+          "delivery window",
+          "price effective date"
+        ]
+      }
+    }
+  ],
+  "notes": [
+    "ID aligned with the report's stable provider ID.",
+    "This is a delta overlay, not a fully expanded registry.",
+    "Claims and URLs are recorded from the report; this commit does not independently re-verify the external vendor evidence."
+  ]
+}
