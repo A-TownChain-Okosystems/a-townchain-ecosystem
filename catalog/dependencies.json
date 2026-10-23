@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-10-22",
+  "status": "NOT_STARTED",
+  "edges": [],
+  "rules": [
+    "Only add an edge with source and target paths pinned to exact commits.",
+    "Use DECLARED_ONLY for manifest/config dependency declarations unless a call/data-flow edge is confirmed.",
+    "Record evidence paths, symbols and relevant line ranges for confirmed edges."
+  ]
+}
