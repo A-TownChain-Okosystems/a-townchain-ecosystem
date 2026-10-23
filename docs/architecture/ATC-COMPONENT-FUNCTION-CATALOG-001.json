@@ -1,8 +1,8 @@
 {
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
-  "catalog_date": "2026-10-16",
-  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed. 2026-10-15: Added proposed COMP-XCHAIN-INTEROP and FN-XCHAIN-001..003 as BLOCKED specification-only catalog entries linked to atc-standards#110 and ecosystem#126. No executable source binding or implementation/verification claim; canonical runtime owner remains unresolved. 2026-10-16: Reconciled proposed FN-GLOBUS-003, FN-AURORA-004 and FN-ECO-003 onto the current main baseline after PR #130 diverged. All three remain RESIDUAL/UNBOUND_RESIDUAL; no implementation or verification claim is made. Structural specification_contract counters reconciled to 104 function contracts and 31 components; functional verification remains false and release decision remains BLOCKED.\n2026-10-16: Reconciled primary and multi-layer mappings to ARCHITECTURE.md (L0-L7 + X), made source-binding counts derivable from 104 function records, and explicitly excluded demo-repository from production-readiness interpretation. These changes improve catalog consistency only; they do not assert source completeness or functional verification.",
+  "catalog_date": "2026-10-18",
+  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed. 2026-10-15: Added proposed COMP-XCHAIN-INTEROP and FN-XCHAIN-001..003 as BLOCKED specification-only catalog entries linked to atc-standards#110 and ecosystem#126. No executable source binding or implementation/verification claim; canonical runtime owner remains unresolved. 2026-10-16: Reconciled proposed FN-GLOBUS-003, FN-AURORA-004 and FN-ECO-003 onto the current main baseline after PR #130 diverged. All three remain RESIDUAL/UNBOUND_RESIDUAL; no implementation or verification claim is made. Structural specification_contract counters reconciled to 104 function contracts and 31 components; functional verification remains false and release decision remains BLOCKED.\n2026-10-16: Reconciled primary and multi-layer mappings to ARCHITECTURE.md (L0-L7 + X), made source-binding counts derivable from 104 function records, and explicitly excluded demo-repository from production-readiness interpretation. These changes improve catalog consistency only; they do not assert source completeness or functional verification.\n2026-10-18: Added FN-GLOBUS-004 as a residual, source-unbound hardware-inventory contract based on GlobusOS PR #92; it records normalized CPU/PCI/ACPI/USB/firmware device locations and lifecycle states without claiming physical probing, MMIO, interrupt routing, BAR programming, or DMA. Linked the service lifecycle contract to the proposed dependency-aware supervisor work in GlobusOS PR #96 using its exact proposed head f7e118d9c5381f094ef70bc20ba59783d2372ade as candidate evidence only; per-process page-table isolation, real syscall trap wiring, production x86_64 user-copy, and a real globus-init executable remain open. Catalog function count is now 105; this is a contract inventory update, not source-census completion or functional verification. Release remains BLOCKED.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -5651,7 +5651,17 @@
               "exit_code",
               "log_or_artifact_url"
             ]
-          }
+          },
+          "candidate_source_bindings": [
+            {
+              "status": "PROPOSED_SOURCE_CANDIDATE_NOT_FUNCTIONALLY_VERIFIED",
+              "source_repository": "A-TownChain-Okosystems/globus-os",
+              "source_path": "modules/atc-shivacore/kernel/src/process.rs and service/init integration paths (PR scope; exact per-symbol mapping pending)",
+              "exact_source_sha": "f7e118d9c5381f094ef70bc20ba59783d2372ade",
+              "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/pull/96",
+              "note": "PR #96 proposes dependency-aware service supervision, staged process registration, capability handoff, scheduler-backed lifecycle, and context-aware syscall dispatch. This candidate head is not the catalog's canonical mainline source binding and is not a functional verification claim. Open gates include production x86_64 UserMemoryReader using the caller's page tables, real syscall/interrupt entry wiring, per-process CR3/page-table isolation and complete PT_LOAD/BSS mapping, and a production globus-init executable over real kernel syscall transport."
+            }
+          ]
         },
         {
           "id": "FN-GLOBUS-002",
@@ -5809,6 +5819,94 @@
             "source_binding_status": "UNBOUND_RESIDUAL",
             "required_evidence": [
               "source_path_and_symbol",
+              "workflow_run_id",
+              "job",
+              "step",
+              "terminal_conclusion",
+              "exit_code",
+              "log_or_artifact_url"
+            ]
+          }
+        },
+        {
+          "id": "FN-GLOBUS-004",
+          "name": "Normalized hardware inventory contract",
+          "purpose": "Represent discovered platform devices through a deterministic, normalized inventory contract while keeping privileged probing and device access behind authorized HAL/device-service boundaries.",
+          "inputs": [
+            "normalized device identifier",
+            "device class and locator (CPU/PCI/ACPI/USB/firmware)",
+            "lifecycle state"
+          ],
+          "outputs": [
+            "validated inventory record",
+            "device lifecycle state",
+            "lookup/update result"
+          ],
+          "failure_modes": [
+            "duplicate device ID or location",
+            "invalid PCI BDF or incomplete locator",
+            "unknown device update",
+            "unsupported or failed device state"
+          ],
+          "acceptance": [
+            "CPU, PCI, ACPI, USB and firmware-backed device locations use normalized fields",
+            "Discovered, Supported, Ready and Failed remain distinct lifecycle states",
+            "Duplicate identifiers/locations and malformed locators are rejected deterministically",
+            "Inventory data structures are not described as physical hardware probing or as authorization to access hardware",
+            "MMIO, interrupt routing, BAR programming and DMA remain in the authorized HAL/device-service boundary"
+          ],
+          "test_classes": [
+            "unit",
+            "invalid-input",
+            "duplicate-record",
+            "integration",
+            "hardware-negative"
+          ],
+          "readiness": "RESIDUAL",
+          "source_binding": {
+            "status": "UNBOUND_RESIDUAL",
+            "source_path": "UNMAPPED",
+            "symbol_or_entrypoint": "PROPOSED_CONTRACT_FROM_GLOBUSOS_PR_92",
+            "exact_source_sha": null,
+            "file_blob_sha": null,
+            "evidence": "https://github.com/A-TownChain-Okosystems/globus-os/pull/92",
+            "note": "PR #92 describes a normalized in-memory hardware-inventory registry and unit-test scope, but this catalog update has not established an exact proposed head SHA or per-symbol/blob mapping. The PR itself states that hardware probing and privileged device operations are not implemented by the inventory primitive.",
+            "binding_kind": "exempt_no_source_binding"
+          },
+          "canonical_owner": "A-TownChain-Okosystems/globus-os",
+          "preconditions": {
+            "status": "RESIDUAL",
+            "reason": "Exact source revision, symbol, input schema and lifecycle transition preconditions require reconciliation against the canonical GlobusOS source."
+          },
+          "postconditions": {
+            "status": "RESIDUAL",
+            "reason": "Record uniqueness, lifecycle updates and failure atomicity require exact-source tests and integration evidence."
+          },
+          "resource_limits": {
+            "status": "RESIDUAL",
+            "reason": "Inventory capacity, enumeration limits and resource exhaustion behavior are not yet specified or verified."
+          },
+          "security_boundary": {
+            "status": "RESIDUAL",
+            "reason": "Inventory metadata does not grant device access; privileged probing, MMIO, interrupts, BAR programming and DMA must remain capability-gated at the HAL/device-service boundary."
+          },
+          "versioning_compatibility": {
+            "status": "RESIDUAL",
+            "reason": "Versioned inventory schema and compatibility guarantees are not yet bound to a canonical API contract."
+          },
+          "dependencies": {
+            "status": "RESIDUAL",
+            "reason": "HAL, firmware enumerator and device-service dependencies require exact interface and call-graph reconciliation."
+          },
+          "verification_evidence": {
+            "status": "RESIDUAL",
+            "reason": "No exact-head CI/test evidence is asserted by this catalog record.",
+            "source_sha": null,
+            "source_binding_status": "UNBOUND_RESIDUAL",
+            "required_evidence": [
+              "exact_source_sha",
+              "source_path_and_symbol",
+              "file_blob_sha",
               "workflow_run_id",
               "job",
               "step",
