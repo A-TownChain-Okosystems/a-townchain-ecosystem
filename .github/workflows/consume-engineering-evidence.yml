@@ -1,0 +1,96 @@
+name: Consume atc-engineering evidence handoff
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful atc-engineering Actions run ID (push to main only)
+        required: true
+        type: string
+      expected_sha:
+        description: Independently inspected full 40-character atc-engineering main SHA
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  consume-engineering-evidence:
+    name: Verify source run and bind manifest to census
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ecosystem control-plane revision
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install schema validator
+        run: python -m pip install --disable-pip-version-check 'jsonschema>=4.20,<5'
+
+      - name: Validate source run identity and download its evidence artifact
+        env:
+          GH_TOKEN: ${{ secrets.ATC_FLEET_READ_TOKEN }}
+          RUN_ID: ${{ inputs.run_id }}
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$RUN_ID" =~ ^[1-9][0-9]*$ ]]
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test -n "${GH_TOKEN:-}" || { echo "BLOCKED: ATC_FLEET_READ_TOKEN is not configured"; exit 1; }
+
+          run_json="$(gh api "repos/A-TownChain-Okosystems/atc-engineering/actions/runs/$RUN_ID")"
+          test "$(jq -r '.id' <<<"$run_json")" = "$RUN_ID"
+          test "$(jq -r '.event' <<<"$run_json")" = "push"
+          test "$(jq -r '.head_branch' <<<"$run_json")" = "main"
+          test "$(jq -r '.status' <<<"$run_json")" = "completed"
+          test "$(jq -r '.conclusion' <<<"$run_json")" = "success"
+          test "$(jq -r '.head_sha' <<<"$run_json")" = "$EXPECTED_SHA"
+
+          artifacts_json="$(gh api "repos/A-TownChain-Okosystems/atc-engineering/actions/runs/$RUN_ID/artifacts")"
+          artifact="$(jq -ce '[.artifacts[] | select(.name == "atc-engineering-gate-evidence" and .expired == false)] | if length == 1 then .[0] else error("expected exactly one unexpired engineering evidence artifact") end' <<<"$artifacts_json")"
+          artifact_id="$(jq -r '.id' <<<"$artifact")"
+          artifact_digest="$(jq -r '.digest // empty' <<<"$artifact")"
+          [[ "$artifact_id" =~ ^[1-9][0-9]*$ ]]
+          [[ "$artifact_digest" =~ ^sha256:[0-9a-f]{64}$ ]]
+
+          mkdir -p "$RUNNER_TEMP/engineering-evidence"
+          gh api "repos/A-TownChain-Okosystems/atc-engineering/actions/artifacts/$artifact_id/zip" > "$RUNNER_TEMP/evidence.zip"
+          actual_zip_digest="sha256:$(sha256sum "$RUNNER_TEMP/evidence.zip" | cut -d ' ' -f 1)"
+          test "$actual_zip_digest" = "$artifact_digest"
+          unzip -q "$RUNNER_TEMP/evidence.zip" -d "$RUNNER_TEMP/engineering-evidence"
+          cd "$RUNNER_TEMP/engineering-evidence"
+          sha256sum --check SHA256SUMS
+
+          test "$(cat source-sha.txt)" = "$EXPECTED_SHA"
+          test "$(cat checked-out-sha.txt)" = "$EXPECTED_SHA"
+          test "$(cat event-name.txt)" = "push"
+          test "$(cat event-ref.txt)" = "refs/heads/main"
+          test "$(cat pr-head-sha.txt)" = "N/A (push event: no PR-head context)"
+
+          test "$(jq -r '.source_sha' evidence-manifest.json)" = "$EXPECTED_SHA"
+          test "$(jq -r '.checked_out_sha' evidence-manifest.json)" = "$EXPECTED_SHA"
+          test "$(jq -r '.repository' evidence-manifest.json)" = "A-TownChain-Okosystems/atc-engineering"
+          test "$(jq -r '.event_name' evidence-manifest.json)" = "push"
+          test "$(jq -r '.event_ref' evidence-manifest.json)" = "refs/heads/main"
+          test "$(jq -r '.pr_head_sha' evidence-manifest.json)" = "N/A (push event: no PR-head context)"
+          test "$(sha256sum atc-audit-cli | cut -d ' ' -f 1)" = "$(jq -r '.release_binary_sha256' evidence-manifest.json)"
+          test "$(sha256sum gate-report.json | cut -d ' ' -f 1)" = "$(jq -r '.gate_report_sha256' evidence-manifest.json)"
+
+          echo "EVIDENCE_MANIFEST=$RUNNER_TEMP/engineering-evidence/evidence-manifest.json" >> "$GITHUB_ENV"
+
+      - name: Bind evidence manifest to canonical organization census
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+        run: |
+          set -euo pipefail
+          python catalog/scripts/validate_engineering_handoff.py \
+            --manifest "$EVIDENCE_MANIFEST" \
+            --census catalog/repositories.json \
+            --expected-sha "$EXPECTED_SHA"
