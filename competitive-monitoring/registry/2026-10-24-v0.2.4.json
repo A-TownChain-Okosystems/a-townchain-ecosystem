@@ -1,0 +1,513 @@
+{
+  "registry_id": "ATC-COMP-REG-2026-10-24",
+  "registry_version": "0.2.4",
+  "checked_at": "2026-10-24",
+  "mode": "DELTA_OVERLAY",
+  "extends": "competitive-monitoring/registry/2026-10-22-expanded-v0.2.3.json",
+  "full_market_census": false,
+  "deltas": [
+    {
+      "type": "UPDATE",
+      "id": "ETHEREUM-ROADMAP-001",
+      "reason": "The Ethereum Foundation's official 2026-10-22 update postponed the previously scheduled Hoodi Glamsterdam activation and removed the scheduled 200M gas-limit increase; no replacement date is set.",
+      "changes": {
+        "checked": "2026-10-24",
+        "source_url": "https://blog.ethereum.org/2026/10/22/glamsterdam-hoodi-delay",
+        "urls": {
+          "product": "https://ethereum.org/roadmap/",
+          "release_notes": "https://ethereum.org/roadmap/glamsterdam/",
+          "pricing": null,
+          "news": "https://blog.ethereum.org/2026/10/22/glamsterdam-hoodi-delay"
+        },
+        "previous": {
+          "date": "2026-10-21",
+          "status": "BASELINE",
+          "availability": "The roadmap page listed Hoodi as the next milestone for 2026-10-27; the Ethereum Foundation's Hoodi announcement scheduled activation for 2026-10-26 17:42:48 UTC."
+        },
+        "snapshot": {
+          "date": "2026-10-24",
+          "status": "STATUS_CHANGED",
+          "version": "Glamsterdam",
+          "announcement_date": "2026-10-22",
+          "availability_date": null,
+          "availability": "The Hoodi activation scheduled for 2026-10-26 17:42:48 UTC (epoch 132,352) was postponed on 2026-10-22. No replacement epoch or timestamp is set. The planned Hoodi gas-limit increase to 200M was removed. Mainnet activation remains unconfirmed.",
+          "activation_status": "POSTPONED",
+          "mainnet_target": "Q4 2026; exact date unconfirmed",
+          "next_milestone": null,
+          "features": [
+            "enshrined proposer-builder separation",
+            "block-level access lists",
+            "gas-pricing changes intended to better reflect execution cost and state growth"
+          ],
+          "prices": null,
+          "source_url": "https://blog.ethereum.org/2026/10/22/glamsterdam-hoodi-delay",
+          "correction_note": "The Ethereum Foundation update supersedes the earlier Hoodi schedule. Client release tables must not be treated as proof that a given client release includes the postponement unless its own release notes explicitly confirm it."
+        },
+        "unverified": [
+          "replacement Hoodi activation date",
+          "mainnet activation date",
+          "client-specific release notes confirming the postponed schedule"
+        ],
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "atc-standards; a-townchain-ecosystem for integration/evidence only",
+        "ARCHITECTURE_GAP": "Potential governance check: bind activation state to explicit testnet, epoch/time, execution/consensus client versions and release-note evidence. A repository-level gap was not audited here.",
+        "IMPLEMENTATION_PRIORITY": "P1 — protocol governance and release-evidence benchmark",
+        "ACCEPTANCE_CRITERIA": [
+          "No activation is treated as scheduled without an official epoch/time and client-version matrix.",
+          "Execution and consensus client release notes explicitly confirm the applicable network configuration.",
+          "Superseded activation dates are marked withdrawn and cannot remain active in operator guidance."
+        ],
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "PARTIAL_OFFICIAL_ROADMAP_VERIFIED"
+      }
+    },
+    {
+      "type": "UPDATE",
+      "id": "LINUX-KERNEL-001",
+      "reason": "Official kernel.org archive rechecked on 2026-10-24; latest visible mainline is 7.3 (2026-10-19) and latest 7.2.y stable release is 7.2.12 (2026-10-21), so no new release delta was found.",
+      "changes": {
+        "checked": "2026-10-24",
+        "previous": {
+          "date": "2026-10-22",
+          "status": "CHANGED",
+          "mainline": {
+            "version": "7.3",
+            "release_date": "2026-10-19"
+          },
+          "stable": {
+            "branch": "7.2.y",
+            "version": "7.2.12",
+            "release_date": "2026-10-21"
+          }
+        },
+        "snapshot": {
+          "date": "2026-10-24",
+          "status": "UNCHANGED",
+          "mainline": {
+            "version": "7.3",
+            "release_date": "2026-10-19"
+          },
+          "stable": {
+            "branch": "7.2.y",
+            "version": "7.2.12",
+            "release_date": "2026-10-21"
+          },
+          "latest_archive_checked": "2026-10-24",
+          "prices": null
+        },
+        "source_url": "https://kernel.org/pub/linux/kernel/v7.x/"
+      }
+    },
+    {
+      "type": "UPDATE",
+      "id": "GOOGLE-GEMINI-ARGON-001",
+      "reason": "Official Gemini model/pricing documentation rechecked on 2026-10-24; current published rates match the prior snapshot, including the announced 2026-12-01 transition. Product-area mapping narrowed to direct/adjacent research-agent scope.",
+      "changes": {
+        "checked": "2026-10-24",
+        "areas": [
+          "Aurora AI",
+          "Agents",
+          "Research Factory"
+        ],
+        "previous": {
+          "date": "2026-10-21",
+          "status": "UNCHANGED",
+          "version": "gemini-4-argon",
+          "price_note": "USD $2/1M input and $10/1M output through 2026-11-30; $4/$20 from 2026-12-01."
+        },
+        "snapshot": {
+          "date": "2026-10-24",
+          "status": "UNCHANGED",
+          "release_date": "2026-10-13",
+          "version": "gemini-4-argon",
+          "availability": "Gemini app, Gemini API and AI Studio; channel/subscription restrictions apply",
+          "features": [
+            "1M input/output token window",
+            "long decode up to 1M tokens",
+            "tunable thinking"
+          ],
+          "prices": [
+            {
+              "tier": "Standard",
+              "item": "input",
+              "currency": "USD",
+              "per_1m_tokens": 2,
+              "effective_until": "2026-11-30",
+              "billing": "usage"
+            },
+            {
+              "tier": "Standard",
+              "item": "input",
+              "currency": "USD",
+              "per_1m_tokens": 4,
+              "effective_from": "2026-12-01",
+              "billing": "usage"
+            },
+            {
+              "tier": "Standard",
+              "item": "cached input",
+              "currency": "USD",
+              "per_1m_tokens": 0.1,
+              "effective_until": "2026-11-30",
+              "billing": "usage"
+            },
+            {
+              "tier": "Standard",
+              "item": "cached input",
+              "currency": "USD",
+              "per_1m_tokens": 0.2,
+              "effective_from": "2026-12-01",
+              "billing": "usage"
+            },
+            {
+              "tier": "Standard",
+              "item": "output incl. thinking",
+              "currency": "USD",
+              "per_1m_tokens": 10,
+              "effective_until": "2026-11-30",
+              "billing": "usage"
+            },
+            {
+              "tier": "Standard",
+              "item": "output incl. thinking",
+              "currency": "USD",
+              "per_1m_tokens": 20,
+              "effective_from": "2026-12-01",
+              "billing": "usage"
+            },
+            {
+              "tier": "Batch",
+              "item": "input",
+              "currency": "USD",
+              "per_1m_tokens": 1,
+              "effective_until": "2026-11-30",
+              "billing": "usage"
+            },
+            {
+              "tier": "Batch",
+              "item": "input",
+              "currency": "USD",
+              "per_1m_tokens": 2,
+              "effective_from": "2026-12-01",
+              "billing": "usage"
+            }
+          ],
+          "source_url": "https://ai.google.dev/gemini-api/docs/generate-content/latest-model",
+          "price_note": "No new price change identified in this check; the announced December 1, 2026 rate transition remains in effect."
+        }
+      }
+    },
+    {
+      "type": "UPDATE",
+      "id": "METAMASK-AGENT-WALLET-001",
+      "reason": "Official launch page rechecked on 2026-10-24. It still describes limited CLI early access and a summer 2026 GA target; no current GA confirmation was found, so the entry remains UNVERIFIED.",
+      "changes": {
+        "checked": "2026-10-24",
+        "previous": {
+          "date": "2026-10-21",
+          "status": "UNVERIFIED",
+          "availability": "Limited CLI early access; GA expected in summer 2026; current GA not confirmed."
+        },
+        "snapshot": {
+          "date": "2026-10-24",
+          "status": "UNVERIFIED",
+          "release_date": "2026-06-08",
+          "availability": "The official launch page still describes limited CLI early access and says general availability is expected in summer 2026. As of 2026-10-24, no current official GA confirmation was found.",
+          "features": [
+            "transaction simulation",
+            "Transaction Protection threat scanning",
+            "MEV protection",
+            "daily spend limits",
+            "allowlisted protocols",
+            "2FA approval for flagged or out-of-policy transactions"
+          ],
+          "prices": null,
+          "source_url": "https://metamask.io/en-GB/news/metamask-launches-agent-wallet-giving-ai-agents-full-defi-access-with-default-security-on-every-transaction"
+        }
+      }
+    },
+    {
+      "type": "UPDATE",
+      "id": "WINDOWS-11-2610-001",
+      "reason": "Official Microsoft release-health source rechecked; it records two issue resolutions delivered on 2026-10-13 by KB5127648. This is a snapshot-completeness correction, not a new Windows release on 2026-10-24.",
+      "changes": {
+        "checked": "2026-10-24",
+        "previous": {
+          "date": "2026-10-21",
+          "status": "BASELINE",
+          "version": "Windows 11 26H2",
+          "availability": "GA announced 2026-09-29; phased rollout."
+        },
+        "snapshot": {
+          "date": "2026-10-24",
+          "status": "CHANGED",
+          "version": "Windows 11 26H2",
+          "availability": "General availability announced 2026-09-29; phased rollout.",
+          "known_issue_status": [
+            {
+              "issue": "Black screen or desktop-loading issues after sign-in",
+              "status": "RESOLVED",
+              "resolution_date": "2026-10-13",
+              "update": "KB5127648"
+            },
+            {
+              "issue": "Some applications using AC-3 audio decoding may close unexpectedly",
+              "status": "RESOLVED",
+              "resolution_date": "2026-10-13",
+              "update": "KB5127648"
+            }
+          ],
+          "prices": null,
+          "source_url": "https://learn.microsoft.com/en-us/windows/release-health/resolved-issues-windows-11-26H2",
+          "correction_note": "These issue resolutions were published before this monitoring date and are captured as a snapshot-completeness correction, not as a new release on 2026-10-24."
+        },
+        "source_url": "https://learn.microsoft.com/en-us/windows/release-health/resolved-issues-windows-11-26H2",
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "globus-os/modules/atc-shivacore/kernel/ and GlobusOS desktop/runtime SSOT; exact desktop SSOT path to confirm",
+        "ARCHITECTURE_GAP": "Reference only: release-health regressions in desktop startup and media paths should inform test coverage. No equivalent ShivaCore gap was audited in this run.",
+        "IMPLEMENTATION_PRIORITY": "P2 — use as regression-test reference, not as a product-change signal",
+        "ACCEPTANCE_CRITERIA": [
+          "Boot/login and desktop-session recovery tests are repeatable in QEMU and target hardware profiles.",
+          "Audio-decoding and application-session regressions have explicit tests where those features exist.",
+          "Release-health evidence is tied to a build/version and exact test result."
+        ],
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "PARTIAL_OFFICIAL_RELEASE_HEALTH_VERIFIED"
+      }
+    },
+    {
+      "type": "UPDATE",
+      "id": "SNOW-EMPLOYEEWORKS-001",
+      "reason": "Registry taxonomy normalization: EmployeeWorks/ToolSmith are classified as enterprise agent/workflow capabilities, not a Research Factory product line. Arc receives a separate product-level stable ID.",
+      "changes": {
+        "areas": [
+          "Aurora AI",
+          "Agents",
+          "Business Factory"
+        ]
+      }
+    },
+    {
+      "type": "UPDATE",
+      "id": "OPENAI-AGENTS-SDK-001",
+      "reason": "Registry taxonomy normalization: the Agents SDK is treated as an agent/research enablement layer; no direct Business Factory product claim is made.",
+      "changes": {
+        "areas": [
+          "Aurora AI",
+          "Agents",
+          "Research Factory"
+        ]
+      }
+    },
+    {
+      "type": "ADD",
+      "id": "SNOW-ARC-001",
+      "reason": "First product-specific baseline for ServiceNow Arc, whose official general-availability announcement was published on 2026-10-21; this is a newly captured baseline, not a launch on 2026-10-24.",
+      "entry": {
+        "id": "SNOW-ARC-001",
+        "name": "ServiceNow",
+        "areas": [
+          "Aurora AI",
+          "Agents",
+          "Security architecture"
+        ],
+        "products": [
+          "Arc",
+          "Super Intelligence Control Tower",
+          "NVIDIA OpenShell enforcement architecture",
+          "AI Passport (future integration)"
+        ],
+        "why": "Long-running enterprise agent with memory/skills and policy enforcement at runtime; a direct benchmark for native agent authority and containment.",
+        "urls": {
+          "product": null,
+          "release_notes": null,
+          "pricing": null,
+          "news": "https://investor.servicenow.com/news/news-details/2026/ServiceNow-delivers-industry-first-personal-enterprise-agent-and-policy-enforcement-with-NVIDIA-extending-AI-governance-across-software-and-silicon/default.aspx"
+        },
+        "source_url": "https://investor.servicenow.com/news/news-details/2026/ServiceNow-delivers-industry-first-personal-enterprise-agent-and-policy-enforcement-with-NVIDIA-extending-AI-governance-across-software-and-silicon/default.aspx",
+        "checked": "2026-10-24",
+        "source_status": "PARTIAL_OFFICIAL_VERIFIED",
+        "unverified": [
+          "dedicated product page",
+          "separate release notes/changelog",
+          "underlying Foundation, Advanced and Prime SKU prices",
+          "exact Windows rollout date",
+          "AI Passport GA and BlueField enforcement availability",
+          "regional availability"
+        ],
+        "previous": null,
+        "snapshot": {
+          "date": "2026-10-24",
+          "status": "BASELINE",
+          "publication_date": "2026-10-21",
+          "availability_date": "2026-10-21 (GA announced by vendor)",
+          "availability": "Generally available as part of ServiceNow EmployeeWorks. The announcement says it is included at no additional cost with Foundation, Advanced and Prime SKUs; Mac support is live and Windows support is expected within weeks. AI Passport enforcement with NVIDIA OpenShell and BlueField is described as a future release.",
+          "features": [
+            "long-running autonomous task ownership across workflows, email, Teams and other productivity tools",
+            "memory and skills that develop over time",
+            "runtime policy enforcement through Super Intelligence Control Tower and NVIDIA OpenShell",
+            "local inference option on NVIDIA RTX Spark for everyday tasks",
+            "action-level restrictions and revocation; vendor states propagation can be approximately one second"
+          ],
+          "prices": null,
+          "pricing_note": "Arc is described as included with specified ServiceNow SKUs, not as a separately priced product. Underlying SKU tariffs are not stated in the checked announcement."
+        },
+        "limitations": [
+          "The GA announcement is official, but the dedicated product page, standalone tariff, Windows availability date and future AI Passport release are not independently confirmed."
+        ],
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "aurora-ai; globus-os/modules/atc-shivacore/kernel/ for enforcement boundaries",
+        "ARCHITECTURE_GAP": "Candidate comparison: long-running task lifecycle, memory/skills, and action-level runtime policy enforcement. The current native implementation gap has not been audited in this monitoring run.",
+        "IMPLEMENTATION_PRIORITY": "P1 — compare against existing Aurora Runtime and Authority Plane before implementation",
+        "ACCEPTANCE_CRITERIA": [
+          "Agent identity and delegated capabilities are explicit and revocable.",
+          "Tool/API/data access is denied by default and enforced at runtime.",
+          "Long-running tasks persist checkpoints without memory granting permissions.",
+          "Revocation and denial events are auditable and tied to an exact policy version."
+        ],
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "PARTIAL_OFFICIAL_VERIFIED"
+      }
+    },
+    {
+      "type": "ADD",
+      "id": "ARIS-PROCESS-CONTEXT-001",
+      "reason": "First official-source baseline for ARIS Process Context for Enterprise AI, announced 2026-10-20 with availability stated from 2026-10-26.",
+      "entry": {
+        "id": "ARIS-PROCESS-CONTEXT-001",
+        "name": "ARIS",
+        "areas": [
+          "Research Factory",
+          "Agents"
+        ],
+        "products": [
+          "Process Context for Enterprise AI",
+          "Object-Centric Process Mining",
+          "Process Lens",
+          "MCP process context"
+        ],
+        "why": "Provides process, role, system, rule, risk and control context to enterprise agents; adjacent benchmark for evidence-backed research and workflow planning.",
+        "urls": {
+          "product": null,
+          "release_notes": null,
+          "pricing": null,
+          "news": "https://aris.com/newsroom/aris-launches-process-context-for-enterprise-ai/"
+        },
+        "source_url": "https://aris.com/newsroom/aris-launches-process-context-for-enterprise-ai/",
+        "checked": "2026-10-24",
+        "source_status": "PARTIAL_OFFICIAL_VERIFIED",
+        "unverified": [
+          "dedicated product page",
+          "public pricing/tariffs",
+          "release notes/changelog",
+          "regional rollout details",
+          "independent validation of vendor-reported study results"
+        ],
+        "previous": null,
+        "snapshot": {
+          "date": "2026-10-24",
+          "status": "BASELINE",
+          "publication_date": "2026-10-20",
+          "availability_date": "2026-10-26",
+          "availability": "Announced; ARIS says the product is available from 2026-10-26 and therefore was not yet generally available on this check date.",
+          "features": [
+            "Object-Centric Process Mining to connect process design with execution evidence",
+            "Process Lens to identify where AI may have the greatest impact",
+            "MCP access to trusted process, role, system, rule, risk and control context",
+            "Digital Twin of the Organization"
+          ],
+          "prices": null,
+          "vendor_research_note": "The announcement cites a joint ARIS/The Hackett Group study. Its survey percentages are vendor-published and were not independently validated in this monitoring run."
+        },
+        "limitations": [
+          "Availability is future-dated relative to this check. Public tariffs, dedicated release notes and independent product validation were not found."
+        ],
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "aurora-ai for agent/context interfaces; Research Factory SSOT not confirmed in this run",
+        "ARCHITECTURE_GAP": "Potential capability to assess: versioned process-context graph connecting evidence, actors, systems, rules, risks and controls. Existing native coverage has not been audited here.",
+        "IMPLEMENTATION_PRIORITY": "P1 — architecture research; no implementation commitment until SSOT and gap are confirmed",
+        "ACCEPTANCE_CRITERIA": [
+          "Process context is versioned and every claim links to source evidence.",
+          "Agent queries are capability-scoped and return provenance plus freshness metadata.",
+          "Process, actor, system, risk and control relationships can be tested deterministically.",
+          "No external process-context service is required at runtime."
+        ],
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "PARTIAL_OFFICIAL_VERIFIED"
+      }
+    },
+    {
+      "type": "ADD",
+      "id": "ORACLE-FUSION-CLAW-001",
+      "reason": "First official-source baseline for Oracle Fusion Claw and its HR applications; the latest cited HR announcement is dated 2026-10-21.",
+      "entry": {
+        "id": "ORACLE-FUSION-CLAW-001",
+        "name": "Oracle",
+        "areas": [
+          "Business Factory",
+          "Agents"
+        ],
+        "products": [
+          "Oracle Fusion Claw",
+          "Fusion Agentic Applications",
+          "Fusion Agentic Applications for HR",
+          "Oracle AI Agent Studio"
+        ],
+        "why": "Governed, long-running agent execution across enterprise outcomes, combining reasoning with deterministic computation, continuous replanning and human-approved actions.",
+        "urls": {
+          "product": null,
+          "release_notes": null,
+          "pricing": null,
+          "news": "https://www.oracle.com/news/announcement/oracle-introduces-claw-powered-fusion-agentic-applications-for-hr-2026-10-20/"
+        },
+        "source_url": "https://www.oracle.com/news/announcement/oracle-introduces-claw-powered-fusion-agentic-applications-for-hr-2026-10-20/",
+        "checked": "2026-10-24",
+        "source_status": "PARTIAL_OFFICIAL_VERIFIED",
+        "unverified": [
+          "dedicated product page for Fusion Claw",
+          "public pricing/tariffs",
+          "release notes/changelog",
+          "exact SKU and regional rollout for HR applications",
+          "deployment prerequisites and customer-level availability"
+        ],
+        "previous": null,
+        "snapshot": {
+          "date": "2026-10-24",
+          "status": "BASELINE",
+          "release_date": "2026-09-29",
+          "latest_announcement_date": "2026-10-21",
+          "availability": "Oracle's September 29 announcement said 25 Claw-powered Fusion Agentic Applications were available. The October 21 HR announcement describes new applications within Fusion Cloud HCM as available; exact SKU/region rollout was not independently confirmed.",
+          "features": [
+            "long-running execution and continuous replanning",
+            "AI reasoning combined with deterministic enterprise computation",
+            "governed execution within organizational objectives, permissions and constraints",
+            "human review and approval for actions",
+            "outcome receipt with authority, evidence, decisions, actions and results"
+          ],
+          "prices": null
+        },
+        "limitations": [
+          "The evidence is an official product announcement; it does not establish public pricing or availability for every SKU and region."
+        ],
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "aurora-ai for agent orchestration; Business Factory SSOT not confirmed in this run",
+        "ARCHITECTURE_GAP": "Potential capability to assess: deterministic execution steps and auditable outcome receipts around long-running agent tasks. Existing native coverage has not been audited here.",
+        "IMPLEMENTATION_PRIORITY": "P1 — compare against native factory pipeline before roadmap commitment",
+        "ACCEPTANCE_CRITERIA": [
+          "Each business outcome has an explicit objective, authority, policy and approval boundary.",
+          "Deterministic computations are separated from model-generated reasoning.",
+          "Every action and result is captured in a verifiable outcome record.",
+          "No external enterprise-agent runtime is required for core factory execution."
+        ],
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "PARTIAL_OFFICIAL_VERIFIED"
+      }
+    }
+  ],
+  "notes": [
+    "This overlay is relative to the 2026-10-22 expanded registry, not a full market census.",
+    "ADD records are first-time product baselines, not claims that the launch occurred on 2026-10-24.",
+    "External products are research benchmarks only; EXTERNAL_RUNTIME_DEPENDENCY=false remains the target constraint.",
+    "Official sources were checked for the findings stated in the report. Missing product pages, changelogs and tariffs remain null/UNVERIFIED."
+  ]
+}
