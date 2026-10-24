@@ -16,6 +16,7 @@ on:
       - "competitive-monitoring/registry/**"
       - "competitive-monitoring/tools/**"
       - "competitive-monitoring/tests/**"
+      - "competitive-monitoring/reports/**"
       - ".github/workflows/competitive-monitoring-validation.yml"
 
 permissions:
