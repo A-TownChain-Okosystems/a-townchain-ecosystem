@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-228",
+  "timestamp": "2026-10-24T07:21:40.207134Z",
+  "category": "change",
+  "title": "PR #228: fix(ci): fail closed on missing canonical test entry point",
+  "context": "Pull request 228 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/228",
+    "commit": "2292bf9c290c99fe025ef0598e4cfa5216b41622"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\n## Scope\n\nAdd a pre-build test-entrypoint gate to the catalog-driven ecosystem build loop.\n\n## Behavior\n\n- For `npm-build`, inspect the checked-out canonical repository's `package.json` before the build job starts.\n- Missing, invalid, or empty `scripts.test` yields explicit `BLOCKED` evidence and prevents the build job from running.\n- A successful preflight records the canonical source SHA; the build job checks out that exact SHA, avoiding a preflight/build revision race.\n- Does not substitute lint or build success for functional tests; no auto-merge or release behavior added.\n\n## Verification\n\nDraft pending GitHub Actions on the exact PR head. Expected acceptance: the current `atc-ide` target is blocked before build because `scripts.test` is absent; preflight artifact records the reason; build job is skipped."
+}

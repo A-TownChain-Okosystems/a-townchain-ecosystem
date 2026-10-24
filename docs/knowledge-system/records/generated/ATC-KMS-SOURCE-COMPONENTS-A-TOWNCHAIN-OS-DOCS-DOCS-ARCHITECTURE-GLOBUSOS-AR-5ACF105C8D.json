@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-DOCS-ARCHITECTURE-GLOBUSOS-AR-5ACF105C8D",
-  "timestamp": "2026-10-23T16:10:40.714937Z",
+  "timestamp": "2026-10-24T07:21:40.207134Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/docs/architecture/GLOBUSOS_ARCHITECTURE_WHITEPAPER_V0.9.1.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/docs/architecture/GLOBUSOS_ARCHITECTURE_WHITEPAPER_V0.9.1.md",
-    "commit": "b18e16918b57ebe4ee02b87df1b713e65381aadf"
+    "commit": "2292bf9c290c99fe025ef0598e4cfa5216b41622"
   },
   "tags": [
     "generated",

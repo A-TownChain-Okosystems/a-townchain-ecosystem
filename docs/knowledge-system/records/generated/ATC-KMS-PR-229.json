@@ -1,0 +1,22 @@
+{
+  "id": "ATC-KMS-PR-229",
+  "timestamp": "2026-10-24T07:21:40.207134Z",
+  "category": "change",
+  "title": "PR #229: Competitive monitoring report and registry v0.2.4 — 2026-10-24",
+  "context": "Pull request 229 in A-TownChain-Okosystems/a-townchain-ecosystem.",
+  "priority": "P2",
+  "status": "active",
+  "version": "v1.0.0",
+  "source": {
+    "type": "pr",
+    "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/229",
+    "commit": "2292bf9c290c99fe025ef0598e4cfa5216b41622"
+  },
+  "tags": [
+    "generated",
+    "github",
+    "pull-request"
+  ],
+  "links": [],
+  "content": "State: open\nMerged: False\nDraft: True\n\n## Purpose\n\nDaily targeted official-source review for 2026-10-24, compared with expanded registry v0.2.3 from 2026-10-22.\n\n## Changes\n\n- Add versioned delta overlay and expanded registry snapshot v0.2.4.\n- Record the Ethereum Foundation's Hoodi Glamsterdam postponement as STATUS_CHANGED.\n- Add first product-level baselines for ServiceNow Arc, ARIS Process Context for Enterprise AI, and Oracle Fusion Claw / HR agentic applications.\n- Refresh selected official-source snapshots for Linux, Gemini pricing, MetaMask availability and Windows 11 release health.\n- Narrow product-area taxonomy for the Google model/API, OpenAI Agents SDK and ServiceNow EmployeeWorks entries.\n- Add the dated report and point the validation workflow at the latest base/overlay/template files.\n\n## Scope and evidence limits\n\nThis is a targeted official-source review, not a full market census. First-time ADD records are baselines; their product announcement dates are preserved separately from this report's check date. Missing product pages, changelogs, tariffs and regional availability remain null/UNVERIFIED.\n\nThe existing scheduled workflow validates registry structure; it does not perform source crawling. No claim is made that daily source collection is already automated.\n\n## Acceptance\n\n- Draft only; do not merge until the latest exact-head validation run passes and the source claims are reviewed.\n- A green validator proves registry/schema checks only, not vendor claims or operational monitoring.\n- External runtime dependency remains false as the native implementation target."
+}

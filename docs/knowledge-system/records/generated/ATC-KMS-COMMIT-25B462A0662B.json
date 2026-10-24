@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-25B462A0662B",
-  "timestamp": "2026-10-23T16:10:40.714937Z",
+  "timestamp": "2026-10-24T07:21:40.207134Z",
   "category": "change",
   "title": "Commit: feat(l1): define L1 Boot, Firmware & Hardware Abstraction contracts (Issue #136)",
   "context": "Git commit 25b462a0662baefcb8f828506ff192cf2ecbb07d on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/25b462a0662baefcb8f828506ff192cf2ecbb07d",
-    "commit": "b18e16918b57ebe4ee02b87df1b713e65381aadf"
+    "commit": "2292bf9c290c99fe025ef0598e4cfa5216b41622"
   },
   "tags": [
     "commit",
