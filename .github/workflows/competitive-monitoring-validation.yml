@@ -24,8 +24,10 @@ jobs:
   validate-registry:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout exact PR head or pushed commit
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -59,13 +61,15 @@ jobs:
         run: |
           mkdir -p competitive-monitoring/evidence
           python - <<'PY'
-          import json, os, pathlib
+          import json, os, pathlib, subprocess
+          checkout_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
           payload = {
               "workflow": os.environ.get("GITHUB_WORKFLOW"),
               "run_id": os.environ.get("GITHUB_RUN_ID"),
               "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
               "commit_sha": "${{ github.event.pull_request.head.sha || github.sha }}",
-              "workflow_checkout_sha": os.environ.get("GITHUB_SHA"),
+              "workflow_checkout_sha": checkout_sha,
+              "event_sha": os.environ.get("GITHUB_SHA"),
               "event_name": os.environ.get("GITHUB_EVENT_NAME"),
               "unit_tests_outcome": "${{ steps.unit_tests.outcome }}",
               "reproducibility_outcome": "${{ steps.reproducibility.outcome }}",
