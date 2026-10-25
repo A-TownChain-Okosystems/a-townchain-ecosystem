@@ -41,23 +41,23 @@ jobs:
         id: reproducibility
         run: |
           python competitive-monitoring/tools/resolve_registry.py \
-            --base competitive-monitoring/registry/2026-10-22-expanded-v0.2.3.json \
-            --overlay competitive-monitoring/registry/2026-10-24-v0.2.4.json \
-            --template competitive-monitoring/registry/2026-10-24-expanded-v0.2.4.json \
+            --base competitive-monitoring/registry/2026-10-24-expanded-v0.2.4.json \
+            --overlay competitive-monitoring/registry/2026-10-25-v0.2.5.json \
+            --template competitive-monitoring/registry/2026-10-25-expanded-v0.2.5.json \
             --output "$RUNNER_TEMP/resolved-a.json"
           python competitive-monitoring/tools/resolve_registry.py \
-            --base competitive-monitoring/registry/2026-10-22-expanded-v0.2.3.json \
-            --overlay competitive-monitoring/registry/2026-10-24-v0.2.4.json \
-            --template competitive-monitoring/registry/2026-10-24-expanded-v0.2.4.json \
+            --base competitive-monitoring/registry/2026-10-24-expanded-v0.2.4.json \
+            --overlay competitive-monitoring/registry/2026-10-25-v0.2.5.json \
+            --template competitive-monitoring/registry/2026-10-25-expanded-v0.2.5.json \
             --output "$RUNNER_TEMP/resolved-b.json"
           cmp "$RUNNER_TEMP/resolved-a.json" "$RUNNER_TEMP/resolved-b.json"
       - name: Validate expanded registry and overlay operations
         id: registry_validation
         run: |
           python competitive-monitoring/tools/validate_registry.py \
-            --registry competitive-monitoring/registry/2026-10-22-expanded-v0.2.3.json \
-            --base competitive-monitoring/registry/2026-10-22-expanded-v0.2.3.json \
-            --overlay competitive-monitoring/registry/2026-10-24-v0.2.4.json
+            --registry competitive-monitoring/registry/2026-10-25-expanded-v0.2.5.json \
+            --base competitive-monitoring/registry/2026-10-24-expanded-v0.2.4.json \
+            --overlay competitive-monitoring/registry/2026-10-25-v0.2.5.json
       - name: Emit machine-readable validation evidence
         if: always()
         run: |
