@@ -12,7 +12,7 @@
   "applied_overlay": {
     "path": "competitive-monitoring/registry/2026-10-25-v0.2.5.json",
     "version": "0.2.5",
-    "blob_sha": "1bb23f5e718e7c40e3ce29698f52d98cc7aad251"
+    "blob_sha": "d8dda1ad2bc0cecd7aff19e68724a68f7176db3b"
   },
   "scope": {
     "status": "TARGETED_OFFICIAL_SOURCE_REVIEW",
@@ -677,7 +677,7 @@
         "pricing": null,
         "news": null
       },
-      "checked": "2026-10-24",
+      "checked": "2026-10-25",
       "source_status": "OFFICIAL_RELEASE_ARCHIVES_VERIFIED",
       "unverified": [
         "full 7.3 change-by-change analysis",
@@ -685,8 +685,8 @@
         "advisory mapping and target-hardware impact"
       ],
       "previous": {
-        "date": "2026-10-22",
-        "status": "CHANGED",
+        "date": "2026-10-24",
+        "status": "UNCHANGED",
         "mainline": {
           "version": "7.3",
           "release_date": "2026-10-19"
@@ -698,7 +698,7 @@
         }
       },
       "snapshot": {
-        "date": "2026-10-24",
+        "date": "2026-10-25",
         "status": "UNCHANGED",
         "mainline": {
           "version": "7.3",
@@ -709,7 +709,7 @@
           "version": "7.2.12",
           "release_date": "2026-10-21"
         },
-        "latest_archive_checked": "2026-10-24",
+        "latest_archive_checked": "2026-10-25",
         "prices": null
       },
       "limitations": [
@@ -791,7 +791,7 @@
         "pricing": "https://bubble.io/pricing/workload",
         "news": "https://bubble.io/blog/agent-2/"
       },
-      "checked": "2026-10-21",
+      "checked": "2026-10-25",
       "source_status": "OFFICIAL_PRODUCT_AND_PRICING_ANNOUNCEMENT_VERIFIED",
       "unverified": [
         "regional taxes",
@@ -799,15 +799,15 @@
         "separate release notes"
       ],
       "previous": {
-        "date": "2026-10-19",
-        "status": "ANNOUNCED_PENDING_EFFECTIVE_DATE",
-        "price_note": "Price change announced for 2026-10-20; old annual rate $29/month if purchased before that date."
-      },
-      "snapshot": {
         "date": "2026-10-21",
         "status": "STATUS_CHANGED",
+        "price_note": "Starter Web price change effective 2026-10-20; the new price was already reflected in the prior snapshot."
+      },
+      "snapshot": {
+        "date": "2026-10-25",
+        "status": "UNCHANGED",
         "release_date": "2026-10-06",
-        "availability": "Agent 2 available to all apps; Bubble MCP public beta",
+        "availability": "Agent 2 remains available to all apps; Bubble MCP remains public beta. The MCP announcement states it does not consume Bubble AI credits and cannot read logs, merge branches or deploy.",
         "features": [
           "AI credits",
           "MCP does not consume Bubble AI credits",
@@ -819,42 +819,48 @@
             "currency": "USD",
             "amount_per_month": 39,
             "billing": "monthly",
-            "effective_date": "2026-10-20"
+            "effective_date": "2026-10-20",
+            "region": "official U.S. pricing page; tax/region variations not verified"
           },
           {
             "plan": "Starter Web",
             "currency": "USD",
             "amount_per_month": 32,
             "billing": "annual, monthly equivalent",
-            "effective_date": "2026-10-20"
+            "effective_date": "2026-10-20",
+            "region": "official U.S. pricing page; tax/region variations not verified"
           },
           {
             "plan": "Starter Mobile",
             "currency": "USD",
             "amount_per_month": 49,
             "billing": "monthly",
-            "effective_date": "2026-10-20 (supported by Bubble's official pricing article)"
+            "effective_date": "2026-10-20 (official pricing article)",
+            "region": "official U.S. pricing page; tax/region variations not verified"
           },
           {
             "plan": "Starter Mobile",
             "currency": "USD",
             "amount_per_month": 42,
             "billing": "annual, monthly equivalent",
-            "effective_date": "2026-10-20 (supported by Bubble's official pricing article)"
+            "effective_date": "2026-10-20 (official pricing article)",
+            "region": "official U.S. pricing page; tax/region variations not verified"
           },
           {
             "plan": "Starter Web & Mobile",
             "currency": "USD",
             "amount_per_month": 69,
             "billing": "monthly",
-            "effective_date": "2026-10-20 (supported by Bubble's official pricing article)"
+            "effective_date": "2026-10-20 (official pricing article)",
+            "region": "official U.S. pricing page; tax/region variations not verified"
           },
           {
             "plan": "Starter Web & Mobile",
             "currency": "USD",
             "amount_per_month": 59,
             "billing": "annual, monthly equivalent",
-            "effective_date": "2026-10-20 (supported by Bubble's official pricing article)"
+            "effective_date": "2026-10-20 (official pricing article)",
+            "region": "official U.S. pricing page; tax/region variations not verified"
           }
         ],
         "ai_credits_per_app_month": {
@@ -863,7 +869,12 @@
           "Growth": 2000,
           "Team": 4000,
           "Agency": 1000
-        }
+        },
+        "source_url": "https://bubble.io/faq",
+        "source_urls": [
+          "https://bubble.io/blog/agent-2/",
+          "https://bubble.io/faq"
+        ]
       },
       "limitations": [
         "Published price transition verified; no authenticated checkout test."
