@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-ISSUE-210",
-  "timestamp": "2026-10-24T07:21:40.207134Z",
+  "timestamp": "2026-10-25T07:37:51.410918Z",
   "category": "discussion",
   "title": "Issue #210: [P2] Define Sybil/fraud resistance, dispute handling and compute reputation model",
   "context": "Issue 210 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "issue",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/210",
-    "commit": "2292bf9c290c99fe025ef0598e4cfa5216b41622"
+    "commit": "1cb338bb2cc78188e78ef8f78ccbdbe51b8ce29c"
   },
   "tags": [
     "generated",

@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-A1B70DB65578",
-  "timestamp": "2026-10-24T07:21:40.207134Z",
+  "timestamp": "2026-10-25T07:37:51.410918Z",
   "category": "change",
   "title": "Commit: feat(l2): define L2 ShivaCore Kernel & TCB contracts (Issue #137)",
   "context": "Git commit a1b70db655785a074845112dc3c211665ca44ae7 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/a1b70db655785a074845112dc3c211665ca44ae7",
-    "commit": "2292bf9c290c99fe025ef0598e4cfa5216b41622"
+    "commit": "1cb338bb2cc78188e78ef8f78ccbdbe51b8ce29c"
   },
   "tags": [
     "commit",

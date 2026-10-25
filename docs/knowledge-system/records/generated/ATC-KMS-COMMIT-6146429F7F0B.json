@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-6146429F7F0B",
-  "timestamp": "2026-10-24T07:21:40.207134Z",
+  "timestamp": "2026-10-25T07:37:51.410918Z",
   "category": "change",
   "title": "Commit: audit: add exact-blob duplicate comparison evidence",
   "context": "Git commit 6146429f7f0baedd99b662333b4285069b9cbddc on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/6146429f7f0baedd99b662333b4285069b9cbddc",
-    "commit": "2292bf9c290c99fe025ef0598e4cfa5216b41622"
+    "commit": "1cb338bb2cc78188e78ef8f78ccbdbe51b8ce29c"
   },
   "tags": [
     "commit",
