@@ -217,10 +217,10 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "crates/atc-evidence/src/lib.rs",
             "symbol_or_entrypoint": "validate",
-            "exact_source_sha": "2e91ec61ac6680566cbe9b525406a9752c31e539",
-            "file_blob_sha": "5bea1f27a09dfda18d59bfd91550cde77a3aa599",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-engineering/blob/2e91ec61ac6680566cbe9b525406a9752c31e539/crates/atc-evidence/src/lib.rs",
-            "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: validate at crates/atc-evidence/src/lib.rs (additional related symbols in the original qualified mapping: EvidenceRecord::{validate,to_json,write_to})."
+            "exact_source_sha": "38ab42e81847ac6bc03c2d288ec7a9b8a940c670",
+            "file_blob_sha": "5dd34c63488b46dd7fc74dd40b0224a25663125a",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-engineering/blob/38ab42e81847ac6bc03c2d288ec7a9b8a940c670/crates/atc-evidence/src/lib.rs",
+            "note": "The validate entry symbol was confirmed in the file at this exact repository commit. This is a lexical source mapping only; functional correctness, tests, full symbol coverage, and component inventory reconciliation remain unverified."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-engineering",
           "preconditions": {
@@ -250,7 +250,7 @@
           "verification_evidence": {
             "status": "RESIDUAL",
             "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "2e91ec61ac6680566cbe9b525406a9752c31e539",
+            "source_sha": "38ab42e81847ac6bc03c2d288ec7a9b8a940c670",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
