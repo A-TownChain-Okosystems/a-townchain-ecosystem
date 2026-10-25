@@ -654,6 +654,128 @@
         "EXTERNAL_RUNTIME_DEPENDENCY": false,
         "EVIDENCE_STATUS": "PARTIAL_OFFICIAL_RELEASE_HEALTH_VERIFIED"
       }
+    },
+    {
+      "type": "UPDATE",
+      "id": "BUBBLE-AI-001",
+      "reason": "Rechecked Bubble's official Agent 2 announcement and pricing FAQ. The web-only Starter price change effective 2026-10-20 remains as previously recorded; no additional price change was found. This confirms the prior price-status change rather than reporting a new one.",
+      "changes": {
+        "checked": "2026-10-25",
+        "previous": {
+          "date": "2026-10-21",
+          "status": "STATUS_CHANGED",
+          "price_note": "Starter Web price change effective 2026-10-20; the new price was already reflected in the prior snapshot."
+        },
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "UNCHANGED",
+          "release_date": "2026-10-06",
+          "availability": "Agent 2 remains available to all apps; Bubble MCP remains public beta. The MCP announcement states it does not consume Bubble AI credits and cannot read logs, merge branches or deploy.",
+          "features": [
+            "AI credits",
+            "MCP does not consume Bubble AI credits",
+            "MCP beta cannot read logs, merge branches or deploy"
+          ],
+          "prices": [
+            {
+              "plan": "Starter Web",
+              "currency": "USD",
+              "amount_per_month": 39,
+              "billing": "monthly",
+              "effective_date": "2026-10-20",
+              "region": "official U.S. pricing page; tax/region variations not verified"
+            },
+            {
+              "plan": "Starter Web",
+              "currency": "USD",
+              "amount_per_month": 32,
+              "billing": "annual, monthly equivalent",
+              "effective_date": "2026-10-20",
+              "region": "official U.S. pricing page; tax/region variations not verified"
+            },
+            {
+              "plan": "Starter Mobile",
+              "currency": "USD",
+              "amount_per_month": 49,
+              "billing": "monthly",
+              "effective_date": "2026-10-20 (official pricing article)",
+              "region": "official U.S. pricing page; tax/region variations not verified"
+            },
+            {
+              "plan": "Starter Mobile",
+              "currency": "USD",
+              "amount_per_month": 42,
+              "billing": "annual, monthly equivalent",
+              "effective_date": "2026-10-20 (official pricing article)",
+              "region": "official U.S. pricing page; tax/region variations not verified"
+            },
+            {
+              "plan": "Starter Web & Mobile",
+              "currency": "USD",
+              "amount_per_month": 69,
+              "billing": "monthly",
+              "effective_date": "2026-10-20 (official pricing article)",
+              "region": "official U.S. pricing page; tax/region variations not verified"
+            },
+            {
+              "plan": "Starter Web & Mobile",
+              "currency": "USD",
+              "amount_per_month": 59,
+              "billing": "annual, monthly equivalent",
+              "effective_date": "2026-10-20 (official pricing article)",
+              "region": "official U.S. pricing page; tax/region variations not verified"
+            }
+          ],
+          "ai_credits_per_app_month": {
+            "Free": 500,
+            "Starter": 1000,
+            "Growth": 2000,
+            "Team": 4000,
+            "Agency": 1000
+          },
+          "source_url": "https://bubble.io/faq",
+          "source_urls": [
+            "https://bubble.io/blog/agent-2/",
+            "https://bubble.io/faq"
+          ]
+        }
+      }
+    },
+    {
+      "type": "UPDATE",
+      "id": "LINUX-KERNEL-001",
+      "reason": "Rechecked the official kernel.org v7.x archive on 2026-10-25. Mainline 7.3 (2026-10-19) and stable 7.2.12 (2026-10-21) remain the latest listed versions; no newer 7.2.y point release was found. Snapshot refreshed as UNCHANGED.",
+      "changes": {
+        "checked": "2026-10-25",
+        "previous": {
+          "date": "2026-10-24",
+          "status": "UNCHANGED",
+          "mainline": {
+            "version": "7.3",
+            "release_date": "2026-10-19"
+          },
+          "stable": {
+            "branch": "7.2.y",
+            "version": "7.2.12",
+            "release_date": "2026-10-21"
+          }
+        },
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "UNCHANGED",
+          "mainline": {
+            "version": "7.3",
+            "release_date": "2026-10-19"
+          },
+          "stable": {
+            "branch": "7.2.y",
+            "version": "7.2.12",
+            "release_date": "2026-10-21"
+          },
+          "latest_archive_checked": "2026-10-25",
+          "prices": null
+        }
+      }
     }
   ],
   "notes": [
