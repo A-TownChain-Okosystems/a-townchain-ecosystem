@@ -1,8 +1,8 @@
 {
   "schema_id": "ATC-COMPONENT-FUNCTION-CATALOG-001",
   "schema_version": "1.0.0",
-  "catalog_date": "2026-10-16",
-  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed. 2026-10-15: Added proposed COMP-XCHAIN-INTEROP and FN-XCHAIN-001..003 as BLOCKED specification-only catalog entries linked to atc-standards#110 and ecosystem#126. No executable source binding or implementation/verification claim; canonical runtime owner remains unresolved. 2026-10-16: Reconciled proposed FN-GLOBUS-003, FN-AURORA-004 and FN-ECO-003 onto the current main baseline after PR #130 diverged. All three remain RESIDUAL/UNBOUND_RESIDUAL; no implementation or verification claim is made. Structural specification_contract counters reconciled to 104 function contracts and 31 components; functional verification remains false and release decision remains BLOCKED.\n2026-10-16: Reconciled primary and multi-layer mappings to ARCHITECTURE.md (L0-L7 + X), made source-binding counts derivable from 104 function records, and explicitly excluded demo-repository from production-readiness interpretation. These changes improve catalog consistency only; they do not assert source completeness or functional verification.",
+  "catalog_date": "2026-10-25",
+  "catalog_revision_note": "2026-10-12: Expanded COMP-VM to 29 function contracts, covering VM core/context, assembler entrypoint and parsing/simulation helpers, and CLI runner functions. Source mapped at a-townchain HEAD 0419b444dec4749cec7b146950d1304f5a406c25. Binary ATCB decoding remains unevidenced; functionally verified/release-ready status is not claimed. 2026-10-15: Added proposed COMP-XCHAIN-INTEROP and FN-XCHAIN-001..003 as BLOCKED specification-only catalog entries linked to atc-standards#110 and ecosystem#126. No executable source binding or implementation/verification claim; canonical runtime owner remains unresolved. 2026-10-16: Reconciled proposed FN-GLOBUS-003, FN-AURORA-004 and FN-ECO-003 onto the current main baseline after PR #130 diverged. All three remain RESIDUAL/UNBOUND_RESIDUAL; no implementation or verification claim is made. Structural specification_contract counters reconciled to 104 function contracts and 31 components; functional verification remains false and release decision remains BLOCKED.\n2026-10-16: Reconciled primary and multi-layer mappings to ARCHITECTURE.md (L0-L7 + X), made source-binding counts derivable from 104 function records, and explicitly excluded demo-repository from production-readiness interpretation. These changes improve catalog consistency only; they do not assert source completeness or functional verification.\n2026-10-25: Reconciled COMP-IDE source bindings and inventory against current atc-ide HEAD 40a07acbbb2f240f0d409e97bd0262b8c63688b4. src/App.tsx blob b9aa3c7712e8149b016ea23c97edea31cb1abf9b and src/components/AtcVmSimulatorPanel.tsx blob 67e55a6502d2bd21f4363559304143bc212048f8 contain the catalog-mapped symbols. package.json blob 2714a41ecd906d8b398d9833193e75a29f143328 has no non-empty scripts.test; functional verification remains unclaimed and the build-loop blocker remains open.",
   "status": "BASELINE_RESIDUAL",
   "authority": {
     "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
@@ -9232,9 +9232,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "src/App.tsx",
             "symbol_or_entrypoint": "lintLumino",
-            "exact_source_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
+            "exact_source_sha": "40a07acbbb2f240f0d409e97bd0262b8c63688b4",
             "file_blob_sha": "b9aa3c7712e8149b016ea23c97edea31cb1abf9b",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-ide/blob/2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a/src/App.tsx",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-ide/blob/40a07acbbb2f240f0d409e97bd0262b8c63688b4/src/App.tsx",
             "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: lintLumino at src/App.tsx (additional related symbols in the original qualified mapping: lintLumino, FileState, LintError)."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-ide",
@@ -9264,8 +9264,8 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
+            "reason": "Source binding refreshed against current exact source SHA; no terminal functional-verification evidence is asserted.",
+            "source_sha": "40a07acbbb2f240f0d409e97bd0262b8c63688b4",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -9310,9 +9310,9 @@
             "status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "source_path": "src/components/AtcVmSimulatorPanel.tsx",
             "symbol_or_entrypoint": "AtcVmSimulatorPanel",
-            "exact_source_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
+            "exact_source_sha": "40a07acbbb2f240f0d409e97bd0262b8c63688b4",
             "file_blob_sha": "67e55a6502d2bd21f4363559304143bc212048f8",
-            "evidence": "https://github.com/A-TownChain-Okosystems/atc-ide/blob/2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a/src/components/AtcVmSimulatorPanel.tsx",
+            "evidence": "https://github.com/A-TownChain-Okosystems/atc-ide/blob/40a07acbbb2f240f0d409e97bd0262b8c63688b4/src/components/AtcVmSimulatorPanel.tsx",
             "note": "Symbol mapping is grounded in the inspected file at the recorded repository commit; runtime correctness, tests, and completeness remain unverified. Census-verified symbol: AtcVmSimulatorPanel at src/components/AtcVmSimulatorPanel.tsx (additional related symbols in the original qualified mapping: AtcVmSimulatorPanel, VmState, VmInstruction)."
           },
           "canonical_owner": "A-TownChain-Okosystems/atc-ide",
@@ -9342,8 +9342,8 @@
           },
           "verification_evidence": {
             "status": "RESIDUAL",
-            "reason": "No terminal exact-SHA verification evidence is asserted. Source mapping alone is not a test result.",
-            "source_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
+            "reason": "Source binding refreshed against current exact source SHA; no terminal functional-verification evidence is asserted.",
+            "source_sha": "40a07acbbb2f240f0d409e97bd0262b8c63688b4",
             "source_binding_status": "SOURCE_MAPPED_NOT_FUNCTIONALLY_VERIFIED",
             "required_evidence": [
               "workflow_run_id",
@@ -9359,14 +9359,18 @@
       "source_inventory": {
         "repository": "A-TownChain-Okosystems/atc-ide",
         "canonical_path": ".",
-        "observed_head_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
-        "observed_tree_sha": "553ef11c7d2ced67ac06662b91bc0e28f1cc23a4",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-ide/commits/main",
-        "source_paths_examined": [],
+        "observed_head_sha": "40a07acbbb2f240f0d409e97bd0262b8c63688b4",
+        "observed_tree_sha": "93d4d6353588e04d1ca81ae35a580e5b50fbae63",
+        "census_date": "2026-10-25",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/atc-ide/commit/40a07acbbb2f240f0d409e97bd0262b8c63688b4",
+        "source_paths_examined": [
+          "src/App.tsx",
+          "src/components/AtcVmSimulatorPanel.tsx",
+          "package.json"
+        ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list."
+        "status_reason": "Current default-branch HEAD and both catalog-bound source files were inspected at the exact commit. The mapped symbols are present, but exported-symbol completeness and functional correctness remain unverified. package.json has no non-empty scripts.test, so the catalog build loop remains BLOCKED."
       },
       "canonical_path": ".",
       "role_and_non_goals": {
@@ -9417,14 +9421,18 @@
       "source_inventory_with_exact_head_and_tree_sha": {
         "repository": "A-TownChain-Okosystems/atc-ide",
         "canonical_path": ".",
-        "observed_head_sha": "2a17feda7ed136ea2df8c01e2c4848d2cb9cac8a",
-        "observed_tree_sha": "553ef11c7d2ced67ac06662b91bc0e28f1cc23a4",
-        "census_date": "2026-10-11",
-        "evidence_source": "https://api.github.com/repos/A-TownChain-Okosystems/atc-ide/commits/main",
-        "source_paths_examined": [],
+        "observed_head_sha": "40a07acbbb2f240f0d409e97bd0262b8c63688b4",
+        "observed_tree_sha": "93d4d6353588e04d1ca81ae35a580e5b50fbae63",
+        "census_date": "2026-10-25",
+        "evidence_source": "https://github.com/A-TownChain-Okosystems/atc-ide/commit/40a07acbbb2f240f0d409e97bd0262b8c63688b4",
+        "source_paths_examined": [
+          "src/App.tsx",
+          "src/components/AtcVmSimulatorPanel.tsx",
+          "package.json"
+        ],
         "exported_symbols_reconciled": false,
         "completeness_status": "RESIDUAL",
-        "status_reason": "Census SHA is recorded, but the source tree and exported functions have not yet been enumerated and reconciled against this contract list.",
+        "status_reason": "Current default-branch HEAD and both catalog-bound source files were inspected at the exact commit. The mapped symbols are present, but exported-symbol completeness and functional correctness remain unverified. package.json has no non-empty scripts.test, so the catalog build loop remains BLOCKED.",
         "status": "RESIDUAL"
       },
       "test_and_ci_gates": {
