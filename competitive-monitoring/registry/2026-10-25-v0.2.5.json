@@ -22,10 +22,12 @@
           "date": "2026-10-25",
           "status": "UNCHANGED",
           "version": "Glamsterdam",
-          "publication_date": "2026-10-22",
+          "announcement_date": "2026-10-22",
           "availability_date": null,
           "availability": "The Hoodi activation previously scheduled for 2026-10-26 17:42:48 UTC (epoch 132,352) remains postponed. No replacement epoch or timestamp is set; the planned 200M gas-limit increase remains removed. Mainnet activation remains unconfirmed.",
-          "current_market_status": "POSTPONED",
+          "activation_status": "POSTPONED",
+          "mainnet_target": "Q4 2026; exact date unconfirmed",
+          "next_milestone": null,
           "features": [
             "enshrined proposer-builder separation",
             "block-level access lists",
@@ -33,6 +35,8 @@
           ],
           "prices": null,
           "source_url": "https://blog.ethereum.org/en/2026/10/22/glamsterdam-hoodi-delay",
+          "correction_note": "The Ethereum Foundation update supersedes the earlier Hoodi schedule. Client release tables must not be treated as proof that a given client release includes the postponement unless its own release notes explicitly confirm it.",
+          "current_market_status": "POSTPONED",
           "recheck_note": "Official source rechecked on 2026-10-25; no replacement date or mainnet activation date published."
         }
       }
@@ -59,8 +63,6 @@
           "date": "2026-10-25",
           "status": "UNCHANGED",
           "release_date": "2026-08-06 (official early-access launch announcement)",
-          "availability_date": "2026-08-06 (early-access launch announced; GA date unverified)",
-          "current_market_status": "EARLY_ACCESS; GA UNVERIFIED",
           "availability": "MetaMask states Agent Wallet is live for accepted early-access users through CLI/agent frameworks. The same official page says General Availability is coming 'this summer' but provides no current replacement date; as of 2026-10-25 GA is not confirmed.",
           "features": [
             "self-custodial agent wallet",
@@ -75,6 +77,8 @@
           ],
           "prices": null,
           "source_url": "https://metamask.io/news/introducing-metamask-agent-wallet",
+          "availability_date": "2026-08-06 (early-access launch announced; GA date unverified)",
+          "current_market_status": "EARLY_ACCESS; GA UNVERIFIED",
           "source_urls": [
             "https://metamask.io/news/introducing-metamask-agent-wallet",
             "https://metamask.io/en-GB/news/metamask-launches-agent-wallet-giving-ai-agents-full-defi-access-with-default-security-on-every-transaction"
