@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-7151BF1BD1E6",
-  "timestamp": "2026-10-25T16:50:38.845123Z",
+  "timestamp": "2026-10-25T16:52:09.251980Z",
   "category": "change",
   "title": "Commit: fix(catalog): reconcile Globus and Aurora contracts with main",
   "context": "Git commit 7151bf1bd1e6c7ad875ca5386e07a67a87697735 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/7151bf1bd1e6c7ad875ca5386e07a67a87697735",
-    "commit": "fdf08c46d92edca8734d928ed9e8971498b92a5c"
+    "commit": "33e270e9167640971302206e01bd205fac4a2a02"
   },
   "tags": [
     "commit",

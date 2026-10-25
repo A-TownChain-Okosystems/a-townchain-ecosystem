@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-ISSUE-208",
-  "timestamp": "2026-10-25T16:50:38.845123Z",
+  "timestamp": "2026-10-25T16:52:09.251980Z",
   "category": "discussion",
   "title": "Issue #208: [P1] Verify compute result attestations independently and block unsafe settlement",
   "context": "Issue 208 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "issue",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/issues/208",
-    "commit": "fdf08c46d92edca8734d928ed9e8971498b92a5c"
+    "commit": "33e270e9167640971302206e01bd205fac4a2a02"
   },
   "tags": [
     "generated",

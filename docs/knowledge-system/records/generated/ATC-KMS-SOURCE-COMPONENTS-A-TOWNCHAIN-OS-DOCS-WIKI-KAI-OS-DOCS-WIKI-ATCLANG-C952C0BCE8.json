@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-OS-DOCS-WIKI-KAI-OS-DOCS-WIKI-ATCLANG-C952C0BCE8",
-  "timestamp": "2026-10-25T16:50:38.845123Z",
+  "timestamp": "2026-10-25T16:52:09.251980Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain-os-docs/wiki/kai-os/docs/wiki/atclang/docs/CONTRIBUTING.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain-os-docs/wiki/kai-os/docs/wiki/atclang/docs/CONTRIBUTING.md",
-    "commit": "fdf08c46d92edca8734d928ed9e8971498b92a5c"
+    "commit": "33e270e9167640971302206e01bd205fac4a2a02"
   },
   "tags": [
     "generated",

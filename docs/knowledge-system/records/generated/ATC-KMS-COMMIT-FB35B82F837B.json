@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-FB35B82F837B",
-  "timestamp": "2026-10-25T16:50:38.845123Z",
+  "timestamp": "2026-10-25T16:52:09.251980Z",
   "category": "change",
   "title": "Commit: docs(architecture): add versioned Aurora ecosystem specification",
   "context": "Git commit fb35b82f837b6cc067b7cbfed262f5635bcb7c92 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/fb35b82f837b6cc067b7cbfed262f5635bcb7c92",
-    "commit": "fdf08c46d92edca8734d928ed9e8971498b92a5c"
+    "commit": "33e270e9167640971302206e01bd205fac4a2a02"
   },
   "tags": [
     "commit",

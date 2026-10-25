@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-D7F38F0961D7",
-  "timestamp": "2026-10-25T16:50:38.845123Z",
+  "timestamp": "2026-10-25T16:52:09.251980Z",
   "category": "change",
   "title": "Commit: governance: add fail-closed delivery registry validator",
   "context": "Git commit d7f38f0961d7f9fc1d6da21e537dc2af848c334a on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/d7f38f0961d7f9fc1d6da21e537dc2af848c334a",
-    "commit": "fdf08c46d92edca8734d928ed9e8971498b92a5c"
+    "commit": "33e270e9167640971302206e01bd205fac4a2a02"
   },
   "tags": [
     "commit",

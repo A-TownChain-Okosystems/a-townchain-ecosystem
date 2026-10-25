@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-A27B754A1F4E",
-  "timestamp": "2026-10-25T16:50:38.845123Z",
+  "timestamp": "2026-10-25T16:52:09.251980Z",
   "category": "change",
   "title": "Commit: feat(catalog): add fail-closed taxonomy validator",
   "context": "Git commit a27b754a1f4e2f9db2b0f303a614da297d70a3f1 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/a27b754a1f4e2f9db2b0f303a614da297d70a3f1",
-    "commit": "fdf08c46d92edca8734d928ed9e8971498b92a5c"
+    "commit": "33e270e9167640971302206e01bd205fac4a2a02"
   },
   "tags": [
     "commit",
