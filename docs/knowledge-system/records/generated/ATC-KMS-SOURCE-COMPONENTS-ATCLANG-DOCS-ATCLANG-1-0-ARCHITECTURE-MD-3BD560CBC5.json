@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-ATCLANG-DOCS-ATCLANG-1-0-ARCHITECTURE-MD-3BD560CBC5",
-  "timestamp": "2026-10-25T07:37:51.410918Z",
+  "timestamp": "2026-10-25T16:50:38.845123Z",
   "category": "evidence",
   "title": "Indexed source: components/atclang/docs/ATCLANG_1.0_ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/atclang/docs/ATCLANG_1.0_ARCHITECTURE.md",
-    "commit": "1cb338bb2cc78188e78ef8f78ccbdbe51b8ce29c"
+    "commit": "fdf08c46d92edca8734d928ed9e8971498b92a5c"
   },
   "tags": [
     "generated",
