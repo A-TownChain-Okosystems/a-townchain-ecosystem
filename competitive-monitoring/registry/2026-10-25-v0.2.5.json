@@ -776,6 +776,122 @@
           "prices": null
         }
       }
+    },
+    {
+      "type": "ADD",
+      "id": "ANTHROPIC-SONNET-5-5-001",
+      "reason": "First product-level baseline captured from Anthropic's official 2026-10-07 model/pricing announcement. The vendor's Sonnet cache-read price cut occurred on 2026-10-07; because no reliable prior Sonnet snapshot exists in v0.2.4, the registry classification is BASELINE, not CHANGED relative to the prior registry.",
+      "entry": {
+        "id": "ANTHROPIC-SONNET-5-5-001",
+        "name": "Anthropic",
+        "areas": [
+          "Aurora AI",
+          "Agents",
+          "Research Factory"
+        ],
+        "products": [
+          "Claude Sonnet 5.5",
+          "Claude Platform API"
+        ],
+        "why": "Higher-capability agentic coding and knowledge-work model; its token and cache-read economics affect model routing and Research Factory unit costs.",
+        "urls": {
+          "product": "https://www.anthropic.com/claude-haiku-5-5",
+          "release_notes": null,
+          "pricing": "https://www.anthropic.com/claude/haiku",
+          "news": "https://www.anthropic.com/news/models"
+        },
+        "source_url": "https://www.anthropic.com/claude-haiku-5-5",
+        "checked": "2026-10-25",
+        "source_status": "OFFICIAL_DOCS_AND_PRICING_VERIFIED",
+        "unverified": [
+          "separate Sonnet 5.5 product changelog",
+          "effective date of Sonnet input/output/cache-write rates not separately stated in the checked announcement",
+          "regional eligibility and contractual terms"
+        ],
+        "previous": null,
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "BASELINE",
+          "publication_date": "2026-10-07 (Sonnet cache-read price reduction announced as effective immediately)",
+          "availability_date": null,
+          "version": "claude-sonnet-5-5",
+          "current_market_status": "AVAILABLE",
+          "availability": "Claude Sonnet 5.5 is listed in Anthropic's official model/pricing comparison. The 2026-10-07 announcement says its cache-read price was reduced starting that day; the current listing shows USD 0.10 per 1M cache-read tokens.",
+          "features": [
+            "higher-capability agentic coding and knowledge-work model",
+            "cache-aware pricing relevant to multi-step agent workflows",
+            "pairs with Haiku 5.5 as a higher-capability lead model and lower-cost subagent"
+          ],
+          "prices": [
+            {
+              "tier": "API usage",
+              "item": "input tokens",
+              "currency": "USD",
+              "per_1m_tokens": 2,
+              "billing": "usage per 1M tokens",
+              "effective_date": "current price displayed in 2026-10-07 announcement; separate effective date not stated",
+              "region": "regional eligibility not stated",
+              "scope": "Claude Platform API"
+            },
+            {
+              "tier": "API usage",
+              "item": "output tokens",
+              "currency": "USD",
+              "per_1m_tokens": 10,
+              "billing": "usage per 1M tokens",
+              "effective_date": "current price displayed in 2026-10-07 announcement; separate effective date not stated",
+              "region": "regional eligibility not stated",
+              "scope": "Claude Platform API"
+            },
+            {
+              "tier": "API usage",
+              "item": "cache-read tokens",
+              "currency": "USD",
+              "per_1m_tokens": 0.1,
+              "billing": "usage per 1M tokens",
+              "effective_date": "2026-10-07 (vendor states 'starting today')",
+              "region": "regional eligibility not stated",
+              "scope": "Claude Platform API; previous vendor-stated rate USD 0.20 per 1M tokens"
+            },
+            {
+              "tier": "API usage",
+              "item": "cache-write tokens",
+              "currency": "USD",
+              "per_1m_tokens": 2.5,
+              "billing": "usage per 1M tokens",
+              "effective_date": "current price displayed in 2026-10-07 announcement; separate effective date not stated",
+              "region": "regional eligibility not stated",
+              "scope": "Claude Platform API"
+            }
+          ],
+          "price_change_in_vendor_announcement": {
+            "item": "cache-read tokens",
+            "previous_amount_per_1m_tokens": 0.2,
+            "current_amount_per_1m_tokens": 0.1,
+            "currency": "USD",
+            "effective_date": "2026-10-07",
+            "vendor_claimed_reduction_percent": 50,
+            "classification": "BASELINE — no previous reliable Anthropic Sonnet product snapshot existed in registry v0.2.4; this is not a change relative to the prior registry snapshot."
+          },
+          "source_url": "https://www.anthropic.com/claude-haiku-5-5",
+          "source_urls": [
+            "https://www.anthropic.com/claude-haiku-5-5",
+            "https://www.anthropic.com/claude/haiku",
+            "https://www.anthropic.com/news/models"
+          ]
+        },
+        "limitations": [
+          "The 2026-10-07 cache-read price reduction is a vendor-published historical change captured as a first baseline, not a change today.",
+          "No independent workload cost benchmark was run.",
+          "Regional availability and effective dates for the other displayed rates remain unverified."
+        ],
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "aurora-ai; atc-standards for provider/capability policy",
+        "ARCHITECTURE_GAP": "Pricing benchmark only; no local-model or end-to-end task-cost comparison was run.",
+        "IMPLEMENTATION_PRIORITY": "P2 — use in model-routing cost benchmarks; retain local-first and provider-independent architecture.",
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "OFFICIAL_DOCS_AND_PRICING_VERIFIED"
+      }
     }
   ],
   "notes": [
