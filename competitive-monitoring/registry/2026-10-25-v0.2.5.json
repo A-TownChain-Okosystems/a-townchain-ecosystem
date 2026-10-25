@@ -73,7 +73,8 @@
             "MEV protection",
             "2FA approval for flagged or out-of-policy transactions",
             "supported EVM chains and HyperLiquid",
-            "gas fees can be settled in the token being moved"
+            "gas fees can be settled in the token being moved",
+            "vendor-stated Transaction Protection coverage up to USD 10,000 per month for eligible transactions meeting the published conditions"
           ],
           "prices": null,
           "source_url": "https://metamask.io/news/introducing-metamask-agent-wallet",
@@ -523,7 +524,9 @@
           "exact supported network list at launch",
           "per-country bank-transfer fees and limits",
           "availability outside eligible U.S. residents",
-          "separate release notes/changelog"
+          "separate release notes/changelog",
+          "currency for variable bank-transfer fees not published",
+          "effective date for bank-transfer fee schedule not published"
         ],
         "previous": null,
         "snapshot": {
@@ -601,7 +604,7 @@
         ],
         "why": "Adjacent desktop OS competitor and reference for hardware support matrices, security-release cadence and version-specific vulnerability remediation.",
         "urls": {
-          "product": "https://www.apple.com/macos/",
+          "product": "https://www.apple.com/os/macos/",
           "release_notes": "https://support.apple.com/en-us/100100",
           "pricing": null,
           "news": null
@@ -611,27 +614,31 @@
         "source_status": "PARTIAL_OFFICIAL_RELEASE_HEALTH_VERIFIED",
         "unverified": [
           "standalone operating-system price (not listed as a separate tariff on checked pages)",
-          "product-specific launch/news page for macOS Golden Gate 27",
-          "complete feature release notes for Golden Gate 27.0.1"
+          "product-specific news/launch page separate from the current macOS product page",
+          "complete version-specific feature changelog for Golden Gate 27.0.1"
         ],
         "previous": null,
         "snapshot": {
           "date": "2026-10-25",
           "status": "BASELINE",
-          "publication_date": "2026-09-28",
-          "availability_date": "2026-09-28",
+          "publication_date": "2026-09-14 (macOS Golden Gate 27); 2026-09-28 (27.0.1 security update)",
+          "availability_date": "2026-09-14 (macOS Golden Gate 27); 2026-09-28 (27.0.1 update)",
           "version": "macOS Golden Gate 27.0.1; macOS Tahoe 26.7.1",
           "current_market_status": "RELEASED",
-          "availability": "Apple's official security-release listing records macOS Golden Gate 27.0.1 and macOS Tahoe 26.7.1 as released on 2026-09-28. The Golden Gate entry has no published CVE details on the listing; the separate Tahoe 26.7.1 security note documents a CoreGraphics out-of-bounds-write fix.",
+          "availability": "Apple's current macOS product page presents macOS 27 Golden Gate. The official security-release list records Golden Gate 27.0.1 on 2026-09-28 with no published CVE entries; the listed hardware scope is Apple-silicon Mac devices. The separate Tahoe 26.7.1 security note documents a CoreGraphics out-of-bounds-write fix.",
           "features": [
-            "versioned OS security updates",
-            "hardware eligibility stated per OS release",
-            "public security-release listing",
+            "macOS 27 Golden Gate",
+            "Siri AI and Apple Intelligence integration; rollout stated as English",
+            "on-screen Visual Intelligence and app actions",
+            "natural-language Shortcuts automation",
+            "versioned OS security releases and explicit supported-hardware list",
+            "Golden Gate 27.0.1 has no published CVE entries on Apple's release list",
             "macOS Tahoe 26.7.1 security content references CVE-2026-86950"
           ],
           "prices": null,
           "source_url": "https://support.apple.com/en-us/100100",
           "source_urls": [
+            "https://www.apple.com/os/macos/",
             "https://support.apple.com/en-us/100100",
             "https://support.apple.com/en-us/149228"
           ]
