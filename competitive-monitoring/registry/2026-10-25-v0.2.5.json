@@ -1,0 +1,903 @@
+{
+  "registry_id": "ATC-COMP-REG-2026-10-25",
+  "registry_version": "0.2.5",
+  "checked_at": "2026-10-25T08:43:01+01:00",
+  "mode": "DELTA_OVERLAY",
+  "extends": "competitive-monitoring/registry/2026-10-24-expanded-v0.2.4.json",
+  "full_market_census": false,
+  "deltas": [
+    {
+      "type": "UPDATE",
+      "id": "ETHEREUM-ROADMAP-001",
+      "reason": "Rechecked the official Ethereum Foundation postponement notice on 2026-10-25. No replacement Hoodi activation date or mainnet date has been published; the prior postponement remains the current state. This is confirmation of the previous status change, not a new protocol change.",
+      "changes": {
+        "checked": "2026-10-25",
+        "previous": {
+          "date": "2026-10-24",
+          "status": "STATUS_CHANGED",
+          "activation_status": "POSTPONED",
+          "availability": "Hoodi activation and planned 200M gas limit were withdrawn; no replacement date."
+        },
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "UNCHANGED",
+          "version": "Glamsterdam",
+          "announcement_date": "2026-10-22",
+          "availability_date": null,
+          "availability": "The Hoodi activation previously scheduled for 2026-10-26 17:42:48 UTC (epoch 132,352) remains postponed. No replacement epoch or timestamp is set; the planned 200M gas-limit increase remains removed. Mainnet activation remains unconfirmed.",
+          "activation_status": "POSTPONED",
+          "mainnet_target": "Q4 2026; exact date unconfirmed",
+          "next_milestone": null,
+          "features": [
+            "enshrined proposer-builder separation",
+            "block-level access lists",
+            "gas-pricing changes intended to better reflect execution cost and state growth"
+          ],
+          "prices": null,
+          "source_url": "https://blog.ethereum.org/en/2026/10/22/glamsterdam-hoodi-delay",
+          "correction_note": "The Ethereum Foundation update supersedes the earlier Hoodi schedule. Client release tables must not be treated as proof that a given client release includes the postponement unless its own release notes explicitly confirm it.",
+          "current_market_status": "POSTPONED",
+          "recheck_note": "Official source rechecked on 2026-10-25; no replacement date or mainnet activation date published."
+        }
+      }
+    },
+    {
+      "type": "UPDATE",
+      "id": "METAMASK-AGENT-WALLET-001",
+      "reason": "Source-completeness correction: the official 2026-08-06 MetaMask page confirms a live early-access launch. The same page still says access is for accepted early-access users and retains a stale 'GA this summer' statement. Early access is confirmed; general availability remains UNVERIFIED. This is not a new launch on 2026-10-25.",
+      "changes": {
+        "checked": "2026-10-25",
+        "source_status": "PARTIAL_OFFICIAL_VERIFIED",
+        "unverified": [
+          "current general availability (GA)",
+          "pricing and fees",
+          "separate release notes/changelog",
+          "official page contains an outdated summer 2026 GA target without a current replacement date"
+        ],
+        "previous": {
+          "date": "2026-10-24",
+          "status": "UNVERIFIED",
+          "availability": "Limited CLI early access; GA expected in summer 2026; current GA not confirmed."
+        },
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "UNCHANGED",
+          "release_date": "2026-08-06 (official early-access launch announcement)",
+          "availability": "MetaMask states Agent Wallet is live for accepted early-access users through CLI/agent frameworks. The same official page says General Availability is coming 'this summer' but provides no current replacement date; as of 2026-10-25 GA is not confirmed.",
+          "features": [
+            "self-custodial agent wallet",
+            "daily spend limits and allowlisted protocols",
+            "Guard Mode and opt-in Beast Mode",
+            "transaction simulation",
+            "Blockaid-powered threat scanning",
+            "MEV protection",
+            "2FA approval for flagged or out-of-policy transactions",
+            "supported EVM chains and HyperLiquid",
+            "gas fees can be settled in the token being moved",
+            "vendor-stated Transaction Protection coverage up to USD 10,000 per month for eligible transactions meeting the published conditions"
+          ],
+          "prices": null,
+          "source_url": "https://metamask.io/news/introducing-metamask-agent-wallet",
+          "availability_date": "2026-08-06 (early-access launch announced; GA date unverified)",
+          "current_market_status": "EARLY_ACCESS; GA UNVERIFIED",
+          "source_urls": [
+            "https://metamask.io/news/introducing-metamask-agent-wallet",
+            "https://metamask.io/en-GB/news/metamask-launches-agent-wallet-giving-ai-agents-full-defi-access-with-default-security-on-every-transaction"
+          ],
+          "evidence_note": "The newer August 6 page confirms early-access launch, but its FAQ still describes the product as Early Access and retains a summer GA target. Do not report GA as verified."
+        }
+      }
+    },
+    {
+      "type": "ADD",
+      "id": "ANTHROPIC-HAIKU-001",
+      "reason": "First product-level baseline captured from official sources during the 2026-10-25 targeted review. Registry ADD is not itself a launch or availability change on 2026-10-25.",
+      "entry": {
+        "id": "ANTHROPIC-HAIKU-001",
+        "name": "Anthropic",
+        "areas": [
+          "Aurora AI",
+          "Agents",
+          "Research Factory"
+        ],
+        "products": [
+          "Claude Haiku 5.5",
+          "Claude Platform",
+          "Claude Code"
+        ],
+        "why": "Low-cost, high-throughput model for subagents, summarization, classification, routing and browser-use workflows; a direct benchmark for Aurora's model routing and agent execution.",
+        "urls": {
+          "product": "https://www.anthropic.com/claude-haiku-5-5",
+          "release_notes": null,
+          "pricing": "https://www.anthropic.com/claude/haiku",
+          "news": "https://www.anthropic.com/news/models"
+        },
+        "source_url": "https://www.anthropic.com/claude-haiku-5-5",
+        "checked": "2026-10-25",
+        "source_status": "OFFICIAL_DOCS_AND_PRICING_VERIFIED",
+        "unverified": [
+          "separate release notes/changelog URL",
+          "price effective date not stated separately",
+          "regional eligibility and contractual terms",
+          "exact per-account effective date of the monthly API-credit rollout"
+        ],
+        "previous": null,
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "BASELINE",
+          "publication_date": "2026-10-07",
+          "availability_date": "2026-10-07 (official announcement says available now; exact channel rollout dates not stated)",
+          "version": "claude-haiku-5-5",
+          "current_market_status": "AVAILABLE",
+          "availability": "Official announcement says Claude Haiku 5.5 is available on Claude.ai, Claude Code and the Claude Platform, as well as Amazon Web Services, Google Cloud and Microsoft Foundry.",
+          "features": [
+            "fast small model for high-volume, cost-sensitive workloads",
+            "summarization, compaction, database queries and classification",
+            "subagent use in coding workflows",
+            "browser use and live customer-support workloads",
+            "adjustable effort setting for cost/intelligence trade-offs"
+          ],
+          "prices": [
+            {
+              "tier": "API usage",
+              "item": "input tokens for prompts up to 100K",
+              "currency": "USD",
+              "per_1m_tokens": 0.1,
+              "billing": "usage per 1M tokens",
+              "effective_date": "not separately stated by vendor",
+              "region": "regional eligibility not stated",
+              "scope": "Claude Platform API"
+            },
+            {
+              "tier": "API usage",
+              "item": "output tokens for prompts up to 100K",
+              "currency": "USD",
+              "per_1m_tokens": 0.5,
+              "billing": "usage per 1M tokens",
+              "effective_date": "not separately stated by vendor",
+              "region": "regional eligibility not stated",
+              "scope": "Claude Platform API"
+            },
+            {
+              "tier": "API usage",
+              "item": "input tokens for prompts over 100K",
+              "currency": "USD",
+              "per_1m_tokens": 0.5,
+              "billing": "usage per 1M tokens",
+              "effective_date": "not separately stated by vendor",
+              "region": "regional eligibility not stated",
+              "scope": "Claude Platform API"
+            },
+            {
+              "tier": "API usage",
+              "item": "output tokens for prompts over 100K",
+              "currency": "USD",
+              "per_1m_tokens": 2.5,
+              "billing": "usage per 1M tokens",
+              "effective_date": "not separately stated by vendor",
+              "region": "regional eligibility not stated",
+              "scope": "Claude Platform API"
+            }
+          ],
+          "commercial_terms": [
+            {
+              "item": "monthly API credit",
+              "tier": "Claude Max 5x",
+              "amount": 100,
+              "currency": "USD",
+              "billing": "monthly",
+              "effective_date": "rollout announced 2026-10-07; exact per-account date not stated",
+              "scope": "Claude Platform API credit"
+            },
+            {
+              "item": "monthly API credit",
+              "tier": "Claude Max 20x",
+              "amount": 200,
+              "currency": "USD",
+              "billing": "monthly",
+              "effective_date": "rollout announced 2026-10-07; exact per-account date not stated",
+              "scope": "Claude Platform API credit"
+            },
+            {
+              "item": "monthly API credit",
+              "tier": "Claude Team",
+              "amount": 500,
+              "currency": "USD",
+              "billing": "monthly pooled across users; up to stated cap",
+              "effective_date": "rollout announced 2026-10-07; exact per-account date not stated",
+              "scope": "Claude Platform API credit"
+            }
+          ],
+          "source_url": "https://www.anthropic.com/claude-haiku-5-5",
+          "source_urls": [
+            "https://www.anthropic.com/claude-haiku-5-5",
+            "https://www.anthropic.com/claude/haiku",
+            "https://www.anthropic.com/news/models"
+          ]
+        },
+        "limitations": [
+          "Vendor-published model benchmarks have not been independently reproduced.",
+          "No local deployment or performance comparison was run.",
+          "Regional availability and the exact effective date of pricing/credits remain unverified."
+        ],
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "aurora-ai; atc-standards for provider/capability policy",
+        "ARCHITECTURE_GAP": "Competitor benchmark only; local model parity, cost curves and latency have not been tested in this monitoring run.",
+        "IMPLEMENTATION_PRIORITY": "P2 — benchmark model-routing policy and task economics; do not add a required provider dependency.",
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "OFFICIAL_DOCS_AND_PRICING_VERIFIED"
+      }
+    },
+    {
+      "type": "ADD",
+      "id": "OPENAI-AGENT-BUILDER-001",
+      "reason": "First product-level baseline captured from official sources during the 2026-10-25 targeted review. Registry ADD is not itself a launch or availability change on 2026-10-25.",
+      "entry": {
+        "id": "OPENAI-AGENT-BUILDER-001",
+        "name": "OpenAI",
+        "areas": [
+          "Aurora AI",
+          "Agents",
+          "Research Factory"
+        ],
+        "products": [
+          "Agent Builder",
+          "ChatKit hosted workflows"
+        ],
+        "why": "Visual multi-step agent workflow authoring, preview, versioned publishing and SDK export; lifecycle/deprecation is relevant to avoiding hosted-tool lock-in.",
+        "urls": {
+          "product": "https://developers.openai.com/api/docs/guides/agent-builder",
+          "release_notes": "https://developers.openai.com/api/docs/deprecations",
+          "pricing": null,
+          "news": "https://openai.com/index/introducing-agentkit/"
+        },
+        "source_url": "https://developers.openai.com/api/docs/guides/agent-builder",
+        "checked": "2026-10-25",
+        "source_status": "PARTIAL_OFFICIAL_DOCS_VERIFIED",
+        "unverified": [
+          "standalone Agent Builder tariff",
+          "separate product changelog",
+          "tenant-specific migration status"
+        ],
+        "previous": null,
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "BASELINE",
+          "publication_date": "2026-06-03 (deprecation notice; original AgentKit announcement was 2025-10-06)",
+          "availability_date": null,
+          "current_market_status": "DEPRECATION_SCHEDULED",
+          "shutdown_date": "2026-11-30",
+          "availability": "Existing users can continue during the transition window. OpenAI schedules Agent Builder shutdown for 2026-11-30 and says ChatKit remains available; the official migration path is to Agents SDK or ChatGPT Workspace Agents.",
+          "features": [
+            "visual assembly of multi-step agent workflows",
+            "typed inputs and outputs",
+            "preview/debug with live data",
+            "workflow publishing and IDs/versioning",
+            "export to SDK code",
+            "ChatKit integration"
+          ],
+          "prices": null,
+          "source_url": "https://developers.openai.com/api/docs/guides/agent-builder",
+          "source_urls": [
+            "https://developers.openai.com/api/docs/guides/agent-builder",
+            "https://developers.openai.com/api/docs/deprecations",
+            "https://openai.com/index/introducing-agentkit/"
+          ]
+        },
+        "limitations": [
+          "This is a lifecycle baseline, not a new deprecation announcement on 2026-10-25.",
+          "No standalone Agent Builder price was verified."
+        ],
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "aurora-ai",
+        "ARCHITECTURE_GAP": "The relevant lesson is portable workflow definitions and exportable execution code; no native implementation gap was audited here.",
+        "IMPLEMENTATION_PRIORITY": "P1 — ensure Aurora task/workflow definitions are versioned, exportable and executable without a hosted builder.",
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "PARTIAL_OFFICIAL_DOCS_VERIFIED"
+      }
+    },
+    {
+      "type": "ADD",
+      "id": "OPENAI-EVALS-001",
+      "reason": "First product-level baseline captured from official sources during the 2026-10-25 targeted review. Registry ADD is not itself a launch or availability change on 2026-10-25.",
+      "entry": {
+        "id": "OPENAI-EVALS-001",
+        "name": "OpenAI",
+        "areas": [
+          "Aurora AI",
+          "Research Factory"
+        ],
+        "products": [
+          "OpenAI Evals platform",
+          "Evals dashboard and API",
+          "Graders"
+        ],
+        "why": "Model/agent evaluation, graders and regression testing are directly comparable to Research Factory validation and CI evidence pipelines.",
+        "urls": {
+          "product": "https://developers.openai.com/api/docs/guides/evals",
+          "release_notes": "https://developers.openai.com/api/docs/deprecations",
+          "pricing": null,
+          "news": "https://openai.com/index/introducing-agentkit/"
+        },
+        "source_url": "https://developers.openai.com/api/docs/deprecations",
+        "checked": "2026-10-25",
+        "source_status": "PARTIAL_OFFICIAL_DOCS_VERIFIED",
+        "unverified": [
+          "standalone Evals tariff",
+          "tenant-specific migration status",
+          "post-shutdown replacement terms"
+        ],
+        "previous": null,
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "BASELINE",
+          "publication_date": "2026-06-03 (deprecation notice)",
+          "availability_date": null,
+          "current_market_status": "ACTIVE_DURING_TRANSITION; READ_ONLY_FROM_2026-10-31",
+          "read_only_date": "2026-10-31",
+          "shutdown_date": "2026-11-30",
+          "availability": "Official deprecation documentation says existing Evals become read-only on 2026-10-31 and the Evals dashboard/API are scheduled to shut down on 2026-11-30.",
+          "features": [
+            "evaluation datasets and runs",
+            "testing criteria and graders",
+            "API-driven evaluation",
+            "results and report links"
+          ],
+          "prices": null,
+          "source_url": "https://developers.openai.com/api/docs/deprecations",
+          "source_urls": [
+            "https://developers.openai.com/api/docs/deprecations",
+            "https://developers.openai.com/api/docs/guides/evals",
+            "https://developers.openai.com/api/docs/guides/graders"
+          ]
+        },
+        "limitations": [
+          "This is a first product-level lifecycle baseline, not a new status change on 2026-10-25.",
+          "No standalone Evals price was verified."
+        ],
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "atc-engineering for CI/evidence contracts; aurora-ai for agent evaluation integration",
+        "ARCHITECTURE_GAP": "No audit of current native evaluation coverage was performed in this monitoring run.",
+        "IMPLEMENTATION_PRIORITY": "P0/P1 — preserve versioned fixtures, graders, run evidence and regression gates without depending on a hosted evaluation dashboard.",
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "PARTIAL_OFFICIAL_DOCS_VERIFIED"
+      }
+    },
+    {
+      "type": "ADD",
+      "id": "SNOW-AI-WORKFLOW-FACTORY-001",
+      "reason": "First product-level baseline captured from official sources during the 2026-10-25 targeted review. Registry ADD is not itself a launch or availability change on 2026-10-25.",
+      "entry": {
+        "id": "SNOW-AI-WORKFLOW-FACTORY-001",
+        "name": "ServiceNow",
+        "areas": [
+          "AI Franchise Factory",
+          "Research Factory",
+          "Business Factory",
+          "Agents"
+        ],
+        "products": [
+          "AI Workflow Factory",
+          "Autonomous Engineer",
+          "AI Control Tower"
+        ],
+        "why": "Continuous discovery, creation, execution and improvement of enterprise AI workflows; direct adjacent competitor to the Business Factory and Research Factory operating loop.",
+        "urls": {
+          "product": "https://newsroom.servicenow.com/press-releases/details/2026/ServiceNow-launches-AI-Workflow-Factory-to-turn-workflow-improvement-into-a-continuous-agentic-AI-powered-loop/default.aspx",
+          "release_notes": null,
+          "pricing": null,
+          "news": "https://newsroom.servicenow.com/press-releases/details/2026/ServiceNow-launches-AI-Workflow-Factory-to-turn-workflow-improvement-into-a-continuous-agentic-AI-powered-loop/default.aspx"
+        },
+        "source_url": "https://newsroom.servicenow.com/press-releases/details/2026/ServiceNow-launches-AI-Workflow-Factory-to-turn-workflow-improvement-into-a-continuous-agentic-AI-powered-loop/default.aspx",
+        "checked": "2026-10-25",
+        "source_status": "PARTIAL_OFFICIAL_VERIFIED",
+        "unverified": [
+          "dedicated product documentation",
+          "release notes/changelog",
+          "public pricing and underlying SKU terms",
+          "general availability date",
+          "availability outside announced partner/market scope"
+        ],
+        "previous": null,
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "BASELINE",
+          "publication_date": "2026-10-06",
+          "availability_date": null,
+          "current_market_status": "ANNOUNCED; GENERAL_AVAILABILITY_UNVERIFIED",
+          "availability": "ServiceNow announced AI Workflow Factory and Autonomous Engineer at World Forum Mumbai. The announcement describes adoption by its India partner ecosystem but does not specify a general-availability date or full regional rollout.",
+          "features": [
+            "continuous workflow-improvement loop",
+            "discover where AI can improve work",
+            "build, run and extend AI workflows across enterprise applications",
+            "Autonomous Engineer for unattended planning, building and testing",
+            "governance through AI Control Tower"
+          ],
+          "prices": null,
+          "source_url": "https://newsroom.servicenow.com/press-releases/details/2026/ServiceNow-launches-AI-Workflow-Factory-to-turn-workflow-improvement-into-a-continuous-agentic-AI-powered-loop/default.aspx"
+        },
+        "limitations": [
+          "Announcement claims and partner adoption are vendor statements; deployment, measured outcomes and pricing were not independently validated.",
+          "No evidence of a new launch on 2026-10-25."
+        ],
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "aurora-ai; canonical Business Factory SSOT to confirm",
+        "ARCHITECTURE_GAP": "Candidate comparison only; current native factory capability was not audited in this monitoring run.",
+        "IMPLEMENTATION_PRIORITY": "P1 — benchmark workflow opportunity discovery, controlled execution and outcome evidence.",
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "PARTIAL_OFFICIAL_VERIFIED"
+      }
+    },
+    {
+      "type": "ADD",
+      "id": "MSFT-COPILOT-AUTOPILOT-001",
+      "reason": "First product-level baseline captured from official sources during the 2026-10-25 targeted review. Registry ADD is not itself a launch or availability change on 2026-10-25.",
+      "entry": {
+        "id": "MSFT-COPILOT-AUTOPILOT-001",
+        "name": "Microsoft",
+        "areas": [
+          "Aurora AI",
+          "Agents",
+          "Business Factory"
+        ],
+        "products": [
+          "Copilot Home",
+          "Copilot Code",
+          "Copilot Autopilot",
+          "Copilot in Teams"
+        ],
+        "why": "Delegation, coding, automation and shared-context agent experiences in Microsoft's productivity ecosystem; adjacent benchmark for Aurora orchestration and permission-aware collaboration.",
+        "urls": {
+          "product": "https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/",
+          "release_notes": null,
+          "pricing": null,
+          "news": "https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/"
+        },
+        "source_url": "https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/",
+        "checked": "2026-10-25",
+        "source_status": "PARTIAL_OFFICIAL_VERIFIED",
+        "unverified": [
+          "dedicated product release notes/changelog",
+          "product-specific tariff and license requirements",
+          "current tenant eligibility and rollout status",
+          "exact regional availability"
+        ],
+        "previous": null,
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "BASELINE",
+          "publication_date": "2026-09-25",
+          "availability_date": null,
+          "current_market_status": "PHASED_ROLLOUT; EXACT_CURRENT_AVAILABILITY_UNVERIFIED",
+          "availability": "Microsoft announced a rollout through its Frontier program. The announcement described Copilot Autopilot entering private preview in October 2026 and additional Copilot experiences for Outlook and Teams; exact current tenant eligibility was not independently confirmed.",
+          "features": [
+            "Copilot Home, Code and Autopilot experiences",
+            "delegate, build and automate tasks from a unified Copilot entry point",
+            "shared Teams context with channel/group-chat/meeting permissions in the announced preview",
+            "integration with Microsoft 365 and Power Platform experiences"
+          ],
+          "prices": null,
+          "source_url": "https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/"
+        },
+        "limitations": [
+          "Announcement and planned preview are verified; current availability by tenant, region and license remains unverified.",
+          "No new launch on 2026-10-25 is claimed."
+        ],
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "aurora-ai; globus-os desktop/runtime SSOT for native UX integration",
+        "ARCHITECTURE_GAP": "Benchmark for task delegation and shared-context permissions only; current implementation gap not audited.",
+        "IMPLEMENTATION_PRIORITY": "P2 — compare collaboration context and task lifecycle; preserve native Authority Plane and ShivaCore enforcement.",
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "PARTIAL_OFFICIAL_VERIFIED"
+      }
+    },
+    {
+      "type": "ADD",
+      "id": "SAMSUNG-SOLANA-WALLET-001",
+      "reason": "First product-level baseline captured from official sources during the 2026-10-25 targeted review. Registry ADD is not itself a launch or availability change on 2026-10-25.",
+      "entry": {
+        "id": "SAMSUNG-SOLANA-WALLET-001",
+        "name": "Samsung Electronics / Solana Foundation",
+        "areas": [
+          "Blockchain",
+          "Wallets",
+          "Web3"
+        ],
+        "products": [
+          "Samsung Wallet USDC transfers",
+          "Samsung Pay",
+          "Solana network support",
+          "Sui network support"
+        ],
+        "why": "Native mobile-wallet distribution for stablecoin remittances and embedded fiat/off-ramp flows; adjacent competitor to self-custodial wallet and payment-rail capabilities.",
+        "urls": {
+          "product": "https://news.samsung.com/us/samsung-wallet-bring-stablecoin-access-eligible-galaxy-users-us/",
+          "release_notes": null,
+          "pricing": null,
+          "news": "https://solana.com/de/news/samsung-wallet"
+        },
+        "source_url": "https://news.samsung.com/us/samsung-wallet-bring-stablecoin-access-eligible-galaxy-users-us/",
+        "checked": "2026-10-25",
+        "source_status": "PARTIAL_OFFICIAL_VERIFIED",
+        "unverified": [
+          "actual production rollout date and current live availability",
+          "exact supported network list at launch",
+          "per-country bank-transfer fees and limits",
+          "availability outside eligible U.S. residents",
+          "separate release notes/changelog",
+          "currency for variable bank-transfer fees not published",
+          "effective date for bank-transfer fee schedule not published"
+        ],
+        "previous": null,
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "BASELINE",
+          "publication_date": "2026-10-07",
+          "availability_date": null,
+          "availability_window": "last week of October 2026, as announced by Samsung",
+          "current_market_status": "ANNOUNCED; LIVE_ROLLOUT_NOT_CONFIRMED",
+          "availability": "Samsung announced USDC transfers in Samsung Wallet for eligible U.S. Galaxy users during the last week of October 2026. As of 2026-10-25, the official sources checked still state the planned window; a separate production-launch confirmation was not found.",
+          "features": [
+            "USDC transfers to compatible external wallets",
+            "bank transfers to eligible accounts in more than 60 countries, with local-currency receipt where supported",
+            "biometric authentication on compatible registered Galaxy devices",
+            "Bastion stablecoin/payment infrastructure and Coinbase Prime custody",
+            "Samsung announcement names Solana and Sui among network infrastructure partners"
+          ],
+          "prices": [
+            {
+              "item": "Samsung fee for USDC transfers to compatible external wallets",
+              "amount": 0,
+              "currency": "USD",
+              "billing": "per transfer; Samsung fee only",
+              "effective_date": "planned launch window last week of October 2026; exact effective date unverified",
+              "region": "eligible U.S. residents age 18+ on compatible Galaxy devices running Android 13 or later",
+              "scope": "third-party wallet/exchange fees may still apply"
+            }
+          ],
+          "commercial_terms": [
+            {
+              "item": "bank transfer fees",
+              "amount": null,
+              "currency": "UNVERIFIED",
+              "billing": "per transfer; varies by destination country and amount",
+              "effective_date": "shown in app before sender confirms; exact tariff not public",
+              "region": "eligible bank accounts in supported countries",
+              "scope": "fees and delivery time displayed in the app"
+            }
+          ],
+          "source_url": "https://news.samsung.com/us/samsung-wallet-bring-stablecoin-access-eligible-galaxy-users-us/",
+          "source_urls": [
+            "https://news.samsung.com/us/samsung-wallet-bring-stablecoin-access-eligible-galaxy-users-us/",
+            "https://solana.com/de/news/samsung-wallet"
+          ]
+        },
+        "limitations": [
+          "The last-week-of-October availability is a vendor-stated target, not proof of live production availability on 2026-10-25.",
+          "Samsung and Solana announcements describe partner/network scope; the actual launch configuration was not independently tested."
+        ],
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "a-townchain/components/wallet; atc-standards for protocol/network policy",
+        "ARCHITECTURE_GAP": "Competitive reference for native stablecoin transfer UX, fee transparency and region gating; no equivalent wallet capability audit was run.",
+        "IMPLEMENTATION_PRIORITY": "P1 — evaluate policy simulation, regional eligibility, fee disclosure and user approval in the canonical Wallet SSOT.",
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "PARTIAL_OFFICIAL_VERIFIED"
+      }
+    },
+    {
+      "type": "ADD",
+      "id": "APPLE-MACOS-GOLDENGATE-001",
+      "reason": "First product-level baseline captured from official sources during the 2026-10-25 targeted review. Registry ADD is not itself a launch or availability change on 2026-10-25.",
+      "entry": {
+        "id": "APPLE-MACOS-GOLDENGATE-001",
+        "name": "Apple",
+        "areas": [
+          "GlobusOS",
+          "OS",
+          "Desktop runtime",
+          "Security architecture"
+        ],
+        "products": [
+          "macOS Golden Gate 27.0.1",
+          "macOS Tahoe 26.7.1",
+          "Apple security releases"
+        ],
+        "why": "Adjacent desktop OS competitor and reference for hardware support matrices, security-release cadence and version-specific vulnerability remediation.",
+        "urls": {
+          "product": "https://www.apple.com/os/macos/",
+          "release_notes": "https://support.apple.com/en-us/100100",
+          "pricing": null,
+          "news": null
+        },
+        "source_url": "https://support.apple.com/en-us/100100",
+        "checked": "2026-10-25",
+        "source_status": "PARTIAL_OFFICIAL_RELEASE_HEALTH_VERIFIED",
+        "unverified": [
+          "standalone operating-system price (not listed as a separate tariff on checked pages)",
+          "product-specific news/launch page separate from the current macOS product page",
+          "complete version-specific feature changelog for Golden Gate 27.0.1"
+        ],
+        "previous": null,
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "BASELINE",
+          "publication_date": "2026-09-14 (macOS Golden Gate 27); 2026-09-28 (27.0.1 security update)",
+          "availability_date": "2026-09-14 (macOS Golden Gate 27); 2026-09-28 (27.0.1 update)",
+          "version": "macOS Golden Gate 27.0.1; macOS Tahoe 26.7.1",
+          "current_market_status": "RELEASED",
+          "availability": "Apple's current macOS product page presents macOS 27 Golden Gate. The official security-release list records Golden Gate 27.0.1 on 2026-09-28 with no published CVE entries; the listed hardware scope is Apple-silicon Mac devices. The separate Tahoe 26.7.1 security note documents a CoreGraphics out-of-bounds-write fix.",
+          "features": [
+            "macOS 27 Golden Gate",
+            "Siri AI and Apple Intelligence integration; rollout stated as English",
+            "on-screen Visual Intelligence and app actions",
+            "natural-language Shortcuts automation",
+            "versioned OS security releases and explicit supported-hardware list",
+            "Golden Gate 27.0.1 has no published CVE entries on Apple's release list",
+            "macOS Tahoe 26.7.1 security content references CVE-2026-86950"
+          ],
+          "prices": null,
+          "source_url": "https://support.apple.com/en-us/100100",
+          "source_urls": [
+            "https://www.apple.com/os/macos/",
+            "https://support.apple.com/en-us/100100",
+            "https://support.apple.com/en-us/149228"
+          ]
+        },
+        "limitations": [
+          "This is a release/security baseline, not a new macOS release on 2026-10-25.",
+          "No Apple security patch was reproduced against GlobusOS or ShivaCore."
+        ],
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "globus-os/modules/atc-shivacore/kernel/ and GlobusOS desktop/runtime SSOT",
+        "ARCHITECTURE_GAP": "Reference only: version-bound security evidence and supported-hardware metadata; no corresponding ShivaCore gap was audited.",
+        "IMPLEMENTATION_PRIORITY": "P2 — use for release-evidence and hardware-eligibility test design, not as an implementation dependency.",
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "PARTIAL_OFFICIAL_RELEASE_HEALTH_VERIFIED"
+      }
+    },
+    {
+      "type": "UPDATE",
+      "id": "BUBBLE-AI-001",
+      "reason": "Rechecked Bubble's official Agent 2 announcement and pricing FAQ. The web-only Starter price change effective 2026-10-20 remains as previously recorded; no additional price change was found. This confirms the prior price-status change rather than reporting a new one.",
+      "changes": {
+        "checked": "2026-10-25",
+        "previous": {
+          "date": "2026-10-21",
+          "status": "STATUS_CHANGED",
+          "price_note": "Starter Web price change effective 2026-10-20; the new price was already reflected in the prior snapshot."
+        },
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "UNCHANGED",
+          "release_date": "2026-10-06",
+          "availability": "Agent 2 remains available to all apps; Bubble MCP remains public beta. The MCP announcement states it does not consume Bubble AI credits and cannot read logs, merge branches or deploy.",
+          "features": [
+            "AI credits",
+            "MCP does not consume Bubble AI credits",
+            "MCP beta cannot read logs, merge branches or deploy"
+          ],
+          "prices": [
+            {
+              "plan": "Starter Web",
+              "currency": "USD",
+              "amount_per_month": 39,
+              "billing": "monthly",
+              "effective_date": "2026-10-20",
+              "region": "official U.S. pricing page; tax/region variations not verified"
+            },
+            {
+              "plan": "Starter Web",
+              "currency": "USD",
+              "amount_per_month": 32,
+              "billing": "annual, monthly equivalent",
+              "effective_date": "2026-10-20",
+              "region": "official U.S. pricing page; tax/region variations not verified"
+            },
+            {
+              "plan": "Starter Mobile",
+              "currency": "USD",
+              "amount_per_month": 49,
+              "billing": "monthly",
+              "effective_date": "2026-10-20 (official pricing article)",
+              "region": "official U.S. pricing page; tax/region variations not verified"
+            },
+            {
+              "plan": "Starter Mobile",
+              "currency": "USD",
+              "amount_per_month": 42,
+              "billing": "annual, monthly equivalent",
+              "effective_date": "2026-10-20 (official pricing article)",
+              "region": "official U.S. pricing page; tax/region variations not verified"
+            },
+            {
+              "plan": "Starter Web & Mobile",
+              "currency": "USD",
+              "amount_per_month": 69,
+              "billing": "monthly",
+              "effective_date": "2026-10-20 (official pricing article)",
+              "region": "official U.S. pricing page; tax/region variations not verified"
+            },
+            {
+              "plan": "Starter Web & Mobile",
+              "currency": "USD",
+              "amount_per_month": 59,
+              "billing": "annual, monthly equivalent",
+              "effective_date": "2026-10-20 (official pricing article)",
+              "region": "official U.S. pricing page; tax/region variations not verified"
+            }
+          ],
+          "ai_credits_per_app_month": {
+            "Free": 500,
+            "Starter": 1000,
+            "Growth": 2000,
+            "Team": 4000,
+            "Agency": 1000
+          },
+          "source_url": "https://bubble.io/faq",
+          "source_urls": [
+            "https://bubble.io/blog/agent-2/",
+            "https://bubble.io/faq"
+          ]
+        }
+      }
+    },
+    {
+      "type": "UPDATE",
+      "id": "LINUX-KERNEL-001",
+      "reason": "Rechecked the official kernel.org v7.x archive on 2026-10-25. Mainline 7.3 (2026-10-19) and stable 7.2.12 (2026-10-21) remain the latest listed versions; no newer 7.2.y point release was found. Snapshot refreshed as UNCHANGED.",
+      "changes": {
+        "checked": "2026-10-25",
+        "previous": {
+          "date": "2026-10-24",
+          "status": "UNCHANGED",
+          "mainline": {
+            "version": "7.3",
+            "release_date": "2026-10-19"
+          },
+          "stable": {
+            "branch": "7.2.y",
+            "version": "7.2.12",
+            "release_date": "2026-10-21"
+          }
+        },
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "UNCHANGED",
+          "mainline": {
+            "version": "7.3",
+            "release_date": "2026-10-19"
+          },
+          "stable": {
+            "branch": "7.2.y",
+            "version": "7.2.12",
+            "release_date": "2026-10-21"
+          },
+          "latest_archive_checked": "2026-10-25",
+          "prices": null
+        }
+      }
+    },
+    {
+      "type": "ADD",
+      "id": "ANTHROPIC-SONNET-5-5-001",
+      "reason": "First product-level baseline captured from Anthropic's official 2026-10-07 model/pricing announcement. The vendor's Sonnet cache-read price cut occurred on 2026-10-07; because no reliable prior Sonnet snapshot exists in v0.2.4, the registry classification is BASELINE, not CHANGED relative to the prior registry.",
+      "entry": {
+        "id": "ANTHROPIC-SONNET-5-5-001",
+        "name": "Anthropic",
+        "areas": [
+          "Aurora AI",
+          "Agents",
+          "Research Factory"
+        ],
+        "products": [
+          "Claude Sonnet 5.5",
+          "Claude Platform API"
+        ],
+        "why": "Higher-capability agentic coding and knowledge-work model; its token and cache-read economics affect model routing and Research Factory unit costs.",
+        "urls": {
+          "product": "https://www.anthropic.com/claude-haiku-5-5",
+          "release_notes": null,
+          "pricing": "https://www.anthropic.com/claude/haiku",
+          "news": "https://www.anthropic.com/news/models"
+        },
+        "source_url": "https://www.anthropic.com/claude-haiku-5-5",
+        "checked": "2026-10-25",
+        "source_status": "OFFICIAL_DOCS_AND_PRICING_VERIFIED",
+        "unverified": [
+          "separate Sonnet 5.5 product changelog",
+          "effective date of Sonnet input/output/cache-write rates not separately stated in the checked announcement",
+          "regional eligibility and contractual terms"
+        ],
+        "previous": null,
+        "snapshot": {
+          "date": "2026-10-25",
+          "status": "BASELINE",
+          "publication_date": "2026-10-07 (Sonnet cache-read price reduction announced as effective immediately)",
+          "availability_date": null,
+          "version": "claude-sonnet-5-5",
+          "current_market_status": "AVAILABLE",
+          "availability": "Claude Sonnet 5.5 is listed in Anthropic's official model/pricing comparison. The 2026-10-07 announcement says its cache-read price was reduced starting that day; the current listing shows USD 0.10 per 1M cache-read tokens.",
+          "features": [
+            "higher-capability agentic coding and knowledge-work model",
+            "cache-aware pricing relevant to multi-step agent workflows",
+            "pairs with Haiku 5.5 as a higher-capability lead model and lower-cost subagent"
+          ],
+          "prices": [
+            {
+              "tier": "API usage",
+              "item": "input tokens",
+              "currency": "USD",
+              "per_1m_tokens": 2,
+              "billing": "usage per 1M tokens",
+              "effective_date": "current price displayed in 2026-10-07 announcement; separate effective date not stated",
+              "region": "regional eligibility not stated",
+              "scope": "Claude Platform API"
+            },
+            {
+              "tier": "API usage",
+              "item": "output tokens",
+              "currency": "USD",
+              "per_1m_tokens": 10,
+              "billing": "usage per 1M tokens",
+              "effective_date": "current price displayed in 2026-10-07 announcement; separate effective date not stated",
+              "region": "regional eligibility not stated",
+              "scope": "Claude Platform API"
+            },
+            {
+              "tier": "API usage",
+              "item": "cache-read tokens",
+              "currency": "USD",
+              "per_1m_tokens": 0.1,
+              "billing": "usage per 1M tokens",
+              "effective_date": "2026-10-07 (vendor states 'starting today')",
+              "region": "regional eligibility not stated",
+              "scope": "Claude Platform API; previous vendor-stated rate USD 0.20 per 1M tokens"
+            },
+            {
+              "tier": "API usage",
+              "item": "cache-write tokens",
+              "currency": "USD",
+              "per_1m_tokens": 2.5,
+              "billing": "usage per 1M tokens",
+              "effective_date": "current price displayed in 2026-10-07 announcement; separate effective date not stated",
+              "region": "regional eligibility not stated",
+              "scope": "Claude Platform API"
+            }
+          ],
+          "price_change_in_vendor_announcement": {
+            "item": "cache-read tokens",
+            "previous_amount_per_1m_tokens": 0.2,
+            "current_amount_per_1m_tokens": 0.1,
+            "currency": "USD",
+            "effective_date": "2026-10-07",
+            "vendor_claimed_reduction_percent": 50,
+            "classification": "BASELINE — no previous reliable Anthropic Sonnet product snapshot existed in registry v0.2.4; this is not a change relative to the prior registry snapshot."
+          },
+          "source_url": "https://www.anthropic.com/claude-haiku-5-5",
+          "source_urls": [
+            "https://www.anthropic.com/claude-haiku-5-5",
+            "https://www.anthropic.com/claude/haiku",
+            "https://www.anthropic.com/news/models"
+          ]
+        },
+        "limitations": [
+          "The 2026-10-07 cache-read price reduction is a vendor-published historical change captured as a first baseline, not a change today.",
+          "No independent workload cost benchmark was run.",
+          "Regional availability and effective dates for the other displayed rates remain unverified."
+        ],
+        "NATIVE_BUILD_CANDIDATE": true,
+        "TARGET_SSOT": "aurora-ai; atc-standards for provider/capability policy",
+        "ARCHITECTURE_GAP": "Pricing benchmark only; no local-model or end-to-end task-cost comparison was run.",
+        "IMPLEMENTATION_PRIORITY": "P2 — use in model-routing cost benchmarks; retain local-first and provider-independent architecture.",
+        "EXTERNAL_RUNTIME_DEPENDENCY": false,
+        "EVIDENCE_STATUS": "OFFICIAL_DOCS_AND_PRICING_VERIFIED"
+      }
+    }
+  ],
+  "notes": [
+    "Targeted official-source review only; not a full market census.",
+    "Baseline records separate publication date, stated availability date/window and the monitoring check date.",
+    "Missing release notes, standalone prices, regional terms or actual availability remain null/UNVERIFIED.",
+    "External runtime dependency remains false; competitor features are architecture benchmarks only."
+  ]
+}
