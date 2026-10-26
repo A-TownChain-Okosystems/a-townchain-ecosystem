@@ -6,7 +6,7 @@
 use std::collections::HashMap;
 
 pub struct WalletTab {
-    // TODO: fields
+    // Stub-Platzhalter — Felder werden mit der Implementierung ergänzt (globus-os Issue #76)
 }
 
 impl WalletTab {
@@ -16,21 +16,21 @@ impl WalletTab {
 
     /// Display wallet balance
     pub fn show_balance(&self) {
-        // TODO: Implement
+        // Stub-Platzhalter — Implementierung verfolgt in globus-os Issue #76
     }
 
     /// Send transaction
     pub fn send(&self) {
-        // TODO: Implement
+        // Stub-Platzhalter — Implementierung verfolgt in globus-os Issue #76
     }
 
     /// Show receive address/QR
     pub fn receive(&self) {
-        // TODO: Implement
+        // Stub-Platzhalter — Implementierung verfolgt in globus-os Issue #76
     }
 
     /// Show transaction history
     pub fn history(&self) {
-        // TODO: Implement
+        // Stub-Platzhalter — Implementierung verfolgt in globus-os Issue #76
     }
 }

@@ -1,0 +1,527 @@
+{
+ "component": "COMP-SHIVA-SPEC",
+ "repo": "wt-atc-shivacore",
+ "head_sha": "21c99769654ff5915c421c3446e62c2a29c22b40",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "for m in modules/atc-security/Cargo.toml sdk/Cargo.toml; do cargo test --release --manifest-path $m 2>&1 || exit 101; done",
+  "exit_code": 0,
+  "passed": 10,
+  "log_tail": [
+   "test audit::tests::test_validator_check ... ok",
+   "test encryption::tests::test_constant_time_eq ... ok",
+   "test rate_limit::tests::test_no_limit ... ok",
+   "test encryption::tests::test_xor_roundtrip ... ok",
+   "test rate_limit::tests::test_rate_limit ... ok",
+   "test sandbox::tests::test_sandbox_lifecycle ... ok",
+   "test scanner::tests::test_clean_scan ... ok",
+   "test scanner::tests::test_overflow_detection ... ok",
+   "",
+   "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_security",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Compiling shivacore-sdk v0.1.0 (/tmp/wt-atc-shivacore/sdk)",
+   "    Finished `release` profile [optimized] target(s) in 0.11s",
+   "     Running unittests src/lib.rs (sdk/target/release/build/shivacore-sdk/56e381bbb5020ddc/out/shivacore_sdk-56e381bbb5020ddc)",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests shivacore_sdk",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-SHIVA-SPEC-001",
+   "symbol": null,
+   "source_path": "docs/specs/SC-004-SYSCALL_ABI.md",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-002",
+   "symbol": null,
+   "source_path": "docs/specs/G7_AUDIT_TRAIL_TEMPLATE.md",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-003",
+   "symbol": "new",
+   "source_path": "modules/atc-security/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-004",
+   "symbol": "add_check",
+   "source_path": "modules/atc-security/src/audit.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-005",
+   "symbol": "audit_chain_integrity",
+   "source_path": "modules/atc-security/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-006",
+   "symbol": "audit_validators",
+   "source_path": "modules/atc-security/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-007",
+   "symbol": "report",
+   "source_path": "modules/atc-security/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-008",
+   "symbol": "has_critical",
+   "source_path": "modules/atc-security/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-009",
+   "symbol": "xor_encrypt",
+   "source_path": "modules/atc-security/src/encryption.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-010",
+   "symbol": "xor_decrypt",
+   "source_path": "modules/atc-security/src/encryption.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-011",
+   "symbol": "generate_nonce",
+   "source_path": "modules/atc-security/src/encryption.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-012",
+   "symbol": "constant_time_eq",
+   "source_path": "modules/atc-security/src/encryption.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-013",
+   "symbol": "new",
+   "source_path": "modules/atc-security/src/rate_limit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-014",
+   "symbol": "set_limit",
+   "source_path": "modules/atc-security/src/rate_limit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-015",
+   "symbol": "check",
+   "source_path": "modules/atc-security/src/rate_limit.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-016",
+   "symbol": "new",
+   "source_path": "modules/atc-security/src/sandbox.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-017",
+   "symbol": "id",
+   "source_path": "modules/atc-security/src/sandbox.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-018",
+   "symbol": "is_active",
+   "source_path": "modules/atc-security/src/sandbox.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-019",
+   "symbol": "memory_limit",
+   "source_path": "modules/atc-security/src/sandbox.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-020",
+   "symbol": "cpu_limit_ms",
+   "source_path": "modules/atc-security/src/sandbox.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-021",
+   "symbol": "start",
+   "source_path": "modules/atc-security/src/sandbox.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-022",
+   "symbol": "stop",
+   "source_path": "modules/atc-security/src/sandbox.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-023",
+   "symbol": "new",
+   "source_path": "modules/atc-security/src/scanner.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-024",
+   "symbol": "scan_reentrancy",
+   "source_path": "modules/atc-security/src/scanner.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-025",
+   "symbol": "scan_overflow",
+   "source_path": "modules/atc-security/src/scanner.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-026",
+   "symbol": "findings",
+   "source_path": "modules/atc-security/src/scanner.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-027",
+   "symbol": "critical_count",
+   "source_path": "modules/atc-security/src/scanner.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-028",
+   "symbol": "verify",
+   "source_path": "sdk/src/attestation.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-029",
+   "symbol": "all",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-030",
+   "symbol": "none",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-031",
+   "symbol": "read_only",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-032",
+   "symbol": "is_subset_of",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-033",
+   "symbol": "new",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-034",
+   "symbol": "derive",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-035",
+   "symbol": "new",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-036",
+   "symbol": "get",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-037",
+   "symbol": "insert",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-038",
+   "symbol": "revoke",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-039",
+   "symbol": "capacity",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-040",
+   "symbol": "new",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-041",
+   "symbol": "add_cnode",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-042",
+   "symbol": "lookup",
+   "source_path": "sdk/src/capability.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-043",
+   "symbol": "new",
+   "source_path": "sdk/src/ipc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-044",
+   "symbol": "signal",
+   "source_path": "sdk/src/ipc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-045",
+   "symbol": "poll",
+   "source_path": "sdk/src/ipc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-046",
+   "symbol": "new",
+   "source_path": "sdk/src/ipc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-047",
+   "symbol": "send",
+   "source_path": "sdk/src/ipc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-048",
+   "symbol": "recv",
+   "source_path": "sdk/src/ipc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-049",
+   "symbol": "pending_count",
+   "source_path": "sdk/src/ipc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-050",
+   "symbol": "rx",
+   "source_path": "sdk/src/memory.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-051",
+   "symbol": "rw",
+   "source_path": "sdk/src/memory.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-052",
+   "symbol": "rwx",
+   "source_path": "sdk/src/memory.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-053",
+   "symbol": "contains_virt",
+   "source_path": "sdk/src/memory.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-054",
+   "symbol": "translate",
+   "source_path": "sdk/src/memory.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-055",
+   "symbol": "new",
+   "source_path": "sdk/src/memory.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-056",
+   "symbol": "map",
+   "source_path": "sdk/src/memory.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-057",
+   "symbol": "translate",
+   "source_path": "sdk/src/memory.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-058",
+   "symbol": "regions",
+   "source_path": "sdk/src/memory.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-059",
+   "symbol": "new",
+   "source_path": "sdk/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-060",
+   "symbol": "add_thread",
+   "source_path": "sdk/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-061",
+   "symbol": "set_state",
+   "source_path": "sdk/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-062",
+   "symbol": "schedule_next",
+   "source_path": "sdk/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-063",
+   "symbol": "thread_count",
+   "source_path": "sdk/src/scheduler.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-064",
+   "symbol": "dispatch_send",
+   "source_path": "sdk/src/syscall.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-065",
+   "symbol": "dispatch_recv",
+   "source_path": "sdk/src/syscall.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-066",
+   "symbol": "scan_sources",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-067",
+   "symbol": "run_tests",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SHIVA-SPEC-068",
+   "symbol": "main",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 68,
+  "test_referenced": 48,
+  "suite_pass": true,
+  "eligible_functionally_verified": 48
+ }
+}

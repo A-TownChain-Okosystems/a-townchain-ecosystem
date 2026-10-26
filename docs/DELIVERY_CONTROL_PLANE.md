@@ -14,6 +14,7 @@ Das GitHub-Wiki ist für dieses Repository derzeit deaktiviert. Bis es explizit 
 | Zuständigkeiten / Konfliktauflösung | [CONTROL_MATRIX.md](../control-plane/CONTROL_MATRIX.md) |
 | Statusmodell und Evidence-Regeln | [STATUS_SCHEMA.yaml](../control-plane/STATUS_SCHEMA.yaml) |
 | Roadmap, Meilensteine, Checkpoints und Lieferstatus | [DELIVERY_REGISTRY.json](../control-plane/DELIVERY_REGISTRY.json) |
+| Verbindliche Wiki-/Katalog-Governance | [ATC-CANONICAL-WIKI-AND-CATALOGS-001.md](architecture/ATC-CANONICAL-WIKI-AND-CATALOGS-001.md) |
 | Komponenten-/Funktionsliste und Schnittstellen | [ATC-COMPONENT-FUNCTION-CATALOG-001.json](architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json) |
 | Produktionskriterien und maschinenlesbare Validierung | [ATC-COMPONENT-FUNCTION-CATALOG-001.md](architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md) |
 | Kernel-Implementierung und Boot-Evidence | [globus-os](https://github.com/A-TownChain-Okosystems/globus-os) |
@@ -46,6 +47,8 @@ Die Registry ist die maschinenlesbare Quelle für Roadmap-Einträge, Meilenstein
 Der [maschinenlesbare Katalog](architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json) ist die SSOT für komponentenbezogene Verantwortlichkeiten, Funktions-IDs, Ein-/Ausgaben, Fehlerfälle, Abnahmekriterien, Testklassen und bekannte Schnittstellen. Die zugehörige [Dokumentation](architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md) beschreibt Produktionsgates und Protokollrisiken.
 
 Der Katalog ist derzeit `BASELINE_RESIDUAL`; die Release-Entscheidung ist `BLOCKED`. Das bedeutet, dass der Katalog strukturiert und validierbar gemacht wird, nicht dass alle Komponenten produktionsreif sind. Der Katalog darf nur nach geprüftem Quell-/Schnittstellennachweis aktualisiert werden. Unbekannte Fakten bleiben offen.
+
+Die verbindliche Hierarchie, Zuständigkeit von Quell- und Norm-Repositories, Behandlung lokaler Kataloge sowie Regeln für `BOUND` / `EXCLUDED` / `UNRESOLVED` stehen in [ATC-CANONICAL-WIKI-AND-CATALOGS-001.md](architecture/ATC-CANONICAL-WIKI-AND-CATALOGS-001.md). Der zentrale Katalog ist ein organisationsweiter Inventar- und Reconciliation-Index, keine zweite Implementierungs- oder Norm-SSOT.
 
 ## Sprint- und TODO-Steuerung
 

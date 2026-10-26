@@ -1,0 +1,2662 @@
+{
+ "component": "COMP-GENESIS",
+ "repo": "genesis-engine",
+ "head_sha": "8b7100e8a88f3c9bb6e24ddda31706902f125bb5",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "cargo test --release --workspace 2>&1",
+  "exit_code": 0,
+  "passed": 87,
+  "log_tail": [
+   "",
+   "   Doc-tests atc_genesis_runtime",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_genesis_sdk",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_genesis_tools",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_genesis_ui",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_genesis_world",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-GENESIS-001",
+   "symbol": "validate",
+   "source_path": "modules/atc-genesis-build/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-002",
+   "symbol": "sync",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-003",
+   "symbol": "add_evidence",
+   "source_path": "franchise_factory/gff/artifacts.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-004",
+   "symbol": "validate_artifact",
+   "source_path": "franchise_factory/gff/artifacts.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-005",
+   "symbol": "default_pipeline",
+   "source_path": "franchise_factory/gff/core.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-006",
+   "symbol": "create_franchise",
+   "source_path": "franchise_factory/gff/core.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-007",
+   "symbol": "run_pipeline",
+   "source_path": "franchise_factory/gff/core.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-008",
+   "symbol": "reset_pipeline",
+   "source_path": "franchise_factory/gff/core.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-009",
+   "symbol": "deposit",
+   "source_path": "franchise_factory/gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-010",
+   "symbol": "withdraw",
+   "source_path": "franchise_factory/gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-011",
+   "symbol": "add_member",
+   "source_path": "franchise_factory/gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-012",
+   "symbol": "total_stake",
+   "source_path": "franchise_factory/gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-013",
+   "symbol": "voting_power",
+   "source_path": "franchise_factory/gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-014",
+   "symbol": "distribute_revenue",
+   "source_path": "franchise_factory/gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-015",
+   "symbol": "create",
+   "source_path": "franchise_factory/gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-016",
+   "symbol": "get",
+   "source_path": "franchise_factory/gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-017",
+   "symbol": "list_all",
+   "source_path": "franchise_factory/gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-018",
+   "symbol": "by_owner",
+   "source_path": "franchise_factory/gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-019",
+   "symbol": "join",
+   "source_path": "franchise_factory/gff/dao.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-020",
+   "symbol": "suspend",
+   "source_path": "franchise_factory/gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-021",
+   "symbol": "stats",
+   "source_path": "franchise_factory/gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-022",
+   "symbol": "validate_game_factory_graph",
+   "source_path": "franchise_factory/gff/game_factory.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-023",
+   "symbol": "topological_order",
+   "source_path": "franchise_factory/gff/game_factory.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-024",
+   "symbol": "dependency_refs",
+   "source_path": "franchise_factory/gff/game_factory.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-025",
+   "symbol": "register",
+   "source_path": "franchise_factory/gff/lifecycle.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-026",
+   "symbol": "transition",
+   "source_path": "franchise_factory/gff/lifecycle.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-027",
+   "symbol": "add_milestone",
+   "source_path": "franchise_factory/gff/lifecycle.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-028",
+   "symbol": "achieve_milestone",
+   "source_path": "franchise_factory/gff/lifecycle.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-029",
+   "symbol": "health",
+   "source_path": "franchise_factory/gff/lifecycle.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-030",
+   "symbol": "has_implementation_surface",
+   "source_path": "franchise_factory/gff/spec_loader.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-031",
+   "symbol": "load_spec",
+   "source_path": "franchise_factory/gff/spec_loader.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-032",
+   "symbol": "load_specs",
+   "source_path": "franchise_factory/gff/spec_loader.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-033",
+   "symbol": "record_evidence",
+   "source_path": "franchise_factory/gff/workflows.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-034",
+   "symbol": "get",
+   "source_path": "franchise_factory/gff/workflows.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-035",
+   "symbol": "all",
+   "source_path": "franchise_factory/gff/workflows.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-036",
+   "symbol": "validate",
+   "source_path": "franchise_factory/gff/workflows.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-037",
+   "symbol": "run",
+   "source_path": "franchise_factory/gff/workflows.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-038",
+   "symbol": "decide",
+   "source_path": "modules/atc-genesis-ai/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-039",
+   "symbol": "desired_velocity",
+   "source_path": "modules/atc-genesis-ai/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-040",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-ai/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-041",
+   "symbol": "set_blocked",
+   "source_path": "modules/atc-genesis-ai/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-042",
+   "symbol": "walkable",
+   "source_path": "modules/atc-genesis-ai/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-043",
+   "symbol": "neighbors",
+   "source_path": "modules/atc-genesis-ai/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-044",
+   "symbol": "shortest_path",
+   "source_path": "modules/atc-genesis-ai/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-045",
+   "symbol": "add_bone",
+   "source_path": "modules/atc-genesis-animation/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-046",
+   "symbol": "bone",
+   "source_path": "modules/atc-genesis-animation/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-047",
+   "symbol": "validate",
+   "source_path": "modules/atc-genesis-animation/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-048",
+   "symbol": "roots",
+   "source_path": "modules/atc-genesis-animation/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-049",
+   "symbol": "sample",
+   "source_path": "modules/atc-genesis-animation/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-050",
+   "symbol": "sample",
+   "source_path": "modules/atc-genesis-animation/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-051",
+   "symbol": "update",
+   "source_path": "modules/atc-genesis-animation/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-052",
+   "symbol": "sample",
+   "source_path": "modules/atc-genesis-animation/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-053",
+   "symbol": "register",
+   "source_path": "modules/atc-genesis-assets/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-054",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-assets/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-055",
+   "symbol": "import",
+   "source_path": "modules/atc-genesis-assets/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-056",
+   "symbol": "cook",
+   "source_path": "modules/atc-genesis-assets/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-057",
+   "symbol": "get",
+   "source_path": "modules/atc-genesis-assets/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-058",
+   "symbol": "uncooked",
+   "source_path": "modules/atc-genesis-assets/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-059",
+   "symbol": "validate_dependencies",
+   "source_path": "modules/atc-genesis-assets/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-060",
+   "symbol": "dependency_order",
+   "source_path": "modules/atc-genesis-assets/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-061",
+   "symbol": "validate",
+   "source_path": "modules/atc-genesis-assets/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-062",
+   "symbol": "triangle_count",
+   "source_path": "modules/atc-genesis-assets/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-063",
+   "symbol": "validate",
+   "source_path": "modules/atc-genesis-assets/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-064",
+   "symbol": "validate",
+   "source_path": "modules/atc-genesis-assets/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-065",
+   "symbol": "stable_asset_id",
+   "source_path": "modules/atc-genesis-assets/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-066",
+   "symbol": "register",
+   "source_path": "modules/atc-genesis-assets/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-067",
+   "symbol": "get",
+   "source_path": "modules/atc-genesis-assets/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-068",
+   "symbol": "dependencies",
+   "source_path": "modules/atc-genesis-assets/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-069",
+   "symbol": "dependents",
+   "source_path": "modules/atc-genesis-assets/src/registry.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-070",
+   "symbol": "missing_dependencies",
+   "source_path": "modules/atc-genesis-assets/src/registry.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-071",
+   "symbol": "has_dependency_cycle",
+   "source_path": "modules/atc-genesis-assets/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-072",
+   "symbol": "len",
+   "source_path": "modules/atc-genesis-assets/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-073",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-genesis-assets/src/registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-074",
+   "symbol": "attenuation",
+   "source_path": "modules/atc-genesis-audio/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-075",
+   "symbol": "start",
+   "source_path": "modules/atc-genesis-audio/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-076",
+   "symbol": "stop",
+   "source_path": "modules/atc-genesis-audio/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-077",
+   "symbol": "master_gain",
+   "source_path": "modules/atc-genesis-audio/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-078",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-079",
+   "symbol": "play",
+   "source_path": "modules/atc-genesis-audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-080",
+   "symbol": "stop",
+   "source_path": "modules/atc-genesis-audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-081",
+   "symbol": "voice",
+   "source_path": "modules/atc-genesis-audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-082",
+   "symbol": "create_bus",
+   "source_path": "modules/atc-genesis-audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-083",
+   "symbol": "set_bus_gain",
+   "source_path": "modules/atc-genesis-audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-084",
+   "symbol": "set_bus_muted",
+   "source_path": "modules/atc-genesis-audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-085",
+   "symbol": "set_master_gain",
+   "source_path": "modules/atc-genesis-audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-086",
+   "symbol": "master_gain",
+   "source_path": "modules/atc-genesis-audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-087",
+   "symbol": "effective_gain",
+   "source_path": "modules/atc-genesis-audio/src/mixer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-088",
+   "symbol": "debug",
+   "source_path": "modules/atc-genesis-build/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-089",
+   "symbol": "release",
+   "source_path": "modules/atc-genesis-build/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-090",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-build/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-091",
+   "symbol": "add_file",
+   "source_path": "modules/atc-genesis-build/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-092",
+   "symbol": "checksum",
+   "source_path": "modules/atc-genesis-build/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-093",
+   "symbol": "collect_files",
+   "source_path": "modules/atc-genesis-build/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-094",
+   "symbol": "build_artifacts",
+   "source_path": "modules/atc-genesis-build/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-095",
+   "symbol": "manifest_json",
+   "source_path": "modules/atc-genesis-build/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-096",
+   "symbol": "register",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-097",
+   "symbol": "events",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-098",
+   "symbol": "drain_events",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-099",
+   "symbol": "insert",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-100",
+   "symbol": "get",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-101",
+   "symbol": "get_mut",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-102",
+   "symbol": "remove",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-103",
+   "symbol": "contains",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-104",
+   "symbol": "len",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-105",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-106",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-107",
+   "symbol": "read_component",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-108",
+   "symbol": "write_component",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-109",
+   "symbol": "read_resource",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-110",
+   "symbol": "write_resource",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-111",
+   "symbol": "conflicts_with",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-112",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-113",
+   "symbol": "before",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-114",
+   "symbol": "after",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-115",
+   "symbol": "access",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-116",
+   "symbol": "read_component",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-117",
+   "symbol": "write_component",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-118",
+   "symbol": "read_resource",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-119",
+   "symbol": "write_resource",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-120",
+   "symbol": "access_contract",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-121",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-122",
+   "symbol": "register",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-123",
+   "symbol": "len",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-124",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-125",
+   "symbol": "get",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-126",
+   "symbol": "ordered_systems",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-127",
+   "symbol": "parallel_batches",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-128",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-129",
+   "symbol": "register",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-130",
+   "symbol": "len",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-131",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-132",
+   "symbol": "parallel_batches",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-133",
+   "symbol": "run",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-134",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-135",
+   "symbol": "spawn",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-136",
+   "symbol": "insert",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-137",
+   "symbol": "contains",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-138",
+   "symbol": "despawn",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-139",
+   "symbol": "set_transform",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-140",
+   "symbol": "transform",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-141",
+   "symbol": "insert_component",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-142",
+   "symbol": "set_component",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-143",
+   "symbol": "component",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-144",
+   "symbol": "component_mut",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-145",
+   "symbol": "remove_component",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-146",
+   "symbol": "has_component",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-147",
+   "symbol": "is_component_added",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-148",
+   "symbol": "is_component_changed",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-149",
+   "symbol": "clear_change_tracking",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-150",
+   "symbol": "lifecycle_hooks",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-151",
+   "symbol": "lifecycle_events",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-152",
+   "symbol": "drain_lifecycle_events",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-153",
+   "symbol": "insert_resource",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-154",
+   "symbol": "resource",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-155",
+   "symbol": "resource_mut",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-156",
+   "symbol": "remove_resource",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-157",
+   "symbol": "has_resource",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-158",
+   "symbol": "resource_count",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-159",
+   "symbol": "set_parent",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-160",
+   "symbol": "parent",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-161",
+   "symbol": "len",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-162",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-163",
+   "symbol": "entities",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-164",
+   "symbol": "iter_transforms",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-165",
+   "symbol": "query1",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-166",
+   "symbol": "query2",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-167",
+   "symbol": "query3",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-168",
+   "symbol": "query_with",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-169",
+   "symbol": "world_transform",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-170",
+   "symbol": "query_world_transforms",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-171",
+   "symbol": "render",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-172",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-173",
+   "symbol": "entity_for_chunk",
+   "source_path": "modules/atc-genesis-ecs/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-174",
+   "symbol": "register",
+   "source_path": "modules/atc-genesis-ecs/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-175",
+   "symbol": "emit",
+   "source_path": "modules/atc-genesis-ecs/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-176",
+   "symbol": "events",
+   "source_path": "modules/atc-genesis-ecs/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-177",
+   "symbol": "drain_events",
+   "source_path": "modules/atc-genesis-ecs/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-178",
+   "symbol": "mark_added",
+   "source_path": "modules/atc-genesis-ecs/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-179",
+   "symbol": "mark_changed",
+   "source_path": "modules/atc-genesis-ecs/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-180",
+   "symbol": "is_added",
+   "source_path": "modules/atc-genesis-ecs/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-181",
+   "symbol": "is_changed",
+   "source_path": "modules/atc-genesis-ecs/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-182",
+   "symbol": "clear",
+   "source_path": "modules/atc-genesis-ecs/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-183",
+   "symbol": "clear_entity",
+   "source_path": "modules/atc-genesis-ecs/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-184",
+   "symbol": "create_node",
+   "source_path": "modules/atc-genesis-editor/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-185",
+   "symbol": "remove_node",
+   "source_path": "modules/atc-genesis-editor/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-186",
+   "symbol": "set_transform",
+   "source_path": "modules/atc-genesis-editor/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-187",
+   "symbol": "select",
+   "source_path": "modules/atc-genesis-editor/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-188",
+   "symbol": "selected",
+   "source_path": "modules/atc-genesis-editor/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-189",
+   "symbol": "nodes",
+   "source_path": "modules/atc-genesis-editor/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-190",
+   "symbol": "undo",
+   "source_path": "modules/atc-genesis-editor/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-191",
+   "symbol": "apply_to_world",
+   "source_path": "modules/atc-genesis-editor/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-192",
+   "symbol": "serialize",
+   "source_path": "modules/atc-genesis-editor/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-193",
+   "symbol": "deserialize",
+   "source_path": "modules/atc-genesis-editor/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-194",
+   "symbol": "create_entity",
+   "source_path": "modules/atc-genesis-engine/engine/core/ecs.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-195",
+   "symbol": "destroy_entity",
+   "source_path": "modules/atc-genesis-engine/engine/core/ecs.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-196",
+   "symbol": "add_component",
+   "source_path": "modules/atc-genesis-engine/engine/core/ecs.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-197",
+   "symbol": "get_component",
+   "source_path": "modules/atc-genesis-engine/engine/core/ecs.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-198",
+   "symbol": "has_component",
+   "source_path": "modules/atc-genesis-engine/engine/core/ecs.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-199",
+   "symbol": "query",
+   "source_path": "modules/atc-genesis-engine/engine/core/ecs.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-200",
+   "symbol": "add_system",
+   "source_path": "modules/atc-genesis-engine/engine/core/ecs.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-201",
+   "symbol": "update",
+   "source_path": "modules/atc-genesis-engine/engine/core/ecs.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-202",
+   "symbol": "update",
+   "source_path": "modules/atc-genesis-engine/engine/core/ecs.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-203",
+   "symbol": "update",
+   "source_path": "modules/atc-genesis-engine/engine/core/ecs.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-204",
+   "symbol": "build_demo_world",
+   "source_path": "modules/atc-genesis-engine/engine/main.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-205",
+   "symbol": "run",
+   "source_path": "modules/atc-genesis-engine/engine/main.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-206",
+   "symbol": "render_frame",
+   "source_path": "modules/atc-genesis-engine/engine/render/renderer2d.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-207",
+   "symbol": "close",
+   "source_path": "modules/atc-genesis-engine/engine/render/renderer2d.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-208",
+   "symbol": "deposit",
+   "source_path": "modules/atc-genesis-gameplay/src/economy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-209",
+   "symbol": "withdraw",
+   "source_path": "modules/atc-genesis-gameplay/src/economy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-210",
+   "symbol": "total_price",
+   "source_path": "modules/atc-genesis-gameplay/src/economy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-211",
+   "symbol": "valid",
+   "source_path": "modules/atc-genesis-gameplay/src/economy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-212",
+   "symbol": "list",
+   "source_path": "modules/atc-genesis-gameplay/src/economy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-213",
+   "symbol": "find",
+   "source_path": "modules/atc-genesis-gameplay/src/economy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-214",
+   "symbol": "sample_movement",
+   "source_path": "modules/atc-genesis-gameplay/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-215",
+   "symbol": "apply",
+   "source_path": "modules/atc-genesis-gameplay/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-216",
+   "symbol": "tick",
+   "source_path": "modules/atc-genesis-gameplay/src/needs.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-217",
+   "symbol": "feed",
+   "source_path": "modules/atc-genesis-gameplay/src/needs.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-218",
+   "symbol": "drink",
+   "source_path": "modules/atc-genesis-gameplay/src/needs.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-219",
+   "symbol": "rest",
+   "source_path": "modules/atc-genesis-gameplay/src/needs.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-220",
+   "symbol": "furnish",
+   "source_path": "modules/atc-genesis-gameplay/src/needs.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-221",
+   "symbol": "critical",
+   "source_path": "modules/atc-genesis-gameplay/src/needs.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-222",
+   "symbol": "next_need_action",
+   "source_path": "modules/atc-genesis-gameplay/src/needs.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-223",
+   "symbol": "apply",
+   "source_path": "modules/atc-genesis-input/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-224",
+   "symbol": "pressed",
+   "source_path": "modules/atc-genesis-input/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-225",
+   "symbol": "axis",
+   "source_path": "modules/atc-genesis-input/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-226",
+   "symbol": "with_capacity",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-227",
+   "symbol": "push",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-228",
+   "symbol": "latest",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-229",
+   "symbol": "sample_pair",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-230",
+   "symbol": "len",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-231",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-232",
+   "symbol": "encode",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-233",
+   "symbol": "decode",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-234",
+   "symbol": "encode",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-235",
+   "symbol": "decode",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-236",
+   "symbol": "has_valid_rotation",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-237",
+   "symbol": "between",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-238",
+   "symbol": "with_capacity",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-239",
+   "symbol": "push",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-240",
+   "symbol": "inputs_after",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-241",
+   "symbol": "len",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-242",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-243",
+   "symbol": "drain",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-244",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-245",
+   "symbol": "publish",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-246",
+   "symbol": "decode_packet",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-247",
+   "symbol": "accept_packet",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-248",
+   "symbol": "sequence",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-249",
+   "symbol": "last_received_sequence",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-250",
+   "symbol": "last_received_tick",
+   "source_path": "modules/atc-genesis-network/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-251",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-network/src/security.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-252",
+   "symbol": "peer",
+   "source_path": "modules/atc-genesis-network/src/security.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-253",
+   "symbol": "session",
+   "source_path": "modules/atc-genesis-network/src/security.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-254",
+   "symbol": "last_sequence",
+   "source_path": "modules/atc-genesis-network/src/security.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-255",
+   "symbol": "last_tick",
+   "source_path": "modules/atc-genesis-network/src/security.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-256",
+   "symbol": "validate",
+   "source_path": "modules/atc-genesis-network/src/security.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-257",
+   "symbol": "validate_for_entity",
+   "source_path": "modules/atc-genesis-network/src/security.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-258",
+   "symbol": "validate_entity_owner",
+   "source_path": "modules/atc-genesis-network/src/security.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-259",
+   "symbol": "contains",
+   "source_path": "modules/atc-genesis-physics/src/collision.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-260",
+   "symbol": "intersects",
+   "source_path": "modules/atc-genesis-physics/src/collision.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-261",
+   "symbol": "ray_intersection",
+   "source_path": "modules/atc-genesis-physics/src/collision.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-262",
+   "symbol": "point_resolution",
+   "source_path": "modules/atc-genesis-physics/src/collision.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-263",
+   "symbol": "add",
+   "source_path": "modules/atc-genesis-physics/src/collision.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-264",
+   "symbol": "remove",
+   "source_path": "modules/atc-genesis-physics/src/collision.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-265",
+   "symbol": "query_aabb",
+   "source_path": "modules/atc-genesis-physics/src/collision.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-266",
+   "symbol": "resolve_point",
+   "source_path": "modules/atc-genesis-physics/src/collision.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-267",
+   "symbol": "raycast",
+   "source_path": "modules/atc-genesis-physics/src/collision.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-268",
+   "symbol": "clear",
+   "source_path": "modules/atc-genesis-physics/src/collision.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-269",
+   "symbol": "len",
+   "source_path": "modules/atc-genesis-physics/src/collision.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-270",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-genesis-physics/src/collision.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-271",
+   "symbol": "dynamic",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-272",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-273",
+   "symbol": "add_body",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-274",
+   "symbol": "remove_body",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-275",
+   "symbol": "bodies",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-276",
+   "symbol": "body",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-277",
+   "symbol": "body_mut",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-278",
+   "symbol": "step_fixed",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-279",
+   "symbol": "advance",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-280",
+   "symbol": "sync_to_world",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-281",
+   "symbol": "add_collider",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-282",
+   "symbol": "remove_collider",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-283",
+   "symbol": "query",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-284",
+   "symbol": "interpolation_alpha",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-285",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-286",
+   "symbol": "entity_for_chunk",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-287",
+   "symbol": "sync",
+   "source_path": "modules/atc-genesis-physics/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-288",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-platform/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-289",
+   "symbol": "from_animation",
+   "source_path": "modules/atc-genesis-renderer/src/animation.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-290",
+   "symbol": "validate_against",
+   "source_path": "modules/atc-genesis-renderer/src/animation.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-291",
+   "symbol": "submitted",
+   "source_path": "modules/atc-genesis-renderer/src/backend.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-292",
+   "symbol": "commands",
+   "source_path": "modules/atc-genesis-renderer/src/backend.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-293",
+   "symbol": "build_batches",
+   "source_path": "modules/atc-genesis-renderer/src/batching.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-294",
+   "symbol": "rebuild_from_world_with_resources",
+   "source_path": "modules/atc-genesis-renderer/src/ecs.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-295",
+   "symbol": "rebuild_entity",
+   "source_path": "modules/atc-genesis-renderer/src/ecs.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-296",
+   "symbol": "rebuild_binding",
+   "source_path": "modules/atc-genesis-renderer/src/ecs.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-297",
+   "symbol": "visible_distance",
+   "source_path": "modules/atc-genesis-renderer/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-298",
+   "symbol": "in_front",
+   "source_path": "modules/atc-genesis-renderer/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-299",
+   "symbol": "clear",
+   "source_path": "modules/atc-genesis-renderer/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-300",
+   "symbol": "push",
+   "source_path": "modules/atc-genesis-renderer/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-301",
+   "symbol": "commands",
+   "source_path": "modules/atc-genesis-renderer/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-302",
+   "symbol": "sort_deterministic",
+   "source_path": "modules/atc-genesis-renderer/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-303",
+   "symbol": "cull_distance",
+   "source_path": "modules/atc-genesis-renderer/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-304",
+   "symbol": "rebuild_from_world",
+   "source_path": "modules/atc-genesis-renderer/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-305",
+   "symbol": "submitted_count",
+   "source_path": "modules/atc-genesis-renderer/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-306",
+   "symbol": "collect_render_items",
+   "source_path": "modules/atc-genesis-renderer/src/render_item.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-307",
+   "symbol": "collect_entity",
+   "source_path": "modules/atc-genesis-renderer/src/render_item.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-308",
+   "symbol": "bind",
+   "source_path": "modules/atc-genesis-renderer/src/resources.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-309",
+   "symbol": "unbind",
+   "source_path": "modules/atc-genesis-renderer/src/resources.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-310",
+   "symbol": "binding",
+   "source_path": "modules/atc-genesis-renderer/src/resources.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-311",
+   "symbol": "iter_sorted",
+   "source_path": "modules/atc-genesis-renderer/src/resources.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-312",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-313",
+   "symbol": "with_audio_and_network",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-314",
+   "symbol": "frame",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-315",
+   "symbol": "network_tick",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-316",
+   "symbol": "add_chunk",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-317",
+   "symbol": "spawn",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-318",
+   "symbol": "chunk_entity",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-319",
+   "symbol": "stream",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-320",
+   "symbol": "input_event",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-321",
+   "symbol": "queue_movement",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-322",
+   "symbol": "update_gameplay",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-323",
+   "symbol": "register_animation_clip",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-324",
+   "symbol": "play_animation",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-325",
+   "symbol": "stop_animation",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-326",
+   "symbol": "update_animations",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-327",
+   "symbol": "publish_entity",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-328",
+   "symbol": "apply_network_state",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-329",
+   "symbol": "receive_network_packet",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-330",
+   "symbol": "receive_secure_network_packet",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-331",
+   "symbol": "receive_secure_network_packet_for_entity",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-332",
+   "symbol": "step",
+   "source_path": "modules/atc-genesis-runtime/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-333",
+   "symbol": "validate",
+   "source_path": "modules/atc-genesis-runtime/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-334",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-runtime/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-335",
+   "symbol": "advance",
+   "source_path": "modules/atc-genesis-runtime/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-336",
+   "symbol": "accumulator",
+   "source_path": "modules/atc-genesis-runtime/src/lifecycle.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-337",
+   "symbol": "new",
+   "source_path": "modules/atc-genesis-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-338",
+   "symbol": "spawn",
+   "source_path": "modules/atc-genesis-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-339",
+   "symbol": "transform",
+   "source_path": "modules/atc-genesis-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-340",
+   "symbol": "set_transform",
+   "source_path": "modules/atc-genesis-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-341",
+   "symbol": "despawn",
+   "source_path": "modules/atc-genesis-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-342",
+   "symbol": "entity_count",
+   "source_path": "modules/atc-genesis-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-343",
+   "symbol": "frame",
+   "source_path": "modules/atc-genesis-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-344",
+   "symbol": "advance_frame",
+   "source_path": "modules/atc-genesis-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-345",
+   "symbol": "add",
+   "source_path": "modules/atc-genesis-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-346",
+   "symbol": "startup",
+   "source_path": "modules/atc-genesis-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-347",
+   "symbol": "update",
+   "source_path": "modules/atc-genesis-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-348",
+   "symbol": "shutdown",
+   "source_path": "modules/atc-genesis-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-349",
+   "symbol": "begin",
+   "source_path": "modules/atc-genesis-tools/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-350",
+   "symbol": "end",
+   "source_path": "modules/atc-genesis-tools/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-351",
+   "symbol": "samples",
+   "source_path": "modules/atc-genesis-tools/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-352",
+   "symbol": "contains",
+   "source_path": "modules/atc-genesis-ui/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-353",
+   "symbol": "set",
+   "source_path": "modules/atc-genesis-ui/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-354",
+   "symbol": "get",
+   "source_path": "modules/atc-genesis-ui/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-355",
+   "symbol": "add_button",
+   "source_path": "modules/atc-genesis-ui/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-356",
+   "symbol": "dispatch",
+   "source_path": "modules/atc-genesis-ui/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-357",
+   "symbol": "focus",
+   "source_path": "modules/atc-genesis-ui/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-358",
+   "symbol": "contains",
+   "source_path": "modules/atc-genesis-world/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-359",
+   "symbol": "distance_squared",
+   "source_path": "modules/atc-genesis-world/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-360",
+   "symbol": "add_chunk",
+   "source_path": "modules/atc-genesis-world/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-361",
+   "symbol": "chunks",
+   "source_path": "modules/atc-genesis-world/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-362",
+   "symbol": "loaded",
+   "source_path": "modules/atc-genesis-world/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-363",
+   "symbol": "loading",
+   "source_path": "modules/atc-genesis-world/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-364",
+   "symbol": "update",
+   "source_path": "modules/atc-genesis-world/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-365",
+   "symbol": "plan_transitions",
+   "source_path": "modules/atc-genesis-world/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-366",
+   "symbol": "complete_load",
+   "source_path": "modules/atc-genesis-world/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-367",
+   "symbol": "cancel_load",
+   "source_path": "modules/atc-genesis-world/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GENESIS-368",
+   "symbol": "load_allowlist",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-369",
+   "symbol": "code_view_py",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-370",
+   "symbol": "code_view_rust",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-371",
+   "symbol": "scan_sources",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-372",
+   "symbol": "run_tests",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GENESIS-373",
+   "symbol": "main",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 373,
+  "test_referenced": 230,
+  "suite_pass": true,
+  "eligible_functionally_verified": 230
+ }
+}

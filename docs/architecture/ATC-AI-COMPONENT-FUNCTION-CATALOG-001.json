@@ -1,0 +1,440 @@
+{
+  "schema_id": "ATC-AI-COMPONENT-FUNCTION-CATALOG-001",
+  "schema_version": "1.0.0",
+  "snapshot_date": "2026-10-13",
+  "status": "SPECIFIED_BASELINE_RECONCILIATION_REQUIRED",
+  "purpose": "Supplemental inventory of Aurora AI modules and documented function surfaces. This is not evidence of implementation, safety, model quality, or runtime verification.",
+  "authority": {
+    "canonical_repository": "A-TownChain-Okosystems/aurora-ai",
+    "registry_repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+    "registry_role": "Architecture, integration, ownership and evidence control plane only",
+    "security_boundary": "Aurora AI is userspace/service infrastructure, not part of the ShivaCore TCB and not an authority over deterministic chain, kernel, security or governance decisions."
+  },
+  "source_provenance": [
+    {
+      "repository": "A-TownChain-Okosystems/aurora-ai",
+      "path": "README.md",
+      "ref": "main",
+      "blob_sha": "f2d7311feb22a21ed6ea8171fa6b9ee7e71b1fc6"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/aurora-ai",
+      "path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json",
+      "ref": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
+      "blob_sha": "b7926c0ccf2bec6e88c7c4317f5de78f1bfbab14"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/aurora-ai",
+      "path": "modules/atc-aurora-core/COMPONENT_PLAN.md",
+      "ref": "main",
+      "blob_sha": "56bc43ac38145c98cebc8c2698ac1bea122eeead"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/aurora-ai",
+      "path": "modules/atc-aurora-agents/COMPONENT_PLAN.md",
+      "ref": "main",
+      "blob_sha": "9f62d2db400d06645e04b401e6c2847627aa45ce"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/aurora-ai",
+      "path": "modules/atc-aurora-runtime/COMPONENT_PLAN.md",
+      "ref": "main",
+      "blob_sha": "6a4d7e3968a55c0016436c272f35dd45032a55ee"
+    }
+  ],
+  "components": [
+    {
+      "component_id": "ATC-AI-COMP-CORE-001",
+      "name": "Aurora Core / Model Hub",
+      "canonical_path": "modules/atc-aurora-core/",
+      "responsibilities": [
+        "core lifecycle (planned)",
+        "model registration and routing (planned)",
+        "LLM request routing, fallback and load balancing (planned)",
+        "agent registry (planned)",
+        "configuration and persistence (planned)"
+      ],
+      "declared_status": "PLANNED_IN_COMPONENT_PLAN",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "modules/atc-aurora-core/COMPONENT_PLAN.md"
+    },
+    {
+      "component_id": "ATC-AI-COMP-AGENTS-001",
+      "name": "Aurora Agent Framework",
+      "canonical_path": "modules/atc-aurora-agents/",
+      "responsibilities": [
+        "agent role registry and agent-specific task handling"
+      ],
+      "declared_status": "PLANNED_IN_COMPONENT_PLAN",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "modules/atc-aurora-agents/COMPONENT_PLAN.md"
+    },
+    {
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "name": "Aurora Decentralized Memory",
+      "canonical_path": "modules/atc-aurora-memory/",
+      "responsibilities": [
+        "local and federated memory",
+        "context assembly",
+        "provenance and integrity metadata",
+        "retention and access policy"
+      ],
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "component_id": "ATC-AI-COMP-RUNTIME-001",
+      "name": "Aurora Runtime / Tool System",
+      "canonical_path": "modules/atc-aurora-runtime/",
+      "responsibilities": [
+        "agent session/task lifecycle (planned)",
+        "tool registration and execution (planned)",
+        "sandboxed execution (planned)",
+        "task scheduling (planned)",
+        "result aggregation (planned)"
+      ],
+      "declared_status": "PLANNED_IN_COMPONENT_PLAN",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "modules/atc-aurora-runtime/COMPONENT_PLAN.md"
+    },
+    {
+      "component_id": "ATC-AI-COMP-SERVICES-001",
+      "name": "Aurora AI Services",
+      "canonical_path": "modules/atc-aurora-ai/",
+      "responsibilities": [
+        "Python AI services and model integration; exact public API inventory pending"
+      ],
+      "declared_status": "REPOSITORY_DOCUMENTED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "README.md"
+    },
+    {
+      "component_id": "ATC-AI-COMP-STUDIO-001",
+      "name": "Aurora AI Studio",
+      "canonical_path": "modules/atc-aistudio/",
+      "responsibilities": [
+        "AI development and UI tooling; exact route/action inventory pending"
+      ],
+      "declared_status": "REPOSITORY_DOCUMENTED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "README.md"
+    }
+  ],
+  "functions": [
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-001",
+      "name": "Register an authorized memory node",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-002",
+      "name": "Authenticate a memory node",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-003",
+      "name": "Create canonical memory record",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-004",
+      "name": "Classify memory type",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-005",
+      "name": "Evaluate memory access policy",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-006",
+      "name": "Query authorized federated memory",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-007",
+      "name": "Persist local memory",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-008",
+      "name": "Synchronize memory between authorized nodes",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-009",
+      "name": "Preserve provenance and integrity metadata",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-010",
+      "name": "Resolve memory versions/conflicts deterministically",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-011",
+      "name": "Revoke memory federation access",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-012",
+      "name": "Apply retention/deletion policy",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-013",
+      "name": "Assemble authorized Aurora context",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-014",
+      "name": "Create optional ATC integrity/provenance proof",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-015",
+      "name": "Audit privileged memory operations",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-MEM-016",
+      "name": "Support offline synchronization/reconciliation",
+      "component_id": "ATC-AI-COMP-MEMORY-001",
+      "record_kind": "FUNCTION_CONTRACT",
+      "declared_status": "SPECIFIED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-CORE-001",
+      "name": "Initialize, report status and shut down core",
+      "component_id": "ATC-AI-COMP-CORE-001",
+      "record_kind": "FUNCTION_CANDIDATE",
+      "declared_status": "PLANNED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "modules/atc-aurora-core/COMPONENT_PLAN.md"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-CORE-002",
+      "name": "Register models and route model requests",
+      "component_id": "ATC-AI-COMP-CORE-001",
+      "record_kind": "FUNCTION_CANDIDATE",
+      "declared_status": "PLANNED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "modules/atc-aurora-core/COMPONENT_PLAN.md"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-CORE-003",
+      "name": "Route LLM requests with fallback and load balancing",
+      "component_id": "ATC-AI-COMP-CORE-001",
+      "record_kind": "FUNCTION_CANDIDATE",
+      "declared_status": "PLANNED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "modules/atc-aurora-core/COMPONENT_PLAN.md"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-CORE-004",
+      "name": "Register and resolve agent types",
+      "component_id": "ATC-AI-COMP-CORE-001",
+      "record_kind": "FUNCTION_CANDIDATE",
+      "declared_status": "PLANNED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "modules/atc-aurora-core/COMPONENT_PLAN.md"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-CORE-005",
+      "name": "Manage runtime configuration and persistence",
+      "component_id": "ATC-AI-COMP-CORE-001",
+      "record_kind": "FUNCTION_CANDIDATE",
+      "declared_status": "PLANNED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "modules/atc-aurora-core/COMPONENT_PLAN.md"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-RUNTIME-001",
+      "name": "Manage agent session, task and lifecycle",
+      "component_id": "ATC-AI-COMP-RUNTIME-001",
+      "record_kind": "FUNCTION_CANDIDATE",
+      "declared_status": "PLANNED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "modules/atc-aurora-runtime/COMPONENT_PLAN.md"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-RUNTIME-002",
+      "name": "Register and execute approved tools",
+      "component_id": "ATC-AI-COMP-RUNTIME-001",
+      "record_kind": "FUNCTION_CANDIDATE",
+      "declared_status": "PLANNED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "modules/atc-aurora-runtime/COMPONENT_PLAN.md"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-RUNTIME-003",
+      "name": "Execute work in a sandbox",
+      "component_id": "ATC-AI-COMP-RUNTIME-001",
+      "record_kind": "FUNCTION_CANDIDATE",
+      "declared_status": "PLANNED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "modules/atc-aurora-runtime/COMPONENT_PLAN.md"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-RUNTIME-004",
+      "name": "Schedule tasks and manage the task queue",
+      "component_id": "ATC-AI-COMP-RUNTIME-001",
+      "record_kind": "FUNCTION_CANDIDATE",
+      "declared_status": "PLANNED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "modules/atc-aurora-runtime/COMPONENT_PLAN.md"
+    },
+    {
+      "function_id": "ATC-FUNC-AURORA-RUNTIME-005",
+      "name": "Collect and aggregate task results",
+      "component_id": "ATC-AI-COMP-RUNTIME-001",
+      "record_kind": "FUNCTION_CANDIDATE",
+      "declared_status": "PLANNED",
+      "implementation_status": "NOT_VERIFIED",
+      "verification_status": "NOT_VERIFIED",
+      "source_path": "modules/atc-aurora-runtime/COMPONENT_PLAN.md"
+    }
+  ],
+  "required_interfaces": [
+    {
+      "interface_id": "ATC-AI-IFACE-POLICY-001",
+      "name": "Policy and capability authorization boundary",
+      "status": "CONTRACT_REQUIRED",
+      "notes": "Tool execution must require explicit policy evaluation and capability authorization; no ambient authority."
+    },
+    {
+      "interface_id": "ATC-AI-IFACE-MODEL-001",
+      "name": "Model ABI / inference provider boundary",
+      "status": "CONTRACT_REQUIRED",
+      "notes": "Provider inputs, outputs, cancellation, resource limits, errors and provenance require a versioned contract."
+    },
+    {
+      "interface_id": "ATC-AI-IFACE-MEMORY-001",
+      "name": "Memory access and provenance boundary",
+      "status": "SPECIFIED_BASELINE",
+      "notes": "Reconcile catalog contracts with implementation and data-retention semantics."
+    },
+    {
+      "interface_id": "ATC-AI-IFACE-OS-001",
+      "name": "GlobusOS service/IPC boundary",
+      "status": "CONTRACT_REQUIRED",
+      "notes": "Aurora is userspace/service infrastructure, not ShivaCore TCB."
+    }
+  ],
+  "counts": {
+    "components": 6,
+    "functions": 26,
+    "interfaces": 4,
+    "specified_memory_functions": 16,
+    "planned_function_candidates": 10,
+    "functionally_verified": 0
+  },
+  "reconciliation_rules": [
+    "Preserve the original 16 memory function IDs from the source catalog.",
+    "PLANNED and SPECIFIED are not equivalent to IMPLEMENTED or VERIFIED.",
+    "Map every candidate to exact source symbols and contract tests before marking implementation status.",
+    "Do not grant Aurora authority over ShivaCore, chain consensus, canonical ATC-VM, or governance decisions.",
+    "Potential overlap with existing central component/function records must be reconciled explicitly; do not deduplicate by name alone."
+  ],
+  "overall_status": "RECONCILIATION_REQUIRED",
+  "residuals": [
+    "No source-language AST inventory of Rust/Python/TypeScript functions has been performed for all Aurora modules.",
+    "Agent role plans require a complete record-level import; this catalog does not claim all agent functions are listed.",
+    "Public interfaces, error models, schemas, resource limits and capability requirements are incomplete.",
+    "No functional verification is claimed."
+  ]
+}

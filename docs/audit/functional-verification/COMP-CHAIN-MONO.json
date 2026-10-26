@@ -1,0 +1,807 @@
+{
+ "component": "COMP-CHAIN-MONO",
+ "repo": "a-townchain",
+ "head_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "for m in components/algorithm/Cargo.toml components/interop/modules/atc-bridge/Cargo.toml components/mining/Cargo.toml components/node/Cargo.toml components/oracle/Cargo.toml components/sdk/Cargo.toml components/sdk/modules/atc-cli/Cargo.toml components/sdk/modules/atc-sdk/rust/Cargo.toml components/storage/Cargo.toml components/vm/Cargo.toml components/wallet/Cargo.toml components/wallet/modules/atc-wallet/Cargo.toml components/zkp/Cargo.toml components/zkp/crates/zkp-circuits/Cargo.toml components/zkp/crates/zkp-core/Cargo.toml components/zkp/crates/zkp-crypto/Cargo.toml components/zkp/crates/zkp-prover/Cargo.toml components/zkp/crates/zkp-sdk/Cargo.toml components/zkp/crates/zkp-verifier/Cargo.toml components/zkp/crates/zkp-vm/Cargo.toml modules/atc-dns/Cargo.toml modules/atc-governance/Cargo.toml modules/atc-zkp/Cargo.toml ; do cargo test --release --manifest-path $m 2>&1 || exit 101; done",
+  "exit_code": 0,
+  "passed": 222,
+  "log_tail": [
+   "test delegation::tests::test_delegation ... ok",
+   "test timelock::tests::test_timelock ... ok",
+   "test proposal::tests::test_proposal_lifecycle ... ok",
+   "test treasury::tests::accounting_invariant_violation_is_reported ... ok",
+   "test proposal::tests::test_proposal_reject ... ok",
+   "test treasury::tests::max_amount_is_supported ... ok",
+   "test treasury::tests::allocation_overflow_is_rejected_atomically ... ok",
+   "test voting::tests::test_voting ... ok",
+   "test treasury::tests::test_treasury ... ok",
+   "",
+   "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_governance",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "    Finished `release` profile [optimized] target(s) in 0.00s",
+   "     Running unittests src/lib.rs (modules/atc-zkp/target/release/build/atc_zkp/62372ac65e53ffae/out/atc_zkp-62372ac65e53ffae)",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_zkp",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-CHAIN-MONO-001",
+   "symbol": "scan",
+   "source_path": "tools/consensus_boundary_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-002",
+   "symbol": "main",
+   "source_path": "tools/consensus_boundary_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-003",
+   "symbol": "run",
+   "source_path": "tools/dependency_review.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-004",
+   "symbol": "files_at",
+   "source_path": "tools/dependency_review.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-005",
+   "symbol": "read_at",
+   "source_path": "tools/dependency_review.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-006",
+   "symbol": "add",
+   "source_path": "tools/dependency_review.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-007",
+   "symbol": "cargo_graph",
+   "source_path": "tools/dependency_review.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-008",
+   "symbol": "npm_graph",
+   "source_path": "tools/dependency_review.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-009",
+   "symbol": "python_graph",
+   "source_path": "tools/dependency_review.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-010",
+   "symbol": "action_graph",
+   "source_path": "tools/dependency_review.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-011",
+   "symbol": "snapshot",
+   "source_path": "tools/dependency_review.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-012",
+   "symbol": "osv_query",
+   "source_path": "tools/dependency_review.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-013",
+   "symbol": "main",
+   "source_path": "tools/dependency_review.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-014",
+   "symbol": "load_allowlist",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-015",
+   "symbol": "code_view_py",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-016",
+   "symbol": "code_view_rust",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-017",
+   "symbol": "scan_sources",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-018",
+   "symbol": "run_tests",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-019",
+   "symbol": "normalize_output",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-020",
+   "symbol": "main",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-021",
+   "symbol": "eval_line",
+   "source_path": "components/sdk/modules/atc-cli/repl/repl.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-022",
+   "symbol": "run",
+   "source_path": "components/sdk/modules/atc-cli/repl/repl.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-023",
+   "symbol": "chain_id",
+   "source_path": "components/sdk/modules/atc-cli/src/format.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-024",
+   "symbol": "boot_hash",
+   "source_path": "components/sdk/modules/atc-cli/src/format.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-025",
+   "symbol": "peers",
+   "source_path": "components/sdk/modules/atc-cli/src/format.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-026",
+   "symbol": "ping",
+   "source_path": "components/sdk/modules/atc-cli/src/format.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-027",
+   "symbol": "new",
+   "source_path": "components/sdk/modules/atc-cli/src/rpc_client.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-028",
+   "symbol": "chain_id",
+   "source_path": "components/sdk/modules/atc-cli/src/rpc_client.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-029",
+   "symbol": "boot_hash",
+   "source_path": "components/sdk/modules/atc-cli/src/rpc_client.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-030",
+   "symbol": "peers",
+   "source_path": "components/sdk/modules/atc-cli/src/rpc_client.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-031",
+   "symbol": "ping",
+   "source_path": "components/sdk/modules/atc-cli/src/rpc_client.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-032",
+   "symbol": "into_result",
+   "source_path": "components/sdk/modules/atc-sdk/rust/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-033",
+   "symbol": "new",
+   "source_path": "components/sdk/modules/atc-sdk/rust/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-034",
+   "symbol": "new",
+   "source_path": "components/sdk/modules/atc-sdk/rust/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-035",
+   "symbol": "endpoint",
+   "source_path": "components/sdk/modules/atc-sdk/rust/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-036",
+   "symbol": "request",
+   "source_path": "components/sdk/modules/atc-sdk/rust/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-037",
+   "symbol": "validate_nonce",
+   "source_path": "components/sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-038",
+   "symbol": "devnet",
+   "source_path": "components/node/src/bootstrap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-039",
+   "symbol": "from_file",
+   "source_path": "components/node/src/bootstrap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-040",
+   "symbol": "identity",
+   "source_path": "components/node/src/bootstrap.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-041",
+   "symbol": "boot_hash",
+   "source_path": "components/node/src/bootstrap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-042",
+   "symbol": "devnet_boot",
+   "source_path": "components/node/src/bootstrap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-043",
+   "symbol": "genesis_block",
+   "source_path": "components/node/src/chain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-044",
+   "symbol": "from_genesis",
+   "source_path": "components/node/src/chain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-045",
+   "symbol": "best",
+   "source_path": "components/node/src/chain.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-046",
+   "symbol": "height",
+   "source_path": "components/node/src/chain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-047",
+   "symbol": "best_hash",
+   "source_path": "components/node/src/chain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-048",
+   "symbol": "verify",
+   "source_path": "components/node/src/chain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-049",
+   "symbol": "blocks",
+   "source_path": "components/node/src/chain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-050",
+   "symbol": "blocks_from",
+   "source_path": "components/node/src/chain.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-051",
+   "symbol": "from_blocks",
+   "source_path": "components/node/src/chain.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-052",
+   "symbol": "new",
+   "source_path": "components/node/src/config.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-053",
+   "symbol": "valid",
+   "source_path": "components/node/src/config.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-054",
+   "symbol": "serialize",
+   "source_path": "components/node/src/discovery.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-055",
+   "symbol": "parse",
+   "source_path": "components/node/src/discovery.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-056",
+   "symbol": "new",
+   "source_path": "components/node/src/discovery.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-057",
+   "symbol": "add_seed",
+   "source_path": "components/node/src/discovery.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-058",
+   "symbol": "register_peer",
+   "source_path": "components/node/src/discovery.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-059",
+   "symbol": "known_peers",
+   "source_path": "components/node/src/discovery.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-060",
+   "symbol": "handle_message",
+   "source_path": "components/node/src/discovery.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-061",
+   "symbol": "exchange_peers",
+   "source_path": "components/node/src/discovery.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-062",
+   "symbol": "serve_discovery",
+   "source_path": "components/node/src/discovery.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-063",
+   "symbol": "serve_gossip",
+   "source_path": "components/node/src/gossip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-064",
+   "symbol": "validate",
+   "source_path": "components/node/src/identity.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-065",
+   "symbol": "validate",
+   "source_path": "components/node/src/identity.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-066",
+   "symbol": "signing_bytes",
+   "source_path": "components/node/src/identity.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-067",
+   "symbol": "compute_genesis_id",
+   "source_path": "components/node/src/identity.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-068",
+   "symbol": "verify_genesis_id",
+   "source_path": "components/node/src/identity.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-069",
+   "symbol": "new",
+   "source_path": "components/node/src/peers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-070",
+   "symbol": "add",
+   "source_path": "components/node/src/peers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-071",
+   "symbol": "verify",
+   "source_path": "components/node/src/peers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-072",
+   "symbol": "ban",
+   "source_path": "components/node/src/peers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-073",
+   "symbol": "remove",
+   "source_path": "components/node/src/peers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-074",
+   "symbol": "is_banned",
+   "source_path": "components/node/src/peers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-075",
+   "symbol": "len",
+   "source_path": "components/node/src/peers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-076",
+   "symbol": "is_empty",
+   "source_path": "components/node/src/peers.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-077",
+   "symbol": "from_state",
+   "source_path": "components/node/src/rpc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-078",
+   "symbol": "answer",
+   "source_path": "components/node/src/rpc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-079",
+   "symbol": "serve",
+   "source_path": "components/node/src/rpc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-080",
+   "symbol": "answer_json",
+   "source_path": "components/node/src/rpc.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-081",
+   "symbol": "new",
+   "source_path": "components/node/src/validator.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-082",
+   "symbol": "add",
+   "source_path": "components/node/src/validator.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-083",
+   "symbol": "get",
+   "source_path": "components/node/src/validator.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-084",
+   "symbol": "active_validators",
+   "source_path": "components/node/src/validator.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-085",
+   "symbol": "total_voting_power",
+   "source_path": "components/node/src/validator.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-086",
+   "symbol": "select_proposer",
+   "source_path": "components/node/src/validator.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-087",
+   "symbol": "compute_signature",
+   "source_path": "components/node/src/validator.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-088",
+   "symbol": "create",
+   "source_path": "components/node/src/validator.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-089",
+   "symbol": "encode",
+   "source_path": "components/node/src/validator.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-090",
+   "symbol": "scan_sources",
+   "source_path": "components/node/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-091",
+   "symbol": "run_tests",
+   "source_path": "components/node/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-092",
+   "symbol": "main",
+   "source_path": "components/node/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-093",
+   "symbol": "satisfied",
+   "source_path": "components/zkp/crates/zkp-circuits/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-094",
+   "symbol": "valid",
+   "source_path": "components/zkp/crates/zkp-core/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-095",
+   "symbol": "field_add",
+   "source_path": "components/zkp/crates/zkp-crypto/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-096",
+   "symbol": "field_mul",
+   "source_path": "components/zkp/crates/zkp-crypto/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-097",
+   "symbol": "to_bytes",
+   "source_path": "components/zkp/crates/zkp-prover/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-098",
+   "symbol": "from_bytes",
+   "source_path": "components/zkp/crates/zkp-prover/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-099",
+   "symbol": "new",
+   "source_path": "components/zkp/crates/zkp-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-100",
+   "symbol": "circuit",
+   "source_path": "components/zkp/crates/zkp-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-101",
+   "symbol": "public_input",
+   "source_path": "components/zkp/crates/zkp-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-102",
+   "symbol": "build",
+   "source_path": "components/zkp/crates/zkp-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-103",
+   "symbol": "verify_format",
+   "source_path": "components/zkp/crates/zkp-verifier/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-104",
+   "symbol": "new",
+   "source_path": "components/zkp/crates/zkp-vm/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-105",
+   "symbol": "trace",
+   "source_path": "components/zkp/crates/zkp-vm/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-106",
+   "symbol": "scan_sources",
+   "source_path": "components/zkp/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-107",
+   "symbol": "run_tests",
+   "source_path": "components/zkp/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-MONO-108",
+   "symbol": "main",
+   "source_path": "components/zkp/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 108,
+  "test_referenced": 67,
+  "suite_pass": true,
+  "eligible_functionally_verified": 67
+ }
+}

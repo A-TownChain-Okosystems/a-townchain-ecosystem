@@ -1,0 +1,135 @@
+{
+ "component": "COMP-ALGO-SPEC",
+ "repo": "wt-algo",
+ "head_sha": "f25b43383433766c43df6c5c494ecb70cdb4a4b7",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "cargo test --release 2>&1",
+  "exit_code": 0,
+  "passed": 18,
+  "log_tail": [
+   "Finished `release` profile [optimized] target(s) in 0.00s",
+   "     Running unittests src/lib.rs (target/release/build/atc-algorithm/6b49ce3ecd1b0b46/out/atc_algorithm-6b49ce3ecd1b0b46)",
+   "",
+   "running 18 tests",
+   "test economics::tests::protocol_constants_are_fixed ... ok",
+   "test economics::tests::subsidy_halves_at_each_boundary ... ok",
+   "test economics::tests::epoch_boundaries_are_height_only ... ok",
+   "test economics::tests::supply_cap_is_fail_closed ... ok",
+   "test hash::tests::bitflip_aendert_digest ... ok",
+   "test hash::tests::determinismus_und_laengenband ... ok",
+   "test hash::tests::goldene_vektoren_aus_python_referenz ... ok",
+   "test hash::tests::padding_kante_laengen_55_56_57 ... ok",
+   "test hash::tests::goldene_vektoren_blockgrenzen ... ok",
+   "test poh::tests::determinismus ... ok",
+   "test poh::tests::genesis_und_tick_kette ... ok",
+   "test poh::tests::manipulation_wird_erkannt ... ok",
+   "test poh::tests::missing_genesis_is_rejected ... ok",
+   "test poh::tests::slot_overflow_is_rejected ... ok",
+   "test selection::tests::deterministisch_pro_slot ... ok",
+   "test selection::tests::jede_wahl_ist_valide ... ok",
+   "test selection::tests::leer_und_null_stake ... ok",
+   "test economics::tests::final_emission_block_closes_integer_rounding_dust ... ok",
+   "",
+   "test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+   "",
+   "   Doc-tests atc_algorithm",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-ALGO-SPEC-003",
+   "symbol": "atc_hash",
+   "source_path": "src/hash.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-SPEC-004",
+   "symbol": "atc_hash_hex",
+   "source_path": "src/hash.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-SPEC-005",
+   "symbol": "fnv1a",
+   "source_path": "src/poh.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ALGO-SPEC-006",
+   "symbol": "genesis",
+   "source_path": "src/poh.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-SPEC-007",
+   "symbol": "tick",
+   "source_path": "src/poh.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-SPEC-008",
+   "symbol": "verify",
+   "source_path": "src/poh.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ALGO-SPEC-009",
+   "symbol": "ticks",
+   "source_path": "src/poh.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-SPEC-010",
+   "symbol": "select_proposer",
+   "source_path": "src/selection.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ALGO-SPEC-011",
+   "symbol": "scan_sources",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ALGO-SPEC-012",
+   "symbol": "run_tests",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ALGO-SPEC-013",
+   "symbol": "main",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ALGO-SPEC-014",
+   "symbol": "main",
+   "source_path": "tools/function-catalog/validate.py",
+   "language": "python",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 12,
+  "test_referenced": 6,
+  "suite_pass": true,
+  "eligible_functionally_verified": 6
+ }
+}

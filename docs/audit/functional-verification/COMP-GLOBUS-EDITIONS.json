@@ -1,0 +1,520 @@
+{
+ "component": "COMP-GLOBUS-EDITIONS",
+ "repo": "wt-globus",
+ "head_sha": "2682d49fed2e63a24db00cd0eef43ef67001f0a4",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "cargo test --release --workspace 2>&1",
+  "exit_code": 0,
+  "passed": 1298,
+  "log_tail": [
+   "",
+   "   Doc-tests globus_vfs",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests globus_wallet_service",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests libshivacore",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests shivacore",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests shivacore_service_space",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-GLOBUS-ED-001",
+   "symbol": "new",
+   "source_path": "modules/atc-bootloader/src/boot.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-002",
+   "symbol": "current_stage",
+   "source_path": "modules/atc-bootloader/src/boot.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-003",
+   "symbol": "entry_point",
+   "source_path": "modules/atc-bootloader/src/entry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-004",
+   "symbol": "new",
+   "source_path": "modules/atc-bootloader/src/info.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-005",
+   "symbol": "new",
+   "source_path": "modules/atc-bootloader/src/mmap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-006",
+   "symbol": "is_in_kernel",
+   "source_path": "modules/atc-bootloader/src/mmap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-007",
+   "symbol": "new",
+   "source_path": "modules/atc-globus-shell/src/cli_commands.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-008",
+   "symbol": "run",
+   "source_path": "modules/atc-globus-shell/src/cli_commands.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-009",
+   "symbol": "split_pipes",
+   "source_path": "modules/atc-globus-shell/src/pipe_system.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-010",
+   "symbol": "chain",
+   "source_path": "modules/atc-globus-shell/src/pipe_system.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-011",
+   "symbol": "new",
+   "source_path": "modules/atc-globus-shell/src/shell.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-012",
+   "symbol": "start",
+   "source_path": "modules/atc-globus-shell/src/shell.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-013",
+   "symbol": "stop",
+   "source_path": "modules/atc-globus-shell/src/shell.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-014",
+   "symbol": "execute",
+   "source_path": "modules/atc-globus-shell/src/shell.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-015",
+   "symbol": "new",
+   "source_path": "modules/atc-globus-shell/src/shell_completion.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-016",
+   "symbol": "complete",
+   "source_path": "modules/atc-globus-shell/src/shell_completion.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-017",
+   "symbol": "add",
+   "source_path": "modules/atc-globus-shell/src/shell_completion.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-018",
+   "symbol": "new",
+   "source_path": "modules/atc-globus-shell/src/shell_history.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-019",
+   "symbol": "add",
+   "source_path": "modules/atc-globus-shell/src/shell_history.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-020",
+   "symbol": "last",
+   "source_path": "modules/atc-globus-shell/src/shell_history.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-021",
+   "symbol": "search",
+   "source_path": "modules/atc-globus-shell/src/shell_history.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-022",
+   "symbol": "clear",
+   "source_path": "modules/atc-globus-shell/src/shell_history.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-023",
+   "symbol": "count",
+   "source_path": "modules/atc-globus-shell/src/shell_history.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-024",
+   "symbol": "new",
+   "source_path": "modules/atc-linux-edition/src/app.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-025",
+   "symbol": "new",
+   "source_path": "modules/atc-linux-edition/src/app.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-026",
+   "symbol": "update",
+   "source_path": "modules/atc-linux-edition/src/app.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-027",
+   "symbol": "render",
+   "source_path": "modules/atc-linux-edition/src/app.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-028",
+   "symbol": "new",
+   "source_path": "modules/atc-linux-edition/src/explorer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-029",
+   "symbol": "search",
+   "source_path": "modules/atc-linux-edition/src/explorer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-030",
+   "symbol": "show_block",
+   "source_path": "modules/atc-linux-edition/src/explorer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-031",
+   "symbol": "show_tx",
+   "source_path": "modules/atc-linux-edition/src/explorer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-032",
+   "symbol": "new",
+   "source_path": "modules/atc-linux-edition/src/node.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-033",
+   "symbol": "show_status",
+   "source_path": "modules/atc-linux-edition/src/node.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-034",
+   "symbol": "show_peers",
+   "source_path": "modules/atc-linux-edition/src/node.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-035",
+   "symbol": "show_blocks",
+   "source_path": "modules/atc-linux-edition/src/node.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-036",
+   "symbol": "sync_status",
+   "source_path": "modules/atc-linux-edition/src/node.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-037",
+   "symbol": "new",
+   "source_path": "modules/atc-linux-edition/src/settings.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-038",
+   "symbol": "load_config",
+   "source_path": "modules/atc-linux-edition/src/settings.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-039",
+   "symbol": "save_config",
+   "source_path": "modules/atc-linux-edition/src/settings.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-040",
+   "symbol": "switch_network",
+   "source_path": "modules/atc-linux-edition/src/settings.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-041",
+   "symbol": "new",
+   "source_path": "modules/atc-linux-edition/src/wallet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-042",
+   "symbol": "show_balance",
+   "source_path": "modules/atc-linux-edition/src/wallet.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-043",
+   "symbol": "send",
+   "source_path": "modules/atc-linux-edition/src/wallet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-044",
+   "symbol": "receive",
+   "source_path": "modules/atc-linux-edition/src/wallet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-045",
+   "symbol": "history",
+   "source_path": "modules/atc-linux-edition/src/wallet.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-046",
+   "symbol": "new",
+   "source_path": "modules/atc-windows-edition/src/app.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-047",
+   "symbol": "new",
+   "source_path": "modules/atc-windows-edition/src/app.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-048",
+   "symbol": "update",
+   "source_path": "modules/atc-windows-edition/src/app.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-049",
+   "symbol": "render",
+   "source_path": "modules/atc-windows-edition/src/app.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-050",
+   "symbol": "new",
+   "source_path": "modules/atc-windows-edition/src/explorer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-051",
+   "symbol": "search",
+   "source_path": "modules/atc-windows-edition/src/explorer.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-052",
+   "symbol": "show_block",
+   "source_path": "modules/atc-windows-edition/src/explorer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-053",
+   "symbol": "show_tx",
+   "source_path": "modules/atc-windows-edition/src/explorer.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-054",
+   "symbol": "new",
+   "source_path": "modules/atc-windows-edition/src/node.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-055",
+   "symbol": "show_status",
+   "source_path": "modules/atc-windows-edition/src/node.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-056",
+   "symbol": "show_peers",
+   "source_path": "modules/atc-windows-edition/src/node.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-057",
+   "symbol": "show_blocks",
+   "source_path": "modules/atc-windows-edition/src/node.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-058",
+   "symbol": "sync_status",
+   "source_path": "modules/atc-windows-edition/src/node.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-059",
+   "symbol": "new",
+   "source_path": "modules/atc-windows-edition/src/settings.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-060",
+   "symbol": "load_config",
+   "source_path": "modules/atc-windows-edition/src/settings.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-061",
+   "symbol": "save_config",
+   "source_path": "modules/atc-windows-edition/src/settings.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-062",
+   "symbol": "switch_network",
+   "source_path": "modules/atc-windows-edition/src/settings.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-063",
+   "symbol": "new",
+   "source_path": "modules/atc-windows-edition/src/wallet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-064",
+   "symbol": "show_balance",
+   "source_path": "modules/atc-windows-edition/src/wallet.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-065",
+   "symbol": "send",
+   "source_path": "modules/atc-windows-edition/src/wallet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-066",
+   "symbol": "receive",
+   "source_path": "modules/atc-windows-edition/src/wallet.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GLOBUS-ED-067",
+   "symbol": "history",
+   "source_path": "modules/atc-windows-edition/src/wallet.rs",
+   "language": "rust",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 67,
+  "test_referenced": 40,
+  "suite_pass": true,
+  "eligible_functionally_verified": 40
+ }
+}

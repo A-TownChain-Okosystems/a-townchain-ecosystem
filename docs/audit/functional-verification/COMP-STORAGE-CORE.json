@@ -1,0 +1,212 @@
+{
+ "component": "COMP-STORAGE-CORE",
+ "repo": "a-townchain",
+ "head_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "for m in components/algorithm/Cargo.toml components/interop/modules/atc-bridge/Cargo.toml components/mining/Cargo.toml components/node/Cargo.toml components/oracle/Cargo.toml components/sdk/Cargo.toml components/sdk/modules/atc-cli/Cargo.toml components/sdk/modules/atc-sdk/rust/Cargo.toml components/storage/Cargo.toml components/vm/Cargo.toml components/wallet/Cargo.toml components/wallet/modules/atc-wallet/Cargo.toml components/zkp/Cargo.toml components/zkp/crates/zkp-circuits/Cargo.toml components/zkp/crates/zkp-core/Cargo.toml components/zkp/crates/zkp-crypto/Cargo.toml components/zkp/crates/zkp-prover/Cargo.toml components/zkp/crates/zkp-sdk/Cargo.toml components/zkp/crates/zkp-verifier/Cargo.toml components/zkp/crates/zkp-vm/Cargo.toml modules/atc-dns/Cargo.toml modules/atc-governance/Cargo.toml modules/atc-zkp/Cargo.toml ; do cargo test --release --manifest-path $m 2>&1 || exit 101; done",
+  "exit_code": 0,
+  "passed": 222,
+  "log_tail": [
+   "test delegation::tests::test_delegation ... ok",
+   "test proposal::tests::test_proposal_lifecycle ... ok",
+   "test timelock::tests::test_timelock ... ok",
+   "test proposal::tests::test_proposal_reject ... ok",
+   "test treasury::tests::accounting_invariant_violation_is_reported ... ok",
+   "test treasury::tests::allocation_overflow_is_rejected_atomically ... ok",
+   "test voting::tests::test_voting ... ok",
+   "test treasury::tests::test_treasury ... ok",
+   "test treasury::tests::max_amount_is_supported ... ok",
+   "",
+   "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_governance",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "    Finished `release` profile [optimized] target(s) in 0.01s",
+   "     Running unittests src/lib.rs (modules/atc-zkp/target/release/build/atc_zkp/62372ac65e53ffae/out/atc_zkp-62372ac65e53ffae)",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_zkp",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-STORAGE-CORE-001",
+   "symbol": "compute",
+   "source_path": "components/storage/src/cas.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-002",
+   "symbol": "to_hex",
+   "source_path": "components/storage/src/cas.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-003",
+   "symbol": "from_hex",
+   "source_path": "components/storage/src/cas.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-004",
+   "symbol": "chunk_data",
+   "source_path": "components/storage/src/chunking.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-005",
+   "symbol": "reassemble",
+   "source_path": "components/storage/src/chunking.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-006",
+   "symbol": "new",
+   "source_path": "components/storage/src/retrieval.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-007",
+   "symbol": "default",
+   "source_path": "components/storage/src/retrieval.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-008",
+   "symbol": "put_blob",
+   "source_path": "components/storage/src/retrieval.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-009",
+   "symbol": "get_blob",
+   "source_path": "components/storage/src/retrieval.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-010",
+   "symbol": "delete_blob",
+   "source_path": "components/storage/src/retrieval.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-011",
+   "symbol": "has_blob",
+   "source_path": "components/storage/src/retrieval.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-012",
+   "symbol": "get_chunk",
+   "source_path": "components/storage/src/retrieval.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-013",
+   "symbol": "verify_integrity",
+   "source_path": "components/storage/src/retrieval.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-014",
+   "symbol": "put",
+   "source_path": "components/storage/src/store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-015",
+   "symbol": "get",
+   "source_path": "components/storage/src/store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-016",
+   "symbol": "delete",
+   "source_path": "components/storage/src/store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-017",
+   "symbol": "keys",
+   "source_path": "components/storage/src/store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-018",
+   "symbol": "fnv1a",
+   "source_path": "components/storage/src/store.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-019",
+   "symbol": "mvp_root_hash",
+   "source_path": "components/storage/src/store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-020",
+   "symbol": "fmt",
+   "source_path": "components/storage/src/cas.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-021",
+   "symbol": "scan_sources",
+   "source_path": "components/storage/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-022",
+   "symbol": "run_tests",
+   "source_path": "components/storage/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STORAGE-CORE-023",
+   "symbol": "main",
+   "source_path": "components/storage/tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 23,
+  "test_referenced": 18,
+  "suite_pass": true,
+  "eligible_functionally_verified": 18
+ }
+}

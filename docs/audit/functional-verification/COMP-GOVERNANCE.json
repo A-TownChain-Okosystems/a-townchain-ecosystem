@@ -1,0 +1,226 @@
+{
+ "component": "COMP-GOVERNANCE",
+ "repo": "a-townchain",
+ "head_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "for m in components/algorithm/Cargo.toml components/interop/modules/atc-bridge/Cargo.toml components/mining/Cargo.toml components/node/Cargo.toml components/oracle/Cargo.toml components/sdk/Cargo.toml components/sdk/modules/atc-cli/Cargo.toml components/sdk/modules/atc-sdk/rust/Cargo.toml components/storage/Cargo.toml components/vm/Cargo.toml components/wallet/Cargo.toml components/wallet/modules/atc-wallet/Cargo.toml components/zkp/Cargo.toml components/zkp/crates/zkp-circuits/Cargo.toml components/zkp/crates/zkp-core/Cargo.toml components/zkp/crates/zkp-crypto/Cargo.toml components/zkp/crates/zkp-prover/Cargo.toml components/zkp/crates/zkp-sdk/Cargo.toml components/zkp/crates/zkp-verifier/Cargo.toml components/zkp/crates/zkp-vm/Cargo.toml modules/atc-dns/Cargo.toml modules/atc-governance/Cargo.toml modules/atc-zkp/Cargo.toml ; do cargo test --release --manifest-path $m 2>&1 || exit 101; done",
+  "exit_code": 0,
+  "passed": 222,
+  "log_tail": [
+   "test delegation::tests::test_delegation ... ok",
+   "test proposal::tests::test_proposal_lifecycle ... ok",
+   "test timelock::tests::test_timelock ... ok",
+   "test proposal::tests::test_proposal_reject ... ok",
+   "test treasury::tests::accounting_invariant_violation_is_reported ... ok",
+   "test treasury::tests::max_amount_is_supported ... ok",
+   "test treasury::tests::allocation_overflow_is_rejected_atomically ... ok",
+   "test voting::tests::test_voting ... ok",
+   "test treasury::tests::test_treasury ... ok",
+   "",
+   "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_governance",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "    Finished `release` profile [optimized] target(s) in 0.01s",
+   "     Running unittests src/lib.rs (modules/atc-zkp/target/release/build/atc_zkp/62372ac65e53ffae/out/atc_zkp-62372ac65e53ffae)",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_zkp",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-GOVERNANCE-001",
+   "symbol": "new",
+   "source_path": "modules/atc-governance/src/delegation.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-002",
+   "symbol": "delegate",
+   "source_path": "modules/atc-governance/src/delegation.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-003",
+   "symbol": "undelegate",
+   "source_path": "modules/atc-governance/src/delegation.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GOVERNANCE-004",
+   "symbol": "get_delegate",
+   "source_path": "modules/atc-governance/src/delegation.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GOVERNANCE-005",
+   "symbol": "resolve",
+   "source_path": "modules/atc-governance/src/delegation.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-006",
+   "symbol": "new",
+   "source_path": "modules/atc-governance/src/proposal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-007",
+   "symbol": "activate",
+   "source_path": "modules/atc-governance/src/proposal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-008",
+   "symbol": "cancel",
+   "source_path": "modules/atc-governance/src/proposal.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GOVERNANCE-009",
+   "symbol": "tally",
+   "source_path": "modules/atc-governance/src/proposal.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-010",
+   "symbol": "execute",
+   "source_path": "modules/atc-governance/src/proposal.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GOVERNANCE-011",
+   "symbol": "new",
+   "source_path": "modules/atc-governance/src/timelock.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-012",
+   "symbol": "queue",
+   "source_path": "modules/atc-governance/src/timelock.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-013",
+   "symbol": "is_ready",
+   "source_path": "modules/atc-governance/src/timelock.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-014",
+   "symbol": "execute",
+   "source_path": "modules/atc-governance/src/timelock.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GOVERNANCE-015",
+   "symbol": "new",
+   "source_path": "modules/atc-governance/src/treasury.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-016",
+   "symbol": "deposit",
+   "source_path": "modules/atc-governance/src/treasury.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-017",
+   "symbol": "allocate",
+   "source_path": "modules/atc-governance/src/treasury.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-018",
+   "symbol": "release",
+   "source_path": "modules/atc-governance/src/treasury.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-019",
+   "symbol": "available",
+   "source_path": "modules/atc-governance/src/treasury.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-020",
+   "symbol": "balance",
+   "source_path": "modules/atc-governance/src/treasury.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-021",
+   "symbol": "new",
+   "source_path": "modules/atc-governance/src/voting.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-022",
+   "symbol": "cast_vote",
+   "source_path": "modules/atc-governance/src/voting.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-023",
+   "symbol": "get_vote",
+   "source_path": "modules/atc-governance/src/voting.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GOVERNANCE-024",
+   "symbol": "tally",
+   "source_path": "modules/atc-governance/src/voting.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GOVERNANCE-025",
+   "symbol": "voter_count",
+   "source_path": "modules/atc-governance/src/voting.rs",
+   "language": "rust",
+   "test_reference": true
+  }
+ ],
+ "summary": {
+  "total": 25,
+  "test_referenced": 19,
+  "suite_pass": true,
+  "eligible_functionally_verified": 19
+ }
+}

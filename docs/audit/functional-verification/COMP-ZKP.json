@@ -1,0 +1,184 @@
+{
+ "component": "COMP-ZKP",
+ "repo": "wt-atc-zkp",
+ "head_sha": "ffa8ec1098c5ae0aa0145964843abe0c6806276f",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "cargo test --release 2>&1",
+  "exit_code": 0,
+  "passed": 11,
+  "log_tail": [
+   "",
+   "   Doc-tests zkp_crypto",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests zkp_prover",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests zkp_sdk",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests zkp_verifier",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests zkp_vm",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-ZKP-001",
+   "symbol": "verify_groth16",
+   "source_path": "crates/zkp-verifier/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ZKP-002",
+   "symbol": "satisfied",
+   "source_path": "crates/zkp-circuits/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ZKP-003",
+   "symbol": "valid",
+   "source_path": "crates/zkp-core/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ZKP-004",
+   "symbol": "validate",
+   "source_path": "crates/zkp-core/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ZKP-005",
+   "symbol": "validate",
+   "source_path": "crates/zkp-core/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ZKP-006",
+   "symbol": "sha256",
+   "source_path": "crates/zkp-crypto/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ZKP-007",
+   "symbol": "setup",
+   "source_path": "crates/zkp-prover/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ZKP-008",
+   "symbol": "prove_square",
+   "source_path": "crates/zkp-prover/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ZKP-009",
+   "symbol": "verify_square",
+   "source_path": "crates/zkp-prover/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ZKP-010",
+   "symbol": "prove_square_statement",
+   "source_path": "crates/zkp-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ZKP-011",
+   "symbol": "verify_square_statement",
+   "source_path": "crates/zkp-sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ZKP-012",
+   "symbol": "verifying_key_hash",
+   "source_path": "crates/zkp-verifier/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ZKP-013",
+   "symbol": "register_equality_square",
+   "source_path": "crates/zkp-verifier/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ZKP-014",
+   "symbol": "verify_format",
+   "source_path": "crates/zkp-verifier/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ZKP-015",
+   "symbol": "new",
+   "source_path": "crates/zkp-vm/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ZKP-016",
+   "symbol": "trace",
+   "source_path": "crates/zkp-vm/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-ZKP-017",
+   "symbol": "scan_sources",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ZKP-018",
+   "symbol": "run_tests",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-ZKP-019",
+   "symbol": "main",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 19,
+  "test_referenced": 12,
+  "suite_pass": true,
+  "eligible_functionally_verified": 12
+ }
+}

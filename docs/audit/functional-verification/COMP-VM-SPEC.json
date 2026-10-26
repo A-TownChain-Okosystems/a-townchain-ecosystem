@@ -1,0 +1,163 @@
+{
+ "component": "COMP-VM-SPEC",
+ "repo": "wt-atc-vm",
+ "head_sha": "21132a49355eb5fd6ea4b8a7b4e4deb5d9be60f0",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "cargo test --release 2>&1",
+  "exit_code": 0,
+  "passed": 52,
+  "log_tail": [
+   "test vm::tests::storage_growth_is_bounded ... ok",
+   "test vm::tests::underflow_und_invalid_jump ... ok",
+   "test vm::tests::stack_growth_is_bounded ... ok",
+   "test vm::tests::verifier_rejects_invalid_jump_before_state_mutation ... ok",
+   "",
+   "test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "     Running tests/exec_chain_e2e.rs (target/release/build/atc-vm/a69358113211d469/out/exec_chain_e2e-a69358113211d469)",
+   "",
+   "running 12 tests",
+   "test div_executes_deterministically ... ok",
+   "test direct_program_matches_assembler_sequence ... ok",
+   "test div_by_zero_fails_closed ... ok",
+   "test caller_is_host_set_and_readable ... ok",
+   "test fail_closed_on_wrong_expectation ... ok",
+   "test e2e_adder_fixture_passes ... ok",
+   "test insufficient_funds_guard_rejects ... ok",
+   "test owner_check_accepts_owner ... ok",
+   "test storage_round_trip_persists_state ... ok",
+   "test owner_check_rejects_intruder ... ok",
+   "test sufficient_funds_transfer_moves_both_sides ... ok",
+   "test unwritten_slot_defaults_to_zero ... ok",
+   "",
+   "test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_vm",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-VM-SPEC-001",
+   "symbol": null,
+   "source_path": "docs/specs/SPEC-OVERVIEW.md",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-SPEC-002",
+   "symbol": "e2e_adder_fixture_passes",
+   "source_path": "tests/exec_chain_e2e.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-SPEC-003",
+   "symbol": "assemble",
+   "source_path": "src/assembler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-SPEC-004",
+   "symbol": "validate",
+   "source_path": "src/context.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-SPEC-005",
+   "symbol": "verify_genesis_id",
+   "source_path": "src/context.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-SPEC-006",
+   "symbol": "execution_gate",
+   "source_path": "src/context.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-SPEC-007",
+   "symbol": "parse_ops",
+   "source_path": "src/ops.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-SPEC-008",
+   "symbol": "new",
+   "source_path": "src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-SPEC-009",
+   "symbol": "with_context",
+   "source_path": "src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-SPEC-010",
+   "symbol": "caller",
+   "source_path": "src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-SPEC-011",
+   "symbol": "state",
+   "source_path": "src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-SPEC-012",
+   "symbol": "execute_state_transition",
+   "source_path": "src/vm.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-SPEC-013",
+   "symbol": "execute_state_transition_with_gas",
+   "source_path": "src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-SPEC-014",
+   "symbol": "verify",
+   "source_path": "src/vm.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-SPEC-015",
+   "symbol": "run_with_gas",
+   "source_path": "src/vm.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-SPEC-016",
+   "symbol": "run",
+   "source_path": "src/vm.rs",
+   "language": "rust",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 16,
+  "test_referenced": 9,
+  "suite_pass": true,
+  "eligible_functionally_verified": 9
+ }
+}

@@ -1,0 +1,898 @@
+{
+ "component": "COMP-CHAIN",
+ "repo": "a-townchain",
+ "head_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "for m in components/algorithm/Cargo.toml components/interop/modules/atc-bridge/Cargo.toml components/mining/Cargo.toml components/node/Cargo.toml components/oracle/Cargo.toml components/sdk/Cargo.toml components/sdk/modules/atc-cli/Cargo.toml components/sdk/modules/atc-sdk/rust/Cargo.toml components/storage/Cargo.toml components/vm/Cargo.toml components/wallet/Cargo.toml components/wallet/modules/atc-wallet/Cargo.toml components/zkp/Cargo.toml components/zkp/crates/zkp-circuits/Cargo.toml components/zkp/crates/zkp-core/Cargo.toml components/zkp/crates/zkp-crypto/Cargo.toml components/zkp/crates/zkp-prover/Cargo.toml components/zkp/crates/zkp-sdk/Cargo.toml components/zkp/crates/zkp-verifier/Cargo.toml components/zkp/crates/zkp-vm/Cargo.toml modules/atc-dns/Cargo.toml modules/atc-governance/Cargo.toml modules/atc-zkp/Cargo.toml ; do cargo test --release --manifest-path $m 2>&1 || exit 101; done",
+  "exit_code": 0,
+  "passed": 222,
+  "log_tail": [
+   "test timelock::tests::test_timelock ... ok",
+   "test delegation::tests::test_delegation ... ok",
+   "test proposal::tests::test_proposal_reject ... ok",
+   "test treasury::tests::accounting_invariant_violation_is_reported ... ok",
+   "test proposal::tests::test_proposal_lifecycle ... ok",
+   "test treasury::tests::allocation_overflow_is_rejected_atomically ... ok",
+   "test treasury::tests::max_amount_is_supported ... ok",
+   "test treasury::tests::test_treasury ... ok",
+   "test voting::tests::test_voting ... ok",
+   "",
+   "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_governance",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "    Finished `release` profile [optimized] target(s) in 0.00s",
+   "     Running unittests src/lib.rs (modules/atc-zkp/target/release/build/atc_zkp/62372ac65e53ffae/out/atc_zkp-62372ac65e53ffae)",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_zkp",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-CHAIN-001",
+   "symbol": "verify",
+   "source_path": "components/node/src/validator.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-002",
+   "symbol": "validate_amount",
+   "source_path": "components/sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-003",
+   "symbol": "execute_state_transition",
+   "source_path": "components/vm/src/vm.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-004",
+   "symbol": "validate",
+   "source_path": "components/node/src/bootstrap.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-005",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-006",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-007",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-008",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-009",
+   "symbol": "produce",
+   "source_path": "components/node/src/chain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-010",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-011",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-012",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-013",
+   "symbol": "sync_pull",
+   "source_path": "components/node/src/gossip.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-014",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-015",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-016",
+   "symbol": null,
+   "source_path": null,
+   "language": null,
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-017",
+   "symbol": "tx_count",
+   "source_path": "modules/atc-blockchain/kernel/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-018",
+   "symbol": "add_genesis",
+   "source_path": "modules/atc-blockchain/kernel/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-019",
+   "symbol": "add_block",
+   "source_path": "modules/atc-blockchain/kernel/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-020",
+   "symbol": "get_block",
+   "source_path": "modules/atc-blockchain/kernel/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-021",
+   "symbol": "create_genesis",
+   "source_path": "modules/atc-blockchain/kernel/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-022",
+   "symbol": "propose_block",
+   "source_path": "modules/atc-blockchain/kernel/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-023",
+   "symbol": "vote_on_block",
+   "source_path": "modules/atc-blockchain/kernel/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-024",
+   "symbol": "cleanup_mempool",
+   "source_path": "modules/atc-blockchain/kernel/src/blockchain.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-025",
+   "symbol": "tick",
+   "source_path": "modules/atc-blockchain/consensus/poh.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-026",
+   "symbol": "tick_n",
+   "source_path": "modules/atc-blockchain/consensus/poh.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-027",
+   "symbol": "verify",
+   "source_path": "modules/atc-blockchain/consensus/poh.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-028",
+   "symbol": "get_state",
+   "source_path": "modules/atc-blockchain/consensus/poh.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-029",
+   "symbol": "tick",
+   "source_path": "modules/atc-blockchain/consensus/poh_integration.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-030",
+   "symbol": "tick_n",
+   "source_path": "modules/atc-blockchain/consensus/poh_integration.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-031",
+   "symbol": "sha3_atc",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-032",
+   "symbol": "sha3_atc_hex",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-033",
+   "symbol": "count_leading_zeros",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-034",
+   "symbol": "to_bytes",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-035",
+   "symbol": "hash",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-036",
+   "symbol": "to_bytes",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-037",
+   "symbol": "weight",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-038",
+   "symbol": "to_bytes",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-039",
+   "symbol": "hash",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-040",
+   "symbol": "finalize",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-041",
+   "symbol": "voting_power",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-042",
+   "symbol": "tick",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-043",
+   "symbol": "batch_tick",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-044",
+   "symbol": "verify_entry",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-045",
+   "symbol": "verify_chain",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-046",
+   "symbol": "get_checkpoint",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-047",
+   "symbol": "register_validator",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-048",
+   "symbol": "slash",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-049",
+   "symbol": "get_active_validators",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-050",
+   "symbol": "select_block_producer",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-051",
+   "symbol": "cast_vote",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-052",
+   "symbol": "check_finality",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-053",
+   "symbol": "update_epoch",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-054",
+   "symbol": "mine",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-055",
+   "symbol": "verify_pow",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-056",
+   "symbol": "adjust_difficulty",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-057",
+   "symbol": "root",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-058",
+   "symbol": "add_transaction",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-059",
+   "symbol": "produce_block",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-060",
+   "symbol": "verify_block",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-061",
+   "symbol": "get_chain_stats",
+   "source_path": "modules/atc-blockchain/consensus/shiva_consensus.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-062",
+   "symbol": "key",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-063",
+   "symbol": "is_stale",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-064",
+   "symbol": "to_dict",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-065",
+   "symbol": "from_dict",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-066",
+   "symbol": "add",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-067",
+   "symbol": "mark_tried",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-068",
+   "symbol": "mark_failed",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-069",
+   "symbol": "get_candidates",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-070",
+   "symbol": "get_addr_sample",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-071",
+   "symbol": "stats",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-072",
+   "symbol": "save",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-073",
+   "symbol": "get_hardcoded_seeds",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-074",
+   "symbol": "resolve_seed",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-075",
+   "symbol": "resolve_all",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-076",
+   "symbol": "bootstrap",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-077",
+   "symbol": "handle_addr",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-078",
+   "symbol": "handle_getaddr",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-079",
+   "symbol": "get_peers_for_new_node",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-080",
+   "symbol": "mark_peer_connected",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-081",
+   "symbol": "mark_peer_failed",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-082",
+   "symbol": "get_status",
+   "source_path": "modules/atc-blockchain/nodes/bootstrap.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-083",
+   "symbol": "to_dict",
+   "source_path": "modules/atc-blockchain/nodes/discovery.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-084",
+   "symbol": "start",
+   "source_path": "modules/atc-blockchain/nodes/discovery.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-085",
+   "symbol": "stop",
+   "source_path": "modules/atc-blockchain/nodes/discovery.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-086",
+   "symbol": "announce",
+   "source_path": "modules/atc-blockchain/nodes/discovery.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-CHAIN-087",
+   "symbol": "listen",
+   "source_path": "modules/atc-blockchain/nodes/discovery.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-088",
+   "symbol": "health_check",
+   "source_path": "modules/atc-blockchain/nodes/discovery.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-089",
+   "symbol": "get_peers",
+   "source_path": "modules/atc-blockchain/nodes/discovery.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-090",
+   "symbol": "get_peer_count",
+   "source_path": "modules/atc-blockchain/nodes/discovery.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-091",
+   "symbol": "save_peers",
+   "source_path": "modules/atc-blockchain/nodes/discovery.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-092",
+   "symbol": "load_peers",
+   "source_path": "modules/atc-blockchain/nodes/discovery.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-093",
+   "symbol": "get_status",
+   "source_path": "modules/atc-blockchain/nodes/discovery.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-094",
+   "symbol": "calculateHash",
+   "source_path": "modules/atc-blockchain/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-095",
+   "symbol": "getLatestBlock",
+   "source_path": "modules/atc-blockchain/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-096",
+   "symbol": "getChainHeight",
+   "source_path": "modules/atc-blockchain/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-097",
+   "symbol": "getChain",
+   "source_path": "modules/atc-blockchain/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-098",
+   "symbol": "getTPS",
+   "source_path": "modules/atc-blockchain/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-099",
+   "symbol": "BlockchainEcosystemView",
+   "source_path": "modules/atc-blockchain/src/components/BlockchainEcosystemView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-100",
+   "symbol": "BlockchainLedgerView",
+   "source_path": "modules/atc-blockchain/src/components/BlockchainLedgerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-101",
+   "symbol": "create_did",
+   "source_path": "modules/atc-blockchain/wallet/did.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-102",
+   "symbol": "register",
+   "source_path": "modules/atc-blockchain/wallet/did.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-103",
+   "symbol": "resolve",
+   "source_path": "modules/atc-blockchain/wallet/did.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-104",
+   "symbol": "verify",
+   "source_path": "modules/atc-blockchain/wallet/did.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-105",
+   "symbol": "update",
+   "source_path": "modules/atc-blockchain/wallet/did.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-106",
+   "symbol": "revoke",
+   "source_path": "modules/atc-blockchain/wallet/did.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-107",
+   "symbol": "stats",
+   "source_path": "modules/atc-blockchain/wallet/did.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-108",
+   "symbol": "deposit",
+   "source_path": "modules/atc-blockchain/wallet/multisig.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-109",
+   "symbol": "balance",
+   "source_path": "modules/atc-blockchain/wallet/multisig.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-110",
+   "symbol": "propose",
+   "source_path": "modules/atc-blockchain/wallet/multisig.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-111",
+   "symbol": "sign",
+   "source_path": "modules/atc-blockchain/wallet/multisig.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-112",
+   "symbol": "reject",
+   "source_path": "modules/atc-blockchain/wallet/multisig.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-113",
+   "symbol": "execute",
+   "source_path": "modules/atc-blockchain/wallet/multisig.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-114",
+   "symbol": "create_bridge_vault",
+   "source_path": "modules/atc-blockchain/wallet/multisig.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-115",
+   "symbol": "create_franchise_vault",
+   "source_path": "modules/atc-blockchain/wallet/multisig.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-116",
+   "symbol": "calculateHash",
+   "source_path": "modules/atc-blockchain/workspace/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-117",
+   "symbol": "getLatestBlock",
+   "source_path": "modules/atc-blockchain/workspace/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-118",
+   "symbol": "getChainHeight",
+   "source_path": "modules/atc-blockchain/workspace/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-119",
+   "symbol": "getChain",
+   "source_path": "modules/atc-blockchain/workspace/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-120",
+   "symbol": "getTPS",
+   "source_path": "modules/atc-blockchain/workspace/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-CHAIN-121",
+   "symbol": "get_zkp_layer",
+   "source_path": "modules/atc-blockchain/zkp/groth16.py",
+   "language": "python",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 121,
+  "test_referenced": 17,
+  "suite_pass": true,
+  "eligible_functionally_verified": 17
+ }
+}

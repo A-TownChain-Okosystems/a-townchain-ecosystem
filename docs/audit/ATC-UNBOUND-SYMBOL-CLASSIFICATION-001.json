@@ -1,0 +1,245 @@
+{
+  "schema_id": "ATC-UNBOUND-SYMBOL-CLASSIFICATION-001",
+  "schema_version": "1.0.0",
+  "status": "TRIAGE_ONLY",
+  "purpose": "Route unbound source-symbol candidates toward the correct owning repository and catalog without automatically creating function contracts or claiming implementation/verification.",
+  "provenance": {
+    "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+    "pull_request": 115,
+    "source_branch": "audit/public-symbol-scan-001-2026-10-11",
+    "source_head_sha": "1b2c38d1de1fb925f96db686418267fc41200055",
+    "workflow_run_id": 38401036953,
+    "workflow_run_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38401036953",
+    "artifact_id": 11816115045,
+    "artifact_url": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/38401036953/artifacts/11816115045",
+    "input_report": "ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json",
+    "census_report": "ATC-ORG-SOURCE-CENSUS-001.json",
+    "hash_report": "ATC-CROSS-REPOSITORY-FILE-HASH-REPORT-001.json"
+  },
+  "totals": {
+    "candidate_symbols_unbound": 6383,
+    "candidate_symbols_bound": 168,
+    "candidate_symbols_excluded_by_policy": 6431,
+    "candidate_symbols_total": 12982,
+    "candidate_runtime_symbols_total": 6555,
+    "candidate_test_symbols_total": 4000,
+    "candidate_non_function_symbols_total": 2427,
+    "candidate_repositories_with_unbound_candidates": 23,
+    "unique_repo_path_pairs_with_unbound_candidates": 965,
+    "functional_verification": "NOT_PERFORMED",
+    "completion_gate": "BLOCKED"
+  },
+  "classification_rules": [
+    "Candidate rows are source-discovery evidence, not accepted function contracts.",
+    "Do not auto-bind based on name, path, hash similarity, or repository name.",
+    "For each candidate, review exact repository HEAD, source path, symbol kind/name, canonical ownership, exported/API surface, tests, and contract relevance.",
+    "If relevant, add or update the function/interface contract in the correct canonical repository-local catalog and reference it from the central ecosystem catalog.",
+    "If not relevant, add a reviewed, reasoned exclusion with source evidence; do not silently drop it.",
+    "Legacy/support/docs mirrors must not be treated as canonical production implementation without an explicit ownership decision."
+  ],
+  "repository_routing": [
+    {
+      "repository": "A-TownChain-Okosystems/globus-os",
+      "candidate_count": 3424,
+      "catalog_target": "docs/OS_FUNCTION_CATALOG.json; docs/GLOBUSOS_FRONTEND_FUNCTION_CATALOG.json",
+      "ownership_rule": "CANONICAL_IMPLEMENTATION_REPOSITORY",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/a-townchain",
+      "candidate_count": 507,
+      "catalog_target": "components/vm/docs/VM_FUNCTION_CATALOG.json (VM scope only)",
+      "ownership_rule": "CANONICAL_L1_REPOSITORY; route by component path",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/genesis-engine",
+      "candidate_count": 484,
+      "catalog_target": "docs/architecture/genesis-unified-capability-catalog.json",
+      "ownership_rule": "REGISTERED_CATALOG; record-level reconciliation required",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/aurora-ai",
+      "candidate_count": 391,
+      "catalog_target": "docs/AURORA_DECENTRALIZED_MEMORY_FUNCTION_CATALOG.json (memory scope only)",
+      "ownership_rule": "CANONICAL_AURORA_REPOSITORY; other modules need catalog discovery",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/a-townchain-os",
+      "candidate_count": 296,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "ORCHESTRATION/INTEGRATION; route by subsystem ownership",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/a-townchain-os-docs",
+      "candidate_count": 278,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "DOCUMENTATION/REFERENCE; do not treat docs mirrors as runtime implementation",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/atc-engineering",
+      "candidate_count": 198,
+      "catalog_target": "schemas/org-function-catalog.schema.json; docs/architecture/ORG_FUNCTION_CATALOG_SPEC.md",
+      "ownership_rule": "GOVERNANCE_SCHEMA_AND_SPEC; not canonical runtime catalog",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/atc-ide",
+      "candidate_count": 141,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "REPOSITORY_LOCAL_CATALOG_REQUIRED",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/atc-standards",
+      "candidate_count": 122,
+      "catalog_target": "docs/function-catalog.json",
+      "ownership_rule": "REGISTERED_CATALOG; validation pending",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/atclang",
+      "candidate_count": 106,
+      "catalog_target": "specs/language/registry.json; specs/semantics/registry.json",
+      "ownership_rule": "NORMATIVE_LANGUAGE_REGISTRIES; function inventory separate",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/genesis-chronicles",
+      "candidate_count": 78,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "REPOSITORY_LOCAL_CATALOG_REQUIRED",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/atc-shivacore",
+      "candidate_count": 77,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "SUPPORT/SPECIFICATION_ONLY; canonical kernel in globus-os",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/atc-marketplace",
+      "candidate_count": 41,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "REPOSITORY_LOCAL_CATALOG_REQUIRED",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/.github",
+      "candidate_count": 38,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "ORGANIZATION_GOVERNANCE_TOOLS; governance inventory required",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/atc-vm",
+      "candidate_count": 35,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "NONCANONICAL_SUPPORT/SNAPSHOT; canonical VM in a-townchain/components/vm",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/a-townchain-ecosystem",
+      "candidate_count": 33,
+      "catalog_target": "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json",
+      "ownership_rule": "CONTROL_PLANE_ONLY; do not claim implementation ownership",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/atc-node",
+      "candidate_count": 28,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "REVIEW AGAINST CANONICAL NODE PATHS IN a-townchain",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/atc-launchpad",
+      "candidate_count": 27,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "REPOSITORY_LOCAL_CATALOG_REQUIRED",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/genesis-franchise-factory",
+      "candidate_count": 24,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "REPOSITORY_LOCAL_CATALOG_REQUIRED",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/atc-zkp",
+      "candidate_count": 21,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "REPOSITORY_LOCAL_CATALOG_REQUIRED",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/atc-sdk",
+      "candidate_count": 15,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "REVIEW AGAINST CANONICAL SDK / CLIENT CONTRACTS",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/atc-algorithm",
+      "candidate_count": 13,
+      "catalog_target": "docs/function-catalog.json",
+      "ownership_rule": "SUPPORT/SPECIFICATION_ONLY; canonical algorithm in a-townchain/components/algorithm",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    },
+    {
+      "repository": "A-TownChain-Okosystems/atc-compute",
+      "candidate_count": 6,
+      "catalog_target": "NOT_REGISTERED_IN_SOURCE_CATALOG_REGISTRY",
+      "ownership_rule": "REPOSITORY_LOCAL_CATALOG_REQUIRED",
+      "status": "ROUTE_REVIEW_REQUIRED"
+    }
+  ],
+  "unresolved_binding_findings": [
+    {
+      "finding": "AMBIGUOUS_SOURCE_SYMBOL_BINDING",
+      "previous_count": 1,
+      "current_count": 0,
+      "status": "RESOLVED_SOURCE_IDENTITY",
+      "resolution": "FN-SHIVA-012 now binds KernelMemoryManager::allocate at line 126; separate stable IDs bind KernelMemoryManager::deallocate at line 194, MemorySubsystem::allocate at line 386, and MemorySubsystem::deallocate at line 391. Source association only; functional verification remains pending."
+    },
+    {
+      "finding": "BOUND_SYMBOL_NOT_FOUND_IN_LEXICAL_SCAN",
+      "previous_count": 1,
+      "current_count": 0,
+      "status": "RESOLVED_SOURCE_IDENTITY",
+      "resolution": "FN-VM-SPEC-002 now binds the exact test function e2e_adder_fixture_passes at tests/exec_chain_e2e.rs:9 and is explicitly marked as a test surface, not runtime implementation."
+    }
+  ],
+  "limitations": [
+    "The census scanned 25 of 26 active repositories; one private repository was explicitly excluded because CI had no access.",
+    "Repository routing is a first-pass ownership map, not approval to bind any individual candidate.",
+    "The exact-SHA reconciliation artifact contains 6383 candidate-level records, including repository, source SHA, source path, source file SHA-256, language, symbol kind, function name, line, and signature. These remain unresolved pending ownership/API review.",
+    "A catalog target listed for a repository may cover only a subdomain; component-path routing and catalog coverage must be reviewed before importing records.",
+    "Resolving the two prior source-binding errors is source-identity reconciliation only. Functional verification remains NOT_PERFORMED."
+  ],
+  "latest_reconciliation": {
+    "status": "RESIDUAL",
+    "completion_gate": "BLOCKED",
+    "functions_total": 213,
+    "function_bindings_residual_or_blocked": 41,
+    "function_findings_by_kind": {
+      "BLOCKED_ARCHIVED_REFERENCE_ONLY": 2,
+      "BLOCKED_PRIVATE_REPOSITORY_EXCLUDED": 2,
+      "LEXICAL_MATCH_ONLY_FUNCTIONAL_VERIFICATION_PENDING": 172,
+      "NON_FUNCTION_SOURCE_ARTIFACT_EXCLUDED_FROM_SYMBOL_SCAN": 18,
+      "NORMATIVE_DECISION_BLOCKED": 3,
+      "SOURCE_SURFACE_NOT_IDENTIFIED": 12,
+      "TEST_SURFACE_ONLY_NOT_RUNTIME_IMPLEMENTATION": 4
+    },
+    "unresolved_catalog_source_bindings": 0,
+    "source_inventory": "25/26 active repositories scanned; one private repository excluded by explicit manifest policy",
+    "candidate_inventory": "Full row-level repository/path/symbol_kind/function/line/signature/source-SHA evidence is retained in the linked reconciliation workflow artifact's unmatched_candidates array.",
+    "functional_verification": "NOT_PERFORMED"
+  }
+}

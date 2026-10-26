@@ -1,0 +1,1980 @@
+{
+ "component": "COMP-DOCS",
+ "repo": "wt-osdocs",
+ "head_sha": "f65992609ffcdd7e8eee4c29ac7a455da07fa947",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "cd aistudio && npx vitest run >/dev/null 2>&1",
+  "exit_code": 0,
+  "passed": null,
+  "log_tail": []
+ },
+ "bindings": [
+  {
+   "function_id": "FN-DOCS-001",
+   "symbol": "ArchitectureView",
+   "source_path": "aistudio/src/components/ArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-002",
+   "symbol": "ATC_LANG_ROADMAP_DATA",
+   "source_path": "aistudio/src/atcLangRoadmapData.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-003",
+   "symbol": "run",
+   "source_path": "aistudio/fetch.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-004",
+   "symbol": "walk",
+   "source_path": "aistudio/fix.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-005",
+   "symbol": "walk",
+   "source_path": "aistudio/fix2.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-006",
+   "symbol": "replaceInDir",
+   "source_path": "aistudio/mark_completed_src.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-007",
+   "symbol": "walk",
+   "source_path": "aistudio/replace.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-008",
+   "symbol": "startServer",
+   "source_path": "aistudio/server.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-009",
+   "symbol": "App",
+   "source_path": "aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-010",
+   "symbol": "RoadmapGanttChart",
+   "source_path": "aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-011",
+   "symbol": "RoadmapView",
+   "source_path": "aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-012",
+   "symbol": "StatCard",
+   "source_path": "aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-013",
+   "symbol": "EcosystemView",
+   "source_path": "aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-014",
+   "symbol": "HierarchyView",
+   "source_path": "aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-015",
+   "symbol": "StandardsView",
+   "source_path": "aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-016",
+   "symbol": "AuditView",
+   "source_path": "aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-017",
+   "symbol": "TechStackView",
+   "source_path": "aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-018",
+   "symbol": "CommentItem",
+   "source_path": "aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-019",
+   "symbol": "CommentSection",
+   "source_path": "aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-020",
+   "symbol": "WikiView",
+   "source_path": "aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-021",
+   "symbol": "OfflineQueueWidget",
+   "source_path": "aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-022",
+   "symbol": "ChainPulseWidget",
+   "source_path": "aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-023",
+   "symbol": "NodePulseWidget",
+   "source_path": "aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-024",
+   "symbol": "useWorkspaceState",
+   "source_path": "aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-025",
+   "symbol": "SystemTrayToast",
+   "source_path": "aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-026",
+   "symbol": "WorkspaceSyncStatusBar",
+   "source_path": "aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-027",
+   "symbol": "DesktopApp",
+   "source_path": "aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-028",
+   "symbol": "calculateHash",
+   "source_path": "aistudio/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-029",
+   "symbol": "getLatestBlock",
+   "source_path": "aistudio/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-030",
+   "symbol": "getChainHeight",
+   "source_path": "aistudio/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-031",
+   "symbol": "getChain",
+   "source_path": "aistudio/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-032",
+   "symbol": "getTPS",
+   "source_path": "aistudio/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-033",
+   "symbol": "getConnections",
+   "source_path": "aistudio/src/backend/p2p/network.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-034",
+   "symbol": "ATCAssetView",
+   "source_path": "aistudio/src/components/ATCAssetView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-035",
+   "symbol": "generateLoopA",
+   "source_path": "aistudio/src/components/ATCDjStudioView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-036",
+   "symbol": "generateLoopB",
+   "source_path": "aistudio/src/components/ATCDjStudioView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-037",
+   "symbol": "Knob",
+   "source_path": "aistudio/src/components/ATCDjStudioView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-038",
+   "symbol": "ATCDjStudioView",
+   "source_path": "aistudio/src/components/ATCDjStudioView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-039",
+   "symbol": "getFileType",
+   "source_path": "aistudio/src/components/ATCLangEditor.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-040",
+   "symbol": "getFileIcon",
+   "source_path": "aistudio/src/components/ATCLangEditor.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-041",
+   "symbol": "ATCLangEditor",
+   "source_path": "aistudio/src/components/ATCLangEditor.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-042",
+   "symbol": "ATCWalletView",
+   "source_path": "aistudio/src/components/ATCWalletView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-043",
+   "symbol": "ATownDashboardView",
+   "source_path": "aistudio/src/components/ATownDashboardView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-044",
+   "symbol": "rightRotate",
+   "source_path": "aistudio/src/components/ATownOSNode.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-045",
+   "symbol": "calculateSHA256",
+   "source_path": "aistudio/src/components/ATownOSNode.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-046",
+   "symbol": "ATownOSNode",
+   "source_path": "aistudio/src/components/ATownOSNode.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-047",
+   "symbol": "ATownTestView",
+   "source_path": "aistudio/src/components/ATownTestView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-048",
+   "symbol": "AgentCivilizationView",
+   "source_path": "aistudio/src/components/AgentCivilizationView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-049",
+   "symbol": "Ai3DRenderEngineTab",
+   "source_path": "aistudio/src/components/Ai3DRenderEngineTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-050",
+   "symbol": "AiAnimationEngineTab",
+   "source_path": "aistudio/src/components/AiAnimationEngineTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-051",
+   "symbol": "AiAudioEngineTab",
+   "source_path": "aistudio/src/components/AiAudioEngineTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-052",
+   "symbol": "AiCharacterBioTab",
+   "source_path": "aistudio/src/components/AiCharacterBioTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-053",
+   "symbol": "AiGameEngineTab",
+   "source_path": "aistudio/src/components/AiGameEngineTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-054",
+   "symbol": "AiKernelView",
+   "source_path": "aistudio/src/components/AiKernelView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-055",
+   "symbol": "AiOsEngineView",
+   "source_path": "aistudio/src/components/AiOsEngineView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-056",
+   "symbol": "AiTimelineEngineTab",
+   "source_path": "aistudio/src/components/AiTimelineEngineTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-057",
+   "symbol": "AntiCheatView",
+   "source_path": "aistudio/src/components/AntiCheatView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-058",
+   "symbol": "ApiHealthWidget",
+   "source_path": "aistudio/src/components/ApiHealthWidget.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-059",
+   "symbol": "ApiInterfacesView",
+   "source_path": "aistudio/src/components/ApiInterfacesView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-060",
+   "symbol": "ApiOrchestratorView",
+   "source_path": "aistudio/src/components/ApiOrchestratorView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-061",
+   "symbol": "AppGlobeView",
+   "source_path": "aistudio/src/components/AppGlobeView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-062",
+   "symbol": "ArchitectureDependencyGraph",
+   "source_path": "aistudio/src/components/ArchitectureDependencyGraph.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-063",
+   "symbol": "dragstarted",
+   "source_path": "aistudio/src/components/ArchitectureDependencyGraph.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-064",
+   "symbol": "dragged",
+   "source_path": "aistudio/src/components/ArchitectureDependencyGraph.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-065",
+   "symbol": "dragended",
+   "source_path": "aistudio/src/components/ArchitectureDependencyGraph.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-066",
+   "symbol": "StatCard",
+   "source_path": "aistudio/src/components/ArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-067",
+   "symbol": "IndexedDBSchemaWidget",
+   "source_path": "aistudio/src/components/ArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-068",
+   "symbol": "HealthSparkline",
+   "source_path": "aistudio/src/components/ArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-069",
+   "symbol": "SecurityLayerWidget",
+   "source_path": "aistudio/src/components/ArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-070",
+   "symbol": "AtosStandardsWidget",
+   "source_path": "aistudio/src/components/ArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-071",
+   "symbol": "AssetVaultView",
+   "source_path": "aistudio/src/components/AssetVaultView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-072",
+   "symbol": "AtcAssetsDbView",
+   "source_path": "aistudio/src/components/AtcAssetsDbView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-073",
+   "symbol": "ThreePreviewModal",
+   "source_path": "aistudio/src/components/AtcAssetsDbView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-074",
+   "symbol": "AtcCoreKernelView",
+   "source_path": "aistudio/src/components/AtcCoreKernelView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-075",
+   "symbol": "AtcLangArchitectureView",
+   "source_path": "aistudio/src/components/AtcLangArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-076",
+   "symbol": "AtcLangPlaygroundView",
+   "source_path": "aistudio/src/components/AtcLangPlaygroundView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-077",
+   "symbol": "AtcLangPresetsView",
+   "source_path": "aistudio/src/components/AtcLangPresetsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-078",
+   "symbol": "Server",
+   "source_path": "aistudio/src/components/AtcWhitepaperView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-079",
+   "symbol": "AtcWhitepaperView",
+   "source_path": "aistudio/src/components/AtcWhitepaperView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-080",
+   "symbol": "AtvmSandboxView",
+   "source_path": "aistudio/src/components/AtvmSandboxView.tsx",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DOCS-081",
+   "symbol": "BatteryStatus",
+   "source_path": "aistudio/src/components/BatteryStatus.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-082",
+   "symbol": "BattleArenaView",
+   "source_path": "aistudio/src/components/BattleArenaView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-083",
+   "symbol": "BenchmarkCenterView",
+   "source_path": "aistudio/src/components/BenchmarkCenterView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-084",
+   "symbol": "HardwareStressTestView",
+   "source_path": "aistudio/src/components/BenchmarkCenterView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-085",
+   "symbol": "BlockchainEcosystemView",
+   "source_path": "aistudio/src/components/BlockchainEcosystemView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-086",
+   "symbol": "BlockchainLedgerView",
+   "source_path": "aistudio/src/components/BlockchainLedgerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-087",
+   "symbol": "CalculatorView",
+   "source_path": "aistudio/src/components/CalculatorView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-088",
+   "symbol": "CalendarView",
+   "source_path": "aistudio/src/components/CalendarView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-089",
+   "symbol": "CiCdPipelineView",
+   "source_path": "aistudio/src/components/CiCdPipelineView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-090",
+   "symbol": "PipelineStep",
+   "source_path": "aistudio/src/components/CiCdPipelineView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-091",
+   "symbol": "ClockView",
+   "source_path": "aistudio/src/components/ClockView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-092",
+   "symbol": "CodeAnalyzerView",
+   "source_path": "aistudio/src/components/CodeAnalyzerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-093",
+   "symbol": "processBatch",
+   "source_path": "aistudio/src/components/CodeAnalyzerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-094",
+   "symbol": "CommitHeatmap",
+   "source_path": "aistudio/src/components/CommitHeatmap.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-095",
+   "symbol": "ComplianceEngineView",
+   "source_path": "aistudio/src/components/ComplianceEngineView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-096",
+   "symbol": "ComplianceView",
+   "source_path": "aistudio/src/components/ComplianceView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-097",
+   "symbol": "ConflictResolutionModal",
+   "source_path": "aistudio/src/components/ConflictResolutionModal.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-098",
+   "symbol": "ConsensusIntegrationGuide",
+   "source_path": "aistudio/src/components/ConsensusIntegrationGuide.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-099",
+   "symbol": "registerStakingDeposit",
+   "source_path": "aistudio/src/components/ConsensusIntegrationGuide.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-100",
+   "symbol": "logTransactionEngagement",
+   "source_path": "aistudio/src/components/ConsensusIntegrationGuide.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-101",
+   "symbol": "recalculateImportanceScores",
+   "source_path": "aistudio/src/components/ConsensusIntegrationGuide.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-102",
+   "symbol": "getValidatorInfo",
+   "source_path": "aistudio/src/components/ConsensusIntegrationGuide.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-103",
+   "symbol": "getOrCreateState",
+   "source_path": "aistudio/src/components/ConsensusIntegrationGuide.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-104",
+   "symbol": "CryptoVisualizationView",
+   "source_path": "aistudio/src/components/CryptoVisualizationView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-105",
+   "symbol": "DataProcessingView",
+   "source_path": "aistudio/src/components/DataProcessingView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-106",
+   "symbol": "DbOrchestratorView",
+   "source_path": "aistudio/src/components/DbOrchestratorView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-107",
+   "symbol": "DeFiLiquidityPoolView",
+   "source_path": "aistudio/src/components/DeFiLiquidityPoolView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-108",
+   "symbol": "TabButton",
+   "source_path": "aistudio/src/components/DeFiLiquidityPoolView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-109",
+   "symbol": "DependencyMapView",
+   "source_path": "aistudio/src/components/DependencyMapView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-110",
+   "symbol": "dragstarted",
+   "source_path": "aistudio/src/components/DependencyMapView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-111",
+   "symbol": "dragged",
+   "source_path": "aistudio/src/components/DependencyMapView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-112",
+   "symbol": "dragended",
+   "source_path": "aistudio/src/components/DependencyMapView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-113",
+   "symbol": "DeploymentPipelineWidget",
+   "source_path": "aistudio/src/components/DeploymentPipelineWidget.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-114",
+   "symbol": "DevToolsView",
+   "source_path": "aistudio/src/components/DevToolsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-115",
+   "symbol": "DeveloperKnowledgeBaseView",
+   "source_path": "aistudio/src/components/DeveloperKnowledgeBaseView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-116",
+   "symbol": "DistributedDatalakeView",
+   "source_path": "aistudio/src/components/DistributedDatalakeView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-117",
+   "symbol": "EcosystemInstaller",
+   "source_path": "aistudio/src/components/EcosystemInstaller.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-118",
+   "symbol": "EcosystemVisualizerView",
+   "source_path": "aistudio/src/components/EcosystemVisualizerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-119",
+   "symbol": "dragstarted",
+   "source_path": "aistudio/src/components/EcosystemVisualizerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-120",
+   "symbol": "dragged",
+   "source_path": "aistudio/src/components/EcosystemVisualizerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-121",
+   "symbol": "dragended",
+   "source_path": "aistudio/src/components/EcosystemVisualizerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-122",
+   "symbol": "FileManagerView",
+   "source_path": "aistudio/src/components/FileManagerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-123",
+   "symbol": "FolderView",
+   "source_path": "aistudio/src/components/FolderView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-124",
+   "symbol": "FranchiseFactoryView",
+   "source_path": "aistudio/src/components/FranchiseFactoryView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-125",
+   "symbol": "GateToHellBrowser",
+   "source_path": "aistudio/src/components/GateToHellBrowser.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-126",
+   "symbol": "GenesisBlockGeneratorView",
+   "source_path": "aistudio/src/components/GenesisBlockGeneratorView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-127",
+   "symbol": "GitGraphVisualization",
+   "source_path": "aistudio/src/components/GitGraphVisualization.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-128",
+   "symbol": "GitHubRepoSyncView",
+   "source_path": "aistudio/src/components/GitHubRepoSyncView.tsx",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DOCS-129",
+   "symbol": "GitHubStatusDashboard",
+   "source_path": "aistudio/src/components/GitHubStatusDashboard.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-130",
+   "symbol": "GitOpsView",
+   "source_path": "aistudio/src/components/GitOpsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-131",
+   "symbol": "PreFlightCheckModal",
+   "source_path": "aistudio/src/components/GovernanceView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-132",
+   "symbol": "GitOpsAutoAudit",
+   "source_path": "aistudio/src/components/GovernanceView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-133",
+   "symbol": "GovernanceView",
+   "source_path": "aistudio/src/components/GovernanceView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-134",
+   "symbol": "GpuPerformanceWidget",
+   "source_path": "aistudio/src/components/GpuPerformanceWidget.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-135",
+   "symbol": "HardwareDriversView",
+   "source_path": "aistudio/src/components/HardwareDriversView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-136",
+   "symbol": "ImageGeneratorTab",
+   "source_path": "aistudio/src/components/ImageGeneratorTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-137",
+   "symbol": "IntegrationsWindow",
+   "source_path": "aistudio/src/components/IntegrationsWindow.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-138",
+   "symbol": "InterfacesView",
+   "source_path": "aistudio/src/components/InterfacesView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-139",
+   "symbol": "JsExampleRunner",
+   "source_path": "aistudio/src/components/JsExampleRunner.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-140",
+   "symbol": "CommitChart",
+   "source_path": "aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-141",
+   "symbol": "TransactionVolumeChart",
+   "source_path": "aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-142",
+   "symbol": "IndexedDBLatencyChart",
+   "source_path": "aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-143",
+   "symbol": "NetworkStatusHistoryWidget",
+   "source_path": "aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-144",
+   "symbol": "SyncDurationWidget",
+   "source_path": "aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-145",
+   "symbol": "APIHealthWidget",
+   "source_path": "aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-146",
+   "symbol": "NetworkLatencyFluctuationWidget",
+   "source_path": "aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-147",
+   "symbol": "APIResponseTimeWidget",
+   "source_path": "aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-148",
+   "symbol": "SyncHealthWidget",
+   "source_path": "aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-149",
+   "symbol": "LegalView",
+   "source_path": "aistudio/src/components/LegalView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-150",
+   "symbol": "LoginOverlay",
+   "source_path": "aistudio/src/components/LoginOverlay.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-151",
+   "symbol": "MainnetLaunchView",
+   "source_path": "aistudio/src/components/MainnetLaunchView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-152",
+   "symbol": "LaunchStep",
+   "source_path": "aistudio/src/components/MainnetLaunchView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-153",
+   "symbol": "MarketplaceView",
+   "source_path": "aistudio/src/components/MarketplaceView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-154",
+   "symbol": "ATCMediaPlayerHub",
+   "source_path": "aistudio/src/components/MediaApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-155",
+   "symbol": "ATCAudioPlayerView",
+   "source_path": "aistudio/src/components/MediaApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-156",
+   "symbol": "ATCVideoPlayerView",
+   "source_path": "aistudio/src/components/MediaApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-157",
+   "symbol": "ATCImageViewerView",
+   "source_path": "aistudio/src/components/MediaApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-158",
+   "symbol": "MetricsDashboard",
+   "source_path": "aistudio/src/components/MetricsDashboard.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-159",
+   "symbol": "PerformanceHeatMap",
+   "source_path": "aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-160",
+   "symbol": "SystemHealthWidget",
+   "source_path": "aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-161",
+   "symbol": "BackupReminder",
+   "source_path": "aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-162",
+   "symbol": "SystemLogsWidget",
+   "source_path": "aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-163",
+   "symbol": "GithubSync",
+   "source_path": "aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-164",
+   "symbol": "SystemLifecycleWidget",
+   "source_path": "aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-165",
+   "symbol": "SearchQueriesWidget",
+   "source_path": "aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-166",
+   "symbol": "GatewayStatusBadge",
+   "source_path": "aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-167",
+   "symbol": "CustomDashboardsWidget",
+   "source_path": "aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-168",
+   "symbol": "MetricsView",
+   "source_path": "aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-169",
+   "symbol": "ModulesPluginView",
+   "source_path": "aistudio/src/components/ModulesPluginView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-170",
+   "symbol": "ForceDirectedNetworkMap",
+   "source_path": "aistudio/src/components/NetworkExplorerView.tsx",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DOCS-171",
+   "symbol": "dragstarted",
+   "source_path": "aistudio/src/components/NetworkExplorerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-172",
+   "symbol": "dragged",
+   "source_path": "aistudio/src/components/NetworkExplorerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-173",
+   "symbol": "dragended",
+   "source_path": "aistudio/src/components/NetworkExplorerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-174",
+   "symbol": "NetworkExplorerView",
+   "source_path": "aistudio/src/components/NetworkExplorerView.tsx",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DOCS-175",
+   "symbol": "NetworkTopologyView",
+   "source_path": "aistudio/src/components/NetworkTopologyView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-176",
+   "symbol": "NodeHealthMonitor",
+   "source_path": "aistudio/src/components/NodeHealthMonitor.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-177",
+   "symbol": "NotepadView",
+   "source_path": "aistudio/src/components/NotepadView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-178",
+   "symbol": "ATCWordView",
+   "source_path": "aistudio/src/components/OfficeApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-179",
+   "symbol": "ATCExcelView",
+   "source_path": "aistudio/src/components/OfficeApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-180",
+   "symbol": "ATCPowerPointView",
+   "source_path": "aistudio/src/components/OfficeApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-181",
+   "symbol": "OfficeSuiteView",
+   "source_path": "aistudio/src/components/OfficeSuiteView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-182",
+   "symbol": "P2PChatView",
+   "source_path": "aistudio/src/components/P2PChatView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-183",
+   "symbol": "Paint3DView",
+   "source_path": "aistudio/src/components/Paint3DView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-184",
+   "symbol": "PaymentSystemView",
+   "source_path": "aistudio/src/components/PaymentSystemView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-185",
+   "symbol": "PipelineGeneratorTab",
+   "source_path": "aistudio/src/components/PipelineGeneratorTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-186",
+   "symbol": "PoAITrainingEngineView",
+   "source_path": "aistudio/src/components/PoAITrainingEngineView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-187",
+   "symbol": "ProjectHubView",
+   "source_path": "aistudio/src/components/ProjectHubView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-188",
+   "symbol": "ProtocolsView",
+   "source_path": "aistudio/src/components/ProtocolsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-189",
+   "symbol": "ReportsView",
+   "source_path": "aistudio/src/components/ReportsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-190",
+   "symbol": "RepositoryActivityChart",
+   "source_path": "aistudio/src/components/RepositoryActivityChart.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-191",
+   "symbol": "RepositoryLineChart",
+   "source_path": "aistudio/src/components/RepositoryLineChart.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-192",
+   "symbol": "RescueSystemView",
+   "source_path": "aistudio/src/components/RescueSystemView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-193",
+   "symbol": "RoadmapView",
+   "source_path": "aistudio/src/components/RoadmapView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-194",
+   "symbol": "SemanticGraphView",
+   "source_path": "aistudio/src/components/SemanticGraphView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-195",
+   "symbol": "SessionExportView",
+   "source_path": "aistudio/src/components/SessionExportView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-196",
+   "symbol": "ThemeSelector",
+   "source_path": "aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-197",
+   "symbol": "VisualCustomization",
+   "source_path": "aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-198",
+   "symbol": "BatteryHealthSettings",
+   "source_path": "aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-199",
+   "symbol": "SecuritySettings",
+   "source_path": "aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-200",
+   "symbol": "SessionManagementView",
+   "source_path": "aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-201",
+   "symbol": "NotificationsView",
+   "source_path": "aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-202",
+   "symbol": "ShortcutManagerView",
+   "source_path": "aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-203",
+   "symbol": "ShortcutsHelpModal",
+   "source_path": "aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-204",
+   "symbol": "SyncErrorChart",
+   "source_path": "aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-205",
+   "symbol": "TestingQualityView",
+   "source_path": "aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-206",
+   "symbol": "OfflineManagementView",
+   "source_path": "aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-207",
+   "symbol": "SettingsView",
+   "source_path": "aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-208",
+   "symbol": "SocialMediaView",
+   "source_path": "aistudio/src/components/SocialMediaView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-209",
+   "symbol": "SoftwareAuditView",
+   "source_path": "aistudio/src/components/SoftwareAuditView.tsx",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DOCS-210",
+   "symbol": "SoftwareKnowledgeDbView",
+   "source_path": "aistudio/src/components/SoftwareKnowledgeDbView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-211",
+   "symbol": "SourceCodeViewer",
+   "source_path": "aistudio/src/components/SourceCodeViewer.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-212",
+   "symbol": "SystemSettingsView",
+   "source_path": "aistudio/src/components/SpecificSettingsViews.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-213",
+   "symbol": "SoftwareSettingsView",
+   "source_path": "aistudio/src/components/SpecificSettingsViews.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-214",
+   "symbol": "HardwareSettingsView",
+   "source_path": "aistudio/src/components/SpecificSettingsViews.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-215",
+   "symbol": "StorageManagerView",
+   "source_path": "aistudio/src/components/StorageManagerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-216",
+   "symbol": "StrategicArchitectureMap",
+   "source_path": "aistudio/src/components/StrategicArchitectureMap.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-217",
+   "symbol": "dragstarted",
+   "source_path": "aistudio/src/components/StrategicArchitectureMap.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-218",
+   "symbol": "dragged",
+   "source_path": "aistudio/src/components/StrategicArchitectureMap.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-219",
+   "symbol": "dragended",
+   "source_path": "aistudio/src/components/StrategicArchitectureMap.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-220",
+   "symbol": "StructureView",
+   "source_path": "aistudio/src/components/StructureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-221",
+   "symbol": "SyncDashboardModal",
+   "source_path": "aistudio/src/components/SyncDashboardModal.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-222",
+   "symbol": "SyncHistoryModal",
+   "source_path": "aistudio/src/components/SyncHistoryModal.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-223",
+   "symbol": "SyncMetricsView",
+   "source_path": "aistudio/src/components/SyncMetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-224",
+   "symbol": "SyncStatusDonutChart",
+   "source_path": "aistudio/src/components/SyncStatusDonutChart.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-225",
+   "symbol": "SyncStatusOverview",
+   "source_path": "aistudio/src/components/SyncStatusOverview.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-226",
+   "symbol": "SystemDiagnosticsView",
+   "source_path": "aistudio/src/components/SystemDiagnosticsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-227",
+   "symbol": "SystemFinderView",
+   "source_path": "aistudio/src/components/SystemFinderView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-228",
+   "symbol": "SystemHealthDashboard",
+   "source_path": "aistudio/src/components/SystemHealthDashboard.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-229",
+   "symbol": "dragstarted",
+   "source_path": "aistudio/src/components/SystemHealthDashboard.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-230",
+   "symbol": "dragged",
+   "source_path": "aistudio/src/components/SystemHealthDashboard.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-231",
+   "symbol": "dragended",
+   "source_path": "aistudio/src/components/SystemHealthDashboard.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-232",
+   "symbol": "SystemHealthDashboardWidget",
+   "source_path": "aistudio/src/components/SystemHealthDashboardWidget.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-233",
+   "symbol": "SystemLogsView",
+   "source_path": "aistudio/src/components/SystemLogsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-234",
+   "symbol": "TaskManagerView",
+   "source_path": "aistudio/src/components/TaskManagerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-235",
+   "symbol": "ApiExplorerWidget",
+   "source_path": "aistudio/src/components/TechDocsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-236",
+   "symbol": "TechDocsView",
+   "source_path": "aistudio/src/components/TechDocsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-237",
+   "symbol": "TechTreeView",
+   "source_path": "aistudio/src/components/TechTreeView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-238",
+   "symbol": "TerminalView",
+   "source_path": "aistudio/src/components/TerminalView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-239",
+   "symbol": "TestnetOrchestrationView",
+   "source_path": "aistudio/src/components/TestnetOrchestrationView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-240",
+   "symbol": "TestnetSimulationView",
+   "source_path": "aistudio/src/components/TestnetSimulationView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-241",
+   "symbol": "TextGeneratorTab",
+   "source_path": "aistudio/src/components/TextGeneratorTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-242",
+   "symbol": "ThemeSwitcher",
+   "source_path": "aistudio/src/components/ThemeSwitcher.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-243",
+   "symbol": "TodoView",
+   "source_path": "aistudio/src/components/TodoView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-244",
+   "symbol": "TooltipIcon",
+   "source_path": "aistudio/src/components/TooltipIcon.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-245",
+   "symbol": "TxOrchestratorView",
+   "source_path": "aistudio/src/components/TxOrchestratorView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-246",
+   "symbol": "UserProfileView",
+   "source_path": "aistudio/src/components/UserProfileView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-247",
+   "symbol": "VideoGeneratorTab",
+   "source_path": "aistudio/src/components/VideoGeneratorTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-248",
+   "symbol": "WebhookMonitor",
+   "source_path": "aistudio/src/components/WebhookMonitor.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-249",
+   "symbol": "Window",
+   "source_path": "aistudio/src/components/Window.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-250",
+   "symbol": "WindowWikiView",
+   "source_path": "aistudio/src/components/WindowExtras.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-251",
+   "symbol": "WindowDbView",
+   "source_path": "aistudio/src/components/WindowExtras.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-252",
+   "symbol": "ZeroKnowledgeProofView",
+   "source_path": "aistudio/src/components/ZeroKnowledgeProofView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-253",
+   "symbol": "ZkCircuitEditorView",
+   "source_path": "aistudio/src/components/ZkCircuitEditorView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-254",
+   "symbol": "WalletProvider",
+   "source_path": "aistudio/src/contexts/WalletContext.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-255",
+   "symbol": "useWallet",
+   "source_path": "aistudio/src/contexts/WalletContext.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-256",
+   "symbol": "useGoogleSheetsSync",
+   "source_path": "aistudio/src/hooks/useGoogleSheetsSync.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-257",
+   "symbol": "useKeyboardShortcut",
+   "source_path": "aistudio/src/hooks/useKeyboardShortcut.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-258",
+   "symbol": "toHex",
+   "source_path": "aistudio/src/lib/CryptoEngine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-259",
+   "symbol": "connect",
+   "source_path": "aistudio/src/lib/indexedDb.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-260",
+   "symbol": "set",
+   "source_path": "aistudio/src/lib/indexedDb.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-261",
+   "symbol": "get",
+   "source_path": "aistudio/src/lib/indexedDb.ts",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DOCS-262",
+   "symbol": "getAll",
+   "source_path": "aistudio/src/lib/indexedDb.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-263",
+   "symbol": "remove",
+   "source_path": "aistudio/src/lib/indexedDb.ts",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DOCS-264",
+   "symbol": "enqueue",
+   "source_path": "aistudio/src/lib/syncLogic.ts",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DOCS-265",
+   "symbol": "getInstance",
+   "source_path": "aistudio/src/services/SyncService.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-266",
+   "symbol": "syncInstalledApps",
+   "source_path": "aistudio/src/utils/appSync.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-267",
+   "symbol": "installApplet",
+   "source_path": "aistudio/src/utils/appSync.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-268",
+   "symbol": "installApplets",
+   "source_path": "aistudio/src/utils/appSync.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-269",
+   "symbol": "generateSeedPhrase",
+   "source_path": "aistudio/src/utils/crypto.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-270",
+   "symbol": "encryptSeedPhrase",
+   "source_path": "aistudio/src/utils/crypto.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-271",
+   "symbol": "test",
+   "source_path": "aistudio/testChat.js",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-DOCS-272",
+   "symbol": "replaceInFile",
+   "source_path": "aistudio/workspace/rename.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-273",
+   "symbol": "traverseDir",
+   "source_path": "aistudio/workspace/rename.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-274",
+   "symbol": "replaceInFile",
+   "source_path": "aistudio/workspace/replace.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-275",
+   "symbol": "calculateHash",
+   "source_path": "aistudio/workspace/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-276",
+   "symbol": "getLatestBlock",
+   "source_path": "aistudio/workspace/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-277",
+   "symbol": "getChainHeight",
+   "source_path": "aistudio/workspace/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-278",
+   "symbol": "getChain",
+   "source_path": "aistudio/workspace/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-279",
+   "symbol": "getTPS",
+   "source_path": "aistudio/workspace/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-DOCS-280",
+   "symbol": "GovernanceView",
+   "source_path": "aistudio/workspace/src/components/GovernanceView.tsx",
+   "language": "ts",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 280,
+  "test_referenced": 9,
+  "suite_pass": true,
+  "eligible_functionally_verified": 9
+ }
+}

@@ -1,0 +1,2655 @@
+{
+ "component": "COMP-AURORA",
+ "repo": "wt-aurora",
+ "head_sha": "ef880fc5b4469f9757839c3b0f3ef2ed368357c2",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "cargo test --release --manifest-path modules/atc-aurora-agents/Cargo.toml 2>&1 && cargo test --release --manifest-path modules/atc-aurora-core/Cargo.toml 2>&1 && cargo test --release --manifest-path modules/atc-aurora-memory/Cargo.toml 2>&1 && (cd modules/atc-aistudio && npx vitest run --reporter=json > /dev/null 2>&1)",
+  "exit_code": 0,
+  "passed": 38,
+  "log_tail": [
+   "test state::tests::approval_wait_cannot_skip_back_to_running ... ok",
+   "test state::tests::verification_cannot_transition_directly_to_running ... ok",
+   "test state::tests::security_violation_is_terminal ... ok",
+   "",
+   "test result: ok. 30 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_aurora_core",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Compiling atc-aurora-memory v1.0.0 (/tmp/wt-aurora/modules/atc-aurora-memory)",
+   "    Finished `release` profile [optimized] target(s) in 0.39s",
+   "     Running unittests src/lib.rs (modules/atc-aurora-memory/target/release/build/atc-aurora-memory/5b01c3c58d1dd585/out/atc_aurora_memory-5b01c3c58d1dd585)",
+   "",
+   "running 5 tests",
+   "test context_window::tests::test_context ... ok",
+   "test knowledge_base::tests::test_kb ... ok",
+   "test learning_pipeline::tests::test_learning ... ok",
+   "test memory_index::tests::test_index ... ok",
+   "test vector_store::tests::test_vector_store ... ok",
+   "",
+   "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_aurora_memory",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-AURORA-001",
+   "symbol": "process_request",
+   "source_path": "modules/atc-aurora-core/src/aurora_core.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-002",
+   "symbol": "execute",
+   "source_path": "modules/atc-aurora-agents/src/agent_pool.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-003",
+   "symbol": "register",
+   "source_path": "modules/atc-aurora-core/src/agent_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-004",
+   "symbol": "run",
+   "source_path": "modules/atc-aistudio/fetch.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-005",
+   "symbol": "walk",
+   "source_path": "modules/atc-aistudio/fix.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-006",
+   "symbol": "walk",
+   "source_path": "modules/atc-aistudio/fix2.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-007",
+   "symbol": "replaceInDir",
+   "source_path": "modules/atc-aistudio/mark_completed_src.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-008",
+   "symbol": "walk",
+   "source_path": "modules/atc-aistudio/replace.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-009",
+   "symbol": "startServer",
+   "source_path": "modules/atc-aistudio/server.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-010",
+   "symbol": "App",
+   "source_path": "modules/atc-aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-011",
+   "symbol": "RoadmapGanttChart",
+   "source_path": "modules/atc-aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-012",
+   "symbol": "RoadmapView",
+   "source_path": "modules/atc-aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-013",
+   "symbol": "StatCard",
+   "source_path": "modules/atc-aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-014",
+   "symbol": "EcosystemView",
+   "source_path": "modules/atc-aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-015",
+   "symbol": "HierarchyView",
+   "source_path": "modules/atc-aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-016",
+   "symbol": "StandardsView",
+   "source_path": "modules/atc-aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-017",
+   "symbol": "AuditView",
+   "source_path": "modules/atc-aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-018",
+   "symbol": "TechStackView",
+   "source_path": "modules/atc-aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-019",
+   "symbol": "CommentItem",
+   "source_path": "modules/atc-aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-020",
+   "symbol": "CommentSection",
+   "source_path": "modules/atc-aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-021",
+   "symbol": "WikiView",
+   "source_path": "modules/atc-aistudio/src/App.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-022",
+   "symbol": "OfflineQueueWidget",
+   "source_path": "modules/atc-aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-023",
+   "symbol": "ChainPulseWidget",
+   "source_path": "modules/atc-aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-024",
+   "symbol": "NodePulseWidget",
+   "source_path": "modules/atc-aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-025",
+   "symbol": "useWorkspaceState",
+   "source_path": "modules/atc-aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-026",
+   "symbol": "SystemTrayToast",
+   "source_path": "modules/atc-aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-027",
+   "symbol": "WorkspaceSyncStatusBar",
+   "source_path": "modules/atc-aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-028",
+   "symbol": "DesktopApp",
+   "source_path": "modules/atc-aistudio/src/DesktopApp.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-029",
+   "symbol": "startConsensus",
+   "source_path": "modules/atc-aistudio/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-030",
+   "symbol": "getChainHeight",
+   "source_path": "modules/atc-aistudio/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-031",
+   "symbol": "getLatestBlock",
+   "source_path": "modules/atc-aistudio/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-032",
+   "symbol": "getChain",
+   "source_path": "modules/atc-aistudio/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-033",
+   "symbol": "getTPS",
+   "source_path": "modules/atc-aistudio/src/backend/blockchain/engine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-034",
+   "symbol": "getConnections",
+   "source_path": "modules/atc-aistudio/src/backend/p2p/network.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-035",
+   "symbol": "ATCAssetView",
+   "source_path": "modules/atc-aistudio/src/components/ATCAssetView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-036",
+   "symbol": "generateLoopA",
+   "source_path": "modules/atc-aistudio/src/components/ATCDjStudioView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-037",
+   "symbol": "generateLoopB",
+   "source_path": "modules/atc-aistudio/src/components/ATCDjStudioView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-038",
+   "symbol": "Knob",
+   "source_path": "modules/atc-aistudio/src/components/ATCDjStudioView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-039",
+   "symbol": "ATCDjStudioView",
+   "source_path": "modules/atc-aistudio/src/components/ATCDjStudioView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-040",
+   "symbol": "getFileType",
+   "source_path": "modules/atc-aistudio/src/components/ATCLangEditor.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-041",
+   "symbol": "getFileIcon",
+   "source_path": "modules/atc-aistudio/src/components/ATCLangEditor.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-042",
+   "symbol": "ATCLangEditor",
+   "source_path": "modules/atc-aistudio/src/components/ATCLangEditor.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-043",
+   "symbol": "ATCWalletView",
+   "source_path": "modules/atc-aistudio/src/components/ATCWalletView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-044",
+   "symbol": "ATownDashboardView",
+   "source_path": "modules/atc-aistudio/src/components/ATownDashboardView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-045",
+   "symbol": "rightRotate",
+   "source_path": "modules/atc-aistudio/src/components/ATownOSNode.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-046",
+   "symbol": "calculateSHA256",
+   "source_path": "modules/atc-aistudio/src/components/ATownOSNode.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-047",
+   "symbol": "ATownOSNode",
+   "source_path": "modules/atc-aistudio/src/components/ATownOSNode.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-048",
+   "symbol": "ATownTestView",
+   "source_path": "modules/atc-aistudio/src/components/ATownTestView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-049",
+   "symbol": "AgentCivilizationView",
+   "source_path": "modules/atc-aistudio/src/components/AgentCivilizationView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-050",
+   "symbol": "Ai3DRenderEngineTab",
+   "source_path": "modules/atc-aistudio/src/components/Ai3DRenderEngineTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-051",
+   "symbol": "AiAnimationEngineTab",
+   "source_path": "modules/atc-aistudio/src/components/AiAnimationEngineTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-052",
+   "symbol": "AiAudioEngineTab",
+   "source_path": "modules/atc-aistudio/src/components/AiAudioEngineTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-053",
+   "symbol": "AiCharacterBioTab",
+   "source_path": "modules/atc-aistudio/src/components/AiCharacterBioTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-054",
+   "symbol": "AiGameEngineTab",
+   "source_path": "modules/atc-aistudio/src/components/AiGameEngineTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-055",
+   "symbol": "AiKernelView",
+   "source_path": "modules/atc-aistudio/src/components/AiKernelView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-056",
+   "symbol": "AiOsEngineView",
+   "source_path": "modules/atc-aistudio/src/components/AiOsEngineView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-057",
+   "symbol": "AiTimelineEngineTab",
+   "source_path": "modules/atc-aistudio/src/components/AiTimelineEngineTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-058",
+   "symbol": "AntiCheatView",
+   "source_path": "modules/atc-aistudio/src/components/AntiCheatView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-059",
+   "symbol": "ApiHealthWidget",
+   "source_path": "modules/atc-aistudio/src/components/ApiHealthWidget.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-060",
+   "symbol": "ApiInterfacesView",
+   "source_path": "modules/atc-aistudio/src/components/ApiInterfacesView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-061",
+   "symbol": "ApiOrchestratorView",
+   "source_path": "modules/atc-aistudio/src/components/ApiOrchestratorView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-062",
+   "symbol": "AppGlobeView",
+   "source_path": "modules/atc-aistudio/src/components/AppGlobeView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-063",
+   "symbol": "ArchitectureDependencyGraph",
+   "source_path": "modules/atc-aistudio/src/components/ArchitectureDependencyGraph.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-064",
+   "symbol": "dragstarted",
+   "source_path": "modules/atc-aistudio/src/components/ArchitectureDependencyGraph.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-065",
+   "symbol": "dragged",
+   "source_path": "modules/atc-aistudio/src/components/ArchitectureDependencyGraph.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-066",
+   "symbol": "dragended",
+   "source_path": "modules/atc-aistudio/src/components/ArchitectureDependencyGraph.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-067",
+   "symbol": "StatCard",
+   "source_path": "modules/atc-aistudio/src/components/ArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-068",
+   "symbol": "IndexedDBSchemaWidget",
+   "source_path": "modules/atc-aistudio/src/components/ArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-069",
+   "symbol": "HealthSparkline",
+   "source_path": "modules/atc-aistudio/src/components/ArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-070",
+   "symbol": "SecurityLayerWidget",
+   "source_path": "modules/atc-aistudio/src/components/ArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-071",
+   "symbol": "AtosStandardsWidget",
+   "source_path": "modules/atc-aistudio/src/components/ArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-072",
+   "symbol": "ArchitectureView",
+   "source_path": "modules/atc-aistudio/src/components/ArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-073",
+   "symbol": "AssetVaultView",
+   "source_path": "modules/atc-aistudio/src/components/AssetVaultView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-074",
+   "symbol": "AtcAssetsDbView",
+   "source_path": "modules/atc-aistudio/src/components/AtcAssetsDbView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-075",
+   "symbol": "ThreePreviewModal",
+   "source_path": "modules/atc-aistudio/src/components/AtcAssetsDbView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-076",
+   "symbol": "AtcCoreKernelView",
+   "source_path": "modules/atc-aistudio/src/components/AtcCoreKernelView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-077",
+   "symbol": "AtcLangArchitectureView",
+   "source_path": "modules/atc-aistudio/src/components/AtcLangArchitectureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-078",
+   "symbol": "AtcLangPlaygroundView",
+   "source_path": "modules/atc-aistudio/src/components/AtcLangPlaygroundView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-079",
+   "symbol": "AtcLangPresetsView",
+   "source_path": "modules/atc-aistudio/src/components/AtcLangPresetsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-080",
+   "symbol": "AtcWhitepaperView",
+   "source_path": "modules/atc-aistudio/src/components/AtcWhitepaperView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-081",
+   "symbol": "AtsPlaceholder",
+   "source_path": "modules/atc-aistudio/src/components/AtsSuite.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-082",
+   "symbol": "AtsSuite",
+   "source_path": "modules/atc-aistudio/src/components/AtsSuite.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-083",
+   "symbol": "AtvmSandboxView",
+   "source_path": "modules/atc-aistudio/src/components/AtvmSandboxView.tsx",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-084",
+   "symbol": "BatteryStatus",
+   "source_path": "modules/atc-aistudio/src/components/BatteryStatus.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-085",
+   "symbol": "BattleArenaView",
+   "source_path": "modules/atc-aistudio/src/components/BattleArenaView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-086",
+   "symbol": "BenchmarkCenterView",
+   "source_path": "modules/atc-aistudio/src/components/BenchmarkCenterView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-087",
+   "symbol": "HardwareStressTestView",
+   "source_path": "modules/atc-aistudio/src/components/BenchmarkCenterView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-088",
+   "symbol": "BlockchainEcosystemView",
+   "source_path": "modules/atc-aistudio/src/components/BlockchainEcosystemView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-089",
+   "symbol": "BlockchainLedgerView",
+   "source_path": "modules/atc-aistudio/src/components/BlockchainLedgerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-090",
+   "symbol": "CalculatorView",
+   "source_path": "modules/atc-aistudio/src/components/CalculatorView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-091",
+   "symbol": "CalendarView",
+   "source_path": "modules/atc-aistudio/src/components/CalendarView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-092",
+   "symbol": "CiCdPipelineView",
+   "source_path": "modules/atc-aistudio/src/components/CiCdPipelineView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-093",
+   "symbol": "ClockView",
+   "source_path": "modules/atc-aistudio/src/components/ClockView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-094",
+   "symbol": "CodeAnalyzerView",
+   "source_path": "modules/atc-aistudio/src/components/CodeAnalyzerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-095",
+   "symbol": "processBatch",
+   "source_path": "modules/atc-aistudio/src/components/CodeAnalyzerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-096",
+   "symbol": "CommitHeatmap",
+   "source_path": "modules/atc-aistudio/src/components/CommitHeatmap.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-097",
+   "symbol": "ComplianceEngineView",
+   "source_path": "modules/atc-aistudio/src/components/ComplianceEngineView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-098",
+   "symbol": "ComplianceView",
+   "source_path": "modules/atc-aistudio/src/components/ComplianceView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-099",
+   "symbol": "ConflictResolutionModal",
+   "source_path": "modules/atc-aistudio/src/components/ConflictResolutionModal.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-100",
+   "symbol": "ConsensusIntegrationGuide",
+   "source_path": "modules/atc-aistudio/src/components/ConsensusIntegrationGuide.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-101",
+   "symbol": "CryptoVisualizationView",
+   "source_path": "modules/atc-aistudio/src/components/CryptoVisualizationView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-102",
+   "symbol": "DataProcessingView",
+   "source_path": "modules/atc-aistudio/src/components/DataProcessingView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-103",
+   "symbol": "DbOrchestratorView",
+   "source_path": "modules/atc-aistudio/src/components/DbOrchestratorView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-104",
+   "symbol": "DeFiLiquidityPoolView",
+   "source_path": "modules/atc-aistudio/src/components/DeFiLiquidityPoolView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-105",
+   "symbol": "DependencyMapView",
+   "source_path": "modules/atc-aistudio/src/components/DependencyMapView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-106",
+   "symbol": "dragstarted",
+   "source_path": "modules/atc-aistudio/src/components/DependencyMapView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-107",
+   "symbol": "dragged",
+   "source_path": "modules/atc-aistudio/src/components/DependencyMapView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-108",
+   "symbol": "dragended",
+   "source_path": "modules/atc-aistudio/src/components/DependencyMapView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-109",
+   "symbol": "DevToolsView",
+   "source_path": "modules/atc-aistudio/src/components/DevToolsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-110",
+   "symbol": "DeveloperKnowledgeBaseView",
+   "source_path": "modules/atc-aistudio/src/components/DeveloperKnowledgeBaseView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-111",
+   "symbol": "DistributedDatalakeView",
+   "source_path": "modules/atc-aistudio/src/components/DistributedDatalakeView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-112",
+   "symbol": "EcosystemInstaller",
+   "source_path": "modules/atc-aistudio/src/components/EcosystemInstaller.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-113",
+   "symbol": "EcosystemVisualizerView",
+   "source_path": "modules/atc-aistudio/src/components/EcosystemVisualizerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-114",
+   "symbol": "dragstarted",
+   "source_path": "modules/atc-aistudio/src/components/EcosystemVisualizerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-115",
+   "symbol": "dragged",
+   "source_path": "modules/atc-aistudio/src/components/EcosystemVisualizerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-116",
+   "symbol": "dragended",
+   "source_path": "modules/atc-aistudio/src/components/EcosystemVisualizerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-117",
+   "symbol": "FileManagerView",
+   "source_path": "modules/atc-aistudio/src/components/FileManagerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-118",
+   "symbol": "FolderView",
+   "source_path": "modules/atc-aistudio/src/components/FolderView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-119",
+   "symbol": "FranchiseFactoryView",
+   "source_path": "modules/atc-aistudio/src/components/FranchiseFactoryView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-120",
+   "symbol": "GateToHellBrowser",
+   "source_path": "modules/atc-aistudio/src/components/GateToHellBrowser.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-121",
+   "symbol": "GenesisBlockGeneratorView",
+   "source_path": "modules/atc-aistudio/src/components/GenesisBlockGeneratorView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-122",
+   "symbol": "GitGraphVisualization",
+   "source_path": "modules/atc-aistudio/src/components/GitGraphVisualization.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-123",
+   "symbol": "GitHubRepoSyncView",
+   "source_path": "modules/atc-aistudio/src/components/GitHubRepoSyncView.tsx",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-124",
+   "symbol": "GitHubStatusDashboard",
+   "source_path": "modules/atc-aistudio/src/components/GitHubStatusDashboard.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-125",
+   "symbol": "GitOpsView",
+   "source_path": "modules/atc-aistudio/src/components/GitOpsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-126",
+   "symbol": "PreFlightCheckModal",
+   "source_path": "modules/atc-aistudio/src/components/GovernanceView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-127",
+   "symbol": "GitOpsAutoAudit",
+   "source_path": "modules/atc-aistudio/src/components/GovernanceView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-128",
+   "symbol": "GovernanceView",
+   "source_path": "modules/atc-aistudio/src/components/GovernanceView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-129",
+   "symbol": "GpuPerformanceWidget",
+   "source_path": "modules/atc-aistudio/src/components/GpuPerformanceWidget.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-130",
+   "symbol": "HardwareDriversView",
+   "source_path": "modules/atc-aistudio/src/components/HardwareDriversView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-131",
+   "symbol": "ImageGeneratorTab",
+   "source_path": "modules/atc-aistudio/src/components/ImageGeneratorTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-132",
+   "symbol": "IntegrationsWindow",
+   "source_path": "modules/atc-aistudio/src/components/IntegrationsWindow.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-133",
+   "symbol": "InterfacesView",
+   "source_path": "modules/atc-aistudio/src/components/InterfacesView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-134",
+   "symbol": "JsExampleRunner",
+   "source_path": "modules/atc-aistudio/src/components/JsExampleRunner.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-135",
+   "symbol": "CommitChart",
+   "source_path": "modules/atc-aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-136",
+   "symbol": "TransactionVolumeChart",
+   "source_path": "modules/atc-aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-137",
+   "symbol": "IndexedDBLatencyChart",
+   "source_path": "modules/atc-aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-138",
+   "symbol": "NetworkStatusHistoryWidget",
+   "source_path": "modules/atc-aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-139",
+   "symbol": "SyncDurationWidget",
+   "source_path": "modules/atc-aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-140",
+   "symbol": "APIHealthWidget",
+   "source_path": "modules/atc-aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-141",
+   "symbol": "NetworkLatencyFluctuationWidget",
+   "source_path": "modules/atc-aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-142",
+   "symbol": "APIResponseTimeWidget",
+   "source_path": "modules/atc-aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-143",
+   "symbol": "SyncHealthWidget",
+   "source_path": "modules/atc-aistudio/src/components/LazyMetricsCharts.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-144",
+   "symbol": "LegalView",
+   "source_path": "modules/atc-aistudio/src/components/LegalView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-145",
+   "symbol": "LoginOverlay",
+   "source_path": "modules/atc-aistudio/src/components/LoginOverlay.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-146",
+   "symbol": "MainnetLaunchView",
+   "source_path": "modules/atc-aistudio/src/components/MainnetLaunchView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-147",
+   "symbol": "LaunchStep",
+   "source_path": "modules/atc-aistudio/src/components/MainnetLaunchView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-148",
+   "symbol": "MarketplaceView",
+   "source_path": "modules/atc-aistudio/src/components/MarketplaceView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-149",
+   "symbol": "ATCMediaPlayerHub",
+   "source_path": "modules/atc-aistudio/src/components/MediaApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-150",
+   "symbol": "ATCAudioPlayerView",
+   "source_path": "modules/atc-aistudio/src/components/MediaApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-151",
+   "symbol": "ATCVideoPlayerView",
+   "source_path": "modules/atc-aistudio/src/components/MediaApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-152",
+   "symbol": "ATCImageViewerView",
+   "source_path": "modules/atc-aistudio/src/components/MediaApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-153",
+   "symbol": "MetricsDashboard",
+   "source_path": "modules/atc-aistudio/src/components/MetricsDashboard.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-154",
+   "symbol": "PerformanceHeatMap",
+   "source_path": "modules/atc-aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-155",
+   "symbol": "SystemHealthWidget",
+   "source_path": "modules/atc-aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-156",
+   "symbol": "BackupReminder",
+   "source_path": "modules/atc-aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-157",
+   "symbol": "SystemLogsWidget",
+   "source_path": "modules/atc-aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-158",
+   "symbol": "GithubSync",
+   "source_path": "modules/atc-aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-159",
+   "symbol": "SystemLifecycleWidget",
+   "source_path": "modules/atc-aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-160",
+   "symbol": "SearchQueriesWidget",
+   "source_path": "modules/atc-aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-161",
+   "symbol": "GatewayStatusBadge",
+   "source_path": "modules/atc-aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-162",
+   "symbol": "CustomDashboardsWidget",
+   "source_path": "modules/atc-aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-163",
+   "symbol": "MetricsView",
+   "source_path": "modules/atc-aistudio/src/components/MetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-164",
+   "symbol": "ModulesPluginView",
+   "source_path": "modules/atc-aistudio/src/components/ModulesPluginView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-165",
+   "symbol": "ForceDirectedNetworkMap",
+   "source_path": "modules/atc-aistudio/src/components/NetworkExplorerView.tsx",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-166",
+   "symbol": "dragstarted",
+   "source_path": "modules/atc-aistudio/src/components/NetworkExplorerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-167",
+   "symbol": "dragged",
+   "source_path": "modules/atc-aistudio/src/components/NetworkExplorerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-168",
+   "symbol": "dragended",
+   "source_path": "modules/atc-aistudio/src/components/NetworkExplorerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-169",
+   "symbol": "NetworkExplorerView",
+   "source_path": "modules/atc-aistudio/src/components/NetworkExplorerView.tsx",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-170",
+   "symbol": "NetworkTopologyView",
+   "source_path": "modules/atc-aistudio/src/components/NetworkTopologyView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-171",
+   "symbol": "NodeHealthMonitor",
+   "source_path": "modules/atc-aistudio/src/components/NodeHealthMonitor.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-172",
+   "symbol": "NotepadView",
+   "source_path": "modules/atc-aistudio/src/components/NotepadView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-173",
+   "symbol": "ATCWordView",
+   "source_path": "modules/atc-aistudio/src/components/OfficeApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-174",
+   "symbol": "ATCExcelView",
+   "source_path": "modules/atc-aistudio/src/components/OfficeApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-175",
+   "symbol": "ATCPowerPointView",
+   "source_path": "modules/atc-aistudio/src/components/OfficeApps.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-176",
+   "symbol": "OfficeSuiteView",
+   "source_path": "modules/atc-aistudio/src/components/OfficeSuiteView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-177",
+   "symbol": "P2PChatView",
+   "source_path": "modules/atc-aistudio/src/components/P2PChatView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-178",
+   "symbol": "Paint3DView",
+   "source_path": "modules/atc-aistudio/src/components/Paint3DView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-179",
+   "symbol": "PaymentSystemView",
+   "source_path": "modules/atc-aistudio/src/components/PaymentSystemView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-180",
+   "symbol": "PipelineGeneratorTab",
+   "source_path": "modules/atc-aistudio/src/components/PipelineGeneratorTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-181",
+   "symbol": "PoAITrainingEngineView",
+   "source_path": "modules/atc-aistudio/src/components/PoAITrainingEngineView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-182",
+   "symbol": "ProjectAuditDashboard",
+   "source_path": "modules/atc-aistudio/src/components/ProjectAuditDashboard.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-183",
+   "symbol": "ProjectHubView",
+   "source_path": "modules/atc-aistudio/src/components/ProjectHubView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-184",
+   "symbol": "ProtocolsView",
+   "source_path": "modules/atc-aistudio/src/components/ProtocolsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-185",
+   "symbol": "ReportsView",
+   "source_path": "modules/atc-aistudio/src/components/ReportsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-186",
+   "symbol": "RepositoryActivityChart",
+   "source_path": "modules/atc-aistudio/src/components/RepositoryActivityChart.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-187",
+   "symbol": "RepositoryLineChart",
+   "source_path": "modules/atc-aistudio/src/components/RepositoryLineChart.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-188",
+   "symbol": "RescueSystemView",
+   "source_path": "modules/atc-aistudio/src/components/RescueSystemView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-189",
+   "symbol": "RoadmapView",
+   "source_path": "modules/atc-aistudio/src/components/RoadmapView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-190",
+   "symbol": "SemanticGraphView",
+   "source_path": "modules/atc-aistudio/src/components/SemanticGraphView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-191",
+   "symbol": "SessionExportView",
+   "source_path": "modules/atc-aistudio/src/components/SessionExportView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-192",
+   "symbol": "ThemeSelector",
+   "source_path": "modules/atc-aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-193",
+   "symbol": "VisualCustomization",
+   "source_path": "modules/atc-aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-194",
+   "symbol": "BatteryHealthSettings",
+   "source_path": "modules/atc-aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-195",
+   "symbol": "SecuritySettings",
+   "source_path": "modules/atc-aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-196",
+   "symbol": "SessionManagementView",
+   "source_path": "modules/atc-aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-197",
+   "symbol": "NotificationsView",
+   "source_path": "modules/atc-aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-198",
+   "symbol": "ShortcutManagerView",
+   "source_path": "modules/atc-aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-199",
+   "symbol": "ShortcutsHelpModal",
+   "source_path": "modules/atc-aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-200",
+   "symbol": "SyncErrorChart",
+   "source_path": "modules/atc-aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-201",
+   "symbol": "TestingQualityView",
+   "source_path": "modules/atc-aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-202",
+   "symbol": "OfflineManagementView",
+   "source_path": "modules/atc-aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-203",
+   "symbol": "SettingsView",
+   "source_path": "modules/atc-aistudio/src/components/SettingsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-204",
+   "symbol": "SocialMediaView",
+   "source_path": "modules/atc-aistudio/src/components/SocialMediaView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-205",
+   "symbol": "SoftwareAuditView",
+   "source_path": "modules/atc-aistudio/src/components/SoftwareAuditView.tsx",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-206",
+   "symbol": "SoftwareKnowledgeDbView",
+   "source_path": "modules/atc-aistudio/src/components/SoftwareKnowledgeDbView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-207",
+   "symbol": "SourceCodeViewer",
+   "source_path": "modules/atc-aistudio/src/components/SourceCodeViewer.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-208",
+   "symbol": "SystemSettingsView",
+   "source_path": "modules/atc-aistudio/src/components/SpecificSettingsViews.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-209",
+   "symbol": "SoftwareSettingsView",
+   "source_path": "modules/atc-aistudio/src/components/SpecificSettingsViews.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-210",
+   "symbol": "HardwareSettingsView",
+   "source_path": "modules/atc-aistudio/src/components/SpecificSettingsViews.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-211",
+   "symbol": "StorageManagerView",
+   "source_path": "modules/atc-aistudio/src/components/StorageManagerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-212",
+   "symbol": "StrategicArchitectureMap",
+   "source_path": "modules/atc-aistudio/src/components/StrategicArchitectureMap.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-213",
+   "symbol": "dragstarted",
+   "source_path": "modules/atc-aistudio/src/components/StrategicArchitectureMap.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-214",
+   "symbol": "dragged",
+   "source_path": "modules/atc-aistudio/src/components/StrategicArchitectureMap.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-215",
+   "symbol": "dragended",
+   "source_path": "modules/atc-aistudio/src/components/StrategicArchitectureMap.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-216",
+   "symbol": "StructureView",
+   "source_path": "modules/atc-aistudio/src/components/StructureView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-217",
+   "symbol": "SyncDashboardModal",
+   "source_path": "modules/atc-aistudio/src/components/SyncDashboardModal.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-218",
+   "symbol": "SyncHistoryModal",
+   "source_path": "modules/atc-aistudio/src/components/SyncHistoryModal.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-219",
+   "symbol": "SyncMetricsView",
+   "source_path": "modules/atc-aistudio/src/components/SyncMetricsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-220",
+   "symbol": "SyncStatusDonutChart",
+   "source_path": "modules/atc-aistudio/src/components/SyncStatusDonutChart.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-221",
+   "symbol": "SyncStatusOverview",
+   "source_path": "modules/atc-aistudio/src/components/SyncStatusOverview.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-222",
+   "symbol": "SystemDiagnosticsView",
+   "source_path": "modules/atc-aistudio/src/components/SystemDiagnosticsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-223",
+   "symbol": "SystemFinderView",
+   "source_path": "modules/atc-aistudio/src/components/SystemFinderView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-224",
+   "symbol": "SystemHealthDashboard",
+   "source_path": "modules/atc-aistudio/src/components/SystemHealthDashboard.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-225",
+   "symbol": "SystemHealthDashboardWidget",
+   "source_path": "modules/atc-aistudio/src/components/SystemHealthDashboardWidget.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-226",
+   "symbol": "SystemLogsView",
+   "source_path": "modules/atc-aistudio/src/components/SystemLogsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-227",
+   "symbol": "TaskManagerView",
+   "source_path": "modules/atc-aistudio/src/components/TaskManagerView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-228",
+   "symbol": "ApiExplorerWidget",
+   "source_path": "modules/atc-aistudio/src/components/TechDocsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-229",
+   "symbol": "TechDocsView",
+   "source_path": "modules/atc-aistudio/src/components/TechDocsView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-230",
+   "symbol": "TechTreeView",
+   "source_path": "modules/atc-aistudio/src/components/TechTreeView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-231",
+   "symbol": "TerminalView",
+   "source_path": "modules/atc-aistudio/src/components/TerminalView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-232",
+   "symbol": "TestnetOrchestrationView",
+   "source_path": "modules/atc-aistudio/src/components/TestnetOrchestrationView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-233",
+   "symbol": "TestnetSimulationView",
+   "source_path": "modules/atc-aistudio/src/components/TestnetSimulationView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-234",
+   "symbol": "TextGeneratorTab",
+   "source_path": "modules/atc-aistudio/src/components/TextGeneratorTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-235",
+   "symbol": "ThemeSwitcher",
+   "source_path": "modules/atc-aistudio/src/components/ThemeSwitcher.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-236",
+   "symbol": "TodoView",
+   "source_path": "modules/atc-aistudio/src/components/TodoView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-237",
+   "symbol": "TooltipIcon",
+   "source_path": "modules/atc-aistudio/src/components/TooltipIcon.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-238",
+   "symbol": "TxOrchestratorView",
+   "source_path": "modules/atc-aistudio/src/components/TxOrchestratorView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-239",
+   "symbol": "UserProfileView",
+   "source_path": "modules/atc-aistudio/src/components/UserProfileView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-240",
+   "symbol": "VideoGeneratorTab",
+   "source_path": "modules/atc-aistudio/src/components/VideoGeneratorTab.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-241",
+   "symbol": "WebhookMonitor",
+   "source_path": "modules/atc-aistudio/src/components/WebhookMonitor.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-242",
+   "symbol": "Window",
+   "source_path": "modules/atc-aistudio/src/components/Window.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-243",
+   "symbol": "WindowWikiView",
+   "source_path": "modules/atc-aistudio/src/components/WindowExtras.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-244",
+   "symbol": "WindowDbView",
+   "source_path": "modules/atc-aistudio/src/components/WindowExtras.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-245",
+   "symbol": "ZeroKnowledgeProofView",
+   "source_path": "modules/atc-aistudio/src/components/ZeroKnowledgeProofView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-246",
+   "symbol": "ZkCircuitEditorView",
+   "source_path": "modules/atc-aistudio/src/components/ZkCircuitEditorView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-247",
+   "symbol": "WalletProvider",
+   "source_path": "modules/atc-aistudio/src/contexts/WalletContext.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-248",
+   "symbol": "useWallet",
+   "source_path": "modules/atc-aistudio/src/contexts/WalletContext.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-249",
+   "symbol": "mergeBudget",
+   "source_path": "modules/atc-aistudio/src/graphics/graphicsAi.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-250",
+   "symbol": "inferDomains",
+   "source_path": "modules/atc-aistudio/src/graphics/graphicsAi.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-251",
+   "symbol": "normalizePrompt",
+   "source_path": "modules/atc-aistudio/src/graphics/graphicsAi.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-252",
+   "symbol": "buildPipeline",
+   "source_path": "modules/atc-aistudio/src/graphics/graphicsAi.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-253",
+   "symbol": "planGraphics",
+   "source_path": "modules/atc-aistudio/src/graphics/graphicsAi.ts",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-254",
+   "symbol": "buildGenerationPrompt",
+   "source_path": "modules/atc-aistudio/src/graphics/graphicsAi.ts",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-255",
+   "symbol": "useGoogleSheetsSync",
+   "source_path": "modules/atc-aistudio/src/hooks/useGoogleSheetsSync.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-256",
+   "symbol": "useKeyboardShortcut",
+   "source_path": "modules/atc-aistudio/src/hooks/useKeyboardShortcut.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-257",
+   "symbol": "toHex",
+   "source_path": "modules/atc-aistudio/src/lib/CryptoEngine.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-258",
+   "symbol": "connect",
+   "source_path": "modules/atc-aistudio/src/lib/indexedDb.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-259",
+   "symbol": "set",
+   "source_path": "modules/atc-aistudio/src/lib/indexedDb.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-260",
+   "symbol": "get",
+   "source_path": "modules/atc-aistudio/src/lib/indexedDb.ts",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-261",
+   "symbol": "getAll",
+   "source_path": "modules/atc-aistudio/src/lib/indexedDb.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-262",
+   "symbol": "remove",
+   "source_path": "modules/atc-aistudio/src/lib/indexedDb.ts",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-263",
+   "symbol": "enqueue",
+   "source_path": "modules/atc-aistudio/src/lib/syncLogic.ts",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-264",
+   "symbol": "getInstance",
+   "source_path": "modules/atc-aistudio/src/services/SyncService.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-265",
+   "symbol": "syncInstalledApps",
+   "source_path": "modules/atc-aistudio/src/utils/appSync.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-266",
+   "symbol": "installApplet",
+   "source_path": "modules/atc-aistudio/src/utils/appSync.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-267",
+   "symbol": "installApplets",
+   "source_path": "modules/atc-aistudio/src/utils/appSync.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-268",
+   "symbol": "generateSeedPhrase",
+   "source_path": "modules/atc-aistudio/src/utils/crypto.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-269",
+   "symbol": "encryptSeedPhrase",
+   "source_path": "modules/atc-aistudio/src/utils/crypto.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-270",
+   "symbol": "test",
+   "source_path": "modules/atc-aistudio/testChat.js",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-271",
+   "symbol": "replaceInFile",
+   "source_path": "modules/atc-aistudio/workspace/rename.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-272",
+   "symbol": "traverseDir",
+   "source_path": "modules/atc-aistudio/workspace/rename.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-273",
+   "symbol": "replaceInFile",
+   "source_path": "modules/atc-aistudio/workspace/replace.js",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-274",
+   "symbol": "GovernanceView",
+   "source_path": "modules/atc-aistudio/workspace/src/components/GovernanceView.tsx",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-275",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-agents/src/agent_base.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-276",
+   "symbol": "with_meta",
+   "source_path": "modules/atc-aurora-agents/src/agent_base.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-277",
+   "symbol": "success",
+   "source_path": "modules/atc-aurora-agents/src/agent_base.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-278",
+   "symbol": "failure",
+   "source_path": "modules/atc-aurora-agents/src/agent_base.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-279",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-agents/src/agent_pool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-280",
+   "symbol": "register",
+   "source_path": "modules/atc-aurora-agents/src/agent_pool.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-281",
+   "symbol": "list",
+   "source_path": "modules/atc-aurora-agents/src/agent_pool.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-282",
+   "symbol": "count",
+   "source_path": "modules/atc-aurora-agents/src/agent_pool.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-283",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-core/src/agent_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-284",
+   "symbol": "unregister",
+   "source_path": "modules/atc-aurora-core/src/agent_registry.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-285",
+   "symbol": "get_agent",
+   "source_path": "modules/atc-aurora-core/src/agent_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-286",
+   "symbol": "list_active",
+   "source_path": "modules/atc-aurora-core/src/agent_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-287",
+   "symbol": "count",
+   "source_path": "modules/atc-aurora-core/src/agent_registry.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-288",
+   "symbol": "set_active",
+   "source_path": "modules/atc-aurora-core/src/agent_registry.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-289",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-core/src/approval.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-290",
+   "symbol": "request_approval",
+   "source_path": "modules/atc-aurora-core/src/approval.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-291",
+   "symbol": "approve",
+   "source_path": "modules/atc-aurora-core/src/approval.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-292",
+   "symbol": "reject",
+   "source_path": "modules/atc-aurora-core/src/approval.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-293",
+   "symbol": "pending_count",
+   "source_path": "modules/atc-aurora-core/src/approval.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-294",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-core/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-295",
+   "symbol": "append",
+   "source_path": "modules/atc-aurora-core/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-296",
+   "symbol": "records",
+   "source_path": "modules/atc-aurora-core/src/audit.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-297",
+   "symbol": "records_for_request",
+   "source_path": "modules/atc-aurora-core/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-298",
+   "symbol": "len",
+   "source_path": "modules/atc-aurora-core/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-299",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-aurora-core/src/audit.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-300",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-core/src/aurora_core.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-301",
+   "symbol": "start",
+   "source_path": "modules/atc-aurora-core/src/aurora_core.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-302",
+   "symbol": "stop",
+   "source_path": "modules/atc-aurora-core/src/aurora_core.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-303",
+   "symbol": "authorize_action",
+   "source_path": "modules/atc-aurora-core/src/aurora_core.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-304",
+   "symbol": "is_active",
+   "source_path": "modules/atc-aurora-core/src/aurora_core.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-305",
+   "symbol": "approver_id",
+   "source_path": "modules/atc-aurora-core/src/capability_policy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-306",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-core/src/capability_policy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-307",
+   "symbol": "evaluate",
+   "source_path": "modules/atc-aurora-core/src/capability_policy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-308",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-core/src/capability_policy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-309",
+   "symbol": "register",
+   "source_path": "modules/atc-aurora-core/src/capability_policy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-310",
+   "symbol": "evaluate",
+   "source_path": "modules/atc-aurora-core/src/capability_policy.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-311",
+   "symbol": "policy_count",
+   "source_path": "modules/atc-aurora-core/src/capability_policy.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-312",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-core/src/config_manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-313",
+   "symbol": "set",
+   "source_path": "modules/atc-aurora-core/src/config_manager.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-314",
+   "symbol": "get",
+   "source_path": "modules/atc-aurora-core/src/config_manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-315",
+   "symbol": "get_or_default",
+   "source_path": "modules/atc-aurora-core/src/config_manager.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-316",
+   "symbol": "remove",
+   "source_path": "modules/atc-aurora-core/src/config_manager.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-317",
+   "symbol": "keys",
+   "source_path": "modules/atc-aurora-core/src/config_manager.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-318",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-core/src/event.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-319",
+   "symbol": "publish",
+   "source_path": "modules/atc-aurora-core/src/event.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-320",
+   "symbol": "events",
+   "source_path": "modules/atc-aurora-core/src/event.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-321",
+   "symbol": "events_for_request",
+   "source_path": "modules/atc-aurora-core/src/event.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-322",
+   "symbol": "len",
+   "source_path": "modules/atc-aurora-core/src/event.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-323",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-aurora-core/src/event.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-324",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-core/src/llm_router.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-325",
+   "symbol": "add_rule",
+   "source_path": "modules/atc-aurora-core/src/llm_router.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-326",
+   "symbol": "route",
+   "source_path": "modules/atc-aurora-core/src/llm_router.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-327",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-core/src/model_hub.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-328",
+   "symbol": "register",
+   "source_path": "modules/atc-aurora-core/src/model_hub.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-329",
+   "symbol": "set_default",
+   "source_path": "modules/atc-aurora-core/src/model_hub.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-330",
+   "symbol": "get_default",
+   "source_path": "modules/atc-aurora-core/src/model_hub.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-331",
+   "symbol": "inference",
+   "source_path": "modules/atc-aurora-core/src/model_hub.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-332",
+   "symbol": "list_models",
+   "source_path": "modules/atc-aurora-core/src/model_hub.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-333",
+   "symbol": "model_count",
+   "source_path": "modules/atc-aurora-core/src/model_hub.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-334",
+   "symbol": "is_terminal",
+   "source_path": "modules/atc-aurora-core/src/state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-335",
+   "symbol": "transition",
+   "source_path": "modules/atc-aurora-core/src/state.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-336",
+   "symbol": "insert",
+   "source_path": "modules/atc-aurora-localization/src/catalog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-337",
+   "symbol": "get",
+   "source_path": "modules/atc-aurora-localization/src/catalog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-338",
+   "symbol": "resolve",
+   "source_path": "modules/atc-aurora-localization/src/catalog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-339",
+   "symbol": "len",
+   "source_path": "modules/atc-aurora-localization/src/catalog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-340",
+   "symbol": "is_empty",
+   "source_path": "modules/atc-aurora-localization/src/catalog.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-341",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-localization/src/engine.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-342",
+   "symbol": "localize",
+   "source_path": "modules/atc-aurora-localization/src/engine.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-343",
+   "symbol": "as_str",
+   "source_path": "modules/atc-aurora-localization/src/locale.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-344",
+   "symbol": "language",
+   "source_path": "modules/atc-aurora-localization/src/locale.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-345",
+   "symbol": "insert",
+   "source_path": "modules/atc-aurora-localization/src/memory.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-346",
+   "symbol": "get",
+   "source_path": "modules/atc-aurora-localization/src/memory.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-347",
+   "symbol": "set",
+   "source_path": "modules/atc-aurora-localization/src/terminology.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-348",
+   "symbol": "resolve",
+   "source_path": "modules/atc-aurora-localization/src/terminology.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-349",
+   "symbol": "validate_placeholders",
+   "source_path": "modules/atc-aurora-localization/src/validation.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-350",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-memory/src/context_window.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-351",
+   "symbol": "add",
+   "source_path": "modules/atc-aurora-memory/src/context_window.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-352",
+   "symbol": "get_context",
+   "source_path": "modules/atc-aurora-memory/src/context_window.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-353",
+   "symbol": "clear",
+   "source_path": "modules/atc-aurora-memory/src/context_window.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-354",
+   "symbol": "len",
+   "source_path": "modules/atc-aurora-memory/src/context_window.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-355",
+   "symbol": "is_full",
+   "source_path": "modules/atc-aurora-memory/src/context_window.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-356",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-memory/src/knowledge_base.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-357",
+   "symbol": "add",
+   "source_path": "modules/atc-aurora-memory/src/knowledge_base.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-358",
+   "symbol": "query",
+   "source_path": "modules/atc-aurora-memory/src/knowledge_base.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-359",
+   "symbol": "count",
+   "source_path": "modules/atc-aurora-memory/src/knowledge_base.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-360",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-memory/src/learning_pipeline.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-361",
+   "symbol": "train",
+   "source_path": "modules/atc-aurora-memory/src/learning_pipeline.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-362",
+   "symbol": "is_converged",
+   "source_path": "modules/atc-aurora-memory/src/learning_pipeline.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-363",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-memory/src/memory_index.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-364",
+   "symbol": "add",
+   "source_path": "modules/atc-aurora-memory/src/memory_index.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-365",
+   "symbol": "by_tag",
+   "source_path": "modules/atc-aurora-memory/src/memory_index.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-366",
+   "symbol": "count",
+   "source_path": "modules/atc-aurora-memory/src/memory_index.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-367",
+   "symbol": "new",
+   "source_path": "modules/atc-aurora-memory/src/vector_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-368",
+   "symbol": "store",
+   "source_path": "modules/atc-aurora-memory/src/vector_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-369",
+   "symbol": "get",
+   "source_path": "modules/atc-aurora-memory/src/vector_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-370",
+   "symbol": "cosine_similarity",
+   "source_path": "modules/atc-aurora-memory/src/vector_store.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-AURORA-371",
+   "symbol": "search",
+   "source_path": "modules/atc-aurora-memory/src/vector_store.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-AURORA-372",
+   "symbol": "count",
+   "source_path": "modules/atc-aurora-memory/src/vector_store.rs",
+   "language": "rust",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 372,
+  "test_referenced": 86,
+  "suite_pass": true,
+  "eligible_functionally_verified": 86
+ }
+}

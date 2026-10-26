@@ -1,0 +1,170 @@
+{
+ "component": "COMP-SDK-TS",
+ "repo": "a-townchain",
+ "head_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "for m in components/algorithm/Cargo.toml components/interop/modules/atc-bridge/Cargo.toml components/mining/Cargo.toml components/node/Cargo.toml components/oracle/Cargo.toml components/sdk/Cargo.toml components/sdk/modules/atc-cli/Cargo.toml components/sdk/modules/atc-sdk/rust/Cargo.toml components/storage/Cargo.toml components/vm/Cargo.toml components/wallet/Cargo.toml components/wallet/modules/atc-wallet/Cargo.toml components/zkp/Cargo.toml components/zkp/crates/zkp-circuits/Cargo.toml components/zkp/crates/zkp-core/Cargo.toml components/zkp/crates/zkp-crypto/Cargo.toml components/zkp/crates/zkp-prover/Cargo.toml components/zkp/crates/zkp-sdk/Cargo.toml components/zkp/crates/zkp-verifier/Cargo.toml components/zkp/crates/zkp-vm/Cargo.toml modules/atc-dns/Cargo.toml modules/atc-governance/Cargo.toml modules/atc-zkp/Cargo.toml ; do cargo test --release --manifest-path $m 2>&1 || exit 101; done",
+  "exit_code": 0,
+  "passed": 222,
+  "log_tail": [
+   "test delegation::tests::test_delegation ... ok",
+   "test proposal::tests::test_proposal_lifecycle ... ok",
+   "test proposal::tests::test_proposal_reject ... ok",
+   "test timelock::tests::test_timelock ... ok",
+   "test treasury::tests::accounting_invariant_violation_is_reported ... ok",
+   "test treasury::tests::test_treasury ... ok",
+   "test treasury::tests::allocation_overflow_is_rejected_atomically ... ok",
+   "test treasury::tests::max_amount_is_supported ... ok",
+   "test voting::tests::test_voting ... ok",
+   "",
+   "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_governance",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "    Finished `release` profile [optimized] target(s) in 0.00s",
+   "     Running unittests src/lib.rs (modules/atc-zkp/target/release/build/atc_zkp/62372ac65e53ffae/out/atc_zkp-62372ac65e53ffae)",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_zkp",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-SDK-TS-001",
+   "symbol": "validateIdentity",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SDK-TS-002",
+   "symbol": "pushU32BE",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SDK-TS-003",
+   "symbol": "pushU128BE",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SDK-TS-004",
+   "symbol": "pushU64BE",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SDK-TS-005",
+   "symbol": "pushBytes",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SDK-TS-006",
+   "symbol": "pushOptionalString",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SDK-TS-007",
+   "symbol": "assert32Bytes",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SDK-TS-008",
+   "symbol": "canonicalSigningPreimage",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SDK-TS-009",
+   "symbol": "canonicalIdFields",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SDK-TS-010",
+   "symbol": "canonicalTransactionId",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SDK-TS-SURFACE-001",
+   "symbol": "ATC_CHAIN_ID",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SDK-TS-SURFACE-002",
+   "symbol": "ATC_TX_DOMAIN_V2",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SDK-TS-SURFACE-003",
+   "symbol": "ATC_TX_ID_V2",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-SDK-TS-SURFACE-004",
+   "symbol": "NetworkId",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SDK-TS-SURFACE-005",
+   "symbol": "ChainIdentity",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SDK-TS-SURFACE-006",
+   "symbol": "RuntimeContext",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-SDK-TS-SURFACE-007",
+   "symbol": "TransactionSigningInput",
+   "source_path": "components/sdk/typescript/chain-identity.ts",
+   "language": "ts",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 17,
+  "test_referenced": 5,
+  "suite_pass": true,
+  "eligible_functionally_verified": 5
+ }
+}

@@ -1,0 +1,254 @@
+{
+ "component": "COMP-VM",
+ "repo": "a-townchain",
+ "head_sha": "a5e689671b1870699c7a1750f8a166e83590a41c",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "for m in components/algorithm/Cargo.toml components/interop/modules/atc-bridge/Cargo.toml components/mining/Cargo.toml components/node/Cargo.toml components/oracle/Cargo.toml components/sdk/Cargo.toml components/sdk/modules/atc-cli/Cargo.toml components/sdk/modules/atc-sdk/rust/Cargo.toml components/storage/Cargo.toml components/vm/Cargo.toml components/wallet/Cargo.toml components/wallet/modules/atc-wallet/Cargo.toml components/zkp/Cargo.toml components/zkp/crates/zkp-circuits/Cargo.toml components/zkp/crates/zkp-core/Cargo.toml components/zkp/crates/zkp-crypto/Cargo.toml components/zkp/crates/zkp-prover/Cargo.toml components/zkp/crates/zkp-sdk/Cargo.toml components/zkp/crates/zkp-verifier/Cargo.toml components/zkp/crates/zkp-vm/Cargo.toml modules/atc-dns/Cargo.toml modules/atc-governance/Cargo.toml modules/atc-zkp/Cargo.toml ; do cargo test --release --manifest-path $m 2>&1 || exit 101; done",
+  "exit_code": 0,
+  "passed": 222,
+  "log_tail": [
+   "test delegation::tests::test_delegation ... ok",
+   "test proposal::tests::test_proposal_lifecycle ... ok",
+   "test proposal::tests::test_proposal_reject ... ok",
+   "test timelock::tests::test_timelock ... ok",
+   "test treasury::tests::accounting_invariant_violation_is_reported ... ok",
+   "test voting::tests::test_voting ... ok",
+   "test treasury::tests::max_amount_is_supported ... ok",
+   "test treasury::tests::test_treasury ... ok",
+   "test treasury::tests::allocation_overflow_is_rejected_atomically ... ok",
+   "",
+   "test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_governance",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "    Finished `release` profile [optimized] target(s) in 0.00s",
+   "     Running unittests src/lib.rs (modules/atc-zkp/target/release/build/atc_zkp/62372ac65e53ffae/out/atc_zkp-62372ac65e53ffae)",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+   "",
+   "   Doc-tests atc_zkp",
+   "",
+   "running 0 tests",
+   "",
+   "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-VM-001",
+   "symbol": "parse_ops",
+   "source_path": "components/vm/src/ops.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-002",
+   "symbol": "execute_state_transition_with_gas",
+   "source_path": "components/vm/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-003",
+   "symbol": "new",
+   "source_path": "components/vm/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-004",
+   "symbol": "with_context",
+   "source_path": "components/vm/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-005",
+   "symbol": "caller",
+   "source_path": "components/vm/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-006",
+   "symbol": "state",
+   "source_path": "components/vm/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-007",
+   "symbol": "execute_state_transition",
+   "source_path": "components/vm/src/vm.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-008",
+   "symbol": "verify",
+   "source_path": "components/vm/src/vm.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-009",
+   "symbol": "run_with_gas",
+   "source_path": "components/vm/src/vm.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-010",
+   "symbol": "run",
+   "source_path": "components/vm/src/vm.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-011",
+   "symbol": "validate",
+   "source_path": "components/vm/src/context.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-012",
+   "symbol": "verify_genesis_id",
+   "source_path": "components/vm/src/context.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-013",
+   "symbol": "execution_gate",
+   "source_path": "components/vm/src/context.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-014",
+   "symbol": "assemble",
+   "source_path": "components/vm/src/assembler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-015",
+   "symbol": "new",
+   "source_path": "components/vm/src/assembler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-016",
+   "symbol": "peek",
+   "source_path": "components/vm/src/assembler.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-017",
+   "symbol": "take",
+   "source_path": "components/vm/src/assembler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-018",
+   "symbol": "expr",
+   "source_path": "components/vm/src/assembler.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-019",
+   "symbol": "term",
+   "source_path": "components/vm/src/assembler.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-020",
+   "symbol": "factor",
+   "source_path": "components/vm/src/assembler.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-021",
+   "symbol": "tokenize",
+   "source_path": "components/vm/src/assembler.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-022",
+   "symbol": "find_function",
+   "source_path": "components/vm/src/assembler.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-023",
+   "symbol": "json_u64_for_key",
+   "source_path": "components/vm/src/assembler.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-024",
+   "symbol": "simulate",
+   "source_path": "components/vm/src/assembler.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-VM-025",
+   "symbol": "parse_slot_pair",
+   "source_path": "components/vm/src/main.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-026",
+   "symbol": "parse_args",
+   "source_path": "components/vm/src/main.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-027",
+   "symbol": "run_ops_file",
+   "source_path": "components/vm/src/main.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-028",
+   "symbol": "main",
+   "source_path": "components/vm/src/main.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-VM-029",
+   "symbol": "usage",
+   "source_path": "components/vm/src/main.rs",
+   "language": "rust",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 29,
+  "test_referenced": 14,
+  "suite_pass": true,
+  "eligible_functionally_verified": 14
+ }
+}

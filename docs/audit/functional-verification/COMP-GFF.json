@@ -1,0 +1,205 @@
+{
+ "component": "COMP-GFF",
+ "repo": "wt-genesis-franchise-factory",
+ "head_sha": "673fa560322b1449e8f23cc38bf839de1b246361",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "python3 -m pytest tests/ -q 2>&1",
+  "exit_code": 0,
+  "passed": 33,
+  "log_tail": [
+   ".................................                                        [100%]",
+   "33 passed in 0.10s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-GFF-001",
+   "symbol": "load_spec",
+   "source_path": "gff/spec_loader.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-002",
+   "symbol": "run_pipeline",
+   "source_path": "gff/core.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-003",
+   "symbol": "default_pipeline",
+   "source_path": "gff/core.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GFF-004",
+   "symbol": "create_franchise",
+   "source_path": "gff/core.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-005",
+   "symbol": "reset_pipeline",
+   "source_path": "gff/core.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-006",
+   "symbol": "deposit",
+   "source_path": "gff/dao.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-007",
+   "symbol": "withdraw",
+   "source_path": "gff/dao.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-008",
+   "symbol": "add_member",
+   "source_path": "gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GFF-009",
+   "symbol": "total_stake",
+   "source_path": "gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GFF-010",
+   "symbol": "voting_power",
+   "source_path": "gff/dao.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-011",
+   "symbol": "distribute_revenue",
+   "source_path": "gff/dao.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-012",
+   "symbol": "create",
+   "source_path": "gff/dao.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-013",
+   "symbol": "get",
+   "source_path": "gff/dao.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-014",
+   "symbol": "list_all",
+   "source_path": "gff/dao.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-GFF-015",
+   "symbol": "by_owner",
+   "source_path": "gff/dao.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-016",
+   "symbol": "join",
+   "source_path": "gff/dao.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-017",
+   "symbol": "suspend",
+   "source_path": "gff/dao.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-018",
+   "symbol": "stats",
+   "source_path": "gff/dao.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-019",
+   "symbol": "register",
+   "source_path": "gff/lifecycle.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-020",
+   "symbol": "transition",
+   "source_path": "gff/lifecycle.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-021",
+   "symbol": "add_milestone",
+   "source_path": "gff/lifecycle.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-022",
+   "symbol": "achieve_milestone",
+   "source_path": "gff/lifecycle.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-023",
+   "symbol": "health",
+   "source_path": "gff/lifecycle.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-024",
+   "symbol": "has_implementation_surface",
+   "source_path": "gff/spec_loader.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-025",
+   "symbol": "load_specs",
+   "source_path": "gff/spec_loader.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-GFF-026",
+   "symbol": "main",
+   "source_path": "tools/validate_specs.py",
+   "language": "python",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 26,
+  "test_referenced": 21,
+  "suite_pass": true,
+  "eligible_functionally_verified": 21
+ }
+}

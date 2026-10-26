@@ -1,0 +1,368 @@
+name: Source Symbol Inventory
+on:
+  pull_request:
+    paths:
+      - "AGENTS.md"
+      - "tools/classify_unbound_candidates.py"
+      - "tests/test_classify_unbound_candidates_source_evidence.py"
+      - "tools/scan_public_symbols.py"
+      - "tools/run_org_source_census.py"
+      - "tools/run_rust_module_census.py"
+      - "tools/reconcile_component_function_catalog.py"
+      - "tools/report_cross_repository_hashes.py"
+      - "tools/tests/test_report_cross_repository_hashes.py"
+      - "tools/validate_org_repository_drift.py"
+      - "tools/tests/test_validate_org_repository_drift.py"
+      - "tools/report_cross_repository_hashes.py"
+      - "tools/tests/test_report_cross_repository_hashes.py"
+      - "tools/validate_component_function_catalog.py"
+      - "tools/tests/test_validate_component_function_catalog.py"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-SPECIFICATION-001.json"
+      - "tools/tests/test_reconcile_component_function_catalog.py"
+      - "tools/tests/test_scan_public_symbols.py"
+      - "tools/tests/test_run_org_source_census.py"
+      - "tools/validate_org_repository_drift.py"
+      - "tools/tests/test_validate_org_repository_drift.py"
+      - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-PRODUCT-BOUNDARY-INTERFACE-CONTRACTS-001.json"
+      - "docs/audit/ATC-CATALOG-RECONCILIATION-STATUS-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md"
+      - ".github/workflows/source-symbol-inventory.yml"
+  push:
+    branches: [main]
+    paths:
+      - "AGENTS.md"
+      - "tools/classify_unbound_candidates.py"
+      - "tools/scan_public_symbols.py"
+      - "tools/run_org_source_census.py"
+      - "tools/run_rust_module_census.py"
+      - "tools/reconcile_component_function_catalog.py"
+      - "tools/report_cross_repository_hashes.py"
+      - "tools/tests/test_report_cross_repository_hashes.py"
+      - "tools/validate_component_function_catalog.py"
+      - "tools/tests/test_validate_component_function_catalog.py"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-SPECIFICATION-001.json"
+      - "tools/tests/test_reconcile_component_function_catalog.py"
+      - "tools/tests/test_scan_public_symbols.py"
+      - "tools/tests/test_run_org_source_census.py"
+      - "docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json"
+      - "docs/architecture/ATC-PRODUCT-BOUNDARY-INTERFACE-CONTRACTS-001.json"
+      - "docs/audit/ATC-CATALOG-RECONCILIATION-STATUS-001.json"
+      - "docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.md"
+      - ".github/workflows/source-symbol-inventory.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scanner-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact workflow revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact source SHA
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$EXPECTED_SHA"
+          printf 'Execution SHA bound: %s\n' "$actual"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile scanner, orchestrator and tests
+        run: python -m py_compile tools/run_rust_module_census.py tools/classify_unbound_candidates.py tools/report_cross_repository_hashes.py tools/scan_public_symbols.py tools/run_org_source_census.py tools/reconcile_component_function_catalog.py tools/validate_component_function_catalog.py tools/validate_org_repository_drift.py tools/tests/test_validate_org_repository_drift.py tools/tests/test_scan_public_symbols.py tools/tests/test_run_org_source_census.py tools/tests/test_reconcile_component_function_catalog.py tools/tests/test_validate_component_function_catalog.py tools/tests/test_report_cross_repository_hashes.py tests/test_classify_unbound_candidates_source_evidence.py
+      - name: Run scanner and organization census tests
+        run: |
+          python -m unittest tools.tests.test_scan_public_symbols tools.tests.test_run_org_source_census tools.tests.test_reconcile_component_function_catalog tools.tests.test_validate_component_function_catalog tools.tests.test_report_cross_repository_hashes tools.tests.test_validate_org_repository_drift tests.test_classify_unbound_candidates_source_evidence -v
+      - name: Validate machine-readable function and interface catalog
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          python -m json.tool docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json >/dev/null
+          python tools/validate_component_function_catalog.py \
+            --input docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json \
+            --report artifacts/ATC-COMPONENT-FUNCTION-CATALOG-VALIDATION-001.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path("artifacts/ATC-COMPONENT-FUNCTION-CATALOG-VALIDATION-001.json").read_text(encoding="utf-8"))
+          assert report.get("validation") == "PASS_STRUCTURAL_ONLY", report.get("errors")
+          assert not report.get("errors"), report.get("errors")
+          assert report.get("functions_total", 0) > 0
+          assert report.get("interfaces_total", 0) > 0
+          print(json.dumps({
+              "validation": report["validation"],
+              "components_total": report["components_total"],
+              "functions_total": report["functions_total"],
+              "interfaces_total": report["interfaces_total"],
+              "warning": report["warning"],
+          }, sort_keys=True))
+          PY
+      - name: Validate product-boundary contract and reconciliation status drafts
+        run: |
+          set -euo pipefail
+          python -m json.tool docs/architecture/ATC-PRODUCT-BOUNDARY-INTERFACE-CONTRACTS-001.json >/dev/null
+          python -m json.tool docs/audit/ATC-CATALOG-RECONCILIATION-STATUS-001.json >/dev/null
+          python - <<'PY'
+          import json, re
+          from pathlib import Path
+          contracts = json.loads(Path("docs/architecture/ATC-PRODUCT-BOUNDARY-INTERFACE-CONTRACTS-001.json").read_text())
+          status = json.loads(Path("docs/audit/ATC-CATALOG-RECONCILIATION-STATUS-001.json").read_text())
+          assert contracts["schema_id"] == "ATC-PRODUCT-BOUNDARY-INTERFACE-CONTRACTS-001"
+          assert contracts["status"] == "DRAFT_RESIDUAL"
+          assert len(contracts["contracts"]) == 4
+          required = set(contracts["required_fields"])
+          for contract in contracts["contracts"]:
+              missing = sorted(field for field in required if field not in contract)
+              assert not missing, f'{contract.get("id")}: missing {missing}'
+              assert contract["status"] == "DRAFT_RESIDUAL"
+              assert contract["owner"] and contract["canonical_path"] and contract["version"]
+              assert contract["inputs"] and contract["outputs"] and contract["error_semantics"]
+              assert contract["security_requirements"] and contract["compatibility_rules"] and contract["tests"]
+              assert contract["evidence"]["functional_verification"] == "NOT_PERFORMED"
+          assert contracts["special_blockers"][0]["id"] == "SCR-0128"
+          assert contracts["special_blockers"][0]["status"] == "BLOCKED"
+          assert status["schema_id"] == "ATC-CATALOG-RECONCILIATION-STATUS-001"
+          assert status["status"] == "BLOCKED"
+          sha = status["provenance"]["checked_head_sha"]
+          assert re.fullmatch(r"[0-9a-f]{40}", sha), f"invalid checked HEAD SHA: {sha}"
+          assert status["provenance"]["terminal_conclusion"] == "failure"
+          assert "NOT_PERFORMED" in str(status["completion_gates"]["functional_verification"]), status["completion_gates"]["functional_verification"]
+          print(json.dumps({"contract_validation":"PASS_DRAFT_SCHEMA","contracts":len(contracts["contracts"]),"reconciliation_status":status["status"],"checked_head_sha":sha},sort_keys=True))
+          PY
+      - name: Clone all active repositories at observed clean HEADs
+        env:
+          GH_OWNER: A-TownChain-Okosystems
+          ATC_CENSUS_TOKEN: ${{ secrets.ATC_CENSUS_TOKEN }}
+        run: |
+          set -euo pipefail
+          workspace="$RUNNER_TEMP/atc-org-checkouts"
+          mkdir -p "$workspace"
+          # Clone this exact PR revision, not the default branch, so the census
+          # is bound to the workflow's source SHA.
+          source_sha="$(git rev-parse HEAD)"
+          git clone --no-hardlinks "$GITHUB_WORKSPACE" "$workspace/a-townchain-ecosystem"
+          git -C "$workspace/a-townchain-ecosystem" checkout --detach "$source_sha"
+          test "$(git -C "$workspace/a-townchain-ecosystem" rev-parse HEAD)" = "$source_sha"
+          python - <<'PY' > "$RUNNER_TEMP/active-repositories.txt"
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path("docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json").read_text(encoding="utf-8"))
+          for repo in sorted(manifest["repositories"], key=lambda item: item["name"].lower()):
+              if not repo.get("archived", False) and not repo.get("private", False) and repo["name"] != "a-townchain-ecosystem":
+                  print(repo["name"])
+          PY
+          clone_failures=0
+          while IFS= read -r name; do
+            test -n "$name"
+            clone_ok=0
+            if [[ -n "${ATC_CENSUS_TOKEN:-}" ]]; then
+              auth_header="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$ATC_CENSUS_TOKEN" | base64 -w0)"
+              if git -c http.extraheader="$auth_header" clone --no-tags "https://github.com/$GH_OWNER/$name.git" "$workspace/$name"; then
+                clone_ok=1
+              fi
+              unset auth_header
+            else
+              if git clone --no-tags "https://github.com/$GH_OWNER/$name.git" "$workspace/$name"; then
+                clone_ok=1
+              fi
+            fi
+            if [[ "$clone_ok" -ne 1 ]]; then
+              clone_failures=$((clone_failures + 1))
+              echo "::warning::Checkout unavailable for $name; census will record CHECKOUT_MISSING and continue."
+              continue
+            fi
+            if [[ -n "$(git -C "$workspace/$name" status --porcelain --untracked-files=all)" ]]; then
+              clone_failures=$((clone_failures + 1))
+              echo "::warning::Checkout is not clean for $name; census will record it as blocked."
+              continue
+            fi
+            printf '%s %s\n' "$name" "$(git -C "$workspace/$name" rev-parse HEAD)"
+          done < "$RUNNER_TEMP/active-repositories.txt"
+          echo "Repository checkout failures: $clone_failures; census remains fail-closed for missing/dirty checkouts."
+          test -z "$(git -C "$workspace/a-townchain-ecosystem" status --porcelain --untracked-files=all)"
+          printf 'a-townchain-ecosystem %s\n' "$(git -C "$workspace/a-townchain-ecosystem" rev-parse HEAD)"
+      - name: Run exact-HEAD organization source census
+        run: |
+          set -euo pipefail
+          workspace="$RUNNER_TEMP/atc-org-checkouts"
+          mkdir -p artifacts
+          census_exit=0
+          python tools/run_org_source_census.py \
+            --workspace "$workspace" \
+            --manifest docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json \
+            --output artifacts/ATC-ORG-SOURCE-CENSUS-001.json || census_exit=$?
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          census = json.loads(Path("artifacts/ATC-ORG-SOURCE-CENSUS-001.json").read_text(encoding="utf-8"))
+          summary = census["summary"]
+          print(json.dumps({"status": census["status"], **summary}, sort_keys=True))
+          assert summary["active_expected"] == 26, "manifest coverage must include all 26 active repositories"
+          PY
+          if [[ "$census_exit" -ne 0 ]]; then
+            echo "::error::Census report was generated but is BLOCKED; inspect the artifact for missing, dirty, or SHA-mismatched repositories."
+            exit "$census_exit"
+          fi
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          census = json.loads(Path("artifacts/ATC-ORG-SOURCE-CENSUS-001.json").read_text(encoding="utf-8"))
+          summary = census["summary"]
+          # The manifest contains one explicitly private demo repository.
+          # It is validly counted as a documented exclusion when no CI token
+          # is available; require all other active repositories to be scanned.
+          assert summary["active_scanned"] + summary["active_excluded_private"] == 26, (
+              "active coverage must equal scanned plus explicitly excluded private repositories"
+          )
+          assert summary["active_blocked"] == 0
+          PY
+      - name: Run exact-HEAD Rust module, cfg, package and dependency census
+        if: always()
+        run: |
+          set -euo pipefail
+          workspace="$RUNNER_TEMP/atc-org-checkouts"
+          mkdir -p artifacts
+          repositories="$(python -c 'import json; from pathlib import Path; m=json.loads(Path("docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json").read_text()); print(";".join(r["name"] for r in sorted(m["repositories"], key=lambda x:x["name"].lower()) if not r.get("archived",False) and not r.get("private",False) and r["name"] != "a-townchain-ecosystem"))')"
+          python tools/run_rust_module_census.py \
+            --workspace "$workspace" \
+            --repositories "$repositories" \
+            --output artifacts/ATC-RUST-MODULE-CENSUS-001.json
+
+      - name: Report cross-repository identical file hashes (triage only)
+        if: always()
+        run: |
+          set -euo pipefail
+          if test -f artifacts/ATC-ORG-SOURCE-CENSUS-001.json; then
+            python tools/report_cross_repository_hashes.py \
+              --input artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
+              --output artifacts/ATC-CROSS-REPOSITORY-FILE-HASH-REPORT-001.json
+          else
+            echo "Census unavailable; cross-repository hash report not generated."
+          fi
+      - name: Reconcile catalog against census evidence
+        if: always()
+        run: |
+          set -euo pipefail
+          if test -f artifacts/ATC-ORG-SOURCE-CENSUS-001.json; then
+            python tools/reconcile_component_function_catalog.py \
+              --catalog docs/architecture/ATC-COMPONENT-FUNCTION-CATALOG-001.json \
+              --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
+              --output artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json \
+              --require-complete
+          fi
+      - name: Print reconciliation summary
+        if: always()
+        run: |
+          set -euo pipefail
+          if test -f artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json; then
+            python - <<'PY'
+          import json
+          from collections import Counter
+          from pathlib import Path
+          report = json.loads(Path("artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json").read_text(encoding="utf-8"))
+          counts = Counter(str(item.get("finding") or "UNCLASSIFIED") for item in report.get("function_findings", []))
+          print(json.dumps({
+              "status": report.get("status"),
+              **report.get("summary", {}),
+              "function_findings_by_kind": dict(sorted(counts.items())),
+              "component_findings": len(report.get("component_findings", [])),
+              "self_reference_observations": len(report.get("self_reference_observations", [])),
+          }, sort_keys=True))
+          PY
+          else
+            echo "Reconciliation report unavailable; see census step result."
+          fi
+      - name: Categorize every unbound source candidate for review
+        if: always()
+        run: |
+          set -euo pipefail
+          if test -f artifacts/ATC-ORG-SOURCE-CENSUS-001.json && test -f artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json; then
+            python tools/classify_unbound_candidates.py \
+              --census artifacts/ATC-ORG-SOURCE-CENSUS-001.json \
+              --reconciliation artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json \
+              --output artifacts/ATC-UNBOUND-CANDIDATE-CATEGORIZATION-001.json
+          else
+            echo "Census or reconciliation report unavailable; candidate categorization skipped."
+          fi
+      - name: Upload exact-SHA census artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atc-org-source-census-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            artifacts/ATC-ORG-SOURCE-CENSUS-001.json
+            artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json
+            artifacts/ATC-CROSS-REPOSITORY-FILE-HASH-REPORT-001.json
+            artifacts/ATC-UNBOUND-CANDIDATE-CATEGORIZATION-001.json
+            artifacts/ATC-RUST-MODULE-CENSUS-001.json
+          if-no-files-found: warn
+      - name: Validate organization repository manifest
+        if: always()
+        run: |
+          set -euo pipefail
+          python -m json.tool docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json >/dev/null
+          python - <<'PY'
+          import json, re
+          from pathlib import Path
+          path = Path("docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json")
+          manifest = json.loads(path.read_text(encoding="utf-8"))
+          repos = manifest["repositories"]
+          names = [item["name"] for item in repos]
+          sha_pattern = re.compile(r"[0-9a-f]{40}")
+          assert manifest.get("schema_id") == "ATC-ORG-REPOSITORY-MANIFEST-001", "unexpected manifest schema_id"
+          assert len(names) == 33, f"expected 33 repositories, got {len(names)}"
+          assert len(set(names)) == len(names), "duplicate repository names"
+          assert sum(bool(item.get("archived")) for item in repos) == 7, "expected 7 archived repositories"
+          assert sum(not bool(item.get("archived")) for item in repos) == 26, "expected 26 active repositories"
+          snapshot = manifest.get("snapshot") or {}
+          assert snapshot.get("status") == "SNAPSHOT_ONLY_NOT_DRIFT_VALIDATED", "snapshot must remain explicitly historical"
+          assert snapshot.get("refresh_required_before_integration_decisions") is True, "live refresh requirement missing"
+          for item in repos:
+              name = item.get("name")
+              assert item.get("snapshot_ref") == "main", f'{name}: snapshot_ref must be main'
+              if item.get("archived", False):
+                  assert item.get("snapshot_status") in ("ARCHIVED_REFERENCE_ONLY", "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"), f'{name}: unsupported archived reference status'
+                  head_pin = item.get("observed_head_sha", "")
+                  tree_pin = item.get("observed_root_tree_sha", "")
+                  assert (not head_pin and not tree_pin) or (sha_pattern.fullmatch(head_pin) and sha_pattern.fullmatch(tree_pin)), f'{name}: archived pins must be both empty or valid full SHAs'
+                  continue
+              if item.get("drift_check_excluded", False):
+                  assert item.get("snapshot_status") in ("HISTORICAL_OBSERVATION_REQUIRES_REFRESH", "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"), f'{name}: unsupported excluded snapshot status'
+                  continue
+              assert sha_pattern.fullmatch(item.get("observed_head_sha", "")), f'{name}: invalid observed_head_sha'
+              assert sha_pattern.fullmatch(item.get("observed_root_tree_sha", "")), f'{name}: invalid observed_root_tree_sha'
+              assert item.get("snapshot_status") in ("HISTORICAL_OBSERVATION_REQUIRES_REFRESH", "EXACT_HEAD_PINNED_LOCAL_CENSUS_2026-10-14"), f'{name}: unsupported active snapshot status'
+          print(json.dumps({
+              "validation": "PASS_STRUCTURAL_ONLY",
+              "repositories_total": len(names),
+              "repositories_active": sum(not bool(item.get("archived")) for item in repos),
+              "repositories_archived": sum(bool(item.get("archived")) for item in repos),
+              "head_sha_fields": sum(bool(sha_pattern.fullmatch(item.get("observed_head_sha", ""))) for item in repos),
+              "root_tree_sha_fields": sum(bool(sha_pattern.fullmatch(item.get("observed_root_tree_sha", ""))) for item in repos),
+              "live_drift_validation": "NOT_PERFORMED",
+          }, sort_keys=True))
+          PY
+      - name: Compare historical repository pins with live main refs
+        if: always()
+        env:
+          ATC_CENSUS_TOKEN: ${{ secrets.ATC_CENSUS_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python tools/validate_org_repository_drift.py --manifest docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json --output artifacts/ATC-ORG-REPOSITORY-DRIFT-REPORT-001.json
+      - name: Upload live repository drift report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atc-org-repository-drift-${{ github.event.pull_request.head.sha || github.sha }}
+          path: artifacts/ATC-ORG-REPOSITORY-DRIFT-REPORT-001.json
+          if-no-files-found: error

@@ -1,0 +1,891 @@
+{
+ "component": "COMP-STANDARDS",
+ "repo": "wt-std2",
+ "head_sha": "38b049bca55eacd030556ba794e8cb5487308e60",
+ "ci_evidence": null,
+ "test_run": {
+  "command": "python3 -m pytest tools/tests/ -q 2>&1",
+  "exit_code": 0,
+  "passed": 34,
+  "log_tail": [
+   "..................................                                       [100%]",
+   "34 passed in 2.46s"
+  ]
+ },
+ "bindings": [
+  {
+   "function_id": "FN-STD-001",
+   "symbol": "main",
+   "source_path": "tools/consistency/check_cross_registry.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-002",
+   "symbol": "conformance",
+   "source_path": "sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-003",
+   "symbol": "standard_ref",
+   "source_path": "sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-004",
+   "symbol": "evidence",
+   "source_path": "sdk/src/lib.rs",
+   "language": "rust",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-005",
+   "symbol": "fail",
+   "source_path": "tools/allocation-validator/atc_allocation_validator.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-006",
+   "symbol": "norm",
+   "source_path": "tools/allocation-validator/atc_allocation_validator.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-007",
+   "symbol": "ns_of",
+   "source_path": "tools/allocation-validator/atc_allocation_validator.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-008",
+   "symbol": "num_of",
+   "source_path": "tools/allocation-validator/atc_allocation_validator.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-009",
+   "symbol": "comp_covers",
+   "source_path": "tools/allocation-validator/atc_allocation_validator.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-010",
+   "symbol": "main",
+   "source_path": "tools/allocation-validator/atc_allocation_validator.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-011",
+   "symbol": "fail_count",
+   "source_path": "tools/allocation-validator/atc_allocation_validator.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-012",
+   "symbol": "iter_md",
+   "source_path": "tools/atc-md-validator/check_md.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-013",
+   "symbol": "main",
+   "source_path": "tools/atc-md-validator/check_md.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-014",
+   "symbol": "gate_01",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-015",
+   "symbol": "gate_02",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-016",
+   "symbol": "gate_03",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-017",
+   "symbol": "gate_04",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-018",
+   "symbol": "gate_05",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-019",
+   "symbol": "gate_06",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-020",
+   "symbol": "gate_07",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-021",
+   "symbol": "gate_08",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-022",
+   "symbol": "gate_09",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-023",
+   "symbol": "gate_10",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-024",
+   "symbol": "gate_11",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-025",
+   "symbol": "gate_12",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-026",
+   "symbol": "gate_13",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-027",
+   "symbol": "main",
+   "source_path": "tools/atc-readme-validator/check_readme.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-028",
+   "symbol": "lvl_ge",
+   "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-029",
+   "symbol": "add",
+   "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-030",
+   "symbol": "score",
+   "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-031",
+   "symbol": "gate",
+   "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-032",
+   "symbol": "tracked_files",
+   "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-033",
+   "symbol": "read",
+   "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-034",
+   "symbol": "yaml_has",
+   "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-035",
+   "symbol": "audit_repo",
+   "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-036",
+   "symbol": "present",
+   "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-037",
+   "symbol": "main",
+   "source_path": "tools/atc-repo-audit/atc_repo_audit.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-038",
+   "symbol": "main",
+   "source_path": "tools/atc-sc-validator/check_contracts.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-039",
+   "symbol": "read",
+   "source_path": "tools/atc-std-validator/atc_std_validator.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-040",
+   "symbol": "add",
+   "source_path": "tools/atc-std-validator/atc_std_validator.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-041",
+   "symbol": "parse_meta",
+   "source_path": "tools/atc-std-validator/atc_std_validator.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-042",
+   "symbol": "find_cycles",
+   "source_path": "tools/atc-std-validator/atc_std_validator.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-043",
+   "symbol": "dfs",
+   "source_path": "tools/atc-std-validator/atc_std_validator.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-044",
+   "symbol": "validate",
+   "source_path": "tools/atc-std-validator/atc_std_validator.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-045",
+   "symbol": "main",
+   "source_path": "tools/atc-std-validator/atc_std_validator.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-046",
+   "symbol": "main",
+   "source_path": "tools/atc-std-validator/check_agent_manifest.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-047",
+   "symbol": "parse_fm",
+   "source_path": "tools/atc-std-validator/meta_data_audit.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-048",
+   "symbol": "main",
+   "source_path": "tools/atc-std-validator/meta_data_audit.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-049",
+   "symbol": "registry_ids",
+   "source_path": "tools/atc-std-validator/meta_sweep.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-050",
+   "symbol": "main",
+   "source_path": "tools/atc-std-validator/meta_sweep.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-051",
+   "symbol": "collect",
+   "source_path": "tools/atc-std-validator/validate_all.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-052",
+   "symbol": "file_id",
+   "source_path": "tools/atc-std-validator/validate_all.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-053",
+   "symbol": "main",
+   "source_path": "tools/atc-std-validator/validate_all.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-054",
+   "symbol": "api",
+   "source_path": "tools/code_quality_matrix.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-055",
+   "symbol": "repo_ist",
+   "source_path": "tools/code_quality_matrix.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-056",
+   "symbol": "wf_covers",
+   "source_path": "tools/code_quality_matrix.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-057",
+   "symbol": "main",
+   "source_path": "tools/code_quality_matrix.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-058",
+   "symbol": "main",
+   "source_path": "tools/compliance/matrix_collect.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-059",
+   "symbol": "fail",
+   "source_path": "tools/consistency/check_cross_registry.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-060",
+   "symbol": "norm",
+   "source_path": "tools/consistency/check_cross_registry.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-061",
+   "symbol": "git_blob_sha",
+   "source_path": "tools/consistency/registry_view_gate.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-062",
+   "symbol": "main",
+   "source_path": "tools/consistency/registry_view_gate.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-063",
+   "symbol": "load_registry",
+   "source_path": "tools/consistency/version_gate.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-064",
+   "symbol": "repo_list",
+   "source_path": "tools/consistency/version_gate.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-065",
+   "symbol": "fetch_readme_github",
+   "source_path": "tools/consistency/version_gate.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-066",
+   "symbol": "main",
+   "source_path": "tools/consistency/version_gate.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-067",
+   "symbol": "scan",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-068",
+   "symbol": "key",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-069",
+   "symbol": "fingerprint",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-070",
+   "symbol": "compare_nodes",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-071",
+   "symbol": "graph",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-072",
+   "symbol": "load_base",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-073",
+   "symbol": "validate_advisory_payload",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-074",
+   "symbol": "validate_policy",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-075",
+   "symbol": "semver",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-076",
+   "symbol": "pep440",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-077",
+   "symbol": "version_cmp",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-078",
+   "symbol": "event_range_match",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-079",
+   "symbol": "range_match",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-080",
+   "symbol": "advisory_matches",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-081",
+   "symbol": "classify_base_graph_result",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-082",
+   "symbol": "main",
+   "source_path": "tools/dependency_guard.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-083",
+   "symbol": "main",
+   "source_path": "tools/dependency_sbom.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-084",
+   "symbol": "scan_sources",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-085",
+   "symbol": "run_tests",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-086",
+   "symbol": "main",
+   "source_path": "tools/determinism_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-087",
+   "symbol": "git_files",
+   "source_path": "tools/discovery/scan.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-088",
+   "symbol": "classify",
+   "source_path": "tools/discovery/scan.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-089",
+   "symbol": "git_sha",
+   "source_path": "tools/discovery/scan.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-090",
+   "symbol": "main",
+   "source_path": "tools/discovery/scan.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-091",
+   "symbol": "classify",
+   "source_path": "tools/file_admission/file_admission.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-092",
+   "symbol": "security_scan",
+   "source_path": "tools/file_admission/file_admission.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-093",
+   "symbol": "main",
+   "source_path": "tools/file_admission/file_admission.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-094",
+   "symbol": "F",
+   "source_path": "tools/framework/gen_framework.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-095",
+   "symbol": "sl",
+   "source_path": "tools/framework/gen_framework.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-096",
+   "symbol": "main",
+   "source_path": "tools/gen_views/gen_implementation_matrix.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-097",
+   "symbol": "field",
+   "source_path": "tools/gen_views/gen_implementation_matrix.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-098",
+   "symbol": "main",
+   "source_path": "tools/gen_views/gen_metadata.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-099",
+   "symbol": "main",
+   "source_path": "tools/gen_views/gen_registry_records.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-100",
+   "symbol": "counts",
+   "source_path": "tools/gen_views/generate_views.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-101",
+   "symbol": "std_index",
+   "source_path": "tools/gen_views/generate_views.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-102",
+   "symbol": "git_sha",
+   "source_path": "tools/gen_views/generate_views.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-103",
+   "symbol": "main",
+   "source_path": "tools/gen_views/generate_views.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-104",
+   "symbol": "R",
+   "source_path": "tools/index/gen_index.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-105",
+   "symbol": "slotstat",
+   "source_path": "tools/index/gen_index.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-106",
+   "symbol": "main",
+   "source_path": "tools/maintenance/gen_maintenance_conformance.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-107",
+   "symbol": "main",
+   "source_path": "tools/maintenance/validate_maintenance_readiness.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-108",
+   "symbol": "cvss_severity",
+   "source_path": "tools/osv_fetch.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-109",
+   "symbol": "normalize_severity",
+   "source_path": "tools/osv_fetch.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-110",
+   "symbol": "normalize",
+   "source_path": "tools/osv_fetch.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-111",
+   "symbol": "validate_raw_response",
+   "source_path": "tools/osv_fetch.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-112",
+   "symbol": "fetch_json",
+   "source_path": "tools/osv_fetch.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-113",
+   "symbol": "main",
+   "source_path": "tools/osv_fetch.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-114",
+   "symbol": "normalize_severity",
+   "source_path": "tools/osv_snapshot.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-115",
+   "symbol": "normalize",
+   "source_path": "tools/osv_snapshot.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-116",
+   "symbol": "validate",
+   "source_path": "tools/osv_snapshot.py",
+   "language": "python",
+   "test_reference": true
+  },
+  {
+   "function_id": "FN-STD-117",
+   "symbol": "main",
+   "source_path": "tools/osv_snapshot.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-118",
+   "symbol": "main",
+   "source_path": "tools/repo_registry_check.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-119",
+   "symbol": "main",
+   "source_path": "tools/standards/elaborate_standards.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-120",
+   "symbol": "aspects_for",
+   "source_path": "tools/standards/finalize_standards.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-121",
+   "symbol": "main",
+   "source_path": "tools/standards/finalize_standards.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-122",
+   "symbol": "reg_lookup",
+   "source_path": "tools/taxonomy/gen_taxonomy.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-123",
+   "symbol": "reg_ver",
+   "source_path": "tools/taxonomy/gen_taxonomy.py",
+   "language": "python",
+   "test_reference": false
+  },
+  {
+   "function_id": "FN-STD-124",
+   "symbol": "main",
+   "source_path": "tools/technology-uniqueness/validate_technology_registry.py",
+   "language": "python",
+   "test_reference": false
+  }
+ ],
+ "summary": {
+  "total": 124,
+  "test_referenced": 67,
+  "suite_pass": true,
+  "eligible_functionally_verified": 67
+ }
+}
