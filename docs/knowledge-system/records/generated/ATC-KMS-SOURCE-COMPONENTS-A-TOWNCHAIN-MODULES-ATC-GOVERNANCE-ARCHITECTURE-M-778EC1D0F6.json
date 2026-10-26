@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-SOURCE-COMPONENTS-A-TOWNCHAIN-MODULES-ATC-GOVERNANCE-ARCHITECTURE-M-778EC1D0F6",
-  "timestamp": "2026-10-25T16:52:09.251980Z",
+  "timestamp": "2026-10-26T07:51:15.426922Z",
   "category": "evidence",
   "title": "Indexed source: components/a-townchain/modules/atc-governance/ARCHITECTURE.md",
   "context": "Repository architecture, release, security, migration, or build source.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "file",
     "ref": "components/a-townchain/modules/atc-governance/ARCHITECTURE.md",
-    "commit": "33e270e9167640971302206e01bd205fac4a2a02"
+    "commit": "a28db7d61364212e21f2b2136d060ba459fa810b"
   },
   "tags": [
     "generated",
