@@ -7,6 +7,7 @@ on:
       - "tests/test_classify_unbound_candidates_source_evidence.py"
       - "tools/scan_public_symbols.py"
       - "tools/run_org_source_census.py"
+      - "tools/run_rust_module_census.py"
       - "tools/reconcile_component_function_catalog.py"
       - "tools/report_cross_repository_hashes.py"
       - "tools/tests/test_report_cross_repository_hashes.py"
@@ -35,6 +36,7 @@ on:
       - "tools/classify_unbound_candidates.py"
       - "tools/scan_public_symbols.py"
       - "tools/run_org_source_census.py"
+      - "tools/run_rust_module_census.py"
       - "tools/reconcile_component_function_catalog.py"
       - "tools/report_cross_repository_hashes.py"
       - "tools/tests/test_report_cross_repository_hashes.py"
@@ -223,6 +225,18 @@ jobs:
           )
           assert summary["active_blocked"] == 0
           PY
+      - name: Run exact-HEAD Rust module, cfg, package and dependency census
+        if: always()
+        run: |
+          set -euo pipefail
+          workspace="$RUNNER_TEMP/atc-org-checkouts"
+          mkdir -p artifacts
+          repositories="$(python -c 'import json; from pathlib import Path; m=json.loads(Path("docs/audit/ATC-ORG-REPOSITORY-MANIFEST-001.json").read_text()); print(";".join(r["name"] for r in sorted(m["repositories"], key=lambda x:x["name"].lower()) if not r.get("archived",False) and not r.get("private",False) and r["name"] != "a-townchain-ecosystem"))')"
+          python tools/run_rust_module_census.py \
+            --workspace "$workspace" \
+            --repositories "$repositories" \
+            --output artifacts/ATC-RUST-MODULE-CENSUS-001.json
+
       - name: Report cross-repository identical file hashes (triage only)
         if: always()
         run: |
@@ -289,6 +303,7 @@ jobs:
             artifacts/ATC-COMPONENT-FUNCTION-RECONCILIATION-001.json
             artifacts/ATC-CROSS-REPOSITORY-FILE-HASH-REPORT-001.json
             artifacts/ATC-UNBOUND-CANDIDATE-CATEGORIZATION-001.json
+            artifacts/ATC-RUST-MODULE-CENSUS-001.json
           if-no-files-found: warn
       - name: Validate organization repository manifest
         if: always()
