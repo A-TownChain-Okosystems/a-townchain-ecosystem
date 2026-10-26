@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-120",
-  "timestamp": "2026-10-26T07:51:15.426922Z",
+  "timestamp": "2026-10-26T22:18:06.295192Z",
   "category": "change",
   "title": "PR #120: governance: propose ARR lifecycle, schema, and registry",
   "context": "Pull request 120 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/120",
-    "commit": "a28db7d61364212e21f2b2136d060ba459fa810b"
+    "commit": "f7d7f009422da13cb37ed436becb8d5c071ad2fb"
   },
   "tags": [
     "generated",

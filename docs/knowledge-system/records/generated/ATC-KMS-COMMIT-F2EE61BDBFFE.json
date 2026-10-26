@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-F2EE61BDBFFE",
-  "timestamp": "2026-10-26T07:51:15.426922Z",
+  "timestamp": "2026-10-26T22:18:06.295192Z",
   "category": "change",
   "title": "Commit: ci(catalog): verify taxonomy on exact PR head",
   "context": "Git commit f2ee61bdbffeb9e8d9c40cb976a7a989d94ddd8a on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/f2ee61bdbffeb9e8d9c40cb976a7a989d94ddd8a",
-    "commit": "a28db7d61364212e21f2b2136d060ba459fa810b"
+    "commit": "f7d7f009422da13cb37ed436becb8d5c071ad2fb"
   },
   "tags": [
     "commit",
