@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-56ED8F0E5C10",
-  "timestamp": "2026-10-26T22:18:06.295192Z",
+  "timestamp": "2026-10-27T07:56:17.870004Z",
   "category": "change",
   "title": "Commit: ci(competitive-monitoring): validate registry v0.2.5 at exact head",
   "context": "Git commit 56ed8f0e5c104ffcacad3f427fb7eb4732bab559 on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/56ed8f0e5c104ffcacad3f427fb7eb4732bab559",
-    "commit": "f7d7f009422da13cb37ed436becb8d5c071ad2fb"
+    "commit": "aa5a43d393b7057311528adf0a9a9edc0df8075f"
   },
   "tags": [
     "commit",

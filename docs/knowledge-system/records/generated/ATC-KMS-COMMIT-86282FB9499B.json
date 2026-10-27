@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-COMMIT-86282FB9499B",
-  "timestamp": "2026-10-26T22:18:06.295192Z",
+  "timestamp": "2026-10-27T07:56:17.870004Z",
   "category": "change",
   "title": "Commit: chore(competitive-monitoring): add 2026-10-24 registry overlay",
   "context": "Git commit 86282fb9499b2fccb30cb24bc3bbc41f4e6a346d on A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "commit",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/commit/86282fb9499b2fccb30cb24bc3bbc41f4e6a346d",
-    "commit": "f7d7f009422da13cb37ed436becb8d5c071ad2fb"
+    "commit": "aa5a43d393b7057311528adf0a9a9edc0df8075f"
   },
   "tags": [
     "commit",

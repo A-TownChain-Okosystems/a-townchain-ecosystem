@@ -1,6 +1,6 @@
 {
   "id": "ATC-KMS-PR-234",
-  "timestamp": "2026-10-26T22:18:06.295192Z",
+  "timestamp": "2026-10-27T07:56:17.870004Z",
   "category": "change",
   "title": "PR #234: docs(catalog): refresh COMP-ATC-ENG source binding and inventory",
   "context": "Pull request 234 in A-TownChain-Okosystems/a-townchain-ecosystem.",
@@ -10,7 +10,7 @@
   "source": {
     "type": "pr",
     "ref": "https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/234",
-    "commit": "f7d7f009422da13cb37ed436becb8d5c071ad2fb"
+    "commit": "aa5a43d393b7057311528adf0a9a9edc0df8075f"
   },
   "tags": [
     "generated",
