@@ -184,3 +184,47 @@ Run-level job summaries for current head were inspected. This is not a complete 
 ### Updated P-01 disposition
 
 **P-01 remains PARTIAL.** Governance, Determinism Gate, ATC Test Suite, and Security Assurance have terminal successful workflow results for current head `4ea42fab2627dd4f78a62a941b7529377be68667`. However, several relevant workflows were still running, and successful status does not close skipped steps or weak test commands. No merge or release authorization follows from this snapshot.
+
+
+## Follow-up: current-head workflow failure and P-02/P-03 trigger constraints — 2026-10-27
+
+**Current PR #237 head observed:** `b8ac6e191f74fc4a5c9d2a54c89b58e1a0a417c5`. PR remains open, Draft, unmerged.
+
+### P-01: a real E2E regression surfaced
+
+The current-head [Blockchain Core Integration run 40558112652](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40558112652) completed with **failure**. Six of seven Rust component jobs passed, but `rust-components (atc-node)` failed in `cargo test --manifest-path components/atc-node/Cargo.toml --all-targets`.
+
+Failure evidence from job `122379529820`:
+- Test: `persistent_two_node_consensus_path`
+- Source location: `components/atc-node/tests/persistent_multi_node_consensus_e2e.rs:117`
+- Assertion: left `Some(3)`, right `Some(2)`
+- Other 27 `atc-node` unit tests and the `tx_block_reward_state_finality_persistence_recovery` integration test passed before the multi-node consensus assertion failed.
+- Downstream `multi-node-e2e`, `multi-process-network-e2e`, and `sdk-e2e` jobs were skipped after the required component job failed.
+
+This is a concrete blocking regression or flaky consensus expectation that must be reproduced and root-caused. Do not rerun merely to erase the red status; preserve the failure as evidence and inspect the assertion's intended finality/height invariant against the node implementation.
+
+Other current-head run status at the same inspection:
+- Repository Governance [40558112731](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40558112731): success.
+- Determinism Gate [40558112624](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40558112624): success, but its a-townchain Rust path remains a static scan rather than functional determinism verification.
+- Security Assurance [40558112722](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40558112722): success with Miri targets skipped; inspect the terminal fuzz-harness job before assigning coverage.
+- CodeQL [40558112732](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40558112732), Ecosystem Integration [40558112608](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40558112608), ATC Test Suite [40558112667](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40558112667), and Release Readiness [40558112564](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/actions/runs/40558112564) were still running at the latest check. Their conclusions are not yet known.
+
+### P-02/P-03: existing gates and dispatch limitation
+
+The main-branch Source Symbol Inventory workflow already declares `workflow_dispatch` and performs scanner tests, exact-HEAD organization census, catalog reconciliation, runtime-symbol-registry rebuild/validation, and artifact upload. The Component Function Catalog Gate is path-triggered and validates taxonomy/specification. Do not duplicate these workflows.
+
+The current GitHub connector exposes read operations and file/PR updates, but no workflow-dispatch action. Consequently, this run could inspect definitions and existing evidence but could not directly dispatch the source-census workflow. Triggering it by an unrelated catalog edit would be an unsafe substitute; use an authorized GitHub Actions dispatch or a relevant, reviewed code/catalog change.
+
+PR reconciliation:
+- PR [#234](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/234) remains Draft and changes the catalog's revision note/source-binding snapshot; it is not a complete source-symbol census.
+- PR [#220](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/220) adds the catalog-driven build loop and remains Draft.
+- PR [#228](https://github.com/A-TownChain-Okosystems/a-townchain-ecosystem/pull/228) adds a canonical test-entrypoint preflight to that proposed build loop and remains Draft. Reconcile these branches before introducing overlapping orchestration.
+
+### Updated disposition
+
+- **P-01: BLOCKED** — the current-head Blockchain Core Integration run failed; multi-node/network E2E jobs were skipped.
+- **P-02/P-03: RESIDUAL** — workflow implementations exist, but fresh current-source census/reconciliation evidence has not been obtained for this PR.
+- **P-04/P-05: RESIDUAL** — no new ABI/capability closure evidence from this run.
+- **P-08/P-09: BLOCKED / RESIDUAL** — E2E closure is blocked by the atc-node consensus test failure; release authorization remains blocked.
+
+No merge, release, or status promotion to `VERIFIED` is authorized.
