@@ -59,9 +59,36 @@ fn wait_status(addr: &str, min_height: u64) -> serde_json::Value {
     panic!("node did not reach height {min_height}: {addr}");
 }
 
+fn wait_finalized_status(addr: &str, min_finalized_height: u64) -> serde_json::Value {
+    for _ in 0..80 {
+        if let Ok(mut stream) = TcpStream::connect(addr) {
+            let body = r#"{"jsonrpc":"2.0","method":"status","id":1}"#;
+            let _ = stream.write_all(body.as_bytes());
+            let _ = stream.write_all(b"\\n");
+            let _ = stream.set_read_timeout(Some(Duration::from_secs(1)));
+            let mut out = String::new();
+            if stream.read_to_string(&mut out).is_ok() {
+                if let Ok(v) = serde_json::from_str::<serde_json::Value>(out.trim()) {
+                    if v.get("result")
+                        .and_then(|x| x.get("finalized"))
+                        .and_then(|x| x.get("height"))
+                        .and_then(|x| x.as_u64())
+                        .unwrap_or(0)
+                        >= min_finalized_height
+                    {
+                        return v;
+                    }
+                }
+            }
+        }
+        thread::sleep(Duration::from_millis(250));
+    }
+    panic!("node did not reach finalized height {min_finalized_height}: {addr}");
+}
+
 fn assert_common_finalized_block(a_rpc: &str, b_rpc: &str) {
-    let a_status = wait_status(a_rpc, 1);
-    let b_status = wait_status(b_rpc, 1);
+    let a_status = wait_finalized_status(a_rpc, 1);
+    let b_status = wait_finalized_status(b_rpc, 1);
     let a_finalized = a_status["result"]["finalized"]["height"]
         .as_u64()
         .unwrap_or(0);
